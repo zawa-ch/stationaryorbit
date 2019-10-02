@@ -1,0 +1,1007 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.3">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1060</x>
+      <y>1830</y>
+      <w>270</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>ImageInfomation
+bg=yellow
+--
+-_height: size_t
+-_width: size_t
+-_channel: size_t
+-_format: ImageFormat
+--
++getHeight(): size_t
++setHeight(value: size_t): void
++getWidth(): size_t
++setWidth(value: size_t): void
++getChannel(): size_t
++setChannel(value: size_t): void
++getFormat(): ImageFormat
++setFormat(value: ImageFormat): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>500</x>
+      <y>1830</y>
+      <w>380</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>CanvasBuffer
+bg=yellow
+--
+-_data: Byte*
+-_info: ImageInfomation
+-_allocator: std::allocator&lt;Byte&gt;
+--
++getInfomation(): ImageInfomation
++getAllocator():  std::allocator&lt;Byte&gt;
++getPixel(dest:void*, x: size_t, y: size_t, ch: size_t): void
++setPixel(value:void*, x: size_t, y: size_t, ch: size_t): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>0</y>
+      <w>420</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Graphics
+bg=green
+{innerclass
+ImageFormat
+innerclass}
+--
+--
+__+GetImageFormatLengthFormat(value: ImageFormat): size_t__
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>500</x>
+      <y>1290</y>
+      <w>380</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt; ICanvasBuffer
+bg=cyan
+--
+/+getInfomation(): ImageInfomation/
+/+getPixel(dest:void*, x: size_t, y: size_t, ch: size_t): void/
+/+setPixel(value:void*, x: size_t, y: size_t, ch: size_t): void/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>890</x>
+      <y>1290</y>
+      <w>270</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt; IImageInfomation
+bg=cyan
+--
+/+getHeight(): size_t/
+/+setHeight(value: size_t): void/
+/+getWidth(): size_t/
+/+setWidth(value: size_t): void/
+/+getChannel(): size_t/
+/+setChannel(value: size_t): void/
+/+getFormat(): ImageFormat/
+/+setFormat(value: ImageFormat): void/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>1370</y>
+      <w>30</w>
+      <h>480</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;460.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1070</x>
+      <y>1470</y>
+      <w>30</w>
+      <h>380</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;360.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>1830</y>
+      <w>390</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>Canvas
+bg=yellow
+--
+-_buffer: ICanvasBuffer*
+-_space: ColorSpace*
+--
++getBuffer(): ICanvasBuffer*
++getPixel(x: size_t, y: size_t): Color
++setPixel(value: Color, x: size_t, y: size_t): void
++getColorSpace(): ColorSpace
++ConvertColorSpace(space: ColorSpace): BufferedCanvas
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>110</x>
+      <y>1370</y>
+      <w>420</w>
+      <h>480</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;460.0;10.0;350.0;400.0;350.0;400.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>1290</y>
+      <w>390</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt; ICanvas
+bg=cyan
+--
+/+getBuffer(): ICanvasBuffer/
+/+getPixel(x: size_t, y: size_t): Color/
+/+setPixel(value: Color, x: size_t, y: size_t): void/
+/+getColorSpace(): ColorSpace/
+/+ConvertColorSpace(space: ColorSpace): BufferedCanvas/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>780</y>
+      <w>220</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt; RelativeColor
+bg=pink
+--
+-_space: ColorSpace*
+--
++getIsAbsolute(): bool
++getColorSpace(): ColorSpace*
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>650</x>
+      <y>780</y>
+      <w>300</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt; AbsoluteColor
+bg=pink
+--
+--
++getIsAbsolute(): bool
++getColorSpace(): ColorSpace*
+/+getCMYK(space: ColorSpace*): CMYKColor/
+/+getRGB(space: ColorSpace*): RGBColor/
+/+getHSV(space: ColorSpace*): HSVColor/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1280</x>
+      <y>620</y>
+      <w>420</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt; ColorSpace
+bg=pink
+--
+--
+/+ConvertTo(value: Color, space: ColorSpace): RGBColor/
+/+ConvertTo(RelativeColor: Color): XYZColor/
+/+ConvertFrom(AbsoluteColor: Color): RGBColor/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>590</y>
+      <w>220</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt; Color
+bg=pink
+--
+--
+/+getIsAbsolute(): bool/
+/+getColorSpace(): ColorSpace*/
+/+getLab(): LabColor/
+/+getXYZ(): XYZColor/
+/+getCMYK(): CMYKColor/
+/+getRGB(): RGBColor/
+/+getHSV(): HSVColor/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>100</x>
+      <y>740</y>
+      <w>590</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0;570.0;30.0;570.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>100</x>
+      <y>740</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>930</y>
+      <w>170</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>RGBColor
+bg=yellow
+--
+-_r: double
+-_g: double
+-_b: double
+--
++getLab(): LabColor
++getXYZ(): XYZColor
++getCMYK(): CMYKColor
++getRGB(): RGBColor
++getHSV(): HSVColor
++getRed(): double
++getGreen(): double
++getBlue(): double
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>100</x>
+      <y>860</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>280</x>
+      <y>930</y>
+      <w>170</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>CMYKColor
+bg=yellow
+--
+-_c: double
+-_m: double
+-_y: double
+--
++getLab(): LabColor
++getXYZ(): XYZColor
++getCMYK(): CMYKColor
++getRGB(): RGBColor
++getHSV(): HSVColor
++getCyan(): double
++getMagenta(): double
++getYellow(): double
++getKeyPlate(): double
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>100</x>
+      <y>860</y>
+      <w>210</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0;190.0;30.0;190.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>650</x>
+      <y>890</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>650</x>
+      <y>950</y>
+      <w>300</w>
+      <h>310</h>
+    </coordinates>
+    <panel_attributes>XYZColor
+bg=yellow
+--
+-_x: double
+-_y: double
+-_z: double
+--
++getLab(): LabColor
++getXYZ(): XYZColor
++getCMYK(): CMYKColor
++getCMYK(space: ColorSpace*): CMYKColor
++getRGB(): RGBColor
++getRGB(space: ColorSpace*): RGBColor
++getHSV(): HSVColor
++getHSV(space: ColorSpace*): HSVColor
++getX(): double
++getY(): double
++getZ(): double
++getDX(): double
++getDZ(): double
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>650</x>
+      <y>890</y>
+      <w>340</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0;320.0;30.0;320.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>960</x>
+      <y>950</y>
+      <w>300</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>LabColor
+bg=yellow
+--
+-_l: double
+-_a: double
+-_b: double
+--
++getLab(): LabColor
++getXYZ(): XYZColor
++getCMYK(): CMYKColor
++getCMYK(space: ColorSpace*): CMYKColor
++getRGB(): RGBColor
++getRGB(space: ColorSpace*): RGBColor
++getHSV(): HSVColor
++getHSV(space: ColorSpace*): HSVColor
++getL(): double
++getAstar(): double
++getBstar(): double
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>100</x>
+      <y>1440</y>
+      <w>30</w>
+      <h>410</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;390.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1270</x>
+      <y>950</y>
+      <w>400</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>RGBWPointColorSpace
+bg=yellow
+--
+-_rp: XYZColor
+-_gp: XYZColor
+-_bp: XYZColor
+-_wp: XYZColor
+--
++getRedPoint(): XYZColor
++getGreenPoint(): XYZColor
++getBluePoint(): XYZColor
++getWhitePoint(): XYZColor
++ConvertTo(value: Color, space: ColorSpace): RGBColor
++ConvertTo(RelativeColor: Color): XYZColor
++ConvertFrom(AbsoluteColor: Color): RGBColor
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1280</x>
+      <y>700</y>
+      <w>30</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1680</x>
+      <y>950</y>
+      <w>370</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>CMYKPointColorSpace
+bg=yellow
+--
+-_cp: XYZColor
+-_mp: XYZColor
+-_yp: XYZColor
+-_kp: XYZColor
+--
++getCyanPoint(): XYZColor
++getMagentaPoint(): XYZColor
++getYellowPoint(): XYZColor
++getBlackPoint(): XYZColor
++ConvertTo(value: Color, space: ColorSpace): RGBColor
++ConvertTo(RelativeColor: Color): XYZColor
++ConvertFrom(AbsoluteColor: Color): RGBColor
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1280</x>
+      <y>700</y>
+      <w>440</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0;420.0;30.0;420.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>460</x>
+      <y>930</y>
+      <w>180</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>HSVColor
+bg=yellow
+--
+-_h: double
+-_s: double
+-_v: double
+--
++getLab(): LabColor
++getXYZ(): XYZColor
++getCMYK(): CMYKColor
++getRGB(): RGBColor
++getHSV(): HSVColor
++getHue(): double
++getSaturation(): double
++getValue(): double
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>100</x>
+      <y>860</y>
+      <w>390</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0;370.0;30.0;370.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>890</x>
+      <y>1830</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>BufferedCanvas
+bg=yellow
+--
+-_buffer: CanvasBuffer
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>130</x>
+      <y>1800</y>
+      <w>800</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;30.0;10.0;10.0;780.0;10.0;780.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>1880</y>
+      <w>400</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=black</panel_attributes>
+    <additional_attributes>380.0;10.0;380.0;120.0;10.0;120.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>920</x>
+      <y>1170</y>
+      <w>380</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>360.0;10.0;360.0;100.0;10.0;100.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>920</x>
+      <y>1170</y>
+      <w>790</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>770.0;10.0;770.0;100.0;10.0;100.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>500</x>
+      <y>1980</y>
+      <w>590</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0;570.0;100.0;570.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>420</y>
+      <w>190</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>template=T: Type
+&lt;&lt;Interface&gt;&gt; IRGBColor
+bg=cyan
+--
+/+getRed(): T/
+/+getGreen(): T/
+/+getBlue(): T/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>300</x>
+      <y>420</y>
+      <w>190</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>template=T: Type
+&lt;&lt;Interface&gt;&gt; ICMYKColor
+bg=cyan
+--
+/+getCyan(): T/
+/+getMagenta(): T/
+/+getYellow(): T/
+/+getKeyPlate(): T/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>500</x>
+      <y>420</y>
+      <w>190</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>template=T: Type
+&lt;&lt;Interface&gt;&gt; ICMYKColor
+bg=cyan
+--
+/+getHue(): T/
+/+getSaturation(): T/
+/+getValue(): T/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>100</x>
+      <y>530</y>
+      <w>250</w>
+      <h>420</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0;230.0;50.0;230.0;380.0;20.0;380.0;20.0;400.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>530</y>
+      <w>70</w>
+      <h>420</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>20.0;10.0;20.0;40.0;50.0;40.0;50.0;390.0;10.0;390.0;10.0;400.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>470</x>
+      <y>530</y>
+      <w>60</w>
+      <h>420</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>40.0;10.0;40.0;30.0;10.0;30.0;10.0;400.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>860</x>
+      <y>420</y>
+      <w>190</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>template=T: Type
+&lt;&lt;Interface&gt;&gt; IXYZColor
+bg=cyan
+--
+/+getX(): T/
+/+getY(): T/
+/+getZ(): T/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>860</x>
+      <y>530</y>
+      <w>120</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0;100.0;30.0;100.0;410.0;80.0;410.0;80.0;420.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1060</x>
+      <y>420</y>
+      <w>190</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>template=T: Type
+bg=cyan
+&lt;&lt;Interface&gt;&gt; ILabColor
+--
+/+getL(): T/
+/+getAstar(): T/
+/+getBstar(): T/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1060</x>
+      <y>530</y>
+      <w>30</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;420.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>2240</y>
+      <w>130</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt; Image
+bg=pink
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>2120</y>
+      <w>240</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt; IImage
+bg=cyan
+--
+/+getInfomation(): ImageInfomation/
+/+GetCanvas(): Canvas/
+/+GetCanvas(area: Rect2d): Canvas/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>100</x>
+      <y>2200</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>200</y>
+      <w>290</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>
+Point2d
+bg=yellow
+--
+-_x: size_t
+-_y: size_t
+--
++getX(): size_t
++getY(): size_t
++getMagnitude(): double
++getRotation(): Rotation
++getDefaultDirection(): DefaultDirection2d
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>100</x>
+      <y>160</y>
+      <w>130</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.[Type=size_t, dir=8]</panel_attributes>
+    <additional_attributes>60.0;10.0;60.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>120</y>
+      <w>290</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>template=T:Type, dir: DefaultDirection2d
+IVector2d
+bg=cyan</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>200</y>
+      <w>290</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>Rect2d
+bg=yellow
+--
+-_p1: Point2d
+-_p2: Point2d
+--
++getP1(): Point2d
++getP2(): Point2d
++getMagnitude(): double
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>100</x>
+      <y>360</y>
+      <w>340</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>320.0;10.0;320.0;40.0;10.0;40.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>430</x>
+      <y>2120</y>
+      <w>240</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt; IMultiImages
+bg=cyan
+--
+/+getCount(): size_t/
+/+Indexof(index: size_t): Image/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>430</x>
+      <y>2240</y>
+      <w>170</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt; MultiImages
+bg=pink
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>430</x>
+      <y>2200</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>2310</y>
+      <w>260</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>BMPImage
+bg=yellow
+--
+--
++getInfomation(): ImageInfomation
++GetCanvas(): Canvas
++GetCanvas(area: Rect2d): Canvas</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>100</x>
+      <y>2270</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>370</x>
+      <y>2310</y>
+      <w>160</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>BMPImageInfomation
+bg=yellow
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>100</x>
+      <y>2340</y>
+      <w>300</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;90.0;280.0;90.0;280.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>370</x>
+      <y>2060</y>
+      <w>730</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>710.0;10.0;710.0;240.0;10.0;240.0;10.0;250.0</additional_attributes>
+  </element>
+</diagram>
