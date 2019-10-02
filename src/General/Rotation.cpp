@@ -33,12 +33,12 @@ StationaryOrbit::Rotation::~Rotation() {}
 
 double StationaryOrbit::Rotation::getDegree() const
 {
-	return 180.0 * double(_value);
+	return 180.0 * -double(_value) / std::numeric_limits<int>::min();
 }
 
 double StationaryOrbit::Rotation::getRadian() const
 {
-	return M_PI * double(_value);
+	return M_PI * -double(_value) / std::numeric_limits<int>::min();
 }
 
 int StationaryOrbit::Rotation::Compare(const Rotation& value) const
