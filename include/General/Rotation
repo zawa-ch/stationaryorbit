@@ -1,0 +1,5 @@
+// -*- C++ -*-
+
+#include "../Interface/IRotation.hpp"
+#include "../DataClass/RotationUnit.hpp"
+#include "../DataClass/Rotation.hpp"
