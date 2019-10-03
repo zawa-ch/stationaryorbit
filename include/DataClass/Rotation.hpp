@@ -19,6 +19,8 @@ namespace StationaryOrbit
 		///	既定の値でこのオブジェクトを初期化します。
 		Rotation();
 
+		Rotation(const IRotation& value);
+
 		///	角度とその単位を指定してこのオブジェクトを初期化します。
 		Rotation(double value, RotationUnit unit = RotationUnit::Radian);
 
@@ -37,6 +39,9 @@ namespace StationaryOrbit
 		///	このオブジェクトを指定したオブジェクトと比較します。
 		int Compare(const IRotation& value) const;
 
+		///	このオブジェクトを指定したオブジェクトと比較します。
+		int Compare(const Rotation& value) const;
+
 		///	二つのオブジェクトの和を算出します。
 		static Rotation Add(const Rotation& left, const IRotation& right);
 
@@ -50,23 +55,14 @@ namespace StationaryOrbit
 		static Rotation Divide(const Rotation& left, const double& right);
 
 		Rotation operator +(const IRotation& value) const { return Add(*this, value); }
-
 		Rotation operator -(const IRotation& value) const { return Sub(*this, value); }
-
 		Rotation operator *(const double& value) const { return Multiple(*this, value); }
-
 		Rotation operator /(const double& value) const { return Divide(*this, value); }
-
 		bool operator >(const IRotation& value) const { return Compare(value)>0; }
-
 		bool operator <(const IRotation& value) const { return Compare(value)<0; }
-
 		bool operator >=(const IRotation& value) const { return Compare(value)>=0; }
-
 		bool operator <=(const IRotation& value) const { return Compare(value)<=0; }
-
 		bool operator ==(const IRotation& value) const { return Compare(value)==0; }
-
 		bool operator !=(const IRotation& value) const { return Compare(value)!=0; }
 
 	};    

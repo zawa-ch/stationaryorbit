@@ -65,27 +65,16 @@ namespace StationaryOrbit
 		static Vector2d Divide(const Vector2d& left, const double& right);
 
 		Vector2d operator +(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Add(*this, value); }
-
 		Vector2d operator -(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Sub(*this, value); }
-
 		Vector2d operator *(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Multiple(*this, value); }
-
 		Vector2d operator /(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Divide(*this, value); }
-
 		Vector2d operator *(const double& value) const { return Multiple(*this, value); }
-
 		Vector2d operator /(const double& value) const { return Divide(*this, value); }
-
 		bool operator >(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Compare(value)>0; }
-
 		bool operator <(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Compare(value)<0; }
-
 		bool operator >=(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Compare(value)>=0; }
-
 		bool operator <=(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Compare(value)<=0; }
-
 		bool operator ==(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Compare(value)==0; }
-
 		bool operator !=(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Compare(value)!=0; }
 
 	};

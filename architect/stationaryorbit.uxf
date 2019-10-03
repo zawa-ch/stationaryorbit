@@ -7,7 +7,7 @@
       <x>710</x>
       <y>240</y>
       <w>400</w>
-      <h>140</h>
+      <h>120</h>
     </coordinates>
     <panel_attributes>template=T:Type, dir: DefaultDirection2d
 IVector2d
@@ -17,7 +17,6 @@ bg=cyan
 /+getY(): T/
 /+getMagnitude(): double/
 /+getRotation(): Rotation/
-/+getDefaultDirection(): DefaultDirection2d/
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -38,8 +37,8 @@ bg=green</panel_attributes>
     <coordinates>
       <x>710</x>
       <y>440</y>
-      <w>290</w>
-      <h>170</h>
+      <w>430</w>
+      <h>260</h>
     </coordinates>
     <panel_attributes>
 Vector2d
@@ -52,7 +51,12 @@ bg=yellow
 +getY(): double
 +getMagnitude(): double
 +getRotation(): Rotation
-+getDefaultDirection(): DefaultDirection2d
++Add(left: Vector2d, right: IVector2d&lt;double, L1&gt;): Vector2d
++Sub(left: Vector2d, right: IVector2d&lt;double, L1&gt;): Vector2d
++Multiple(left: Vector2d, right: IVector2d&lt;double, L1&gt;): Vector2d
++Multiple(left: Vector2d, right: double): Vector2d
++Divide(left: Vector2d, right: IVector2d&lt;double, L1&gt;): Vector2d
++Divide(left: Vector2d, right: double): Vector2d
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -60,12 +64,12 @@ bg=yellow
     <id>Relation</id>
     <coordinates>
       <x>710</x>
-      <y>370</y>
+      <y>350</y>
       <w>130</w>
-      <h>90</h>
+      <h>110</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;.[Type=double, dir=0]</panel_attributes>
-    <additional_attributes>60.0;10.0;60.0;70.0</additional_attributes>
+    <panel_attributes>lt=&lt;&lt;.[T=double, dir=L1]</panel_attributes>
+    <additional_attributes>60.0;10.0;60.0;90.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -73,9 +77,10 @@ bg=yellow
       <x>370</x>
       <y>440</y>
       <w>330</w>
-      <h>170</h>
+      <h>190</h>
     </coordinates>
-    <panel_attributes>Rotation
+    <panel_attributes>
+Rotation
 bg=yellow
 --
 -_value: int
@@ -83,8 +88,8 @@ bg=yellow
 +getDegree(): double
 +getRadian(): double
 +Compare(T): int
-+Add(left: Rotation, right: Rotation): Rotation
-+Sub(left: Rotation, right: Rotation): Rotation
++Add(left: Rotation, right: IRotation): Rotation
++Sub(left: Rotation, right: IRotation): Rotation
 +Multiple(left: Rotation, right: double): Rotation
 +Divide(left: Rotation, right: double): Rotation
 </panel_attributes>
@@ -148,23 +153,23 @@ bg=cyan
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>380</x>
+      <x>390</x>
       <y>310</y>
-      <w>180</w>
+      <w>170</w>
       <h>150</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>160.0;10.0;160.0;100.0;10.0;100.0;10.0;130.0</additional_attributes>
+    <panel_attributes>lt=&lt;&lt;.[T=IRotation]</panel_attributes>
+    <additional_attributes>150.0;10.0;150.0;100.0;40.0;100.0;40.0;130.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>530</x>
       <y>310</y>
-      <w>330</w>
+      <w>380</w>
       <h>150</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;100.0;310.0;100.0;310.0;130.0</additional_attributes>
+    <panel_attributes>lt=&lt;&lt;.[T=Vector2d]</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0;330.0;100.0;330.0;130.0</additional_attributes>
   </element>
 </diagram>
