@@ -1,0 +1,7 @@
+// -*- C++ -*-
+
+#include "Rotation"
+#include "../Interface/ICompareble.hpp"
+#include "../Interface/IVector2d.hpp"
+#include "../EnumClass/DefaultDirection2d.hpp"
+#include "../DataClass/Vector2d.hpp"

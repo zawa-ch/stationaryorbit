@@ -10,6 +10,7 @@ set(DEPENDS_LIB)
 # ビルドするソースファイル
 set(BUILD_SOURCES)
 set(BUILD_SOURCES ${BUILD_SOURCES} Rotation.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} Vector2d.cpp)
 
 # ビルド
 add_library(${AssemblyName} SHARED ${BUILD_SOURCES})
