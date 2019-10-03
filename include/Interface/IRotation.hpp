@@ -8,11 +8,11 @@ namespace StationaryOrbit
 	{
 	public:
 
-		///	このオブジェクトの内容をDegree(度)で取得します。
-		virtual double getDegree() const = 0;
-
 		///	このオブジェクトの内容をRadian(ラジアン)で取得します。
 		virtual double getRadian() const = 0;
+
+		///	このオブジェクトの内容をDegree(度)で取得します。
+		virtual double getDegree() const = 0;
 	};
 
 }

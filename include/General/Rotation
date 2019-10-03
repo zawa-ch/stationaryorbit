@@ -1,5 +1,6 @@
 // -*- C++ -*-
 
+#include "../Interface/ICompareble.hpp"
 #include "../Interface/IRotation.hpp"
-#include "../DataClass/RotationUnit.hpp"
+#include "../EnumClass/RotationUnit.hpp"
 #include "../DataClass/Rotation.hpp"

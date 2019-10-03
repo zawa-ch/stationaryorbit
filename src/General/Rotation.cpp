@@ -8,12 +8,12 @@ StationaryOrbit::Rotation::Rotation(double value, RotationUnit unit)
 {
 	switch (unit)
 	{
-	case RotationUnit::Degree:
-		value /= 180.0;
-		break;
-
 	case RotationUnit::Radian:
 		value /= M_PI;
+		break;
+
+	case RotationUnit::Degree:
+		value /= 180.0;
 		break;
 
 	default:
@@ -25,46 +25,36 @@ StationaryOrbit::Rotation::Rotation(double value, RotationUnit unit)
 	_value = (int)(-value * std::numeric_limits<int>::min());
 }
 
-StationaryOrbit::Rotation::Rotation(int value)
-	: _value(value)
-{}
-
 StationaryOrbit::Rotation::~Rotation() {}
 
-double StationaryOrbit::Rotation::getDegree() const
-{
-	return 180.0 * -double(_value) / std::numeric_limits<int>::min();
-}
+double StationaryOrbit::Rotation::getRadian() const { return M_PI * -double(_value) / std::numeric_limits<int>::min(); }
 
-double StationaryOrbit::Rotation::getRadian() const
-{
-	return M_PI * -double(_value) / std::numeric_limits<int>::min();
-}
+double StationaryOrbit::Rotation::getDegree() const { return 180.0 * -double(_value) / std::numeric_limits<int>::min(); }
 
-int StationaryOrbit::Rotation::Compare(const Rotation& value) const
+int StationaryOrbit::Rotation::Compare(const IRotation& value) const
 {
-	if (_value > value._value) return 1;
-	else if (_value < value._value) return -1;
+	if (getRadian() > value.getRadian()) return 1;
+	else if (getRadian() < value.getRadian()) return -1;
 	else return 0;
 }
 
-StationaryOrbit::Rotation StationaryOrbit::Rotation::Add(const Rotation& left, const Rotation& right)
+StationaryOrbit::Rotation StationaryOrbit::Rotation::Add(const Rotation& left, const IRotation& right)
 {
-	return Rotation(left._value + right._value);
+	return Rotation(left.getRadian() + right.getRadian());
 }
 
-StationaryOrbit::Rotation StationaryOrbit::Rotation::Sub(const Rotation& left, const Rotation& right)
+StationaryOrbit::Rotation StationaryOrbit::Rotation::Sub(const Rotation& left, const IRotation& right)
 {
-	return Rotation(left._value - right._value);
+	return Rotation(left.getRadian() - right.getRadian());
 }
 
 StationaryOrbit::Rotation StationaryOrbit::Rotation::Multiple(const Rotation& left, const double& right)
 {
-	return Rotation(left._value * right);
+	return Rotation(left.getRadian() * right);
 }
 
 StationaryOrbit::Rotation StationaryOrbit::Rotation::Divide(const Rotation& left, const double& right)
 {
-	return Rotation(left._value / right);
+	return Rotation(left.getRadian() / right);
 }
 
