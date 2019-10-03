@@ -32,7 +32,7 @@ StationaryOrbit::Rotation StationaryOrbit::Vector2d::getRotation() const
 int StationaryOrbit::Vector2d::Compare(const IVector2d<double, DefaultDirection2d::L1>& value) const
 {
 	if (getMagnitude() > value.getMagnitude()) return 1;
-	else if (getMagnitude() > value.getMagnitude()) return -1;
+	else if (getMagnitude() < value.getMagnitude()) return -1;
 	else return 0;
 }
 

@@ -3,7 +3,7 @@
 #include "General/Rotation"
 using namespace StationaryOrbit;
 
-int main(int argc, char const *argv[])
+int Test_Rotation()
 {
     Rotation rot1 = Rotation(30, RotationUnit::Degree);
     Rotation rot2 = Rotation(0.5 * M_PI, RotationUnit::Radian);
