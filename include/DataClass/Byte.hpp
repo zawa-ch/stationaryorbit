@@ -1,5 +1,4 @@
 #include <cstdint>
-#include "Interface/IElementSet.hpp"
 #include "LogicClass/BitAccess.hpp"
 #ifndef __BYTE_HPP__
 #define __BYTE_HPP__
@@ -8,7 +7,6 @@ namespace StationaryOrbit
 
 	///	ビットの集合を表します。このクラスは継承できません。
 	struct Byte final
-		: public IElementSet<BitAccess>
 	{
 	private:
 
@@ -23,7 +21,32 @@ namespace StationaryOrbit
 		~Byte();
 
 		BitAccess IndexOf(size_t index);
-		
+
+		static Byte Or(const Byte& left, const Byte& right);
+
+		static Byte And(const Byte& left, const Byte& right);
+
+		static Byte Not(const Byte& value);
+
+		static Byte Xor(const Byte& left, const Byte& right);
+
+		Byte& AssignOr(const Byte& value);
+
+		Byte& AssignAnd(const Byte& value);
+
+		Byte& AssignXor(const Byte& value);
+
+		explicit operator uint8_t() const;
+
+		BitAccess operator [](size_t index) { return IndexOf(index); }
+		Byte operator |(const Byte& value) const { return Or(*this, value); }
+		Byte operator &(const Byte& value) const { return And(*this, value); }
+		Byte operator ~() const { return Not(*this); }
+		Byte operator ^(const Byte& value) const { return Xor(*this, value); }
+		Byte& operator |=(const Byte& value) { return AssignOr(value); }
+		Byte& operator &=(const Byte& value) { return AssignAnd(value); }
+		Byte& operator ^=(const Byte& value) { return AssignXor(value); }
+
 	};
 
 }

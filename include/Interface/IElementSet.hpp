@@ -9,7 +9,7 @@ namespace StationaryOrbit
 	{
 	public:
 
-		elementT IndexOf(size_t index);
+		virtual elementT IndexOf(size_t index) = 0;
 
 	}
 
