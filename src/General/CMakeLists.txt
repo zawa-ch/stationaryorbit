@@ -9,6 +9,8 @@ set(DEPENDS_LIB)
 
 # ビルドするソースファイル
 set(BUILD_SOURCES)
+set(BUILD_SOURCES ${BUILD_SOURCES} BitAccess.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} MemoryPool.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} Rotation.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} Vector2d.cpp)
 
