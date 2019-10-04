@@ -1,5 +1,6 @@
 #include "EnumClass/DefaultDirection2d.hpp"
 #include "Interface/IVector2d.hpp"
+#include "Interface/IComparable.hpp"
 #ifndef __VECTOR2D_HPP__
 #define __VECTOR2D_HPP__
 namespace StationaryOrbit
@@ -8,7 +9,7 @@ namespace StationaryOrbit
 	///	二次元平面上における点、あるいはベクトルを表します。
 	struct Vector2d
 		: virtual public IVector2d<double, DefaultDirection2d::L1>
-		, virtual public ICompareble<IVector2d<double, DefaultDirection2d::L1>>
+		, virtual public IComparable<IVector2d<double, DefaultDirection2d::L1>>
 	{
 	private:
 

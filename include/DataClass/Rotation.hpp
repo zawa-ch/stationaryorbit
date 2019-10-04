@@ -1,4 +1,4 @@
-#include "Interface/ICompareble.hpp"
+#include "Interface/IComparable.hpp"
 #include "Interface/IRotation.hpp"
 #include "EnumClass/RotationUnit.hpp"
 #ifndef __ROTATION_HPP__
@@ -9,7 +9,7 @@ namespace StationaryOrbit
 	///	角度の情報を保持し、度またはラジアンへの変換を行います。
 	struct Rotation
 		: virtual public IRotation
-		, virtual public ICompareble<IRotation>
+		, virtual public IComparable<IRotation>
 	{
 	private:
 		int _value;

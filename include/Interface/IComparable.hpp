@@ -1,10 +1,10 @@
-#ifndef __ICOMPAREBLE_HPP__
-#define __ICOMPAREBLE_HPP__
+#ifndef __ICOMPARABLE_HPP__
+#define __ICOMPARABLE_HPP__
 namespace StationaryOrbit
 {
 
 	///	指定された型と比較する機能を実装します。
-	template<typename T> class ICompareble
+	template<typename T> class IComparable
 	{
 	public:
 
@@ -15,4 +15,4 @@ namespace StationaryOrbit
 	};
 
 }
-#endif // __ICOMPAREBLE_HPP__
+#endif // __ICOMPARABLE_HPP__

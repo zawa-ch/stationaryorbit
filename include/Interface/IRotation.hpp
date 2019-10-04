@@ -3,7 +3,7 @@
 namespace StationaryOrbit
 {
 
-	///	角度の情報を保持し、度またはラジアンへの変換を行うインターフェースです。
+	///	角度の情報を保持し、度またはラジアンへの変換を実装します。
 	class IRotation
 	{
 	public:
