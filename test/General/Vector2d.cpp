@@ -12,8 +12,7 @@ int Test_Vector2d()
     std::cout << "vec2 = (" << vec2.getX() << ", " << vec2.getY() << ")" << std::endl;
     std::cout << "vec1 + vec2 = (" << (vec1 + vec2).getX() << ", " << (vec1 + vec2).getY() << ")" << std::endl;
     std::cout << "vec1 - vec2 = (" << (vec1 - vec2).getX() << ", " << (vec1 - vec2).getY() << ")" << std::endl;
-    std::cout << "vec1 * vec2 = (" << (vec1 * vec2).getMagnitude() << "∠" << (vec1 * vec2).getRotation().getDegree() << "deg)" << std::endl;
-    std::cout << "vec1 / vec2 = (" << (vec1 / vec2).getMagnitude() << "∠" << (vec1 / vec2).getRotation().getDegree() << "deg)" << std::endl;
+    std::cout << "vec1 ・ vec2 = " << Vector2d::DotProduct(vec1, vec2) << std::endl;
 
     if (vec1 < vec2)
     {
