@@ -3,7 +3,9 @@
 #include "EnumClass/RotationUnit.hpp"
 #include "DataClass/Rotation.hpp"
 
-StationaryOrbit::Rotation::Rotation() {}
+StationaryOrbit::Rotation::Rotation()
+	: _value()
+{}
 
 StationaryOrbit::Rotation::Rotation(const IRotation& value)
 	: Rotation(value.getRadian())

@@ -3,7 +3,10 @@
 #include "EnumClass/DefaultDirection2d.hpp"
 #include "DataClass/Vector2d.hpp"
 
-StationaryOrbit::Vector2d::Vector2d() {}
+StationaryOrbit::Vector2d::Vector2d()
+	: _x()
+	, _y()
+{}
 
 StationaryOrbit::Vector2d::Vector2d(double x, double y)
 	: _x(x)
