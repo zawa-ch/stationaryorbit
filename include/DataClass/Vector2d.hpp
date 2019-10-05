@@ -6,8 +6,8 @@
 namespace StationaryOrbit
 {
 
-	///	二次元平面上における点、あるいはベクトルを表します。
-	struct Vector2d
+	///	二次元平面上における線形代数学的なベクトルを表します。
+	struct Vector2d final
 		: virtual public IVector2d<double, DefaultDirection2d::L1>
 		, virtual public IComparable<IVector2d<double, DefaultDirection2d::L1>>
 	{
@@ -30,7 +30,7 @@ namespace StationaryOrbit
 		///	IVector2d<double, DefaultDirection2d::L1>オブジェクトをこの型に変換します。
 		explicit Vector2d(const IVector2d<double, DefaultDirection2d::L1>& value);
 
-		virtual ~Vector2d();
+		~Vector2d() = default;
 
 		///	X軸の大きさを取得します。
 		double getX() const;
@@ -47,46 +47,39 @@ namespace StationaryOrbit
 		///	このオブジェクトを指定したオブジェクトと比較します。
 		int Compare(const IVector2d<double, DefaultDirection2d::L1>& value) const;
 
-		///	二つのオブジェクトの和を算出します。
+		///	二つのベクトルの内積を算出します。
+		static double DotProduct(const Vector2d& left, const IVector2d<double, DefaultDirection2d::L1>& right);
+
+		///	二つのベクトルの和を算出します。
 		static Vector2d Add(const Vector2d& left, const IVector2d<double, DefaultDirection2d::L1>& right);
 
-		///	二つのオブジェクトの差を算出します。
+		///	二つのベクトルの差を算出します。
 		static Vector2d Sub(const Vector2d& left, const IVector2d<double, DefaultDirection2d::L1>& right);
 
-		///	二つのオブジェクトの積を算出します。
-		static Vector2d Multiple(const Vector2d& left, const IVector2d<double, DefaultDirection2d::L1>& right);
-
-		///	二つのオブジェクトの商を算出します。
-		static Vector2d Divide(const Vector2d& left, const IVector2d<double, DefaultDirection2d::L1>& right);
-
-		///	二つのオブジェクトの積を算出します。
+		///	ベクトルとスカラーの積を算出します。
 		static Vector2d Multiple(const Vector2d& left, const double& right);
 
-		///	二つのオブジェクトの商を算出します。
+		///	ベクトルとスカラーの商を算出します。
 		static Vector2d Divide(const Vector2d& left, const double& right);
 
+		///	二つのベクトルの和を算出します。
 		Vector2d& AssignAdd(const IVector2d<double, DefaultDirection2d::L1>& value);
 
+		///	二つのベクトルの差を算出します。
 		Vector2d& AssignSub(const IVector2d<double, DefaultDirection2d::L1>& value);
 
-		Vector2d& AssignMultiple(const IVector2d<double, DefaultDirection2d::L1>& value);
-
-		Vector2d& AssignDivide(const IVector2d<double, DefaultDirection2d::L1>& value);
-
+		///	ベクトルとスカラーの積を算出します。
 		Vector2d& AssignMultiple(const double& value);
 
+		///	ベクトルとスカラーの商を算出します。
 		Vector2d& AssignDivide(const double& value);
 
 		Vector2d operator +(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Add(*this, value); }
 		Vector2d operator -(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Sub(*this, value); }
-		Vector2d operator *(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Multiple(*this, value); }
-		Vector2d operator /(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Divide(*this, value); }
 		Vector2d operator *(const double& value) const { return Multiple(*this, value); }
 		Vector2d operator /(const double& value) const { return Divide(*this, value); }
 		Vector2d& operator +=(const IVector2d<double, DefaultDirection2d::L1>& value) { return AssignAdd(value); }
 		Vector2d& operator -=(const IVector2d<double, DefaultDirection2d::L1>& value) { return AssignSub(value); }
-		Vector2d& operator *=(const IVector2d<double, DefaultDirection2d::L1>& value) { return AssignMultiple(value); }
-		Vector2d& operator /=(const IVector2d<double, DefaultDirection2d::L1>& value) { return AssignDivide(value); }
 		Vector2d& operator *=(const double& value) { return AssignMultiple(value); }
 		Vector2d& operator /=(const double& value) { return AssignDivide(value); }
 		bool operator >(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Compare(value)>0; }

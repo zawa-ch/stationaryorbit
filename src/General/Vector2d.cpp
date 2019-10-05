@@ -23,8 +23,6 @@ StationaryOrbit::Vector2d::Vector2d(const IVector2d<double, DefaultDirection2d::
 	, _y(value.getY())
 {}
 
-StationaryOrbit::Vector2d::~Vector2d() {}
-
 double StationaryOrbit::Vector2d::getX() const { return _x; }
 
 double StationaryOrbit::Vector2d::getY() const { return _y; }
@@ -41,35 +39,20 @@ int StationaryOrbit::Vector2d::Compare(const IVector2d<double, DefaultDirection2
 	else return 0;
 }
 
+double StationaryOrbit::Vector2d::DotProduct(const Vector2d& left, const IVector2d<double, DefaultDirection2d::L1>& right)
+{ return (left.getX() * right.getX()) + (left.getY() * right.getY()); }
+
 StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Add(const Vector2d& left, const IVector2d<double, DefaultDirection2d::L1>& right)
-{
-	return Vector2d(left.getX() + right.getX(), left.getY() + right.getY());
-}
+{ return Vector2d(left.getX() + right.getX(), left.getY() + right.getY()); }
 
 StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Sub(const Vector2d& left, const IVector2d<double, DefaultDirection2d::L1>& right)
-{
-	return Vector2d(left.getX() - right.getX(), left.getY() - right.getY());
-}
-
-StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Multiple(const Vector2d& left, const IVector2d<double, DefaultDirection2d::L1>& right)
-{
-	return Vector2d(left.getMagnitude() * right.getMagnitude(), left.getRotation() + right.getRotation());
-}
-
-StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Divide(const Vector2d& left, const IVector2d<double, DefaultDirection2d::L1>& right)
-{
-	return Vector2d(left.getMagnitude() / right.getMagnitude(), left.getRotation() - right.getRotation());
-}
+{ return Vector2d(left.getX() - right.getX(), left.getY() - right.getY()); }
 
 StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Multiple(const Vector2d& left, const double& right)
-{
-	return Vector2d(left.getMagnitude() * right, left.getRotation());
-}
+{ return Vector2d(left.getX() * right, left.getY() * right); }
 
 StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Divide(const Vector2d& left, const double& right)
-{
-	return Vector2d(left.getMagnitude() / right, left.getRotation());
-}
+{ return Vector2d(left.getX() / right, left.getY() / right); }
 
 StationaryOrbit::Vector2d& StationaryOrbit::Vector2d::AssignAdd(const IVector2d<double, DefaultDirection2d::L1>& value)
 {
@@ -82,22 +65,6 @@ StationaryOrbit::Vector2d& StationaryOrbit::Vector2d::AssignSub(const IVector2d<
 {
 	_x -= value.getX();
 	_y -= value.getY();
-	return *this;
-}
-
-StationaryOrbit::Vector2d& StationaryOrbit::Vector2d::AssignMultiple(const IVector2d<double, DefaultDirection2d::L1>& value)
-{
-	Vector2d result = Multiple(*this, value);
-	_x = result.getX();
-	_y = result.getY();
-	return *this;
-}
-
-StationaryOrbit::Vector2d& StationaryOrbit::Vector2d::AssignDivide(const IVector2d<double, DefaultDirection2d::L1>& value)
-{
-	Vector2d result = Divide(*this, value);
-	_x = result.getX();
-	_y = result.getY();
 	return *this;
 }
 

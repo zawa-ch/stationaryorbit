@@ -5,7 +5,7 @@
 namespace StationaryOrbit
 {
 
-	///	二次元平面上における点、あるいはベクトルを実装します。
+	///	二つのスカラー値を持つ値を実装します。
 	template<typename T, DefaultDirection2d dir>
 	class IVector2d
 	{
