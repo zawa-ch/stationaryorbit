@@ -14,6 +14,7 @@ set(BUILD_SOURCES ${BUILD_SOURCES} ImageInfomation.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} Point.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} PointF.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} Rectangle.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} RectangleF.cpp)
 
 # ビルド
 add_library(${AssemblyName} SHARED ${BUILD_SOURCES})
