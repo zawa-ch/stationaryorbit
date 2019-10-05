@@ -1,6 +1,6 @@
+#ifndef __StationaryOrbit_IElementSet__
+#define __StationaryOrbit_IElementSet__
 #include <cstddef>
-#ifndef __IELEMENTSET_HPP__
-#define __IELEMENTSET_HPP__
 namespace StationaryOrbit
 {
 
@@ -14,4 +14,4 @@ namespace StationaryOrbit
 	}
 
 }
-#endif // __IELEMENTSET_HPP__
+#endif // __StationaryOrbit_IElementSet__

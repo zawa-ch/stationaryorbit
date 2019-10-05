@@ -1,5 +1,5 @@
-#ifndef __DEFAULTDIRECTION2D_HPP__
-#define __DEFAULTDIRECTION2D_HPP__
+#ifndef __StationaryOrbit_DefaultDirection2d__
+#define __StationaryOrbit_DefaultDirection2d__
 namespace StationaryOrbit
 {
 
@@ -32,4 +32,4 @@ namespace StationaryOrbit
 	};
 
 }
-#endif // __DEFAULTDIRECTION2D_HPP__
+#endif // __StationaryOrbit_DefaultDirection2d__

@@ -1,8 +1,8 @@
+#ifndef __StationaryOrbit_Rotation__
+#define __StationaryOrbit_Rotation__
 #include "Interface/IComparable.hpp"
 #include "Interface/IRotation.hpp"
 #include "EnumClass/RotationUnit.hpp"
-#ifndef __ROTATION_HPP__
-#define __ROTATION_HPP__
 namespace StationaryOrbit
 {
 
@@ -73,4 +73,4 @@ namespace StationaryOrbit
 	};    
 
 }
-#endif // __ROTATION_HPP__
+#endif // __StationaryOrbit_Rotation__

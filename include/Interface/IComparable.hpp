@@ -1,5 +1,5 @@
-#ifndef __ICOMPARABLE_HPP__
-#define __ICOMPARABLE_HPP__
+#ifndef __StationaryOrbit_IComparable__
+#define __StationaryOrbit_IComparable__
 namespace StationaryOrbit
 {
 
@@ -15,4 +15,4 @@ namespace StationaryOrbit
 	};
 
 }
-#endif // __ICOMPARABLE_HPP__
+#endif // __StationaryOrbit_IComparable__

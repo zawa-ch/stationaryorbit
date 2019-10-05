@@ -1,7 +1,7 @@
+#ifndef __StationaryOrbit_BitReference__
+#define __StationaryOrbit_BitReference__
 #include <cstdint>
 #include <cstddef>
-#ifndef __BITREFERENCE_HPP__
-#define __BITREFERENCE_HPP__
 namespace StationaryOrbit
 {
 
@@ -24,4 +24,4 @@ namespace StationaryOrbit
 	};
 
 }
-#endif // __BITREFERENCE_HPP__
+#endif // __StationaryOrbit_BitReference__

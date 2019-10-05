@@ -1,5 +1,5 @@
-#ifndef __BOOLEANSET_HPP__
-#define __BOOLEANSET_HPP__
+#ifndef __StationaryOrbit_IBooleanSet__
+#define __StationaryOrbit_IBooleanSet__
 namespace StationaryOrbit
 {
 
@@ -19,4 +19,4 @@ namespace StationaryOrbit
 	};
 
 }
-#endif // __BOOLEANSET_HPP__
+#endif // __StationaryOrbit_IBooleanSet__

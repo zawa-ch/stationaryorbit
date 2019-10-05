@@ -1,7 +1,7 @@
+#ifndef __StationaryOrbit_IVector2d__
+#define __StationaryOrbit_IVector2d__
 #include "EnumClass/DefaultDirection2d.hpp"
 #include "DataClass/Rotation.hpp"
-#ifndef __IVECTOR2D_HPP__
-#define __IVECTOR2D_HPP__
 namespace StationaryOrbit
 {
 
@@ -26,4 +26,4 @@ namespace StationaryOrbit
 	};
 
 }
-#endif // __IVECTOR2D_HPP__
+#endif // __StationaryOrbit_IVector2d__

@@ -1,5 +1,5 @@
-#ifndef __IROTATION_HPP__
-#define __IROTATION_HPP__
+#ifndef __StationaryOrbit_IRotation__
+#define __StationaryOrbit_IRotation__
 namespace StationaryOrbit
 {
 
@@ -17,4 +17,4 @@ namespace StationaryOrbit
 	};
 
 }
-#endif
+#endif // __StationaryOrbit_IRotation__

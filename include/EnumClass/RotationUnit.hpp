@@ -1,5 +1,5 @@
-#ifndef __ROTATIONUNIT_HPP__
-#define __ROTATIONUNIT_HPP__
+#ifndef __StationaryOrbit__RotationUnit__
+#define __StationaryOrbit__RotationUnit__
 namespace StationaryOrbit
 {
 
@@ -11,4 +11,4 @@ namespace StationaryOrbit
 	};
 
 }
-#endif // __ROTATIONUNIT_HPP__
+#endif // __StationaryOrbit__RotationUnit__

@@ -1,8 +1,8 @@
+#ifndef __StationaryOrbit_Vector2d__
+#define __StationaryOrbit_Vector2d__
 #include "EnumClass/DefaultDirection2d.hpp"
 #include "Interface/IVector2d.hpp"
 #include "Interface/IComparable.hpp"
-#ifndef __VECTOR2D_HPP__
-#define __VECTOR2D_HPP__
 namespace StationaryOrbit
 {
 
@@ -92,4 +92,4 @@ namespace StationaryOrbit
 	};
 
 }
-#endif // __VECTOR2D_HPP__
+#endif // __StationaryOrbit_Vector2d__

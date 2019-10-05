@@ -1,7 +1,7 @@
+#ifndef __StationaryOrbit_Byte__
+#define __StationaryOrbit_Byte__
 #include <cstdint>
 #include "LogicClass/BitReference.hpp"
-#ifndef __BYTE_HPP__
-#define __BYTE_HPP__
 namespace StationaryOrbit
 {
 
@@ -50,4 +50,4 @@ namespace StationaryOrbit
 	};
 
 }
-#endif // __BYTE_HPP__
+#endif // __StationaryOrbit_Byte__

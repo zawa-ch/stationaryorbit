@@ -1,10 +1,10 @@
+#ifndef __StationaryOrbit_Graphics_PointF__
+#define __StationaryOrbit_Graphics_PointF__
 #include <cstdint>
 #include "EnumClass/DefaultDirection2d.hpp"
 #include "Interface/IVector2d.hpp"
 #include "DataClass/Rotation.hpp"
 #include "DataClass/Graphics/Point.hpp"
-#ifndef __StationaryOrbit_Graphics_PointF__
-#define __StationaryOrbit_Graphics_PointF__
 namespace StationaryOrbit
 {
 namespace Graphics
