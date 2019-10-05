@@ -9,6 +9,7 @@ namespace StationaryOrbit
 namespace Graphics
 {
 
+	///	ディスプレイ上の点を表します。
 	struct Point final
 		: virtual public IVector2d<int32_t, DefaultDirection2d::R4>
 	{
@@ -19,8 +20,13 @@ namespace Graphics
 
 	public:
 
+		///	空のPointを初期化します。
 		Point();
 
+		///	IVector2d<int32_t, DefaultDirection2d::R4>から型を変換します。
+		explicit Point(const IVector2d<int32_t, DefaultDirection2d::R4>& value);
+
+		///	x座標y座標を指定してPointを初期化します。
 		Point(const int32_t& x, const int32_t& y);
 
 		~Point() = default;
