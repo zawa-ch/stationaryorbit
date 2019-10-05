@@ -10,7 +10,7 @@ StationaryOrbit::Byte::Byte(uint8_t value)
 
 StationaryOrbit::Byte::~Byte() {}
 
-StationaryOrbit::BitAccess StationaryOrbit::Byte::IndexOf(size_t index) { return BitAccess(_data, index); }
+StationaryOrbit::BitReference StationaryOrbit::Byte::IndexOf(size_t index) { return BitReference(_data, index); }
 
 StationaryOrbit::Byte StationaryOrbit::Byte::Or(const Byte& left, const Byte& right) { return Byte(left._data | right._data); }
 

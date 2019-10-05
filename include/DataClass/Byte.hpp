@@ -1,5 +1,5 @@
 #include <cstdint>
-#include "LogicClass/BitAccess.hpp"
+#include "LogicClass/BitReference.hpp"
 #ifndef __BYTE_HPP__
 #define __BYTE_HPP__
 namespace StationaryOrbit
@@ -20,7 +20,7 @@ namespace StationaryOrbit
 
 		~Byte();
 
-		BitAccess IndexOf(size_t index);
+		BitReference IndexOf(size_t index);
 
 		static Byte Or(const Byte& left, const Byte& right);
 
@@ -38,7 +38,7 @@ namespace StationaryOrbit
 
 		explicit operator uint8_t() const;
 
-		BitAccess operator [](size_t index) { return IndexOf(index); }
+		BitReference operator [](size_t index) { return IndexOf(index); }
 		Byte operator |(const Byte& value) const { return Or(*this, value); }
 		Byte operator &(const Byte& value) const { return And(*this, value); }
 		Byte operator ~() const { return Not(*this); }

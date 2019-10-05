@@ -1,12 +1,12 @@
 #include <cstdint>
 #include <cstddef>
-#ifndef __BITACCESS_HPP__
-#define __BITACCESS_HPP__
+#ifndef __BITREFERENCE_HPP__
+#define __BITREFERENCE_HPP__
 namespace StationaryOrbit
 {
 
 	///	特定のビットへの参照を保持し、ビット単位でのアクセスを行います。
-	class BitAccess
+	class BitReference
 	{
 	private:
 
@@ -15,13 +15,13 @@ namespace StationaryOrbit
 
 	public:
 
-		BitAccess(uint8_t& reference, size_t bitpos);
+		BitReference(uint8_t& reference, size_t bitpos);
 
 		operator bool() const;
 
-		BitAccess& operator =(const bool& value);
+		BitReference& operator =(const bool& value);
 
 	};
 
 }
-#endif // __BITACCESS_HPP__
+#endif // __BITREFERENCE_HPP__
