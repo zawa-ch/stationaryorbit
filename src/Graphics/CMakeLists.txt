@@ -9,6 +9,7 @@ set(DEPENDS_LIB)
 
 # ビルドするソースファイル
 set(BUILD_SOURCES)
+set(BUILD_SOURCES ${BUILD_SOURCES} Graphics.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} Point.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} PointF.cpp)
 
