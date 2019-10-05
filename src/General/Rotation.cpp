@@ -1,6 +1,7 @@
 #include <limits>
 #include <cmath>
-#include "General/Rotation"
+#include "EnumClass/RotationUnit.hpp"
+#include "DataClass/Rotation.hpp"
 
 StationaryOrbit::Rotation::Rotation() {}
 

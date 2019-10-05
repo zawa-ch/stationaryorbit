@@ -65,12 +65,30 @@ namespace StationaryOrbit
 		///	二つのオブジェクトの商を算出します。
 		static Vector2d Divide(const Vector2d& left, const double& right);
 
+		Vector2d& AssignAdd(const IVector2d<double, DefaultDirection2d::L1>& value);
+
+		Vector2d& AssignSub(const IVector2d<double, DefaultDirection2d::L1>& value);
+
+		Vector2d& AssignMultiple(const IVector2d<double, DefaultDirection2d::L1>& value);
+
+		Vector2d& AssignDivide(const IVector2d<double, DefaultDirection2d::L1>& value);
+
+		Vector2d& AssignMultiple(const double& value);
+
+		Vector2d& AssignDivide(const double& value);
+
 		Vector2d operator +(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Add(*this, value); }
 		Vector2d operator -(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Sub(*this, value); }
 		Vector2d operator *(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Multiple(*this, value); }
 		Vector2d operator /(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Divide(*this, value); }
 		Vector2d operator *(const double& value) const { return Multiple(*this, value); }
 		Vector2d operator /(const double& value) const { return Divide(*this, value); }
+		Vector2d& operator +=(const IVector2d<double, DefaultDirection2d::L1>& value) { return AssignAdd(value); }
+		Vector2d& operator -=(const IVector2d<double, DefaultDirection2d::L1>& value) { return AssignSub(value); }
+		Vector2d& operator *=(const IVector2d<double, DefaultDirection2d::L1>& value) { return AssignMultiple(value); }
+		Vector2d& operator /=(const IVector2d<double, DefaultDirection2d::L1>& value) { return AssignDivide(value); }
+		Vector2d& operator *=(const double& value) { return AssignMultiple(value); }
+		Vector2d& operator /=(const double& value) { return AssignDivide(value); }
 		bool operator >(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Compare(value)>0; }
 		bool operator <(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Compare(value)<0; }
 		bool operator >=(const IVector2d<double, DefaultDirection2d::L1>& value) const { return Compare(value)>=0; }

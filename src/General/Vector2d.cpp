@@ -1,5 +1,7 @@
 #include <cmath>
-#include "General/Vector2d"
+#include "General/Rotation"
+#include "EnumClass/DefaultDirection2d.hpp"
+#include "DataClass/Vector2d.hpp"
 
 StationaryOrbit::Vector2d::Vector2d() {}
 
@@ -64,4 +66,48 @@ StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Multiple(const Vector2d& le
 StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Divide(const Vector2d& left, const double& right)
 {
 	return Vector2d(left.getMagnitude() / right, left.getRotation());
+}
+
+StationaryOrbit::Vector2d& StationaryOrbit::Vector2d::AssignAdd(const IVector2d<double, DefaultDirection2d::L1>& value)
+{
+	_x += value.getX();
+	_y += value.getY();
+	return *this;
+}
+
+StationaryOrbit::Vector2d& StationaryOrbit::Vector2d::AssignSub(const IVector2d<double, DefaultDirection2d::L1>& value)
+{
+	_x -= value.getX();
+	_y -= value.getY();
+	return *this;
+}
+
+StationaryOrbit::Vector2d& StationaryOrbit::Vector2d::AssignMultiple(const IVector2d<double, DefaultDirection2d::L1>& value)
+{
+	Vector2d result = Multiple(*this, value);
+	_x = result.getX();
+	_y = result.getY();
+	return *this;
+}
+
+StationaryOrbit::Vector2d& StationaryOrbit::Vector2d::AssignDivide(const IVector2d<double, DefaultDirection2d::L1>& value)
+{
+	Vector2d result = Divide(*this, value);
+	_x = result.getX();
+	_y = result.getY();
+	return *this;
+}
+
+StationaryOrbit::Vector2d& StationaryOrbit::Vector2d::AssignMultiple(const double& value)
+{
+	_x *= value;
+	_y *= value;
+	return *this;
+}
+
+StationaryOrbit::Vector2d& StationaryOrbit::Vector2d::AssignDivide(const double& value)
+{
+	_x /= value;
+	_y /= value;
+	return *this;
 }
