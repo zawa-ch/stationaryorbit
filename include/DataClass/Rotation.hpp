@@ -7,11 +7,12 @@ namespace StationaryOrbit
 {
 
 	///	角度の情報を保持し、度またはラジアンへの変換を行います。
-	struct Rotation
+	struct Rotation final
 		: virtual public IRotation
 		, virtual public IComparable<IRotation>
 	{
 	private:
+
 		int _value;
 
 	public:
@@ -26,7 +27,7 @@ namespace StationaryOrbit
 
 	public:
 
-		virtual ~Rotation();
+		~Rotation() = default;
 
 	public:
 
@@ -35,6 +36,9 @@ namespace StationaryOrbit
 
 		///	このオブジェクトの内容をDegree(度)で取得します。
 		double getDegree() const;
+
+		///	このオブジェクトの反対側の向きを示すオブジェクトを取得します。
+		static Rotation Negative(const Rotation& value);
 
 		///	このオブジェクトを指定したオブジェクトと比較します。
 		int Compare(const IRotation& value) const;
@@ -54,6 +58,7 @@ namespace StationaryOrbit
 		///	二つのオブジェクトの商を算出します。
 		static Rotation Divide(const Rotation& left, const double& right);
 
+		Rotation operator -() const { return Negative(*this); }
 		Rotation operator +(const IRotation& value) const { return Add(*this, value); }
 		Rotation operator -(const IRotation& value) const { return Sub(*this, value); }
 		Rotation operator *(const double& value) const { return Multiple(*this, value); }

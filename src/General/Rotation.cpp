@@ -37,11 +37,18 @@ StationaryOrbit::Rotation::Rotation(double value, RotationUnit unit)
 	_value = (int)(-value * std::numeric_limits<int>::min());
 }
 
-StationaryOrbit::Rotation::~Rotation() {}
+double StationaryOrbit::Rotation::getRadian() const
+{ return M_PI * -double(_value) / std::numeric_limits<int>::min(); }
 
-double StationaryOrbit::Rotation::getRadian() const { return M_PI * -double(_value) / std::numeric_limits<int>::min(); }
+double StationaryOrbit::Rotation::getDegree() const
+{ return 180.0 * -double(_value) / std::numeric_limits<int>::min(); }
 
-double StationaryOrbit::Rotation::getDegree() const { return 180.0 * -double(_value) / std::numeric_limits<int>::min(); }
+StationaryOrbit::Rotation StationaryOrbit::Rotation::Negative(const Rotation& value)
+{
+	Rotation result = value;
+	result._value += std::numeric_limits<int>::min();
+	return result;
+}
 
 int StationaryOrbit::Rotation::Compare(const IRotation& value) const
 {

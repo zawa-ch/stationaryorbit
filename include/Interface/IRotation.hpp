@@ -13,6 +13,7 @@ namespace StationaryOrbit
 
 		///	このオブジェクトの内容をDegree(度)で取得します。
 		virtual double getDegree() const = 0;
+
 	};
 
 }
