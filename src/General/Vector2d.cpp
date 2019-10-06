@@ -3,6 +3,9 @@
 #include "EnumClass/DefaultDirection2d.hpp"
 #include "DataClass/Vector2d.hpp"
 
+StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Zero() 
+{ return Vector2d(0, 0); }
+
 StationaryOrbit::Vector2d::Vector2d()
 	: _x()
 	, _y()

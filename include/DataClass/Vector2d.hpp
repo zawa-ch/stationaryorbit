@@ -18,6 +18,8 @@ namespace StationaryOrbit
 
 	public:
 
+		Vector2d Zero();
+
 		///	既定の値でこのオブジェクトを初期化します。
 		Vector2d();
 
