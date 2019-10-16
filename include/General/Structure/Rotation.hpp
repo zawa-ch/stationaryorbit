@@ -1,6 +1,6 @@
 #ifndef __StationaryOrbit_Rotation__
 #define __StationaryOrbit_Rotation__
-#include "EnumClass/RotationUnit.hpp"
+#include "../Enumration/RotationUnit.hpp"
 namespace StationaryOrbit
 {
 

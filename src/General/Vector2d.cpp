@@ -1,7 +1,5 @@
 #include <cmath>
-#include "General/Rotation"
-#include "EnumClass/DefaultDirection2d.hpp"
-#include "DataClass/Vector2d.hpp"
+#include "General/Structure/Vector2d.hpp"
 
 StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Zero() 
 { return Vector2d(0, 0); }

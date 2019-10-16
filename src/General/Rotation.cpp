@@ -1,6 +1,6 @@
 #include <limits>
 #include <cmath>
-#include "DataClass/Rotation.hpp"
+#include "General/Structure/Rotation.hpp"
 
 StationaryOrbit::Rotation::Rotation(double value, RotationUnit unit)
 {

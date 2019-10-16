@@ -1,4 +1,4 @@
-#include "LogicClass/InvalidOperationException.hpp"
+#include "General/Logic/InvalidOperationException.hpp"
 
 StationaryOrbit::InvalidOperationException::InvalidOperationException(const std::string& what_arg)
 	: std::logic_error(what_arg)

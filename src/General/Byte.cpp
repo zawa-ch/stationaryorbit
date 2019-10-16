@@ -1,4 +1,4 @@
-#include "DataClass/Byte.hpp"
+#include "General/Structure/Byte.hpp"
 
 StationaryOrbit::Byte::Byte(uint8_t value)
 	: _data(value)

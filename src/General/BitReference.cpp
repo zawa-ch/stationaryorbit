@@ -1,4 +1,4 @@
-#include "LogicClass/BitReference.hpp"
+#include "General/Logic/BitReference.hpp"
 
 StationaryOrbit::BitReference::BitReference(uint8_t& reference, size_t bitpos)
 	: _ref(reference), _pos(bitpos)

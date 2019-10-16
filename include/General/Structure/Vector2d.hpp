@@ -1,7 +1,6 @@
 #ifndef __StationaryOrbit_Vector2d__
 #define __StationaryOrbit_Vector2d__
-#include "EnumClass/DefaultDirection2d.hpp"
-#include "Interface/IComparable.hpp"
+#include "../Structure/Rotation.hpp"
 namespace StationaryOrbit
 {
 

@@ -2,7 +2,7 @@
 #define __StationaryOrbit_Byte__
 #include <cstdint>
 #include <iostream>
-#include "LogicClass/BitReference.hpp"
+#include "../Logic/BitReference.hpp"
 namespace StationaryOrbit
 {
 
