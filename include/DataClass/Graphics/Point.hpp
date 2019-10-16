@@ -1,8 +1,6 @@
 #ifndef __StationaryOrbit_Graphics_Point__
 #define __StationaryOrbit_Graphics_Point__
 #include <cstdint>
-#include "EnumClass/DefaultDirection2d.hpp"
-#include "Interface/IVector2d.hpp"
 #include "DataClass/Rotation.hpp"
 namespace StationaryOrbit
 {
@@ -11,7 +9,6 @@ namespace Graphics
 
 	///	ディスプレイ上の点を表します。
 	struct Point final
-		: virtual public IVector2d<int32_t, DefaultDirection2d::R4>
 	{
 	private:
 
@@ -21,10 +18,7 @@ namespace Graphics
 	public:
 
 		///	空のPointを初期化します。
-		Point();
-
-		///	IVector2d<int32_t, DefaultDirection2d::R4>から型を変換します。
-		explicit Point(const IVector2d<int32_t, DefaultDirection2d::R4>& value);
+		Point() = default;
 
 		///	x座標y座標を指定してPointを初期化します。
 		Point(const int32_t& x, const int32_t& y);
@@ -40,23 +34,20 @@ namespace Graphics
 		///	原点からの距離を取得します。
 		double getMagnitude() const;
 
-		///	X軸正方向を基準とする角度を取得します。
-		Rotation getRotation() const;
-
 		///	二つのオブジェクトの和を算出します。
-		static Point Add(const Point& left, const IVector2d<int32_t, DefaultDirection2d::R4>& right);
+		static Point Add(const Point& left, const Point& right);
 
 		///	二つのオブジェクトの差を算出します。
-		static Point Sub(const Point& left, const IVector2d<int32_t, DefaultDirection2d::R4>& right);
+		static Point Sub(const Point& left, const Point& right);
 
-		Point& AssignAdd(const IVector2d<int32_t, DefaultDirection2d::R4>& value);
+		Point& AssignAdd(const Point& value);
 
-		Point& AssignSub(const IVector2d<int32_t, DefaultDirection2d::R4>& value);
+		Point& AssignSub(const Point& value);
 
-		Point operator +(const IVector2d<int32_t, DefaultDirection2d::R4>& value) const { return Add(*this, value); }
-		Point operator -(const IVector2d<int32_t, DefaultDirection2d::R4>& value) const { return Sub(*this, value); }
-		Point& operator +=(const IVector2d<int32_t, DefaultDirection2d::R4>& value) { return AssignAdd(value); }
-		Point& operator -=(const IVector2d<int32_t, DefaultDirection2d::R4>& value) { return AssignSub(value); }
+		Point operator +(const Point& value) const { return Add(*this, value); }
+		Point operator -(const Point& value) const { return Sub(*this, value); }
+		Point& operator +=(const Point& value) { return AssignAdd(value); }
+		Point& operator -=(const Point& value) { return AssignSub(value); }
 
 	};	
 

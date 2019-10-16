@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_Graphics_ICanvasBuffer__
 #define __StationaryOrbit_Graphics_ICanvasBuffer__
 #include "DataClass/Graphics/Point.hpp"
-#include "DataClass/Graphics/ImageInfomation.hpp"
+#include "LogicClass/Graphics/ImageInfomation.hpp"
 namespace StationaryOrbit
 {
 namespace Graphics

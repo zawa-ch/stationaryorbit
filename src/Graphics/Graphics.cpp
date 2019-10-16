@@ -10,7 +10,6 @@ size_t StationaryOrbit::Graphics::Graphics::GetImageFormatLength(const ImageForm
 	case StationaryOrbit::Graphics::ImageFormat::Tone16 :	return 2;
 	case StationaryOrbit::Graphics::ImageFormat::ColorF16 :	return 2;
 	case StationaryOrbit::Graphics::ImageFormat::ColorF32 :	return 4;
-	case StationaryOrbit::Graphics::ImageFormat::ColorF64 :	return 8;
 	default:    return 0;
 	}
 }

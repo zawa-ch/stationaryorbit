@@ -3,7 +3,7 @@
 #include <memory>
 #include "Interface/Graphics/ICanvasBuffer.hpp"
 #include "DataClass/Byte.hpp"
-#include "DataClass/Graphics/ImageInfomation.hpp"
+#include "LogicClass/Graphics/ImageInfomation.hpp"
 namespace StationaryOrbit
 {
 namespace Graphics

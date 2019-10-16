@@ -14,7 +14,6 @@ namespace Graphics
 		Tone16,	///< 16ビット。
 		ColorF16,	///< 16ビット浮動小数点数。
 		ColorF32,	///< 32ビット浮動小数点数。
-		ColorF64,	///< 64ビット浮動小数点数。
 	};
 
 }
