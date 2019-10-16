@@ -1,15 +1,6 @@
 #include <limits>
 #include <cmath>
-#include "EnumClass/RotationUnit.hpp"
 #include "DataClass/Rotation.hpp"
-
-StationaryOrbit::Rotation::Rotation()
-	: _value()
-{}
-
-StationaryOrbit::Rotation::Rotation(const IRotation& value)
-	: Rotation(value.getRadian())
-{}
 
 StationaryOrbit::Rotation::Rotation(double value, RotationUnit unit)
 {
@@ -50,26 +41,19 @@ StationaryOrbit::Rotation StationaryOrbit::Rotation::Negative(const Rotation& va
 	return result;
 }
 
-int StationaryOrbit::Rotation::Compare(const IRotation& value) const
+int StationaryOrbit::Rotation::Compare(const Rotation& value) const
 {
 	if (getRadian() > value.getRadian()) return 1;
 	else if (getRadian() < value.getRadian()) return -1;
 	else return 0;
 }
 
-int StationaryOrbit::Rotation::Compare(const Rotation& value) const
-{
-	if (_value > value._value) return 1;
-	else if (_value < value._value) return -1;
-	else return 0;
-}
-
-StationaryOrbit::Rotation StationaryOrbit::Rotation::Add(const Rotation& left, const IRotation& right)
+StationaryOrbit::Rotation StationaryOrbit::Rotation::Add(const Rotation& left, const Rotation& right)
 {
 	return Rotation(left.getRadian() + right.getRadian());
 }
 
-StationaryOrbit::Rotation StationaryOrbit::Rotation::Sub(const Rotation& left, const IRotation& right)
+StationaryOrbit::Rotation StationaryOrbit::Rotation::Sub(const Rotation& left, const Rotation& right)
 {
 	return Rotation(left.getRadian() - right.getRadian());
 }
@@ -83,4 +67,3 @@ StationaryOrbit::Rotation StationaryOrbit::Rotation::Divide(const Rotation& left
 {
 	return Rotation(left.getRadian() / right);
 }
-

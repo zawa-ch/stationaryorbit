@@ -4,6 +4,7 @@
 namespace StationaryOrbit
 {
 
+	///	無効な状態で呼び出されたメソッドに対してスローされる例外。
 	class InvalidOperationException
 		: public std::logic_error
 	{

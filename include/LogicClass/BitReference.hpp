@@ -2,6 +2,7 @@
 #define __StationaryOrbit_BitReference__
 #include <cstdint>
 #include <cstddef>
+#include <stdexcept>
 namespace StationaryOrbit
 {
 
@@ -10,16 +11,17 @@ namespace StationaryOrbit
 	{
 	private:
 
-		uint8_t& _ref;
-		size_t _pos;
+		uint8_t& _ref;	///< 参照先の1バイトビット列。
+		size_t _pos;	///< 参照先のビット位置。
 
 	public:
 
+		///	特定のビットへの参照を作成します。
 		BitReference(uint8_t& reference, size_t bitpos);
 
 		operator bool() const;
 
-		BitReference& operator =(const bool& value);
+		BitReference& operator=(const bool& value);
 
 	};
 
