@@ -1,6 +1,6 @@
 #ifndef __StationaryOrbit_Graphics_RectangleF__
 #define __StationaryOrbit_Graphics_RectangleF__
-#include "DataClass/Graphics/PointF.hpp"
+#include "../Structure/PointF.hpp"
 namespace StationaryOrbit
 {
 namespace Graphics

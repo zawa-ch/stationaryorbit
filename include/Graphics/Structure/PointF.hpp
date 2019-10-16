@@ -1,8 +1,8 @@
 #ifndef __StationaryOrbit_Graphics_PointF__
 #define __StationaryOrbit_Graphics_PointF__
 #include <cstdint>
-#include "DataClass/Rotation.hpp"
-#include "DataClass/Graphics/Point.hpp"
+#include "General/Rotation"
+#include "../Structure/Point.hpp"
 namespace StationaryOrbit
 {
 namespace Graphics

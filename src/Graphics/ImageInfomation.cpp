@@ -1,4 +1,4 @@
-#include "LogicClass/Graphics/ImageInfomation.hpp"
+#include "Graphics/Logic/ImageInfomation.hpp"
 
 StationaryOrbit::Graphics::ImageInfomation::ImageInfomation()
 	: _size(), _ch(), _format()

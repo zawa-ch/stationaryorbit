@@ -1,5 +1,5 @@
 #include <cmath>
-#include "DataClass/Graphics/PointF.hpp"
+#include "Graphics/Structure/PointF.hpp"
 
 StationaryOrbit::Graphics::PointF::PointF(const Point& value)
 	: _x(float(value.getX())), _y(float(value.getY()))

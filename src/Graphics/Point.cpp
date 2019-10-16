@@ -1,5 +1,5 @@
 #include <cmath>
-#include "DataClass/Graphics/Point.hpp"
+#include "Graphics/Structure/Point.hpp"
 
 StationaryOrbit::Graphics::Point::Point(const int32_t& x, const int32_t& y)
 	: _x(x), _y(y)

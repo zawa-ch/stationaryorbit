@@ -1,0 +1,8 @@
+// -*- C++ -*-
+
+#include "Enumration/ImageFormat.hpp"
+#include "Structure/Point.hpp"
+#include "Structure/PointF.hpp"
+#include "Structure/Rectangle.hpp"
+#include "Structure/RectangleF.hpp"
+#include "Logic/Graphics.hpp"

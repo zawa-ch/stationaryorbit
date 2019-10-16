@@ -1,9 +1,9 @@
 #ifndef __StationaryOrbit_Graphics_ImageInfomation__
 #define __StationaryOrbit_Graphics_ImageInfomation__
 #include <cstddef>
-#include "EnumClass/Graphics/ImageFormat.hpp"
-#include "Interface/Graphics/IImageInfomation.hpp"
-#include "DataClass/Graphics/Point.hpp"
+#include "../Enumration/ImageFormat.hpp"
+#include "../Interface/IImageInfomation.hpp"
+#include "../Structure/Point.hpp"
 namespace StationaryOrbit
 {
 namespace Graphics

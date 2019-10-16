@@ -1,4 +1,4 @@
 // -*- C++ -*-
 
-#include "EnumClass/RotationUnit.hpp"
-#include "DataClass/Rotation.hpp"
+#include "Enumration/RotationUnit.hpp"
+#include "Structure/Rotation.hpp"

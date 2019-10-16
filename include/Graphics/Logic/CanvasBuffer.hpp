@@ -1,9 +1,9 @@
 #ifndef __CANVASBUFFER_HPP__
 #define __CANVASBUFFER_HPP__
 #include <memory>
-#include "Interface/Graphics/ICanvasBuffer.hpp"
-#include "DataClass/Byte.hpp"
-#include "LogicClass/Graphics/ImageInfomation.hpp"
+#include "General/General"
+#include "../Interface/ICanvasBuffer.hpp"
+#include "../Logic/ImageInfomation.hpp"
 namespace StationaryOrbit
 {
 namespace Graphics

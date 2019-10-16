@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_Graphics_Graphics__
 #define __StationaryOrbit_Graphics_Graphics__
 #include <cstddef>
-#include "EnumClass/Graphics/ImageFormat.hpp"
+#include "../Enumration/ImageFormat.hpp"
 namespace StationaryOrbit
 {
 namespace Graphics

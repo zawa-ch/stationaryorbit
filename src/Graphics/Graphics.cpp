@@ -1,4 +1,4 @@
-#include "LogicClass/Graphics/Graphics.hpp"
+#include "Graphics/Logic/Graphics.hpp"
 
 size_t StationaryOrbit::Graphics::Graphics::GetImageFormatLength(const ImageFormat &value)
 {

@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_Graphics_Point__
 #define __StationaryOrbit_Graphics_Point__
 #include <cstdint>
-#include "DataClass/Rotation.hpp"
+#include "General/Rotation"
 namespace StationaryOrbit
 {
 namespace Graphics

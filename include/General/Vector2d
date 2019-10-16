@@ -1,4 +1,4 @@
 // -*- C++ -*-
 
 #include "Rotation"
-#include "DataClass/Vector2d.hpp"
+#include "Structure/Vector2d.hpp"

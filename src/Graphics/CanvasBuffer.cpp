@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <stdexcept>
-#include "LogicClass/InvalidOperationException.hpp"
-#include "LogicClass/Graphics/Graphics.hpp"
-#include "LogicClass/Graphics/CanvasBuffer.hpp"
+#include "General/Exception"
+#include "Graphics/Logic/Graphics.hpp"
+#include "Graphics/Logic/CanvasBuffer.hpp"
 
 size_t StationaryOrbit::Graphics::CanvasBuffer::CalcLength(const ImageInfomation& info)
 { return info.getSize().getX() * info.getSize().getY() * Graphics::GetImageFormatLength(info.getFormat()) * info.getChannels(); }

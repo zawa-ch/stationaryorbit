@@ -1,4 +1,4 @@
-#include "DataClass/Graphics/RectangleF.hpp"
+#include "Graphics/Structure/RectangleF.hpp"
 
 StationaryOrbit::Graphics::RectangleF::RectangleF()
 	: _p1(), _p2()
