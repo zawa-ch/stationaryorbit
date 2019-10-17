@@ -24,16 +24,16 @@ namespace StationaryOrbit
 		BitReference IndexOf(size_t index);
 
 		///	2つのByteに対し、orによるブーリアン演算を行います。
-		static Byte Or(const Byte& left, const Byte& right);
+		Byte Or(const Byte& value) const;
 
 		///	2つのByteに対し、andによるブーリアン演算を行います。
-		static Byte And(const Byte& left, const Byte& right);
+		Byte And(const Byte& value) const;
 
 		///	Byteの内容を反転します。
-		static Byte Not(const Byte& value);
+		Byte Not() const;
 
 		///	2つのByteに対し、xorによるブーリアン演算を行います。
-		static Byte Xor(const Byte& left, const Byte& right);
+		Byte Xor(const Byte& value) const;
 
 		Byte& AssignOr(const Byte& value);
 
@@ -42,31 +42,30 @@ namespace StationaryOrbit
 		Byte& AssignXor(const Byte& value);
 
 		///	Byteを指定されたビット数シフトします。
-		Byte Shift(int bits);
+		Byte Shift(int bits) const;
 
 		///	Byteを指定されたビット数シフトします。
 		///	シフトによってあふれたビットは反対のビットに置かれます。
-		Byte Rotate(int bits);
+		Byte Rotate(int bits) const;
 
-		///	指定された二つのオブジェクトが等しいか比較します。
-		static bool Equal(const Byte& left, const Byte& right);
-
+		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
+		bool Equals(const Byte& value) const;
 
 
 		explicit operator uint8_t() const { return _data; }
 
 		BitReference operator[](size_t index) { return IndexOf(index); }
-		Byte operator|(const Byte& value) const { return Or(*this, value); }
-		Byte operator&(const Byte& value) const { return And(*this, value); }
-		Byte operator~() const { return Not(*this); }
-		Byte operator^(const Byte& value) const { return Xor(*this, value); }
+		Byte operator|(const Byte& value) const { return Or(value); }
+		Byte operator&(const Byte& value) const { return And(value); }
+		Byte operator~() const { return Not(); }
+		Byte operator^(const Byte& value) const { return Xor(value); }
 		Byte& operator|=(const Byte& value) { return AssignOr(value); }
 		Byte& operator&=(const Byte& value) { return AssignAnd(value); }
 		Byte& operator^=(const Byte& value) { return AssignXor(value); }
-		Byte operator<<(int value) { return Byte(_data << value); }
-		Byte operator>>(int value) { return Byte(_data >> value); }
-		bool operator==(const Byte& value) { return Equal(*this, value); }
-		bool operator!=(const Byte& value) { return !Equal(*this, value); }
+		Byte operator<<(int value) const { return Byte(_data << value); }
+		Byte operator>>(int value) const { return Byte(_data >> value); }
+		bool operator==(const Byte& value) const { return Equals(value); }
+		bool operator!=(const Byte& value) const { return !Equals(value); }
 
 	};
 

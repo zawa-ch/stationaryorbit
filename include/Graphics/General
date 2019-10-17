@@ -6,3 +6,4 @@
 #include "Structure/Rectangle.hpp"
 #include "Structure/RectangleF.hpp"
 #include "Logic/Graphics.hpp"
+#include "Logic/ImageInfomation.hpp"

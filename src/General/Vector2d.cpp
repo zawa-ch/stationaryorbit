@@ -4,11 +4,6 @@
 StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Zero() 
 { return Vector2d(0, 0); }
 
-StationaryOrbit::Vector2d::Vector2d()
-	: _x()
-	, _y()
-{}
-
 StationaryOrbit::Vector2d::Vector2d(double x, double y)
 	: _x(x)
 	, _y(y)
@@ -28,39 +23,32 @@ double StationaryOrbit::Vector2d::getMagnitude() const { return sqrt(_x * _x + _
 StationaryOrbit::Rotation StationaryOrbit::Vector2d::getRotation() const
 { return Rotation(atan2(_y, _x), RotationUnit::Radian); }
 
-int StationaryOrbit::Vector2d::Compare(const Vector2d& value) const
-{
-	if (getMagnitude() > value.getMagnitude()) return 1;
-	else if (getMagnitude() < value.getMagnitude()) return -1;
-	else return 0;
-}
+double StationaryOrbit::Vector2d::DotProduct(const Vector2d& value) const
+{ return (_x * value._x) + (_y * value._y); }
 
-double StationaryOrbit::Vector2d::DotProduct(const Vector2d& left, const Vector2d& right)
-{ return (left.getX() * right.getX()) + (left.getY() * right.getY()); }
+StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Add(const Vector2d& value) const
+{ return Vector2d(_x + value._x, _y + value._y); }
 
-StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Add(const Vector2d& left, const Vector2d& right)
-{ return Vector2d(left.getX() + right.getX(), left.getY() + right.getY()); }
+StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Sub(const Vector2d& value) const
+{ return Vector2d(_x - value._x, _y - value._y); }
 
-StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Sub(const Vector2d& left, const Vector2d& right)
-{ return Vector2d(left.getX() - right.getX(), left.getY() - right.getY()); }
+StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Multiple(const double& value) const
+{ return Vector2d(_x * value, _y * value); }
 
-StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Multiple(const Vector2d& left, const double& right)
-{ return Vector2d(left.getX() * right, left.getY() * right); }
-
-StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Divide(const Vector2d& left, const double& right)
-{ return Vector2d(left.getX() / right, left.getY() / right); }
+StationaryOrbit::Vector2d StationaryOrbit::Vector2d::Divide(const double& value) const
+{ return Vector2d(_x / value, _y / value); }
 
 StationaryOrbit::Vector2d& StationaryOrbit::Vector2d::AssignAdd(const Vector2d& value)
 {
-	_x += value.getX();
-	_y += value.getY();
+	_x += value._x;
+	_y += value._y;
 	return *this;
 }
 
 StationaryOrbit::Vector2d& StationaryOrbit::Vector2d::AssignSub(const Vector2d& value)
 {
-	_x -= value.getX();
-	_y -= value.getY();
+	_x -= value._x;
+	_y -= value._y;
 	return *this;
 }
 
@@ -77,3 +65,13 @@ StationaryOrbit::Vector2d& StationaryOrbit::Vector2d::AssignDivide(const double&
 	_y /= value;
 	return *this;
 }
+
+int StationaryOrbit::Vector2d::CompareTo(const Vector2d& value) const
+{
+	if (getMagnitude() > value.getMagnitude()) return 1;
+	else if (getMagnitude() < value.getMagnitude()) return -1;
+	else return 0;
+}
+
+bool StationaryOrbit::Vector2d::Equals(const Vector2d& value) const
+{ return (_x == value._x)&&(_y == value._y); }

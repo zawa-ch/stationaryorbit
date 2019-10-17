@@ -1,5 +1,5 @@
-#ifndef __CANVASBUFFER_HPP__
-#define __CANVASBUFFER_HPP__
+#ifndef __StationaryOrbit_Graphics_CanvasBuffer__
+#define __StationaryOrbit_Graphics_CanvasBuffer__
 #include <memory>
 #include "General/General"
 #include "../Interface/ICanvasBuffer.hpp"
@@ -65,4 +65,4 @@ namespace Graphics
 
 }
 }
-#endif // __CANVASBUFFER_HPP__
+#endif // __StationaryOrbit_Graphics_CanvasBuffer__

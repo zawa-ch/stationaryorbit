@@ -16,6 +16,7 @@ namespace Graphics
 
 	public:
 
+		///	指定されたフォーマットが使用するデータ長をバイト単位で取得します。
 		static size_t GetImageFormatLength(const ImageFormat &value);
 
 	};

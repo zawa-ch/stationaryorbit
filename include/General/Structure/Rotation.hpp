@@ -34,7 +34,10 @@ namespace StationaryOrbit
 		static Rotation Negative(const Rotation& value);
 
 		///	このオブジェクトを指定したオブジェクトと比較します。
-		int Compare(const Rotation& value) const;
+		int CompareTo(const Rotation& value) const;
+
+		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
+		bool Equals(const Rotation& value) const;
 
 		///	二つのオブジェクトの和を算出します。
 		static Rotation Add(const Rotation& left, const Rotation& right);
@@ -53,12 +56,12 @@ namespace StationaryOrbit
 		Rotation operator -(const Rotation& value) const { return Sub(*this, value); }
 		Rotation operator *(const double& value) const { return Multiple(*this, value); }
 		Rotation operator /(const double& value) const { return Divide(*this, value); }
-		bool operator >(const Rotation& value) const { return Compare(value)>0; }
-		bool operator <(const Rotation& value) const { return Compare(value)<0; }
-		bool operator >=(const Rotation& value) const { return Compare(value)>=0; }
-		bool operator <=(const Rotation& value) const { return Compare(value)<=0; }
-		bool operator ==(const Rotation& value) const { return Compare(value)==0; }
-		bool operator !=(const Rotation& value) const { return Compare(value)!=0; }
+		bool operator >(const Rotation& value) const { return CompareTo(value)>0; }
+		bool operator <(const Rotation& value) const { return CompareTo(value)<0; }
+		bool operator >=(const Rotation& value) const { return CompareTo(value)>=0; }
+		bool operator <=(const Rotation& value) const { return CompareTo(value)<=0; }
+		bool operator ==(const Rotation& value) const { return Equals(value); }
+		bool operator !=(const Rotation& value) const { return !Equals(value); }
 
 	};    
 

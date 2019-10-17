@@ -14,10 +14,10 @@ namespace StationaryOrbit
 
 	public:
 
-		Vector2d Zero();
+		static Vector2d Zero();
 
 		///	既定の値でこのオブジェクトを初期化します。
-		Vector2d();
+		Vector2d() = default;
 
 		///	軸座標の値を指定してこのオブジェクトを初期化します。
 		Vector2d(double x, double y);
@@ -39,23 +39,20 @@ namespace StationaryOrbit
 		///	X軸正方向を基準とする角度を取得します。
 		Rotation getRotation() const;
 
-		///	このオブジェクトを指定したオブジェクトと比較します。
-		int Compare(const Vector2d& value) const;
-
 		///	二つのベクトルの内積を算出します。
-		static double DotProduct(const Vector2d& left, const Vector2d& right);
+		double DotProduct(const Vector2d& value) const;
 
 		///	二つのベクトルの和を算出します。
-		static Vector2d Add(const Vector2d& left, const Vector2d& right);
+		Vector2d Add(const Vector2d& value) const;
 
 		///	二つのベクトルの差を算出します。
-		static Vector2d Sub(const Vector2d& left, const Vector2d& right);
+		Vector2d Sub(const Vector2d& value) const;
 
 		///	ベクトルとスカラーの積を算出します。
-		static Vector2d Multiple(const Vector2d& left, const double& right);
+		Vector2d Multiple(const double& value) const;
 
 		///	ベクトルとスカラーの商を算出します。
-		static Vector2d Divide(const Vector2d& left, const double& right);
+		Vector2d Divide(const double& value) const;
 
 		///	二つのベクトルの和を算出します。
 		Vector2d& AssignAdd(const Vector2d& value);
@@ -69,20 +66,26 @@ namespace StationaryOrbit
 		///	ベクトルとスカラーの商を算出します。
 		Vector2d& AssignDivide(const double& value);
 
-		Vector2d operator +(const Vector2d& value) const { return Add(*this, value); }
-		Vector2d operator -(const Vector2d& value) const { return Sub(*this, value); }
-		Vector2d operator *(const double& value) const { return Multiple(*this, value); }
-		Vector2d operator /(const double& value) const { return Divide(*this, value); }
+		///	このオブジェクトを指定したオブジェクトと比較します。
+		int CompareTo(const Vector2d& value) const;
+
+		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
+		bool Equals(const Vector2d& value) const;
+
+		Vector2d operator +(const Vector2d& value) const { return Add(value); }
+		Vector2d operator -(const Vector2d& value) const { return Sub(value); }
+		Vector2d operator *(const double& value) const { return Multiple(value); }
+		Vector2d operator /(const double& value) const { return Divide(value); }
 		Vector2d& operator +=(const Vector2d& value) { return AssignAdd(value); }
 		Vector2d& operator -=(const Vector2d& value) { return AssignSub(value); }
 		Vector2d& operator *=(const double& value) { return AssignMultiple(value); }
 		Vector2d& operator /=(const double& value) { return AssignDivide(value); }
-		bool operator >(const Vector2d& value) const { return Compare(value)>0; }
-		bool operator <(const Vector2d& value) const { return Compare(value)<0; }
-		bool operator >=(const Vector2d& value) const { return Compare(value)>=0; }
-		bool operator <=(const Vector2d& value) const { return Compare(value)<=0; }
-		bool operator ==(const Vector2d& value) const { return Compare(value)==0; }
-		bool operator !=(const Vector2d& value) const { return Compare(value)!=0; }
+		bool operator >(const Vector2d& value) const { return CompareTo(value)>0; }
+		bool operator <(const Vector2d& value) const { return CompareTo(value)<0; }
+		bool operator >=(const Vector2d& value) const { return CompareTo(value)>=0; }
+		bool operator <=(const Vector2d& value) const { return CompareTo(value)<=0; }
+		bool operator ==(const Vector2d& value) const { return Equals(value)==0; }
+		bool operator !=(const Vector2d& value) const { return Equals(value)!=0; }
 
 	};
 

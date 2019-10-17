@@ -41,12 +41,15 @@ StationaryOrbit::Rotation StationaryOrbit::Rotation::Negative(const Rotation& va
 	return result;
 }
 
-int StationaryOrbit::Rotation::Compare(const Rotation& value) const
+int StationaryOrbit::Rotation::CompareTo(const Rotation& value) const
 {
 	if (getRadian() > value.getRadian()) return 1;
 	else if (getRadian() < value.getRadian()) return -1;
 	else return 0;
 }
+
+bool StationaryOrbit::Rotation::Equals(const Rotation& value) const
+{ return _value == value._value; }
 
 StationaryOrbit::Rotation StationaryOrbit::Rotation::Add(const Rotation& left, const Rotation& right)
 {
