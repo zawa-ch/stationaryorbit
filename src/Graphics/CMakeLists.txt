@@ -10,6 +10,7 @@ set(DEPENDS_LIB)
 # ビルドするソースファイル
 set(BUILD_SOURCES)
 set(BUILD_SOURCES ${BUILD_SOURCES} CanvasBuffer.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} Color.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} Graphics.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} ImageInfomation.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} Point.cpp)
