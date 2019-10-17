@@ -1,7 +1,6 @@
 #ifndef __StationaryOrbit_Graphics_Point__
 #define __StationaryOrbit_Graphics_Point__
 #include <cstdint>
-#include "General/Rotation"
 namespace StationaryOrbit
 {
 namespace Graphics
@@ -35,19 +34,23 @@ namespace Graphics
 		double getMagnitude() const;
 
 		///	二つのオブジェクトの和を算出します。
-		static Point Add(const Point& left, const Point& right);
+		Point Add(const Point& value) const;
+		Point operator+(const Point& value) const { return Add(value); }
 
 		///	二つのオブジェクトの差を算出します。
-		static Point Sub(const Point& left, const Point& right);
+		Point Sub(const Point& value) const;
+		Point operator-(const Point& value) const { return Sub(value); }
 
 		Point& AssignAdd(const Point& value);
+		Point& operator+=(const Point& value) { return AssignAdd(value); }
 
 		Point& AssignSub(const Point& value);
+		Point& operator-=(const Point& value) { return AssignSub(value); }
 
-		Point operator +(const Point& value) const { return Add(*this, value); }
-		Point operator -(const Point& value) const { return Sub(*this, value); }
-		Point& operator +=(const Point& value) { return AssignAdd(value); }
-		Point& operator -=(const Point& value) { return AssignSub(value); }
+		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
+		bool Equals(const Point& value) const;
+		bool operator==(const Point& value) const { return Equals(value); }
+		bool operator!=(const Point& value) const { return !Equals(value); }
 
 	};	
 

@@ -1,7 +1,6 @@
 #ifndef __StationaryOrbit_Graphics_PointF__
 #define __StationaryOrbit_Graphics_PointF__
 #include <cstdint>
-#include "General/Rotation"
 #include "../Structure/Point.hpp"
 namespace StationaryOrbit
 {
@@ -39,35 +38,40 @@ namespace Graphics
 		double getMagnitude() const;
 
 		///	二つのオブジェクトの和を算出します。
-		static PointF Add(const PointF& left, const PointF& right);
+		PointF Add(const PointF& value) const;
+		PointF operator+(const PointF& value) const { return Add(value); }
 
 		///	二つのオブジェクトの差を算出します。
-		static PointF Sub(const PointF& left, const PointF& right);
+		PointF Sub(const PointF& value) const;
+		PointF operator-(const PointF& value) const { return Sub(value); }
 
 		///	二つのオブジェクトの積を算出します。
-		static PointF Multiple(const PointF& left, const float& right);
+		PointF Multiple(const float& value) const;
+		PointF operator*(const float& value) const { return Multiple(value); }
 
 		///	二つのオブジェクトの商を算出します。
-		static PointF Divide(const PointF& left, const float& right);
+		PointF Divide(const float& value) const;
+		PointF operator/(const float& value) const { return Divide(value); }
 
 		PointF& AssignAdd(const PointF& value);
+		PointF& operator+=(const PointF& value) { return AssignAdd(value); }
 
 		PointF& AssignSub(const PointF& value);
+		PointF& operator-=(const PointF& value) { return AssignSub(value); }
 
 		PointF& AssignMultiple(const float& value);
+		PointF& operator*=(const float& value) { return AssignMultiple(value); }
 
 		PointF& AssignDivide(const float& value);
+		PointF& operator/=(const float& value) { return AssignDivide(value); }
+
+		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
+		bool Equals(const PointF& value) const;
+		bool operator==(const PointF& value) { return Equals(value); }
+		bool operator!=(const PointF& value) { return !Equals(value); }
 
 		explicit operator Point() const;
 
-		PointF operator +(const PointF& value) const { return Add(*this, value); }
-		PointF operator -(const PointF& value) const { return Sub(*this, value); }
-		PointF operator *(const float& value) const { return Multiple(*this, value); }
-		PointF operator /(const float& value) const { return Divide(*this, value); }
-		PointF& operator +=(const PointF& value) { return AssignAdd(value); }
-		PointF& operator -=(const PointF& value) { return AssignSub(value); }
-		PointF& operator *=(const float& value) { return AssignMultiple(value); }
-		PointF& operator /=(const float& value) { return AssignDivide(value); }
 	};
 
 }

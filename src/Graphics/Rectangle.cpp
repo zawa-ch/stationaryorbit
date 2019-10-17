@@ -1,9 +1,5 @@
 #include "Graphics/Structure/Rectangle.hpp"
 
-StationaryOrbit::Graphics::Rectangle::Rectangle()
-	: _p1(), _p2()
-{}
-
 StationaryOrbit::Graphics::Rectangle::Rectangle(const Point& p1, const Point& p2)
 	: _p1(p1), _p2(p2)
 {}
@@ -32,5 +28,23 @@ int32_t StationaryOrbit::Graphics::Rectangle::getHeight() const
 int32_t StationaryOrbit::Graphics::Rectangle::getWidth() const
 { return getRight() - getTop(); }
 
+StationaryOrbit::Graphics::Point StationaryOrbit::Graphics::Rectangle::getTopLeft() const
+{ return Point(getLeft(), getTop()); }
+
+StationaryOrbit::Graphics::Point StationaryOrbit::Graphics::Rectangle::getBottomLeft() const
+{ return Point(getLeft(), getBottom()); }
+
+StationaryOrbit::Graphics::Point StationaryOrbit::Graphics::Rectangle::getTopRight() const
+{ return Point(getRight(), getTop()); }
+
+StationaryOrbit::Graphics::Point StationaryOrbit::Graphics::Rectangle::getBottomRight() const
+{ return Point(getRight(), getBottom()); }
+
 double StationaryOrbit::Graphics::Rectangle::Distance() const
 { return (_p2 - _p1).getMagnitude(); }
+
+StationaryOrbit::Graphics::Rectangle StationaryOrbit::Graphics::Rectangle::Shift(const Point& value) const
+{ return Rectangle(_p1 + value, _p2 + value); }
+
+bool StationaryOrbit::Graphics::Rectangle::Equals(const Rectangle& value) const
+{ return (getTop() == value.getTop())&&(getBottom() == value.getBottom())&&(getLeft() == value.getLeft())&&(getRight() == value.getRight()); }

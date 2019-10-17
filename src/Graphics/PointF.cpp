@@ -18,17 +18,17 @@ float StationaryOrbit::Graphics::PointF::getY() const
 double StationaryOrbit::Graphics::PointF::getMagnitude() const
 { return sqrt(double(_x) * _x + double(_y) * _y); }
 
-StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Add(const PointF& left, const PointF& right)
-{ return PointF(left.getX() + right.getX(), left.getY() + right.getY()); }
+StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Add(const PointF& value) const
+{ return PointF(_x + value._x, _y + value._y); }
 
-StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Sub(const PointF& left, const PointF& right)
-{ return PointF(left.getX() - right.getX(), left.getY() - right.getY()); }
+StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Sub(const PointF& value) const
+{ return PointF(_x - value._x, _y - value._y); }
 
-StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Multiple(const PointF& left, const float& right)
-{ return PointF(left.getX() * right, left.getY() * right); }
+StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Multiple(const float& value) const
+{ return PointF(_x * value, _y * value); }
 
-StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Divide(const PointF& left, const float& right)
-{ return PointF(left.getX() / right, left.getY() / right); }
+StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Divide(const float& value) const
+{ return PointF(_x / value, _y / value); }
 
 StationaryOrbit::Graphics::PointF& StationaryOrbit::Graphics::PointF::AssignAdd(const PointF& value)
 {
@@ -57,6 +57,9 @@ StationaryOrbit::Graphics::PointF& StationaryOrbit::Graphics::PointF::AssignDivi
 	_y /= value;
 	return *this;
 }
+
+bool StationaryOrbit::Graphics::PointF::Equals(const PointF& value) const
+{ return (_x == value._x)&&(_y == value._y); }
 
 StationaryOrbit::Graphics::PointF::operator Point() const
 { return Point(int32_t(_x), int32_t(_y)); }
