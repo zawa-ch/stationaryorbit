@@ -9,6 +9,8 @@ set(DEPENDS_LIB)
 
 # ビルドするソースファイル
 set(BUILD_SOURCES)
+set(BUILD_SOURCES ${BUILD_SOURCES} BMPImageInfomation.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} Canvas.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} CanvasBuffer.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} Color.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} Graphics.cpp)
@@ -18,7 +20,10 @@ set(BUILD_SOURCES ${BUILD_SOURCES} PointF.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} Rectangle.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} RectangleF.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} RGBColor.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} BMP/FileHeader.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} BMP/InvalidFormatException.cpp)
 
 # ビルド
 add_library(${AssemblyName} SHARED ${BUILD_SOURCES})
+set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 20)
 target_include_directories(${AssemblyName} PUBLIC ${PROJECT_SOURCE_DIR}/include/Graphics)

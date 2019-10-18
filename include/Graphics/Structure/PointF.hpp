@@ -2,9 +2,7 @@
 #define __StationaryOrbit_Graphics_PointF__
 #include <cstdint>
 #include "../Structure/Point.hpp"
-namespace StationaryOrbit
-{
-namespace Graphics
+namespace StationaryOrbit::Graphics
 {
 
 	///	ディスプレイ上の点を浮動小数点数で表します。
@@ -74,6 +72,5 @@ namespace Graphics
 
 	};
 
-}
 }
 #endif // __StationaryOrbit_Graphics_PointF__

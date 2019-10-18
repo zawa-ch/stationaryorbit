@@ -17,4 +17,5 @@ set(BUILD_SOURCES ${BUILD_SOURCES} Vector2d.cpp)
 
 # ビルド
 add_library(${AssemblyName} SHARED ${BUILD_SOURCES})
+set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 20)
 target_include_directories(${AssemblyName} PUBLIC ${PROJECT_SOURCE_DIR}/include/General)

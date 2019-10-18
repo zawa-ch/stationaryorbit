@@ -1,9 +1,7 @@
 #ifndef __StationaryOrbit_Graphics_Rectangle__
 #define __StationaryOrbit_Graphics_Rectangle__
 #include "../Structure/Point.hpp"
-namespace StationaryOrbit
-{
-namespace Graphics
+namespace StationaryOrbit::Graphics
 {
 
 	///	Pointによって表されるディスプレイ上の矩形範囲を表します。
@@ -73,6 +71,5 @@ namespace Graphics
 
 	};
 
-}
 }
 #endif // __StationaryOrbit_Graphics_Rectangle__

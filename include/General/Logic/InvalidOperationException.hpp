@@ -1,6 +1,6 @@
-#include <stdexcept>
 #ifndef __StationaryOrbit_InvalidOperationException__
 #define __StationaryOrbit_InvalidOperationException__
+#include <stdexcept>
 namespace StationaryOrbit
 {
 

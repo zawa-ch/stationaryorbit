@@ -1,9 +1,7 @@
 #ifndef __StationaryOrbit_Graphics_Color__
 #define __StationaryOrbit_Graphics_Color__
 #include "../Structure/RGBColor.hpp"
-namespace StationaryOrbit
-{
-namespace Graphics
+namespace StationaryOrbit::Graphics
 {
 
 	class Color
@@ -29,6 +27,5 @@ namespace Graphics
 
 	};
 
-}
 }
 #endif // __StationaryOrbit_Graphics_Color__

@@ -1,50 +1,59 @@
 #ifndef __StationaryOrbit_Graphics_ImageInfomation__
 #define __StationaryOrbit_Graphics_ImageInfomation__
 #include <cstddef>
-#include "../Enumration/ImageFormat.hpp"
+#include "../Enumration/ColorDepth.hpp"
+#include "../Enumration/ColorSystem.hpp"
 #include "../Interface/IImageInfomation.hpp"
 #include "../Structure/Point.hpp"
-namespace StationaryOrbit
-{
-namespace Graphics
+namespace StationaryOrbit::Graphics
 {
 
 	///	画像が持つ情報を表します。
 	class ImageInfomation
 		: virtual public IImageInfomation
 	{
+	public:
+
+		struct Container
+		{
+			Point Size;
+			ColorDepth Depth;
+			ColorSystem System;
+		};
+
 	private:
 
-		Point _size;
-		size_t _ch;
-		ImageFormat _format;
+		Container _value;
 
 	public:
 
-		ImageInfomation();
+		ImageInfomation() = default;
+
+		ImageInfomation(const Container& value);
+
+		explicit ImageInfomation(const IImageInfomation& value);
 
 		virtual ~ImageInfomation() = default;
 
 		///	画像の大きさを示すPointを取得します。
-		Point getSize() const;
+		Point getSize() const { return _value.Size; }
 
 		///	画像の大きさを示すPointを設定します。
-		void setSize(const Point& value);
-
-		///	画像のチャネル数を取得します。
-		size_t getChannels() const;
-
-		///	画像のチャネル数を設定します。
-		void setChannels(const size_t& value);
+		void setSize(const Point& value) { _value.Size = value; }
 
 		///	画像の色の表現に使用されるフォーマットを取得します。
-		ImageFormat getFormat() const;
+		ColorDepth getColorDepth() const { return _value.Depth; }
 
 		///	画像の色の表現に使用されるフォーマットを設定します。
-		void setFormat(const ImageFormat& value);
+		void setColorDepth(const ColorDepth& value) { _value.Depth = value; }
+
+		///	画像の色の表現に使用される表色系を取得します。
+		ColorSystem getColorSystem() const { return _value.System; }
+
+		///	画像の色の表現に使用される表色系を設定します。
+		void setColorSystem(const ColorSystem& value) { _value.System = value; }
 
 	};
 
-}
 }
 #endif // __StationaryOrbit_Graphics_ImageInfomation__

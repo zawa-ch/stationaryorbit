@@ -2,9 +2,7 @@
 #define __StationaryOrbit_Graphics_ICanvasBuffer__
 #include "../Structure/Point.hpp"
 #include "../Logic/ImageInfomation.hpp"
-namespace StationaryOrbit
-{
-namespace Graphics
+namespace StationaryOrbit::Graphics
 {
 
     class ICanvasBuffer
@@ -25,6 +23,5 @@ namespace Graphics
 
     };
 
-}
 }
 #endif // __StationaryOrbit_Graphics_ICanvasBuffer__

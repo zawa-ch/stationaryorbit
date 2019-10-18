@@ -2,9 +2,7 @@
 #define __StationaryOrbit_Graphics_RectangleF__
 #include "../Structure/PointF.hpp"
 #include "../Structure/Rectangle.hpp"
-namespace StationaryOrbit
-{
-namespace Graphics
+namespace StationaryOrbit::Graphics
 {
 
 	///	PointFによって表されるディスプレイ上の矩形範囲を表します。
@@ -80,6 +78,5 @@ namespace Graphics
 
 	};
 
-}
 }
 #endif // __StationaryOrbit_Graphics_RectangleF__

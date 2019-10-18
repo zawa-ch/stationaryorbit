@@ -5,9 +5,9 @@
 #include "Graphics/Logic/CanvasBuffer.hpp"
 
 size_t StationaryOrbit::Graphics::CanvasBuffer::CalcLength(const ImageInfomation& info)
-{ return info.getSize().getX() * info.getSize().getY() * Graphics::GetImageFormatLength(info.getFormat()) * info.getChannels(); }
+{ return info.getSize().getX() * info.getSize().getY() * Graphics::GetLengthFromColorDepth(info.getColorDepth()) * Graphics::GetChannelFromColorSpace(info.getColorSystem()); }
 
-StationaryOrbit::Byte* StationaryOrbit::Graphics::CanvasBuffer::Allocate(const ImageInfomation& info)
+std::byte* StationaryOrbit::Graphics::CanvasBuffer::Allocate(const ImageInfomation& info)
 {
 	// 画像サイズに負の値を設定している場合、std::out_of_rangeを投げる
 	if (info.getSize().getX()<0 || info.getSize().getY()<0) { throw std::out_of_range(""); }
@@ -15,19 +15,19 @@ StationaryOrbit::Byte* StationaryOrbit::Graphics::CanvasBuffer::Allocate(const I
 	// キャンバスのためのメモリを確保
 	// (失敗した場合std::bad_allocが投げられる)
 	size_t AllocateLength = CalcLength(info);	///< Allocate()で確保を行うメモリの長さ。
-	Byte* data = new Byte[AllocateLength];
+	std::byte* data = new std::byte[AllocateLength];
 
 	return data;
 }
 
-void StationaryOrbit::Graphics::CanvasBuffer::Deallocate(Byte* location)
+void StationaryOrbit::Graphics::CanvasBuffer::Deallocate(std::byte* location)
 {
 	delete[] location;
 }
 
-void StationaryOrbit::Graphics::CanvasBuffer::Copy(Byte* dest, Byte* src, ImageInfomation& info)
+void StationaryOrbit::Graphics::CanvasBuffer::Copy(std::byte* dest, std::byte* src, ImageInfomation& info)
 {
-	std::copy<Byte*, Byte*>(src, src + CalcLength(info), dest);
+	std::copy<std::byte*, std::byte*>(src, src + CalcLength(info), dest);
 }
 
 StationaryOrbit::Graphics::CanvasBuffer::CanvasBuffer()
@@ -54,10 +54,10 @@ void StationaryOrbit::Graphics::CanvasBuffer::getPixel(void* dest, const Point& 
 	if (dest == NULL) throw new std::invalid_argument("dest");
 	if (_info.getSize().getX() <= pos.getX()) throw new std::out_of_range("x");
 	if (_info.getSize().getY() <= pos.getY()) throw new std::out_of_range("y");
-	if (_info.getChannels() <= ch) throw new std::out_of_range("ch");
-	Byte* spx = _data + (_info.getChannels() * (_info.getSize().getX() * pos.getY() + pos.getX()) + ch);
-	Byte* dpx = (Byte*)dest;
-	std::copy<Byte*, Byte*>(spx, spx + Graphics::GetImageFormatLength(_info.getFormat()), dpx);
+	if (Graphics::GetChannelFromColorSpace(_info.getColorSystem()) <= ch) throw new std::out_of_range("ch");
+	std::byte* spx = _data + (Graphics::GetChannelFromColorSpace(_info.getColorSystem()) * (_info.getSize().getX() * pos.getY() + pos.getX()) + ch);
+	std::byte* dpx = (std::byte*)dest;
+	std::copy<std::byte*, std::byte*>(spx, spx + Graphics::GetLengthFromColorDepth(_info.getColorDepth()), dpx);
 }
 
 void StationaryOrbit::Graphics::CanvasBuffer::setPixel(const void* value, const Point& pos, size_t ch)
@@ -65,8 +65,8 @@ void StationaryOrbit::Graphics::CanvasBuffer::setPixel(const void* value, const 
 	if (value == NULL) throw new std::invalid_argument("dest");
 	if (_info.getSize().getX() <= pos.getX()) throw new std::out_of_range("x");
 	if (_info.getSize().getY() <= pos.getY()) throw new std::out_of_range("y");
-	if (_info.getChannels() <= ch) throw new std::out_of_range("ch");
-	Byte* spx = (Byte*)value;
-	Byte* dpx = _data + (_info.getChannels() * (_info.getSize().getX() * pos.getY() + pos.getX()) + ch);
-	std::copy<Byte*, Byte*>(spx, spx + Graphics::GetImageFormatLength(_info.getFormat()), dpx);
+	if (Graphics::GetChannelFromColorSpace(_info.getColorSystem()) <= ch) throw new std::out_of_range("ch");
+	std::byte* spx = (std::byte*)value;
+	std::byte* dpx = _data + (Graphics::GetChannelFromColorSpace(_info.getColorSystem()) * (_info.getSize().getX() * pos.getY() + pos.getX()) + ch);
+	std::copy<std::byte*, std::byte*>(spx, spx + Graphics::GetLengthFromColorDepth(_info.getColorDepth()), dpx);
 }

@@ -1,9 +1,7 @@
 #ifndef __StationaryOrbit_Graphics_Point__
 #define __StationaryOrbit_Graphics_Point__
 #include <cstdint>
-namespace StationaryOrbit
-{
-namespace Graphics
+namespace StationaryOrbit::Graphics
 {
 
 	///	ディスプレイ上の点を表します。
@@ -54,6 +52,5 @@ namespace Graphics
 
 	};	
 
-}
 }
 #endif // __StationaryOrbit_Graphics_Point__

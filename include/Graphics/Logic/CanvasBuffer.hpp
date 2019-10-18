@@ -1,25 +1,24 @@
 #ifndef __StationaryOrbit_Graphics_CanvasBuffer__
 #define __StationaryOrbit_Graphics_CanvasBuffer__
+#include <cstddef>
 #include <memory>
 #include "General/General"
 #include "../Interface/ICanvasBuffer.hpp"
 #include "../Logic/ImageInfomation.hpp"
-namespace StationaryOrbit
-{
-namespace Graphics
+namespace StationaryOrbit::Graphics
 {
 
 	class CanvasBuffer : public ICanvasBuffer
 	{
 	private:
 
-		Byte* _data;
+		std::byte* _data;
 		ImageInfomation _info;
 
 		static size_t CalcLength(const ImageInfomation& info);
-		static Byte* Allocate(const ImageInfomation& info);
-		static void Deallocate(Byte* location);
-		static void Copy(Byte* dest, Byte* src, ImageInfomation& info);
+		static std::byte* Allocate(const ImageInfomation& info);
+		static void Deallocate(std::byte* location);
+		static void Copy(std::byte* dest, std::byte* src, ImageInfomation& info);
 
 	public:
 
@@ -63,6 +62,5 @@ namespace Graphics
 
 	};
 
-}
 }
 #endif // __StationaryOrbit_Graphics_CanvasBuffer__
