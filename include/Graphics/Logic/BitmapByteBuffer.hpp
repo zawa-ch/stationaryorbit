@@ -38,7 +38,7 @@ namespace StationaryOrbit::Graphics
 		///	exception:
 		///	std::out_of_range	infoで指定している画像サイズが負の値です。
 		///	std::bad_alloc	メモリの確保に失敗しました。
-		explicit BitmapByteBuffer(const ImageInfomation& info);
+		explicit BitmapByteBuffer(const IImageInfomation& info);
 
 		///	指定されたキャンバスの内容を複製します。
 		///	<コピーコンストラクタの特殊化>

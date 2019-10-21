@@ -21,7 +21,7 @@ namespace StationaryOrbit::Graphics
 
 		virtual ~BitmapFrame() = default;
 
-		const IBitmapBuffer& GetBuffer() const { return _buffer; }
+		IBitmapBuffer& getBuffer() { return _buffer; }
 
 		const IImageInfomation& getInfomation() const { return _info; }
 

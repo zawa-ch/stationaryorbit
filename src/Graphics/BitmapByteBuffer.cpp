@@ -31,7 +31,7 @@ StationaryOrbit::Graphics::BitmapByteBuffer::BitmapByteBuffer(const Point& size,
 	: _size(size), _ch(ch), _data(Allocate(size, ch))
 {}
 
-StationaryOrbit::Graphics::BitmapByteBuffer::BitmapByteBuffer(const ImageInfomation& info)
+StationaryOrbit::Graphics::BitmapByteBuffer::BitmapByteBuffer(const IImageInfomation& info)
 	: BitmapByteBuffer(
 		info.getSize(),
 		Graphics::GetChannelFromColorSpace(info.getColorSystem())

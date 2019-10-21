@@ -10,7 +10,7 @@ StationaryOrbit::Graphics::Color StationaryOrbit::Graphics::BitmapFrame::getPixe
 {
 	Color Result;
 
-	switch (getInfomation().getColorSystem())
+	switch (_info.getColorSystem())
 	{
 	case ColorSystem::RGB:
 		if (_buffer.getChannel() != Graphics::GetChannelFromColorSpace(ColorSystem::RGB)) throw InvalidOperationException("Buffer format no match.");
@@ -27,7 +27,7 @@ StationaryOrbit::Graphics::Color StationaryOrbit::Graphics::BitmapFrame::getPixe
 void StationaryOrbit::Graphics::BitmapFrame::setPixel(const Point& pos, const Color& value)
 {
 	RGBColor rgb;
-	switch (getInfomation().getColorSystem())
+	switch (_info.getColorSystem())
 	{
 	case ColorSystem::RGB:
 		if (_buffer.getChannel() != Graphics::GetChannelFromColorSpace(ColorSystem::RGB)) throw InvalidOperationException("Buffer format no match.");

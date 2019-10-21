@@ -18,7 +18,7 @@ namespace StationaryOrbit::Graphics
 
 		Bitmap();
 
-		Bitmap(const ImageInfomation& info);
+		explicit Bitmap(const ImageInfomation& info);
 
 	};
 
