@@ -14,15 +14,6 @@ StationaryOrbit::Vector2d::Vector2d(double magnitude, Rotation rotation)
 	, _y(magnitude * sin(rotation.getRadian()))
 {}
 
-double StationaryOrbit::Vector2d::getX() const { return _x; }
-
-double StationaryOrbit::Vector2d::getY() const { return _y; }
-
-double StationaryOrbit::Vector2d::getMagnitude() const { return sqrt(_x * _x + _y * _y); }
-
-StationaryOrbit::Rotation StationaryOrbit::Vector2d::getRotation() const
-{ return Rotation(atan2(_y, _x), RotationUnit::Radian); }
-
 double StationaryOrbit::Vector2d::DotProduct(const Vector2d& value) const
 { return (_x * value._x) + (_y * value._y); }
 

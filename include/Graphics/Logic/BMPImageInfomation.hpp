@@ -1,6 +1,6 @@
 #ifndef __StationaryOrbit_Graphics_BMPImageInfomation__
 #define __StationaryOrbit_Graphics_BMPImageInfomation__
-#include "../Logic/ImageInfomation.hpp"
+#include "../Interface/IImageInfomation.hpp"
 #include "../BMP/Enumration/BitDepth.hpp"
 #include "../BMP/Enumration/CompressionMethod.hpp"
 #include "../BMP/Structure/CoreHeader.hpp"
@@ -16,7 +16,6 @@ namespace StationaryOrbit::Graphics
 		struct Container
 		{
 			Point Size;
-			ColorDepth Depth;
 			ColorSystem System;
 			BMP::BitDepth BitCount;
 			BMP::CompressionMethod ComplessionMethod;	///< 圧縮形式
@@ -29,9 +28,8 @@ namespace StationaryOrbit::Graphics
 
 		Container _value;
 
-		static ColorDepth ConvertToColorDepth(const BMP::BitDepth& bitcnt);
 		static ColorSystem ConvertToColorSystem(const BMP::BitDepth& bitcnt);
-		static BMP::BitDepth ConvertToColorDepth(const ColorDepth& depth, const ColorSystem& system);
+		static BMP::BitDepth ConvertToColorDepth(const ColorSystem& system);
 
 	public:
 
@@ -52,12 +50,6 @@ namespace StationaryOrbit::Graphics
 
 		///	画像の大きさを示すPointを設定します。
 		void setSize(const Point& value) { _value.Size = value; }
-
-		///	画像の色の表現に使用されるフォーマットを取得します。
-		ColorDepth getColorDepth() const { return _value.Depth; }
-
-		///	画像の色の表現に使用されるフォーマットを設定します。
-		void setColorDepth(const ColorDepth& value);
 
 		///	画像の色の表現に使用される表色系を取得します。
 		ColorSystem getColorSystem() const { return _value.System; }
@@ -82,6 +74,9 @@ namespace StationaryOrbit::Graphics
 
 		///	画像の解像度を示すPointを設定します。
 		void setResolution(const Point& value) { _value.Resolution = value; }
+
+		explicit operator BMP::CoreHeader() const;
+		explicit operator BMP::InfoHeader() const;
 
 	};
 

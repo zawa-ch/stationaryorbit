@@ -1,7 +1,6 @@
 #ifndef __StationaryOrbit_Graphics_ImageInfomation__
 #define __StationaryOrbit_Graphics_ImageInfomation__
 #include <cstddef>
-#include "../Enumration/ColorDepth.hpp"
 #include "../Enumration/ColorSystem.hpp"
 #include "../Interface/IImageInfomation.hpp"
 #include "../Structure/Point.hpp"
@@ -17,7 +16,6 @@ namespace StationaryOrbit::Graphics
 		struct Container
 		{
 			Point Size;
-			ColorDepth Depth;
 			ColorSystem System;
 		};
 
@@ -40,12 +38,6 @@ namespace StationaryOrbit::Graphics
 
 		///	画像の大きさを示すPointを設定します。
 		void setSize(const Point& value) { _value.Size = value; }
-
-		///	画像の色の表現に使用されるフォーマットを取得します。
-		ColorDepth getColorDepth() const { return _value.Depth; }
-
-		///	画像の色の表現に使用されるフォーマットを設定します。
-		void setColorDepth(const ColorDepth& value) { _value.Depth = value; }
 
 		///	画像の色の表現に使用される表色系を取得します。
 		ColorSystem getColorSystem() const { return _value.System; }

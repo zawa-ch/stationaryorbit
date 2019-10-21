@@ -9,9 +9,11 @@ set(DEPENDS_LIB)
 
 # ビルドするソースファイル
 set(BUILD_SOURCES)
+set(BUILD_SOURCES ${BUILD_SOURCES} Bitmap.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} BitmapBuffer.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} BitmapByteBuffer.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} BitmapFrame.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} BMPImageInfomation.cpp)
-set(BUILD_SOURCES ${BUILD_SOURCES} Canvas.cpp)
-set(BUILD_SOURCES ${BUILD_SOURCES} CanvasBuffer.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} Color.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} Graphics.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} ImageInfomation.cpp)

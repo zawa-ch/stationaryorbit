@@ -52,21 +52,13 @@ bool StationaryOrbit::Rotation::Equals(const Rotation& value) const
 { return _value == value._value; }
 
 StationaryOrbit::Rotation StationaryOrbit::Rotation::Add(const Rotation& left, const Rotation& right)
-{
-	return Rotation(left.getRadian() + right.getRadian());
-}
+{ return Rotation(left.getRadian() + right.getRadian()); }
 
 StationaryOrbit::Rotation StationaryOrbit::Rotation::Sub(const Rotation& left, const Rotation& right)
-{
-	return Rotation(left.getRadian() - right.getRadian());
-}
+{ return Rotation(left.getRadian() - right.getRadian()); }
 
 StationaryOrbit::Rotation StationaryOrbit::Rotation::Multiple(const Rotation& left, const double& right)
-{
-	return Rotation(left.getRadian() * right);
-}
+{ return Rotation(left.getRadian() * right); }
 
 StationaryOrbit::Rotation StationaryOrbit::Rotation::Divide(const Rotation& left, const double& right)
-{
-	return Rotation(left.getRadian() / right);
-}
+{ return Rotation(left.getRadian() / right); }

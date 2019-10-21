@@ -5,5 +5,5 @@ StationaryOrbit::Graphics::ImageInfomation::ImageInfomation(const Container& val
 {}
 
 StationaryOrbit::Graphics::ImageInfomation::ImageInfomation(const IImageInfomation& value)
-    : _value(Container{value.getSize(), value.getColorDepth(), value.getColorSystem()})
+    : _value(Container{value.getSize(), value.getColorSystem()})
 {}
