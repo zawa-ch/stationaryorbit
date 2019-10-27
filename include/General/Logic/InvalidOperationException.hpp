@@ -10,8 +10,10 @@ namespace StationaryOrbit
 	{
 	public:
 
+		///	例外の説明を付け、このオブジェクトを初期化します。
 		explicit InvalidOperationException(const std::string& what_arg);
 
+		///	例外の説明を付け、このオブジェクトを初期化します。
 		explicit InvalidOperationException(const char* what_arg);
 
 	};

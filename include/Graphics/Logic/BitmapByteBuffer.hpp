@@ -19,11 +19,28 @@ namespace StationaryOrbit::Graphics
 		size_t _ch;
 		uint8_t* _data;
 
+		///	オブジェクトが使用するオブジェクト数を算出します。
+		///	params:
+		///	size	Bitmapの画像サイズ。
+		///	ch	Bitmapの色チャネル数。
+		///	returns:
+		///	算出されたオブジェクト数が返ります。
 		static size_t CalcLength(const Point& size, const size_t& ch);
 
+		///	このオブジェクトのための記憶域空間を確保します。
+		///	params:
+		///	size	Bitmapの画像サイズ。
+		///	ch	Bitmapの色チャネル数。
+		///	returns:
+		///	確保された記憶域への参照が返ります。
+		///	exception:
+		///	std::bad_alloc	メモリの確保に失敗しました。
+		///	attribute:
+		///	nodiscard	取得したリソースへの参照を返すため、返り値を破棄するとメモリリークが発生する可能性があります。
 		[[nodiscard]]
 		static uint8_t* Allocate(const Point& size, const size_t& ch);
 
+		///	確保していた記憶域空間を開放します。
 		static void Deallocate(uint8_t* location);
 
 	public:

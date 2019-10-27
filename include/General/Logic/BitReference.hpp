@@ -19,8 +19,10 @@ namespace StationaryOrbit
 		///	特定のビットへの参照を作成します。
 		BitReference(uint8_t& reference, size_t bitpos);
 
+		///	ビット参照の逆参照を行い、boolに変換します。
 		operator bool() const;
 
+		///	参照先に値を代入します。
 		BitReference& operator=(const bool& value);
 
 	};

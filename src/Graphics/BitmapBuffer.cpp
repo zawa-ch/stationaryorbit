@@ -22,9 +22,13 @@ float* StationaryOrbit::Graphics::BitmapBuffer::Allocate(const Point& size, cons
 	return data;
 }
 
-void StationaryOrbit::Graphics::BitmapBuffer::Deallocate(float* location)
+void StationaryOrbit::Graphics::BitmapBuffer::Deallocate() noexcept
 {
-	delete[] location;
+	if (IsAllocated())
+	{
+		delete[] _data;
+		_data = NULL;
+	}
 }
 
 StationaryOrbit::Graphics::BitmapBuffer::BitmapBuffer(const Point& size, const size_t& ch)
@@ -56,7 +60,7 @@ StationaryOrbit::Graphics::BitmapBuffer::BitmapBuffer(const IBitmapBuffer& value
 
 StationaryOrbit::Graphics::BitmapBuffer::~BitmapBuffer()
 {
-	if (IsAllocated()) { Deallocate(_data); }
+	Deallocate();
 }
 
 bool StationaryOrbit::Graphics::BitmapBuffer::IsAllocated() const
@@ -85,7 +89,7 @@ void StationaryOrbit::Graphics::BitmapBuffer::setPixel(const Point& pos, size_t 
 StationaryOrbit::Graphics::BitmapBuffer& StationaryOrbit::Graphics::BitmapBuffer::operator=(const BitmapBuffer& value)
 {
 	// 確保済みの領域をすべて破棄する
-	if (IsAllocated()) { Deallocate(_data); }
+	Deallocate();
 	// メモリ再確保
 	_data = Allocate(value._size, value._ch);
 	// 内容コピー
