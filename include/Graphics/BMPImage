@@ -1,0 +1,5 @@
+// -*- C++ -*-
+
+#include "Logic/BMPImageInfomation.hpp"
+#include "Logic/BMPImageBitmap.hpp"
+#include "Logic/BMPImage.hpp"

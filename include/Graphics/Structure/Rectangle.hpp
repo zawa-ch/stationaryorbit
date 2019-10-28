@@ -61,6 +61,9 @@ namespace StationaryOrbit::Graphics
 		///	このオブジェクトで示されている二点間の距離を取得します。
 		double Distance() const;
 
+		///	指定されたPointが範囲内に含まれるかを取得します。
+		bool InRange(const Point& value) const;
+
 		///	このオブジェクトを指定した方向・大きさだけ移動します。
 		Rectangle Shift(const Point& value) const;
 

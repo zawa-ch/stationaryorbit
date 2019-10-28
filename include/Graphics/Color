@@ -1,0 +1,4 @@
+// -*- C++ -*-
+
+#include "Structure/RGBColor.hpp"
+#include "Logic/Color.hpp"

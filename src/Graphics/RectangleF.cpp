@@ -47,6 +47,9 @@ StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::RectangleF::getBott
 double StationaryOrbit::Graphics::RectangleF::Distance() const
 { return (_p2 - _p1).getMagnitude(); }
 
+bool StationaryOrbit::Graphics::RectangleF::InRange(const PointF& value) const
+{ return (getLeft() <= value.getX())&&(value.getX() < getRight())&&(getTop() <= value.getY())&&(value.getY() < getBottom()); }
+
 StationaryOrbit::Graphics::RectangleF StationaryOrbit::Graphics::RectangleF::Shift(const PointF& value) const
 { return RectangleF(_p1 + value, _p2 + value); }
 

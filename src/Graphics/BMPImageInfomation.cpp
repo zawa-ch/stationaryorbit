@@ -6,7 +6,7 @@ StationaryOrbit::Graphics::ColorSystem StationaryOrbit::Graphics::BMPImageInfoma
 	switch (bitcnt)
 	{
 	case BMP::BitDepth::Bit1:
-		return ColorSystem::Gray;
+		return ColorSystem::IndexedColor;
 
 	case BMP::BitDepth::Bit4:
 		return ColorSystem::IndexedColor;
@@ -30,8 +30,7 @@ StationaryOrbit::Graphics::ColorSystem StationaryOrbit::Graphics::BMPImageInfoma
 
 StationaryOrbit::Graphics::BMP::BitDepth StationaryOrbit::Graphics::BMPImageInfomation::ConvertToColorDepth(const ColorSystem& system)
 {
-	if ((system == ColorSystem::Gray)) return BMP::BitDepth::Bit1;
-	else if ((system == ColorSystem::IndexedColor)) return BMP::BitDepth::Bit8;
+	if ((system == ColorSystem::IndexedColor)) return BMP::BitDepth::Bit8;
 	else if ((system == ColorSystem::RGB)) return BMP::BitDepth::Bit32;
 	else return BMP::BitDepth::Null;
 }

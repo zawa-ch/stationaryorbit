@@ -1,6 +1,7 @@
 // -*- C++ -*-
 
 #include "Enumration/ColorDepth.hpp"
+#include "Enumration/ColorSystem.hpp"
 #include "Structure/Point.hpp"
 #include "Structure/PointF.hpp"
 #include "Structure/Rectangle.hpp"

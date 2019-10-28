@@ -6,6 +6,7 @@ set(AssemblyName stationaryorbit.graphics)
 
 # 依存するライブラリ
 set(DEPENDS_LIB)
+set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.general)
 
 # ビルドするソースファイル
 set(BUILD_SOURCES)
@@ -13,6 +14,7 @@ set(BUILD_SOURCES ${BUILD_SOURCES} Bitmap.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} BitmapBuffer.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} BitmapByteBuffer.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} BitmapFrame.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} BMPImage.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} BMPImageBitmap.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} BMPImageInfomation.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} Color.cpp)
@@ -29,4 +31,5 @@ set(BUILD_SOURCES ${BUILD_SOURCES} BMP/InvalidFormatException.cpp)
 # ビルド
 add_library(${AssemblyName} SHARED ${BUILD_SOURCES})
 set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 20)
+target_link_libraries(${AssemblyName} ${DEPENDS_LIB})
 target_include_directories(${AssemblyName} PUBLIC ${PROJECT_SOURCE_DIR}/include/Graphics)
