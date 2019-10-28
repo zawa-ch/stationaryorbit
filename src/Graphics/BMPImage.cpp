@@ -115,23 +115,27 @@ void StationaryOrbit::Graphics::BMPImage::GetBodyRGB24(BMPImageBitmap& bitmap, c
 	SeekToFileBody();
 	int sizey = _info.getSize().getY();
 	int sizex = _info.getSize().getX();
+	// y軸の読取り。(下から上)
 	for(int y = sizey - 1; 0 <= y; y--)
 	{
+		// x軸の読取り。(左から右)
 		for(int x = 0; x < sizex; x++)
 		{
 			Point point = Point(x, y);
+			// 各チャネルの読取り。
+			// LittleEndianのため0xRRGGBBがBB GG RRと格納される
 			for(int ch = 2; 0 <= ch; ch--)
 			{
 				uint8_t buffer = uint8_t(_stream.get());
 				readsize++;
 				if (area.InRange(point))
 				{
-					bitmap.getBMPBuffer().setPixel(point - area.getTopLeft(), ch, float(buffer) / 255.0f);
+					bitmap.getBMPBuffer().setPixelRaw(point - area.getTopLeft(), ch, std::byte(buffer));
 				}
 			}
 			if (area.InRange(point))
 			{
-				bitmap.getBMPBuffer().setPixel(point - area.getTopLeft(), 3, 1.0f);
+				bitmap.getBMPBuffer().setPixelRaw(point - area.getTopLeft(), 3, std::byte(255));
 			}
 		}
 		while((readsize % 4) != 0)

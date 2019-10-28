@@ -73,6 +73,15 @@ float StationaryOrbit::Graphics::BitmapByteBuffer::getPixel(const Point& pos, si
 	return float(target) / UINT8_MAX;
 }
 
+std::byte StationaryOrbit::Graphics::BitmapByteBuffer::getPixelRaw(const Point& pos, size_t ch) const
+{
+	if (_size.getX() <= pos.getX()) throw new std::out_of_range("x");
+	if (_size.getY() <= pos.getY()) throw new std::out_of_range("y");
+	if (_ch <= ch) throw new std::out_of_range("ch");
+	uint8_t& target = _data[(pos.getY()*_size.getX() + pos.getX())*_ch + ch];
+	return std::byte(target);
+}
+
 void StationaryOrbit::Graphics::BitmapByteBuffer::setPixel(const Point& pos, size_t ch, const float& value)
 {
 	if (_size.getX() <= pos.getX()) throw new std::out_of_range("x");
@@ -80,6 +89,15 @@ void StationaryOrbit::Graphics::BitmapByteBuffer::setPixel(const Point& pos, siz
 	if (_ch <= ch) throw new std::out_of_range("ch");
 	uint8_t& target = _data[(pos.getY()*_size.getX() + pos.getX())*_ch + ch];
 	target = uint8_t(value * UINT8_MAX);
+}
+
+void StationaryOrbit::Graphics::BitmapByteBuffer::setPixelRaw(const Point& pos, size_t ch, const std::byte& value)
+{
+	if (_size.getX() <= pos.getX()) throw new std::out_of_range("x");
+	if (_size.getY() <= pos.getY()) throw new std::out_of_range("y");
+	if (_ch <= ch) throw new std::out_of_range("ch");
+	uint8_t& target = _data[(pos.getY()*_size.getX() + pos.getX())*_ch + ch];
+	target = uint8_t(value);
 }
 
 StationaryOrbit::Graphics::BitmapByteBuffer& StationaryOrbit::Graphics::BitmapByteBuffer::operator=(const BitmapByteBuffer& value)

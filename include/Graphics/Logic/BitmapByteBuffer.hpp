@@ -86,8 +86,14 @@ namespace StationaryOrbit::Graphics
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
 		float getPixel(const Point& pos, size_t ch) const;
 
+		///	指定された1ピクセル・1チャネルにおける値を取得します。
+		std::byte getPixelRaw(const Point& pos, size_t ch) const;
+
 		///	指定された1ピクセル・1チャネルにおける値を設定します。
 		void setPixel(const Point& pos, size_t ch, const float& value);
+
+		///	指定された1ピクセル・1チャネルにおける値を設定します。
+		void setPixelRaw(const Point& pos, size_t ch, const std::byte& value);
 
 		///	キャンバスを複製します。
 		///	<コピー代入の特殊化>
