@@ -126,8 +126,12 @@ void StationaryOrbit::Graphics::BMPImage::GetBodyRGB24(BMPImageBitmap& bitmap, c
 				readsize++;
 				if (area.InRange(point))
 				{
-					bitmap.getBMPBuffer().setPixel(point - area.getTopLeft(), ch, buffer);
+					bitmap.getBMPBuffer().setPixel(point - area.getTopLeft(), ch, float(buffer) / 255.0f);
 				}
+			}
+			if (area.InRange(point))
+			{
+				bitmap.getBMPBuffer().setPixel(point - area.getTopLeft(), 3, 1.0f);
 			}
 		}
 		while((readsize % 4) != 0)
