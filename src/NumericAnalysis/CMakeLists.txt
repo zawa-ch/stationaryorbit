@@ -11,8 +11,10 @@ set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.general)
 # ビルドするソースファイル
 set(BUILD_SOURCES)
 set(BUILD_SOURCES ${BUILD_SOURCES} CompensatedFloat.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} PolynomialFunction.cpp)
 
 # ビルド
 add_library(${AssemblyName} SHARED ${BUILD_SOURCES})
 set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 20)
+target_link_libraries(${AssemblyName} ${DEPENDS_LIB})
 target_include_directories(${AssemblyName} PUBLIC ${PROJECT_SOURCE_DIR}/include/NumericAnalysis)
