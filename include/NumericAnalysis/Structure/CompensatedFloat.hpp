@@ -40,9 +40,23 @@ namespace StationaryOrbit::NumericAnalysis
 			return CompensatedFloat<T>(sum, (sum - this->value) - comp);
 		}
 
+		constexpr CompensatedFloat<T>& operator+=(const T& value)
+		{
+			T comp = value - c;
+			T sum = this->value + comp;
+			c = (sum - this->value) - comp;
+			this->value = sum;
+			return *this;
+		}
+
 		constexpr CompensatedFloat<T> operator-(const T& value) const
 		{
 			return operator+(-value);
+		}
+
+		constexpr CompensatedFloat<T>& operator-=(const T& value)
+		{
+			return operator+=(-value);
 		}
 
 		constexpr CompensatedFloat<T> operator*(const T& value) const
@@ -50,14 +64,35 @@ namespace StationaryOrbit::NumericAnalysis
 			return CompensatedFloat<T>(this->value * value, c * value);
 		}
 
+		constexpr CompensatedFloat<T>& operator*=(const T& value)
+		{
+			this->value *= value;
+			c *= value;
+			return *this;
+		}
+
 		constexpr CompensatedFloat<T> operator/(const T& value) const
 		{
 			return CompensatedFloat<T>(this->value / value, c / value);
 		}
 
+		constexpr CompensatedFloat<T>& operator/=(const T& value)
+		{
+			this->value /= value;
+			c /= value;
+			return *this;
+		}
+
 		constexpr CompensatedFloat<T> operator^(const T& value) const
 		{
 			return CompensatedFloat<T>(this->value ^ value, c ^ value);
+		}
+
+		constexpr CompensatedFloat<T>& operator^=(const T& value)
+		{
+			this->value ^= value;
+			c ^= value;
+			return *this;
 		}
 
 		explicit constexpr operator T() const
@@ -66,6 +101,9 @@ namespace StationaryOrbit::NumericAnalysis
 		}
 
 	};
+
+	typedef CompensatedFloat<float> CompensatedSingle;
+	typedef CompensatedFloat<double> CompensatedDouble;
 
 }
 #endif // __StationaryOrbit_NumericAnalysis_CompensatedFloat__

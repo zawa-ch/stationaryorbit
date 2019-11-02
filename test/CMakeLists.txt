@@ -3,3 +3,4 @@ project(stationaryorbit CXX)
 
 add_subdirectory(General)
 add_subdirectory(Graphics)
+add_subdirectory(NumericAnalysis)
