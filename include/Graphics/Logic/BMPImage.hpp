@@ -43,18 +43,27 @@ namespace StationaryOrbit::Graphics
 
 	public:
 
-		static const size_t FileHeaderSize = sizeof(BMP::FileHeader);
-		static const size_t CoreHeaderSize = sizeof(BMP::CoreHeader);
-		static const size_t InfoHeaderSize = sizeof(BMP::InfoHeader);
+		static const size_t FileHeaderSize = sizeof(BMP::FileHeader);	///< FileHeader構造体の大きさ。
+		static const size_t CoreHeaderSize = sizeof(BMP::CoreHeader);	///< CoreHeader構造体の大きさ。
+		static const size_t InfoHeaderSize = sizeof(BMP::InfoHeader);	///< InfoHeader構造体の大きさ。
 
+		///	ストリームを用いてWindows Bitmapを読み込むためのプロトコルを初期化します。
 		BMPImage(std::istream& stream);
 
+		///	このオブジェクトを破棄します。
+		///	関連付けられているストリームは破棄されません。
 		~BMPImage() = default;
 
+		///	読み込まれているWindows Bitmapの情報を取得します。
 		BMPImageInfomation getInfomation() const { return _info; }
 
+		///	このオブジェクトからビットマップを読み込みます。
 		BMPImageBitmap getBitmap();
 
+		///	ビットマップを指定されたストリームに出力します。
+		static void Export(std::ostream& stream, const BitmapFrame& bitmap, const BMPImageInfomation& info);
+
+		///	ビットマップを指定されたストリームに出力します。
 		static void Export(std::ostream& stream, const BMPImageBitmap& bitmap);
 
 	};

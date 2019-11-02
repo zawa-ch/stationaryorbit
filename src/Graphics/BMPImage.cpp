@@ -160,3 +160,18 @@ StationaryOrbit::Graphics::BMPImageBitmap StationaryOrbit::Graphics::BMPImage::g
 	GetBody(result, Rectangle(Point(0, 0), _info.getSize()));
 	return result;
 }
+
+void StationaryOrbit::Graphics::BMPImage::Export(std::ostream& stream, const BitmapFrame& bitmap, const BMPImageInfomation& info)
+{
+	// イメージ情報からヘッダ作成
+	BMP::InfoHeader head;
+	BMP::FileHeader fhead;
+	// ヘッダ情報を記録
+	stream.write((char*)&fhead, FileHeaderSize);
+	// 内容を記録
+}
+
+void StationaryOrbit::Graphics::BMPImage::Export(std::ostream& stream, const BMPImageBitmap& bitmap)
+{
+	Export(stream, bitmap, bitmap.getBMPInfomation());
+}
