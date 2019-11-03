@@ -7,7 +7,7 @@ namespace StationaryOrbit::NumericAnalysis
 
 	///	Σ(k=0 → n-1, (f(a)/((dx^k)*k!)) * (x-a)^k )によるテイラー級数を表します。
 	class TaylorSeries
-		: IMathmaticFunction<double>
+		: public IMathmaticFunction<double>
 	{
 	public:
 
