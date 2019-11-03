@@ -1,4 +1,6 @@
 // -*- C++ -*-
 
+#include "Logic/MathmaticFunction.hpp"
+#include "Logic/NewtonCoef.hpp"
 #include "Logic/PolynomialFunction.hpp"
 #include "Logic/TaylorSeries.hpp"
