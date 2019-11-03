@@ -14,9 +14,13 @@ namespace StationaryOrbit::NumericAnalysis
 		///	任意の回数の微分が可能な固定点の関数。
 		typedef double (*BaseFunction)(const size_t&);
 
+		///	指定された値の次の値を返す関数。
+		typedef size_t (*SuccessorFunction)(const size_t&);
+
 	private:
 
 		BaseFunction func;
+		SuccessorFunction suc;
 		double base;
 
 	public:
@@ -26,6 +30,13 @@ namespace StationaryOrbit::NumericAnalysis
 		///	func	点xを固定し、任意回数の微分をサポートする関数。
 		///	base	固定した点xの値。
 		TaylorSeries(BaseFunction func, const double& basep);
+
+		///	関数とその関数の点を指定してオブジェクトを初期化します。
+		///	args:
+		///	func	点xを固定し、任意回数の微分をサポートする関数。
+		///	base	固定した点xの値。
+		///	successor	指定された値の次の値を返す関数。
+		TaylorSeries(BaseFunction func, const double& basep, SuccessorFunction successor);
 
 		///	級数に値を代入し、値を計算します。
 		///	値が収束した時点で計算は切り上げられます。
@@ -45,6 +56,10 @@ namespace StationaryOrbit::NumericAnalysis
 		///	NullReferenceException	関数にNULLを代入した状態で計算を行うことはできません。
 		double Calc(const double& value) const;
 		double operator()(const double& value) const { return Calc(value); }
+
+		///	デフォルトの後続関数。
+		///	value + 1 を返します。
+		static size_t DefaultSuc(const size_t& value);
 
 	};
 
