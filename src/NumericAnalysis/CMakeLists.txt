@@ -12,6 +12,7 @@ set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.general)
 set(BUILD_SOURCES)
 set(BUILD_SOURCES ${BUILD_SOURCES} CompensatedFloat.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} PolynomialFunction.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} TaylorSeries.cpp)
 
 # ビルド
 add_library(${AssemblyName} SHARED ${BUILD_SOURCES})

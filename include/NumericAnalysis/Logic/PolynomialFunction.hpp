@@ -6,9 +6,9 @@
 namespace StationaryOrbit::NumericAnalysis
 {
 
-	///	分子と分母を持つ多項式を表します。
+	///	分子と分母を持つ実数の多項式を表します。
 	class PolynomialFunction
-		: IMathmaticFunction<double>
+		: public IMathmaticFunction<double>
 	{
 	private:
 
