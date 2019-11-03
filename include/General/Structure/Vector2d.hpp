@@ -1,5 +1,6 @@
 #ifndef __StationaryOrbit_Vector2d__
 #define __StationaryOrbit_Vector2d__
+#include <cmath>
 #include "../Structure/Rotation.hpp"
 namespace StationaryOrbit
 {
