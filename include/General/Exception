@@ -1,3 +1,4 @@
 // -*- C++ -*-
 
 #include "Logic/InvalidOperationException.hpp"
+#include "Logic/NullReferenceException.hpp"
