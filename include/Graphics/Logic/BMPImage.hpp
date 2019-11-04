@@ -38,7 +38,6 @@ namespace StationaryOrbit::Graphics
 		BMPImageInfomation GetBitmapInfomation();
 
 		void GetBody(BMPImageBitmap& bitmap, const Rectangle& area);
-		void GetBodyRGB(BMPImageBitmap& bitmap, const Rectangle& area);
 		void GetBodyRGB24(BMPImageBitmap& bitmap, const Rectangle& area);
 
 	public:
