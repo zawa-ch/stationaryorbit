@@ -21,6 +21,7 @@ void ReadBMP()
 
 	const char* ofile = "output.bmp";
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
+	if (!ostream.good()) throw std::logic_error("can't write file.");
 	StationaryOrbit::Graphics::BMPImage::Export(ostream, buffer);
 
 	return;
