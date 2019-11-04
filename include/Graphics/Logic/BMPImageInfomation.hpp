@@ -75,6 +75,12 @@ namespace StationaryOrbit::Graphics
 		///	画像の解像度を示すPointを設定します。
 		void setResolution(const Point& value) { _value.Resolution = value; }
 
+		///	BMPCOREHEADER構造体にキャスト可能かどうかを取得します。
+		bool isCastableToCoreHeader() const;
+
+		///	BMPINFOHEADER構造体にキャスト可能かどうかを取得します。
+		bool isCastableToInfoHeader() const;
+
 		explicit operator BMP::CoreHeader() const;
 		explicit operator BMP::InfoHeader() const;
 

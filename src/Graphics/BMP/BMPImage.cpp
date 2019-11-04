@@ -64,7 +64,7 @@ StationaryOrbit::Graphics::BMPImageInfomation StationaryOrbit::Graphics::BMPImag
 	return result;
 }
 
-void StationaryOrbit::Graphics::BMPImage::GetBody(BMPImageBitmap& bitmap, const Rectangle& area)
+size_t StationaryOrbit::Graphics::BMPImage::GetBody(BMPImageBitmap& bitmap, const Rectangle& area)
 {
 	// note:
 	// ビットマップの読み込みフォーマットは
@@ -76,14 +76,9 @@ void StationaryOrbit::Graphics::BMPImage::GetBody(BMPImageBitmap& bitmap, const 
 	BMP::BitDepth depth = _info.getBitCount();
 
 	if ((method == BMP::CompressionMethod::RGB)&&(depth == BMP::BitDepth::Bit24))
-	{
-		GetBodyRGB24(bitmap, area);
-	}
-	else
-	{
-		// 未サポートのフォーマット
+		return GetBodyRGB24(bitmap, area);
+	else // 未サポートのフォーマット
 		throw BMP::InvalidFormatException("Not supported");
-	}
 }
 
 StationaryOrbit::Graphics::BMPImage::BMPImage(std::istream& stream)
@@ -103,12 +98,13 @@ StationaryOrbit::Graphics::BMPImageBitmap StationaryOrbit::Graphics::BMPImage::g
 
 void StationaryOrbit::Graphics::BMPImage::Export(std::ostream& stream, const BitmapFrame& bitmap, const BMPImageInfomation& info)
 {
-	// イメージ情報からヘッダ作成
-	BMP::InfoHeader head;
-	BMP::FileHeader fhead;
-	// ヘッダ情報を記録
-	stream.write((char*)&fhead, FileHeaderSize);
-	// 内容を記録
+	BMP::CompressionMethod method = info.getCompressionMethod();
+	BMP::BitDepth depth = info.getBitCount();
+
+	if ((method == BMP::CompressionMethod::RGB)&&(depth == BMP::BitDepth::Bit24))
+		ExportRGB24(stream, bitmap, info);
+	else // 未サポートのフォーマット
+		throw BMP::InvalidFormatException("Not supported");
 }
 
 void StationaryOrbit::Graphics::BMPImage::Export(std::ostream& stream, const BMPImageBitmap& bitmap)

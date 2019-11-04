@@ -16,6 +16,8 @@ namespace StationaryOrbit::Graphics::BMP
 		uint16_t PlaneCount;	///< プレーン数
 		BitDepth BitCount;	///< 1ピクセルあたりのビット数
 
+		static const size_t Size;
+
 	};
 	#pragma pack()
 

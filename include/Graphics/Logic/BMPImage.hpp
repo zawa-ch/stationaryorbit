@@ -3,6 +3,7 @@
 #include <istream>
 #include <ostream>
 #include <vector>
+#include "General/Exception"
 #include "../BMP/Structure/FileHeader.hpp"
 #include "../BMP/Logic/InvalidFormatException.hpp"
 #include "../Structure/Rectangle.hpp"
@@ -37,8 +38,10 @@ namespace StationaryOrbit::Graphics
 		///	BMP情報ヘッダを読み込みます。
 		BMPImageInfomation GetBitmapInfomation();
 
-		void GetBody(BMPImageBitmap& bitmap, const Rectangle& area);
-		void GetBodyRGB24(BMPImageBitmap& bitmap, const Rectangle& area);
+		size_t GetBody(BMPImageBitmap& bitmap, const Rectangle& area);
+		size_t GetBodyRGB24(BMPImageBitmap& bitmap, const Rectangle& area);
+
+		static size_t ExportRGB24(std::ostream& stream, const BitmapFrame& bitmap, const BMPImageInfomation& info);
 
 	public:
 

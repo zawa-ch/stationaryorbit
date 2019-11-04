@@ -23,6 +23,8 @@ namespace StationaryOrbit::Graphics::BMP
 		uint32_t IndexedColorCount;	///< 使用する色数 ビットマップで実際に使用するカラーパレット内のカラーインデックスの数。
 		uint32_t ImportantColorCount;	///< 重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
 
+		static const size_t Size;
+
 	};
 	#pragma pack()
 
