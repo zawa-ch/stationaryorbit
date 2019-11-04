@@ -1,5 +1,6 @@
 // -*- C++ -*-
 
+#include "Logic/Differencial.hpp"
 #include "Logic/MathmaticFunction.hpp"
 #include "Logic/NewtonCoef.hpp"
 #include "Logic/PolynomialFunction.hpp"
