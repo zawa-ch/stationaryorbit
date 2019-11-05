@@ -1,11 +1,11 @@
 
 int Test_Rotation();
 int Test_Vector2d();
-int Test_Byte();
 
 int main(int argc, char const *argv[])
 {
-    Test_Byte();
+    Test_Rotation();
+    Test_Vector2d();
 
     return 0;
 }

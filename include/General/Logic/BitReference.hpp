@@ -11,13 +11,13 @@ namespace StationaryOrbit
 	{
 	private:
 
-		uint8_t& _ref;	///< 参照先の1バイトビット列。
+		std::byte& _ref;	///< 参照先の1バイトビット列。
 		size_t _pos;	///< 参照先のビット位置。
 
 	public:
 
 		///	特定のビットへの参照を作成します。
-		BitReference(uint8_t& reference, size_t bitpos);
+		BitReference(std::byte& reference, size_t bitpos);
 
 		///	ビット参照の逆参照を行い、boolに変換します。
 		operator bool() const;
