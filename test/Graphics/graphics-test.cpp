@@ -15,14 +15,14 @@ void ReadBMP()
 	const char* ifile = "Jellyfish.bmp";
 	std::fstream istream = std::fstream(ifile, std::ios_base::openmode::_S_in | std::ios_base::openmode::_S_bin);
 	if (!istream.good()) throw std::logic_error("can't read file.");
-	StationaryOrbit::Graphics::BMPImage image = StationaryOrbit::Graphics::BMPImage(istream);
-	StationaryOrbit::Graphics::BMPImageBitmap buffer = image.getBitmap();
+	StationaryOrbit::Graphics::BMP::BMPImage image = StationaryOrbit::Graphics::BMP::BMPImage(istream);
+	StationaryOrbit::Graphics::BMP::BMPImageBitmap buffer = image.getBitmap();
 	istream.close();
 
 	const char* ofile = "output.bmp";
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
 	if (!ostream.good()) throw std::logic_error("can't write file.");
-	StationaryOrbit::Graphics::BMPImage::Export(ostream, buffer);
+	StationaryOrbit::Graphics::BMP::RGB24BMP::Export(ostream, buffer);
 
 	return;
 }

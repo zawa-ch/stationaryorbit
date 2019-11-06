@@ -1,9 +1,8 @@
-#ifndef __StationaryOrbit_Graphics_BMPImageBitmap__
-#define __StationaryOrbit_Graphics_BMPImageBitmap__
-#include "../Logic/BitmapFrame.hpp"
-#include "../Logic/BitmapByteBuffer.hpp"
+#ifndef __StationaryOrbit_Graphics_BMP_BMPImageBitmap__
+#define __StationaryOrbit_Graphics_BMP_BMPImageBitmap__
+#include "Graphics/Bitmap"
 #include "../Logic/BMPImageInfomation.hpp"
-namespace StationaryOrbit::Graphics
+namespace StationaryOrbit::Graphics::BMP
 {
 
     class BMPImageBitmap
@@ -28,4 +27,4 @@ namespace StationaryOrbit::Graphics
     };
 
 }
-#endif // __StationaryOrbit_Graphics_BMPImageBitmap__
+#endif // __StationaryOrbit_Graphics_BMP_BMPImageBitmap__

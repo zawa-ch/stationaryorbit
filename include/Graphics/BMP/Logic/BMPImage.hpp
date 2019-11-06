@@ -1,18 +1,18 @@
-#ifndef __StationaryOrbit_Graphics_BMPImage__
-#define __StationaryOrbit_Graphics_BMPImage__
+#ifndef __StationaryOrbit_Graphics_BMP_BMPImage__
+#define __StationaryOrbit_Graphics_BMP_BMPImage__
 #include <istream>
-#include <ostream>
 #include <vector>
 #include "General/Exception"
-#include "../BMP/Structure/FileHeader.hpp"
-#include "../BMP/Logic/InvalidFormatException.hpp"
-#include "../Structure/Rectangle.hpp"
+#include "Graphics/General"
+#include "Graphics/Bitmap"
+#include "../Structure/FileHeader.hpp"
+#include "../Logic/InvalidFormatException.hpp"
 #include "../Logic/BMPImageBitmap.hpp"
 #include "../Logic/BMPImageInfomation.hpp"
-namespace StationaryOrbit::Graphics
+namespace StationaryOrbit::Graphics::BMP
 {
 
-	class BMPImage
+	class BMPImage final
 	{
 	private:
 
@@ -39,15 +39,15 @@ namespace StationaryOrbit::Graphics
 		BMPImageInfomation GetBitmapInfomation();
 
 		size_t GetBody(BMPImageBitmap& bitmap, const Rectangle& area);
-		size_t GetBodyRGB24(BMPImageBitmap& bitmap, const Rectangle& area);
 
-		static size_t ExportRGB24(std::ostream& stream, const BitmapFrame& bitmap, const BMPImageInfomation& info);
-
-	public:
+		///	ストリームからデータを読み取り、bitmapに書き込みます。
+		static size_t ReadRGB24(std::istream& stream, BMPImageBitmap& bitmap, const BMPImageInfomation& info, const Rectangle& area);
 
 		static const size_t FileHeaderSize = sizeof(BMP::FileHeader);	///< FileHeader構造体の大きさ。
 		static const size_t CoreHeaderSize = sizeof(BMP::CoreHeader);	///< CoreHeader構造体の大きさ。
 		static const size_t InfoHeaderSize = sizeof(BMP::InfoHeader);	///< InfoHeader構造体の大きさ。
+
+	public:
 
 		///	ストリームを用いてWindows Bitmapを読み込むためのプロトコルを初期化します。
 		BMPImage(std::istream& stream);
@@ -62,13 +62,7 @@ namespace StationaryOrbit::Graphics
 		///	このオブジェクトからビットマップを読み込みます。
 		BMPImageBitmap getBitmap();
 
-		///	ビットマップを指定されたストリームに出力します。
-		static void Export(std::ostream& stream, const BitmapFrame& bitmap, const BMPImageInfomation& info);
-
-		///	ビットマップを指定されたストリームに出力します。
-		static void Export(std::ostream& stream, const BMPImageBitmap& bitmap);
-
 	};
 
 }
-#endif // __StationaryOrbit_Graphics_BMPImage__
+#endif // __StationaryOrbit_Graphics_BMP_BMPImage__

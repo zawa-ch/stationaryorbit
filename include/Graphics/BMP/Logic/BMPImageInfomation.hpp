@@ -1,11 +1,11 @@
-#ifndef __StationaryOrbit_Graphics_BMPImageInfomation__
-#define __StationaryOrbit_Graphics_BMPImageInfomation__
-#include "../Interface/IImageInfomation.hpp"
-#include "../BMP/Enumration/BitDepth.hpp"
-#include "../BMP/Enumration/CompressionMethod.hpp"
-#include "../BMP/Structure/CoreHeader.hpp"
-#include "../BMP/Structure/InfoHeader.hpp"
-namespace StationaryOrbit::Graphics
+#ifndef __StationaryOrbit_Graphics_BMP_BMPImageInfomation__
+#define __StationaryOrbit_Graphics_BMP_BMPImageInfomation__
+#include "Graphics/Bitmap"
+#include "../Enumration/BitDepth.hpp"
+#include "../Enumration/CompressionMethod.hpp"
+#include "../Structure/CoreHeader.hpp"
+#include "../Structure/InfoHeader.hpp"
+namespace StationaryOrbit::Graphics::BMP
 {
 
 	class BMPImageInfomation
@@ -87,4 +87,4 @@ namespace StationaryOrbit::Graphics
 	};
 
 }
-#endif // __StationaryOrbit_Graphics_BMPImageInfomation__
+#endif // __StationaryOrbit_Graphics_BMP_BMPImageInfomation__

@@ -1,0 +1,6 @@
+// -*- C++ -*-
+
+#include "Logic/Bitmap.hpp"
+#include "Logic/BitmapBuffer.hpp"
+#include "Logic/BitmapByteBuffer.hpp"
+#include "Logic/BitmapFrame.hpp"

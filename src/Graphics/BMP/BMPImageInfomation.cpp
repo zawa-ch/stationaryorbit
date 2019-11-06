@@ -1,7 +1,7 @@
 #include "General/Exception"
-#include "Graphics/Logic/BMPImageInfomation.hpp"
+#include "Graphics/BMP/Logic/BMPImageInfomation.hpp"
 
-StationaryOrbit::Graphics::ColorSystem StationaryOrbit::Graphics::BMPImageInfomation::ConvertToColorSystem(const BMP::BitDepth& bitcnt)
+StationaryOrbit::Graphics::ColorSystem StationaryOrbit::Graphics::BMP::BMPImageInfomation::ConvertToColorSystem(const BMP::BitDepth& bitcnt)
 {
 	switch (bitcnt)
 	{
@@ -28,18 +28,18 @@ StationaryOrbit::Graphics::ColorSystem StationaryOrbit::Graphics::BMPImageInfoma
 	}
 }
 
-StationaryOrbit::Graphics::BMP::BitDepth StationaryOrbit::Graphics::BMPImageInfomation::ConvertToColorDepth(const ColorSystem& system)
+StationaryOrbit::Graphics::BMP::BitDepth StationaryOrbit::Graphics::BMP::BMPImageInfomation::ConvertToColorDepth(const ColorSystem& system)
 {
 	if ((system == ColorSystem::IndexedColor)) return BMP::BitDepth::Bit8;
 	else if ((system == ColorSystem::RGB)) return BMP::BitDepth::Bit32;
 	else return BMP::BitDepth::Null;
 }
 
-StationaryOrbit::Graphics::BMPImageInfomation::BMPImageInfomation(const Container& value)
+StationaryOrbit::Graphics::BMP::BMPImageInfomation::BMPImageInfomation(const Container& value)
 	: _value(value)
 {}
 
-StationaryOrbit::Graphics::BMPImageInfomation::BMPImageInfomation(const IImageInfomation& value)
+StationaryOrbit::Graphics::BMP::BMPImageInfomation::BMPImageInfomation(const IImageInfomation& value)
 	: _value(
 		Container
 		{
@@ -49,7 +49,7 @@ StationaryOrbit::Graphics::BMPImageInfomation::BMPImageInfomation(const IImageIn
 	)
 {}
 
-StationaryOrbit::Graphics::BMPImageInfomation::BMPImageInfomation(const BMP::CoreHeader& value)
+StationaryOrbit::Graphics::BMP::BMPImageInfomation::BMPImageInfomation(const BMP::CoreHeader& value)
 	: _value(
 		Container
 		{
@@ -60,7 +60,7 @@ StationaryOrbit::Graphics::BMPImageInfomation::BMPImageInfomation(const BMP::Cor
 	)
 {}
 
-StationaryOrbit::Graphics::BMPImageInfomation::BMPImageInfomation(const BMP::InfoHeader& value)
+StationaryOrbit::Graphics::BMP::BMPImageInfomation::BMPImageInfomation(const BMP::InfoHeader& value)
 	: _value(
 		Container
 		{
@@ -75,19 +75,19 @@ StationaryOrbit::Graphics::BMPImageInfomation::BMPImageInfomation(const BMP::Inf
 	)
 {}
 
-void StationaryOrbit::Graphics::BMPImageInfomation::setColorSystem(const ColorSystem& value)
+void StationaryOrbit::Graphics::BMP::BMPImageInfomation::setColorSystem(const ColorSystem& value)
 {
 	_value.System = value;
 	_value.BitCount = ConvertToColorDepth(_value.System);
 }
 
-void StationaryOrbit::Graphics::BMPImageInfomation::setBitCount(const BMP::BitDepth& value)
+void StationaryOrbit::Graphics::BMP::BMPImageInfomation::setBitCount(const BMP::BitDepth& value)
 {
 	_value.BitCount = value;
 	_value.System = ConvertToColorSystem(_value.BitCount);
 }
 
-bool StationaryOrbit::Graphics::BMPImageInfomation::isCastableToCoreHeader() const
+bool StationaryOrbit::Graphics::BMP::BMPImageInfomation::isCastableToCoreHeader() const
 {
 	if (
 		(INT16_MIN <= _value.Size.getX())&&
@@ -99,7 +99,7 @@ bool StationaryOrbit::Graphics::BMPImageInfomation::isCastableToCoreHeader() con
 	else return false;
 }
 
-bool StationaryOrbit::Graphics::BMPImageInfomation::isCastableToInfoHeader() const
+bool StationaryOrbit::Graphics::BMP::BMPImageInfomation::isCastableToInfoHeader() const
 {
 	if (
 		(_value.IndexedColorCount <= UINT32_MAX)&&
@@ -108,7 +108,7 @@ bool StationaryOrbit::Graphics::BMPImageInfomation::isCastableToInfoHeader() con
 	else return false;
 }
 
-StationaryOrbit::Graphics::BMPImageInfomation::operator BMP::CoreHeader() const
+StationaryOrbit::Graphics::BMP::BMPImageInfomation::operator BMP::CoreHeader() const
 {
 	if (!isCastableToCoreHeader()) throw InvalidOperationException("Can't Castable.");
 	BMP::CoreHeader result = 
@@ -122,7 +122,7 @@ StationaryOrbit::Graphics::BMPImageInfomation::operator BMP::CoreHeader() const
 	return result;
 }
 
-StationaryOrbit::Graphics::BMPImageInfomation::operator BMP::InfoHeader() const
+StationaryOrbit::Graphics::BMP::BMPImageInfomation::operator BMP::InfoHeader() const
 {
 	if (!isCastableToInfoHeader()) throw InvalidOperationException("Can't Castable.");
 	BMP::InfoHeader result = 
