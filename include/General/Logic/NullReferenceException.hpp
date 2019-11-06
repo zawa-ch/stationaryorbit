@@ -11,10 +11,10 @@ namespace StationaryOrbit
 	public:
 
 		///	例外の説明を付け、このオブジェクトを初期化します。
-		explicit NullReferenceException(const std::string& what_arg);
+		explicit NullReferenceException(const std::string& what_arg) noexcept;
 
 		///	例外の説明を付け、このオブジェクトを初期化します。
-		explicit NullReferenceException(const char* what_arg);
+		explicit NullReferenceException(const char* what_arg) noexcept;
 
 	};
 
