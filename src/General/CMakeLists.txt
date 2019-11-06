@@ -10,6 +10,7 @@ set(DEPENDS_LIB)
 # ビルドするソースファイル
 set(BUILD_SOURCES)
 set(BUILD_SOURCES ${BUILD_SOURCES} BitReference.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} FractionalDec.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} InvalidOperationException.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} NullReferenceException.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} Rotation.cpp)
