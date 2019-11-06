@@ -42,6 +42,7 @@ StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::operator*(const F
 
 StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::Sqrt() const
 {
+    // TODO: 何故かx/2を出力しているため修正
     FractionalDec result;
     result._value = _value;
     uintmax_t b;
