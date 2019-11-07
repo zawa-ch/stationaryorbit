@@ -138,6 +138,13 @@ StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::Max()
 	return result;
 }
 
+StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::Epsiron()
+{
+	FractionalDec result;
+	result._value = 1U;
+	return result;
+}
+
 StationaryOrbit::FractionalDec::operator double() const
 {
 	return double(_value) / UINTMAX_MAX;

@@ -61,6 +61,9 @@ namespace StationaryOrbit
 		///	このオブジェクトの最大値を取得します。
 		static FractionalDec Max();
 
+		///	このオブジェクトの最小刻み幅を取得します。
+		static FractionalDec Epsiron();
+
 		explicit operator double() const;
 
 	};
