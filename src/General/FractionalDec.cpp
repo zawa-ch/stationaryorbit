@@ -56,7 +56,19 @@ StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::operator-(const F
 StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::operator*(const FractionalDec& value) const
 {
 	FractionalDec result;
-	result._value = (_value >> (UINTMAX_WIDTH / 2)) * (value._value >> (UINTMAX_WIDTH / 2));
+	result._value = 0U;
+	for(size_t i = 0U; i < UINTMAX_WIDTH; i++)
+	{
+		uintmax_t ad = 0U;
+		if (value._value & (uintmax_t(1U) << (i)))
+		{
+			ad = _value;
+		}
+		bool cr = ((ad % 2U) != 0) && ((result._value % 2U) != 0);
+		result._value >>= 1;
+		ad >>= 1;
+		result._value += ad + (cr?1U:0U);
+	}
 	return result;
 }
 
