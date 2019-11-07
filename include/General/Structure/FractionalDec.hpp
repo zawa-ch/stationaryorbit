@@ -13,6 +13,8 @@ namespace StationaryOrbit
 
 		uintmax_t _value;
 
+		static uintmax_t Fraction(const uintmax_t& numerator, const uintmax_t& denominator);
+
 	public:
 
 		///	既定の値でオブジェクトを初期化します。

@@ -5,6 +5,7 @@ void Test_FractionalDec()
 {
     StationaryOrbit::FractionalDec fr1 = StationaryOrbit::FractionalDec(1, 5);
     StationaryOrbit::FractionalDec fr2 = StationaryOrbit::FractionalDec(3, 4);
+    std::cout.precision(15);
     std::cout << "fr1 = " << double(fr1) << std::endl;
     std::cout << "fr2 = " << double(fr2) << std::endl;
     std::cout << "fr1 + fr2 = " << double(fr1 + fr2) << std::endl;
