@@ -9,8 +9,20 @@ uintmax_t StationaryOrbit::FractionalDec::Fraction(const uintmax_t& numerator, c
 	uintmax_t surplus = UINTMAX_MAX % denominator;
 	if (surplus != 0U)
 	{
-		uintmax_t mod = denominator / numerator;
-		result += surplus / mod;
+		uintmax_t dv = 0U;
+		uintmax_t md = 0U;
+		for(size_t i = UINT64_WIDTH; 0 < i; i--)
+		{
+			dv *= 2U;
+			md *= 2U;
+			if (numerator & (uintmax_t(1U) << (i - 1)))
+			{
+				md += surplus;
+			}
+			dv += md / denominator;
+			md %= denominator;
+		}
+		result += dv;
 	}
 	return result;
 }
