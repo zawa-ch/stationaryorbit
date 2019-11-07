@@ -2,7 +2,6 @@
 #define __StationaryOrbit_Graphics_BitmapByteBuffer__
 #include <cstddef>
 #include <memory>
-#include "General/General"
 #include "../Interface/IBitmapBuffer.hpp"
 #include "../Structure/Point.hpp"
 #include "../Logic/ImageInfomation.hpp"

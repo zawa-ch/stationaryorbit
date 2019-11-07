@@ -1,5 +1,5 @@
 #include <iostream>
-#include "General/General"
+#include "General/Numeral"
 
 void Test_FractionalDec()
 {
