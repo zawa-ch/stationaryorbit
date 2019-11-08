@@ -22,6 +22,7 @@ namespace StationaryOrbit::NumericAnalysis
 		BaseFunction func;
 		SuccessorFunction suc;
 		double base;
+		size_t init;
 
 	public:
 
@@ -36,7 +37,7 @@ namespace StationaryOrbit::NumericAnalysis
 		///	func	点xを固定し、任意回数の微分をサポートする関数。
 		///	base	固定した点xの値。
 		///	successor	指定された値の次の値を返す関数。
-		TaylorSeries(BaseFunction func, const double& basep, SuccessorFunction successor);
+		TaylorSeries(BaseFunction func, const double& basep, SuccessorFunction successor, size_t init);
 
 		///	級数に値を代入し、値を計算します。
 		///	値が収束した時点で計算は切り上げられます。

@@ -8,11 +8,11 @@ size_t StationaryOrbit::NumericAnalysis::TaylorSeries::DefaultSuc(const size_t& 
 }
 
 StationaryOrbit::NumericAnalysis::TaylorSeries::TaylorSeries(BaseFunction func, const double& basep)
-	: func(func), base(basep), suc(DefaultSuc)
+	: func(func), base(basep), suc(DefaultSuc), init(0U)
 {}
 
-StationaryOrbit::NumericAnalysis::TaylorSeries::TaylorSeries(BaseFunction func, const double& basep, SuccessorFunction successor)
-	: func(func), base(basep), suc(successor)
+StationaryOrbit::NumericAnalysis::TaylorSeries::TaylorSeries(BaseFunction func, const double& basep, SuccessorFunction successor, size_t init)
+	: func(func), base(basep), suc(successor), init(init)
 {}
 
 double StationaryOrbit::NumericAnalysis::TaylorSeries::Calc(const double& value, size_t ceiling) const
@@ -23,18 +23,24 @@ double StationaryOrbit::NumericAnalysis::TaylorSeries::Calc(const double& value,
 	// 初期値(i = 0)
 	double exp = 1.0;
 	double fraction = 1.0;
-	CompensatedDouble sum = CompensatedDouble(func(0));
+	CompensatedDouble sum = CompensatedDouble();
 	double buffer = double(sum);
-	size_t suc_buf = 0U;
+	size_t suc_buf = init;
 	// それ以降(次の値は後続関数 suc() で導出)
-	for(size_t i = suc(0U); (i < ceiling)&&(suc_buf < i); i = suc(i))
+	for(size_t i = 0U; i < ceiling; i++)
 	{
-		suc_buf = i;
-		exp *= x;
-		fraction *= i;
-		sum += func(i) * exp / fraction;
-		if (buffer == double(sum)) break;
-		buffer = double(sum);
+		if (i != 0)
+		{
+			exp *= x;
+			fraction *= i;
+		}
+		if (i == suc_buf)
+		{
+			suc_buf = suc(suc_buf);
+			sum += func(i) * exp / fraction;
+			if ((0U < i)&&(buffer == double(sum))) break;
+			buffer = double(sum);
+		}
 	}
 	return double(sum);
 }

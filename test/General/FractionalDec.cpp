@@ -16,4 +16,6 @@ void Test_FractionalDec()
     std::cout << "sqrt(fr1^2) = " << double((fr1 * fr1).Sqrt()) << std::endl;
     std::cout << "sqrt(fr1) = " << double((fr1).Sqrt()) << std::endl;
     std::cout << "epsiron = " << double(StationaryOrbit::FractionalDec::Epsiron()) << std::endl;
+    std::cout << "~epsiron = " << double(StationaryOrbit::FractionalDec::Max() - StationaryOrbit::FractionalDec::Epsiron()) << std::endl;
+    std::cout << "1 == ~epsiron = " << bool((StationaryOrbit::FractionalDec::Max())==(StationaryOrbit::FractionalDec::Max() - StationaryOrbit::FractionalDec::Epsiron())) << std::endl;
 }
