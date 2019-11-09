@@ -4,3 +4,4 @@
 #include "Logic/BitmapBuffer.hpp"
 #include "Logic/BitmapByteBuffer.hpp"
 #include "Logic/BitmapFrame.hpp"
+#include "Logic/BitmapSimpleConvert.hpp"
