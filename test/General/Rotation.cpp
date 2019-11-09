@@ -7,6 +7,7 @@ int Test_Rotation()
 {
     Rotation rot1 = Rotation(30, RotationUnit::Degree);
     Rotation rot2 = Rotation(0.5 * M_PI, RotationUnit::Radian);
+    Rotation rot3 = Rotation(60, RotationUnit::Degree);
 
     std::cout << "rot1 = " << rot1.getRadian() << "rad" << std::endl;
     std::cout << "rot2 = " << rot2.getDegree() << "deg" << std::endl;

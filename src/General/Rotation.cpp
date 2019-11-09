@@ -34,6 +34,21 @@ double StationaryOrbit::Rotation::getRadian() const
 double StationaryOrbit::Rotation::getDegree() const
 { return 180.0 * -double(_value) / std::numeric_limits<int>::min(); }
 
+double StationaryOrbit::Rotation::Sin() const
+{
+	return std::sin(getRadian());
+}
+
+double StationaryOrbit::Rotation::Cos() const
+{
+	return std::cos(getRadian());
+}
+
+double StationaryOrbit::Rotation::Tan() const
+{
+	return std::tan(getRadian());
+}
+
 StationaryOrbit::Rotation StationaryOrbit::Rotation::Negative(const Rotation& value)
 {
 	Rotation result = value;

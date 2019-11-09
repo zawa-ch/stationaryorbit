@@ -26,6 +26,12 @@ namespace StationaryOrbit
 		///	このオブジェクトの内容をDegree(度)で取得します。
 		double getDegree() const;
 
+		double Sin() const;
+
+		double Cos() const;
+
+		double Tan() const;
+
 		///	このオブジェクトの反対側の向きを示すオブジェクトを取得します。
 		static Rotation Negative(const Rotation& value);
 		Rotation operator -() const { return Negative(*this); }

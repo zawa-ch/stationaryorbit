@@ -27,19 +27,28 @@ namespace StationaryOrbit
 
 		constexpr TristateBoolean operator~() const { if (hasval) { return TristateBoolean(~val); } else { return TristateBoolean(nullptr); } }
 
-		constexpr TristateBoolean operator|(TristateBoolean& value) const { if (hasval) { return TristateBoolean(val | value.val); } else { return TristateBoolean(nullptr); } }
+		constexpr TristateBoolean operator|(const TristateBoolean& value) const { if (hasval&&value.hasval) { return TristateBoolean(val | value.val); } else { return TristateBoolean(nullptr); } }
 
-		constexpr TristateBoolean operator&(TristateBoolean& value) const { if (hasval) { return TristateBoolean(val & value.val); } else { return TristateBoolean(nullptr); } }
+		constexpr TristateBoolean operator&(const TristateBoolean& value) const { if (hasval&&value.hasval) { return TristateBoolean(val & value.val); } else { return TristateBoolean(nullptr); } }
 
-		constexpr TristateBoolean operator^(TristateBoolean& value) const { if (hasval) { return TristateBoolean(val ^ value.val); } else { return TristateBoolean(nullptr); } }
+		constexpr TristateBoolean operator^(const TristateBoolean& value) const { if (hasval&&value.hasval) { return TristateBoolean(val ^ value.val); } else { return TristateBoolean(nullptr); } }
 
 		constexpr TristateBoolean operator!() const { if (hasval) { return TristateBoolean(!val); } else { return TristateBoolean(nullptr); } }
 
-		constexpr TristateBoolean operator||(TristateBoolean& value) const { if (hasval) { return TristateBoolean(val || value.val); } else { return TristateBoolean(nullptr); } }
+		constexpr TristateBoolean operator||(const TristateBoolean& value) const { if (hasval&&value.hasval) { return TristateBoolean(val || value.val); } else { return TristateBoolean(nullptr); } }
 
-		constexpr TristateBoolean operator&&(TristateBoolean& value) const { if (hasval) { return TristateBoolean(val && value.val); } else { return TristateBoolean(nullptr); } }
+		constexpr TristateBoolean operator&&(const TristateBoolean& value) const { if (hasval&&value.hasval) { return TristateBoolean(val && value.val); } else { return TristateBoolean(nullptr); } }
+
+		constexpr bool Equals(const TristateBoolean& value) const { if (hasval&&value.hasval) { return val == value.val; } else { return false; } }
+		constexpr bool operator==(const TristateBoolean& value) const { return Equals(value); }
 
 		constexpr explicit operator bool() const { return getBoolean(); }
+
+		constexpr static TristateBoolean True() { return TristateBoolean(true); }
+
+		constexpr static TristateBoolean False() { return TristateBoolean(false); }
+
+		constexpr static TristateBoolean Null() { return TristateBoolean(nullptr); }
 
 	};
 
