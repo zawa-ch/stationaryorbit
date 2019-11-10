@@ -1,33 +1,38 @@
 #ifndef __StationaryOrbit_Graphics_BitmapFrame__
 #define __StationaryOrbit_Graphics_BitmapFrame__
+#include "../Structure/Point.hpp"
 #include "../Interface/IBitmapBuffer.hpp"
-#include "../Logic/Color.hpp"
 #include "../Logic/ImageInfomation.hpp"
+#include "../Logic/BitmapPixelGetter.hpp"
+#include "../Logic/BitmapPixelReference.hpp"
 namespace StationaryOrbit::Graphics
 {
 
 	///	画像情報へのピクセル単位でのアクセスを行います。
+	///	このクラスは抽象クラスです。
 	class BitmapFrame
 	{
-	private:
-
-		IBitmapBuffer& _buffer;
-
-		IImageInfomation& _info;
-
 	public:
 
-		BitmapFrame(IBitmapBuffer& buffer, IImageInfomation& info);
+		BitmapFrame() = default;
 
-		virtual ~BitmapFrame() = default;
+		BitmapFrame(const BitmapFrame& value) = delete;
 
-		IBitmapBuffer& getBuffer() { return _buffer; }
+		BitmapFrame(BitmapFrame&&) = delete;
 
-		const IImageInfomation& getInfomation() const { return _info; }
+		virtual ~BitmapFrame();
 
-		Color getPixel(const Point& pos) const;
+		virtual const IBitmapBuffer& getBuffer() const = 0;
 
-		void setPixel(const Point& pos, const Color& value);
+		virtual const IImageInfomation& getInfomation() const = 0;
+
+		virtual const BitmapPixelGetter getPixel(const Point& position) const = 0;
+
+		virtual IBitmapBuffer& Buffer() = 0;
+
+		virtual BitmapPixelReference IndexAt(const Point& position) = 0;
+
+		virtual BitmapFrame& Assign(const BitmapFrame& value) = 0;
 
 	};
 

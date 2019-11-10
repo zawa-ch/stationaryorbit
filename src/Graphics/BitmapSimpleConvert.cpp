@@ -11,7 +11,7 @@ StationaryOrbit::Graphics::Bitmap StationaryOrbit::Graphics::BitmapSimpleConvert
         {
             Point src = Point(x, y);
             Point dst = Point(x, ysize - 1 - y);
-            result.setPixel(dst, bitmap.getPixel(src));
+            result.IndexAt(dst).setValue(bitmap.getPixel(src).getValue());
         }
     }
     return result;
@@ -28,7 +28,7 @@ StationaryOrbit::Graphics::Bitmap StationaryOrbit::Graphics::BitmapSimpleConvert
         {
             Point src = Point(x, y);
             Point dst = Point(xsize - 1 - x, y);
-            result.setPixel(dst, bitmap.getPixel(src));
+            result.IndexAt(dst).setValue(bitmap.getPixel(src).getValue());
         }
     }
     return result;
