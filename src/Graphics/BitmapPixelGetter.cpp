@@ -1,6 +1,6 @@
 #include "Graphics/Logic/BitmapPixelGetter.hpp"
 
-StationaryOrbit::Graphics::BitmapPixelGetter::BitmapPixelGetter(IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position)
+StationaryOrbit::Graphics::BitmapPixelGetter::BitmapPixelGetter(const IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position)
     : buf(buffer), info(infomation), pos(position)
 {
 	if (!HasValue(buffer, position)) { throw std::invalid_argument("Argument 'position' is out of boundary of buffer."); }
@@ -37,7 +37,7 @@ bool StationaryOrbit::Graphics::BitmapPixelGetter::HasOffset(const Point& offset
 	return HasValue(buf, pos + offset);
 }
 
-StationaryOrbit::Graphics::BitmapPixelGetter StationaryOrbit::Graphics::BitmapPixelGetter::Offset(const Point& offset)
+StationaryOrbit::Graphics::BitmapPixelGetter StationaryOrbit::Graphics::BitmapPixelGetter::Offset(const Point& offset) const
 {
 	return BitmapPixelGetter(buf, info, pos + offset);
 }

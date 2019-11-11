@@ -20,7 +20,7 @@ namespace StationaryOrbit::Graphics
 
 		BitmapFrame(BitmapFrame&&) = delete;
 
-		virtual ~BitmapFrame();
+		virtual ~BitmapFrame() = default;
 
 		virtual const IBitmapBuffer& getBuffer() const = 0;
 

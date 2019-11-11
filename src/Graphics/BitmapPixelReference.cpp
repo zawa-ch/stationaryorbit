@@ -1,5 +1,9 @@
 #include "Graphics/Logic/BitmapPixelReference.hpp"
 
+StationaryOrbit::Graphics::BitmapPixelReference::BitmapPixelReference(const BitmapPixelGetter& getter, const BitmapPixelSetter& setter)
+	: BitmapPixelGetter(getter), BitmapPixelSetter(setter)
+{}
+
 StationaryOrbit::Graphics::BitmapPixelReference::BitmapPixelReference(IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position)
 	: BitmapPixelGetter(buffer, infomation, position), BitmapPixelSetter(buffer, infomation, position)
 {

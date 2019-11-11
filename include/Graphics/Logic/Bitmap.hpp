@@ -15,15 +15,13 @@ namespace StationaryOrbit::Graphics
 	
 	public:
 
-		Bitmap();
+		Bitmap() = default;
 
 		explicit Bitmap(const ImageInfomation& infomation);
 
-		explicit Bitmap(const Bitmap& value) = default;
+		Bitmap(const Bitmap& value) { Assign(value); }
 
 		Bitmap(const BitmapFrame& value) { Assign(value); }
-
-		~Bitmap() = default;
 
 		const IBitmapBuffer& getBuffer() const { return buf; }
 
@@ -35,12 +33,9 @@ namespace StationaryOrbit::Graphics
 
 		BitmapPixelReference IndexAt(const Point& position) { return BitmapPixelReference(buf, info, position); }
 
-		BitmapFrame& Assign(const BitmapFrame& value)
-		{
-			buf = BitmapBuffer(value.getBuffer());
-			info = ImageInfomation(value.getInfomation());
-			return *this;
-		}
+		Bitmap& Assign(const Bitmap& value);
+
+		BitmapFrame& Assign(const BitmapFrame& value);
 
 		BitmapFrame& operator=(const BitmapFrame& value) { return Assign(value); }
 

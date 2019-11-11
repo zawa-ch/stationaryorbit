@@ -103,12 +103,12 @@ size_t StationaryOrbit::Graphics::BMP::BMPImage::ReadRGB24(std::istream& stream,
 				readsize++;
 				if (area.InRange(point))
 				{
-					bitmap.getBMPBuffer().setPixelRaw(point - area.getTopLeft(), ch, std::byte(buffer));
+					bitmap.BMPBuffer().setPixelRaw(point - area.getTopLeft(), ch, std::byte(buffer));
 				}
 			}
 			if (area.InRange(point))
 			{
-				bitmap.getBMPBuffer().setPixelRaw(point - area.getTopLeft(), 3, std::byte(255));
+				bitmap.BMPBuffer().setPixelRaw(point - area.getTopLeft(), 3, std::byte(255));
 			}
 		}
 		while((readsize % 4) != 0)

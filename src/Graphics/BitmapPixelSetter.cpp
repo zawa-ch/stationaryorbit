@@ -34,12 +34,17 @@ void StationaryOrbit::Graphics::BitmapPixelSetter::setValue(const Color& value)
 	}
 }
 
+void StationaryOrbit::Graphics::BitmapPixelSetter::setValue(const BitmapPixelGetter& reference)
+{
+	setValue(reference.getValue());
+}
+
 bool StationaryOrbit::Graphics::BitmapPixelSetter::HasOffset(const Point& offset) const
 {
 	return HasValue(buf, pos + offset);
 }
 
-StationaryOrbit::Graphics::BitmapPixelSetter StationaryOrbit::Graphics::BitmapPixelSetter::Offset(const Point& offset)
+StationaryOrbit::Graphics::BitmapPixelSetter StationaryOrbit::Graphics::BitmapPixelSetter::Offset(const Point& offset) const
 {
 	return BitmapPixelSetter(buf, info, pos + offset);
 }

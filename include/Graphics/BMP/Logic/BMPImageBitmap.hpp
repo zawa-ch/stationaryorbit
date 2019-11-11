@@ -6,23 +6,44 @@ namespace StationaryOrbit::Graphics::BMP
 {
 
     class BMPImageBitmap
-        : public BitmapFrame
+        : virtual public BitmapFrame
     {
 	private:
 
-		BitmapByteBuffer _buffer;
-
-		BMPImageInfomation _info;
+		BitmapByteBuffer buf;
+		BMPImageInfomation info;
 	
 	public:
 
-		BMPImageBitmap();
+		BMPImageBitmap() = default;
 
-		explicit BMPImageBitmap(const BMPImageInfomation& info);
+		explicit BMPImageBitmap(const BMPImageInfomation& infomation);
 
-		BitmapByteBuffer& getBMPBuffer() { return _buffer; }
+		BMPImageBitmap(const BMPImageBitmap& value) { Assign(value); }
 
-		const BMPImageInfomation& getBMPInfomation() const { return _info; }
+		BMPImageBitmap(const BitmapFrame& value) { Assign(value); }
+
+		const IBitmapBuffer& getBuffer() const { return buf; }
+
+		const BitmapByteBuffer& getBMPBuffer() const { return buf; }
+
+		const IImageInfomation& getInfomation() const { return info; }
+
+		const BMPImageInfomation& getBMPInfomation() const { return info; }
+
+		const BitmapPixelGetter getPixel(const Point& position) const { return BitmapPixelGetter(buf, info, position); }
+
+		IBitmapBuffer& Buffer() { return buf; }
+
+		BitmapByteBuffer& BMPBuffer() { return buf; }
+
+		BitmapPixelReference IndexAt(const Point& position) { return BitmapPixelReference(buf, info, position); }
+
+		BMPImageBitmap& Assign(const BMPImageBitmap& value);
+
+		BitmapFrame& Assign(const BitmapFrame& value);
+
+		BitmapFrame& operator=(const BitmapFrame& value) { return Assign(value); }
 
     };
 

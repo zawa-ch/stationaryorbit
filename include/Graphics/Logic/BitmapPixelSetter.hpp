@@ -6,6 +6,7 @@
 #include "../Interface/IImageInfomation.hpp"
 #include "../Logic/Graphics.hpp"
 #include "../Logic/Color.hpp"
+#include "../Logic/BitmapPixelGetter.hpp"
 namespace StationaryOrbit::Graphics
 {
 
@@ -25,6 +26,8 @@ namespace StationaryOrbit::Graphics
 		BitmapPixelSetter(IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position);
 
 		void setValue(const Color& value);
+
+		void setValue(const BitmapPixelGetter& reference);
 
 		bool HasOffset(const Point& offset) const;
 

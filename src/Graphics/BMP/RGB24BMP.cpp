@@ -33,7 +33,7 @@ size_t StationaryOrbit::Graphics::BMP::RGB24BMP::Export(std::ostream& stream, co
 		for(int x = 0; x < ihead.ImageWidth; x++)
 		{
 			Point point = Point(x, y);
-			Color color = bitmap.getPixel(point);
+			Color color = bitmap.getPixel(point).getValue();
 			// 各チャネルの書き込み。
 			// LittleEndianのため0xRRGGBBがBB GG RRと格納される
 			stream.put(char(color.getRGB().getB() * UINT8_MAX));
