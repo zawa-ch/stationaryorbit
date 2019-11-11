@@ -37,6 +37,8 @@ namespace StationaryOrbit::Graphics
 
 		BitmapFrame& Assign(const BitmapFrame& value);
 
+		Bitmap& operator=(const Bitmap& value) { return Assign(value); }
+
 		BitmapFrame& operator=(const BitmapFrame& value) { return Assign(value); }
 
 	};

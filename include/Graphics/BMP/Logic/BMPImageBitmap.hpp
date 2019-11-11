@@ -43,6 +43,8 @@ namespace StationaryOrbit::Graphics::BMP
 
 		BitmapFrame& Assign(const BitmapFrame& value);
 
+		BMPImageBitmap& operator=(const BMPImageBitmap& value) { return Assign(value); }
+
 		BitmapFrame& operator=(const BitmapFrame& value) { return Assign(value); }
 
     };
