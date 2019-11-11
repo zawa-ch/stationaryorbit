@@ -93,7 +93,9 @@ StationaryOrbit::Graphics::BitmapBuffer& StationaryOrbit::Graphics::BitmapBuffer
 	// メモリ再確保
 	_data = Allocate(value._size, value._ch);
 	// 内容コピー
-	std::copy<float*, float*>(_data, _data + CalcLength(value._size, value._ch), _data);
+	_size = value._size;
+	_ch = value._ch;
+	std::copy<float*, float*>(value._data, value._data + CalcLength(value._size, value._ch), _data);
 
 	return *this;
 }
