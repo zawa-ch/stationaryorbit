@@ -1,5 +1,6 @@
 #ifndef __StationaryOrbit_Graphics_Color__
 #define __StationaryOrbit_Graphics_Color__
+#include <vector>
 #include "../Structure/RGBColor.hpp"
 namespace StationaryOrbit::Graphics
 {

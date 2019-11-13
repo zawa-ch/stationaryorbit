@@ -58,6 +58,9 @@ namespace StationaryOrbit::Graphics
 		///	このオブジェクトの右下の頂点位置を示すPointを取得します。
 		Point getBottomRight() const;
 
+		///	このオブジェクトが示す領域の大きさをPointで取得します。
+		Point getSize() const;
+
 		///	このオブジェクトで示されている二点間の距離を取得します。
 		double Distance() const;
 

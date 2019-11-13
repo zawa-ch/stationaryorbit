@@ -70,6 +70,9 @@ namespace StationaryOrbit::Graphics
 
 		explicit operator Point() const;
 
+		///	このオブジェクトにおける零点を表します。
+		static PointF Zero() { return PointF(0, 0); }
+
 	};
 
 }

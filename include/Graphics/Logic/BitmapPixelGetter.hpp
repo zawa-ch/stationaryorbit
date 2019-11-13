@@ -24,6 +24,8 @@ namespace StationaryOrbit::Graphics
 
 		BitmapPixelGetter(const IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position);
 
+		const IBitmapBuffer& getBuffer() const { return buf; }
+
 		Color getValue() const;
 
 		bool HasOffset(const Point& offset) const;

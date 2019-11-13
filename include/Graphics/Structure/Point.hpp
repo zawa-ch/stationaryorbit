@@ -50,6 +50,9 @@ namespace StationaryOrbit::Graphics
 		bool operator==(const Point& value) const { return Equals(value); }
 		bool operator!=(const Point& value) const { return !Equals(value); }
 
+		///	このオブジェクトにおける零点を表します。
+		static Point Zero() { return Point(0, 0); }
+
 	};	
 
 }

@@ -9,6 +9,7 @@ void Read();
 void Write();
 void FripV();
 void FripH();
+void Crop();
 
 void Test_BMP()
 {
@@ -16,6 +17,7 @@ void Test_BMP()
 	Write();
 	FripV();
 	FripH();
+	Crop();
 }
 
 void Read()
@@ -54,5 +56,18 @@ void FripH()
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
 	if (!ostream.good()) throw std::logic_error("can't write file.");
 	StationaryOrbit::Graphics::BMP::RGB24BMP::Export(ostream, out, bitmap.getBMPInfomation());
+    ostream.close();
+}
+
+void Crop()
+{
+	StationaryOrbit::Graphics::BMP::BMPImageInfomation newinfo = bitmap.getBMPInfomation();
+	const StationaryOrbit::Graphics::Rectangle croparea = StationaryOrbit::Graphics::Rectangle(StationaryOrbit::Graphics::Point(50, 50), StationaryOrbit::Graphics::Point(bitmap.getInfomation().getSize().getX() - 50, bitmap.getInfomation().getSize().getY() - 50));
+	newinfo.setSize(croparea.getSize());
+	StationaryOrbit::Graphics::Bitmap out = StationaryOrbit::Graphics::BitmapSimpleConvert::Crop(bitmap, croparea);
+	const char* ofile = "output_crop.bmp";
+	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
+	if (!ostream.good()) throw std::logic_error("can't write file.");
+	StationaryOrbit::Graphics::BMP::RGB24BMP::Export(ostream, out, newinfo);
     ostream.close();
 }

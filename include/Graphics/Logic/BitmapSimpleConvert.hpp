@@ -10,6 +10,10 @@ namespace StationaryOrbit::Graphics
 
 	class BitmapSimpleConvert final
 	{
+	public:
+
+		typedef void (*ResizeMethod)(const BitmapFrame&, BitmapPixelReference&);
+
 	private:
 
 		BitmapSimpleConvert() = delete;
@@ -21,14 +25,19 @@ namespace StationaryOrbit::Graphics
 
 	public:
 
+		///	指定されたBitmapの上下を入れ替えます。
 		static Bitmap FripVertical(const BitmapFrame& bitmap);
 
+		///	指定されたBitmapの左右を入れ替えます。
 		static Bitmap FripHorizonal(const BitmapFrame& bitmap);
 
-		static Bitmap Resize(const BitmapFrame& bitmap, const Point& size);
+		static void Biliner(const BitmapFrame& src, BitmapPixelReference& dst);
+
+		static Bitmap Resize(const BitmapFrame& bitmap, const Point& size, ResizeMethod resizer);
 
 		static Bitmap Rescale(const BitmapFrame& bitmap, const PointF& magnification);
 
+		///	指定されたBitmapをareaで指定された範囲で切り抜きます。
 		static Bitmap Crop(const BitmapFrame& bitmap, const Rectangle& area);
 
 	};

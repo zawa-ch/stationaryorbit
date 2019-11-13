@@ -27,7 +27,7 @@ void StationaryOrbit::Graphics::BitmapPixelSetter::setValue(const Color& value)
 		buf.setPixel(pos, 2, rgb.getB());
 		buf.setPixel(pos, 3, value.getAlpha());
 		break;
-	
+
 	default:
 		throw InvalidOperationException("Value 'ColorSystem' is not valid.");
 		break;

@@ -40,6 +40,9 @@ StationaryOrbit::Graphics::Point StationaryOrbit::Graphics::Rectangle::getTopRig
 StationaryOrbit::Graphics::Point StationaryOrbit::Graphics::Rectangle::getBottomRight() const
 { return Point(getRight(), getBottom()); }
 
+StationaryOrbit::Graphics::Point StationaryOrbit::Graphics::Rectangle::getSize() const
+{ return getBottomRight() - getTopLeft(); }
+
 double StationaryOrbit::Graphics::Rectangle::Distance() const
 { return (_p2 - _p1).getMagnitude(); }
 

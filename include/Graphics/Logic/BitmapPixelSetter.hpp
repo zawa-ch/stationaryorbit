@@ -25,6 +25,8 @@ namespace StationaryOrbit::Graphics
 
 		BitmapPixelSetter(IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position);
 
+		IBitmapBuffer& Buffer() { return buf; }
+
 		void setValue(const Color& value);
 
 		void setValue(const BitmapPixelGetter& reference);

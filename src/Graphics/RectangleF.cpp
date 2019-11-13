@@ -44,6 +44,9 @@ StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::RectangleF::getTopR
 StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::RectangleF::getBottomRight() const
 { return PointF(getRight(), getBottom()); }
 
+StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::RectangleF::getSize() const
+{ return getBottomRight() - getTopLeft(); }
+
 double StationaryOrbit::Graphics::RectangleF::Distance() const
 { return (_p2 - _p1).getMagnitude(); }
 
