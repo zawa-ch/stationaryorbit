@@ -27,6 +27,10 @@ namespace StationaryOrbit::Graphics
 
 		IBitmapBuffer& Buffer() { return buf; }
 
+		const IImageInfomation& getInfomation() const { return info; }
+
+		Point getPosition() const { return pos; }
+
 		void setValue(const Color& value);
 
 		void setValue(const BitmapPixelGetter& reference);

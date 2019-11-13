@@ -34,6 +34,11 @@ StationaryOrbit::Graphics::Bitmap StationaryOrbit::Graphics::BitmapSimpleConvert
 	return result;
 }
 
+
+void StationaryOrbit::Graphics::BitmapSimpleConvert::Biliner(const BitmapFrame& src, BitmapPixelReference& dst)
+{
+}
+
 StationaryOrbit::Graphics::Bitmap StationaryOrbit::Graphics::BitmapSimpleConvert::Resize(const BitmapFrame& bitmap, const Point& size, ResizeMethod resizer)
 {
 	ImageInfomation afteriinfo = ImageInfomation(bitmap.getInfomation());

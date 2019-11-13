@@ -23,17 +23,21 @@ namespace StationaryOrbit::Graphics
 
 		BitmapPixelReference(IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position);
 
-		IBitmapBuffer& Buffer() { return BitmapPixelSetter(*this).Buffer(); }
+		IBitmapBuffer& Buffer() { return ((BitmapPixelSetter)*this).Buffer(); }
 
-		const IBitmapBuffer& getBuffer() const { return BitmapPixelGetter(*this).getBuffer(); }
+		const IBitmapBuffer& getBuffer() const { return ((BitmapPixelGetter)*this).getBuffer(); }
 
-		Color getValue() const { return BitmapPixelGetter(*this).getValue(); }
+		const IImageInfomation& getInfomation() const { return ((BitmapPixelGetter)*this).getInfomation(); }
 
-		void setValue(const Color& value) { BitmapPixelSetter(*this).setValue(value); }
+		Point getPosition() const { return ((BitmapPixelGetter)*this).getPosition(); }
 
-		void setValue(const BitmapPixelGetter& value) { BitmapPixelSetter(*this).setValue(value); }
+		Color getValue() const { return ((BitmapPixelGetter)*this).getValue(); }
 
-		bool HasOffset(const Point& offset) const { return BitmapPixelGetter(*this).HasOffset(offset); }
+		void setValue(const Color& value) { ((BitmapPixelSetter)*this).setValue(value); }
+
+		void setValue(const BitmapPixelGetter& value) { ((BitmapPixelSetter)*this).setValue(value); }
+
+		bool HasOffset(const Point& offset) const { return ((BitmapPixelGetter)*this).HasOffset(offset); }
 
 		BitmapPixelReference Offset(const Point& offset);
 
