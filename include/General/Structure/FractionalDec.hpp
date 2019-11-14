@@ -63,6 +63,9 @@ namespace StationaryOrbit
 
 		FractionalDec operator*(const FractionalDec& value) const;
 
+		///	この値の平方数を取得します。
+		FractionalDec Square() const;
+
 		///	この値の平方根を取得します。
 		FractionalDec Sqrt() const;
 

@@ -72,6 +72,9 @@ StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::operator*(const F
 	return result;
 }
 
+StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::Square() const
+{ return (*this) * (*this); }
+
 StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::Sqrt() const
 {
 	FractionalDec result;
