@@ -4,12 +4,12 @@
 namespace StationaryOrbit
 {
 
-	template<class argsT = void>
+	template<class ... argsT>
 	class Delegate
 	{
 	public:
 
-		typedef void (*Action)(argsT);
+		typedef void (*Action)(argsT ... );
 
 	private:
 
@@ -23,7 +23,7 @@ namespace StationaryOrbit
 
 		void Clear() { actions.clear(); }
 
-		void Invoke(argsT args) const { for(Action item : actions) { item(args); } }
+		void Invoke(argsT ... args) const { for(Action item : actions) { item(args...); } }
 
 	};
 

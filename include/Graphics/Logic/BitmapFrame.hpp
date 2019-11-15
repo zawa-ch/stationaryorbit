@@ -1,5 +1,6 @@
 #ifndef __StationaryOrbit_Graphics_BitmapFrame__
 #define __StationaryOrbit_Graphics_BitmapFrame__
+#include "General/Delegate"
 #include "../Structure/Point.hpp"
 #include "../Interface/IBitmapBuffer.hpp"
 #include "../Logic/ImageInfomation.hpp"
@@ -31,6 +32,20 @@ namespace StationaryOrbit::Graphics
 		virtual IBitmapBuffer& Buffer() = 0;
 
 		virtual BitmapPixelReference IndexAt(const Point& position) = 0;
+
+		template<class ... argsT>
+		void ForEach(const Delegate<BitmapPixelReference>& action, argsT ... args)
+		{
+			int sizex = getBuffer().getSize().getX();
+			int sizey = getBuffer().getSize().getY();
+			for (int y = 0; y < sizey; y++)
+			{
+				for (int x = 0; x < sizex; x++)
+				{
+					action.Invoke(IndexAt(Point(x, y)), args...);
+				}
+			}
+		}
 
 		virtual BitmapFrame& Assign(const BitmapFrame& value) = 0;
 
