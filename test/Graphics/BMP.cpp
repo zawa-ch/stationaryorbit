@@ -62,7 +62,7 @@ void FripH()
 void Crop()
 {
 	StationaryOrbit::Graphics::BMP::BMPImageInfomation newinfo = bitmap.getBMPInfomation();
-	const StationaryOrbit::Graphics::Rectangle croparea = StationaryOrbit::Graphics::Rectangle(StationaryOrbit::Graphics::Point(50, 50), StationaryOrbit::Graphics::Point(bitmap.getInfomation().getSize().getX() - 50, bitmap.getInfomation().getSize().getY() - 50));
+	const StationaryOrbit::Graphics::Rectangle croparea = StationaryOrbit::Graphics::Rectangle(StationaryOrbit::Graphics::Point(100, 100), bitmap.getInfomation().getSize() - StationaryOrbit::Graphics::Point(100, 100));
 	newinfo.setSize(croparea.getSize());
 	StationaryOrbit::Graphics::Bitmap out = StationaryOrbit::Graphics::BitmapSimpleConvert::Crop(bitmap, croparea);
 	const char* ofile = "output_crop.bmp";

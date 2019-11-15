@@ -34,7 +34,7 @@ namespace StationaryOrbit::Graphics
 		virtual BitmapPixelReference IndexAt(const Point& position) = 0;
 
 		template<class ... argsT>
-		void ForEach(const Delegate<BitmapPixelReference>& action, argsT ... args)
+		void ForEach(const Delegate<BitmapPixelReference, argsT ...>& action, argsT ... args)
 		{
 			int sizex = getBuffer().getSize().getX();
 			int sizey = getBuffer().getSize().getY();
