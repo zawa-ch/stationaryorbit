@@ -11,10 +11,8 @@ namespace StationaryOrbit::Graphics
 
 	///	Bitmapのピクセルへの読み取り専用の参照を表します。
 	///
-	///	@note
 	///	このオブジェクトは指定されたオブジェクトへの参照を保持します。
 	///	このとき、参照先にオブジェクトが存在するかどうかは確認されません。
-	///	そのため、このオブジェクトは返り値として渡すことは推奨されません。
 	class BitmapPixelGetter
 	{
 	protected:
@@ -52,7 +50,7 @@ namespace StationaryOrbit::Graphics
 		///	参照先の座標が @a Bitmap の領域を超えています。
 		BitmapPixelGetter(const IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position);
 
-		///	この参照が指し示す @a BitmapBuffer を取得します。
+		///	この参照が指し示す変更できない @a BitmapBuffer を取得します。
 		const IBitmapBuffer& getBuffer() const { return buf; }
 
 		///	この参照が指し示す @a Bitmap の @a BitmapInfomation を取得します。
@@ -60,6 +58,12 @@ namespace StationaryOrbit::Graphics
 
 		///	この参照が指し示す座標を @a Point で取得します。
 		Point getPosition() const { return pos; }
+
+		///	この参照が持つ画像のチャンネル数を取得します。
+		uint getChannelCount() const;
+
+		///	参照先の指定されたチャンネルの値を取得します。
+		float getChannel(const uint& channel) const;
 
 		///	参照先の値を @a Color で取得します。
 		Color getValue() const;

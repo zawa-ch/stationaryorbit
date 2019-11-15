@@ -1,17 +1,28 @@
 #include "Graphics/Logic/BitmapPixelSetter.hpp"
 
-StationaryOrbit::Graphics::BitmapPixelSetter::BitmapPixelSetter(IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position)
-    : buf(buffer), info(infomation), pos(position)
-{
-	if (!HasValue(buffer, position)) { throw std::invalid_argument("Argument 'position' is out of boundary of buffer."); }
-}
-
 bool StationaryOrbit::Graphics::BitmapPixelSetter::HasValue(const IBitmapBuffer& buffer, const Point& position)
 {
 	if ((0 <= position.getX())&&(buffer.getSize().getX() > position.getX())&&(0 <= position.getY())&&(buffer.getSize().getY() > position.getY()))
 	{ return true; }
 	else
 	{ return false; }
+}
+
+StationaryOrbit::Graphics::BitmapPixelSetter::BitmapPixelSetter(IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position)
+    : buf(buffer), info(infomation), pos(position)
+{
+	if (!HasValue(buffer, position)) { throw std::invalid_argument("Argument 'position' is out of boundary of buffer."); }
+}
+
+uint StationaryOrbit::Graphics::BitmapPixelSetter::getChannelCount() const
+{
+	return buf.getChannel();
+}
+
+void StationaryOrbit::Graphics::BitmapPixelSetter::setChannel(const uint& channel, const float& value)
+{
+	if (getChannelCount() <= channel) { throw std::out_of_range("指定された'channel'が参照先のbitmapのチャンネル数を超えています。"); }
+	return buf.setPixel(pos, channel, value);
 }
 
 void StationaryOrbit::Graphics::BitmapPixelSetter::setValue(const Color& value)

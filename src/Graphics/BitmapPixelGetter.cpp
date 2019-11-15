@@ -14,6 +14,17 @@ bool StationaryOrbit::Graphics::BitmapPixelGetter::HasValue(const IBitmapBuffer&
 	{ return false; }
 }
 
+uint StationaryOrbit::Graphics::BitmapPixelGetter::getChannelCount() const
+{
+	return buf.getChannel();
+}
+
+float StationaryOrbit::Graphics::BitmapPixelGetter::getChannel(const uint& channel) const
+{
+	if (getChannelCount() <= channel) { throw std::out_of_range("指定された'channel'が参照先のbitmapのチャンネル数を超えています。"); }
+	return buf.getPixel(pos, channel);
+}
+
 StationaryOrbit::Graphics::Color StationaryOrbit::Graphics::BitmapPixelGetter::getValue() const
 {
 	Color Result;
@@ -22,7 +33,7 @@ StationaryOrbit::Graphics::Color StationaryOrbit::Graphics::BitmapPixelGetter::g
 	{
 	case ColorSystem::RGB:
 		if (buf.getChannel() != Graphics::GetChannelFromColorSpace(ColorSystem::RGB)) throw InvalidOperationException("Buffer format no match.");
-		Result = Color(RGBColor(buf.getPixel(pos, 0), buf.getPixel(pos, 1), buf.getPixel(pos, 2)), buf.getPixel(pos, 3));
+		Result = Color(RGBColor(getChannel(0), getChannel(1), getChannel(2)), getChannel(3));
 		break;
 	
 	default:
