@@ -12,7 +12,7 @@ namespace StationaryOrbit::Graphics
 	{
 	public:
 
-		typedef void (*ResizeMethod)(const BitmapFrame&, BitmapPixelReference&);
+		typedef void (*ResizeMethod)(BitmapPixelReference, const BitmapFrame&);
 
 	private:
 
@@ -31,11 +31,9 @@ namespace StationaryOrbit::Graphics
 		///	指定されたBitmapの左右を入れ替えます。
 		static Bitmap FripHorizonal(const BitmapFrame& bitmap);
 
-		static void Biliner(const BitmapFrame& src, BitmapPixelReference& dst);
+		static void Nearest(BitmapPixelReference dst, const BitmapFrame& src);
 
 		static Bitmap Resize(const BitmapFrame& bitmap, const Point& size, ResizeMethod resizer);
-
-		static Bitmap Rescale(const BitmapFrame& bitmap, const PointF& magnification);
 
 		///	指定されたBitmapをareaで指定された範囲で切り抜きます。
 		static Bitmap Crop(const BitmapFrame& bitmap, const Rectangle& area);

@@ -35,22 +35,23 @@ StationaryOrbit::Graphics::Bitmap StationaryOrbit::Graphics::BitmapSimpleConvert
 }
 
 
-void StationaryOrbit::Graphics::BitmapSimpleConvert::Biliner(const BitmapFrame& src, BitmapPixelReference& dst)
+void StationaryOrbit::Graphics::BitmapSimpleConvert::Nearest(BitmapPixelReference dst, const BitmapFrame& src)
 {
+	Point srcsize = src.getBuffer().getSize();
+	Point dstsize = dst.getBuffer().getSize();
+	BitmapPixelGetter srcpx = src.getPixel( Point(int(double(srcsize.getX()) / dstsize.getX() * dst.getPosition().getX()), int(double(srcsize.getY()) / dstsize.getY() * dst.getPosition().getY())) );
+	dst.setValue(srcpx);
 }
 
 StationaryOrbit::Graphics::Bitmap StationaryOrbit::Graphics::BitmapSimpleConvert::Resize(const BitmapFrame& bitmap, const Point& size, ResizeMethod resizer)
 {
+	if (resizer == nullptr) { throw NullReferenceException("引数'resizer'にnullを指定することはできません。"); }
 	ImageInfomation afteriinfo = ImageInfomation(bitmap.getInfomation());
 	afteriinfo.setSize(size);
 	Bitmap result = Bitmap(afteriinfo);
-	return result;
-}
-
-StationaryOrbit::Graphics::Bitmap StationaryOrbit::Graphics::BitmapSimpleConvert::Rescale(const BitmapFrame& bitmap, const PointF& magnification)
-{
-	ImageInfomation afteriinfo = ImageInfomation(bitmap.getInfomation());
-	Bitmap result = Bitmap(afteriinfo);
+	StationaryOrbit::Delegate<StationaryOrbit::Graphics::BitmapPixelReference, const StationaryOrbit::Graphics::BitmapFrame&> actions;
+	actions += resizer;
+	result.ForEach<const BitmapFrame&>(actions, bitmap);
 	return result;
 }
 

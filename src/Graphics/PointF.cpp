@@ -24,8 +24,14 @@ StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Add(const P
 StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Sub(const PointF& value) const
 { return PointF(_x - value._x, _y - value._y); }
 
+StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Multiple(const PointF& value) const
+{ return PointF(_x * value._x, _y * value._y); }
+
 StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Multiple(const float& value) const
 { return PointF(_x * value, _y * value); }
+
+StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Divide(const PointF& value) const
+{ return PointF(_x / value._x, _y / value._y); }
 
 StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Divide(const float& value) const
 { return PointF(_x / value, _y / value); }

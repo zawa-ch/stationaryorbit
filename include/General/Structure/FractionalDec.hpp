@@ -103,5 +103,7 @@ namespace StationaryOrbit
 
 	};
 
+	static double operator*(const double& left, const FractionalDec& right);
+
 }
 #endif // __StationaryOrbit_FractionalDec__

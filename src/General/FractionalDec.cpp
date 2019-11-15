@@ -152,3 +152,8 @@ StationaryOrbit::FractionalDec::operator double() const
 {
 	return double(_value) / UINTMAX_MAX;
 }
+
+double StationaryOrbit::operator*(const double& left, const FractionalDec& right)
+{
+	return left * right / UINTMAX_MAX;
+}

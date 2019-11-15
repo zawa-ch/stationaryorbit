@@ -44,8 +44,16 @@ namespace StationaryOrbit::Graphics
 		PointF operator-(const PointF& value) const { return Sub(value); }
 
 		///	二つのオブジェクトの積を算出します。
+		PointF Multiple(const PointF& value) const;
+		PointF operator*(const PointF& value) const { return Multiple(value); }
+
+		///	二つのオブジェクトの積を算出します。
 		PointF Multiple(const float& value) const;
 		PointF operator*(const float& value) const { return Multiple(value); }
+
+		///	二つのオブジェクトの商を算出します。
+		PointF Divide(const PointF& value) const;
+		PointF operator/(const PointF& value) const { return Divide(value); }
 
 		///	二つのオブジェクトの商を算出します。
 		PointF Divide(const float& value) const;
