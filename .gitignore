@@ -1,3 +1,7 @@
 
-.vscode
 [Bb]uild/
+fontconfig
+.vscode
+
+*.srctrlbm
+*.srctrldb
