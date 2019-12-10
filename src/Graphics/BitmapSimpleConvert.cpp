@@ -34,12 +34,20 @@ StationaryOrbit::Graphics::Bitmap StationaryOrbit::Graphics::BitmapSimpleConvert
 	return result;
 }
 
-
 void StationaryOrbit::Graphics::BitmapSimpleConvert::Nearest(BitmapPixelReference dst, const BitmapFrame& src)
 {
 	Point srcsize = src.getBuffer().getSize();
 	Point dstsize = dst.getBuffer().getSize();
-	BitmapPixelGetter srcpx = src.getPixel( Point(int(double(srcsize.getX()) / dstsize.getX() * dst.getPosition().getX()), int(double(srcsize.getY()) / dstsize.getY() * dst.getPosition().getY())) );
+	BitmapPixelGetter srcpx = src.getPixel( Point(PointF(srcsize)/PointF(dstsize)*PointF(dst.getPosition())) );
+	dst.setValue(srcpx);
+}
+
+void StationaryOrbit::Graphics::BitmapSimpleConvert::Bilinear(BitmapPixelReference dst, const BitmapFrame& src)
+{
+	Point srcsize = src.getBuffer().getSize();
+	Point dstsize = dst.getBuffer().getSize();
+	PointF srcpoint = PointF(srcsize)/PointF(dstsize)*PointF(dst.getPosition());
+	BitmapPixelGetter srcpx = src.getPixel( Point(srcpoint) );
 	dst.setValue(srcpx);
 }
 

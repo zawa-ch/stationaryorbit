@@ -25,17 +25,22 @@ namespace StationaryOrbit::Graphics
 
 	public:
 
-		///	指定されたBitmapの上下を入れ替えます。
+		///	指定された @a bitmap の上下を入れ替えます。
 		static Bitmap FripVertical(const BitmapFrame& bitmap);
 
-		///	指定されたBitmapの左右を入れ替えます。
+		///	指定された @a bitmap の左右を入れ替えます。
 		static Bitmap FripHorizonal(const BitmapFrame& bitmap);
 
+		///	ニアレストネイバー補完による Resize の実装。
 		static void Nearest(BitmapPixelReference dst, const BitmapFrame& src);
 
+		///	バイリニア補完による Resize の実装。
+		static void Bilinear(BitmapPixelReference dst, const BitmapFrame& src);
+
+		///	指定された @a bitmap を @a resizer を用いて @a size に拡大・縮小します。
 		static Bitmap Resize(const BitmapFrame& bitmap, const Point& size, ResizeMethod resizer);
 
-		///	指定されたBitmapをareaで指定された範囲で切り抜きます。
+		///	指定された @a bitmap を @a area で指定された範囲で切り抜きます。
 		static Bitmap Crop(const BitmapFrame& bitmap, const Rectangle& area);
 
 	};
