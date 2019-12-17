@@ -12,7 +12,7 @@ double StationaryOrbit::NumericAnalysis::Differencial::DefaultH(const double& va
 {
 	const double epsilon = std::numeric_limits<double>::epsilon();
 	double h = epsilon;
-	if (0.0 < abs(value)) h *= abs(value);
+	if (0.0 < std::abs(value)) h *= std::abs(value);
 	double i = (epsilon * 1048576) / Diff(value, h);
 	return h * i;
 }
