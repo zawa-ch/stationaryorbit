@@ -15,3 +15,12 @@ bool StationaryOrbit::Graphics::RelativeColor::IsNormalized() const
 
 StationaryOrbit::Graphics::RelativeColor StationaryOrbit::Graphics::RelativeColor::Normalize() const
 { return RelativeColor(color.Normalize(), alpha); }
+
+StationaryOrbit::Graphics::RelativeColor StationaryOrbit::Graphics::RelativeColor::Add(const RelativeColor& value) const
+{ return RelativeColor(color + (value.color * value.alpha), alpha); }
+
+StationaryOrbit::Graphics::RelativeColor StationaryOrbit::Graphics::RelativeColor::Sub(const RelativeColor& value) const
+{ return RelativeColor(color - (value.color * value.alpha), alpha); }
+
+StationaryOrbit::Graphics::RelativeColor StationaryOrbit::Graphics::RelativeColor::Multiple(const RelativeColor& value) const
+{ return RelativeColor(color * ~(~value.color * value.alpha), alpha); }

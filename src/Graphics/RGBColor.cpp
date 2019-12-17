@@ -45,5 +45,8 @@ StationaryOrbit::Graphics::RGBColor StationaryOrbit::Graphics::RGBColor::Multipl
 StationaryOrbit::Graphics::RGBColor StationaryOrbit::Graphics::RGBColor::Divide(const float& value) const
 { return RGBColor(_r / value, _g / value, _b / value); }
 
+StationaryOrbit::Graphics::RGBColor StationaryOrbit::Graphics::RGBColor::Invert() const
+{ return RGBColor(1.0f - _r, 1.0f - _g, 1.0f - _b); }
+
 bool StationaryOrbit::Graphics::RGBColor::Equals(const RGBColor& value) const
 { return (_r == value._r)&&(_g && value._g)&&(_b == value._b); }

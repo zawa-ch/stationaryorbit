@@ -39,18 +39,27 @@ namespace StationaryOrbit::Graphics
 
 		///	二つのオブジェクトの和を算出します。
 		RGBColor Add(const RGBColor& value) const;
+		RGBColor operator+(const RGBColor& value) const { return Add(value); }
 
 		///	二つのオブジェクトの差を算出します。
 		RGBColor Sub(const RGBColor& value) const;
+		RGBColor operator-(const RGBColor& value) const { return Sub(value); }
 
 		///	二つのオブジェクトの積を算出します。
 		RGBColor Multiple(const RGBColor& value) const;
+		RGBColor operator*(const RGBColor& value) const { return Multiple(value); }
 
 		///	このオブジェクトと実数の積を算出します。
 		RGBColor Multiple(const float& value) const;
+		RGBColor operator*(const float& value) const { return Multiple(value); }
 
 		///	このオブジェクトと実数の商を算出します。
 		RGBColor Divide(const float& value) const;
+		RGBColor operator/(const float& value) const { return Divide(value); }
+
+		///	このオブジェクトの値を反転した値を取得します。
+		RGBColor Invert() const;
+		RGBColor operator~() const { return Invert(); }
 
 		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
 		bool Equals(const RGBColor& value) const;

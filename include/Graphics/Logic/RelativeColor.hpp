@@ -37,6 +37,15 @@ namespace StationaryOrbit::Graphics
 		///	内部の色空間は正規化される前の @a RelativeColor オブジェクトの色空間に依存します。
 		RelativeColor Normalize() const;
 
+		RelativeColor Add(const RelativeColor& value) const;
+		RelativeColor operator+(const RelativeColor& value) const { return Add(value); }
+
+		RelativeColor Sub(const RelativeColor& value) const;
+		RelativeColor operator-(const RelativeColor& value) const { return Sub(value); }
+
+		RelativeColor Multiple(const RelativeColor& value) const;
+		RelativeColor operator*(const RelativeColor& value) const { return Multiple(value); }
+
     };
 
 }
