@@ -12,6 +12,8 @@
 		"C_Cpp.default.includePath": [
 			"${workspaceFolder}/include/**"
 		],
+		"cmake.cpptools.intelliSenseMode": "clang-x64",
+		"cmake.default.generator": "Ninja",
 	},
 
 	"tasks": {
@@ -21,7 +23,7 @@
 				"label": "make all",
 				"type": "shell",
 				"group": "build",
-				"command": "make all",
+				"command": "ninja all",
 				"options": {
 					"cwd": "${workspaceFolder}/build/"
 				},
@@ -50,7 +52,7 @@
 				"label": "make clean",
 				"type": "shell",
 				"group": "build",
-				"command": "make clean",
+				"command": "ninja clean",
 				"options": {
 					"cwd": "${workspaceFolder}/build/"
 				},
