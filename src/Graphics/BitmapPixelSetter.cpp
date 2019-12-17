@@ -25,7 +25,7 @@ void StationaryOrbit::Graphics::BitmapPixelSetter::setChannel(const uint& channe
 	return buf.setPixel(pos, channel, value);
 }
 
-void StationaryOrbit::Graphics::BitmapPixelSetter::setValue(const Color& value)
+void StationaryOrbit::Graphics::BitmapPixelSetter::setValue(const RelativeColor& value)
 {
 	RGBColor rgb;
 	switch (info.getColorSystem())

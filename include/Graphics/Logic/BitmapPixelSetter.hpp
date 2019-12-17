@@ -5,7 +5,7 @@
 #include "../Interface/IBitmapBuffer.hpp"
 #include "../Interface/IImageInfomation.hpp"
 #include "../Logic/Graphics.hpp"
-#include "../Logic/Color.hpp"
+#include "../Logic/RelativeColor.hpp"
 #include "../Logic/BitmapPixelGetter.hpp"
 namespace StationaryOrbit::Graphics
 {
@@ -53,8 +53,8 @@ namespace StationaryOrbit::Graphics
 		///	参照先の指定されたチャンネルの値を設定します。
 		void setChannel(const uint& channel, const float& value);
 
-		///	参照先の値を @a Color で設定します。
-		void setValue(const Color& value);
+		///	参照先の値を @a RelativeColor で設定します。
+		void setValue(const RelativeColor& value);
 
 		///	参照先の値に @a BitmapPixelGetter の参照先の値を設定します。
 		void setValue(const BitmapPixelGetter& reference);

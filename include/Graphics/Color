@@ -1,4 +1,5 @@
 // -*- C++ -*-
 
 #include "Structure/RGBColor.hpp"
-#include "Logic/Color.hpp"
+#include "Logic/RelativeColor.hpp"
+#include "Logic/PerceptualColor.hpp"

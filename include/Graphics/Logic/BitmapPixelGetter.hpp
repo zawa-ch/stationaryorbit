@@ -5,7 +5,7 @@
 #include "../Interface/IBitmapBuffer.hpp"
 #include "../Interface/IImageInfomation.hpp"
 #include "../Logic/Graphics.hpp"
-#include "../Logic/Color.hpp"
+#include "../Logic/RelativeColor.hpp"
 namespace StationaryOrbit::Graphics
 {
 
@@ -65,8 +65,8 @@ namespace StationaryOrbit::Graphics
 		///	参照先の指定されたチャンネルの値を取得します。
 		float getChannel(const uint& channel) const;
 
-		///	参照先の値を @a Color で取得します。
-		Color getValue() const;
+		///	参照先の値を @a RelativeColor で取得します。
+		RelativeColor getValue() const;
 
 		///	この参照に指定されたオフセットを加えた参照に、参照先が存在するかを取得します。
 		///
