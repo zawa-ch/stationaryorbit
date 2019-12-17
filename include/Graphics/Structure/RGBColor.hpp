@@ -43,6 +43,15 @@ namespace StationaryOrbit::Graphics
 		///	二つのオブジェクトの差を算出します。
 		RGBColor Sub(const RGBColor& value) const;
 
+		///	二つのオブジェクトの積を算出します。
+		RGBColor Multiple(const RGBColor& value) const;
+
+		///	このオブジェクトと実数の積を算出します。
+		RGBColor Multiple(const float& value) const;
+
+		///	このオブジェクトと実数の商を算出します。
+		RGBColor Divide(const float& value) const;
+
 		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
 		bool Equals(const RGBColor& value) const;
 		bool operator==(const RGBColor& value) const { return Equals(value); }

@@ -36,5 +36,14 @@ StationaryOrbit::Graphics::RGBColor StationaryOrbit::Graphics::RGBColor::Add(con
 StationaryOrbit::Graphics::RGBColor StationaryOrbit::Graphics::RGBColor::Sub(const RGBColor& value) const
 { return RGBColor(_r - value._r, _g - value._g, _b - value._b); }
 
+StationaryOrbit::Graphics::RGBColor StationaryOrbit::Graphics::RGBColor::Multiple(const RGBColor& value) const
+{ return RGBColor(_r * value._r, _g * value._g, _b * value._b); }
+
+StationaryOrbit::Graphics::RGBColor StationaryOrbit::Graphics::RGBColor::Multiple(const float& value) const
+{ return RGBColor(_r * value, _g * value, _b * value); }
+
+StationaryOrbit::Graphics::RGBColor StationaryOrbit::Graphics::RGBColor::Divide(const float& value) const
+{ return RGBColor(_r / value, _g / value, _b / value); }
+
 bool StationaryOrbit::Graphics::RGBColor::Equals(const RGBColor& value) const
 { return (_r == value._r)&&(_g && value._g)&&(_b == value._b); }
