@@ -69,3 +69,15 @@ bool StationaryOrbit::Graphics::PointF::Equals(const PointF& value) const
 
 StationaryOrbit::Graphics::PointF::operator Point() const
 { return Point(int32_t(_x), int32_t(_y)); }
+
+StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Floor() const
+{ return PointF(floorf(_x), floorf(_y)); }
+
+StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Ceil() const
+{ return PointF(ceilf(_x), ceilf(_y)); }
+
+StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Round() const
+{ return PointF(roundf(_x), roundf(_y)); }
+
+StationaryOrbit::Graphics::PointF StationaryOrbit::Graphics::PointF::Extract() const
+{ return PointF(_x - truncf(_x), _y - truncf(_y)); }

@@ -15,13 +15,13 @@ namespace StationaryOrbit::Graphics
 
 	public:
 
-		///	空のPointFを初期化します。
+		///	空の @a PointF を初期化します。
 		PointF() = default;
 
-		///	Pointから変換します。
+		///	@a Point から変換します。
 		PointF(const Point& value);
 
-		///	x座標およびy座標を指定してPointFを初期化します。
+		///	x座標およびy座標を指定して @a PointF を初期化します。
 		PointF(const float& x, const float& y);
 
 		~PointF() = default;
@@ -77,6 +77,18 @@ namespace StationaryOrbit::Graphics
 		bool operator!=(const PointF& value) { return !Equals(value); }
 
 		explicit operator Point() const;
+
+		///	@a PointF を切り捨て方向に丸めます。
+		PointF Floor() const;
+
+		///	@a PointF を切り上げ方向に丸めます。
+		PointF Ceil() const;
+
+		/// @a PointF を最も近い整数の値に変換します。
+		PointF Round() const;
+
+		///	@a PointF の小数部を抜き出します。
+		PointF Extract() const;
 
 		///	このオブジェクトにおける零点を表します。
 		static PointF Zero() { return PointF(0, 0); }

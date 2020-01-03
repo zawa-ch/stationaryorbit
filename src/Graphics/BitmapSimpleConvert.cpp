@@ -38,17 +38,31 @@ void StationaryOrbit::Graphics::BitmapSimpleConvert::Nearest(BitmapPixelReferenc
 {
 	Point srcsize = src.getBuffer().getSize();
 	Point dstsize = dst.getBuffer().getSize();
-	BitmapPixelGetter srcpx = src.getPixel( Point(PointF(srcsize)/PointF(dstsize)*PointF(dst.getPosition())) );
+	PointF scalefactor = PointF(srcsize) / PointF(dstsize);
+	PointF srcpoint = scalefactor * dst.getPosition();
+	BitmapPixelGetter srcpx = src.getPixel( srcpoint.Floor().operator Point() );
 	dst.setValue(srcpx);
+}
+
+static StationaryOrbit::Graphics::PointF GetResizedPoint(StationaryOrbit::Graphics::BitmapPixelReference dst, const StationaryOrbit::Graphics::BitmapFrame& src)
+{
+	StationaryOrbit::Graphics::Point srcsize = src.getBuffer().getSize();
+	StationaryOrbit::Graphics::Point dstsize = dst.getBuffer().getSize();
+	StationaryOrbit::Graphics::PointF scalefactor = StationaryOrbit::Graphics::PointF(srcsize - StationaryOrbit::Graphics::Point(1, 1)) / StationaryOrbit::Graphics::PointF(dstsize - StationaryOrbit::Graphics::Point(1, 1));
+	StationaryOrbit::Graphics::PointF result = scalefactor * dst.getPosition();
+	return result;
 }
 
 void StationaryOrbit::Graphics::BitmapSimpleConvert::Bilinear(BitmapPixelReference dst, const BitmapFrame& src)
 {
-	Point srcsize = src.getBuffer().getSize();
-	Point dstsize = dst.getBuffer().getSize();
-	PointF srcpoint = PointF(srcsize)/PointF(dstsize)*PointF(dst.getPosition());
-	BitmapPixelGetter srcpx = src.getPixel( Point(srcpoint) );
-	dst.setValue(srcpx);
+	PointF srcpoint = GetResizedPoint(dst, src);
+	Rectangle srcarea = Rectangle(srcpoint.Floor().operator Point(), srcpoint.Ceil().operator Point());
+	PointF map = srcpoint.Extract();
+	BitmapPixelGetter srcpx1 = src.getPixel( srcarea.getTopLeft() );
+	BitmapPixelGetter srcpx2 = src.getPixel( srcarea.getTopRight() );
+	BitmapPixelGetter srcpx3 = src.getPixel( srcarea.getBottomLeft() );
+	BitmapPixelGetter srcpx4 = src.getPixel( srcarea.getBottomRight() );
+	dst.setValue(srcpx1);
 }
 
 StationaryOrbit::Graphics::Bitmap StationaryOrbit::Graphics::BitmapSimpleConvert::Resize(const BitmapFrame& bitmap, const Point& size, ResizeMethod resizer)
