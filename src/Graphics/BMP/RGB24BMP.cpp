@@ -33,14 +33,14 @@ size_t StationaryOrbit::Graphics::BMP::RGB24BMP::Export(std::ostream& stream, co
 		for(int x = 0; x < ihead.ImageWidth; x++)
 		{
 			Point point = Point(x, y);
-			RelativeColor color = bitmap.getPixel(point).getValue();
+			RGBColor color = bitmap.getPixel(point).getRGBValue();
 			// 各チャネルの書き込み。
 			// LittleEndianのため0xRRGGBBがBB GG RRと格納される
-			stream.put(char(color.getRGB().getB() * UINT8_MAX));
+			stream.put(char(color.getB() * UINT8_MAX));
 			writesize++;
-			stream.put(char(color.getRGB().getG() * UINT8_MAX));
+			stream.put(char(color.getG() * UINT8_MAX));
 			writesize++;
-			stream.put(char(color.getRGB().getR() * UINT8_MAX));
+			stream.put(char(color.getR() * UINT8_MAX));
 			writesize++;
 		}
 		while((writesize % 4) != 0)

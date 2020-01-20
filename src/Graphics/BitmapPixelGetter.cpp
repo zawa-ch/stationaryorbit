@@ -25,15 +25,15 @@ float StationaryOrbit::Graphics::BitmapPixelGetter::getChannel(const uint& chann
 	return buf.getPixel(pos, channel);
 }
 
-StationaryOrbit::Graphics::RelativeColor StationaryOrbit::Graphics::BitmapPixelGetter::getValue() const
+StationaryOrbit::Graphics::RGBColor StationaryOrbit::Graphics::BitmapPixelGetter::getRGBValue() const
 {
-	RelativeColor Result;
+	RGBColor Result;
 
 	switch (info.getColorSystem())
 	{
 	case ColorSystem::RGB:
 		if (buf.getChannel() != Graphics::GetChannelFromColorSpace(ColorSystem::RGB)) throw InvalidOperationException("Buffer format no match.");
-		Result = RelativeColor(RGBColor(getChannel(0), getChannel(1), getChannel(2)), getChannel(3));
+		Result = RGBColor(getChannel(0), getChannel(1), getChannel(2), getChannel(3));
 		break;
 	
 	default:

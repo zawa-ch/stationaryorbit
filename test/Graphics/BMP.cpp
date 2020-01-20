@@ -1,4 +1,6 @@
+#include <iostream>
 #include <fstream>
+#include <chrono>
 #include "Graphics/General"
 #include "Graphics/Bitmap"
 #include "Graphics/BMPImage"
@@ -17,13 +19,41 @@ void Resize2();
 
 void Test_BMP()
 {
+	std::chrono::duration<double> elapsed;
+	auto start = std::chrono::system_clock::now();
 	Read();
+	elapsed = std::chrono::system_clock::now() - start;
+	std::cout << "File read: " << elapsed.count() << "sec." << std::endl;
+
+	start = std::chrono::system_clock::now();
 	Write();
+	elapsed = std::chrono::system_clock::now() - start;
+	std::cout << "File write: " << elapsed.count() << "sec." << std::endl;
+
+	start = std::chrono::system_clock::now();
 	FripV();
+	elapsed = std::chrono::system_clock::now() - start;
+	std::cout << "Vertical frip: " << elapsed.count() << "sec." << std::endl;
+
+	start = std::chrono::system_clock::now();
 	FripH();
+	elapsed = std::chrono::system_clock::now() - start;
+	std::cout << "Horizonal frip: " << elapsed.count() << "sec." << std::endl;
+
+	start = std::chrono::system_clock::now();
 	Crop();
+	elapsed = std::chrono::system_clock::now() - start;
+	std::cout << "Cropping: " << elapsed.count() << "sec." << std::endl;
+
+	start = std::chrono::system_clock::now();
 	Resize1();
+	elapsed = std::chrono::system_clock::now() - start;
+	std::cout << "Shrink: " << elapsed.count() << "sec." << std::endl;
+
+	start = std::chrono::system_clock::now();
 	Resize2();
+	elapsed = std::chrono::system_clock::now() - start;
+	std::cout << "Expand: " << elapsed.count() << "sec." << std::endl;
 }
 
 void Read()
@@ -94,7 +124,7 @@ void Resize1()
 void Resize2()
 {
 	BMP::BMPImageInfomation newinfo = bitmap.getBMPInfomation();
-	const float resizefactor = 3.0f;
+	const float resizefactor = 2.0f;
 	newinfo.setSize(Point(PointF(newinfo.getSize()) * resizefactor));
 	Bitmap out = BitmapSimpleConvert::Resize(bitmap, newinfo.getSize(), BitmapSimpleConvert::Nearest);
 	const char* ofile = "output_resize2.bmp";

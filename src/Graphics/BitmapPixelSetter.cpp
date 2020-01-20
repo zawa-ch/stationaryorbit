@@ -25,17 +25,15 @@ void StationaryOrbit::Graphics::BitmapPixelSetter::setChannel(const uint& channe
 	return buf.setPixel(pos, channel, value);
 }
 
-void StationaryOrbit::Graphics::BitmapPixelSetter::setValue(const RelativeColor& value)
+void StationaryOrbit::Graphics::BitmapPixelSetter::setRGBValue(const RGBColor& value)
 {
-	RGBColor rgb;
 	switch (info.getColorSystem())
 	{
 	case ColorSystem::RGB:
 		if (buf.getChannel() != Graphics::GetChannelFromColorSpace(ColorSystem::RGB)) throw InvalidOperationException("Buffer format no match.");
-		rgb = value.getRGB();
-		buf.setPixel(pos, 0, rgb.getR());
-		buf.setPixel(pos, 1, rgb.getG());
-		buf.setPixel(pos, 2, rgb.getB());
+		buf.setPixel(pos, 0, value.getR());
+		buf.setPixel(pos, 1, value.getG());
+		buf.setPixel(pos, 2, value.getB());
 		buf.setPixel(pos, 3, value.getAlpha());
 		break;
 
@@ -47,7 +45,16 @@ void StationaryOrbit::Graphics::BitmapPixelSetter::setValue(const RelativeColor&
 
 void StationaryOrbit::Graphics::BitmapPixelSetter::setValue(const BitmapPixelGetter& reference)
 {
-	setValue(reference.getValue());
+	switch (info.getColorSystem())
+	{
+	case ColorSystem::RGB:
+		setRGBValue(reference.getRGBValue());
+		break;
+
+	default:
+		throw InvalidOperationException("Value 'ColorSystem' is not valid.");
+		break;
+	}
 }
 
 bool StationaryOrbit::Graphics::BitmapPixelSetter::HasOffset(const Point& offset) const

@@ -8,19 +8,23 @@ namespace StationaryOrbit::Graphics
 	{
 	private:
 
+		float _a;
 		float _r;
 		float _g;
 		float _b;
 
 	public:
 
-		///	空のRGBColorを初期化します。
+		///	既定の @a RGBColor を初期化します。
 		RGBColor() = default;
 
-		///	RGB値を指定してRGBColorを初期化します。
-		RGBColor(const float& r, const float& g, const float& b);
+		///	値を指定して @a RGBColor を初期化します。
+		RGBColor(float r, float g, float b, float alpha);
 
 		~RGBColor() = default;
+
+		///	このオブジェクトの不透明度を取得します。
+		float getAlpha() const;
 
 		///	このオブジェクトの赤要素を取得します。
 		float getR() const;
@@ -52,10 +56,6 @@ namespace StationaryOrbit::Graphics
 		///	このオブジェクトと実数の積を算出します。
 		RGBColor Multiple(const float& value) const;
 		RGBColor operator*(const float& value) const { return Multiple(value); }
-
-		///	このオブジェクトと実数の商を算出します。
-		RGBColor Divide(const float& value) const;
-		RGBColor operator/(const float& value) const { return Divide(value); }
 
 		///	このオブジェクトの値を反転した値を取得します。
 		RGBColor Invert() const;

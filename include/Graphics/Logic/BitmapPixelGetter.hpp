@@ -2,10 +2,10 @@
 #define __StationaryOrbit_Graphics_BitmapPixelGetter__
 #include "General/Exception"
 #include "../Structure/Point.hpp"
+#include "../Structure/RGBColor.hpp"
 #include "../Interface/IBitmapBuffer.hpp"
 #include "../Interface/IImageInfomation.hpp"
 #include "../Logic/Graphics.hpp"
-#include "../Logic/RelativeColor.hpp"
 namespace StationaryOrbit::Graphics
 {
 
@@ -65,8 +65,8 @@ namespace StationaryOrbit::Graphics
 		///	参照先の指定されたチャンネルの値を取得します。
 		float getChannel(const uint& channel) const;
 
-		///	参照先の値を @a RelativeColor で取得します。
-		RelativeColor getValue() const;
+		///	参照先の値を @a RGBColor で取得します。
+		RGBColor getRGBValue() const;
 
 		///	この参照に指定されたオフセットを加えた参照に、参照先が存在するかを取得します。
 		///

@@ -4,7 +4,6 @@
 #include "../Structure/Point.hpp"
 #include "../Interface/IBitmapBuffer.hpp"
 #include "../Interface/IImageInfomation.hpp"
-#include "../Logic/RelativeColor.hpp"
 #include "../Logic/BitmapPixelGetter.hpp"
 #include "../Logic/BitmapPixelSetter.hpp"
 namespace StationaryOrbit::Graphics
@@ -57,11 +56,11 @@ namespace StationaryOrbit::Graphics
 		///	参照先の指定されたチャンネルの値を設定します。
 		void setChannel(const uint& channel, const float& value) { return ((BitmapPixelSetter)*this).setChannel(channel, value); }
 
-		///	参照先の値を @a RelativeColor で取得します。
-		RelativeColor getValue() const { return ((BitmapPixelGetter)*this).getValue(); }
+		///	参照先の値を @a RGBColor で取得します。
+		RGBColor getRGBValue() const { return ((BitmapPixelGetter)*this).getRGBValue(); }
 
-		///	参照先の値を @a RelativeColor で設定します。
-		void setValue(const RelativeColor& value) { ((BitmapPixelSetter)*this).setValue(value); }
+		///	参照先の値を @a RGBColor で設定します。
+		void setRGBValue(const RGBColor& value) { ((BitmapPixelSetter)*this).setRGBValue(value); }
 
 		///	参照先の値に @a BitmapPixelGetter の参照先の値を設定します。
 		void setValue(const BitmapPixelGetter& value) { ((BitmapPixelSetter)*this).setValue(value); }
