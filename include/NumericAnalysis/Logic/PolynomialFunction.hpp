@@ -29,7 +29,13 @@ namespace StationaryOrbit::NumericAnalysis
 		///	多項式を取得します。
 		std::vector<double> getPolynomial() const { return num; }
 
-		///	この多項式に値を代入し、値を計算します。
+        /// この関数に値を代入した解を取得します。
+        ///
+        /// @param  value
+        /// 代入する値。
+        ///
+        /// @return
+        /// 計算を行い、得られた解が返ります。
 		double Calc(const double& value) const;
 		double operator()(const double& value) const { return Calc(value); }
 

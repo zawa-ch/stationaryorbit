@@ -10,18 +10,33 @@ namespace StationaryOrbit::NumericAnalysis
 	{
 	public:
 
-		T value;
-		T c;
+		T value;	///< このオブジェクトの値
+		T c;	///< 計算時に発生した誤差
 
+		///	オブジェクトを既定の値で初期化します。
 		constexpr CompensatedFloat() = default;
 
+		///	指定された値でオブジェクトを初期化します。
 		explicit constexpr CompensatedFloat(const T& value) : value(value), c() {}
 
 	private:
 
+		///	値からこのオブジェクトを直接構築します。
 		constexpr CompensatedFloat(const T& value, const T& c) : value(value), c(c) {}
 
 	public:
+
+		///	このオブジェクトが指す値を取得します。
+		constexpr T getValue() const
+		{
+			return value;
+		}
+
+		///	このオブジェクトの計算時に用いられる誤差の値を取得します。
+		constexpr T getError() const
+		{
+			return c;
+		}
 
 		constexpr CompensatedFloat<T> operator+() const
 		{
@@ -102,7 +117,10 @@ namespace StationaryOrbit::NumericAnalysis
 
 	};
 
+	/// 計算時に誤差の補償が行われる @a float を表します。
 	typedef CompensatedFloat<float> CompensatedSingle;
+
+	/// 計算時に誤差の補償が行われる @a double を表します。
 	typedef CompensatedFloat<double> CompensatedDouble;
 
 }

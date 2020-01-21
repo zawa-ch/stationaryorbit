@@ -4,6 +4,7 @@
 namespace StationaryOrbit::NumericAnalysis
 {
 
+	///	@a IMathmaticFunction<double> の微分関数を表します。
 	class Differencial final
 		: IMathmaticFunction<double>
 	{
@@ -17,10 +18,28 @@ namespace StationaryOrbit::NumericAnalysis
 
 	public:
 
+		///	元の関数となる @a IMathmaticFunction<double> を指定し、このオブジェクトを初期化します。
 		Differencial(const IMathmaticFunction<double>& function);
 
+        /// この関数に値を代入した解を取得します。
+        ///
+        /// @param  value
+        /// 代入する値。
+		///
+		/// @param	h
+		///	微分の刻み幅。
+        ///
+        /// @return
+        /// 計算を行い、得られた解が返ります。
 		double Calc(const double& value, const double& h) const;
 
+        /// この関数に値を代入した解を取得します。
+        ///
+        /// @param  value
+        /// 代入する値。
+        ///
+        /// @return
+        /// 計算を行い、得られた解が返ります。
 		double Calc(const double& value) const;
 		double operator()(const double& value) const { return Calc(value); }
 
