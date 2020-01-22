@@ -21,6 +21,9 @@ namespace StationaryOrbit::NumericAnalysis
 		///	元の関数となる @a IMathmaticFunction<double> を指定し、このオブジェクトを初期化します。
 		Differencial(const IMathmaticFunction<double>& function);
 
+		///	微分される関数の @a IMathmaticFunction<double> オブジェクトの参照を取得します。
+		const IMathmaticFunction<double>& Function() const { return func; }
+
         /// この関数に値を代入した解を取得します。
         ///
         /// @param  value
