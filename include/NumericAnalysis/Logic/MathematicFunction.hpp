@@ -1,14 +1,14 @@
-#ifndef __StationaryOrbit_NumericAnalysis_MathmaticFunction__
-#define __StationaryOrbit_NumericAnalysis_MathmaticFunction__
+#ifndef __StationaryOrbit_NumericAnalysis_MathematicFunction__
+#define __StationaryOrbit_NumericAnalysis_MathematicFunction__
 #include "General/Exception"
-#include "../Interface/IMathmaticFunction.hpp"
+#include "../Interface/IMathematicFunction.hpp"
 namespace StationaryOrbit::NumericAnalysis
 {
 
     /// @a T 型の値を受け取り、 @a T 型の値を返す数学的な関数を表します。
 	template<class T>
-	class MathmaticFunction
-		: public IMathmaticFunction<T>
+	class MathematicFunction
+		: public IMathematicFunction<T>
 	{
 	public:
 
@@ -22,7 +22,7 @@ namespace StationaryOrbit::NumericAnalysis
 	public:
 
 		///	実体となる関数を指定してこのオブジェクトを初期化します。
-		explicit MathmaticFunction(BaseFunc function) : func(function) {}
+		explicit MathematicFunction(BaseFunc function) : func(function) {}
 
         /// この関数に値を代入した解を取得します。
         ///
@@ -41,4 +41,4 @@ namespace StationaryOrbit::NumericAnalysis
 	};
 
 }
-#endif // __StationaryOrbit_NumericAnalysis_MathmaticFunction__
+#endif // __StationaryOrbit_NumericAnalysis_MathematicFunction__

@@ -2,13 +2,13 @@
 #define __StationaryOrbit_NumericAnalysis_PolynomialFunction__
 #include <vector>
 #include "General/Exception"
-#include "../Interface/IMathmaticFunction.hpp"
+#include "../Interface/IMathematicFunction.hpp"
 namespace StationaryOrbit::NumericAnalysis
 {
 
 	///	実数の多項式を表します。
 	class PolynomialFunction
-		: public IMathmaticFunction<double>
+		: public IMathematicFunction<double>
 	{
 	private:
 

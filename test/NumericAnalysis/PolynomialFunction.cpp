@@ -1,5 +1,5 @@
 #include <iostream>
-#include "NumericAnalysis/Mathmatic"
+#include "NumericAnalysis/Mathematic"
 
 void Test_PolynomialFunction()
 {

@@ -1,16 +1,16 @@
 #ifndef __StationaryOrbit_NumericAnalysis_Differencial__
 #define __StationaryOrbit_NumericAnalysis_Differencial__
-#include "../Interface/IMathmaticFunction.hpp"
+#include "../Interface/IMathematicFunction.hpp"
 namespace StationaryOrbit::NumericAnalysis
 {
 
-	///	@a IMathmaticFunction<double> の微分関数を表します。
+	///	@a IMathematicFunction<double> の微分関数を表します。
 	class Differencial final
-		: IMathmaticFunction<double>
+		: IMathematicFunction<double>
 	{
 	private:
 
-		const IMathmaticFunction<double>& func;
+		const IMathematicFunction<double>& func;
 
 		double Diff(const double& value, const double& h) const;
 
@@ -18,11 +18,11 @@ namespace StationaryOrbit::NumericAnalysis
 
 	public:
 
-		///	元の関数となる @a IMathmaticFunction<double> を指定し、このオブジェクトを初期化します。
-		Differencial(const IMathmaticFunction<double>& function);
+		///	元の関数となる @a IMathematicFunction<double> を指定し、このオブジェクトを初期化します。
+		Differencial(const IMathematicFunction<double>& function);
 
-		///	微分される関数の @a IMathmaticFunction<double> オブジェクトの参照を取得します。
-		const IMathmaticFunction<double>& Function() const { return func; }
+		///	微分される関数の @a IMathematicFunction<double> オブジェクトの参照を取得します。
+		const IMathematicFunction<double>& Function() const { return func; }
 
         /// この関数に値を代入した解を取得します。
         ///

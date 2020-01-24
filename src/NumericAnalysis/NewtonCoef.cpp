@@ -23,7 +23,7 @@ StationaryOrbit::NumericAnalysis::NewtonCoef::NewtonCoef(const std::vector<Vecto
     }
 }
 
-StationaryOrbit::NumericAnalysis::NewtonCoef::NewtonCoef(const IMathmaticFunction<double>& func, const std::vector<double> xlist)
+StationaryOrbit::NumericAnalysis::NewtonCoef::NewtonCoef(const IMathematicFunction<double>& func, const std::vector<double> xlist)
     : x(), b()
 {
     x.reserve(xlist.size());

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <cmath>
-#include "NumericAnalysis/Mathmatic"
+#include "NumericAnalysis/Mathematic"
 
 double exp0(const size_t& n);
 double sin_f(const size_t& n);

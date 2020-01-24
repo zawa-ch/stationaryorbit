@@ -1,7 +1,7 @@
 #include "NumericAnalysis/Structure/CompensatedFloat.hpp"
 #include "NumericAnalysis/Logic/TrapeziumIntegral.hpp"
 
-StationaryOrbit::NumericAnalysis::TrapeziumIntegral::TrapeziumIntegral(const IMathmaticFunction<double>& function, const Range<double, true, true>& integrationrange)
+StationaryOrbit::NumericAnalysis::TrapeziumIntegral::TrapeziumIntegral(const IMathematicFunction<double>& function, const Range<double, true, true>& integrationrange)
 	: _func(function), _irange(integrationrange)
 {
 	if (
@@ -15,7 +15,7 @@ StationaryOrbit::NumericAnalysis::TrapeziumIntegral::TrapeziumIntegral(const IMa
 	{ throw std::invalid_argument("引数 integrationrange として指定可能な範囲は有限な実数である必要があります。"); }
 }
 
-const StationaryOrbit::NumericAnalysis::IMathmaticFunction<double>& StationaryOrbit::NumericAnalysis::TrapeziumIntegral::Function() const
+const StationaryOrbit::NumericAnalysis::IMathematicFunction<double>& StationaryOrbit::NumericAnalysis::TrapeziumIntegral::Function() const
 { return _func; }
 
 StationaryOrbit::Range<double, true, true> StationaryOrbit::NumericAnalysis::TrapeziumIntegral::getIntegrationRange() const

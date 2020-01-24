@@ -3,13 +3,13 @@
 #include <vector>
 #include "General/Exception"
 #include "General/Vector2d"
-#include "../Interface/IMathmaticFunction.hpp"
+#include "../Interface/IMathematicFunction.hpp"
 namespace StationaryOrbit::NumericAnalysis
 {
 
 	///	ニュートン補完による関数を表します。
 	class NewtonCoef
-		: public IMathmaticFunction<double>
+		: public IMathematicFunction<double>
 	{
 	private:
 
@@ -28,7 +28,7 @@ namespace StationaryOrbit::NumericAnalysis
 		explicit NewtonCoef(const std::vector<Vector2d>& list);
 
 		///	xの値のリストとそれに対応する解のリストからこのオブジェクトを構築します。
-		NewtonCoef(const IMathmaticFunction<double>& func, const std::vector<double> xlist);
+		NewtonCoef(const IMathematicFunction<double>& func, const std::vector<double> xlist);
 
 		///	x軸の値のリストへの参照を取得します。
 		std::vector<double>& X() { return x; }

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "NumericAnalysis/Mathmatic"
+#include "NumericAnalysis/Mathematic"
 
 void Test_Differencial()
 {
@@ -7,7 +7,7 @@ void Test_Differencial()
 	const double x_max = 0.5;
 	const size_t x_div = 10;
 
-	StationaryOrbit::NumericAnalysis::MathmaticFunction<double> func = StationaryOrbit::NumericAnalysis::MathmaticFunction<double>(exp);
+	StationaryOrbit::NumericAnalysis::MathematicFunction<double> func = StationaryOrbit::NumericAnalysis::MathematicFunction<double>(exp);
 	StationaryOrbit::NumericAnalysis::Differencial diff = StationaryOrbit::NumericAnalysis::Differencial(func);
 	for(size_t i = 0; i <= x_div; i++)
 	{

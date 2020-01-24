@@ -1,13 +1,13 @@
 #ifndef __StationaryOrbit_NumericAnalusis_TaylorSeries__
 #define __StationaryOrbit_NumericAnalusis_TaylorSeries__
 #include "General/Exception"
-#include "../Interface/IMathmaticFunction.hpp"
+#include "../Interface/IMathematicFunction.hpp"
 namespace StationaryOrbit::NumericAnalysis
 {
 
 	///	Σ(k=0 → n-1, (f(a)/((dx^k)*k!)) * (x-a)^k )によるテイラー級数を表します。
 	class TaylorSeries
-		: public IMathmaticFunction<double>
+		: public IMathematicFunction<double>
 	{
 	public:
 

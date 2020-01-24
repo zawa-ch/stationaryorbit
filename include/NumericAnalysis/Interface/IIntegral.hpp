@@ -1,18 +1,18 @@
 #ifndef __StationaryOrbit_NumericAnalysis_IIntegral__
 #define __StationaryOrbit_NumericAnalysis_IIntegral__
 #include "General/Numeral"
-#include "../Interface/IMathmaticFunction.hpp"
+#include "../Interface/IMathematicFunction.hpp"
 namespace StationaryOrbit::NumericAnalysis
 {
 
-	///	@a IMathmaticFunction<double> の有限区間における定積分の関数を実装します。
+	///	@a IMathematicFunction<double> の有限区間における定積分の関数を実装します。
 	class IIntegral
-		: virtual public IMathmaticFunction<double>
+		: virtual public IMathematicFunction<double>
 	{
 	public:
 
-		///	積分される関数の @a IMathmaticFunction<double> オブジェクトの参照を取得します。
-		virtual const IMathmaticFunction<double>& Function() const = 0;
+		///	積分される関数の @a IMathematicFunction<double> オブジェクトの参照を取得します。
+		virtual const IMathematicFunction<double>& Function() const = 0;
 
 		///	定積分の範囲を取得します。
 		virtual Range<double, true, true> getIntegrationRange() const = 0;

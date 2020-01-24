@@ -10,15 +10,15 @@ namespace StationaryOrbit::NumericAnalysis
 	{
 	private:
 
-		const IMathmaticFunction<double>& _func;
+		const IMathematicFunction<double>& _func;
 		Range<double, true, true> _irange;
 
 	public:
 
-		MidpointIntegral(const IMathmaticFunction<double>& function, const Range<double, true, true>& integrationrange);
+		MidpointIntegral(const IMathematicFunction<double>& function, const Range<double, true, true>& integrationrange);
 
-		///	積分される関数の @a IMathmaticFunction<double> オブジェクトの参照を取得します。
-		const IMathmaticFunction<double>& Function() const;
+		///	積分される関数の @a IMathematicFunction<double> オブジェクトの参照を取得します。
+		const IMathematicFunction<double>& Function() const;
 
 		///	定積分の範囲を取得します。
 		Range<double, true, true> getIntegrationRange() const;

@@ -17,7 +17,7 @@ double StationaryOrbit::NumericAnalysis::Differencial::DefaultH(const double& va
 	return h * i;
 }
 
-StationaryOrbit::NumericAnalysis::Differencial::Differencial(const IMathmaticFunction<double>& function)
+StationaryOrbit::NumericAnalysis::Differencial::Differencial(const IMathematicFunction<double>& function)
 	: func(function)
 {}
 
