@@ -1,5 +1,6 @@
 #ifndef __StationaryOrbit_Range__
 #define __StationaryOrbit_Range__
+#include <limits>
 #include <type_traits>
 namespace StationaryOrbit
 {
@@ -51,6 +52,17 @@ namespace StationaryOrbit
 
 		///	範囲の上限値を取得します。
 		T getCailing() const { return _top; }
+
+		///	範囲の長さを求めます。
+		T Length() const
+		{
+			if ((_bottom < 0)&&((std::numeric_limits<T>::max() - _bottom) < _top)) { throw std::overflow_error("計算結果がテンプレートで指定されている型の最大値を超えています。"); }
+
+			if (_top < _bottom) { return T(0); }
+			else if (_top < 0) { return T(-(-_top + _bottom)); }
+			else if (_bottom < 0) { return T(_top) + T(-_bottom); }
+			else { return T(_top - _bottom); }
+		}
 
 		///	指定された値が範囲に含まれているかを検査します。
 		///
