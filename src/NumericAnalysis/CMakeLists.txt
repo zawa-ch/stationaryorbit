@@ -16,6 +16,7 @@ set(BUILD_SOURCES ${BUILD_SOURCES} MidpointIntegral.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} NewtonCoef.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} PolynomialFunction.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} TaylorSeries.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} TrapeziumIntegral.cpp)
 
 # ビルド
 add_library(${AssemblyName} SHARED ${BUILD_SOURCES})

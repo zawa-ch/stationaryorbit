@@ -4,8 +4,15 @@
 StationaryOrbit::NumericAnalysis::MidpointIntegral::MidpointIntegral(const IMathmaticFunction<double>& function, const Range<double, true, true>& integrationrange)
 	: _func(function), _irange(integrationrange)
 {
-	if ((integrationrange.getFloor() < std::numeric_limits<double>::lowest())&&(std::numeric_limits<double>::max() < integrationrange.getCailing()))
-	{ throw std::invalid_argument(""); }
+	if (
+		!(
+			(std::numeric_limits<double>::lowest() <= integrationrange.getFloor())
+			&&(integrationrange.getFloor() <= std::numeric_limits<double>::max())
+			&&(std::numeric_limits<double>::lowest() <= integrationrange.getCailing())
+			&&(integrationrange.getCailing() <= std::numeric_limits<double>::max())
+		)
+	)
+	{ throw std::invalid_argument("引数 integrationrange として指定可能な範囲は有限な実数である必要があります。"); }
 }
 
 const StationaryOrbit::NumericAnalysis::IMathmaticFunction<double>& StationaryOrbit::NumericAnalysis::MidpointIntegral::Function() const
@@ -22,9 +29,10 @@ double StationaryOrbit::NumericAnalysis::MidpointIntegral::Calc(const double& va
 double StationaryOrbit::NumericAnalysis::MidpointIntegral::Calc(const double& value, size_t div) const
 {
 	auto result = CompensatedDouble(0.0);
+	auto length = _irange.Length();
 	for (size_t i = 0; i < div; i++)
 	{
-		result += _func.Calc(_irange.getFloor() + (((_irange.Length() * i) + (_irange.Length() * (i + 1)) / div / 2)));
+		result += _func.Calc(_irange.getFloor() + (((length * i) + (length * (i + 1)) / div / 2)));
 	}
 	return result.getValue();
 }
