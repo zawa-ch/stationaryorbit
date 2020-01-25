@@ -9,7 +9,7 @@ size_t StationaryOrbit::Graphics::Graphics::GetChannelFromColorSpace(const Color
 		return 1U;
 
 	case ColorSystem::RGB:
-	case ColorSystem::CMY:
+	case ColorSystem::CMYK:
 	case ColorSystem::HSV:
 	case ColorSystem::HSL:
 	case ColorSystem::XYZ:

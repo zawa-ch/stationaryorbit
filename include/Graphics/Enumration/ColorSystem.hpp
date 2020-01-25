@@ -8,7 +8,7 @@ namespace StationaryOrbit::Graphics
 	{
 		Gray,	///< グレースケール。
 		RGB,	///< RGB色空間。
-		CMY,	///< CMYK色空間。
+		CMYK,	///< CMYK色空間。
 		HSV,
 		HSL,
 		XYZ,
