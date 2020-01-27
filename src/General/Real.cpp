@@ -232,3 +232,28 @@ StationaryOrbit::Real StationaryOrbit::Real::Ldexp(intmax_t exp) const
 
 StationaryOrbit::Real StationaryOrbit::Real::Frexp() const
 { return Ldexp(-getExp()); }
+
+StationaryOrbit::Real StationaryOrbit::Real::Abs() const
+{
+	if (isNegative())
+	{
+		return Negative();
+	}
+	else
+	{
+		return *this;
+	}
+}
+
+StationaryOrbit::Real StationaryOrbit::Real::Negative() const
+{
+	if (data.size() <= 0U) { return *this; }
+	for (size_t i = 1U; i < data.size(); i++)
+	{
+		if (data[i] != false) { break; }
+		if (data.size() <= i) { return *this; }
+	}
+	auto result = Real(*this);
+	result.data[0] = !result.data[0];
+	return result;
+}

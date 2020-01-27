@@ -74,10 +74,10 @@ namespace StationaryOrbit
 		Real Frexp() const;
 
 		Real Abs() const;
-		Real operator+() const;
+		Real operator+() const { return Abs(); }
 
 		Real Negative() const;
-		Real operator-() const;
+		Real operator-() const { return Negative(); }
 
 		Real operator+(const Real& value) const;
 		Real operator-(const Real& value) const;
