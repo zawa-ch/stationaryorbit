@@ -3,5 +3,6 @@ project(stationaryorbit CXX)
 
 add_subdirectory(core)
 add_subdirectory(exception)
-add_subdirectory(Graphics)
+add_subdirectory(graphics-core)
+add_subdirectory(graphics-wbmp)
 add_subdirectory(NumericAnalysis)
