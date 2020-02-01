@@ -3,13 +3,12 @@
 #include <istream>
 #include <ostream>
 #include <vector>
-#include "General/Exception"
-#include "Graphics/General"
-#include "../Structure/FileHeader.hpp"
-#include "../Logic/InvalidFormatException.hpp"
-#include "../Logic/BMPImageBitmap.hpp"
-#include "../Logic/BMPImageInfomation.hpp"
-namespace StationaryOrbit::Graphics::BMP
+#include "stationaryorbit/exception/soexcept"
+#include "fileheader.hpp"
+#include "invalidformatexception.hpp"
+#include "bmpimagebitmap.hpp"
+#include "bmpimageinfomation.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics::BMP
 {
 
 	///	24ビットRGBのWindowsビットマップを読み書きするためのプロトコルです。

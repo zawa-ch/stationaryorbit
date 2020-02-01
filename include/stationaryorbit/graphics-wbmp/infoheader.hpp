@@ -2,10 +2,20 @@
 #define __StationaryOrbit_Graphics_BMP_InfoHeader__
 #include <cstddef>
 #include <cstdint>
-#include "../Enumration/BitDepth.hpp"
-#include "../Enumration/CompressionMethod.hpp"
-namespace StationaryOrbit::Graphics::BMP
+#include "coreheader.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics::BMP
 {
+
+	enum class CompressionMethod : uint32_t
+	{
+		RGB,
+		RLE8,
+		RLE4,
+		BITFIELDS,
+		JPEG,
+		PNG,
+		ALPHABITFIELDS,
+	};
 
 	#pragma pack(1)
 	struct InfoHeader

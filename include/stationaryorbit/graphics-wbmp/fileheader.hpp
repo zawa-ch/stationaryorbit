@@ -2,7 +2,7 @@
 #define __StationaryOrbit_Graphics_BMP_FileHeader__
 #include <cstddef>
 #include <cstdint>
-namespace StationaryOrbit::Graphics::BMP
+namespace zawa_ch::StationaryOrbit::Graphics::BMP
 {
 
 	#pragma pack(1)

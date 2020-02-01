@@ -1,10 +1,11 @@
-#include "Graphics/BMP/Structure/FileHeader.hpp"
+#include "stationaryorbit/graphics-wbmp/fileheader.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-const uint8_t StationaryOrbit::Graphics::BMP::FileHeader::FileType_Signature[2] = { 'B', 'M' };
+const uint8_t Graphics::BMP::FileHeader::FileType_Signature[2] = { 'B', 'M' };
 
-const size_t StationaryOrbit::Graphics::BMP::FileHeader::Size = sizeof(FileHeader);
+const size_t Graphics::BMP::FileHeader::Size = sizeof(FileHeader);
 
-bool StationaryOrbit::Graphics::BMP::FileHeader::CheckFileHeader() const
+bool Graphics::BMP::FileHeader::CheckFileHeader() const
 {
 	for (size_t i = 0; i < (sizeof(FileType_Signature) / sizeof(uint8_t)); i++)
 	{

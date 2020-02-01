@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-#include "BMP/Logic/RGB24BMP.hpp"
-#include "BMP/Logic/BMPImageInfomation.hpp"
-#include "BMP/Logic/BMPImageBitmap.hpp"
-#include "BMP/Logic/BMPImage.hpp"
+#include "rgb24bmp.hpp"
+#include "bmpbitmapinfomation.hpp"
+#include "bmpimagebitmap.hpp"
+#include "bmpimage.hpp"

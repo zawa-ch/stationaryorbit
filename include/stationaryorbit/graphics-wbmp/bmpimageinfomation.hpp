@@ -1,11 +1,9 @@
 #ifndef __StationaryOrbit_Graphics_BMP_BMPImageInfomation__
 #define __StationaryOrbit_Graphics_BMP_BMPImageInfomation__
-#include "Graphics/Bitmap"
-#include "../Enumration/BitDepth.hpp"
-#include "../Enumration/CompressionMethod.hpp"
-#include "../Structure/CoreHeader.hpp"
-#include "../Structure/InfoHeader.hpp"
-namespace StationaryOrbit::Graphics::BMP
+#include "stationaryorbit/graphics-core/bitmap"
+#include "coreheader.hpp"
+#include "infoheader.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics::BMP
 {
 
 	class BMPImageInfomation

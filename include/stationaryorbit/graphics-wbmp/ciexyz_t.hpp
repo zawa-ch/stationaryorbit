@@ -2,7 +2,7 @@
 #define __StationaryOrbit_Graphics_BMP_CIEXYZ_t__
 #include <cstddef>
 #include <cstdint>
-namespace StationaryOrbit::Graphics::BMP
+namespace zawa_ch::StationaryOrbit::Graphics::BMP
 {
 
     struct CIEXYZ_t

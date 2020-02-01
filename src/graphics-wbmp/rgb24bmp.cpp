@@ -1,7 +1,8 @@
 #include <algorithm>
-#include "Graphics/BMP/Logic/RGB24BMP.hpp"
+#include "stationaryorbit/graphics-wbmp/rgb24bmp.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-size_t StationaryOrbit::Graphics::BMP::RGB24BMP::Export(std::ostream& stream, const BitmapFrame& bitmap, const BMPImageInfomation& info)
+size_t Graphics::BMP::RGB24BMP::Export(std::ostream& stream, const BitmapFrame& bitmap, const BMPImageInfomation& info)
 {
 	BMP::InfoHeader ihead = BMP::InfoHeader(info);
 	uint32_t xsize = ihead.ImageWidth * 3;
@@ -52,7 +53,7 @@ size_t StationaryOrbit::Graphics::BMP::RGB24BMP::Export(std::ostream& stream, co
 	return writesize;
 }
 
-size_t StationaryOrbit::Graphics::BMP::RGB24BMP::Export(std::ostream& stream, const BMPImageBitmap& bitmap)
+size_t Graphics::BMP::RGB24BMP::Export(std::ostream& stream, const BMPImageBitmap& bitmap)
 {
 	return Export(stream, bitmap, bitmap.getBMPInfomation());
 }

@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_Graphics_BMP_CIEXYZTriple_t__
 #define __StationaryOrbit_Graphics_BMP_CIEXYZTriple_t__
-#include "../Structure/CIEXYZ_t.hpp"
-namespace StationaryOrbit::Graphics::BMP
+#include "ciexyz_t.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics::BMP
 {
 
     struct CIEXYZTriple_t

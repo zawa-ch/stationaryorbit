@@ -1,21 +1,22 @@
-#include "Graphics/BMP/Logic/BMPImage.hpp"
+#include "stationaryorbit/graphics-wbmp/bmpimage.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-void StationaryOrbit::Graphics::BMP::BMPImage::SeekToFileHeader()
+void Graphics::BMP::BMPImage::SeekToFileHeader()
 {
 	if (0 != _stream.tellg()) { _stream.seekg(0); }
 }
 
-void StationaryOrbit::Graphics::BMP::BMPImage::SeekToInfoHeader()
+void Graphics::BMP::BMPImage::SeekToInfoHeader()
 {
 	if (FileHeaderSize != _stream.tellg()) { _stream.seekg(FileHeaderSize); }
 }
 
-void StationaryOrbit::Graphics::BMP::BMPImage::SeekToFileBody()
+void Graphics::BMP::BMPImage::SeekToFileBody()
 {
 	if (_bodyoffset != _stream.tellg()) { _stream.seekg(_bodyoffset); }
 }
 
-std::vector<std::byte> StationaryOrbit::Graphics::BMP::BMPImage::ReadFileInfomation()
+std::vector<std::byte> Graphics::BMP::BMPImage::ReadFileInfomation()
 {
 	SeekToInfoHeader();
 	std::vector<std::byte> result;
@@ -26,7 +27,7 @@ std::vector<std::byte> StationaryOrbit::Graphics::BMP::BMPImage::ReadFileInfomat
 	return result;
 }
 
-StationaryOrbit::Graphics::BMP::FileHeader StationaryOrbit::Graphics::BMP::BMPImage::GetFileHeader()
+Graphics::BMP::FileHeader Graphics::BMP::BMPImage::GetFileHeader()
 {
 	SeekToFileHeader();
 	BMP::FileHeader FileHeader;
@@ -35,7 +36,7 @@ StationaryOrbit::Graphics::BMP::FileHeader StationaryOrbit::Graphics::BMP::BMPIm
 	return FileHeader;
 }
 
-StationaryOrbit::Graphics::BMP::BMPImageInfomation StationaryOrbit::Graphics::BMP::BMPImage::GetBitmapInfomation()
+Graphics::BMP::BMPImageInfomation Graphics::BMP::BMPImage::GetBitmapInfomation()
 {
 	std::vector<std::byte> bmpinfo = ReadFileInfomation();
 	union
@@ -64,7 +65,7 @@ StationaryOrbit::Graphics::BMP::BMPImageInfomation StationaryOrbit::Graphics::BM
 	return result;
 }
 
-size_t StationaryOrbit::Graphics::BMP::BMPImage::GetBody(BMPImageBitmap& bitmap, const Rectangle& area)
+size_t Graphics::BMP::BMPImage::GetBody(BMPImageBitmap& bitmap, const Rectangle& area)
 {
 	// note:
 	// ビットマップの読み込みフォーマットは
@@ -83,7 +84,7 @@ size_t StationaryOrbit::Graphics::BMP::BMPImage::GetBody(BMPImageBitmap& bitmap,
 		throw BMP::InvalidFormatException("Not supported");
 }
 
-size_t StationaryOrbit::Graphics::BMP::BMPImage::ReadRGB24(std::istream& stream, BMPImageBitmap& bitmap, const BMPImageInfomation& info, const Rectangle& area)
+size_t Graphics::BMP::BMPImage::ReadRGB24(std::istream& stream, BMPImageBitmap& bitmap, const BMPImageInfomation& info, const Rectangle& area)
 {
 	size_t readsize = 0U;	///< ストリームから読み込みを行ったデータのサイズ。
 	int sizey = info.getSize().getY();
@@ -120,7 +121,7 @@ size_t StationaryOrbit::Graphics::BMP::BMPImage::ReadRGB24(std::istream& stream,
 	return readsize;
 }
 
-StationaryOrbit::Graphics::BMP::BMPImage::BMPImage(std::istream& stream)
+Graphics::BMP::BMPImage::BMPImage(std::istream& stream)
 	: _stream(stream)
 {
 	BMP::FileHeader filehead = GetFileHeader();
@@ -128,7 +129,7 @@ StationaryOrbit::Graphics::BMP::BMPImage::BMPImage(std::istream& stream)
 	_info = GetBitmapInfomation();
 }
 
-StationaryOrbit::Graphics::BMP::BMPImageBitmap StationaryOrbit::Graphics::BMP::BMPImage::getBitmap()
+Graphics::BMP::BMPImageBitmap Graphics::BMP::BMPImage::getBitmap()
 {
 	BMPImageBitmap result = BMPImageBitmap(_info);
 	GetBody(result, Rectangle(Point(0, 0), _info.getSize()));

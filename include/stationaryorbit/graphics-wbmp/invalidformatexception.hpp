@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_Graphics_BMP_InvalidFormatException__
 #define __StationaryOrbit_Graphics_BMP_InvalidFormatException__
 #include <stdexcept>
-namespace StationaryOrbit::Graphics::BMP
+namespace zawa_ch::StationaryOrbit::Graphics::BMP
 {
 
 	///	BMPへの変換ができないデータに対してパースを行おうとした際にスローされる例外。

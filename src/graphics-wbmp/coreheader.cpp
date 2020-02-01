@@ -1,3 +1,4 @@
-#include "Graphics/BMP/Structure/CoreHeader.hpp"
+#include "stationaryorbit/graphics-wbmp/coreheader.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-const size_t StationaryOrbit::Graphics::BMP::CoreHeader::Size = sizeof(CoreHeader);
+const size_t Graphics::BMP::CoreHeader::Size = sizeof(CoreHeader);

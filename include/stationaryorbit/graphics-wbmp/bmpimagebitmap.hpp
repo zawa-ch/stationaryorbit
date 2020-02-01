@@ -1,8 +1,8 @@
 #ifndef __StationaryOrbit_Graphics_BMP_BMPImageBitmap__
 #define __StationaryOrbit_Graphics_BMP_BMPImageBitmap__
-#include "Graphics/Bitmap"
-#include "../Logic/BMPImageInfomation.hpp"
-namespace StationaryOrbit::Graphics::BMP
+#include "stationaryorbit/graphics-core/bitmap"
+#include "bmpimageinfomation.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics::BMP
 {
 
     class BMPImageBitmap

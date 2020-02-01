@@ -2,10 +2,10 @@
 #define __StationaryOrbit_Graphics_BMP_V5Header__
 #include <cstddef>
 #include <cstdint>
-#include "../Enumration/BitDepth.hpp"
-#include "../Enumration/CompressionMethod.hpp"
-#include "../Structure/CIEXYZTriple_t.hpp"
-namespace StationaryOrbit::Graphics::BMP
+#include "coreheader.hpp"
+#include "infoheader.hpp"
+#include "ciexyztriple_t.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics::BMP
 {
 
 	#pragma pack(1)
