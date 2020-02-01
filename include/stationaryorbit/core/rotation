@@ -1,4 +1,0 @@
-// -*- C++ -*-
-
-#include "Enumration/RotationUnit.hpp"
-#include "Structure/Rotation.hpp"

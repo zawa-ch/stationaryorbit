@@ -3,8 +3,8 @@
 #include <cstdint>
 #include <vector>
 #include <string>
-#include "../Logic/InvalidOperationException.hpp"
-namespace StationaryOrbit
+#include "../exception/invalidoperation.hpp"
+namespace zawa_ch::StationaryOrbit
 {
 
 	///	可変長のビット配列で表される実数を表します。

@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_Delegate__
 #define __StationaryOrbit_Delegate__
 #include <set>
-namespace StationaryOrbit
+namespace zawa_ch::StationaryOrbit
 {
 
 	///	特定の引数を受け取り操作を行うハンドラーの集合を表します。

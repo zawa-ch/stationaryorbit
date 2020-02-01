@@ -1,9 +1,10 @@
-#include "General/Logic/InvalidOperationException.hpp"
+#include "stationaryorbit/exception/invalidoperation.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-StationaryOrbit::InvalidOperationException::InvalidOperationException(const std::string& what_arg) noexcept
+InvalidOperationException::InvalidOperationException(const std::string& what_arg) noexcept
 	: std::logic_error(what_arg)
 {}
 
-StationaryOrbit::InvalidOperationException::InvalidOperationException(const char* what_arg) noexcept
+InvalidOperationException::InvalidOperationException(const char* what_arg) noexcept
 	: std::logic_error(what_arg)
 {}

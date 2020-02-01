@@ -1,15 +1,16 @@
 #include <random>
-#include "General/Structure/QuantumBit.hpp"
+#include "stationaryorbit/core/quantumbit.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-StationaryOrbit::QuantumBit::QuantumBit()
+QuantumBit::QuantumBit()
 	: val(), rot(Rotation(45, RotationUnit::Degree))
 {}
 
-StationaryOrbit::QuantumBit::QuantumBit(const Rotation& rotation)
+QuantumBit::QuantumBit(const Rotation& rotation)
 	: val(), rot(rotation)
 {}
 
-StationaryOrbit::QuantumBit& StationaryOrbit::QuantumBit::Observe()
+QuantumBit& QuantumBit::Observe()
 {
 	if (IsObserved()) { return *this; }
 	std::mt19937_64 generator = std::mt19937_64();
@@ -20,25 +21,25 @@ StationaryOrbit::QuantumBit& StationaryOrbit::QuantumBit::Observe()
 	return *this;
 }
 
-bool StationaryOrbit::QuantumBit::IsObserved() const
+bool QuantumBit::IsObserved() const
 {
 	return val.HasValue();
 }
 
-bool StationaryOrbit::QuantumBit::getBool() const
+bool QuantumBit::getBool() const
 {
 	if (IsObserved()) { return val.getBoolean(); }
 	else { throw InvalidOperationException("This object not observed"); }
 }
 
-//StationaryOrbit::QuantumBit StationaryOrbit::QuantumBit::operator~() const
+//QuantumBit QuantumBit::operator~() const
 //{}
 
-//StationaryOrbit::QuantumBit StationaryOrbit::QuantumBit::operator|(QuantumBit& value) const
+//QuantumBit QuantumBit::operator|(QuantumBit& value) const
 //{}
 
-//StationaryOrbit::QuantumBit StationaryOrbit::QuantumBit::operator&(QuantumBit& value) const
+//QuantumBit QuantumBit::operator&(QuantumBit& value) const
 //{}
 
-//StationaryOrbit::QuantumBit StationaryOrbit::QuantumBit::operator^(QuantumBit& value) const
+//QuantumBit QuantumBit::operator^(QuantumBit& value) const
 //{}

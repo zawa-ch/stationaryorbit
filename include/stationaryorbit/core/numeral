@@ -1,4 +1,9 @@
 // -*- C++ -*-
 
-#include "Structure/FractionalDec.hpp"
-#include "Structure/Range.hpp"
+#include "fractionaldec.hpp"
+#include "quantumbit.hpp"
+#include "range.hpp"
+#include "real.hpp"
+#include "rotation.hpp"
+#include "tristateboolean.hpp"
+#include "vector2d.hpp"

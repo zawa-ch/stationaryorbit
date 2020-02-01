@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <limits>
 #include <stdexcept>
-namespace StationaryOrbit
+namespace zawa_ch::StationaryOrbit
 {
 
 	///	0.0から1.0までの数値を表します。

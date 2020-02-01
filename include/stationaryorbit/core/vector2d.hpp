@@ -1,8 +1,8 @@
 #ifndef __StationaryOrbit_Vector2d__
 #define __StationaryOrbit_Vector2d__
 #include <cmath>
-#include "../Structure/Rotation.hpp"
-namespace StationaryOrbit
+#include "rotation.hpp"
+namespace zawa_ch::StationaryOrbit
 {
 
 	///	二次元平面上における線形代数学的なベクトルを表します。

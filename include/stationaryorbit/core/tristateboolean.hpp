@@ -1,8 +1,8 @@
 #ifndef __StationaryOrbit_TristateBoolean__
 #define __StationaryOrbit_TristateBoolean__
 #include <cstddef>
-#include "../Logic/InvalidOperationException.hpp"
-namespace StationaryOrbit
+#include "../exception/invalidoperation.hpp"
+namespace zawa_ch::StationaryOrbit
 {
 
 	/// 第三の状態を持つbool値を表します。

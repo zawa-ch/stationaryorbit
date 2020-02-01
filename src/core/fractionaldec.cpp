@@ -1,6 +1,7 @@
-#include "General/Structure/FractionalDec.hpp"
+#include "stationaryorbit/core/fractionaldec.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-uintmax_t StationaryOrbit::FractionalDec::Fraction(const uintmax_t& numerator, const uintmax_t& denominator)
+uintmax_t FractionalDec::Fraction(const uintmax_t& numerator, const uintmax_t& denominator)
 {
 	if (denominator == 0U) { throw std::invalid_argument("denominator don't contain 0."); }
 	if (denominator < numerator) { throw std::invalid_argument("numerator must smaller than denominator."); }
@@ -27,7 +28,7 @@ uintmax_t StationaryOrbit::FractionalDec::Fraction(const uintmax_t& numerator, c
 	return result;
 }
 
-StationaryOrbit::FractionalDec::FractionalDec(const double& value)
+FractionalDec::FractionalDec(const double& value)
 	: _value(uintmax_t(value * UINTMAX_MAX))
 {
 	if ((value == std::numeric_limits<double>::quiet_NaN()) || (value == std::numeric_limits<double>::signaling_NaN()))
@@ -35,25 +36,25 @@ StationaryOrbit::FractionalDec::FractionalDec(const double& value)
 	if ((value < 0.0) || (1.0 < value)) { throw std::invalid_argument("value must between 0.0 to 1.0."); }
 }
 
-StationaryOrbit::FractionalDec::FractionalDec(const uintmax_t& numerator, const uintmax_t& denominator)
+FractionalDec::FractionalDec(const uintmax_t& numerator, const uintmax_t& denominator)
 	: _value(Fraction(numerator, denominator))
 {}
 
-StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::operator+(const FractionalDec& value) const
+FractionalDec FractionalDec::operator+(const FractionalDec& value) const
 {
 	FractionalDec result;
 	result._value = ((_value) < (UINTMAX_MAX - value._value))?(_value + value._value):(UINTMAX_MAX);
 	return result;
 }
 
-StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::operator-(const FractionalDec& value) const
+FractionalDec FractionalDec::operator-(const FractionalDec& value) const
 {
 	FractionalDec result;
 	result._value = ((value._value)<(_value))?(_value - value._value):(0U);
 	return result;
 }
 
-StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::operator*(const FractionalDec& value) const
+FractionalDec FractionalDec::operator*(const FractionalDec& value) const
 {
 	FractionalDec result;
 	result._value = 0U;
@@ -72,10 +73,10 @@ StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::operator*(const F
 	return result;
 }
 
-StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::Square() const
+FractionalDec FractionalDec::Square() const
 { return (*this) * (*this); }
 
-StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::Sqrt() const
+FractionalDec FractionalDec::Sqrt() const
 {
 	FractionalDec result;
 	result._value = _value;
@@ -97,63 +98,63 @@ StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::Sqrt() const
 	return result;
 }
 
-StationaryOrbit::FractionalDec& StationaryOrbit::FractionalDec::operator+=(const FractionalDec& value)
+FractionalDec& FractionalDec::operator+=(const FractionalDec& value)
 {
 	_value = ((_value) < (UINTMAX_MAX - value._value))?(_value + value._value):(UINTMAX_MAX);
 	return *this;
 }
 
-StationaryOrbit::FractionalDec& StationaryOrbit::FractionalDec::operator-=(const FractionalDec& value)
+FractionalDec& FractionalDec::operator-=(const FractionalDec& value)
 {
 	_value = ((value._value)<(_value))?(_value - value._value):(0U);
 	return *this;
 }
 
-StationaryOrbit::FractionalDec& StationaryOrbit::FractionalDec::operator*=(const FractionalDec& value)
+FractionalDec& FractionalDec::operator*=(const FractionalDec& value)
 {
 	FractionalDec result = (*this) * value;
 	return *this = result;
 }
 
-int StationaryOrbit::FractionalDec::Compare(const FractionalDec& value) const
+int FractionalDec::Compare(const FractionalDec& value) const
 {
 	if (_value < value._value) return -1;
 	else if (_value > value._value) return 1;
 	else return 0;
 }
 
-bool StationaryOrbit::FractionalDec::Equals(const FractionalDec& value) const
+bool FractionalDec::Equals(const FractionalDec& value) const
 {
 	return _value == value._value;
 }
 
-StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::Min()
+FractionalDec FractionalDec::Min()
 {
 	FractionalDec result;
 	result._value = 0U;
 	return result;
 }
 
-StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::Max()
+FractionalDec FractionalDec::Max()
 {
 	FractionalDec result;
 	result._value = UINTMAX_MAX;
 	return result;
 }
 
-StationaryOrbit::FractionalDec StationaryOrbit::FractionalDec::Epsiron()
+FractionalDec FractionalDec::Epsiron()
 {
 	FractionalDec result;
 	result._value = 1U;
 	return result;
 }
 
-StationaryOrbit::FractionalDec::operator double() const
+FractionalDec::operator double() const
 {
 	return double(_value) / UINTMAX_MAX;
 }
 
-double StationaryOrbit::operator*(const double& left, const FractionalDec& right)
+double zawa_ch::StationaryOrbit::operator*(const double& left, const FractionalDec& right)
 {
 	return left * right / UINTMAX_MAX;
 }

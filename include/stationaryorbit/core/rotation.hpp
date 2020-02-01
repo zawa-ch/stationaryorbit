@@ -1,8 +1,14 @@
 #ifndef __StationaryOrbit_Rotation__
 #define __StationaryOrbit_Rotation__
-#include "../Enumration/RotationUnit.hpp"
-namespace StationaryOrbit
+namespace zawa_ch::StationaryOrbit
 {
+
+	///	角度の単位を示す列挙体。
+	enum class RotationUnit
+	{
+        Radian,
+        Degree,
+	};
 
 	///	角度の情報を保持し、度またはラジアンへの変換を行います。
 	struct Rotation final

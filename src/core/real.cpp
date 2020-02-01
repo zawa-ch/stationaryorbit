@@ -1,7 +1,8 @@
-#include "General/Structure/Real.hpp"
 #include <cmath>
+#include "stationaryorbit/core/real.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-void StationaryOrbit::Real::PlaceExp(intmax_t exp)
+void Real::PlaceExp(intmax_t exp)
 {
 	exp++;
 	while (exp != 0)
@@ -20,7 +21,7 @@ void StationaryOrbit::Real::PlaceExp(intmax_t exp)
 	data.push_back(false);
 }
 
-StationaryOrbit::Real::Real(intmax_t value)
+Real::Real(intmax_t value)
 	: data()
 {
 	// 符号
@@ -45,7 +46,7 @@ StationaryOrbit::Real::Real(intmax_t value)
 	}
 }
 
-StationaryOrbit::Real::Real(uintmax_t value)
+Real::Real(uintmax_t value)
 	: data()
 {
 	// 符号
@@ -62,7 +63,7 @@ StationaryOrbit::Real::Real(uintmax_t value)
 	}
 }
 
-StationaryOrbit::Real::Real(double value)
+Real::Real(double value)
 	: data()
 {
 	switch(std::fpclassify(value))
@@ -125,7 +126,7 @@ StationaryOrbit::Real::Real(double value)
 	}
 }
 
-StationaryOrbit::Real StationaryOrbit::Real::NaN()
+Real Real::NaN()
 {
 	Real result = Real();
 	result.data.push_back(true);
@@ -133,7 +134,7 @@ StationaryOrbit::Real StationaryOrbit::Real::NaN()
 	return result;
 }
 
-StationaryOrbit::Real StationaryOrbit::Real::Zero()
+Real Real::Zero()
 {
 	Real result = Real();
 	result.data.push_back(false);
@@ -141,7 +142,7 @@ StationaryOrbit::Real StationaryOrbit::Real::Zero()
 	return result;
 }
 
-StationaryOrbit::Real StationaryOrbit::Real::Infinity()
+Real Real::Infinity()
 {
 	Real result = Real();
 	result.data.push_back(false);
@@ -149,7 +150,7 @@ StationaryOrbit::Real StationaryOrbit::Real::Infinity()
 	return result;
 }
 
-StationaryOrbit::Real StationaryOrbit::Real::NegativeInfinity()
+Real Real::NegativeInfinity()
 {
 	Real result = Real();
 	result.data.push_back(true);
@@ -157,13 +158,13 @@ StationaryOrbit::Real StationaryOrbit::Real::NegativeInfinity()
 	return result;
 }
 
-bool StationaryOrbit::Real::isNegative() const
+bool Real::isNegative() const
 {
 	if ((0 < data.size())&&(!isNaN())) { return data[0]; }
 	else { return false; }
 }
 
-bool StationaryOrbit::Real::isNaN() const
+bool Real::isNaN() const
 {
 	if (data.size() <= 0U) { return false; }
 	if (data[0] != true) { return false; }
@@ -174,7 +175,7 @@ bool StationaryOrbit::Real::isNaN() const
 	return true;
 }
 
-bool StationaryOrbit::Real::isInfinity() const
+bool Real::isInfinity() const
 {
 	if (data.size() < 2U) { return false; }
 	for (size_t i = 1; i < data.size(); i++)
@@ -184,7 +185,7 @@ bool StationaryOrbit::Real::isInfinity() const
 	return true;
 }
 
-intmax_t StationaryOrbit::Real::getExp() const
+intmax_t Real::getExp() const
 {
 	// ビット列長が2以下の場合は常に非数値あるいはゼロのため0を返す
 	if (data.size() <= 2U) { return 0; }
@@ -211,7 +212,7 @@ intmax_t StationaryOrbit::Real::getExp() const
 	return count;
 }
 
-StationaryOrbit::Real StationaryOrbit::Real::Ldexp(intmax_t exp) const
+Real Real::Ldexp(intmax_t exp) const
 {
 	if (isNaN()) { return NaN(); }
 	if (isInfinity())
@@ -230,10 +231,10 @@ StationaryOrbit::Real StationaryOrbit::Real::Ldexp(intmax_t exp) const
 	return result;
 }
 
-StationaryOrbit::Real StationaryOrbit::Real::Frexp() const
+Real Real::Frexp() const
 { return Ldexp(-getExp()); }
 
-StationaryOrbit::Real StationaryOrbit::Real::Abs() const
+Real Real::Abs() const
 {
 	if (isNegative())
 	{
@@ -245,7 +246,7 @@ StationaryOrbit::Real StationaryOrbit::Real::Abs() const
 	}
 }
 
-StationaryOrbit::Real StationaryOrbit::Real::Negative() const
+Real Real::Negative() const
 {
 	if (data.size() <= 0U) { return *this; }
 	for (size_t i = 1U; i < data.size(); i++)

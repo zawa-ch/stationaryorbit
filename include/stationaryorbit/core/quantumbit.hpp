@@ -1,10 +1,10 @@
 #ifndef __StationaryOrbit_QuantumBit__
 #define __StationaryOrbit_QuantumBit__
 #include <random>
-#include "../Structure/Rotation.hpp"
-#include "../Structure/TristateBoolean.hpp"
-#include "../Logic/InvalidOperationException.hpp"
-namespace StationaryOrbit
+#include "rotation.hpp"
+#include "tristateboolean.hpp"
+#include "../exception/invalidoperation.hpp"
+namespace zawa_ch::StationaryOrbit
 {
 
 	struct QuantumBit final

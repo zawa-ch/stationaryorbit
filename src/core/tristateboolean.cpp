@@ -1,1 +1,1 @@
-#include "General/Structure/TristateBoolean.hpp"
+#include "stationaryorbit/core/tristateboolean.hpp"

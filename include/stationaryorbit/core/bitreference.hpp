@@ -2,7 +2,7 @@
 #define __StationaryOrbit_BitReference__
 #include <cstddef>
 #include <stdexcept>
-namespace StationaryOrbit
+namespace zawa_ch::StationaryOrbit
 {
 
 	///	特定のビットへの参照を保持し、ビット単位でのアクセスを行います。

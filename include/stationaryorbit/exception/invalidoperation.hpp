@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_InvalidOperationException__
 #define __StationaryOrbit_InvalidOperationException__
 #include <stdexcept>
-namespace StationaryOrbit
+namespace zawa_ch::StationaryOrbit
 {
 
 	///	無効な状態で呼び出されたメソッドに対してスローされる例外。

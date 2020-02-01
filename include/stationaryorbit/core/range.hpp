@@ -2,7 +2,7 @@
 #define __StationaryOrbit_Range__
 #include <limits>
 #include <type_traits>
-namespace StationaryOrbit
+namespace zawa_ch::StationaryOrbit
 {
 
 	///	二つの値に囲まれた範囲を表します。

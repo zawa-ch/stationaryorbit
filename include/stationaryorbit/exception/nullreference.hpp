@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_NullReferenceException__
 #define __StationaryOrbit_NullReferenceException__
 #include <stdexcept>
-namespace StationaryOrbit
+namespace zawa_ch::StationaryOrbit
 {
 
 	///	無効な参照を逆参照しようとした場合にスローされる例外。
