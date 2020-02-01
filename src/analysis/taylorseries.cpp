@@ -1,21 +1,22 @@
 #include <climits>
-#include "NumericAnalysis/Structure/CompensatedFloat.hpp"
-#include "NumericAnalysis/Logic/TaylorSeries.hpp"
+#include "stationaryorbit/analysis/compensatedfloat.hpp"
+#include "stationaryorbit/analysis/taylorseries.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-size_t StationaryOrbit::NumericAnalysis::TaylorSeries::DefaultSuc(const size_t& value)
+size_t Analysis::TaylorSeries::DefaultSuc(const size_t& value)
 {
 	return value + 1;
 }
 
-StationaryOrbit::NumericAnalysis::TaylorSeries::TaylorSeries(BaseFunction func, const double& basep)
+Analysis::TaylorSeries::TaylorSeries(BaseFunction func, const double& basep)
 	: func(func), base(basep), suc(DefaultSuc), init(0U)
 {}
 
-StationaryOrbit::NumericAnalysis::TaylorSeries::TaylorSeries(BaseFunction func, const double& basep, SuccessorFunction successor, size_t init)
+Analysis::TaylorSeries::TaylorSeries(BaseFunction func, const double& basep, SuccessorFunction successor, size_t init)
 	: func(func), base(basep), suc(successor), init(init)
 {}
 
-double StationaryOrbit::NumericAnalysis::TaylorSeries::Calc(const double& value, size_t ceiling) const
+double Analysis::TaylorSeries::Calc(const double& value, size_t ceiling) const
 {
 	if ((func == NULL)||(suc == NULL)) throw NullReferenceException("");
 
@@ -45,7 +46,7 @@ double StationaryOrbit::NumericAnalysis::TaylorSeries::Calc(const double& value,
 	return double(sum);
 }
 
-double StationaryOrbit::NumericAnalysis::TaylorSeries::Calc(const double& value) const
+double Analysis::TaylorSeries::Calc(const double& value) const
 {
 	return Calc(value, UINT_MAX);
 }

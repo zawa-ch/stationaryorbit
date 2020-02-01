@@ -1,8 +1,8 @@
 #ifndef __StationaryOrbit_NumericAnalysis_IIntegral__
 #define __StationaryOrbit_NumericAnalysis_IIntegral__
-#include "General/Numeral"
-#include "../Interface/IMathematicFunction.hpp"
-namespace StationaryOrbit::NumericAnalysis
+#include "stationaryorbit/core/numeral"
+#include "mathematicfunction.hpp"
+namespace zawa_ch::StationaryOrbit::Analysis
 {
 
 	///	@a IMathematicFunction<double> の有限区間における定積分の関数を実装します。

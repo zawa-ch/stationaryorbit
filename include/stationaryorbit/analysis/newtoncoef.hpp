@@ -1,10 +1,10 @@
 #ifndef __StationaryOrbit_NumericAnalysis_NewtonCoef__
 #define __StationaryOrbit_NumericAnalysis_NewtonCoef__
 #include <vector>
-#include "General/Exception"
-#include "General/Vector2d"
-#include "../Interface/IMathematicFunction.hpp"
-namespace StationaryOrbit::NumericAnalysis
+#include "stationaryorbit/exception/soexcept"
+#include "stationaryorbit/core/numeral"
+#include "mathematicfunction.hpp"
+namespace zawa_ch::StationaryOrbit::Analysis
 {
 
 	///	ニュートン補完による関数を表します。

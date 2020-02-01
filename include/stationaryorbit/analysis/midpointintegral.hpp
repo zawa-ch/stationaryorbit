@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_NumericAnalysis_MidpointIntegral__
 #define __StationaryOrbit_NumericAnalysis_MidpointIntegral__
-#include "../Interface/IIntegral.hpp"
-namespace StationaryOrbit::NumericAnalysis
+#include "integral.hpp"
+namespace zawa_ch::StationaryOrbit::Analysis
 {
 
 	///	中点則を用いた数値積分を行う関数を表します。

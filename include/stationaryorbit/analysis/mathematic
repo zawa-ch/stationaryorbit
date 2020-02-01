@@ -1,7 +1,7 @@
 // -*- C++ -*-
 
-#include "Logic/Differencial.hpp"
-#include "Logic/MathematicFunction.hpp"
-#include "Logic/NewtonCoef.hpp"
-#include "Logic/PolynomialFunction.hpp"
-#include "Logic/TaylorSeries.hpp"
+#include "differencial.cpp"
+#include "mathematicfunction.hpp"
+#include "newtoncoef.hpp"
+#include "polynomialfunction.hpp"
+#include "taylorseries.hpp"

@@ -1,1 +1,1 @@
-#include "NumericAnalysis/Structure/CompensatedFloat.hpp"
+#include "stationaryorbit/analysis/compensatedfloat.hpp"

@@ -1,14 +1,15 @@
 #include <cmath>
 #include <climits>
 #include <limits>
-#include "NumericAnalysis/Logic/Differencial.hpp"
+#include "stationaryorbit/analysis/differencial.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-double StationaryOrbit::NumericAnalysis::Differencial::Diff(const double& value, const double& h) const
+double Analysis::Differencial::Diff(const double& value, const double& h) const
 {
 	return func.Calc(value + h) - func.Calc(value);
 }
 
-double StationaryOrbit::NumericAnalysis::Differencial::DefaultH(const double& value) const
+double Analysis::Differencial::DefaultH(const double& value) const
 {
 	const double epsilon = std::numeric_limits<double>::epsilon();
 	double h = epsilon;
@@ -17,16 +18,16 @@ double StationaryOrbit::NumericAnalysis::Differencial::DefaultH(const double& va
 	return h * i;
 }
 
-StationaryOrbit::NumericAnalysis::Differencial::Differencial(const IMathematicFunction<double>& function)
+Analysis::Differencial::Differencial(const IMathematicFunction<double>& function)
 	: func(function)
 {}
 
-double StationaryOrbit::NumericAnalysis::Differencial::Calc(const double& value, const double& h) const
+double Analysis::Differencial::Calc(const double& value, const double& h) const
 {
 	return Diff(value, h) / h;
 }
 
-double StationaryOrbit::NumericAnalysis::Differencial::Calc(const double& value) const
+double Analysis::Differencial::Calc(const double& value) const
 {
 	return Calc(value, DefaultH(value));
 }

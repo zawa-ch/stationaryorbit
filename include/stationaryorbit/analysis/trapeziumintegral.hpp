@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_NumericAnalysis_TrapeziumIntegral__
 #define __StationaryOrbit_NumericAnalysis_TrapeziumIntegral__
-#include "../Interface/IIntegral.hpp"
-namespace StationaryOrbit::NumericAnalysis
+#include "integral.hpp"
+namespace zawa_ch::StationaryOrbit::Analysis
 {
 
 	///	台形則を用いた数値積分を行う関数を表します。

@@ -1,9 +1,9 @@
 #ifndef __StationaryOrbit_NumericAnalysis_PolynomialFunction__
 #define __StationaryOrbit_NumericAnalysis_PolynomialFunction__
 #include <vector>
-#include "General/Exception"
-#include "../Interface/IMathematicFunction.hpp"
-namespace StationaryOrbit::NumericAnalysis
+#include "stationaryorbit/exception/soexcept"
+#include "mathematicfunction.hpp"
+namespace zawa_ch::StationaryOrbit::Analysis
 {
 
 	///	実数の多項式を表します。

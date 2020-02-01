@@ -1,7 +1,7 @@
-#ifndef __StationaryOrbit_NumericAnalysis_CompensatedFloat__
-#define __StationaryOrbit_NumericAnalysis_CompensatedFloat__
+#ifndef __StationaryOrbit_Analysis_CompensatedFloat__
+#define __StationaryOrbit_Analysis_CompensatedFloat__
 #include <cmath>
-namespace StationaryOrbit::NumericAnalysis
+namespace zawa_ch::StationaryOrbit::Analysis
 {
 
 	/// 計算時に誤差の補償が行われる浮動小数点数を表します。

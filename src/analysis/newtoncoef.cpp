@@ -1,7 +1,8 @@
-#include "NumericAnalysis/Structure/CompensatedFloat.hpp"
-#include "NumericAnalysis/Logic/NewtonCoef.hpp"
+#include "stationaryorbit/analysis/compensatedfloat.hpp"
+#include "stationaryorbit/analysis/newtoncoef.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-void StationaryOrbit::NumericAnalysis::NewtonCoef::Complete()
+void Analysis::NewtonCoef::Complete()
 {
     if (x.size() != b.size()) throw InvalidOperationException("illegal-state");
     for (size_t i = 0; i < b.size()-1; i++)
@@ -10,7 +11,7 @@ void StationaryOrbit::NumericAnalysis::NewtonCoef::Complete()
     }
 }
 
-StationaryOrbit::NumericAnalysis::NewtonCoef::NewtonCoef(const std::vector<Vector2d>& list)
+Analysis::NewtonCoef::NewtonCoef(const std::vector<Vector2d>& list)
     : x(), b()
 {
     x.reserve(list.size());
@@ -23,7 +24,7 @@ StationaryOrbit::NumericAnalysis::NewtonCoef::NewtonCoef(const std::vector<Vecto
     }
 }
 
-StationaryOrbit::NumericAnalysis::NewtonCoef::NewtonCoef(const IMathematicFunction<double>& func, const std::vector<double> xlist)
+Analysis::NewtonCoef::NewtonCoef(const IMathematicFunction<double>& func, const std::vector<double> xlist)
     : x(), b()
 {
     x.reserve(xlist.size());
@@ -36,7 +37,7 @@ StationaryOrbit::NumericAnalysis::NewtonCoef::NewtonCoef(const IMathematicFuncti
     }
 }
 
-double StationaryOrbit::NumericAnalysis::NewtonCoef::Calc(const double& value) const
+double Analysis::NewtonCoef::Calc(const double& value) const
 {
     CompensatedDouble result = CompensatedDouble(b.back());
     for (size_t i = b.size() - 1; 0 < i; i--)
