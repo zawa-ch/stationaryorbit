@@ -1,12 +1,12 @@
-#ifndef __StationaryOrbit_ArtificalIntelligence_LinerFuzzySet__
-#define __StationaryOrbit_ArtificalIntelligence_LinerFuzzySet__
-#include "ifuzzyset.hpp"
+#ifndef __stationaryorbit_ai_linerfuzzyset__
+#define __stationaryorbit_ai_linerfuzzyset__
+#include "fuzzyset.hpp"
 namespace zawa_ch::StationaryOrbit::ArtificalIntelligence
 {
 
 	///	数値軸上の線形関数で表すことのできるファジィ集合を表します。
-	class LinerFuzzySet
-		: virtual public IFuzzySet<double>
+	class LinearFuzzySet
+		: virtual public FuzzySet<double>
 	{
 	private:
 
@@ -23,4 +23,4 @@ namespace zawa_ch::StationaryOrbit::ArtificalIntelligence
 	};
 
 }
-#endif // __StationaryOrbit_ArtificalIntelligence_LinerFuzzySet__
+#endif // __stationaryorbit_ai_linerfuzzyset__

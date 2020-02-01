@@ -1,15 +1,16 @@
-#ifndef __StationaryOrbit_ArtificalIntelligence__
-#define __StationaryOrbit_ArtificalIntelligence__
+#ifndef __stationaryorbit_ai_fuzzyset__
+#define __stationaryorbit_ai_fuzzyset__
 #include "stationaryorbit/core/numeral"
 namespace zawa_ch::StationaryOrbit::ArtificalIntelligence
 {
 
-	///	ファジィ集合を実装します。
+	///	ファジィ集合を表します。
+	///	このクラスは抽象クラスです。
 	///
 	///	@param	T
 	///	メンバーシップ関数の入力型。
 	template<typename T>
-	class IFuzzySet
+	class FuzzySet
 	{
 	public:
 
@@ -19,4 +20,4 @@ namespace zawa_ch::StationaryOrbit::ArtificalIntelligence
 	};
 
 }
-#endif // __StationaryOrbit_ArtificalIntelligence__
+#endif // __stationaryorbit_ai_fuzzyset__
