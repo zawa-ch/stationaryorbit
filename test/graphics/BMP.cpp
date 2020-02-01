@@ -1,11 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <chrono>
-#include "Graphics/General"
-#include "Graphics/Bitmap"
-#include "Graphics/BMPImage"
-
-using namespace StationaryOrbit::Graphics;
+#include "stationaryorbit/graphics-core/bitmap"
+#include "stationaryorbit/graphics-wbmp/bmpimage"
+using namespace zawa_ch::StationaryOrbit::Graphics;
 
 BMP::BMPImageBitmap bitmap;
 

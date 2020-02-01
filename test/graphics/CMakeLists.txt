@@ -2,11 +2,12 @@ cmake_minimum_required(VERSION 3.0)
 project(stationaryorbit CXX)
 
 #アセンブリ名
-set(AssemblyName graphics-test)
+set(AssemblyName stationaryorbit.test.graphics)
 
 # 依存するライブラリ
 set(DEPENDS_LIB)
-set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.graphics)
+set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.graphics-core)
+set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.graphics-wbmp)
 
 # ビルドするソースファイル
 set(BUILD_SOURCES)
