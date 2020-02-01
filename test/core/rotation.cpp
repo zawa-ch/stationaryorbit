@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
-#include "General/Rotation"
-using namespace StationaryOrbit;
+#include "stationaryorbit/core/numeral"
+using namespace zawa_ch::StationaryOrbit;
 
 int Test_Rotation()
 {

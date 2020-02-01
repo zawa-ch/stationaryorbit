@@ -2,18 +2,18 @@ cmake_minimum_required(VERSION 3.0)
 project(stationaryorbit CXX)
 
 #アセンブリ名
-set(AssemblyName general-test)
+set(AssemblyName stationaryorbit.test.core)
 
 # 依存するライブラリ
 set(DEPENDS_LIB)
-set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.general)
+set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.core)
 
 # ビルドするソースファイル
 set(BUILD_SOURCES)
-set(BUILD_SOURCES ${BUILD_SOURCES} FractionalDec.cpp)
-set(BUILD_SOURCES ${BUILD_SOURCES} Rotation.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} fractionaldec.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} rotation.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} test-general.cpp)
-set(BUILD_SOURCES ${BUILD_SOURCES} Vector2d.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} vector2d.cpp)
 
 # ビルドおよびリンク
 add_executable(${AssemblyName} ${BUILD_SOURCES})

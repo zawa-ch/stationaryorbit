@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
-#include "General/Vector2d"
-using namespace StationaryOrbit;
+#include "stationaryorbit/core/numeral"
+using namespace zawa_ch::StationaryOrbit;
 
 int Test_Vector2d()
 {
