@@ -2,21 +2,21 @@ cmake_minimum_required(VERSION 3.0)
 project(stationaryorbit CXX)
 
 #アセンブリ名
-set(AssemblyName numericanalysis-test)
+set(AssemblyName stationaryorbit.test.analysis)
 
 # 依存するライブラリ
 set(DEPENDS_LIB)
-set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.general)
-set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.numericanalysis)
+set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.core)
+set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.analysis)
 
 # ビルドするソースファイル
 set(BUILD_SOURCES)
-set(BUILD_SOURCES ${BUILD_SOURCES} CompensatedFloat.cpp)
-set(BUILD_SOURCES ${BUILD_SOURCES} Differencial.cpp)
-set(BUILD_SOURCES ${BUILD_SOURCES} NewtonCoef.cpp)
-set(BUILD_SOURCES ${BUILD_SOURCES} PolynomialFunction.cpp)
-set(BUILD_SOURCES ${BUILD_SOURCES} TaylorSeries.cpp)
-set(BUILD_SOURCES ${BUILD_SOURCES} test-numericanalysis.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} compensatedfloat.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} differencial.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} newtoncoef.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} polynomialfunction.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} taylorseries.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} test-analysis.cpp)
 
 # ビルドおよびリンク
 add_executable(${AssemblyName} ${BUILD_SOURCES})

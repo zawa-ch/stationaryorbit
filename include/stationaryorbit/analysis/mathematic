@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-#include "differencial.cpp"
+#include "differencial.hpp"
 #include "mathematicfunction.hpp"
 #include "newtoncoef.hpp"
 #include "polynomialfunction.hpp"

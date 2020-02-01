@@ -1,6 +1,7 @@
 #include <cmath>
 #include <iostream>
-#include "NumericAnalysis/Mathematic"
+#include "stationaryorbit/analysis/mathematic"
+using namespace zawa_ch::StationaryOrbit;
 
 void Test_NewtonCoef()
 {
@@ -14,7 +15,7 @@ void Test_NewtonCoef()
 		double x = x_min + ((x_max - x_min) * i / m_div);
         mpt.push_back(x);
     }
-    StationaryOrbit::NumericAnalysis::NewtonCoef comp = StationaryOrbit::NumericAnalysis::NewtonCoef(StationaryOrbit::NumericAnalysis::MathematicFunction<double>(exp), mpt);
+    Analysis::NewtonCoef comp = Analysis::NewtonCoef(Analysis::MathematicFunction<double>(exp), mpt);
 	for(size_t i = 0; i <= x_div; i++)
 	{
 		double x = x_min + ((x_max - x_min) * i / x_div);

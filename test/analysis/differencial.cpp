@@ -1,5 +1,6 @@
 #include <iostream>
-#include "NumericAnalysis/Mathematic"
+#include "stationaryorbit/analysis/mathematic"
+using namespace zawa_ch::StationaryOrbit;
 
 void Test_Differencial()
 {
@@ -7,8 +8,8 @@ void Test_Differencial()
 	const double x_max = 0.5;
 	const size_t x_div = 10;
 
-	StationaryOrbit::NumericAnalysis::MathematicFunction<double> func = StationaryOrbit::NumericAnalysis::MathematicFunction<double>(exp);
-	StationaryOrbit::NumericAnalysis::Differencial diff = StationaryOrbit::NumericAnalysis::Differencial(func);
+	Analysis::MathematicFunction<double> func = Analysis::MathematicFunction<double>(exp);
+	Analysis::Differencial diff = Analysis::Differencial(func);
 	for(size_t i = 0; i <= x_div; i++)
 	{
 		double x = x_min + ((x_max - x_min) * i / x_div);

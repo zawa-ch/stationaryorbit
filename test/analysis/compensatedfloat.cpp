@@ -1,10 +1,11 @@
 #include <iostream>
-#include "NumericAnalysis/General"
+#include "stationaryorbit/analysis/numerals"
+using namespace zawa_ch::StationaryOrbit;
 
 void Test_CompensatedFloat()
 {
     float sum1 = float();
-    StationaryOrbit::NumericAnalysis::CompensatedSingle sum2 = StationaryOrbit::NumericAnalysis::CompensatedSingle();
+    Analysis::CompensatedSingle sum2 = Analysis::CompensatedSingle();
     for(int i = 0; i < 10000; i++)
     {
         sum1 += 0.1f;
