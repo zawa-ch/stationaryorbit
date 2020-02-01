@@ -1,12 +1,13 @@
-#include "Graphics/Logic/BitmapPixelGetter.hpp"
+#include "stationaryorbit/graphics-core/bitmappixelgetter.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-StationaryOrbit::Graphics::BitmapPixelGetter::BitmapPixelGetter(const IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position)
+Graphics::BitmapPixelGetter::BitmapPixelGetter(const IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position)
     : buf(buffer), info(infomation), pos(position)
 {
 	if (!HasValue(buffer, position)) { throw std::invalid_argument("Argument 'position' is out of boundary of buffer."); }
 }
 
-bool StationaryOrbit::Graphics::BitmapPixelGetter::HasValue(const IBitmapBuffer& buffer, const Point& position)
+bool Graphics::BitmapPixelGetter::HasValue(const IBitmapBuffer& buffer, const Point& position)
 {
 	if ((0 <= position.getX())&&(buffer.getSize().getX() > position.getX())&&(0 <= position.getY())&&(buffer.getSize().getY() > position.getY()))
 	{ return true; }
@@ -14,18 +15,18 @@ bool StationaryOrbit::Graphics::BitmapPixelGetter::HasValue(const IBitmapBuffer&
 	{ return false; }
 }
 
-uint StationaryOrbit::Graphics::BitmapPixelGetter::getChannelCount() const
+uint Graphics::BitmapPixelGetter::getChannelCount() const
 {
 	return buf.getChannel();
 }
 
-float StationaryOrbit::Graphics::BitmapPixelGetter::getChannel(const uint& channel) const
+float Graphics::BitmapPixelGetter::getChannel(const uint& channel) const
 {
 	if (getChannelCount() <= channel) { throw std::out_of_range("指定された'channel'が参照先のbitmapのチャンネル数を超えています。"); }
 	return buf.getPixel(pos, channel);
 }
 
-StationaryOrbit::Graphics::RGBColor StationaryOrbit::Graphics::BitmapPixelGetter::getRGBValue() const
+Graphics::RGBColor Graphics::BitmapPixelGetter::getRGBValue() const
 {
 	RGBColor Result;
 
@@ -43,12 +44,12 @@ StationaryOrbit::Graphics::RGBColor StationaryOrbit::Graphics::BitmapPixelGetter
 	return Result;
 }
 
-bool StationaryOrbit::Graphics::BitmapPixelGetter::HasOffset(const Point& offset) const
+bool Graphics::BitmapPixelGetter::HasOffset(const Point& offset) const
 {
 	return HasValue(buf, pos + offset);
 }
 
-StationaryOrbit::Graphics::BitmapPixelGetter StationaryOrbit::Graphics::BitmapPixelGetter::Offset(const Point& offset) const
+Graphics::BitmapPixelGetter Graphics::BitmapPixelGetter::Offset(const Point& offset) const
 {
 	return BitmapPixelGetter(buf, info, pos + offset);
 }

@@ -1,12 +1,12 @@
 #ifndef __StationaryOrbit_Graphics_BitmapFrame__
 #define __StationaryOrbit_Graphics_BitmapFrame__
-#include "General/Delegate"
-#include "../Structure/Point.hpp"
-#include "../Interface/IBitmapBuffer.hpp"
-#include "../Logic/ImageInfomation.hpp"
-#include "../Logic/BitmapPixelGetter.hpp"
-#include "../Logic/BitmapPixelReference.hpp"
-namespace StationaryOrbit::Graphics
+#include "stationaryorbit/core/delegate"
+#include "point.hpp"
+#include "bitmapbuffer.hpp"
+#include "imageinfomation.hpp"
+#include "bitmappixelgetter.hpp"
+#include "bitmappixelreference.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics
 {
 
 	///	画像情報へのピクセル単位でのアクセスを行います。

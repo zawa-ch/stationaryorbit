@@ -1,8 +1,8 @@
 #ifndef __StationaryOrbit_Graphics_PointF__
 #define __StationaryOrbit_Graphics_PointF__
 #include <cstdint>
-#include "../Structure/Point.hpp"
-namespace StationaryOrbit::Graphics
+#include "point.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics
 {
 
 	///	ディスプレイ上の点を浮動小数点数で表します。

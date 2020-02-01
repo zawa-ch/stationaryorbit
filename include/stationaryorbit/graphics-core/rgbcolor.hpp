@@ -1,6 +1,6 @@
 #ifndef __StationaryOrbit_Graphics_RGBColor__
 #define __StationaryOrbit_Graphics_RGBColor__
-namespace StationaryOrbit::Graphics
+namespace zawa_ch::StationaryOrbit::Graphics
 {
 
 	///	赤(Red), 緑(Green), 青(Blue)の三要素で表される色。

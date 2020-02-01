@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_Graphics_YCrCbColor__
 #define __StationaryOrbit_Graphics_YCrCbColor__
-#include "../Structure/RGBColor.hpp"
-namespace StationaryOrbit::Graphics
+#include "rgbcolor.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics
 {
 
 	struct YCrCbColor final

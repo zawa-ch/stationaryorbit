@@ -1,16 +1,17 @@
-#include "Graphics/Logic/BitmapPixelReference.hpp"
+#include "stationaryorbit/graphics-core/bitmappixelreference.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-StationaryOrbit::Graphics::BitmapPixelReference::BitmapPixelReference(const BitmapPixelGetter& getter, const BitmapPixelSetter& setter)
+Graphics::BitmapPixelReference::BitmapPixelReference(const BitmapPixelGetter& getter, const BitmapPixelSetter& setter)
 	: BitmapPixelGetter(getter), BitmapPixelSetter(setter)
 {}
 
-StationaryOrbit::Graphics::BitmapPixelReference::BitmapPixelReference(IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position)
+Graphics::BitmapPixelReference::BitmapPixelReference(IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position)
 	: BitmapPixelGetter(buffer, infomation, position), BitmapPixelSetter(buffer, infomation, position)
 {
 	if (!BitmapPixelGetter::HasValue(buffer, position)) { throw std::invalid_argument("Argument 'position' is out of boundary of buffer."); }
 }
 
-StationaryOrbit::Graphics::BitmapPixelReference StationaryOrbit::Graphics::BitmapPixelReference::Offset(const Point& offset)
+Graphics::BitmapPixelReference Graphics::BitmapPixelReference::Offset(const Point& offset)
 {
 	return BitmapPixelReference(BitmapPixelGetter(*this).Offset(offset), BitmapPixelSetter(*this).Offset(offset));
 }

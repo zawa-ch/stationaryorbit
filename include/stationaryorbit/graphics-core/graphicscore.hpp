@@ -1,8 +1,8 @@
 #ifndef __StationaryOrbit_Graphics_Graphics__
 #define __StationaryOrbit_Graphics_Graphics__
 #include <cstddef>
-#include "../Enumration/ColorSystem.hpp"
-namespace StationaryOrbit::Graphics
+#include "imageinfomation.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics
 {
 
 	class Graphics final

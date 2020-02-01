@@ -1,40 +1,41 @@
-#include "Graphics/Logic/BitmapSimpleConvert.hpp"
+#include "stationaryorbit/graphics-core/bitmapsimpleconvert.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-static void FripVertical_Process(StationaryOrbit::Graphics::BitmapPixelReference dst, const StationaryOrbit::Graphics::BitmapFrame& src)
+static void FripVertical_Process(zawa_ch::StationaryOrbit::Graphics::BitmapPixelReference dst, const zawa_ch::StationaryOrbit::Graphics::BitmapFrame& src)
 {
 	int y = dst.getBuffer().getSize().getY() - 1 - dst.getPosition().getY();
-	StationaryOrbit::Graphics::BitmapPixelGetter srcpx = src.getPixel(StationaryOrbit::Graphics::Point(dst.getPosition().getX(), y));
+	zawa_ch::StationaryOrbit::Graphics::BitmapPixelGetter srcpx = src.getPixel(zawa_ch::StationaryOrbit::Graphics::Point(dst.getPosition().getX(), y));
 	for (size_t ch = 0; ch < dst.getChannelCount(); ch++)
 	{ dst.setChannel(ch, srcpx.getChannel(ch)); }
 }
 
-StationaryOrbit::Graphics::Bitmap StationaryOrbit::Graphics::BitmapSimpleConvert::FripVertical(const BitmapFrame& bitmap)
+zawa_ch::StationaryOrbit::Graphics::Bitmap zawa_ch::StationaryOrbit::Graphics::BitmapSimpleConvert::FripVertical(const BitmapFrame& bitmap)
 {
 	Bitmap result = Bitmap(ImageInfomation(bitmap.getInfomation()));
-	StationaryOrbit::Delegate<StationaryOrbit::Graphics::BitmapPixelReference, const StationaryOrbit::Graphics::BitmapFrame&> actions;
+	Delegate<BitmapPixelReference, const BitmapFrame&> actions;
 	actions += FripVertical_Process;
 	result.ForEach<const BitmapFrame&>(actions, bitmap);
 	return result;
 }
 
-static void FripHorizonal_Process(StationaryOrbit::Graphics::BitmapPixelReference dst, const StationaryOrbit::Graphics::BitmapFrame& src)
+static void FripHorizonal_Process(zawa_ch::StationaryOrbit::Graphics::BitmapPixelReference dst, const zawa_ch::StationaryOrbit::Graphics::BitmapFrame& src)
 {
 	int x = dst.getBuffer().getSize().getX() - 1 - dst.getPosition().getX();
-	StationaryOrbit::Graphics::BitmapPixelGetter srcpx = src.getPixel(StationaryOrbit::Graphics::Point(x, dst.getPosition().getY()));
+	zawa_ch::StationaryOrbit::Graphics::BitmapPixelGetter srcpx = src.getPixel(zawa_ch::StationaryOrbit::Graphics::Point(x, dst.getPosition().getY()));
 	for (size_t ch = 0; ch < dst.getChannelCount(); ch++)
 	{ dst.setChannel(ch, srcpx.getChannel(ch)); }
 }
 
-StationaryOrbit::Graphics::Bitmap StationaryOrbit::Graphics::BitmapSimpleConvert::FripHorizonal(const BitmapFrame& bitmap)
+zawa_ch::StationaryOrbit::Graphics::Bitmap zawa_ch::StationaryOrbit::Graphics::BitmapSimpleConvert::FripHorizonal(const BitmapFrame& bitmap)
 {
 	Bitmap result = Bitmap(ImageInfomation(bitmap.getInfomation()));
-	StationaryOrbit::Delegate<StationaryOrbit::Graphics::BitmapPixelReference, const StationaryOrbit::Graphics::BitmapFrame&> actions;
+	Delegate<BitmapPixelReference, const BitmapFrame&> actions;
 	actions += FripHorizonal_Process;
 	result.ForEach<const BitmapFrame&>(actions, bitmap);
 	return result;
 }
 
-void StationaryOrbit::Graphics::BitmapSimpleConvert::Nearest(BitmapPixelReference dst, const BitmapFrame& src)
+void zawa_ch::StationaryOrbit::Graphics::BitmapSimpleConvert::Nearest(BitmapPixelReference dst, const BitmapFrame& src)
 {
 	Point srcsize = src.getBuffer().getSize();
 	Point dstsize = dst.getBuffer().getSize();
@@ -44,16 +45,16 @@ void StationaryOrbit::Graphics::BitmapSimpleConvert::Nearest(BitmapPixelReferenc
 	dst.setValue(srcpx);
 }
 
-static StationaryOrbit::Graphics::PointF GetResizedPoint(StationaryOrbit::Graphics::BitmapPixelReference dst, const StationaryOrbit::Graphics::BitmapFrame& src)
+static zawa_ch::StationaryOrbit::Graphics::PointF GetResizedPoint(zawa_ch::StationaryOrbit::Graphics::BitmapPixelReference dst, const zawa_ch::StationaryOrbit::Graphics::BitmapFrame& src)
 {
-	StationaryOrbit::Graphics::Point srcsize = src.getBuffer().getSize();
-	StationaryOrbit::Graphics::Point dstsize = dst.getBuffer().getSize();
-	StationaryOrbit::Graphics::PointF scalefactor = StationaryOrbit::Graphics::PointF(srcsize - StationaryOrbit::Graphics::Point(1, 1)) / StationaryOrbit::Graphics::PointF(dstsize - StationaryOrbit::Graphics::Point(1, 1));
-	StationaryOrbit::Graphics::PointF result = scalefactor * dst.getPosition();
+	zawa_ch::StationaryOrbit::Graphics::Point srcsize = src.getBuffer().getSize();
+	zawa_ch::StationaryOrbit::Graphics::Point dstsize = dst.getBuffer().getSize();
+	zawa_ch::StationaryOrbit::Graphics::PointF scalefactor = zawa_ch::StationaryOrbit::Graphics::PointF(srcsize - zawa_ch::StationaryOrbit::Graphics::Point(1, 1)) / zawa_ch::StationaryOrbit::Graphics::PointF(dstsize - zawa_ch::StationaryOrbit::Graphics::Point(1, 1));
+	zawa_ch::StationaryOrbit::Graphics::PointF result = scalefactor * dst.getPosition();
 	return result;
 }
 
-void StationaryOrbit::Graphics::BitmapSimpleConvert::Bilinear(BitmapPixelReference dst, const BitmapFrame& src)
+void zawa_ch::StationaryOrbit::Graphics::BitmapSimpleConvert::Bilinear(BitmapPixelReference dst, const BitmapFrame& src)
 {
 	PointF srcpoint = GetResizedPoint(dst, src);
 	Rectangle srcarea = Rectangle(srcpoint.Floor().operator Point(), srcpoint.Ceil().operator Point());
@@ -65,33 +66,33 @@ void StationaryOrbit::Graphics::BitmapSimpleConvert::Bilinear(BitmapPixelReferen
 	dst.setValue(srcpx1);
 }
 
-StationaryOrbit::Graphics::Bitmap StationaryOrbit::Graphics::BitmapSimpleConvert::Resize(const BitmapFrame& bitmap, const Point& size, ResizeMethod resizer)
+zawa_ch::StationaryOrbit::Graphics::Bitmap zawa_ch::StationaryOrbit::Graphics::BitmapSimpleConvert::Resize(const BitmapFrame& bitmap, const Point& size, ResizeMethod resizer)
 {
 	if (resizer == nullptr) { throw NullReferenceException("引数'resizer'にnullを指定することはできません。"); }
 	ImageInfomation afteriinfo = ImageInfomation(bitmap.getInfomation());
 	afteriinfo.setSize(size);
 	Bitmap result = Bitmap(afteriinfo);
-	StationaryOrbit::Delegate<StationaryOrbit::Graphics::BitmapPixelReference, const StationaryOrbit::Graphics::BitmapFrame&> actions;
+	Delegate<BitmapPixelReference, const BitmapFrame&> actions;
 	actions += resizer;
 	result.ForEach<const BitmapFrame&>(actions, bitmap);
 	return result;
 }
 
-static void Crop_Process(StationaryOrbit::Graphics::BitmapPixelReference dst, const StationaryOrbit::Graphics::BitmapFrame& src, const StationaryOrbit::Graphics::Rectangle& area)
+static void Crop_Process(zawa_ch::StationaryOrbit::Graphics::BitmapPixelReference dst, const zawa_ch::StationaryOrbit::Graphics::BitmapFrame& src, const zawa_ch::StationaryOrbit::Graphics::Rectangle& area)
 {
-	StationaryOrbit::Graphics::BitmapPixelGetter srcpx = src.getPixel(area.getTopLeft() + dst.getPosition());
+	zawa_ch::StationaryOrbit::Graphics::BitmapPixelGetter srcpx = src.getPixel(area.getTopLeft() + dst.getPosition());
 	for (size_t ch = 0; ch < dst.getChannelCount(); ch++)
 	{ dst.setChannel(ch, srcpx.getChannel(ch)); }
 }
 
-StationaryOrbit::Graphics::Bitmap StationaryOrbit::Graphics::BitmapSimpleConvert::Crop(const BitmapFrame& bitmap, const Rectangle& area)
+zawa_ch::StationaryOrbit::Graphics::Bitmap zawa_ch::StationaryOrbit::Graphics::BitmapSimpleConvert::Crop(const BitmapFrame& bitmap, const Rectangle& area)
 {
 	if ((area.getLeft() < 0)||(area.getTop() < 0)||(bitmap.getInfomation().getSize().getX() <= area.getRight())||(bitmap.getInfomation().getSize().getY() <= area.getBottom()))
 	{ throw std::invalid_argument(""); }
 	ImageInfomation afteriinfo = ImageInfomation(bitmap.getInfomation());
 	afteriinfo.setSize(area.getSize());
 	Bitmap result = Bitmap(afteriinfo);
-	StationaryOrbit::Delegate<StationaryOrbit::Graphics::BitmapPixelReference, const StationaryOrbit::Graphics::BitmapFrame&, const Rectangle&> actions;
+	Delegate<BitmapPixelReference, const BitmapFrame&, const Rectangle&> actions;
 	actions += Crop_Process;
 	result.ForEach<const BitmapFrame&, const Rectangle&>(actions, bitmap, area);
 	return result;

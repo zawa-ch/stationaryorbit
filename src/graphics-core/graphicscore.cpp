@@ -1,6 +1,7 @@
-#include "Graphics/Logic/Graphics.hpp"
+#include "stationaryorbit/graphics-core/graphicscore.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-size_t StationaryOrbit::Graphics::Graphics::GetChannelFromColorSpace(const ColorSystem& value)
+size_t Graphics::Graphics::GetChannelFromColorSpace(const ColorSystem& value)
 {
 	switch (value)
 	{

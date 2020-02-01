@@ -1,6 +1,7 @@
-#include "Graphics/Logic/BitmapPixelSetter.hpp"
+#include "stationaryorbit/graphics-core/bitmappixelsetter.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-bool StationaryOrbit::Graphics::BitmapPixelSetter::HasValue(const IBitmapBuffer& buffer, const Point& position)
+bool Graphics::BitmapPixelSetter::HasValue(const IBitmapBuffer& buffer, const Point& position)
 {
 	if ((0 <= position.getX())&&(buffer.getSize().getX() > position.getX())&&(0 <= position.getY())&&(buffer.getSize().getY() > position.getY()))
 	{ return true; }
@@ -8,24 +9,24 @@ bool StationaryOrbit::Graphics::BitmapPixelSetter::HasValue(const IBitmapBuffer&
 	{ return false; }
 }
 
-StationaryOrbit::Graphics::BitmapPixelSetter::BitmapPixelSetter(IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position)
+Graphics::BitmapPixelSetter::BitmapPixelSetter(IBitmapBuffer& buffer, const IImageInfomation& infomation, const Point& position)
     : buf(buffer), info(infomation), pos(position)
 {
 	if (!HasValue(buffer, position)) { throw std::invalid_argument("Argument 'position' is out of boundary of buffer."); }
 }
 
-uint StationaryOrbit::Graphics::BitmapPixelSetter::getChannelCount() const
+uint Graphics::BitmapPixelSetter::getChannelCount() const
 {
 	return buf.getChannel();
 }
 
-void StationaryOrbit::Graphics::BitmapPixelSetter::setChannel(const uint& channel, const float& value)
+void Graphics::BitmapPixelSetter::setChannel(const uint& channel, const float& value)
 {
 	if (getChannelCount() <= channel) { throw std::out_of_range("指定された'channel'が参照先のbitmapのチャンネル数を超えています。"); }
 	return buf.setPixel(pos, channel, value);
 }
 
-void StationaryOrbit::Graphics::BitmapPixelSetter::setRGBValue(const RGBColor& value)
+void Graphics::BitmapPixelSetter::setRGBValue(const RGBColor& value)
 {
 	switch (info.getColorSystem())
 	{
@@ -43,7 +44,7 @@ void StationaryOrbit::Graphics::BitmapPixelSetter::setRGBValue(const RGBColor& v
 	}
 }
 
-void StationaryOrbit::Graphics::BitmapPixelSetter::setValue(const BitmapPixelGetter& reference)
+void Graphics::BitmapPixelSetter::setValue(const BitmapPixelGetter& reference)
 {
 	switch (info.getColorSystem())
 	{
@@ -57,12 +58,12 @@ void StationaryOrbit::Graphics::BitmapPixelSetter::setValue(const BitmapPixelGet
 	}
 }
 
-bool StationaryOrbit::Graphics::BitmapPixelSetter::HasOffset(const Point& offset) const
+bool Graphics::BitmapPixelSetter::HasOffset(const Point& offset) const
 {
 	return HasValue(buf, pos + offset);
 }
 
-StationaryOrbit::Graphics::BitmapPixelSetter StationaryOrbit::Graphics::BitmapPixelSetter::Offset(const Point& offset) const
+Graphics::BitmapPixelSetter Graphics::BitmapPixelSetter::Offset(const Point& offset) const
 {
 	return BitmapPixelSetter(buf, info, pos + offset);
 }

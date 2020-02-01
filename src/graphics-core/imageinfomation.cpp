@@ -1,9 +1,10 @@
-#include "Graphics/Logic/ImageInfomation.hpp"
+#include "stationaryorbit/graphics-core/imageinfomation.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-StationaryOrbit::Graphics::ImageInfomation::ImageInfomation(const Container& value)
+Graphics::ImageInfomation::ImageInfomation(const Container& value)
     : _value(value)
 {}
 
-StationaryOrbit::Graphics::ImageInfomation::ImageInfomation(const IImageInfomation& value)
+Graphics::ImageInfomation::ImageInfomation(const IImageInfomation& value)
     : _value(Container{value.getSize(), value.getColorSystem()})
 {}

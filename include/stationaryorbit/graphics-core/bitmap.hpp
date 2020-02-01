@@ -1,8 +1,8 @@
 #ifndef __StationaryOrbit_Graphics_Bitmap__
 #define __StationaryOrbit_Graphics_Bitmap__
-#include "../Logic/BitmapFrame.hpp"
-#include "../Logic/BitmapBuffer.hpp"
-namespace StationaryOrbit::Graphics
+#include "bitmapframe.hpp"
+#include "bitmapbuffer.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics
 {
 
 	class Bitmap final

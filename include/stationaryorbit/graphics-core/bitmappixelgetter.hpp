@@ -1,12 +1,12 @@
 #ifndef __StationaryOrbit_Graphics_BitmapPixelGetter__
 #define __StationaryOrbit_Graphics_BitmapPixelGetter__
-#include "General/Exception"
-#include "../Structure/Point.hpp"
-#include "../Structure/RGBColor.hpp"
-#include "../Interface/IBitmapBuffer.hpp"
-#include "../Interface/IImageInfomation.hpp"
-#include "../Logic/Graphics.hpp"
-namespace StationaryOrbit::Graphics
+#include "stationaryorbit/exception/soexcept"
+#include "point.hpp"
+#include "rgbcolor.hpp"
+#include "bitmapbuffer.hpp"
+#include "imageinfomation.hpp"
+#include "graphicscore.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics
 {
 
 	///	Bitmapのピクセルへの読み取り専用の参照を表します。

@@ -1,7 +1,7 @@
 // -*- C++ -*-
 
-#include "Logic/Bitmap.hpp"
-#include "Logic/BitmapBuffer.hpp"
-#include "Logic/BitmapByteBuffer.hpp"
-#include "Logic/BitmapFrame.hpp"
-#include "Logic/BitmapSimpleConvert.hpp"
+#include "bitmap.hpp"
+#include "bitmapbuffer.hpp"
+#include "bitmapbytebuffer.hpp"
+#include "bitmapframe.hpp"
+#include "bitmapsimpleconvert.hpp"

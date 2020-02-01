@@ -1,11 +1,11 @@
 #ifndef __StationaryOrbit_Graphics_BitmapSimpleConvert__
 #define __StationaryOrbit_Graphics_BitmapSimpleConvert__
-#include "../Structure/Point.hpp"
-#include "../Structure/PointF.hpp"
-#include "../Structure/Rectangle.hpp"
-#include "../Logic/BitmapFrame.hpp"
-#include "../Logic/Bitmap.hpp"
-namespace StationaryOrbit::Graphics
+#include "point.hpp"
+#include "pointf.hpp"
+#include "rectangle.hpp"
+#include "bitmapframe.hpp"
+#include "bitmap.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics
 {
 
 	class BitmapSimpleConvert final

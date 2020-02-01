@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_Graphics_Point__
 #define __StationaryOrbit_Graphics_Point__
 #include <cstdint>
-namespace StationaryOrbit::Graphics
+namespace zawa_ch::StationaryOrbit::Graphics
 {
 
 	///	ディスプレイ上の点を表します。

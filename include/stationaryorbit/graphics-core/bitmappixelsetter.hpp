@@ -1,12 +1,13 @@
 #ifndef __StationaryOrbit_Graphics_BitmapPixelSetter__
 #define __StationaryOrbit_Graphics_BitmapPixelSetter__
-#include "General/Exception"
-#include "../Structure/Point.hpp"
-#include "../Interface/IBitmapBuffer.hpp"
-#include "../Interface/IImageInfomation.hpp"
-#include "../Logic/Graphics.hpp"
-#include "../Logic/BitmapPixelGetter.hpp"
-namespace StationaryOrbit::Graphics
+#include "stationaryorbit/exception/soexcept"
+#include "point.hpp"
+#include "rgbcolor.hpp"
+#include "bitmapbuffer.hpp"
+#include "imageinfomation.hpp"
+#include "graphicscore.hpp"
+#include "bitmappixelgetter.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics
 {
 
 	///	Bitmapのピクセルへの書き込み専用の参照を表します。

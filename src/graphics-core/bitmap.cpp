@@ -1,17 +1,18 @@
-#include "Graphics/Logic/Bitmap.hpp"
+#include "stationaryorbit/graphics-core/bitmap.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-StationaryOrbit::Graphics::Bitmap::Bitmap(const ImageInfomation& infoamtion)
+Graphics::Bitmap::Bitmap(const ImageInfomation& infoamtion)
 	: buf(infoamtion), info(infoamtion)
 {}
 
-StationaryOrbit::Graphics::Bitmap& StationaryOrbit::Graphics::Bitmap::Assign(const Bitmap& value)
+Graphics::Bitmap& Graphics::Bitmap::Assign(const Bitmap& value)
 {
 	buf = value.buf;
 	info = value.info;
 	return *this;
 }
 
-StationaryOrbit::Graphics::BitmapFrame& StationaryOrbit::Graphics::Bitmap::Assign(const BitmapFrame& value)
+Graphics::BitmapFrame& Graphics::Bitmap::Assign(const BitmapFrame& value)
 {
 	buf = BitmapBuffer(value.getBuffer());
 	info = ImageInfomation(value.getInfomation());

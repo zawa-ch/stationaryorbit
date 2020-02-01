@@ -1,29 +1,30 @@
-#include "Graphics/Structure/YCrCbColor.hpp"
+#include "stationaryorbit/graphics-core/ycrcbcolor.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-StationaryOrbit::Graphics::YCrCbColor::YCrCbColor(float Y, float Cr, float Cb, float alpha = 1.0f)
+Graphics::YCrCbColor::YCrCbColor(float Y, float Cr, float Cb, float alpha = 1.0f)
 	: _a(alpha), _y(Y), _cr(Cr), _cb(Cb)
 {}
 
-StationaryOrbit::Graphics::YCrCbColor::YCrCbColor(const RGBColor& value)
+Graphics::YCrCbColor::YCrCbColor(const RGBColor& value)
 	: _a(value.getAlpha()), _y(value.getG()), _cr(value.getR() - value.getG()), _cb(value.getB() - value.getG())
 {}
 
-float StationaryOrbit::Graphics::YCrCbColor::getAlpha() const
+float Graphics::YCrCbColor::getAlpha() const
 { return _a; }
 
-float StationaryOrbit::Graphics::YCrCbColor::getY() const
+float Graphics::YCrCbColor::getY() const
 { return _y; }
 
-float StationaryOrbit::Graphics::YCrCbColor::getCr() const
+float Graphics::YCrCbColor::getCr() const
 { return _cr; }
 
-float StationaryOrbit::Graphics::YCrCbColor::getCb() const
+float Graphics::YCrCbColor::getCb() const
 { return _cb; }
 
-bool StationaryOrbit::Graphics::YCrCbColor::IsNormalized() const
+bool Graphics::YCrCbColor::IsNormalized() const
 { return (_a<=0.0f)&&(1.0f<=_a)&&(_y<=0.0f)&&(1.0f<=_y)&&((_y+_cr)<=0.0f)&&(1.0f<=(_y+_cr))&&((_y+_cb)<=0.0f)&&(1.0f<=(_y+_cb)); }
 
-StationaryOrbit::Graphics::YCrCbColor StationaryOrbit::Graphics::YCrCbColor::Normalize() const
+Graphics::YCrCbColor Graphics::YCrCbColor::Normalize() const
 {
 	float A = _a;
 	A = (0.0f <= A)?(A):(0.0f);
@@ -41,5 +42,5 @@ StationaryOrbit::Graphics::YCrCbColor StationaryOrbit::Graphics::YCrCbColor::Nor
 }
 
 
-StationaryOrbit::Graphics::YCrCbColor::operator RGBColor() const
+Graphics::YCrCbColor::operator RGBColor() const
 { return RGBColor(_a, _y + _cr, _y, _y + _cb); }

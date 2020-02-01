@@ -1,15 +1,14 @@
 #include <algorithm>
-#include <stdexcept>
-#include "General/Exception"
-#include "Graphics/Logic/Graphics.hpp"
-#include "Graphics/Logic/BitmapBuffer.hpp"
+#include "stationaryorbit/graphics-core/graphicscore.hpp"
+#include "stationaryorbit/graphics-core/bitmapbuffer.hpp"
+using namespace zawa_ch::StationaryOrbit;
 
-size_t StationaryOrbit::Graphics::BitmapBuffer::CalcLength(const Point& size, const size_t& ch)
+size_t Graphics::BitmapBuffer::CalcLength(const Point& size, const size_t& ch)
 {
 	return size.getX() * size.getY() * ch * sizeof(float);
 }
 
-float* StationaryOrbit::Graphics::BitmapBuffer::Allocate(const Point& size, const size_t& ch)
+float* Graphics::BitmapBuffer::Allocate(const Point& size, const size_t& ch)
 {
 	// 画像サイズに負の値を設定している場合、std::out_of_rangeを投げる
 	if (size.getX()<0 || size.getY()<0) { throw std::out_of_range(""); }
@@ -22,7 +21,7 @@ float* StationaryOrbit::Graphics::BitmapBuffer::Allocate(const Point& size, cons
 	return data;
 }
 
-void StationaryOrbit::Graphics::BitmapBuffer::Deallocate() noexcept
+void Graphics::BitmapBuffer::Deallocate() noexcept
 {
 	if (IsAllocated())
 	{
@@ -31,18 +30,18 @@ void StationaryOrbit::Graphics::BitmapBuffer::Deallocate() noexcept
 	}
 }
 
-StationaryOrbit::Graphics::BitmapBuffer::BitmapBuffer(const Point& size, const size_t& ch)
+Graphics::BitmapBuffer::BitmapBuffer(const Point& size, const size_t& ch)
 	: _size(size), _ch(ch), _data(Allocate(size, ch))
 {}
 
-StationaryOrbit::Graphics::BitmapBuffer::BitmapBuffer(const IImageInfomation& info)
+Graphics::BitmapBuffer::BitmapBuffer(const IImageInfomation& info)
 	: BitmapBuffer(
 		info.getSize(),
 		Graphics::GetChannelFromColorSpace(info.getColorSystem())
 	)
 {}
 
-StationaryOrbit::Graphics::BitmapBuffer::BitmapBuffer(const IBitmapBuffer& value)
+Graphics::BitmapBuffer::BitmapBuffer(const IBitmapBuffer& value)
 	: BitmapBuffer(value.getSize(), value.getChannel())
 {
 	for (int x = 0; x < _size.getX(); x++)
@@ -58,17 +57,17 @@ StationaryOrbit::Graphics::BitmapBuffer::BitmapBuffer(const IBitmapBuffer& value
 	}
 }
 
-StationaryOrbit::Graphics::BitmapBuffer::~BitmapBuffer()
+Graphics::BitmapBuffer::~BitmapBuffer()
 {
 	Deallocate();
 }
 
-bool StationaryOrbit::Graphics::BitmapBuffer::IsAllocated() const
+bool Graphics::BitmapBuffer::IsAllocated() const
 {
 	return _data != NULL;
 }
 
-float StationaryOrbit::Graphics::BitmapBuffer::getPixel(const Point& pos, size_t ch) const
+float Graphics::BitmapBuffer::getPixel(const Point& pos, size_t ch) const
 {
 	if (_size.getX() <= pos.getX()) throw new std::out_of_range("x");
 	if (_size.getY() <= pos.getY()) throw new std::out_of_range("y");
@@ -77,7 +76,7 @@ float StationaryOrbit::Graphics::BitmapBuffer::getPixel(const Point& pos, size_t
 	return target;
 }
 
-void StationaryOrbit::Graphics::BitmapBuffer::setPixel(const Point& pos, size_t ch, const float& value)
+void Graphics::BitmapBuffer::setPixel(const Point& pos, size_t ch, const float& value)
 {
 	if (_size.getX() <= pos.getX()) throw new std::out_of_range("x");
 	if (_size.getY() <= pos.getY()) throw new std::out_of_range("y");
@@ -86,7 +85,7 @@ void StationaryOrbit::Graphics::BitmapBuffer::setPixel(const Point& pos, size_t 
 	target = value;
 }
 
-StationaryOrbit::Graphics::BitmapBuffer& StationaryOrbit::Graphics::BitmapBuffer::operator=(const BitmapBuffer& value)
+Graphics::BitmapBuffer& Graphics::BitmapBuffer::operator=(const BitmapBuffer& value)
 {
 	// 確保済みの領域をすべて破棄する
 	Deallocate();

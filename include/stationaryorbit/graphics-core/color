@@ -1,4 +1,4 @@
 // -*- C++ -*-
 
-#include "Structure/RGBColor.hpp"
-#include "Structure/YCrCbColor.hpp"
+#include "rgbcolor.hpp"
+#include "ycrcbcolor.hpp"

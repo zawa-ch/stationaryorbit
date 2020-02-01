@@ -2,10 +2,10 @@
 #define __StationaryOrbit_Graphics_BitmapByteBuffer__
 #include <cstddef>
 #include <memory>
-#include "../Interface/IBitmapBuffer.hpp"
-#include "../Structure/Point.hpp"
-#include "../Logic/ImageInfomation.hpp"
-namespace StationaryOrbit::Graphics
+#include "bitmapbuffer.hpp"
+#include "point.hpp"
+#include "imageinfomation.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics
 {
 
 	///	画像情報を各チャネル8ビット整数で保持するためのメモリ空間を提供します。
