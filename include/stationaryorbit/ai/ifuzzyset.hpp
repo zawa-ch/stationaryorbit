@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_ArtificalIntelligence__
 #define __StationaryOrbit_ArtificalIntelligence__
-#include "General/Numeral"
-namespace StationaryOrbit::ArtificalIntelligence
+#include "stationaryorbit/core/numeral"
+namespace zawa_ch::StationaryOrbit::ArtificalIntelligence
 {
 
 	///	ファジィ集合を実装します。

@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_ArtificalIntelligence_LinerFuzzySet__
 #define __StationaryOrbit_ArtificalIntelligence_LinerFuzzySet__
-#include "../Interface/IFuzzySet.hpp"
-namespace StationaryOrbit::ArtificalIntelligence
+#include "ifuzzyset.hpp"
+namespace zawa_ch::StationaryOrbit::ArtificalIntelligence
 {
 
 	///	数値軸上の線形関数で表すことのできるファジィ集合を表します。
