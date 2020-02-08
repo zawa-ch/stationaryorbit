@@ -1,7 +1,7 @@
-#ifndef __stationaryorbit_ai_linerfuzzyset__
-#define __stationaryorbit_ai_linerfuzzyset__
+#ifndef __stationaryorbit_analysis_linerfuzzyset__
+#define __stationaryorbit_analysis_linerfuzzyset__
 #include "fuzzyset.hpp"
-namespace zawa_ch::StationaryOrbit::ArtificalIntelligence
+namespace zawa_ch::StationaryOrbit::NumericAnalysis
 {
 
 	///	数値軸上の線形関数で表すことのできるファジィ集合を表します。
@@ -23,4 +23,4 @@ namespace zawa_ch::StationaryOrbit::ArtificalIntelligence
 	};
 
 }
-#endif // __stationaryorbit_ai_linerfuzzyset__
+#endif // __stationaryorbit_analysis_linerfuzzyset__

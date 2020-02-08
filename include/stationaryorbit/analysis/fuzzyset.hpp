@@ -1,7 +1,7 @@
-#ifndef __stationaryorbit_ai_fuzzyset__
-#define __stationaryorbit_ai_fuzzyset__
+#ifndef __stationaryorbit_analysis_fuzzyset__
+#define __stationaryorbit_analysis_fuzzyset__
 #include "stationaryorbit/core/numeral"
-namespace zawa_ch::StationaryOrbit::ArtificalIntelligence
+namespace zawa_ch::StationaryOrbit::NumericAnalysis
 {
 
 	///	ファジィ集合を表します。
@@ -20,4 +20,4 @@ namespace zawa_ch::StationaryOrbit::ArtificalIntelligence
 	};
 
 }
-#endif // __stationaryorbit_ai_fuzzyset__
+#endif // __stationaryorbit_analysis_fuzzyset__
