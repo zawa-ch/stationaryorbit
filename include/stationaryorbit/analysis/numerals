@@ -1,3 +1,4 @@
 // -*- C++ -*-
 
 #include "compensatedfloat.hpp"
+#include "fuzzybool.hpp"
