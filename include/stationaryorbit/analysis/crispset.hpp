@@ -75,13 +75,20 @@ namespace zawa_ch::StationaryOrbit::NumericAnalysis
 		bool Evaluate(const T& input) const { return _evaluator_func(input); }
 	};
 
+	///	単純なクリスプ集合の実装に用いられるデータセットを表します。
+	template<typename T>
+	class SimpleCrispLogicSetData
+	{
+	public:
+		T _evaluate_value;
+	};
+
 	///	A{ input = value } を表すクリスプ集合を表します。
 	template<typename T>
 	class CrispEqualSet
 		: virtual public CrispSet<T>
+		, private SimpleCrispLogicSetData<T>
 	{
-	private:
-		T _evaluate_value;
 	public:
 		explicit CrispEqual(const T& value) : _evaluate_value(value) {}
 		bool Evaluate(const T& input) const { return input == _evaluate_value; }
@@ -91,9 +98,8 @@ namespace zawa_ch::StationaryOrbit::NumericAnalysis
 	template<typename T>
 	class CrispNotEqualSet
 		: virtual public CrispSet<T>
+		, private SimpleCrispLogicSetData<T>
 	{
-	private:
-		T _evaluate_value;
 	public:
 		explicit CrispNotEqual(const T& value) : _evaluate_value(value) {}
 		bool Evaluate(const T& input) const { return input != _evaluate_value; }
@@ -103,9 +109,8 @@ namespace zawa_ch::StationaryOrbit::NumericAnalysis
 	template<typename T>
 	class CrispMoreSet
 		: virtual public CrispSet<T>
+		, private SimpleCrispLogicSetData<T>
 	{
-	private:
-		T _evaluate_value;
 	public:
 		explicit CrispMore(const T& value) : _evaluate_value(value) {}
 		bool Evaluate(const T& input) const { return _evaluate_value < input; }
@@ -115,9 +120,8 @@ namespace zawa_ch::StationaryOrbit::NumericAnalysis
 	template<typename T>
 	class CrispLessSet
 		: virtual public CrispSet<T>
+		, private SimpleCrispLogicSetData<T>
 	{
-	private:
-		T _evaluate_value;
 	public:
 		explicit CrispLess(const T& value) : _evaluate_value(value) {}
 		bool Evaluate(const T& input) const { return input < _evaluate_value; }
@@ -127,9 +131,8 @@ namespace zawa_ch::StationaryOrbit::NumericAnalysis
 	template<typename T>
 	class CrispMoreEqualSet
 		: virtual public CrispSet<T>
+		, private SimpleCrispLogicSetData<T>
 	{
-	private:
-		T _evaluate_value;
 	public:
 		explicit CrispMoreEqual(const T& value) : _evaluate_value(value) {}
 		bool Evaluate(const T& input) const { return _evaluate_value <= input; }
@@ -139,9 +142,8 @@ namespace zawa_ch::StationaryOrbit::NumericAnalysis
 	template<typename T>
 	class CrispLessEqualSet
 		: virtual public CrispSet<T>
+		, private SimpleCrispLogicSetData<T>
 	{
-	private:
-		T _evaluate_value;
 	public:
 		explicit CrispLessEqual(const T& value) : _evaluate_value(value) {}
 		bool Evaluate(const T& input) const { return input <= _evaluate_value; }
