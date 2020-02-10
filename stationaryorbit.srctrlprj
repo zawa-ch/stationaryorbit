@@ -26,6 +26,7 @@
             </source_extensions>
             <source_paths>
                 <source_path>src</source_path>
+                <source_path>include</source_path>
             </source_paths>
             <status>enabled</status>
             <type>C++ Source Group</type>
