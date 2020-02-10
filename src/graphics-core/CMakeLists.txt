@@ -2,8 +2,25 @@ cmake_minimum_required(VERSION 3.0)
 project(stationaryorbit CXX)
 
 set(AssemblyName stationaryorbit.graphics-core)
+set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/graphics-core)
 
 add_library(${AssemblyName} SHARED
+    ${Include_Dir}/bitmap.hpp
+    ${Include_Dir}/bitmapbuffer.hpp
+    ${Include_Dir}/bitmapbytebuffer.hpp
+    ${Include_Dir}/bitmappixelgetter.hpp
+    ${Include_Dir}/bitmappixelreference.hpp
+    ${Include_Dir}/bitmappixelsetter.hpp
+    ${Include_Dir}/bitmapsimpleconvert.hpp
+    ${Include_Dir}/cmykcolor.hpp
+    ${Include_Dir}/graphicscore.hpp
+    ${Include_Dir}/imageinfomation.hpp
+    ${Include_Dir}/point.hpp
+    ${Include_Dir}/pointf.hpp
+    ${Include_Dir}/rectangle.hpp
+    ${Include_Dir}/rectanglef.hpp
+    ${Include_Dir}/rgbcolor.hpp
+    ${Include_Dir}/ycrcbcolor.hpp
     bitmap.cpp
     bitmapbuffer.cpp
     bitmapbytebuffer.cpp
