@@ -18,7 +18,7 @@ namespace zawa_ch::StationaryOrbit::NumericAnalysis
 		///	指定された値でこのオブジェクトの二値化を行います。
 		bool Binalization(const FractionalDec& value) const { return value <= _value; }
 		FuzzyBool Not() const { return FuzzyBool(FractionalDec::Max() - _value); }
-		FuzzyBool operator~() const { return Not(); }
+		FuzzyBool operator!() const { return Not(); }
 		FuzzyBool Or(const FuzzyBool& value) const { return FuzzyBool((value._value<_value)?_value:value._value); }
 		FuzzyBool operator||(const FuzzyBool& value) const { return Or(value); }
 		FuzzyBool And(const FuzzyBool& value) const { return FuzzyBool((_value<value._value)?_value:value._value); }

@@ -14,6 +14,68 @@ namespace zawa_ch::StationaryOrbit::NumericAnalysis
 		virtual FuzzyBool Evaluate(const T& input) const = 0;
 	};
 
+	///	ファジィ集合の補集合(~A)を表します。
+	template<typename T>
+	class FuzzyComplementalSet
+		: virtual public FuzzySet<T>
+	{
+	private:
+		const FuzzySet<T>& _value;
+	public:
+		explicit FuzzyComplementalSet(const FuzzySet<T>& value) : _value(value) {}
+		FuzzyBool Evaluate(const T& input) const { return !(_value.Evaluate(input)); }
+	};
+
+	template<typename T>
+	FuzzyComplementalSet<T> operator~(const FuzzySet<T>& value) { return FuzzyComplementalSet(value); }
+
+	///	ファジィ集合の和集合(A ∪ B)を表します。
+	template<typename TLeft, typename TRight>
+	class FuzzyOrCombining
+		: virtual public FuzzySet<std::pair<TLeft, TRight>>
+	{
+	private:
+		const FuzzySet<TLeft>& _left;
+		const FuzzySet<TRight>& _right;
+	public:
+		explicit FuzzyOrCombining(const FuzzySet<TLeft>& left, const FuzzySet<TRight>& right) : _left(left), _right(right) {}
+		FuzzyBool Evaluate(const std::pair<TLeft, TRight>& input) const { return Evaluate(input.first, input.second); }
+		FuzzyBool Evaluate(const TLeft& leftinput, const TRight& rightinput) const { return _left.Evaluate(leftinput) || _right.Evaluate(rightinput); }
+	};
+
+	template<typename TLeft, typename TRight>
+	FuzzyOrCombining<TLeft, TRight> operator||(const FuzzySet<TLeft>& left, const FuzzySet<TRight>& right) { return FuzzyOrCombining(left, right); }
+
+	///	ファジィ集合の積集合(A ∩ B)を表します。
+	template<typename TLeft, typename TRight>
+	class FuzzyAndCombining
+		: virtual public FuzzySet<std::pair<TLeft, TRight>>
+	{
+	private:
+		const FuzzySet<TLeft>& _left;
+		const FuzzySet<TRight>& _right;
+	public:
+		explicit FuzzyAndCombining(const FuzzySet<TLeft>& left, const FuzzySet<TRight>& right) : _left(left), _right(right) {}
+		FuzzyBool Evaluate(const std::pair<TLeft, TRight>& input) const { return Evaluate(input.first, input.second); }
+		FuzzyBool Evaluate(const TLeft& leftinput, const TRight& rightinput) const { return _left.Evaluate(leftinput) && _right.Evaluate(rightinput); }
+	};
+
+	template<typename TLeft, typename TRight>
+	FuzzyAndCombining<TLeft, TRight> operator&&(const FuzzySet<TLeft>& left, const FuzzySet<TRight>& right) { return FuzzyAndCombining(left, right); }
+
+	template<typename T>
+	class FuzzyDelegateSet
+		: virtual public FuzzySet<T>
+	{
+	public:
+		typedef FuzzyBool(*Function)(const T&);
+	private:
+		Function _evaluator_func;
+	public:
+		FuzzyDelegateSet(Function evaluator_func) : _evaluator_func(evaluator_func) {}
+		FuzzyBool Evaluate(const T& input) const { return _evaluator_func(input); }
+	};
+
 	///	単純なファジィ集合の実装に用いられるデータセットを表します。
 	template<typename T>
 	class SimpleFuzzyLogicSetData
