@@ -9,6 +9,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/crispset.hpp
     ${Include_Dir}/differencial.hpp
     ${Include_Dir}/fuzzybool.hpp
+    ${Include_Dir}/fuzzyrelation.hpp
     ${Include_Dir}/fuzzyset.hpp
     ${Include_Dir}/integral.hpp
     ${Include_Dir}/mathematicfunction.hpp

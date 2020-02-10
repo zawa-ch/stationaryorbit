@@ -10,6 +10,7 @@ namespace zawa_ch::StationaryOrbit::NumericAnalysis
 	class FuzzySet
 	{
 	public:
+		typedef T Type;
 		///	指定された値が集合にどの程度含まれるか(帰属度)を評価します。
 		virtual FuzzyBool Evaluate(const T& input) const = 0;
 	};
@@ -44,7 +45,7 @@ namespace zawa_ch::StationaryOrbit::NumericAnalysis
 	};
 
 	template<typename TLeft, typename TRight>
-	FuzzyOrCombining<TLeft, TRight> operator||(const FuzzySet<TLeft>& left, const FuzzySet<TRight>& right) { return FuzzyOrCombining(left, right); }
+	FuzzyOrCombining<TLeft, TRight> operator|(const FuzzySet<TLeft>& left, const FuzzySet<TRight>& right) { return FuzzyOrCombining(left, right); }
 
 	///	ファジィ集合の積集合(A ∩ B)を表します。
 	template<typename TLeft, typename TRight>
@@ -61,7 +62,7 @@ namespace zawa_ch::StationaryOrbit::NumericAnalysis
 	};
 
 	template<typename TLeft, typename TRight>
-	FuzzyAndCombining<TLeft, TRight> operator&&(const FuzzySet<TLeft>& left, const FuzzySet<TRight>& right) { return FuzzyAndCombining(left, right); }
+	FuzzyAndCombining<TLeft, TRight> operator&(const FuzzySet<TLeft>& left, const FuzzySet<TRight>& right) { return FuzzyAndCombining(left, right); }
 
 	template<typename T>
 	class FuzzyDelegateSet

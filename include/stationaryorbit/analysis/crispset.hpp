@@ -9,6 +9,7 @@ namespace zawa_ch::StationaryOrbit::NumericAnalysis
 	class CrispSet
 	{
 	public:
+		typedef T Type;
 		///	指定された値が集合に含まれるかを評価します。
 		virtual bool Evaluate(const T& input) const = 0;
 	};
@@ -43,7 +44,7 @@ namespace zawa_ch::StationaryOrbit::NumericAnalysis
 	};
 
 	template<typename TLeft, typename TRight>
-	CrispOrCombining<TLeft, TRight> operator||(const CrispSet<TLeft>& left, const CrispSet<TRight>& right) { return CrispOrCombining(left, right); }
+	CrispOrCombining<TLeft, TRight> operator|(const CrispSet<TLeft>& left, const CrispSet<TRight>& right) { return CrispOrCombining(left, right); }
 
 	///	クリスプ集合の積集合(A ∩ B)を表します。
 	template<typename TLeft, typename TRight>
@@ -60,7 +61,7 @@ namespace zawa_ch::StationaryOrbit::NumericAnalysis
 	};
 
 	template<typename TLeft, typename TRight>
-	CrispAndCombining<TLeft, TRight> operator&&(const CrispSet<TLeft>& left, const CrispSet<TRight>& right) { return CrispAndCombining(left, right); }
+	CrispAndCombining<TLeft, TRight> operator&(const CrispSet<TLeft>& left, const CrispSet<TRight>& right) { return CrispAndCombining(left, right); }
 
 	template<typename T>
 	class CrispDelegateSet
