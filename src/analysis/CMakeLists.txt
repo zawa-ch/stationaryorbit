@@ -22,6 +22,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/trapeziumintegral.hpp
     compensatedfloat.cpp
     differencial.cpp
+    fuzzybool.cpp
     midpointintegral.cpp
     newtoncoef.cpp
     polynomialfunction.cpp
