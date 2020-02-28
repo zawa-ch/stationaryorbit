@@ -37,7 +37,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::BMP
 
 		BitmapByteBuffer& BMPBuffer() { return buf; }
 
-		BitmapPixelReference IndexAt(const Point& position) { return BitmapPixelReference(buf, info, position); }
+		BitmapPixelReference Index(const Point& position) { return BitmapPixelReference(buf, info, position); }
 
 		BMPImageBitmap& Assign(const BMPImageBitmap& value);
 

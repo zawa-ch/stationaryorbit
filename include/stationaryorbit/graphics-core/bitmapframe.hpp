@@ -15,23 +15,27 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	{
 	public:
 
+		///	空の @a BitmapFrame を初期化します。
 		BitmapFrame() = default;
 
-		BitmapFrame(const BitmapFrame& value) = delete;
+		BitmapFrame(const BitmapFrame& value) = delete;	///< [削除]コピーコンストラクタ
 
-		BitmapFrame(BitmapFrame&&) = delete;
-
+		///	継承されたクラスのデストラクタを使用してオブジェクトを破棄します。
 		virtual ~BitmapFrame() = default;
 
+		///	このオブジェクトに関連付けられているバッファを取得します。
 		virtual const IBitmapBuffer& getBuffer() const = 0;
 
+		///	このオブジェクトの情報を取得します。
 		virtual const IImageInfomation& getInfomation() const = 0;
 
+		///	このオブジェクトの指定されたピクセルの参照を取得します。
 		virtual const BitmapPixelGetter getPixel(const Point& position) const = 0;
 
+		///	このオブジェクトに関連付けられているバッファを取得します。
 		virtual IBitmapBuffer& Buffer() = 0;
 
-		virtual BitmapPixelReference IndexAt(const Point& position) = 0;
+		virtual BitmapPixelReference Index(const Point& position) = 0;
 
 		template<class ... argsT>
 		void ForEach(const Delegate<BitmapPixelReference, argsT ...>& action, argsT ... args)
@@ -42,7 +46,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			{
 				for (int x = 0; x < sizex; x++)
 				{
-					action.Invoke(IndexAt(Point(x, y)), args...);
+					action.Invoke(Index(Point(x, y)), args...);
 				}
 			}
 		}
