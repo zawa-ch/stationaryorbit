@@ -1,104 +1,155 @@
-#ifndef __StationaryOrbit_Range__
-#define __StationaryOrbit_Range__
+#ifndef __stationaryorbit_core_range__
+#define __stationaryorbit_core_range__
 #include <limits>
 #include <type_traits>
 namespace zawa_ch::StationaryOrbit
 {
 
+	template<class T, bool floor_included, bool ceiling_included> class RangeSlice;
+
 	///	二つの値に囲まれた範囲を表します。
-	///
 	///	@param	T
 	///	値を表現する型。
-	///
 	///	@param	floor_included
 	///	範囲に下限値そのものを含むかどうか。
-	///
 	///	@param	ceiling_included
 	///	範囲に上限値そのものを含むかどうか。
-	template<typename T, bool floor_included, bool ceiling_included>
+	template<typename T, bool floor_included = true, bool ceiling_included = false>
 	struct Range final
 	{
-	private:
+		static_assert(std::is_arithmetic<T>::value, "この型のテンプレート T は算術型のクラスである必要があります。");
 
-		T _bottom;	///< 下限値。
-		T _top;	///< 上限値。
+	public: // type
 
-		constexpr bool isOverBottom(const T& value) const
-		{
-			if constexpr (floor_included) { return _bottom <= value; }
-			else { return _bottom < value; }
-		}
+		///	値の表現に使用されている型。
+		typedef T ValueType;
+		typedef Range<T, floor_included, ceiling_included> RangeType;
+		typedef RangeSlice<T, floor_included, ceiling_included> SliceType;
 
-		constexpr bool isUnderTop(const T& value) const
-		{
-			if constexpr (ceiling_included) { return value <= _top; }
-			else { return value < _top; }
-		}
+	private: // contains
 
-	public:
+		ValueType _bottom;	///< 下限値。
+		ValueType _top;	///< 上限値。
+
+	public: // constructor
 
 		///	オブジェクトを既定の値で初期化します。
 		constexpr Range() = default;
 
 		///	値を指定してオブジェクトを構築します。
-		constexpr Range(const T& bottom, const T& top) noexcept
-			: _bottom(bottom), _top(top)
-		{
-			static_assert(std::is_arithmetic<T>::value, "この型のテンプレート T は算術型のクラスである必要があります。");
-		}
+		constexpr Range(const T& bottom, const T& top) noexcept : _bottom(bottom), _top(top) {}
+
+	public: // menber
 
 		///	範囲の下限値を取得します。
-		T getFloor() const { return _bottom; }
-
+		ValueType getFloor() const { return _bottom; }
 		///	範囲の上限値を取得します。
-		T getCailing() const { return _top; }
-
+		ValueType getCailing() const { return _top; }
 		///	範囲の長さを求めます。
-		T Length() const
+		ValueType Length() const
 		{
-			if ((_bottom < 0)&&((std::numeric_limits<T>::max() - _bottom) < _top)) { throw std::overflow_error("計算結果がテンプレートで指定されている型の最大値を超えています。"); }
+			if ((_bottom < 0)&&((std::numeric_limits<ValueType>::max() - _bottom) < _top)) { throw std::overflow_error("計算結果がテンプレートで指定されている型の最大値を超えています。"); }
 
-			if (_top < _bottom) { return T(0); }
-			else if (_top < 0) { return T(-(-_top + _bottom)); }
-			else if (_bottom < 0) { return T(_top) + T(-_bottom); }
-			else { return T(_top - _bottom); }
+			if (_top < _bottom) { return ValueType(0); }
+			else if (_top < 0) { return ValueType(-(-_top + _bottom)); }
+			else if (_bottom < 0) { return ValueType(_top) + ValueType(-_bottom); }
+			else { return ValueType(_top - _bottom); }
 		}
 
 		///	指定された値が範囲に含まれているかを検査します。
-		///
 		///	@param	value
 		///	検査を行う値
-		///
 		///	@return
 		///	範囲に含まれれば @a true を返します。そうでなければ @a false を返します。
 		constexpr bool isIncluded(const T& value) const { return isOverBottom(value) && isUnderTop(value); }
 
 		///	指定された値が範囲より大きいかを検査します。
-		///
 		///	@param	value
 		///	検査を行う値
-		///
 		///	@return
 		///	範囲より大きければ @a true を返します。そうでなければ @a false を返します。
 		constexpr bool isAbove(const T& value) const { return isOverBottom(value) && !isUnderTop(value); }
 		bool operator<(const T& value) const { return isAbove(value); }
 
 		///	指定された値が範囲より小さいかを検査します。
-		///
 		///	@param	value
 		///	検査を行う値
-		///
 		///	@return
 		///	範囲より小さければ @a true を返します。そうでなければ @a false を返します。
-		constexpr bool isLess(const T& value) const { return !isOverBottom(value) && isUnderTop(value); }
-		bool operator>(const T& value) const { return isLess(value); }
+		constexpr bool isLess(const ValueType& value) const { return !isOverBottom(value) && isUnderTop(value); }
+		bool operator>(const ValueType& value) const { return isLess(value); }
+
+		constexpr SliceType getSlice() const noexcept { return SliceType(*this, floor_included?(_bottom-1):(_bottom)); }
+
+	public: // container
+
+		constexpr SliceType begin() const noexcept { return SliceType(*this, floor_included?(_bottom):(_bottom+1)); }
+		constexpr SliceType end() const noexcept { return SliceType(*this, ceiling_included?(_top+1):(_top)); }
+
+	public: // equatable
 
 		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
-		bool Equals(const Range<T, floor_included, ceiling_included>& value) const { return (_bottom == value._bottom)&&(_top == value._top); }
-		bool operator ==(const Range<T, floor_included, ceiling_included>& value) const { return Equals(value); }
-		bool operator !=(const Range<T, floor_included, ceiling_included>& value) const { return !Equals(value); }
+		constexpr bool Equals(const Range<ValueType, floor_included, ceiling_included>& value) const { return (_bottom == value._bottom)&&(_top == value._top); }
+		bool operator==(const Range<ValueType, floor_included, ceiling_included>& value) const { return Equals(value); }
+		bool operator!=(const Range<ValueType, floor_included, ceiling_included>& value) const { return !Equals(value); }
+
+	private:
+
+		constexpr bool isOverBottom(const ValueType& value) const noexcept { if constexpr (floor_included) { return _bottom <= value; } else { return _bottom < value; } }
+		constexpr bool isUnderTop(const ValueType& value) const noexcept { if constexpr (ceiling_included) { return value <= _top; } else { return value < _top; } }
+
+	};
+
+	template<class T, bool floor_included = true, bool ceiling_included = false>
+	class RangeSlice
+	{
+		static_assert(std::is_integral<T>::value, "この型のテンプレート T は整数型のクラスである必要があります。");
+		friend class Range<T, floor_included, ceiling_included>;
+
+	public: // type
+
+		///	値の表現に使用されている型。
+		typedef T ValueType;
+		///	スライシング元の @a Range の型。
+		typedef Range<T, floor_included, ceiling_included> RangeType;
+		typedef RangeSlice<T, floor_included, ceiling_included> SliceType;
+
+	private: // contains
+
+		const RangeType _range;
+		ValueType _value;
+
+	private: // constructor
+
+		constexpr RangeSlice(const RangeType& range, const ValueType& value) : _range(range), _value(value) {}
+
+	public: // member
+
+		///	このイテレータの現在示している値を取得します。
+		ValueType Current() const noexcept { return _value; }
+		///	このイテレータを次に進めます。
+		bool Next() noexcept { return _range.isUnderTop(++_value); }
+		///	このイテレータを初期位置、つまり最初のオブジェクトの前の位置に進めます。
+		void Reset() noexcept {}	// TODO: implement
+		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
+		bool Equals(const SliceType& other) const noexcept { return (_range.Equals(other._range))&&(_value == other._value); }
+
+	public: // implement LegacyIterator
+
+		ValueType operator*() const noexcept { return _value; }
+		SliceType& operator++() noexcept { _value++; return *this; }
+
+	public: // implement LegacyInputIterator
+
+		bool operator==(const SliceType& other) const noexcept { return Equals(other); }
+		bool operator!=(const SliceType& other) const noexcept { return !Equals(other); }
+		const ValueType* operator->() const noexcept { return &_value; }
+
+	public: // implement LegacyBidirectionalIterator
+
+		SliceType& operator--() noexcept { _value--; return *this; }
 
 	};
 
 }
-#endif // __StationaryOrbit_Range__
+#endif // __stationaryorbit_core_range__

@@ -11,6 +11,7 @@ set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.core)
 # ビルドするソースファイル
 set(BUILD_SOURCES)
 set(BUILD_SOURCES ${BUILD_SOURCES} fractionaldec.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} range.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} rotation.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} test-general.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} vector2d.cpp)
