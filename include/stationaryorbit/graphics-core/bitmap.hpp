@@ -5,41 +5,50 @@
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 
+	template<class T = float>
 	class Bitmap final
-		: virtual public BitmapFrame
+		: virtual public BitmapFrame<T>
 	{
-	private:
+	public: // type
 
-		BitmapBuffer buf;
+		typedef BitmapFrame<T> FrameType;
+		typedef IBitmapBuffer<T> IBufferType;
+		typedef BitmapBuffer<T> BufferType;
+		typedef BitmapPixelReference<T> PxRefType;
+
+	private: // contains
+
+		BufferType buf;
 		ImageInfomation info;
 	
-	public:
+	public: // constructor
 
 		Bitmap() = default;
 
 		explicit Bitmap(const ImageInfomation& infomation);
 
-		Bitmap(const Bitmap& value) { Assign(value); }
+		Bitmap(const FrameType& value) : buf(value.Buffer()), info(value.Infomation()) {}
 
-		Bitmap(const BitmapFrame& value) { Assign(value); }
+	public: // implement BitmapFrame
 
-		const IBitmapBuffer& getBuffer() const { return buf; }
+		///	このオブジェクトに関連付けられているバッファを取得します。
+		const IBufferType& getBuffer() const { return buf; }
 
+		///	このオブジェクトに関連付けられているバッファを取得します。
+		IBufferType& getBuffer() { return buf; }
+
+		///	このオブジェクトの情報を取得します。
 		const IImageInfomation& getInfomation() const { return info; }
 
-		const BitmapPixelGetter getPixel(const Point& position) const { return BitmapPixelGetter(buf, info, position); }
+		///	このオブジェクトの指定されたピクセルの参照を取得します。
+		PxRefType Index(const Point& position) { return PxRefType(buf, info, position); }
 
-		IBitmapBuffer& Buffer() { return buf; }
+		///	このオブジェクトの指定されたピクセルの参照を取得します。
+		const PxRefType Index(const Point& position) const { return PxRefType(buf, info, position); }
 
-		BitmapPixelReference Index(const Point& position) { return BitmapPixelReference(buf, info, position); }
+		FrameType& Assign(const FrameType& value) { return *this = Bitmap<T>(value); }
 
-		Bitmap& Assign(const Bitmap& value);
-
-		BitmapFrame& Assign(const BitmapFrame& value);
-
-		Bitmap& operator=(const Bitmap& value) { return Assign(value); }
-
-		BitmapFrame& operator=(const BitmapFrame& value) { return Assign(value); }
+		FrameType& operator=(const FrameType& value) { return *this = Bitmap<T>(value); }
 
 	};
 

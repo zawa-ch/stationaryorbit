@@ -18,7 +18,6 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/rectanglef.hpp
     ${Include_Dir}/rgbcolor.hpp
     ${Include_Dir}/ycrcbcolor.hpp
-    bitmap.cpp
     bitmapsimpleconvert.cpp
     graphicscore.cpp
     imageinfomation.cpp
