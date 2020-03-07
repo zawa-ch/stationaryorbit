@@ -7,9 +7,7 @@ set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/graphics-cor
 add_library(${AssemblyName} SHARED
     ${Include_Dir}/bitmap.hpp
     ${Include_Dir}/bitmapbuffer.hpp
-    ${Include_Dir}/bitmappixelgetter.hpp
     ${Include_Dir}/bitmappixelreference.hpp
-    ${Include_Dir}/bitmappixelsetter.hpp
     ${Include_Dir}/bitmapsimpleconvert.hpp
     ${Include_Dir}/cmykcolor.hpp
     ${Include_Dir}/graphicscore.hpp
@@ -21,9 +19,6 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/rgbcolor.hpp
     ${Include_Dir}/ycrcbcolor.hpp
     bitmap.cpp
-    bitmappixelgetter.cpp
-    bitmappixelreference.cpp
-    bitmappixelsetter.cpp
     bitmapsimpleconvert.cpp
     graphicscore.cpp
     imageinfomation.cpp
