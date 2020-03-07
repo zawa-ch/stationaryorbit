@@ -59,6 +59,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	class BitmapBuffer
 		: virtual public IBitmapBuffer<T>
 	{
+    public: // type
+
+		typedef ChannelValue<T> ValueType;
+		typedef size_t SizeType;
+
 	private: // contains
 
 		SizeType _x;
@@ -136,10 +141,27 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			return _data[(y*_x + x)*CalcChCount(_space) + ch];
 		}
 
+		template<class destT>
+		BitmapBuffer<destT> ConvertTo() const
+		{
+			auto result = BitmapBuffer<destT>(_x, _y, _space);
+			for (auto y : Range<size_t>(0, _y))
+			{
+				for (auto x : Range<size_t>(0, _x))
+				{
+					for (auto ch : Range<size_t>(0, CalcChCount(_space)))
+					{
+						result.Index(x, y, ch) = ChannelValueConverter::Convert<T, destT>(Index(x, y, ch));
+					}
+				}
+			}
+			return result;
+		}
+
 	public: // static
 
 		template<class FromT>
-		static BitmapBuffer<T> Convert(const IBitmapBuffer<FromT>& value)
+		static BitmapBuffer<T> ConvertFrom(const IBitmapBuffer<FromT>& value)
 		{
 			auto result = BitmapBuffer<T>(value.getHorizonalSize(), value.getVerticalSize(), value.getColorSpace());
 			for (auto y : Range<size_t>(0, result._y))
@@ -148,7 +170,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 				{
 					for (auto ch : Range<size_t>(0, CalcChCount(result._space)))
 					{
-						Index(x, y, ch) = value.Index(x, y, ch).ConvertTo<T>();
+						result.Index(x, y, ch) = ChannelValueConverter::Convert<FromT, T>(value.Index(x, y, ch));
 					}
 				}
 			}

@@ -34,45 +34,20 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		constexpr bool IsNormalized() const { return (Min().value < value)&&(value < Max().value); }
 
-		template<class destT>
-		constexpr ChannelValue<destT> ConvertTo() const { return ChannelValue<destT>::ConvertFrom<T>(*this); }
-
 	public: // static
 
 		constexpr static ChannelValue<T> Max()
 		{
+			static_assert((std::is_floating_point_v<T>)||(std::is_integral_v<T>), "テンプレートの特殊化に失敗しました(テンプレート型 T は整数型または浮動小数点数型のいずれでもありません)。");
 			if constexpr (std::is_floating_point_v<T>) { return ChannelValue(ValueType(1.0)); }
-			else if constexpr (std::is_integral_v<T>) { return ChannelValue(std::numeric_limits<T>::max()); }
-			else { static_assert(std::false_type::value, "テンプレートの特殊化に失敗しました(テンプレート型 T は整数型または浮動小数点数型のいずれでもありません)。"); }
+			if constexpr (std::is_integral_v<T>) { return ChannelValue(std::numeric_limits<T>::max()); }
 		}
 
 		constexpr static ChannelValue<T> Min()
 		{
+			static_assert((std::is_floating_point_v<T>)||(std::is_integral_v<T>), "テンプレートの特殊化に失敗しました(テンプレート型 T は整数型または浮動小数点数型のいずれでもありません)。");
 			if constexpr (std::is_floating_point_v<T>) { return ChannelValue(ValueType(0.0)); }
-			else if constexpr (std::is_integral_v<T>) { return ChannelValue(0); }
-			else { static_assert(std::false_type::value, "テンプレートの特殊化に失敗しました(テンプレート型 T は整数型または浮動小数点数型のいずれでもありません)。"); }
-		}
-
-		template<class fromT>
-		constexpr static ChannelValue<T> ConvertFrom(const ChannelValue<fromT>& value)
-		{
-			if constexpr (std::is_floating_point_v<T>)
-			{
-				if constexpr (std::is_floating_point_v<fromT>) { return ChannelValue(T(value.value)); }
-				else if constexpr (std::is_integral_v<fromT>) { return ChannelValue(T(value.value) / Max().value); }
-				else { static_assert(std::false_type::value, "テンプレートの特殊化に失敗しました(テンプレート型 T は整数型または浮動小数点数型のいずれでもありません)。"); }
-			}
-			else if constexpr (std::is_integral_v<T>)
-			{
-				if constexpr (std::is_floating_point_v<fromT>) { return ChannelValue(T(value.value * Max().value)); }
-				else if constexpr (std::is_integral_v<fromT>)
-				{
-					if constexpr (sizeof(fromT) < sizeof(T)) { return ChannelValue(T(value.value) * (Max().value / value.Max().value)); }
-					else { return ChannelValue(T(value.value / (value.Max().value / Max().value))); }
-				}
-				else { static_assert(std::false_type::value, "テンプレートの特殊化に失敗しました(テンプレート型 T は整数型または浮動小数点数型のいずれでもありません)。"); }
-			}
-			else { static_assert(std::false_type::value, "テンプレートの特殊化に失敗しました(テンプレート型 T は整数型または浮動小数点数型のいずれでもありません)。"); }
+			if constexpr (std::is_integral_v<T>) { return ChannelValue(0); }
 		}
 
 	public: // equatability
@@ -111,6 +86,38 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		ChannelValue<T>& operator=(ChannelValue<T>&& value) = default;
 		~ChannelValue() = default;
 
+	};
+
+	class ChannelValueConverter
+	{
+		ChannelValueConverter() = delete;
+		ChannelValueConverter(const ChannelValueConverter&) = delete;
+		ChannelValueConverter& operator=(const ChannelValueConverter&) = delete;
+		ChannelValueConverter(ChannelValueConverter&&) = delete;
+		ChannelValueConverter& operator=(ChannelValueConverter&&) = delete;
+
+	public:
+
+		template<class fromT, class destT>
+		constexpr static ChannelValue<destT> Convert(const ChannelValue<fromT>& from)
+		{
+			static_assert((std::is_floating_point_v<fromT>)||(std::is_integral_v<fromT>), "テンプレートの特殊化に失敗しました(テンプレート型 T は整数型または浮動小数点数型のいずれでもありません)。");
+			static_assert((std::is_floating_point_v<destT>)||(std::is_integral_v<destT>), "テンプレートの特殊化に失敗しました(テンプレート型 T は整数型または浮動小数点数型のいずれでもありません)。");
+			if constexpr (std::is_floating_point_v<destT>)
+			{
+				if constexpr (std::is_floating_point_v<fromT>) { return ChannelValue(destT(from.value)); }
+				if constexpr (std::is_integral_v<fromT>) { return ChannelValue(destT(from.value) / ChannelValue<destT>::Max().value); }
+			}
+			if constexpr (std::is_integral_v<destT>)
+			{
+				if constexpr (std::is_floating_point_v<fromT>) { return ChannelValue(destT(from.value * ChannelValue<destT>::Max().value)); }
+				if constexpr (std::is_integral_v<fromT>)
+				{
+					if constexpr (sizeof(fromT) < sizeof(destT)) { return ChannelValue(destT(from.value) * (ChannelValue<destT>::Max().value / ChannelValue<fromT>::Max().value)); }
+					else { return ChannelValue(T(from.value / (ChannelValue<fromT>::Max().value / ChannelValue<destT>::Max().value))); }
+				}
+			}
+		}
 	};
 
 }

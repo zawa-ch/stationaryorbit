@@ -25,9 +25,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	参照先の @a BitmapBuffer 。
 		IBufferType& _buf;
 		///	参照先のx座標。
-		Point _x;
+		size_t _x;
 		///	参照先のy座標。
-		Point _y;
+		size_t _y;
 
 	public: // constructor
 
@@ -50,7 +50,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	参照先の座標。
 		BitmapPixelReference(IBufferType& buffer, const Point& position) : BitmapPixelReference(buffer, position.getX(), position.getY())
 		{
-			if ((size.getX() < 0)||(size.getY() < 0)) { throw std::invalid_argument("負の値を持つsizeを引数に取りました。"); }
+			if ((position.getX() < 0)||(position.getY() < 0)) { throw std::invalid_argument("負の値を持つpositionを引数に取りました。"); }
 		}
 
 	public: // member
