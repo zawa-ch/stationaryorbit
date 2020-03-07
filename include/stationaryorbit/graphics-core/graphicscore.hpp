@@ -10,6 +10,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		Graphics() = delete;
 		Graphics(const Graphics&) = delete;
+		Graphics(Graphics&&) = delete;
 		~Graphics() = delete;
 
 	public:

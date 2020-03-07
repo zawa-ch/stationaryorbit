@@ -3,7 +3,10 @@
 #include <cstddef>
 #include <vector>
 #include <stdexcept>
+#include <functional>
 #include "stationaryorbit/core/numeral"
+#include "channelvalue.hpp"
+#include "graphicscore.hpp"
 #include "point.hpp"
 #include "imageinfomation.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
@@ -15,11 +18,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	template<class T>
     class IBitmapBuffer
     {
-		static_assert(std::is_arithmetic_v<T>, "値として使用する型 T は算術型である必要があります。");
-
     public:
 
-		typedef T ValueType;
+		typedef ChannelValue<T> ValueType;
 		typedef size_t SizeType;
 
 		///	このバッファの幅を取得します。
@@ -85,7 +86,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	指定されたキャンバスの内容を複製します。
 		///	@param	value
 		///	複製元の @a IBitmapBuffer 。
-		explicit BitmapBuffer(const IBitmapBuffer<ValueType>& value) : BitmapBuffer(value.getHorizonalSize(), value.getVerticalSize(), value.getChannel())
+		explicit BitmapBuffer(const IBitmapBuffer<T>& value) : BitmapBuffer(value.getHorizonalSize(), value.getVerticalSize(), value.getChannel())
 		{
 			for (auto y : Range<size_t>(0, _y))
 			{
@@ -126,6 +127,25 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			if (_y <= y) throw new std::out_of_range("y が画像エリアの範囲外です。");
 			if (_ch <= ch) throw new std::out_of_range("ch が画像エリアの範囲外です。");
 			return _data[(y*_x + x)*_ch + ch];
+		}
+
+	public: // static
+
+		template<class FromT>
+		static BitmapBuffer<T> Convert(const IBitmapBuffer<FromT>& value)
+		{
+			auto result = BitmapBuffer<T>(value.getHorizonalSize(), value.getVerticalSize(), value.getChannel());
+			for (auto y : Range<size_t>(0, result._y))
+			{
+				for (auto x : Range<size_t>(0, result._x))
+				{
+					for (auto ch : Range<size_t>(0, result._ch))
+					{
+						Index(x, y, ch) = value.Index(x, y, ch).ConvertTo<T>();
+					}
+				}
+			}
+			return result;
 		}
 
 	private: // internal
