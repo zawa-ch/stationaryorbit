@@ -1,116 +1,147 @@
-#ifndef __StationaryOrbit_Graphics_BitmapBuffer__
-#define __StationaryOrbit_Graphics_BitmapBuffer__
+#ifndef __stationaryorbit_graphics_core_bitmapbuffer__
+#define __stationaryorbit_graphics_core_bitmapbuffer__
 #include <cstddef>
-#include <memory>
+#include <vector>
+#include <stdexcept>
+#include "stationaryorbit/core/numeral"
 #include "point.hpp"
 #include "imageinfomation.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 
 	///	画像情報を保持するための記憶領域を提供し、アクセスを行うためのメソッドを実装します。
+	///	@param	T
+	///	値の表現に使用する型。
+	template<class T>
     class IBitmapBuffer
     {
+		static_assert(std::is_arithmetic_v<T>, "値として使用する型 T は算術型である必要があります。");
+
     public:
-		
-		///	このバッファの画像サイズを取得します。
-		virtual Point getSize() const = 0;
+
+		typedef T ValueType;
+		typedef size_t SizeType;
+
+		///	このバッファの幅を取得します。
+		virtual SizeType getHorizonalSize() const = 0;
+
+		///	このバッファの高さを取得します。
+		virtual SizeType getVerticalSize() const = 0;
 
 		///	このバッファのチャネル数を取得します。
-		virtual size_t getChannel() const = 0;
+		virtual SizeType getChannel() const = 0;
 
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		virtual float getPixel(const Point& pos, size_t ch) const = 0;
+		virtual const ValueType& Index(const SizeType& x, const SizeType& y, const SizeType& ch) const = 0;
 
-		///	指定された1ピクセル・1チャネルにおける値を設定します。
-		virtual void setPixel(const Point& pos, size_t ch, const float& value) = 0;
+		///	指定された1ピクセル・1チャネルにおける値を取得します。
+		virtual ValueType& Index(const SizeType& x, const SizeType& y, const SizeType& ch) = 0;
 
     };
 
-	///	画像情報を各チャネル8ビット整数で保持するためのメモリ空間を提供します。
+	///	画像情報を保持するためのメモリ空間を提供します。
+	///	@param	T
+	///	値の表現に使用する型。
+	template<class T = float>
 	class BitmapBuffer
-		: public IBitmapBuffer
+		: virtual public IBitmapBuffer<T>
 	{
-	private:
+	private: // contains
 
-		Point _size;
-		size_t _ch;
-		float* _data;
+		SizeType _x;
+		SizeType _y;
+		SizeType _ch;
+		std::vector<ValueType> _data;
 
-		///	オブジェクトが使用するオブジェクト数を算出します。
-		///	params:
-		///	size	Bitmapの画像サイズ。
-		///	ch	Bitmapの色チャネル数。
-		///	returns:
-		///	算出されたオブジェクト数が返ります。
-		static size_t CalcLength(const Point& size, const size_t& ch);
+	public: // constructor
 
-		///	このオブジェクトのための記憶域空間を確保します。
-		///	params:
-		///	size	Bitmapの画像サイズ。
-		///	ch	Bitmapの色チャネル数。
-		///	returns:
-		///	確保された記憶域への参照が返ります。
-		///	exception:
-		///	std::bad_alloc	メモリの確保に失敗しました。
-		///	attribute:
-		///	nodiscard	取得したリソースへの参照を返すため、返り値を破棄するとメモリリークが発生する可能性があります。
-		[[nodiscard]]
-		static float* Allocate(const Point& size, const size_t& ch);
-
-		///	確保していた記憶域空間を開放します。
-		void Deallocate() noexcept;
-
-	public:
-
+		///	既定の @a BitmapBuffer を初期化します。
 		BitmapBuffer() = default;
 
-		BitmapBuffer(const Point& size, const size_t& ch);
+		///	指定されたサイズのキャンバスを確保し、このオブジェクトを初期化します。
+		///	@param	x
+		///	Bitmapの幅。
+		///	@param	y
+		///	Bitmapの高さ。
+		///	@param	ch
+		///	Bitmapのチャネル数。
+		BitmapBuffer(const SizeType& x, const SizeType& y, const SizeType& ch) : _x(x), _y(y), _ch(ch), _data(CalcLength(x, y, ch)) {}
 
 		///	指定されたサイズのキャンバスを確保し、このオブジェクトを初期化します。
-		///	params:
-		///	info	キャンバスの生成時に用いるキャンバス情報。
-		///	exception:
-		///	std::out_of_range	infoで指定している画像サイズが負の値です。
-		///	std::bad_alloc	メモリの確保に失敗しました。
-		explicit BitmapBuffer(const IImageInfomation& info);
+		///	@param	size
+		///	Bitmapの大きさ。
+		///	@param	ch
+		///	Bitmapのチャネル数。
+		BitmapBuffer(const Point& size, const SizeType& ch) : BitmapBuffer(size.getX(), size.getY(), ch)
+		{
+			if ((size.getX() < 0)||(size.getY() < 0)) { throw std::invalid_argument("負の値を持つsizeを引数に取りました。"); }
+		}
+
+		///	指定されたサイズのキャンバスを確保し、このオブジェクトを初期化します。
+		///	@param	info
+		///	キャンバスの生成時に用いるキャンバス情報。
+		explicit BitmapBuffer(const IImageInfomation& info) : BitmapBuffer(info.getSize(), Graphics::GetChannelFromColorSpace(info.getColorSystem())) {}
 
 		///	指定されたキャンバスの内容を複製します。
-		///	<コピーコンストラクタの特殊化>
-		///	exception:
-		///	std::bad_alloc	メモリの確保に失敗しました。
-		BitmapBuffer(const BitmapBuffer& value);
+		///	@param	value
+		///	複製元の @a IBitmapBuffer 。
+		explicit BitmapBuffer(const IBitmapBuffer<ValueType>& value) : BitmapBuffer(value.getHorizonalSize(), value.getVerticalSize(), value.getChannel())
+		{
+			for (auto y : Range<size_t>(0, _y))
+			{
+				for (auto x : Range<size_t>(0, _x))
+				{
+					for (auto ch : Range<size_t>(0, _ch))
+					{
+						Index(x, y, ch) = value.Index(x, y, ch);
+					}
+				}
+			}
+		}
 
-		///	指定されたキャンバスの内容を複製します。
-		///	exception:
-		///	std::bad_alloc	メモリの確保に失敗しました。
-		explicit BitmapBuffer(const IBitmapBuffer& value);
+	public: // member
 
-		///	キャンバスの内容をすべて破棄し、使用しているメモリを開放します。
-		///	<デストラクタの特殊化>
-		virtual ~BitmapBuffer();
-		
-		///	このバッファの画像サイズを取得します。
-		Point getSize() const { return _size; }
+		///	このバッファの幅を取得します。
+		SizeType getHorizonalSize() const { return _x; }
+
+		///	このバッファの高さを取得します。
+		SizeType getVerticalSize() const { return _y; }
 
 		///	このバッファのチャネル数を取得します。
 		size_t getChannel() const { return _ch; }
 
-		float* getData() { return _data; }
-
-		///	このオブジェクトが実体をアロケートできているかを取得します。
-		bool IsAllocated() const;
+		///	指定された1ピクセル・1チャネルにおける値を取得します。
+		const ValueType& Index(const SizeType& x, const SizeType& y, const SizeType& ch) const
+		{
+			if (_x <= x) throw new std::out_of_range("x が画像エリアの範囲外です。");
+			if (_y <= y) throw new std::out_of_range("y が画像エリアの範囲外です。");
+			if (_ch <= ch) throw new std::out_of_range("ch が画像エリアの範囲外です。");
+			return _data[(y*_x + x)*_ch + ch];
+		}
 
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		float getPixel(const Point& pos, size_t ch) const;
+		ValueType& Index(const SizeType& x, const SizeType& y, const SizeType& ch)
+		{
+			if (_x <= x) throw new std::out_of_range("x が画像エリアの範囲外です。");
+			if (_y <= y) throw new std::out_of_range("y が画像エリアの範囲外です。");
+			if (_ch <= ch) throw new std::out_of_range("ch が画像エリアの範囲外です。");
+			return _data[(y*_x + x)*_ch + ch];
+		}
 
-		///	指定された1ピクセル・1チャネルにおける値を設定します。
-		void setPixel(const Point& pos, size_t ch, const float& value);
+	private: // internal
 
-		///	キャンバスを複製します。
-		///	<コピー代入の特殊化>
-		BitmapBuffer& operator=(const BitmapBuffer& value);
+		///	オブジェクトが使用するオブジェクト数を算出します。
+		///	@param	x
+		///	Bitmapの幅。
+		///	@param	y
+		///	Bitmapの高さ。
+		///	@param	ch
+		///	Bitmapの色チャネル数。
+		///	@return
+		///	算出されたオブジェクト数が返ります。
+		static size_t CalcLength(const size_t& x, const size_t& y, const size_t& ch) noexcept { return x * y * ch; }
 
 	};
 
 }
-#endif // __StationaryOrbit_Graphics_BitmapBuffer__
+#endif // __stationaryorbit_graphics_core_bitmapbuffer__

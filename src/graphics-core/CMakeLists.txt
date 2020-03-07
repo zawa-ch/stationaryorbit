@@ -7,7 +7,6 @@ set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/graphics-cor
 add_library(${AssemblyName} SHARED
     ${Include_Dir}/bitmap.hpp
     ${Include_Dir}/bitmapbuffer.hpp
-    ${Include_Dir}/bitmapbytebuffer.hpp
     ${Include_Dir}/bitmappixelgetter.hpp
     ${Include_Dir}/bitmappixelreference.hpp
     ${Include_Dir}/bitmappixelsetter.hpp
@@ -23,7 +22,6 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/ycrcbcolor.hpp
     bitmap.cpp
     bitmapbuffer.cpp
-    bitmapbytebuffer.cpp
     bitmappixelgetter.cpp
     bitmappixelreference.cpp
     bitmappixelsetter.cpp
