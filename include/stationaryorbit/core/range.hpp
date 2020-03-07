@@ -6,6 +6,7 @@ namespace zawa_ch::StationaryOrbit
 {
 
 	template<class T, bool floor_included, bool ceiling_included> class RangeSlice;
+	template<class T, bool floor_included, bool ceiling_included> class RangeReverseSlice;
 
 	///	二つの値に囲まれた範囲を表します。
 	///	@param	T
@@ -25,6 +26,7 @@ namespace zawa_ch::StationaryOrbit
 		typedef T ValueType;
 		typedef Range<T, floor_included, ceiling_included> RangeType;
 		typedef RangeSlice<T, floor_included, ceiling_included> SliceType;
+		typedef RangeReverseSlice<T, floor_included, ceiling_included> RSliceType;
 
 	private: // contains
 
@@ -85,6 +87,8 @@ namespace zawa_ch::StationaryOrbit
 
 		constexpr SliceType begin() const noexcept { return SliceType(*this, floor_included?(_bottom):(_bottom+1)); }
 		constexpr SliceType end() const noexcept { return SliceType(*this, ceiling_included?(_top+1):(_top)); }
+		constexpr RSliceType rbegin() const noexcept { return RSliceType(*this, ceiling_included?(_top):(_top-1)); }
+		constexpr RSliceType rend() const noexcept { return RSliceType(*this, floor_included?(_bottom-1):(_bottom)); }
 
 	public: // equatable
 
@@ -100,6 +104,7 @@ namespace zawa_ch::StationaryOrbit
 
 	};
 
+	///	@a Range の区間内を反復するためのイテレータを提供します。
 	template<class T, bool floor_included = true, bool ceiling_included = false>
 	class RangeSlice
 	{
@@ -130,7 +135,7 @@ namespace zawa_ch::StationaryOrbit
 		///	このイテレータを次に進めます。
 		bool Next() noexcept { return _range.isUnderTop(++_value); }
 		///	このイテレータを初期位置、つまり最初のオブジェクトの前の位置に進めます。
-		void Reset() noexcept {}	// TODO: implement
+		void Reset() noexcept { _value = floor_included?(_range._bottom-1):(_range._bottom); }
 		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
 		bool Equals(const SliceType& other) const noexcept { return (_range.Equals(other._range))&&(_value == other._value); }
 
@@ -148,6 +153,58 @@ namespace zawa_ch::StationaryOrbit
 	public: // implement LegacyBidirectionalIterator
 
 		SliceType& operator--() noexcept { _value--; return *this; }
+
+	};
+
+	///	@a Range の区間内を反復するための逆イテレータを提供します。
+	template<class T, bool floor_included = true, bool ceiling_included = false>
+	class RangeReverseSlice
+	{
+		static_assert(std::is_integral<T>::value, "この型のテンプレート T は整数型のクラスである必要があります。");
+		friend class Range<T, floor_included, ceiling_included>;
+
+	public: // type
+
+		///	値の表現に使用されている型。
+		typedef T ValueType;
+		///	スライシング元の @a Range の型。
+		typedef Range<T, floor_included, ceiling_included> RangeType;
+		typedef RangeReverseSlice<T, floor_included, ceiling_included> RSliceType;
+
+	private: // contains
+
+		const RangeType _range;
+		ValueType _value;
+
+	private: // constructor
+
+		constexpr RangeReverseSlice(const RangeType& range, const ValueType& value) : _range(range), _value(value) {}
+
+	public: // member
+
+		///	このイテレータの現在示している値を取得します。
+		ValueType Current() const noexcept { return _value; }
+		///	このイテレータを次に進めます。
+		bool Next() noexcept { return _range.isOverBottom(--_value); }
+		///	このイテレータを初期位置、つまり最初のオブジェクトの前の位置に進めます。
+		void Reset() noexcept { _value = ceiling_included?(_range._top):(_range._top-1); }
+		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
+		bool Equals(const RSliceType& other) const noexcept { return (_range.Equals(other._range))&&(_value == other._value); }
+
+	public: // implement LegacyIterator
+
+		ValueType operator*() const noexcept { return _value; }
+		RSliceType& operator++() noexcept { _value--; return *this; }
+
+	public: // implement LegacyInputIterator
+
+		bool operator==(const RSliceType& other) const noexcept { return Equals(other); }
+		bool operator!=(const RSliceType& other) const noexcept { return !Equals(other); }
+		const ValueType* operator->() const noexcept { return &_value; }
+
+	public: // implement LegacyBidirectionalIterator
+
+		RSliceType& operator--() noexcept { _value++; return *this; }
 
 	};
 
