@@ -2,8 +2,8 @@
 #define __stationaryorbit_graphics_core_bitmapbufferpixelreference__
 #include "stationaryorbit/exception/soexcept"
 #include "point.hpp"
+#include "channelvalue.hpp"
 #include "basetypes.hpp"
-#include "bitmapbuffer.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 
@@ -82,7 +82,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	参照先の値を @a RGBColor で取得します。
 		RGBColor GetRGBValue() const
 		{
-			switch (_buf.getColorSpace())
+			switch (_buf.GetColorSpace())
 			{
 			case BitmapColorSpace::ARGB:
 				return RGBColor(
@@ -100,7 +100,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	参照先に @a RGBColor の値を設定します。
 		void SetValue(const RGBColor& value)
 		{
-			switch (_buf.getColorSpace())
+			switch (_buf.GetColorSpace())
 			{
 			case BitmapColorSpace::ARGB:
 				Dereference(0) = ChannelValue<T>(value.getR());
@@ -118,7 +118,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	参照先の値に @a BitmapPixelGetter の参照先の値を設定します。
 		void SetValue(const PixelReference& value)
 		{
-			switch(_buf.getColorSpace())
+			switch(_buf.GetColorSpace())
 			{
 			case BitmapColorSpace::ARGB:
 				SetValue(value.GetRGBValue());
@@ -133,7 +133,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	このオブジェクトの参照先が存在するかを取得します。
 		bool HasValue() const noexcept
 		{
-			if ((_buf.getHorizonalSize() > _x)&&(_buf.getVerticalSize() > _y)) { return true; }
+			if ((_buf.GetHorizonalSize() > _x)&&(_buf.GetVerticalSize() > _y)) { return true; }
 			else { return false; }
 		}
 

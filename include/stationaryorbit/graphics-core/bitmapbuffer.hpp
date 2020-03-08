@@ -6,6 +6,7 @@
 #include "stationaryorbit/core/numeral"
 #include "basetypes.hpp"
 #include "point.hpp"
+#include "bitmapbufferpixelreference.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 
@@ -20,6 +21,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		typedef ChannelValue<T> ValueType;
 		typedef size_t SizeType;
+		class Iterator;
+		class ConstIterator;
+		class ReverceIterator;
+		class ConstReverceIterator;
 
 	private: // contains
 
@@ -90,6 +95,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		}
 
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
+		const ValueType& Index(const Point& pos, const SizeType& ch) const { return Index(pos.getX(), pos.getY(), ch); }
+
+		///	指定された1ピクセル・1チャネルにおける値を取得します。
 		ValueType& Index(const SizeType& x, const SizeType& y, const SizeType& ch)
 		{
 			if (_x <= x) throw new std::out_of_range("x が画像エリアの範囲外です。");
@@ -98,18 +106,18 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			return _data[(y*_x + x)*CalcChCount(_space) + ch];
 		}
 
+		///	指定された1ピクセル・1チャネルにおける値を取得します。
+		ValueType& Index(const Point& pos, const SizeType& ch) { return Index(pos.getX(), pos.getY(), ch); }
+
 		template<class destT>
 		BitmapBuffer<destT> ConvertTo() const
 		{
 			auto result = BitmapBuffer<destT>(_x, _y, _space);
-			for (auto y : Range<size_t>(0, _y))
+			for (auto px : result)
 			{
-				for (auto x : Range<size_t>(0, _x))
+				for (auto ch : Range<size_t>(0, CalcChCount(_space)))
 				{
-					for (auto ch : Range<size_t>(0, CalcChCount(_space)))
-					{
-						result.Index(x, y, ch) = ChannelValue<destT>(Index(x, y, ch));
-					}
+					px.Dereference(ch) = ChannelValue<destT>(Index(px.Position(), ch));
 				}
 			}
 			return result;
@@ -121,14 +129,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static BitmapBuffer<T> ConvertFrom(const IBitmapBuffer<FromT>& value)
 		{
 			auto result = BitmapBuffer<T>(value.GetHorizonalSize(), value.GetVerticalSize(), value.GetColorSpace());
-			for (auto y : Range<size_t>(0, result._y))
+			for (auto px : result)
 			{
-				for (auto x : Range<size_t>(0, result._x))
+				for (auto ch : Range<size_t>(0, CalcChCount(result._space)))
 				{
-					for (auto ch : Range<size_t>(0, CalcChCount(result._space)))
-					{
-						result.Index(x, y, ch) = ChannelValue<T>(value.Index(x, y, ch));
-					}
+					px.Dereference(ch) = ChannelValue<T>(value.Index(px.Position(), ch));
 				}
 			}
 			return result;
@@ -158,6 +163,117 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	@return
 		///	算出されたオブジェクト数が返ります。
 		constexpr static size_t CalcLength(const size_t& x, const size_t& y, const BitmapColorSpace& space) noexcept { return x * y * CalcChCount(space); }
+
+	public: // iterator
+
+		class Iterator
+		{
+			friend class BitmapBuffer<T>;
+		public:
+			typedef BitmapBuffer<T> ContainerType;
+			typedef BitmapBufferPixelReference<T> ValueType;
+		private: // contains
+			ContainerType& _container;
+			size_t _pos;
+		private: // constructor
+			Iterator(ContainerType& container, const size_t position) : _container(container), _pos(position) {}
+		public: // member
+			ValueType Current() noexcept { return ValueType(_container, _pos % _container.GetHorizonalSize(), _pos / _container.GetHorizonalSize()); }
+			bool Equals(const Iterator& other) const noexcept { return _pos == other._pos; }
+		public: // implement LegacyIterator
+			ValueType operator*() noexcept { return Current(); }
+			Iterator& operator++() noexcept { _pos++; return *this; }
+		public: // implement LegacyInputIterator
+			bool operator==(const Iterator& other) const noexcept { return Equals(other); }
+			bool operator!=(const Iterator& other) const noexcept { return !Equals(other); }
+			ValueType operator->() noexcept { return Current(); }
+		public: // implement LegacyBidirectionalIterator
+			Iterator& operator--() noexcept { _pos--; return *this; }
+		};
+
+		class ConstIterator
+		{
+			friend class BitmapBuffer<T>;
+		public:
+			typedef BitmapBuffer<T> ContainerType;
+			typedef BitmapBufferPixelReference<T> ValueType;
+		private: // contains
+			const ContainerType& _container;
+			size_t _pos;
+		private: // constructor
+			ConstIterator(const ContainerType& container, const size_t position) : _container(container), _pos(position) {}
+		public: // member
+			const ValueType Current() const noexcept { return ValueType(_container, _pos % _container.GetHorizonalSize(), _pos / _container.GetHorizonalSize()); }
+			bool Equals(const ConstIterator& other) const noexcept { return _pos == other._pos; }
+		public: // implement LegacyIterator
+			const ValueType operator*() const noexcept { return Current(); }
+			ConstIterator& operator++() noexcept { _pos++; }
+		public: // implement LegacyInputIterator
+			bool operator==(const ConstIterator& other) const noexcept { return Equals(other); }
+			bool operator!=(const ConstIterator& other) const noexcept { return !Equals(other); }
+			const ValueType operator->() const noexcept { return Current(); }
+		public: // implement LegacyBidirectionalIterator
+			ConstIterator& operator--() noexcept { _pos--; }
+		};
+
+		class ReverceIterator
+		{
+			friend class BitmapBuffer<T>;
+		public:
+			typedef BitmapBuffer<T> ContainerType;
+			typedef BitmapBufferPixelReference<T> ValueType;
+		private: // contains
+			ContainerType& _container;
+			size_t _pos;
+		private: // constructor
+			ReverceIterator(ContainerType& container, const size_t position) : _container(container), _pos(position) {}
+		public: // member
+			ValueType Current() noexcept { return ValueType(_container, (_pos - 1) % _container.GetHorizonalSize(), (_pos - 1) / _container.GetHorizonalSize()); }
+			bool Equals(const ReverceIterator& other) const noexcept { return _pos == other._pos; }
+		public: // implement LegacyIterator
+			ValueType operator*() noexcept { return Current(); }
+			ReverceIterator& operator++() noexcept { _pos--; return *this; }
+		public: // implement LegacyInputIterator
+			bool operator==(const ReverceIterator& other) const noexcept { return Equals(other); }
+			bool operator!=(const ReverceIterator& other) const noexcept { return !Equals(other); }
+			ValueType operator->() noexcept { return Current(); }
+		public: // implement LegacyBidirectionalIterator
+			ReverceIterator& operator--() noexcept { _pos++; return *this; }
+		};
+
+		class ConstReverceIterator
+		{
+			friend class BitmapBuffer<T>;
+		public:
+			typedef BitmapBuffer<T> ContainerType;
+			typedef BitmapBufferPixelReference<T> ValueType;
+		private: // contains
+			const ContainerType& _container;
+			size_t _pos;
+		private: // constructor
+			ConstReverceIterator(const ContainerType& container, const size_t position) : _container(container), _pos(position) {}
+		public: // member
+			const ValueType Current() const noexcept { return ValueType(_container, (_pos - 1) % _container.GetHorizonalSize(), (_pos - 1) / _container.GetHorizonalSize()); }
+			bool Equals(const ConstReverceIterator& other) const noexcept { return _pos == other._pos; }
+		public: // implement LegacyIterator
+			const ValueType operator*() const noexcept { return Current(); }
+			ConstReverceIterator& operator++() noexcept { _pos--; }
+		public: // implement LegacyInputIterator
+			bool operator==(const ConstReverceIterator& other) const noexcept { return Equals(other); }
+			bool operator!=(const ConstReverceIterator& other) const noexcept { return !Equals(other); }
+			const ValueType operator->() const noexcept { return Current(); }
+		public: // implement LegacyBidirectionalIterator
+			ConstReverceIterator& operator--() noexcept { _pos++; }
+		};
+
+		Iterator begin() { return Iterator(*this, 0); }
+		Iterator end() { return Iterator(*this, GetHorizonalSize() * GetVerticalSize()); }
+		ConstIterator cbegin() { return ConstIterator(*this, 0); }
+		ConstIterator cend() { return ConstIterator(*this, GetHorizonalSize() * GetVerticalSize()); }
+		ReverceIterator rbegin() { return ReverceIterator(*this, GetHorizonalSize() * GetVerticalSize()); }
+		ReverceIterator rend() { return ReverceIterator(*this, 0); }
+		ConstReverceIterator crbegin() { return ConstReverceIterator(*this, GetHorizonalSize() * GetVerticalSize()); }
+		ConstReverceIterator crend() { return ConstReverceIterator(*this, 0); }
 
 	};
 
