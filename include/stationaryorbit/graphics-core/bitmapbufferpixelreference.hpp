@@ -1,5 +1,5 @@
-#ifndef __stationaryorbit_graphics_core_bitmappixelreference__
-#define __stationaryorbit_graphics_core_bitmappixelreference__
+#ifndef __stationaryorbit_graphics_core_bitmapbufferpixelreference__
+#define __stationaryorbit_graphics_core_bitmapbufferpixelreference__
 #include "stationaryorbit/exception/soexcept"
 #include "point.hpp"
 #include "basetypes.hpp"
@@ -9,7 +9,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 	///	@a BitmapBuffer 上のピクセルへの参照を表します。
 	template<class T>
-	class BitmapPixelReference final
+	class BitmapBufferPixelReference final
 		: virtual public PixelReference
 	{
 	public: // type
@@ -34,14 +34,14 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	参照先のx座標。
 		///	@param	y
 		///	参照先のy座標。
-		BitmapPixelReference(IBufferType& buffer, const size_t& x, const size_t& y) : _buf(buffer), _x(x), _y(y) {}
+		BitmapBufferPixelReference(IBufferType& buffer, const size_t& x, const size_t& y) : _buf(buffer), _x(x), _y(y) {}
 
 		///	@a Bitmap のピクセルへの参照を作成します。
 		///	@param	buffer
 		///	参照先の @a BitmapBuffer 。
 		///	@param	position
 		///	参照先の座標。
-		BitmapPixelReference(IBufferType& buffer, const Point& position) : BitmapPixelReference(buffer, position.getX(), position.getY())
+		BitmapBufferPixelReference(IBufferType& buffer, const Point& position) : BitmapBufferPixelReference(buffer, position.getX(), position.getY())
 		{
 			if ((position.getX() < 0)||(position.getY() < 0)) { throw std::invalid_argument("負の値を持つ position を引数に取りました。"); }
 		}
@@ -62,14 +62,14 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	座標のオフセット。
 		///	@return
 		///	オフセットを加えた参照が返ります。
-		BitmapPixelReference Offset(const Point& offset) { return BitmapPixelReference<T>(_buf, Position() + offset); }
+		BitmapBufferPixelReference Offset(const Point& offset) { return BitmapBufferPixelReference<T>(_buf, Position() + offset); }
 
 		///	この参照に指定されたオフセットを加えた参照を取得します。
 		///	@param	[in]offset
 		///	座標のオフセット。
 		///	@return
 		///	オフセットを加えた参照が返ります。
-		const BitmapPixelReference Offset(const Point& offset) const { return BitmapPixelReference<T>(_buf, Position() + offset); }
+		const BitmapBufferPixelReference Offset(const Point& offset) const { return BitmapBufferPixelReference<T>(_buf, Position() + offset); }
 
 		///	指定されたチャネルの値を取得します。
 		const ChannelValue<T>& Dereference(const size_t& channel) const { return _buf.Index(_x, _y, channel); }
@@ -152,4 +152,4 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	};
 
 }
-#endif // __stationaryorbit_graphics_core_bitmappixelreference__
+#endif // __stationaryorbit_graphics_core_bitmapbufferpixelreference__
