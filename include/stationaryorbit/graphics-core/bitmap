@@ -1,7 +1,5 @@
 // -*- C++ -*-
 
-#include "bitmap.hpp"
 #include "bitmapbuffer.hpp"
-#include "bitmapbytebuffer.hpp"
-#include "bitmapframe.hpp"
+#include "bitmappixelreference.hpp"
 #include "bitmapsimpleconvert.hpp"

@@ -2,6 +2,7 @@
 #define __stationaryorbit_graphics_core_basetypes__
 #include <cstddef>
 #include "channelvalue.hpp"
+#include "point.hpp"
 #include "rgbcolor.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {

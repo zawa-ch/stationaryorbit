@@ -2,11 +2,8 @@
 #define __stationaryorbit_graphics_core_bitmappixelreference__
 #include "stationaryorbit/exception/soexcept"
 #include "point.hpp"
-#include "rgbcolor.hpp"
-#include "pixelreference.hpp"
+#include "basetypes.hpp"
 #include "bitmapbuffer.hpp"
-#include "imageinfomation.hpp"
-#include "graphicscore.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 
@@ -74,23 +71,28 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	オフセットを加えた参照が返ります。
 		const BitmapPixelReference Offset(const Point& offset) const { return BitmapPixelReference<T>(_buf, Position() + offset); }
 
+		///	指定されたチャネルの値を取得します。
+		const ChannelValue<T>& Dereference(const size_t& channel) const { return _buf.Index(_x, _y, channel); }
+
+		///	指定されたチャネルの値を取得します。
+		ChannelValue<T>& Dereference(const size_t& channel) { return _buf.Index(_x, _y, channel); }
+
 	public: // implement PixelReference
 
 		///	参照先の値を @a RGBColor で取得します。
 		RGBColor GetRGBValue() const
 		{
-			if (!HasValue()) { throw std::out_of_range("参照先が無効です。"); }
 			switch (_buf.getColorSpace())
 			{
-			case BufferColorSpace::ARGB:
+			case BitmapColorSpace::ARGB:
 				return RGBColor(
-					ChannelValue<float>(refChannel(0)).value,
-					ChannelValue<float>(refChannel(1)).value,
-					ChannelValue<float>(refChannel(2)).value,
-					ChannelValue<float>(refChannel(3)).value);
-			case BufferColorSpace::GrayScale:
-			case BufferColorSpace::CMYK:
-			case BufferColorSpace::AXYZ:
+					ChannelValue<float>(Dereference(0)).value,
+					ChannelValue<float>(Dereference(1)).value,
+					ChannelValue<float>(Dereference(2)).value,
+					ChannelValue<float>(Dereference(3)).value);
+			case BitmapColorSpace::GrayScale:
+			case BitmapColorSpace::CMYK:
+			case BitmapColorSpace::AXYZ:
 			default: throw InvalidOperationException("バッファに指定されている色空間が無効です。");
 			}
 		}
@@ -98,18 +100,17 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	参照先に @a RGBColor の値を設定します。
 		void SetValue(const RGBColor& value)
 		{
-			if (!HasValue()) { throw std::out_of_range("参照先が無効です。"); }
 			switch (_buf.getColorSpace())
 			{
-			case BufferColorSpace::ARGB:
-				refChannel(0) = ChannelValue<T>(value.getR());
-				refChannel(1) = ChannelValue<T>(value.getG());
-				refChannel(2) = ChannelValue<T>(value.getB());
-				refChannel(3) = ChannelValue<T>(value.getAlpha());
+			case BitmapColorSpace::ARGB:
+				Dereference(0) = ChannelValue<T>(value.getR());
+				Dereference(1) = ChannelValue<T>(value.getG());
+				Dereference(2) = ChannelValue<T>(value.getB());
+				Dereference(3) = ChannelValue<T>(value.getAlpha());
 				break;
-			case BufferColorSpace::GrayScale:
-			case BufferColorSpace::CMYK:
-			case BufferColorSpace::AXYZ:
+			case BitmapColorSpace::GrayScale:
+			case BitmapColorSpace::CMYK:
+			case BitmapColorSpace::AXYZ:
 			default: throw InvalidOperationException("バッファに指定されている色空間が無効です。");
 			}
 		}
@@ -117,15 +118,14 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	参照先の値に @a BitmapPixelGetter の参照先の値を設定します。
 		void SetValue(const PixelReference& value)
 		{
-			if (!HasValue()) { throw std::out_of_range("参照先が無効です。"); }
 			switch(_buf.getColorSpace())
 			{
-			case BufferColorSpace::ARGB:
+			case BitmapColorSpace::ARGB:
 				SetValue(value.GetRGBValue());
 				break;
-			case BufferColorSpace::GrayScale:
-			case BufferColorSpace::CMYK:
-			case BufferColorSpace::AXYZ:
+			case BitmapColorSpace::GrayScale:
+			case BitmapColorSpace::CMYK:
+			case BitmapColorSpace::AXYZ:
 			default: throw InvalidOperationException("バッファに指定されている色空間が無効です。");
 			}
 		}
@@ -148,12 +148,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		///	この参照にオフセットを加えた先の値に @a BitmapPixelGetter の参照先の値を設定します。
 		void SetOffsetRGBValue(const Point& offset, const PixelReference& value) { return Offset(offset).SetValue(value); }
-
-	private: // internal
-
-		const ChannelValue<T>& refChannel(const size_t& channel) const { return _buf.Index(_x, _y, channel); }
-
-		ChannelValue<T>& refChannel(const size_t& channel) { return _buf.Index(_x, _y, channel); }
 
 	};
 

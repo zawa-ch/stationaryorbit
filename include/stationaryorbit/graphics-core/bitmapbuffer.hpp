@@ -2,55 +2,12 @@
 #define __stationaryorbit_graphics_core_bitmapbuffer__
 #include <cstddef>
 #include <vector>
-#include <stdexcept>
-#include <functional>
+#include "stationaryorbit/exception/soexcept"
 #include "stationaryorbit/core/numeral"
-#include "channelvalue.hpp"
-#include "graphicscore.hpp"
+#include "basetypes.hpp"
 #include "point.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
-
-	///	バッファ内部のデータ構造として用いる色空間を表します。
-	enum class BufferColorSpace
-	{
-		///	グレースケール。
-		GrayScale,
-		///	RGB(+アルファ)色空間。
-		ARGB,
-		///	CMYK色空間。
-		CMYK,
-		///	XYZ(+アルファ)色空間。
-		AXYZ
-	};
-
-	///	画像情報を保持するための記憶領域を提供し、アクセスを行うためのメソッドを実装します。
-	///	@param	T
-	///	値の表現に使用する型。
-	template<class T>
-    class IBitmapBuffer
-    {
-    public:
-
-		typedef ChannelValue<T> ValueType;
-		typedef size_t SizeType;
-
-		///	このバッファの幅を取得します。
-		virtual SizeType getHorizonalSize() const = 0;
-
-		///	このバッファの高さを取得します。
-		virtual SizeType getVerticalSize() const = 0;
-
-		///	バッファに使用されている色空間を取得します。
-		virtual BufferColorSpace getColorSpace() const = 0;
-
-		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		virtual const ValueType& Index(const SizeType& x, const SizeType& y, const SizeType& ch) const = 0;
-
-		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		virtual ValueType& Index(const SizeType& x, const SizeType& y, const SizeType& ch) = 0;
-
-    };
 
 	///	画像情報を保持するためのメモリ空間を提供します。
 	///	@param	T
@@ -68,7 +25,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		SizeType _x;
 		SizeType _y;
-		BufferColorSpace _space;
+		BitmapColorSpace _space;
 		std::vector<ValueType> _data;
 
 	public: // constructor
@@ -83,14 +40,14 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	Bitmapの高さ。
 		///	@param	ch
 		///	Bitmapのチャネル数。
-		BitmapBuffer(const SizeType& x, const SizeType& y, const BufferColorSpace& space) : _x(x), _y(y), _space(space), _data(CalcLength(x, y, space)) {}
+		BitmapBuffer(const SizeType& x, const SizeType& y, const BitmapColorSpace& space) : _x(x), _y(y), _space(space), _data(CalcLength(x, y, space)) {}
 
 		///	指定されたサイズのキャンバスを確保し、このオブジェクトを初期化します。
 		///	@param	size
 		///	Bitmapの大きさ。
 		///	@param	ch
 		///	Bitmapのチャネル数。
-		BitmapBuffer(const Point& size, const BufferColorSpace& space) : BitmapBuffer(size.getX(), size.getY(), space)
+		BitmapBuffer(const Point& size, const BitmapColorSpace& space) : BitmapBuffer(size.getX(), size.getY(), space)
 		{
 			if ((size.getX() < 0)||(size.getY() < 0)) { throw std::invalid_argument("負の値を持つsizeを引数に取りました。"); }
 		}
@@ -98,7 +55,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	指定されたキャンバスの内容を複製します。
 		///	@param	value
 		///	複製元の @a IBitmapBuffer 。
-		explicit BitmapBuffer(const IBitmapBuffer<T>& value) : BitmapBuffer(value.getHorizonalSize(), value.getVerticalSize(), value.getColorSpace())
+		explicit BitmapBuffer(const IBitmapBuffer<T>& value) : BitmapBuffer(value.GetHorizonalSize(), value.GetVerticalSize(), value.GetColorSpace())
 		{
 			for (auto y : Range<size_t>(0, _y))
 			{
@@ -115,13 +72,13 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // member
 
 		///	このバッファの幅を取得します。
-		SizeType getHorizonalSize() const noexcept { return _x; }
+		SizeType GetHorizonalSize() const noexcept { return _x; }
 
 		///	このバッファの高さを取得します。
-		SizeType getVerticalSize() const noexcept { return _y; }
+		SizeType GetVerticalSize() const noexcept { return _y; }
 
 		///	バッファに使用されている色空間を取得します。
-		BufferColorSpace getColorSpace() const noexcept { return _space; }
+		BitmapColorSpace GetColorSpace() const noexcept { return _space; }
 
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
 		const ValueType& Index(const SizeType& x, const SizeType& y, const SizeType& ch) const
@@ -163,7 +120,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		template<class FromT>
 		static BitmapBuffer<T> ConvertFrom(const IBitmapBuffer<FromT>& value)
 		{
-			auto result = BitmapBuffer<T>(value.getHorizonalSize(), value.getVerticalSize(), value.getColorSpace());
+			auto result = BitmapBuffer<T>(value.GetHorizonalSize(), value.GetVerticalSize(), value.GetColorSpace());
 			for (auto y : Range<size_t>(0, result._y))
 			{
 				for (auto x : Range<size_t>(0, result._x))
@@ -180,14 +137,14 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	private: // internal
 
 		///	各色空間が使用するチャネル数を取得します。
-		constexpr static size_t CalcChCount(const BufferColorSpace& space)
+		constexpr static size_t CalcChCount(const BitmapColorSpace& space)
 		{
 			switch(space)
 			{
-			case BufferColorSpace::GrayScale: return 1;
-			case BufferColorSpace::ARGB: return 4;
-			case BufferColorSpace::CMYK: return 4;
-			case BufferColorSpace::AXYZ: return 4;
+			case BitmapColorSpace::GrayScale: return 1;
+			case BitmapColorSpace::ARGB: return 4;
+			case BitmapColorSpace::CMYK: return 4;
+			case BitmapColorSpace::AXYZ: return 4;
 			}
 		}
 
@@ -200,7 +157,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	Bitmapの色空間。
 		///	@return
 		///	算出されたオブジェクト数が返ります。
-		constexpr static size_t CalcLength(const size_t& x, const size_t& y, const BufferColorSpace& space) noexcept { return x * y * CalcChCount(space); }
+		constexpr static size_t CalcLength(const size_t& x, const size_t& y, const BitmapColorSpace& space) noexcept { return x * y * CalcChCount(space); }
 
 	};
 
