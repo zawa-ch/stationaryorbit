@@ -10,8 +10,6 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/bitmappixelreference.hpp
     ${Include_Dir}/bitmapsimpleconvert.hpp
     ${Include_Dir}/cmykcolor.hpp
-    ${Include_Dir}/graphicscore.hpp
-    ${Include_Dir}/imageinfomation.hpp
     ${Include_Dir}/point.hpp
     ${Include_Dir}/pointf.hpp
     ${Include_Dir}/rectangle.hpp
@@ -19,8 +17,6 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/rgbcolor.hpp
     ${Include_Dir}/ycrcbcolor.hpp
     bitmapsimpleconvert.cpp
-    graphicscore.cpp
-    imageinfomation.cpp
     point.cpp
     pointf.cpp
     rectangle.cpp
