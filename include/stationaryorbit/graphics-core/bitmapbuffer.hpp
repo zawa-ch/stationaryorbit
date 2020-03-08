@@ -151,7 +151,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 				{
 					for (auto ch : Range<size_t>(0, CalcChCount(_space)))
 					{
-						result.Index(x, y, ch) = ChannelValueConverter::Convert<T, destT>(Index(x, y, ch));
+						result.Index(x, y, ch) = ChannelValue<destT>(Index(x, y, ch));
 					}
 				}
 			}
@@ -170,7 +170,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 				{
 					for (auto ch : Range<size_t>(0, CalcChCount(result._space)))
 					{
-						result.Index(x, y, ch) = ChannelValueConverter::Convert<FromT, T>(value.Index(x, y, ch));
+						result.Index(x, y, ch) = ChannelValue<T>(value.Index(x, y, ch));
 					}
 				}
 			}
