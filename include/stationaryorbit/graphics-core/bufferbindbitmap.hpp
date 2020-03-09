@@ -1,5 +1,5 @@
-#ifndef __stationaryorbit_graphics_core_bufferedbitmap__
-#define __stationaryorbit_graphics_core_bufferedbitmap__
+#ifndef __stationaryorbit_graphics_core_bufferbindbitmap__
+#define __stationaryorbit_graphics_core_bufferbindbitmap__
 #include "basetypes.hpp"
 #include "bitmapbuffer.hpp"
 #include "bitmappixelreference.hpp"
@@ -165,4 +165,4 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	};
 
 }
-#endif // __stationaryorbit_graphics_core_bufferedbitmap__
+#endif // __stationaryorbit_graphics_core_bufferbindbitmap__

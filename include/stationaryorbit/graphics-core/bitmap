@@ -3,4 +3,5 @@
 #include "bitmapbuffer.hpp"
 #include "bitmappixelreference.hpp"
 #include "bufferbindbitmap.hpp"
+#include "bufferedbitmap.hpp"
 #include "bitmapsimpleconvert.hpp"
