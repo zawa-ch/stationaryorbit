@@ -13,6 +13,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // type
 		typedef BitmapBuffer<T> BufferType;
 		typedef BitmapPixelReference<T> PixelRefType;
+		typedef BitmapConstPixelReference<T> CPixelRefType;
 		typedef BufferBindBitmapIterator<T> Iterator;
 		typedef BufferBindBitmapConstIterator<T> ConstIterator;
 		typedef BufferBindBitmapReverceIterator<T> ReverceIterator;
@@ -30,9 +31,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	オブジェクトに紐付けられているバッファを取得します。
 		const BufferType& Buffer() const noexcept { return _buffer; }
 		///	指定されたピクセルの参照を取得します。
-		const PixelRefType Index(const size_t& x, const size_t& y) const { return PixelRefType(_buffer, x, y); }
+		const CPixelRefType Index(const size_t& x, const size_t& y) const { return CPixelRefType(_buffer, x, y); }
 		///	指定されたピクセルの参照を取得します。
-		const PixelRefType Index(const Point& position) const { return PixelRefType(_buffer, position); }
+		const CPixelRefType Index(const Point& position) const { return CPixelRefType(_buffer, position); }
 		///	指定されたピクセルの参照を取得します。
 		PixelRefType Index(const size_t& x, const size_t& y) { return PixelRefType(_buffer, x, y); }
 		///	指定されたピクセルの参照を取得します。
