@@ -47,7 +47,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		: virtual public ConstPixelReference
 	{
 	public: // type
-		typedef IBitmapBuffer<T> IBufferType;
+		typedef BitmapBufferBase<T> IBufferType;
 	private: // contains
 		///	参照先の @a BitmapBuffer 。
 		const IBufferType& _buf;
@@ -123,7 +123,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		: virtual public PixelReference
 	{
 	public: // type
-		typedef IBitmapBuffer<T> IBufferType;
+		typedef BitmapBufferBase<T> IBufferType;
 	private: // contains
 		///	参照先の @a BitmapBuffer 。
 		IBufferType& _buf;

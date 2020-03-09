@@ -17,7 +17,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		: virtual public Bitmap
 	{
 	public: // types
-		typedef IBitmapBuffer<T> BufferType;
+		typedef BitmapBufferBase<T> BufferType;
 		typedef BitmapPixelReference<T> PixelRefType;
 		typedef BufferBindBitmapIterator<T> Iterator;
 		typedef BufferBindBitmapConstIterator<T> ConstIterator;

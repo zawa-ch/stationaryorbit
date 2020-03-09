@@ -14,7 +14,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	///	@param	T
 	///	値の表現に使用する型。
 	template<class T>
-    class IBitmapBuffer
+    class BitmapBufferBase
 		: virtual public BitmapBase
     {
     public:
@@ -24,14 +24,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		virtual ChannelValue<T>& Index(const size_t& x, const size_t& y, const size_t& ch) = 0;
 		///	このバッファのチャネル数を取得します。
 		virtual size_t GetChannelCount() const noexcept = 0;
-		virtual ~IBitmapBuffer() = default;
+		virtual ~BitmapBufferBase() = default;
     };
 
+	///	@a BitmapBufferBase の内容を反復して処理するための参照を表します。
 	template<class T>
-	class BitmapBufferIterator
+	class BitmapBufferIterator final
 	{
 	public:
-		typedef IBitmapBuffer<T> ContainerType;
+		typedef BitmapBufferBase<T> ContainerType;
 		typedef ChannelValue<T> ValueType;
 	private: // contains
 		ContainerType& _container;
@@ -52,11 +53,12 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		BitmapBufferIterator& operator--() noexcept { _pos--; return *this; }
 	};
 
+	///	@a BitmapBufferBase の内容を反復して処理するための参照を表します。
 	template<class T>
-	class BitmapBufferConstIterator
+	class BitmapBufferConstIterator final
 	{
 	public:
-		typedef IBitmapBuffer<T> ContainerType;
+		typedef BitmapBufferBase<T> ContainerType;
 		typedef ChannelValue<T> ValueType;
 	private: // contains
 		const ContainerType& _container;
@@ -77,11 +79,12 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		BitmapBufferConstIterator& operator--() noexcept { _pos--; return *this; }
 	};
 
+	///	@a BitmapBufferBase の内容を反復して処理するための参照を表します。
 	template<class T>
-	class BitmapBufferReverceIterator
+	class BitmapBufferReverceIterator final
 	{
 	public:
-		typedef IBitmapBuffer<T> ContainerType;
+		typedef BitmapBufferBase<T> ContainerType;
 		typedef ChannelValue<T> ValueType;
 	private: // contains
 		ContainerType& _container;
@@ -102,11 +105,12 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		BitmapBufferReverceIterator& operator--() noexcept { _pos++; return *this; }
 	};
 
+	///	@a BitmapBufferBase の内容を反復して処理するための参照を表します。
 	template<class T>
-	class BitmapBufferConstReverceIterator
+	class BitmapBufferConstReverceIterator final
 	{
 	public:
-		typedef IBitmapBuffer<T> ContainerType;
+		typedef BitmapBufferBase<T> ContainerType;
 		typedef ChannelValue<T> ValueType;
 	private: // contains
 		const ContainerType& _container;
@@ -132,7 +136,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	///	値の表現に使用する型。
 	template<class T = float>
 	class BitmapBuffer
-		: virtual public IBitmapBuffer<T>
+		: virtual public BitmapBufferBase<T>
 	{
     public: // type
 
@@ -176,8 +180,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		///	指定されたキャンバスの内容を複製します。
 		///	@param	value
-		///	複製元の @a IBitmapBuffer 。
-		explicit BitmapBuffer(const IBitmapBuffer<T>& value) : BitmapBuffer(value.GetHorizonalSize(), value.GetVerticalSize(), value.GetColorSpace())
+		///	複製元の @a BitmapBufferBase 。
+		explicit BitmapBuffer(const BitmapBufferBase<T>& value) : BitmapBuffer(value.GetHorizonalSize(), value.GetVerticalSize(), value.GetColorSpace())
 		{
 			for (auto y : Range<size_t>(0, _y))
 			{
@@ -251,7 +255,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // static
 
 		template<class FromT>
-		static BitmapBuffer<T> ConvertFrom(const IBitmapBuffer<FromT>& from)
+		static BitmapBuffer<T> ConvertFrom(const BitmapBufferBase<FromT>& from)
 		{
 			auto result = BitmapBuffer<T>(from.GetHorizonalSize(), from.GetVerticalSize(), from.GetColorSpace());
 			auto srcpx = from.cbegin();
