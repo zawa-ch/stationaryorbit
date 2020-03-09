@@ -8,8 +8,7 @@
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 
-	/// 画像上のピクセルへの読取り専用の参照を表します。
-	/// このクラスは抽象クラスです。
+	/// @a Bitmap 上のピクセルへの読取り専用の参照を表す基本クラスです。
 	class ConstPixelReference
 	{
 	public:
@@ -23,9 +22,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		virtual RGBColor GetOffsetRGBValue(const Point& offset) const = 0;
 		virtual ~ConstPixelReference() = default;
 	};
-
-	/// 画像上のピクセルへの参照を表します。
-	/// このクラスは抽象クラスです。
+	/// @a Bitmap 上のピクセルへの参照を表す基本クラスです。
 	class PixelReference
 		: virtual public ConstPixelReference
 	{
@@ -40,8 +37,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		virtual void SetOffsetRGBValue(const Point& offset, const PixelReference& value) = 0;
 		virtual ~PixelReference() = default;
 	};
-
-	///	@a BitmapBuffer 上のピクセルへの読み取り専用の参照を表します。
+	///	@a BitmapBufferBase を使用した @a Bitmap 上のピクセルへの読み取り専用の参照を表します。
 	template<class T>
 	class BitmapConstPixelReference final
 		: virtual public ConstPixelReference
@@ -116,8 +112,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	この参照にオフセットを加えた先の値を @a RGBColor で取得します。
 		RGBColor GetOffsetRGBValue(const Point& offset) const { return Offset(offset).GetRGBValue(); }
 	};
-
-	///	@a BitmapBuffer 上のピクセルへの参照を表します。
+	///	@a BitmapBufferBase を使用した @a Bitmap 上のピクセルへの参照を表します。
 	template<class T>
 	class BitmapPixelReference final
 		: virtual public PixelReference
