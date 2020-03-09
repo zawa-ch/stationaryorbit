@@ -7,7 +7,7 @@
 #include "basetypes.hpp"
 #include "point.hpp"
 #include "channelvalue.hpp"
-#include "bitmappixelreference.hpp"
+#include "pixelreference.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 

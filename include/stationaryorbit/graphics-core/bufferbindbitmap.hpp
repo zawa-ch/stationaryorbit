@@ -2,7 +2,6 @@
 #define __stationaryorbit_graphics_core_bufferbindbitmap__
 #include "basetypes.hpp"
 #include "bitmapbuffer.hpp"
-#include "bitmappixelreference.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 

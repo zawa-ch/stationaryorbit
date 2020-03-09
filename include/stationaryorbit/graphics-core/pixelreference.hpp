@@ -1,5 +1,5 @@
-#ifndef __stationaryorbit_graphics_core_bitmappixelreference__
-#define __stationaryorbit_graphics_core_bitmappixelreference__
+#ifndef __stationaryorbit_graphics_core_pixelreference__
+#define __stationaryorbit_graphics_core_pixelreference__
 #include "point.hpp"
 #include "rgbcolor.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
@@ -36,4 +36,4 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	};
 
 }
-#endif // __stationaryorbit_graphics_core_bitmappixelreference__
+#endif // __stationaryorbit_graphics_core_pixelreference__
