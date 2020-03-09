@@ -56,6 +56,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		virtual const ChannelValue<T>& Index(const size_t& x, const size_t& y, const size_t& ch) const = 0;
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
 		virtual ChannelValue<T>& Index(const size_t& x, const size_t& y, const size_t& ch) = 0;
+		///	このバッファのチャネル数を取得します。
+		virtual size_t GetChannelCount() const noexcept = 0;
     };
 
 	/// 画像上のピクセルへの参照を表します。
