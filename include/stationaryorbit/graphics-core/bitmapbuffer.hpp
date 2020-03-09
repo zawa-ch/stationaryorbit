@@ -6,7 +6,7 @@
 #include "stationaryorbit/core/numeral"
 #include "basetypes.hpp"
 #include "point.hpp"
-#include "bitmapbufferpixelreference.hpp"
+#include "bitmappixelreference.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 
@@ -171,7 +171,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			friend class BitmapBuffer<T>;
 		public:
 			typedef BitmapBuffer<T> ContainerType;
-			typedef BitmapBufferPixelReference<T> ValueType;
+			typedef BitmapPixelReference<T> ValueType;
 		private: // contains
 			ContainerType& _container;
 			size_t _pos;
@@ -196,7 +196,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			friend class BitmapBuffer<T>;
 		public:
 			typedef BitmapBuffer<T> ContainerType;
-			typedef BitmapBufferPixelReference<T> ValueType;
+			typedef BitmapPixelReference<T> ValueType;
 		private: // contains
 			const ContainerType& _container;
 			size_t _pos;
@@ -221,7 +221,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			friend class BitmapBuffer<T>;
 		public:
 			typedef BitmapBuffer<T> ContainerType;
-			typedef BitmapBufferPixelReference<T> ValueType;
+			typedef BitmapPixelReference<T> ValueType;
 		private: // contains
 			ContainerType& _container;
 			size_t _pos;
@@ -246,7 +246,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			friend class BitmapBuffer<T>;
 		public:
 			typedef BitmapBuffer<T> ContainerType;
-			typedef BitmapBufferPixelReference<T> ValueType;
+			typedef BitmapPixelReference<T> ValueType;
 		private: // contains
 			const ContainerType& _container;
 			size_t _pos;
