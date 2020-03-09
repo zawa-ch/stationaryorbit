@@ -46,6 +46,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			if ((position.getX() < 0)||(position.getY() < 0)) { throw std::invalid_argument("負の値を持つ position を引数に取りました。"); }
 		}
 
+		virtual ~BitmapPixelReference() = default;
+
 	public: // member
 
 		///	この参照が指し示す @a BitmapBuffer を取得します。

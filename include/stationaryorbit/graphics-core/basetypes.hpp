@@ -30,6 +30,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		virtual size_t GetVerticalSize() const = 0;
 		///	バッファに使用されている色空間を取得します。
 		virtual BitmapColorSpace GetColorSpace() const = 0;
+		virtual ~BitmapBase() = default;
 	};
 
 	///	ビットマップ画像を表す基本クラスです。
@@ -41,6 +42,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		virtual RGBColor GetRGB(const size_t& x, const size_t& y) const = 0;
 		///	指定されたピクセルの値をRGBで設定します。
 		virtual void SetRGB(const size_t& x, const size_t& y, const RGBColor& value) = 0;
+		virtual ~Bitmap() = default;
 	};
 
 	/// 画像上のピクセルへの参照を表します。
@@ -64,6 +66,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		virtual void SetOffsetRGBValue(const Point& offset, const RGBColor& value) = 0;
 		///	この参照にオフセットを加えた先の値に @a BitmapPixelGetter の参照先の値を設定します。
 		virtual void SetOffsetRGBValue(const Point& offset, const PixelReference& value) = 0;
+		virtual ~PixelReference() = default;
 	};
 
 }

@@ -24,6 +24,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		virtual ChannelValue<T>& Index(const size_t& x, const size_t& y, const size_t& ch) = 0;
 		///	このバッファのチャネル数を取得します。
 		virtual size_t GetChannelCount() const noexcept = 0;
+		virtual ~IBitmapBuffer() = default;
     };
 
 	template<class T>
@@ -189,6 +190,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 				}
 			}
 		}
+
+		virtual ~BitmapBuffer() = default;
 
 	public: // member
 
