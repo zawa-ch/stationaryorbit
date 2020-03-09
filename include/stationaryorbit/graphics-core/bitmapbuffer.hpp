@@ -15,7 +15,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	///	値の表現に使用する型。
 	template<class T>
     class IBitmapBuffer
-		: virtual public IImageSize
+		: virtual public BitmapBase
     {
     public:
 		///	指定された1ピクセル・1チャネルにおける値を取得します。

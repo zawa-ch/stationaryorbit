@@ -20,8 +20,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		AXYZ
 	};
 
-	///	画像の大きさを取得するためのメソッドを実装します。
-	class IImageSize
+	///	ビットマップの基本となるメソッドを実装します。
+	class BitmapBase
 	{
 	public:
 		///	このバッファの幅を取得します。
@@ -32,10 +32,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		virtual BitmapColorSpace GetColorSpace() const = 0;
 	};
 
-	///	ビットマップ画像を表します。
-	///	このクラスは抽象クラスです。
+	///	ビットマップ画像を表す基本クラスです。
 	class Bitmap
-		: virtual public IImageSize
+		: virtual public BitmapBase
 	{
 	public:
 		///	指定されたピクセルの値をRGBで取得します。
