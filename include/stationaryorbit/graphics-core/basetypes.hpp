@@ -7,28 +7,6 @@
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 
-	///	画像の大きさを取得するためのメソッドを実装します。
-    class IImageSize
-    {
-    public:
-		///	このバッファの幅を取得します。
-		virtual size_t GetHorizonalSize() const = 0;
-		///	このバッファの高さを取得します。
-		virtual size_t GetVerticalSize() const = 0;
-    };
-
-	///	ビットマップ画像を表します。
-	///	このクラスは抽象クラスです。
-	class Bitmap
-        : virtual public IImageSize
-	{
-	public:
-		///	指定されたピクセルの値をRGBで取得します。
-		virtual RGBColor GetRGB(const size_t& x, const size_t& y) const = 0;
-		///	指定されたピクセルの値をRGBで設定します。
-		virtual void SetRGB(const size_t& x, const size_t& y, const RGBColor& value) = 0;
-	};
-
 	///	ビットマップ画像のデータ構造として用いる色空間を表します。
 	enum class BitmapColorSpace
 	{
@@ -42,23 +20,29 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		AXYZ
 	};
 
-	///	画像情報を保持するための記憶領域を提供し、アクセスを行うためのメソッドを実装します。
-	///	@param	T
-	///	値の表現に使用する型。
-	template<class T>
-    class IBitmapBuffer
-		: virtual public IImageSize
-    {
-    public:
+	///	画像の大きさを取得するためのメソッドを実装します。
+	class IImageSize
+	{
+	public:
+		///	このバッファの幅を取得します。
+		virtual size_t GetHorizonalSize() const = 0;
+		///	このバッファの高さを取得します。
+		virtual size_t GetVerticalSize() const = 0;
 		///	バッファに使用されている色空間を取得します。
 		virtual BitmapColorSpace GetColorSpace() const = 0;
-		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		virtual const ChannelValue<T>& Index(const size_t& x, const size_t& y, const size_t& ch) const = 0;
-		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		virtual ChannelValue<T>& Index(const size_t& x, const size_t& y, const size_t& ch) = 0;
-		///	このバッファのチャネル数を取得します。
-		virtual size_t GetChannelCount() const noexcept = 0;
-    };
+	};
+
+	///	ビットマップ画像を表します。
+	///	このクラスは抽象クラスです。
+	class Bitmap
+		: virtual public IImageSize
+	{
+	public:
+		///	指定されたピクセルの値をRGBで取得します。
+		virtual RGBColor GetRGB(const size_t& x, const size_t& y) const = 0;
+		///	指定されたピクセルの値をRGBで設定します。
+		virtual void SetRGB(const size_t& x, const size_t& y, const RGBColor& value) = 0;
+	};
 
 	/// 画像上のピクセルへの参照を表します。
 	/// このクラスは抽象クラスです。
