@@ -1,5 +1,5 @@
-#ifndef __StationaryOrbit_Graphics_BitmapSimpleConvert__
-#define __StationaryOrbit_Graphics_BitmapSimpleConvert__
+#ifndef __stationaryorbit_graphics_core_bitmapsimpleconvert__
+#define __stationaryorbit_graphics_core_bitmapsimpleconvert__
 #include <functional>
 #include "stationaryorbit/exception/soexcept"
 #include "point.hpp"
@@ -152,4 +152,4 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	};
 
 }
-#endif // __StationaryOrbit_Graphics_BitmapSimpleConvert__
+#endif // __stationaryorbit_graphics_core_bitmapsimpleconvert__

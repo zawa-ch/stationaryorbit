@@ -1,5 +1,5 @@
-#ifndef __StationaryOrbit_Graphics_RectangleF__
-#define __StationaryOrbit_Graphics_RectangleF__
+#ifndef __stationaryorbit_graphics_core_rectanglef__
+#define __stationaryorbit_graphics_core_rectanglef__
 #include "pointf.hpp"
 #include "rectangle.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
@@ -85,4 +85,4 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	};
 
 }
-#endif // __StationaryOrbit_Graphics_RectangleF__
+#endif // __stationaryorbit_graphics_core_rectanglef__

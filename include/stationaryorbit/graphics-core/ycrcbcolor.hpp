@@ -1,5 +1,5 @@
-#ifndef __StationaryOrbit_Graphics_YCrCbColor__
-#define __StationaryOrbit_Graphics_YCrCbColor__
+#ifndef __stationaryorbit_graphics_core_ycrcbcolor__
+#define __stationaryorbit_graphics_core_ycrcbcolor__
 #include "rgbcolor.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
@@ -49,4 +49,4 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	};
 
 }
-#endif // __StationaryOrbit_Graphics_YCrCbColor__
+#endif // __stationaryorbit_graphics_core_ycrcbcolor__

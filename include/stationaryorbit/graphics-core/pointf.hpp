@@ -1,5 +1,5 @@
-#ifndef __StationaryOrbit_Graphics_PointF__
-#define __StationaryOrbit_Graphics_PointF__
+#ifndef __stationaryorbit_graphics_core_pointf__
+#define __stationaryorbit_graphics_core_pointf__
 #include <cstdint>
 #include "point.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
@@ -96,4 +96,4 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	};
 
 }
-#endif // __StationaryOrbit_Graphics_PointF__
+#endif // __stationaryorbit_graphics_core_pointf__

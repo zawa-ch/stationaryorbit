@@ -1,5 +1,5 @@
-#ifndef __stationaryorbit_graphics_core_basetypes__
-#define __stationaryorbit_graphics_core_basetypes__
+#ifndef __stationaryorbit_graphics_core_bitmap__
+#define __stationaryorbit_graphics_core_bitmap__
 #include <cstddef>
 #include "channelvalue.hpp"
 #include "point.hpp"
@@ -46,4 +46,4 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	};
 
 }
-#endif // __stationaryorbit_graphics_core_basetypes__
+#endif // __stationaryorbit_graphics_core_bitmap__
