@@ -22,7 +22,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // constructor
 		BufferedBitmap() = default;
 		BufferedBitmap(const BufferType& buffer) : _buffer(buffer) {}
-		BufferedBitmap(const BufferBindBitmap<T>& bitmap) : _buffer(bitmap.Buffer()) {}
+		explicit BufferedBitmap(const BufferBindBitmap<T>& bitmap) : _buffer(bitmap.Buffer()) {}
+		template<class fromT>
+		explicit BufferedBitmap(const BufferedBitmap<fromT>& bitmap) : _buffer(bitmap.Buffer()) {}
+		template<class fromT>
+		explicit BufferedBitmap(const BufferBindBitmap<fromT>& bitmap) : _buffer(bitmap.Buffer()) {}
 		virtual ~BufferedBitmap() = default;
 	public: // member
 		///	オブジェクトに紐付けられているバッファを取得します。
