@@ -17,6 +17,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/rgb24bmp.hpp
     ${Include_Dir}/v4header.hpp
     ${Include_Dir}/v5header.hpp
+    ${Include_Dir}/wbmpbuffer.hpp
     bmpimage.cpp
     bmpimagebitmap.cpp
     bmpimageinfomation.cpp
@@ -25,6 +26,7 @@ add_library(${AssemblyName} SHARED
     infoheader.cpp
     invalidformatexception.cpp
     rgb24bmp.cpp
+    wbmpbuffer.cpp
 )
 
 set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 20)

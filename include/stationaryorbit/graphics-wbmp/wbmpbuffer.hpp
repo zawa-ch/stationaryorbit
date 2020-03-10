@@ -16,10 +16,10 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 		, virtual public WbmpBufferBase
 	{
 	public:
-		WbmpBuffer() : BitmapBuffer<uint8_t>() {}
-		WbmpBuffer(const size_t& x, const size_t& y) : BitmapBuffer<uint8_t>(x, y, BitmapColorSpace::ARGB) {}
-		explicit WbmpBuffer(const Point& size) : BitmapBuffer<uint8_t>(size, BitmapColorSpace::ARGB) {}
-		explicit WbmpBuffer(const WbmpBufferBase& bitmap) : BitmapBuffer<uint8_t>(bitmap) {}
+		WbmpBuffer();
+		WbmpBuffer(const size_t& x, const size_t& y);
+		explicit WbmpBuffer(const Point& size);
+		explicit WbmpBuffer(const WbmpBufferBase& bitmap);
 	};
 
 }
