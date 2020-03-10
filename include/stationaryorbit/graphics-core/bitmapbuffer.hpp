@@ -4,7 +4,7 @@
 #include <vector>
 #include "stationaryorbit/exception/soexcept"
 #include "stationaryorbit/core/numeral"
-#include "basetypes.hpp"
+#include "bitmap.hpp"
 #include "point.hpp"
 #include "channelvalue.hpp"
 #include "pixelreference.hpp"
