@@ -7,16 +7,18 @@ set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/graphics-cor
 add_library(${AssemblyName} SHARED
     ${Include_Dir}/bitmap.hpp
     ${Include_Dir}/bitmapbuffer.hpp
-    ${Include_Dir}/bitmappixelreference.hpp
     ${Include_Dir}/bitmapsimpleconvert.hpp
+    ${Include_Dir}/bufferbindbitmap.hpp
+    ${Include_Dir}/bufferedbitmap.hpp
+    ${Include_Dir}/channelvalue.hpp
     ${Include_Dir}/cmykcolor.hpp
+    ${Include_Dir}/pixelreference.hpp
     ${Include_Dir}/point.hpp
     ${Include_Dir}/pointf.hpp
     ${Include_Dir}/rectangle.hpp
     ${Include_Dir}/rectanglef.hpp
     ${Include_Dir}/rgbcolor.hpp
     ${Include_Dir}/ycrcbcolor.hpp
-    bitmapsimpleconvert.cpp
     point.cpp
     pointf.cpp
     rectangle.cpp
