@@ -6,44 +6,39 @@ namespace zawa_ch::StationaryOrbit::Graphics
 {
 
 	template<class T>
-	class BufferBindBitmap
+	class BufferBindBitmapBase
 		: virtual public Bitmap
 		, virtual public BitmapBufferBase<T>
 	{
 	public: // types
 		typedef BitmapBufferBase<T> BufferType;
 		typedef ChannelValue<T> ChannelValueType;
-	private: // contains
-		BufferType& _buffer;
-	public: // constructor
-		BufferBindBitmap(BufferType& buffer) : _buffer(buffer) {}
-		virtual ~BufferBindBitmap() = default;
 	public: // member
 		///	オブジェクトに紐付けられているバッファを取得します。
-		BufferType& Buffer() noexcept { return _buffer; }
+		virtual BufferType& Buffer() noexcept = 0;
 		///	オブジェクトに紐付けられているバッファを取得します。
-		const BufferType& Buffer() const noexcept { return _buffer; }
+		virtual const BufferType& Buffer() const noexcept = 0;
 	public: // implement BitmapBase
 		///	このバッファの幅を取得します。
-		size_t GetHorizonalSize() const { return _buffer.GetHorizonalSize(); }
+		virtual size_t GetHorizonalSize() const { return Buffer().GetHorizonalSize(); }
 		///	このバッファの高さを取得します。
-		size_t GetVerticalSize() const { return _buffer.GetVerticalSize(); }
+		virtual size_t GetVerticalSize() const { return Buffer().GetVerticalSize(); }
 		///	バッファに使用されている色空間を取得します。
-		BitmapColorSpace GetColorSpace() const { return _buffer.GetColorSpace(); }
+		virtual BitmapColorSpace GetColorSpace() const { return Buffer().GetColorSpace(); }
 	public: // implement BitmapBufferBase
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		const ChannelValueType& Index(const size_t& x, const size_t& y, const size_t& ch) const { return _buffer.Index(x, y, ch); }
+		virtual const ChannelValueType& Index(const size_t& x, const size_t& y, const size_t& ch) const { return Buffer().Index(x, y, ch); }
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		const ChannelValueType& Index(const Point& position, const size_t& ch) const { return _buffer.Index(position, ch); }
+		virtual const ChannelValueType& Index(const Point& position, const size_t& ch) const { return Buffer().Index(position, ch); }
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		ChannelValueType& Index(const size_t& x, const size_t& y, const size_t& ch) { return _buffer.Index(x, y, ch); }
+		virtual ChannelValueType& Index(const size_t& x, const size_t& y, const size_t& ch) { return Buffer().Index(x, y, ch); }
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		ChannelValueType& Index(const Point& position, const size_t& ch) { return _buffer.Index(position, ch); }
+		virtual ChannelValueType& Index(const Point& position, const size_t& ch) { return Buffer().Index(position, ch); }
 		///	このバッファのチャネル数を取得します。
-		size_t GetChannelCount() const noexcept { return _buffer.GetChannelCount(); }
+		virtual size_t GetChannelCount() const noexcept { return Buffer().GetChannelCount(); }
 	public: // implement Bitmap
 		///	指定されたピクセルの値をRGBで取得します。
-		RGBColor GetRGB(const size_t& x, const size_t& y) const
+		virtual RGBColor GetRGB(const size_t& x, const size_t& y) const
 		{
 			switch (GetColorSpace())
 			{
@@ -60,7 +55,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			}
 		}
 		///	指定されたピクセルの値をRGBで設定します。
-		void SetRGB(const size_t& x, const size_t& y, const RGBColor& value)
+		virtual void SetRGB(const size_t& x, const size_t& y, const RGBColor& value)
 		{
 			switch (GetColorSpace())
 			{
@@ -77,13 +72,35 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			}
 		}
 		///	指定されたピクセルの参照を取得します。
-		const ConstPixelReference Index(const size_t& x, const size_t& y) const { return ConstPixelReference(*this, x, y); }
+		virtual const ConstPixelReference Index(const size_t& x, const size_t& y) const { return ConstPixelReference(*this, x, y); }
 		///	指定されたピクセルの参照を取得します。
-		const ConstPixelReference Index(const Point& position) const { return ConstPixelReference(*this, position); }
+		virtual const ConstPixelReference Index(const Point& position) const { return ConstPixelReference(*this, position); }
 		///	指定されたピクセルの参照を取得します。
-		PixelReference Index(const size_t& x, const size_t& y) { return PixelReference(*this, x, y); }
+		virtual PixelReference Index(const size_t& x, const size_t& y) { return PixelReference(*this, x, y); }
 		///	指定されたピクセルの参照を取得します。
-		PixelReference Index(const Point& position) { return PixelReference(*this, position); }
+		virtual PixelReference Index(const Point& position) { return PixelReference(*this, position); }
+	public: // copy/move/destruct
+		virtual ~BufferBindBitmapBase() = default;
+	};
+
+	template<class T>
+	class BufferBindBitmap
+		: virtual public BufferBindBitmapBase<T>
+	{
+	public: // types
+		typedef BitmapBufferBase<T> BufferType;
+		typedef ChannelValue<T> ChannelValueType;
+	private: // contains
+		BufferType& _buffer;
+	public: // constructor
+		BufferBindBitmap(BufferType& buffer) noexcept : _buffer(buffer) {}
+		explicit BufferBindBitmap(BufferBindBitmapBase<T>& bitmap) noexcept : _buffer(bitmap.Buffer()) {}
+		virtual ~BufferBindBitmap() = default;
+	public: // member
+		///	オブジェクトに紐付けられているバッファを取得します。
+		BufferType& Buffer() noexcept { return _buffer; }
+		///	オブジェクトに紐付けられているバッファを取得します。
+		const BufferType& Buffer() const noexcept { return _buffer; }
 	};
 
 }
