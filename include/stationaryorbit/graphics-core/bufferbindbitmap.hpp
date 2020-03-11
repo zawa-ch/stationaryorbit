@@ -20,9 +20,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		virtual const BufferType& Buffer() const noexcept = 0;
 	public: // implement BitmapBase
 		///	このバッファの幅を取得します。
-		virtual size_t GetHorizonalSize() const { return Buffer().GetHorizonalSize(); }
+		virtual size_t GetWidth() const { return Buffer().GetWidth(); }
 		///	このバッファの高さを取得します。
-		virtual size_t GetVerticalSize() const { return Buffer().GetVerticalSize(); }
+		virtual size_t GetHeight() const { return Buffer().GetHeight(); }
 		///	バッファに使用されている色空間を取得します。
 		virtual BitmapColorSpace GetColorSpace() const { return Buffer().GetColorSpace(); }
 	public: // implement BitmapBufferBase

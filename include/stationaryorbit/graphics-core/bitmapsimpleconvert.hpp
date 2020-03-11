@@ -27,10 +27,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	指定された @a bitmap の上下を入れ替えます。
 		static ContainerType FripVertical(const FrameType& bitmap)
 		{
-			auto yrange = Range<size_t>(0, bitmap.GetVerticalSize());
-			auto xrange = Range<size_t>(0, bitmap.GetHorizonalSize());
+			auto yrange = Range<size_t>(0, bitmap.GetHeight());
+			auto xrange = Range<size_t>(0, bitmap.GetWidth());
 			auto chrange = Range<size_t>(0, bitmap.GetChannelCount());
-			auto result = ContainerType(bitmap.GetHorizonalSize(), bitmap.GetVerticalSize(), bitmap.GetColorSpace());
+			auto result = ContainerType(bitmap.GetWidth(), bitmap.GetHeight(), bitmap.GetColorSpace());
 			auto srcy = yrange.begin();
 			auto srcyend = yrange.end();
 			auto dsty = yrange.rbegin();
@@ -52,10 +52,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	指定された @a bitmap の左右を入れ替えます。
 		static ContainerType FripHorizonal(const FrameType& bitmap)
 		{
-			auto xrange = Range<size_t>(0, bitmap.GetHorizonalSize());
-			auto yrange = Range<size_t>(0, bitmap.GetVerticalSize());
+			auto xrange = Range<size_t>(0, bitmap.GetWidth());
+			auto yrange = Range<size_t>(0, bitmap.GetHeight());
 			auto chrange = Range<size_t>(0, bitmap.GetChannelCount());
-			auto result = ContainerType(bitmap.GetHorizonalSize(), bitmap.GetVerticalSize(), bitmap.GetColorSpace());
+			auto result = ContainerType(bitmap.GetWidth(), bitmap.GetHeight(), bitmap.GetColorSpace());
 			auto srcx = xrange.begin();
 			auto srcxend = xrange.end();
 			auto dstx = xrange.rbegin();
@@ -78,12 +78,12 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static ContainerType Resize(const FrameType& bitmap, const Point& size, ComplementMethod complement)
 		{
 			if (complement == nullptr) { throw NullReferenceException("引数 complement にnullを指定することはできません。"); }
-			auto srcsize = Point(bitmap.GetHorizonalSize(), bitmap.GetVerticalSize());
+			auto srcsize = Point(bitmap.GetWidth(), bitmap.GetHeight());
 			auto scalefactor = PointF(srcsize - Point(1, 1)) / PointF(size - Point(1, 1));
-			auto xrange = Range<size_t>(0, bitmap.GetHorizonalSize());
-			auto yrange = Range<size_t>(0, bitmap.GetVerticalSize());
+			auto xrange = Range<size_t>(0, bitmap.GetWidth());
+			auto yrange = Range<size_t>(0, bitmap.GetHeight());
 			auto chrange = Range<size_t>(0, bitmap.GetChannelCount());
-			auto result = ContainerType(bitmap.GetHorizonalSize(), bitmap.GetVerticalSize(), bitmap.GetColorSpace());
+			auto result = ContainerType(bitmap.GetWidth(), bitmap.GetHeight(), bitmap.GetColorSpace());
 			for (auto y : yrange) for (auto x : xrange) for (auto ch : chrange)
 			{
 				auto dstpos = scalefactor * PointF(x, y);
@@ -113,7 +113,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	指定された @a bitmap を @a area で指定された範囲で切り抜きます。
 		static ContainerType Crop(const FrameType& bitmap, const Rectangle& area)
 		{
-			if ((0 < area.getLeft())||(0 < area.getTop())||(area.getRight() <= bitmap.GetHorizonalSize())||(area.getBottom() <= bitmap.GetVerticalSize())) { throw std::invalid_argument("area で指定している範囲がビットマップの範囲を超えています。"); }
+			if ((0 < area.getLeft())||(0 < area.getTop())||(area.getRight() <= bitmap.GetWidth())||(area.getBottom() <= bitmap.GetHeight())) { throw std::invalid_argument("area で指定している範囲がビットマップの範囲を超えています。"); }
 			auto srcorigin = area.getTopLeft();
 			auto srcend = area.getBottomRight();
 			auto dstorigin = Point(0, 0);
@@ -123,7 +123,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			auto srcyrange = Range(srcorigin.getY(), srcend.getY());
 			auto dstyrange = Range(dstorigin.getY(), dstend.getY());
 			auto chrange = Range<size_t>(0, bitmap.GetChannelCount());
-			auto result = ContainerType(bitmap.GetHorizonalSize(), bitmap.GetVerticalSize(), bitmap.GetColorSpace());
+			auto result = ContainerType(bitmap.GetWidth(), bitmap.GetHeight(), bitmap.GetColorSpace());
 			auto srcy = srcyrange.begin();
 			auto srcyend = srcyrange.end();
 			auto dsty = dstyrange.begin();

@@ -26,9 +26,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	{
 	public:
 		///	このバッファの幅を取得します。
-		virtual size_t GetHorizonalSize() const = 0;
+		virtual size_t GetWidth() const = 0;
 		///	このバッファの高さを取得します。
-		virtual size_t GetVerticalSize() const = 0;
+		virtual size_t GetHeight() const = 0;
 		///	バッファに使用されている色空間を取得します。
 		virtual BitmapColorSpace GetColorSpace() const = 0;
 		virtual ~BitmapBase() = default;

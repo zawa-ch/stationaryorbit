@@ -7,7 +7,7 @@ ConstPixelReference::ConstPixelReference(const Bitmap& bitmap, const Point& posi
 const Bitmap& ConstPixelReference::GetBitmap() const { return _cbitmap; }
 Point ConstPixelReference::Position() const noexcept { return Point(_x, _y); }
 RGBColor ConstPixelReference::GetRGBValue() const { return _cbitmap.GetRGB(_x, _y); }
-bool ConstPixelReference::HasValue() const noexcept { if ((_cbitmap.GetHorizonalSize() > _x)&&(_cbitmap.GetVerticalSize() > _y)) { return true; } else { return false; } }
+bool ConstPixelReference::HasValue() const noexcept { if ((_cbitmap.GetWidth() > _x)&&(_cbitmap.GetHeight() > _y)) { return true; } else { return false; } }
 bool ConstPixelReference::HasOffset(const Point& offset) const noexcept { return Offset(offset).HasValue(); }
 ConstPixelReference ConstPixelReference::Offset(const Point& offset) const noexcept { return ConstPixelReference(_cbitmap, Position() + offset); }
 

@@ -46,17 +46,17 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	このオブジェクトの最初の要素を示すイテレータを取得します。
 		virtual Iterator begin() noexcept { return Iterator(*this, 0); }
 		///	このオブジェクトの最後の要素を示すイテレータを取得します。
-		virtual Iterator end() noexcept { return Iterator(*this, GetHorizonalSize() * GetVerticalSize() * GetChannelCount()); }
+		virtual Iterator end() noexcept { return Iterator(*this, GetWidth() * GetHeight() * GetChannelCount()); }
 		///	このオブジェクトの最初の要素を示す変更できないイテレータを取得します。
 		virtual ConstIterator cbegin() const noexcept { return ConstIterator(*this, 0); }
 		///	このオブジェクトの最後の要素を示す変更できないイテレータを取得します。
-		virtual ConstIterator cend() const noexcept { return ConstIterator(*this, GetHorizonalSize() * GetVerticalSize() * GetChannelCount()); }
+		virtual ConstIterator cend() const noexcept { return ConstIterator(*this, GetWidth() * GetHeight() * GetChannelCount()); }
 		///	このオブジェクトの最初の要素を示す逆イテレータを取得します。
-		virtual ReverceIterator rbegin() noexcept { return ReverceIterator(*this, GetHorizonalSize() * GetVerticalSize() * GetChannelCount()); }
+		virtual ReverceIterator rbegin() noexcept { return ReverceIterator(*this, GetWidth() * GetHeight() * GetChannelCount()); }
 		///	このオブジェクトの最後の要素を示す逆イテレータを取得します。
 		virtual ReverceIterator rend() noexcept { return ReverceIterator(*this, 0); }
 		///	このオブジェクトの最初の要素を示す変更できない逆イテレータを取得します。
-		virtual ConstReverceIterator crbegin() const noexcept { return ConstReverceIterator(*this, GetHorizonalSize() * GetVerticalSize() * GetChannelCount()); }
+		virtual ConstReverceIterator crbegin() const noexcept { return ConstReverceIterator(*this, GetWidth() * GetHeight() * GetChannelCount()); }
 		///	このオブジェクトの最後の要素を示す変更できない逆イテレータを取得します。
 		virtual ConstReverceIterator crend() const noexcept { return ConstReverceIterator(*this, 0); }
     };
@@ -73,7 +73,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // constructor
 		BitmapBufferIterator(ContainerType& container, const size_t position) noexcept : _container(container), _pos(position) {}
 	public: // member
-		Property<BitmapBufferBase<T>, ValueType> Current() { return _container.Index((_pos / _container.GetChannelCount()) % _container.GetHorizonalSize(), _pos / (_container.GetHorizonalSize() * _container.GetChannelCount()), _pos % _container.GetChannelCount()); }
+		Property<BitmapBufferBase<T>, ValueType> Current() { return _container.Index((_pos / _container.GetChannelCount()) % _container.GetWidth(), _pos / (_container.GetWidth() * _container.GetChannelCount()), _pos % _container.GetChannelCount()); }
 		bool Equals(const BitmapBufferIterator& other) const noexcept { return _pos == other._pos; }
 	public: // implement LegacyIterator
 		Property<BitmapBufferBase<T>, ValueType> operator*() { return Current(); }
@@ -98,7 +98,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // constructor
 		BitmapBufferConstIterator(const ContainerType& container, const size_t position) noexcept : _container(container), _pos(position) {}
 	public: // member
-		ReadOnlyProperty<BitmapBufferBase<T>, ValueType> Current() const { return _container.Index((_pos / _container.GetChannelCount()) % _container.GetHorizonalSize(), _pos / (_container.GetHorizonalSize() * _container.GetChannelCount()), _pos % _container.GetChannelCount()); }
+		ReadOnlyProperty<BitmapBufferBase<T>, ValueType> Current() const { return _container.Index((_pos / _container.GetChannelCount()) % _container.GetWidth(), _pos / (_container.GetWidth() * _container.GetChannelCount()), _pos % _container.GetChannelCount()); }
 		bool Equals(const BitmapBufferConstIterator& other) const noexcept { return _pos == other._pos; }
 	public: // implement LegacyIterator
 		ReadOnlyProperty<BitmapBufferBase<T>, ValueType> operator*() const { return Current(); }
@@ -123,7 +123,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // constructor
 		BitmapBufferReverceIterator(ContainerType& container, const size_t position) noexcept : _container(container), _pos(position) {}
 	public: // member
-		Property<BitmapBufferBase<T>, ValueType> Current() { return _container.Index(((_pos - 1) / _container.GetChannelCount()) % _container.GetHorizonalSize(), (_pos - 1) / (_container.GetHorizonalSize() * _container.GetChannelCount()), (_pos - 1) % _container.GetChannelCount()); }
+		Property<BitmapBufferBase<T>, ValueType> Current() { return _container.Index(((_pos - 1) / _container.GetChannelCount()) % _container.GetWidth(), (_pos - 1) / (_container.GetWidth() * _container.GetChannelCount()), (_pos - 1) % _container.GetChannelCount()); }
 		bool Equals(const BitmapBufferReverceIterator& other) const noexcept { return _pos == other._pos; }
 	public: // implement LegacyIterator
 		Property<BitmapBufferBase<T>, ValueType> operator*() { return Current(); }
@@ -148,7 +148,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // constructor
 		BitmapBufferConstReverceIterator(const ContainerType& container, const size_t position) noexcept : _container(container), _pos(position) {}
 	public: // member
-		ReadOnlyProperty<BitmapBufferBase<T>, ValueType> Current() const { return _container.Index(((_pos - 1) / _container.GetChannelCount()) % _container.GetHorizonalSize(), (_pos - 1) / (_container.GetHorizonalSize() * _container.GetChannelCount()), (_pos - 1) % _container.GetChannelCount()); }
+		ReadOnlyProperty<BitmapBufferBase<T>, ValueType> Current() const { return _container.Index(((_pos - 1) / _container.GetChannelCount()) % _container.GetWidth(), (_pos - 1) / (_container.GetWidth() * _container.GetChannelCount()), (_pos - 1) % _container.GetChannelCount()); }
 		bool Equals(const BitmapBufferConstReverceIterator& other) const noexcept { return _pos == other._pos; }
 	public: // implement LegacyIterator
 		ReadOnlyProperty<BitmapBufferBase<T>, ValueType> operator*() const { return Current(); }
@@ -202,7 +202,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	指定されたキャンバスの内容を複製します。
 		///	@param	value
 		///	複製元の @a BitmapBufferBase 。
-		explicit BitmapBuffer(const BitmapBufferBase<T>& value) : BitmapBuffer(value.GetHorizonalSize(), value.GetVerticalSize(), value.GetColorSpace())
+		explicit BitmapBuffer(const BitmapBufferBase<T>& value) : BitmapBuffer(value.GetWidth(), value.GetHeight(), value.GetColorSpace())
 		{
 			auto srcpx = value.cbegin();
 			auto srcend = value.cend();
@@ -218,9 +218,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		virtual ~BitmapBuffer() = default;
 	public: // implement BitmapBase
 		///	このバッファの幅を取得します。
-		SizeType GetHorizonalSize() const noexcept { return _x; }
+		SizeType GetWidth() const noexcept { return _x; }
 		///	このバッファの高さを取得します。
-		SizeType GetVerticalSize() const noexcept { return _y; }
+		SizeType GetHeight() const noexcept { return _y; }
 		///	バッファに使用されている色空間を取得します。
 		BitmapColorSpace GetColorSpace() const noexcept { return _space; }
 	public: // implement BitmapBufferBase
@@ -257,7 +257,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		template<class FromT>
 		static BitmapBuffer<T> ConvertFrom(const BitmapBufferBase<FromT>& from)
 		{
-			auto result = BitmapBuffer<T>(from.GetHorizonalSize(), from.GetVerticalSize(), from.GetColorSpace());
+			auto result = BitmapBuffer<T>(from.GetWidth(), from.GetHeight(), from.GetColorSpace());
 			auto srcpx = from.cbegin();
 			auto srcend = from.cend();
 			auto destpx = result.begin();
