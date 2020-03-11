@@ -11,6 +11,11 @@
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 
+	template<class T> class BitmapBufferIterator;
+	template<class T> class BitmapBufferConstIterator;
+	template<class T> class BitmapBufferReverceIterator;
+	template<class T> class BitmapBufferConstReverceIterator;
+
 	///	画像情報を保持するための記憶領域を提供し、アクセスを行うためのメソッドを実装します。
 	///	@param	T
 	///	値の表現に使用する型。
@@ -18,14 +23,37 @@ namespace zawa_ch::StationaryOrbit::Graphics
     class BitmapBufferBase
 		: virtual public BitmapBase
     {
-    public:
+    public: // type
+		typedef ChannelValue<T> ValueType;
+		typedef BitmapBufferIterator<T> Iterator;
+		typedef BitmapBufferConstIterator<T> ConstIterator;
+		typedef BitmapBufferReverceIterator<T> ReverceIterator;
+		typedef BitmapBufferConstReverceIterator<T> ConstReverceIterator;
+    public: // interface
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		virtual const ChannelValue<T>& Index(const size_t& x, const size_t& y, const size_t& ch) const = 0;
+		virtual const ValueType& Index(const size_t& x, const size_t& y, const size_t& ch) const = 0;
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		virtual ChannelValue<T>& Index(const size_t& x, const size_t& y, const size_t& ch) = 0;
+		virtual ValueType& Index(const size_t& x, const size_t& y, const size_t& ch) = 0;
 		///	このバッファのチャネル数を取得します。
 		virtual size_t GetChannelCount() const noexcept = 0;
 		virtual ~BitmapBufferBase() = default;
+	public: // iterator
+		///	このオブジェクトの最初の要素を示すイテレータを取得します。
+		virtual Iterator begin() noexcept { return Iterator(*this, 0); }
+		///	このオブジェクトの最後の要素を示すイテレータを取得します。
+		virtual Iterator end() noexcept { return Iterator(*this, GetHorizonalSize() * GetVerticalSize() * GetChannelCount()); }
+		///	このオブジェクトの最初の要素を示す変更できないイテレータを取得します。
+		virtual ConstIterator cbegin() const noexcept { return ConstIterator(*this, 0); }
+		///	このオブジェクトの最後の要素を示す変更できないイテレータを取得します。
+		virtual ConstIterator cend() const noexcept { return ConstIterator(*this, GetHorizonalSize() * GetVerticalSize() * GetChannelCount()); }
+		///	このオブジェクトの最初の要素を示す逆イテレータを取得します。
+		virtual ReverceIterator rbegin() noexcept { return ReverceIterator(*this, GetHorizonalSize() * GetVerticalSize() * GetChannelCount()); }
+		///	このオブジェクトの最後の要素を示す逆イテレータを取得します。
+		virtual ReverceIterator rend() noexcept { return ReverceIterator(*this, 0); }
+		///	このオブジェクトの最初の要素を示す変更できない逆イテレータを取得します。
+		virtual ConstReverceIterator crbegin() const noexcept { return ConstReverceIterator(*this, GetHorizonalSize() * GetVerticalSize() * GetChannelCount()); }
+		///	このオブジェクトの最後の要素を示す変更できない逆イテレータを取得します。
+		virtual ConstReverceIterator crend() const noexcept { return ConstReverceIterator(*this, 0); }
     };
 	///	@a BitmapBufferBase の内容を反復して処理するための参照を表します。
 	template<class T>
@@ -171,15 +199,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	複製元の @a BitmapBufferBase 。
 		explicit BitmapBuffer(const BitmapBufferBase<T>& value) : BitmapBuffer(value.GetHorizonalSize(), value.GetVerticalSize(), value.GetColorSpace())
 		{
-			for (auto y : Range<size_t>(0, _y))
+			auto srcpx = value.cbegin();
+			auto srcend = value.cend();
+			auto destpx = this->begin();
+			auto destend = this->end();
+			while ((destpx != destend)&&(srcpx != srcend))
 			{
-				for (auto x : Range<size_t>(0, _x))
-				{
-					for (auto ch : Range<size_t>(0, CalcChCount(_space)))
-					{
-						Index(x, y, ch) = value.Index(x, y, ch);
-					}
-				}
+				*destpx = *srcpx;
+				++destpx;
+				++srcpx;
 			}
 		}
 		virtual ~BitmapBuffer() = default;
@@ -217,8 +245,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		BitmapBuffer<destT> ConvertTo() const
 		{
 			auto result = BitmapBuffer<destT>(_x, _y, _space);
-			auto srcpx = cbegin();
-			auto srcend = cend();
+			auto srcpx = this->cbegin();
+			auto srcend = this->cend();
 			auto destpx = result.begin();
 			auto destend = result.end();
 			while ((destpx != destend)&&(srcpx != srcend))
@@ -269,24 +297,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	@return
 		///	算出されたオブジェクト数が返ります。
 		constexpr static size_t CalcLength(const size_t& x, const size_t& y, const BitmapColorSpace& space) noexcept { return x * y * CalcChCount(space); }
-	public: // iterator
-		///	このオブジェクトの最初の要素を示すイテレータを取得します。
-		Iterator begin() noexcept { return Iterator(*this, 0); }
-		///	このオブジェクトの最後の要素を示すイテレータを取得します。
-		Iterator end() noexcept { return Iterator(*this, GetHorizonalSize() * GetVerticalSize() * GetChannelCount()); }
-		///	このオブジェクトの最初の要素を示す変更できないイテレータを取得します。
-		ConstIterator cbegin() const noexcept { return ConstIterator(*this, 0); }
-		///	このオブジェクトの最後の要素を示す変更できないイテレータを取得します。
-		ConstIterator cend() const noexcept { return ConstIterator(*this, GetHorizonalSize() * GetVerticalSize() * GetChannelCount()); }
-		///	このオブジェクトの最初の要素を示す逆イテレータを取得します。
-		ReverceIterator rbegin() noexcept { return ReverceIterator(*this, GetHorizonalSize() * GetVerticalSize() * GetChannelCount()); }
-		///	このオブジェクトの最後の要素を示す逆イテレータを取得します。
-		ReverceIterator rend() noexcept { return ReverceIterator(*this, 0); }
-		///	このオブジェクトの最初の要素を示す変更できない逆イテレータを取得します。
-		ConstReverceIterator crbegin() const noexcept { return ConstReverceIterator(*this, GetHorizonalSize() * GetVerticalSize() * GetChannelCount()); }
-		///	このオブジェクトの最後の要素を示す変更できない逆イテレータを取得します。
-		ConstReverceIterator crend() const noexcept { return ConstReverceIterator(*this, 0); }
 	};
+
+	// TODO: delete
 	///	@a BitmapBufferBase を使用した @a Bitmap 上のピクセルへの読み取り専用の参照を表します。
 	template<class T>
 	class BitmapConstPixelReference final
@@ -362,6 +375,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	この参照にオフセットを加えた先の値を @a RGBColor で取得します。
 		RGBColor GetOffsetRGBValue(const Point& offset) const { return Offset(offset).GetRGBValue(); }
 	};
+
+	// TODO: delete
 	///	@a BitmapBufferBase を使用した @a Bitmap 上のピクセルへの参照を表します。
 	template<class T>
 	class BitmapPixelReference final
