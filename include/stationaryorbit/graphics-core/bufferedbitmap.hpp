@@ -11,12 +11,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	{
 	public: // type
 		typedef BitmapBuffer<T> BufferType;
-		typedef BitmapPixelReference<T> PixelRefType;
-		typedef BitmapConstPixelReference<T> CPixelRefType;
-		typedef BufferBindBitmapIterator<T> Iterator;
-		typedef BufferBindBitmapConstIterator<T> ConstIterator;
-		typedef BufferBindBitmapReverceIterator<T> ReverceIterator;
-		typedef BufferBindBitmapReverceConstIterator<T> ReverceConstIterator;
 	private: // contains
 		BufferType _buffer;
 	public: // constructor
@@ -34,13 +28,13 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	オブジェクトに紐付けられているバッファを取得します。
 		const BufferType& Buffer() const noexcept { return _buffer; }
 		///	指定されたピクセルの参照を取得します。
-		const CPixelRefType Index(const size_t& x, const size_t& y) const { return CPixelRefType(_buffer, x, y); }
+		const ChannelValue<T>& Index(const size_t& x, const size_t& y, const size_t& ch) const { return _buffer.Index(x, y, ch); }
 		///	指定されたピクセルの参照を取得します。
-		const CPixelRefType Index(const Point& position) const { return CPixelRefType(_buffer, position); }
+		const ChannelValue<T>& Index(const Point& position, const size_t& ch) const { return _buffer.Index(position, ch); }
 		///	指定されたピクセルの参照を取得します。
-		PixelRefType Index(const size_t& x, const size_t& y) { return PixelRefType(_buffer, x, y); }
+		ChannelValue<T>& Index(const size_t& x, const size_t& y, const size_t& ch) { return _buffer.Index(x, y, ch); }
 		///	指定されたピクセルの参照を取得します。
-		PixelRefType Index(const Point& position) { return PixelRefType(_buffer, position); }
+		ChannelValue<T>& Index(const Point& position, const size_t& ch) { return _buffer.Index(position, ch); }
 	public: // implement BitmapBase
 		///	このバッファの幅を取得します。
 		size_t GetHorizonalSize() const { return _buffer.GetHorizonalSize(); }
@@ -50,18 +44,47 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		BitmapColorSpace GetColorSpace() const { return _buffer.GetColorSpace(); }
 	public: // implement Bitmap
 		///	指定されたピクセルの値をRGBで取得します。
-		RGBColor GetRGB(const size_t& x, const size_t& y) const { return Index(x, y).GetRGBValue(); }
+		RGBColor GetRGB(const size_t& x, const size_t& y) const
+		{
+			switch (GetColorSpace())
+			{
+			case BitmapColorSpace::ARGB:
+				return RGBColor(
+					ChannelValue<float>(Index(x, y, 0)).value,
+					ChannelValue<float>(Index(x, y, 1)).value,
+					ChannelValue<float>(Index(x, y, 2)).value,
+					ChannelValue<float>(Index(x, y, 3)).value);
+			case BitmapColorSpace::GrayScale:
+			case BitmapColorSpace::CMYK:
+			case BitmapColorSpace::AXYZ:
+			default: throw InvalidOperationException("バッファに指定されている色空間が無効です。");
+			}
+		}
 		///	指定されたピクセルの値をRGBで設定します。
-		void SetRGB(const size_t& x, const size_t& y, const RGBColor& value) { Index(x, y).SetValue(value); }
-	public: // iterator
-		Iterator begin() noexcept { return Iterator(*this, 0); }
-		Iterator end() noexcept { return Iterator(*this, GetHorizonalSize() * GetVerticalSize()); }
-		ConstIterator cbegin() const noexcept { return ConstIterator(*this, 0); }
-		ConstIterator cend() const noexcept { return ConstIterator(*this, GetHorizonalSize() * GetVerticalSize()); }
-		ReverceIterator rbegin() noexcept { return ReverceIterator(*this, GetHorizonalSize() * GetVerticalSize()); }
-		ReverceIterator rend() noexcept { return ReverceIterator(*this, 0); }
-		ReverceConstIterator crbegin() const noexcept { return ReverceConstIterator(*this, GetHorizonalSize() * GetVerticalSize()); }
-		ReverceConstIterator crend() const noexcept { return ReverceConstIterator(*this, 0); }
+		void SetRGB(const size_t& x, const size_t& y, const RGBColor& value)
+		{
+			switch (GetColorSpace())
+			{
+			case BitmapColorSpace::ARGB:
+				Index(x, y, 0) = ChannelValue<T>(value.getR());
+				Index(x, y, 1) = ChannelValue<T>(value.getG());
+				Index(x, y, 2) = ChannelValue<T>(value.getB());
+				Index(x, y, 3) = ChannelValue<T>(value.getAlpha());
+				break;
+			case BitmapColorSpace::GrayScale:
+			case BitmapColorSpace::CMYK:
+			case BitmapColorSpace::AXYZ:
+			default: throw InvalidOperationException("バッファに指定されている色空間が無効です。");
+			}
+		}
+		///	指定されたピクセルの参照を取得します。
+		const ConstPixelReference Index(const size_t& x, const size_t& y) const { return ConstPixelReference(*this, x, y); }
+		///	指定されたピクセルの参照を取得します。
+		const ConstPixelReference Index(const Point& position) const { return ConstPixelReference(*this, position); }
+		///	指定されたピクセルの参照を取得します。
+		PixelReference Index(const size_t& x, const size_t& y) { return PixelReference(*this, x, y); }
+		///	指定されたピクセルの参照を取得します。
+		PixelReference Index(const Point& position) { return PixelReference(*this, position); }
 	};
 
 }
