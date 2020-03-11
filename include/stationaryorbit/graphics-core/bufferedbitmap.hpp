@@ -8,9 +8,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	template<class T>
 	class BufferedBitmap
 		: virtual public Bitmap
+		, virtual public BitmapBufferBase<T>
 	{
 	public: // type
 		typedef BitmapBuffer<T> BufferType;
+		typedef ChannelValue<T> ChannelValueType;
 	private: // contains
 		BufferType _buffer;
 	public: // constructor
@@ -27,14 +29,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		BufferType& Buffer() noexcept { return _buffer; }
 		///	オブジェクトに紐付けられているバッファを取得します。
 		const BufferType& Buffer() const noexcept { return _buffer; }
-		///	指定されたピクセルの参照を取得します。
-		const ChannelValue<T>& Index(const size_t& x, const size_t& y, const size_t& ch) const { return _buffer.Index(x, y, ch); }
-		///	指定されたピクセルの参照を取得します。
-		const ChannelValue<T>& Index(const Point& position, const size_t& ch) const { return _buffer.Index(position, ch); }
-		///	指定されたピクセルの参照を取得します。
-		ChannelValue<T>& Index(const size_t& x, const size_t& y, const size_t& ch) { return _buffer.Index(x, y, ch); }
-		///	指定されたピクセルの参照を取得します。
-		ChannelValue<T>& Index(const Point& position, const size_t& ch) { return _buffer.Index(position, ch); }
 	public: // implement BitmapBase
 		///	このバッファの幅を取得します。
 		size_t GetHorizonalSize() const { return _buffer.GetHorizonalSize(); }
@@ -42,6 +36,17 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		size_t GetVerticalSize() const { return _buffer.GetVerticalSize(); }
 		///	バッファに使用されている色空間を取得します。
 		BitmapColorSpace GetColorSpace() const { return _buffer.GetColorSpace(); }
+	public: // implement BitmapBufferBase
+		///	指定されたピクセルの参照を取得します。
+		const ChannelValueType& Index(const size_t& x, const size_t& y, const size_t& ch) const { return _buffer.Index(x, y, ch); }
+		///	指定されたピクセルの参照を取得します。
+		const ChannelValueType& Index(const Point& position, const size_t& ch) const { return _buffer.Index(position, ch); }
+		///	指定されたピクセルの参照を取得します。
+		ChannelValueType& Index(const size_t& x, const size_t& y, const size_t& ch) { return _buffer.Index(x, y, ch); }
+		///	指定されたピクセルの参照を取得します。
+		ChannelValueType& Index(const Point& position, const size_t& ch) { return _buffer.Index(position, ch); }
+		///	このバッファのチャネル数を取得します。
+		size_t GetChannelCount() const noexcept { return _buffer.GetChannelCount(); }
 	public: // implement Bitmap
 		///	指定されたピクセルの値をRGBで取得します。
 		RGBColor GetRGB(const size_t& x, const size_t& y) const
