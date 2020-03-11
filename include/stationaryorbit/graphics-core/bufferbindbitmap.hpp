@@ -27,13 +27,13 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		virtual BitmapColorSpace GetColorSpace() const { return Buffer().GetColorSpace(); }
 	public: // implement BitmapBufferBase
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		virtual const ChannelValueType& Index(const size_t& x, const size_t& y, const size_t& ch) const { return Buffer().Index(x, y, ch); }
+		virtual ReadOnlyProperty<BitmapBufferBase<T>, ChannelValueType> Index(const size_t& x, const size_t& y, const size_t& ch) const { return Buffer().Index(x, y, ch); }
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		virtual const ChannelValueType& Index(const Point& position, const size_t& ch) const { return Buffer().Index(position, ch); }
+		virtual ReadOnlyProperty<BitmapBufferBase<T>, ChannelValueType> Index(const Point& position, const size_t& ch) const { return Buffer().Index(position, ch); }
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		virtual ChannelValueType& Index(const size_t& x, const size_t& y, const size_t& ch) { return Buffer().Index(x, y, ch); }
+		virtual Property<BitmapBufferBase<T>, ChannelValueType> Index(const size_t& x, const size_t& y, const size_t& ch) { return Buffer().Index(x, y, ch); }
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		virtual ChannelValueType& Index(const Point& position, const size_t& ch) { return Buffer().Index(position, ch); }
+		virtual Property<BitmapBufferBase<T>, ChannelValueType> Index(const Point& position, const size_t& ch) { return Buffer().Index(position, ch); }
 		///	このバッファのチャネル数を取得します。
 		virtual size_t GetChannelCount() const noexcept { return Buffer().GetChannelCount(); }
 	public: // implement Bitmap
@@ -44,10 +44,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			{
 			case BitmapColorSpace::ARGB:
 				return RGBColor(
-					ChannelValue<float>(Index(x, y, 0)).value,
-					ChannelValue<float>(Index(x, y, 1)).value,
-					ChannelValue<float>(Index(x, y, 2)).value,
-					ChannelValue<float>(Index(x, y, 3)).value);
+					ChannelValue<float>(Index(x, y, 0).get()).value,
+					ChannelValue<float>(Index(x, y, 1).get()).value,
+					ChannelValue<float>(Index(x, y, 2).get()).value,
+					ChannelValue<float>(Index(x, y, 3).get()).value);
 			case BitmapColorSpace::GrayScale:
 			case BitmapColorSpace::CMYK:
 			case BitmapColorSpace::AXYZ:

@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <vector>
 #include "stationaryorbit/exception/soexcept"
+#include "stationaryorbit/core/property"
 #include "stationaryorbit/core/numeral"
 #include "bitmap.hpp"
 #include "point.hpp"
@@ -31,13 +32,13 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		typedef BitmapBufferConstReverceIterator<T> ConstReverceIterator;
     public: // interface
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		virtual const ValueType& Index(const size_t& x, const size_t& y, const size_t& ch) const = 0;
+		virtual ReadOnlyProperty<BitmapBufferBase<T>, ValueType> Index(const size_t& x, const size_t& y, const size_t& ch) const = 0;
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		virtual const ValueType& Index(const Point& pos, const size_t& ch) const = 0;
+		virtual ReadOnlyProperty<BitmapBufferBase<T>, ValueType> Index(const Point& pos, const size_t& ch) const = 0;
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		virtual ValueType& Index(const size_t& x, const size_t& y, const size_t& ch) = 0;
+		virtual Property<BitmapBufferBase<T>, ValueType> Index(const size_t& x, const size_t& y, const size_t& ch) = 0;
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		virtual ValueType& Index(const Point& pos, const size_t& ch) = 0;
+		virtual Property<BitmapBufferBase<T>, ValueType> Index(const Point& pos, const size_t& ch) = 0;
 		///	このバッファのチャネル数を取得します。
 		virtual size_t GetChannelCount() const noexcept = 0;
 		virtual ~BitmapBufferBase() = default;
@@ -72,15 +73,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // constructor
 		BitmapBufferIterator(ContainerType& container, const size_t position) noexcept : _container(container), _pos(position) {}
 	public: // member
-		ValueType& Current() { return _container.Index((_pos / _container.GetChannelCount()) % _container.GetHorizonalSize(), _pos / (_container.GetHorizonalSize() * _container.GetChannelCount()), _pos % _container.GetChannelCount()); }
+		Property<BitmapBufferBase<T>, ValueType> Current() { return _container.Index((_pos / _container.GetChannelCount()) % _container.GetHorizonalSize(), _pos / (_container.GetHorizonalSize() * _container.GetChannelCount()), _pos % _container.GetChannelCount()); }
 		bool Equals(const BitmapBufferIterator& other) const noexcept { return _pos == other._pos; }
 	public: // implement LegacyIterator
-		ValueType& operator*() { return Current(); }
+		Property<BitmapBufferBase<T>, ValueType> operator*() { return Current(); }
 		BitmapBufferIterator& operator++() noexcept { _pos++; return *this; }
 	public: // implement LegacyInputIterator
 		bool operator==(const BitmapBufferIterator& other) const noexcept { return Equals(other); }
 		bool operator!=(const BitmapBufferIterator& other) const noexcept { return !Equals(other); }
-		ValueType* operator->() { return &(Current()); }
+		Property<BitmapBufferBase<T>, ValueType> operator->() { return Current(); }
 	public: // implement LegacyBidirectionalIterator
 		BitmapBufferIterator& operator--() noexcept { _pos--; return *this; }
 	};
@@ -97,15 +98,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // constructor
 		BitmapBufferConstIterator(const ContainerType& container, const size_t position) noexcept : _container(container), _pos(position) {}
 	public: // member
-		const ValueType& Current() const { return _container.Index((_pos / _container.GetChannelCount()) % _container.GetHorizonalSize(), _pos / (_container.GetHorizonalSize() * _container.GetChannelCount()), _pos % _container.GetChannelCount()); }
+		ReadOnlyProperty<BitmapBufferBase<T>, ValueType> Current() const { return _container.Index((_pos / _container.GetChannelCount()) % _container.GetHorizonalSize(), _pos / (_container.GetHorizonalSize() * _container.GetChannelCount()), _pos % _container.GetChannelCount()); }
 		bool Equals(const BitmapBufferConstIterator& other) const noexcept { return _pos == other._pos; }
 	public: // implement LegacyIterator
-		const ValueType& operator*() const { return Current(); }
+		ReadOnlyProperty<BitmapBufferBase<T>, ValueType> operator*() const { return Current(); }
 		BitmapBufferConstIterator& operator++() noexcept { _pos++; return *this; }
 	public: // implement LegacyInputIterator
 		bool operator==(const BitmapBufferConstIterator& other) const noexcept { return Equals(other); }
 		bool operator!=(const BitmapBufferConstIterator& other) const noexcept { return !Equals(other); }
-		const ValueType* operator->() const { return &(Current()); }
+		ReadOnlyProperty<BitmapBufferBase<T>, ValueType> operator->() const { return Current(); }
 	public: // implement LegacyBidirectionalIterator
 		BitmapBufferConstIterator& operator--() noexcept { _pos--; return *this; }
 	};
@@ -122,15 +123,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // constructor
 		BitmapBufferReverceIterator(ContainerType& container, const size_t position) noexcept : _container(container), _pos(position) {}
 	public: // member
-		ValueType& Current() { return _container.Index(((_pos - 1) / _container.GetChannelCount()) % _container.GetHorizonalSize(), (_pos - 1) / (_container.GetHorizonalSize() * _container.GetChannelCount()), (_pos - 1) % _container.GetChannelCount()); }
+		Property<BitmapBufferBase<T>, ValueType> Current() { return _container.Index(((_pos - 1) / _container.GetChannelCount()) % _container.GetHorizonalSize(), (_pos - 1) / (_container.GetHorizonalSize() * _container.GetChannelCount()), (_pos - 1) % _container.GetChannelCount()); }
 		bool Equals(const BitmapBufferReverceIterator& other) const noexcept { return _pos == other._pos; }
 	public: // implement LegacyIterator
-		ValueType& operator*() { return Current(); }
+		Property<BitmapBufferBase<T>, ValueType> operator*() { return Current(); }
 		BitmapBufferReverceIterator& operator++() noexcept { _pos--; return *this; }
 	public: // implement LegacyInputIterator
 		bool operator==(const BitmapBufferReverceIterator& other) const noexcept { return Equals(other); }
 		bool operator!=(const BitmapBufferReverceIterator& other) const noexcept { return !Equals(other); }
-		ValueType* operator->() { return &(Current()); }
+		Property<BitmapBufferBase<T>, ValueType> operator->() { return Current(); }
 	public: // implement LegacyBidirectionalIterator
 		BitmapBufferReverceIterator& operator--() noexcept { _pos++; return *this; }
 	};
@@ -147,15 +148,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // constructor
 		BitmapBufferConstReverceIterator(const ContainerType& container, const size_t position) noexcept : _container(container), _pos(position) {}
 	public: // member
-		const ValueType& Current() const { return _container.Index(((_pos - 1) / _container.GetChannelCount()) % _container.GetHorizonalSize(), (_pos - 1) / (_container.GetHorizonalSize() * _container.GetChannelCount()), (_pos - 1) % _container.GetChannelCount()); }
+		ReadOnlyProperty<BitmapBufferBase<T>, ValueType> Current() const { return _container.Index(((_pos - 1) / _container.GetChannelCount()) % _container.GetHorizonalSize(), (_pos - 1) / (_container.GetHorizonalSize() * _container.GetChannelCount()), (_pos - 1) % _container.GetChannelCount()); }
 		bool Equals(const BitmapBufferConstReverceIterator& other) const noexcept { return _pos == other._pos; }
 	public: // implement LegacyIterator
-		const ValueType& operator*() const { return Current(); }
+		ReadOnlyProperty<BitmapBufferBase<T>, ValueType> operator*() const { return Current(); }
 		BitmapBufferConstReverceIterator& operator++() noexcept { _pos--; return *this; }
 	public: // implement LegacyInputIterator
 		bool operator==(const BitmapBufferConstReverceIterator& other) const noexcept { return Equals(other); }
 		bool operator!=(const BitmapBufferConstReverceIterator& other) const noexcept { return !Equals(other); }
-		const ValueType* operator->() const { return &(Current()); }
+		ReadOnlyProperty<BitmapBufferBase<T>, ValueType> operator->() const { return Current(); }
 	public: // implement LegacyBidirectionalIterator
 		BitmapBufferConstReverceIterator& operator--() noexcept { _pos++; return *this; }
 	};
@@ -215,35 +216,25 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			}
 		}
 		virtual ~BitmapBuffer() = default;
-	public: // member
+	public: // implement BitmapBase
 		///	このバッファの幅を取得します。
 		SizeType GetHorizonalSize() const noexcept { return _x; }
 		///	このバッファの高さを取得します。
 		SizeType GetVerticalSize() const noexcept { return _y; }
 		///	バッファに使用されている色空間を取得します。
 		BitmapColorSpace GetColorSpace() const noexcept { return _space; }
+	public: // implement BitmapBufferBase
+		///	指定された1ピクセル・1チャネルにおける値を取得します。
+		ReadOnlyProperty<BitmapBufferBase<T>, ValueType> Index(const SizeType& x, const SizeType& y, const SizeType& ch) const { return ReadOnlyProperty<BitmapBufferBase<T>, ValueType>(*this, std::bind(getIndex, std::placeholders::_1, x, y, ch)); }
+		///	指定された1ピクセル・1チャネルにおける値を取得します。
+		ReadOnlyProperty<BitmapBufferBase<T>, ValueType> Index(const Point& pos, const SizeType& ch) const { return Index(pos.getX(), pos.getY(), ch); }
+		///	指定された1ピクセル・1チャネルにおける値を取得します。
+		Property<BitmapBufferBase<T>, ValueType> Index(const SizeType& x, const SizeType& y, const SizeType& ch) { return Property<BitmapBufferBase<T>, ValueType>(*this, std::bind(getIndex, std::placeholders::_1, x, y, ch), std::bind(setIndex, std::placeholders::_1, x, y, ch, std::placeholders::_2)); }
+		///	指定された1ピクセル・1チャネルにおける値を取得します。
+		Property<BitmapBufferBase<T>, ValueType> Index(const Point& pos, const SizeType& ch) { return Index(pos.getX(), pos.getY(), ch); }
 		///	このバッファのチャネル数を取得します。
 		SizeType GetChannelCount() const noexcept { return CalcChCount(_space); }
-		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		const ValueType& Index(const SizeType& x, const SizeType& y, const SizeType& ch) const
-		{
-			if (_x <= x) throw new std::out_of_range("x が画像エリアの範囲外です。");
-			if (_y <= y) throw new std::out_of_range("y が画像エリアの範囲外です。");
-			if (GetChannelCount() <= ch) throw new std::out_of_range("ch が画像エリアの範囲外です。");
-			return _data[(y*_x + x)*GetChannelCount() + ch];
-		}
-		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		const ValueType& Index(const Point& pos, const SizeType& ch) const { return Index(pos.getX(), pos.getY(), ch); }
-		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		ValueType& Index(const SizeType& x, const SizeType& y, const SizeType& ch)
-		{
-			if (_x <= x) throw new std::out_of_range("x が画像エリアの範囲外です。");
-			if (_y <= y) throw new std::out_of_range("y が画像エリアの範囲外です。");
-			if (GetChannelCount() <= ch) throw new std::out_of_range("ch が画像エリアの範囲外です。");
-			return _data[(y*_x + x)*GetChannelCount() + ch];
-		}
-		///	指定された1ピクセル・1チャネルにおける値を取得します。
-		ValueType& Index(const Point& pos, const SizeType& ch) { return Index(pos.getX(), pos.getY(), ch); }
+	public: // convert
 		///	このオブジェクトを指定された型の @a BitmapBuffer に変換します。
 		template<class destT>
 		BitmapBuffer<destT> ConvertTo() const
@@ -255,7 +246,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			auto destend = result.end();
 			while ((destpx != destend)&&(srcpx != srcend))
 			{
-				*destpx = ChannelValue<destT>(*srcpx);
+				*destpx = ChannelValue<destT>((*srcpx).get());
 				++destpx;
 				++srcpx;
 			}
@@ -301,6 +292,24 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	@return
 		///	算出されたオブジェクト数が返ります。
 		constexpr static size_t CalcLength(const size_t& x, const size_t& y, const BitmapColorSpace& space) noexcept { return x * y * CalcChCount(space); }
+		///	指定された1ピクセル・1チャネルにおける値を取得します。
+		static ValueType getIndex(const BitmapBufferBase<T>& inst, const SizeType& x, const SizeType& y, const SizeType& ch)
+		{
+			auto cinst = dynamic_cast<const BitmapBuffer<T>&>(inst);
+			if (cinst._x <= x) throw new std::out_of_range("x が画像エリアの範囲外です。");
+			if (cinst._y <= y) throw new std::out_of_range("y が画像エリアの範囲外です。");
+			if (cinst.GetChannelCount() <= ch) throw new std::out_of_range("ch が画像エリアの範囲外です。");
+			return cinst._data[(y*cinst._x + x)*cinst.GetChannelCount() + ch];
+		}
+		///	指定された1ピクセル・1チャネルにおける値を設定します。
+		static void setIndex(BitmapBufferBase<T>& inst, const SizeType& x, const SizeType& y, const SizeType& ch, const ValueType& value)
+		{
+			auto cinst = dynamic_cast<BitmapBuffer<T>&>(inst);
+			if (cinst._x <= x) throw new std::out_of_range("x が画像エリアの範囲外です。");
+			if (cinst._y <= y) throw new std::out_of_range("y が画像エリアの範囲外です。");
+			if (cinst.GetChannelCount() <= ch) throw new std::out_of_range("ch が画像エリアの範囲外です。");
+			cinst._data[(y*cinst._x + x)*cinst.GetChannelCount() + ch] = value;
+		}
 	};
 
 }
