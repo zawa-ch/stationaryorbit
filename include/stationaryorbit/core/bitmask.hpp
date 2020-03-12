@@ -19,9 +19,9 @@ namespace zawa_ch::StationaryOrbit
 		explicit constexpr BitMask(const T& value) : Mask(value) {}
 	public: // member
 		constexpr T GetFrom(const T& source) const { return source & Mask; }
-		constexpr void SetTo(T& destination, const T& value) const { destination = (destination & ~Mask) | (value & Mask); }
+		constexpr T SetTo(const T& source, const T& value) const { return (source & ~Mask) | (value & Mask); }
 		constexpr T GetAlignedFrom(const T& source) const { return GetFrom(source) >> GetBeginIndex(Mask); }
-		constexpr void SetAlignedTo(T& destination, const T& value) const { SetTo(destination, value << GetBeginIndex(Mask)); }
+		constexpr T SetAlignedTo(const T& source, const T& value) const { return SetTo(source, value << GetBeginIndex(Mask)); }
 		constexpr Range<std::size_t> ToRange() const
 		{
 			const size_t length = sizeof(T) * 8;
@@ -30,6 +30,14 @@ namespace zawa_ch::StationaryOrbit
 			std::size_t end = GetEndIndex(Mask);
 			return Range(begin, end);
 		}
+	public: // bit operation
+		constexpr BitMask<T> operator~() const { return BitMask<T>(~Mask); }
+		constexpr BitMask<T> operator|(const BitMask<T>& other) const { return BitMask<T>(Mask | other.Mask); }
+		constexpr BitMask<T> operator&(const BitMask<T>& other) const { return BitMask<T>(Mask & other.Mask); }
+		constexpr BitMask<T> operator^(const BitMask<T>& other) const { return BitMask<T>(Mask ^ other.Mask); }
+		constexpr BitMask<T>& operator|=(const BitMask<T>& other) { return *this = BitMask<T>(Mask | other.Mask); }
+		constexpr BitMask<T>& operator&=(const BitMask<T>& other) { return *this = BitMask<T>(Mask & other.Mask); }
+		constexpr BitMask<T>& operator^=(const BitMask<T>& other) { return *this = BitMask<T>(Mask ^ other.Mask); }
 	public: // equatability
 		constexpr bool Equals(const BitMask<T>& other) const { return Mask == other.Mask; }
 		constexpr bool operator==(const BitMask<T>& other) const { return Equals(other); }
