@@ -2,7 +2,7 @@
 #define __StationaryOrbit_Graphics_BMP_CoreHeader__
 #include <cstddef>
 #include <cstdint>
-namespace zawa_ch::StationaryOrbit::Graphics::BMP
+namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 {
 
 	enum class BitDepth : uint16_t
