@@ -1,0 +1,10 @@
+// -*- C++ -*-
+
+#include "ciexyz.hpp"
+#include "ciexyztriple.hpp"
+#include "colormask.hpp"
+#include "coreheader.hpp"
+#include "fileheader.hpp"
+#include "infoheader.hpp"
+#include "v4header.hpp"
+#include "v5header.hpp"

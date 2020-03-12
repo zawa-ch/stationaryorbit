@@ -1,8 +1,8 @@
-#ifndef __StationaryOrbit_Graphics_BMP_FileHeader__
-#define __StationaryOrbit_Graphics_BMP_FileHeader__
+#ifndef __stationaryorbit_graphics_wbmp_fileheader__
+#define __stationaryorbit_graphics_wbmp_fileheader__
 #include <cstddef>
 #include <cstdint>
-namespace zawa_ch::StationaryOrbit::Graphics::BMP
+namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 {
 
 	#pragma pack(1)
@@ -27,4 +27,4 @@ namespace zawa_ch::StationaryOrbit::Graphics::BMP
 	#pragma pack()
 
 }
-#endif // __StationaryOrbit_Graphics_BMP_FileHeader__
+#endif // __stationaryorbit_graphics_wbmp_fileheader__

@@ -1,7 +1,7 @@
-#ifndef __StationaryOrbit_Graphics_BMP_CIEXYZTriple_t__
-#define __StationaryOrbit_Graphics_BMP_CIEXYZTriple_t__
-#include "ciexyz_t.hpp"
-namespace zawa_ch::StationaryOrbit::Graphics::BMP
+#ifndef __stationaryorbit_graphics_wbmp_ciexyztriple__
+#define __stationaryorbit_graphics_wbmp_ciexyztriple__
+#include "ciexyz.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 {
 
     struct CIEXYZTriple_t
@@ -12,4 +12,4 @@ namespace zawa_ch::StationaryOrbit::Graphics::BMP
     };
 
 }
-#endif // __StationaryOrbit_Graphics_BMP_CIEXYZTriple_t__
+#endif // __stationaryorbit_graphics_wbmp_ciexyztriple__

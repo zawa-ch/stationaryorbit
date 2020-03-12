@@ -1,9 +1,9 @@
-#ifndef __StationaryOrbit_Graphics_BMP_InfoHeader__
-#define __StationaryOrbit_Graphics_BMP_InfoHeader__
+#ifndef __stationaryorbit_graphics_wbmp_infoheader__
+#define __stationaryorbit_graphics_wbmp_infoheader__
 #include <cstddef>
 #include <cstdint>
 #include "coreheader.hpp"
-namespace zawa_ch::StationaryOrbit::Graphics::BMP
+namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 {
 
 	enum class CompressionMethod : uint32_t
@@ -39,4 +39,4 @@ namespace zawa_ch::StationaryOrbit::Graphics::BMP
 	#pragma pack()
 
 }
-#endif // __StationaryOrbit_Graphics_BMP_InfoHeader__
+#endif // __stationaryorbit_graphics_wbmp_infoheader__

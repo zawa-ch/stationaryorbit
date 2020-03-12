@@ -1,5 +1,5 @@
-#ifndef __StationaryOrbit_Graphics_BMP_CoreHeader__
-#define __StationaryOrbit_Graphics_BMP_CoreHeader__
+#ifndef __stationaryorbit_graphics_wbmp_coreheader__
+#define __stationaryorbit_graphics_wbmp_coreheader__
 #include <cstddef>
 #include <cstdint>
 namespace zawa_ch::StationaryOrbit::Graphics::WBMP
@@ -32,4 +32,4 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 	#pragma pack()
 
 }
-#endif // __StationaryOrbit_Graphics_BMP_CoreHeader__
+#endif // __stationaryorbit_graphics_wbmp_coreheader__

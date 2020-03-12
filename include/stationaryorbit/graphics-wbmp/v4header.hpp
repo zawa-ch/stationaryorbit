@@ -1,11 +1,11 @@
-#ifndef __StationaryOrbit_Graphics_BMP_V4Header__
-#define __StationaryOrbit_Graphics_BMP_V4Header__
+#ifndef __stationaryorbit_graphics_wbmp_v4header__
+#define __stationaryorbit_graphics_wbmp_v4header__
 #include <cstddef>
 #include <cstdint>
 #include "coreheader.hpp"
 #include "infoheader.hpp"
-#include "ciexyztriple_t.hpp"
-namespace zawa_ch::StationaryOrbit::Graphics::BMP
+#include "ciexyztriple.hpp"
+namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 {
 
 	#pragma pack(1)
@@ -37,4 +37,4 @@ namespace zawa_ch::StationaryOrbit::Graphics::BMP
 	#pragma pack()
 
 }
-#endif // __StationaryOrbit_Graphics_BMP_V4Header__
+#endif // __stationaryorbit_graphics_wbmp_v4header__

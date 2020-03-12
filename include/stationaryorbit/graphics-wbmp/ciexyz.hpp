@@ -1,8 +1,8 @@
-#ifndef __StationaryOrbit_Graphics_BMP_CIEXYZ_t__
-#define __StationaryOrbit_Graphics_BMP_CIEXYZ_t__
+#ifndef __stationaryorbit_graphics_wbmp_ciexyz__
+#define __stationaryorbit_graphics_wbmp_ciexyz__
 #include <cstddef>
 #include <cstdint>
-namespace zawa_ch::StationaryOrbit::Graphics::BMP
+namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 {
 
     struct CIEXYZ_t
@@ -13,4 +13,4 @@ namespace zawa_ch::StationaryOrbit::Graphics::BMP
     };
 
 }
-#endif // __StationaryOrbit_Graphics_BMP_CIEXYZ_t__
+#endif // __stationaryorbit_graphics_wbmp_ciexyz__
