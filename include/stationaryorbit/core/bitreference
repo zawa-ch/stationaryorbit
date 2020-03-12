@@ -1,3 +1,4 @@
 // -*- C++ -*-
 
+#include "bitmask.hpp"
 #include "bitreference.hpp"

@@ -10,6 +10,7 @@ set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.core)
 
 # ビルドするソースファイル
 set(BUILD_SOURCES)
+set(BUILD_SOURCES ${BUILD_SOURCES} bitoperation.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} fractionaldec.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} property.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} range.cpp)
