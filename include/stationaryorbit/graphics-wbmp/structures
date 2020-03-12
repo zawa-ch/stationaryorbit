@@ -6,5 +6,7 @@
 #include "coreheader.hpp"
 #include "fileheader.hpp"
 #include "infoheader.hpp"
+#include "rgbquad.hpp"
+#include "rgbtriple.hpp"
 #include "v4header.hpp"
 #include "v5header.hpp"
