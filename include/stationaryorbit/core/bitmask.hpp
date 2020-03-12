@@ -16,7 +16,7 @@ namespace zawa_ch::StationaryOrbit
 		T Mask;
 	public: // constructor
 		constexpr BitMask() = default;
-		constexpr BitMask(const T& value) : Mask(value) {}
+		explicit constexpr BitMask(const T& value) : Mask(value) {}
 	public: // member
 		constexpr T GetFrom(const T& source) const { return source & Mask; }
 		constexpr void SetTo(T& destination, const T& value) const { destination = (destination & ~Mask) | (value & Mask); }
@@ -30,6 +30,10 @@ namespace zawa_ch::StationaryOrbit
 			std::size_t end = GetEndIndex(Mask);
 			return Range(begin, end);
 		}
+	public: // equatability
+		constexpr bool Equals(const BitMask<T>& other) const { return Mask == other.Mask; }
+		constexpr bool operator==(const BitMask<T>& other) const { return Equals(other); }
+		constexpr bool operator!=(const BitMask<T>& other) const { return !Equals(other); }
 	public: // static
 		static constexpr std::size_t GetBeginIndex(const T& value, const T& start = 0)
 		{
@@ -43,6 +47,7 @@ namespace zawa_ch::StationaryOrbit
 			for (std::size_t i = ((start < length)?start:length); 0 < i; i--) { if ((value & (1 << (i - 1))) == 0) { return i; } }
 			return length;
 		}
+		static constexpr BitMask<T> Zero() { return BitMask<T>(0); }
 	};
 
 }
