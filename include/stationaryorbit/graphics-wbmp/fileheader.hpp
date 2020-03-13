@@ -17,9 +17,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 		int32_t Offset;	///< ファイルヘッダの先頭アドレスからビットマップデータの先頭アドレスまでのオフセット。
 
 	    /// ファイルタイプの識別子。'BM'(0x42, 0x4d)を示します。
-		static const uint8_t FileType_Signature[2];
-
-		static const size_t Size;
+		static const constexpr uint8_t FileType_Signature[2] = { 'B', 'M' };
 
 		///	BitmapFileHeader構造体の内容を確認し、正しいフォーマットであることをチェックします
 		bool CheckFileHeader() const;
