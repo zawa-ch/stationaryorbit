@@ -27,7 +27,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 	#pragma pack(1)
 	struct CoreHeader
 	{
-		uint32_t HeaderSize;	///< ヘッダサイズ
+		static const constexpr uint32_t Size = 12;
 		uint16_t ImageWidth;	///< ビットマップの横幅
 		uint16_t ImageHeight;	///< ビットマップの縦幅
 		uint16_t PlaneCount;	///< プレーン数
@@ -37,6 +37,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 	#pragma pack(1)
 	struct InfoHeader
 	{
+		static const constexpr uint32_t Size = 40;
 		int32_t ImageWidth;	///< ビットマップの横幅
 		int32_t ImageHeight;	///< ビットマップの縦幅
 		uint16_t PlaneCount;	///< プレーン数
@@ -52,6 +53,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 	#pragma pack(1)
 	struct V4Header
 	{
+		static const constexpr uint32_t Size = 108;
 		int32_t ImageWidth;	///< ビットマップの横幅
 		int32_t ImageHeight;	///< ビットマップの縦幅
 		uint16_t PlaneCount;	///< プレーン数
@@ -76,6 +78,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 	#pragma pack(1)
 	struct V5Header
 	{
+		static const constexpr uint32_t Size = 124;
 		int32_t ImageWidth;	///< ビットマップの横幅
 		int32_t ImageHeight;	///< ビットマップの縦幅
 		uint16_t PlaneCount;	///< プレーン数
