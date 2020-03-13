@@ -24,7 +24,7 @@ add_library(${AssemblyName} SHARED
     coreheader.cpp
     fileheader.cpp
     infoheader.cpp
-    invalidformatexception.cpp
+    invalidwbmpformatexception.cpp
     rgb24bmp.cpp
     wbmpbuffer.cpp
 )
