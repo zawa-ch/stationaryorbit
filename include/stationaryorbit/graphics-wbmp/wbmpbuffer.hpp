@@ -3,7 +3,7 @@
 #include <vector>
 #include "stationaryorbit/graphics-core/bitmap"
 #include "colormask.hpp"
-#include "coreheader.hpp"
+#include "wbmpheaders.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 {
 
