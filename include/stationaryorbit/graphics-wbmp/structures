@@ -1,7 +1,6 @@
 // -*- C++ -*-
 
 #include "ciexyz.hpp"
-#include "ciexyztriple.hpp"
 #include "colormask.hpp"
 #include "coreheader.hpp"
 #include "fileheader.hpp"

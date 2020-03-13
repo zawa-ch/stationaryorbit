@@ -4,7 +4,7 @@
 #include <cstdint>
 #include "coreheader.hpp"
 #include "infoheader.hpp"
-#include "ciexyztriple.hpp"
+#include "ciexyz.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 {
 
