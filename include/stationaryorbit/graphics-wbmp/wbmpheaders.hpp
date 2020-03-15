@@ -51,6 +51,23 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 	};
 	#pragma pack()
 	#pragma pack(1)
+	struct RGBColorMask
+	{
+		uint32_t ColorMaskR;	///< 赤成分のカラーマスク
+		uint32_t ColorMaskG;	///< 緑成分のカラーマスク
+		uint32_t ColorMaskB;	///< 青成分のカラーマスク
+	};
+	#pragma pack()
+	#pragma pack(1)
+	struct RGBAColorMask
+	{
+		uint32_t ColorMaskR;	///< 赤成分のカラーマスク
+		uint32_t ColorMaskG;	///< 緑成分のカラーマスク
+		uint32_t ColorMaskB;	///< 青成分のカラーマスク
+		uint32_t ColorMaskA;	///< α成分のカラーマスク
+	};
+	#pragma pack()
+	#pragma pack(1)
 	struct V4Header
 	{
 		static const constexpr uint32_t Size = 108;

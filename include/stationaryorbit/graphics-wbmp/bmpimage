@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-#include "rgb24bmp.hpp"
-#include "bmpimageinfomation.hpp"
-#include "bmpimagebitmap.hpp"
-#include "bmpimage.hpp"
+#include "wbmpbuffer.hpp"
+#include "wbmpheaders.hpp"
+#include "wbmploader.hpp"
+

@@ -18,6 +18,9 @@ namespace zawa_ch::StationaryOrbit
 		constexpr BitMask() = default;
 		explicit constexpr BitMask(const T& value) : Mask(value) {}
 	public: // member
+		constexpr std::size_t BeginIndex() const { return GetBeginIndex(Mask); }
+		constexpr std::size_t EndIndex() const { return GetEndIndex(Mask); }
+		constexpr std::size_t Length() const { return EndIndex() - BeginIndex(); }
 		constexpr T GetFrom(const T& source) const { return source & Mask; }
 		constexpr T SetTo(const T& source, const T& value) const { return (source & ~Mask) | (value & Mask); }
 		constexpr T GetAlignedFrom(const T& source) const { return GetFrom(source) >> GetBeginIndex(Mask); }
@@ -25,9 +28,9 @@ namespace zawa_ch::StationaryOrbit
 		constexpr Range<std::size_t> ToRange() const
 		{
 			const size_t length = sizeof(T) * 8;
-			std::size_t begin = GetBeginIndex(Mask);
+			std::size_t begin = BeginIndex();
 			if (length <= begin) { return Range<std::size_t>(0, 0); }
-			std::size_t end = GetEndIndex(Mask);
+			std::size_t end = EndIndex();
 			return Range(begin, end);
 		}
 	public: // bit operation

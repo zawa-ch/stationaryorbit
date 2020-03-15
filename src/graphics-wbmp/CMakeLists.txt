@@ -18,15 +18,11 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/v4header.hpp
     ${Include_Dir}/v5header.hpp
     ${Include_Dir}/wbmpbuffer.hpp
-    bmpimage.cpp
-    bmpimagebitmap.cpp
-    bmpimageinfomation.cpp
-    coreheader.cpp
     fileheader.cpp
-    infoheader.cpp
     invalidwbmpformatexception.cpp
     rgb24bmp.cpp
     wbmpbuffer.cpp
+    wbmploader.cpp
 )
 
 set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 20)

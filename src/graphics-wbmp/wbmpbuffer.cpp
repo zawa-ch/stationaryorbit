@@ -4,9 +4,8 @@ using namespace zawa_ch::StationaryOrbit;
 using namespace zawa_ch::StationaryOrbit::Graphics;
 using namespace zawa_ch::StationaryOrbit::Graphics::WBMP;
 
-BitmapColorSpace WbmpBufferBase::GetColorSpace() const { return BitmapColorSpace::ARGB; }
-size_t WbmpBufferBase::GetChannelCount() const noexcept { return 4; }
-
+BitmapColorSpace WbmpRGBData::GetColorSpace() const { return BitmapColorSpace::ARGB; }
+size_t WbmpRGBData::GetChannelCount() const noexcept { return 4; }
 ReadOnlyProperty<BitmapBufferBase<uint8_t>, WbmpRGBData::ChannelValueType> WbmpRGBData::Index(const size_t& x, const size_t& y, const size_t& ch) const
 { return ReadOnlyProperty<BitmapBufferBase<uint8_t>, ChannelValueType>(*this, std::bind(getIndex, std::placeholders::_1, x, y, ch)); }
 ReadOnlyProperty<BitmapBufferBase<uint8_t>, WbmpRGBData::ChannelValueType> WbmpRGBData::Index(const Point& pos, const size_t& ch) const { return Index(pos.getX(), pos.getY(), ch); }
@@ -51,14 +50,46 @@ WbmpRGBData::ChannelValueType WbmpRGBData::getIndex(const BitmapBufferBase<uint8
 	uint32_t data = 0;
 	for (auto item : Range<size_t>(0, lengthbyte)) { data |= (cinst.LinearIndex(ibyte + item)) << (item * 8); }
 	auto mask = cinst.GetColorMask();
+	uint32_t result;
+	size_t chlength;
 	switch (ch)
 	{
-	case 0: return ChannelValueType(mask.RedMask.GetAlignedFrom(data));
-	case 1: return ChannelValueType(mask.GreenMask.GetAlignedFrom(data));
-	case 2: return ChannelValueType(mask.BlueMask.GetAlignedFrom(data));
-	case 3: if (mask.AlphaMask.has_value()) { return ChannelValueType(mask.AlphaMask.value().GetAlignedFrom(data)); } else { return ChannelValueType::Max(); }
-	default: throw std::out_of_range("引数 ch の値がビットマップの範囲を超えています。");
+	case 0:
+		result = mask.RedMask.GetAlignedFrom(data);
+		chlength = mask.RedMask.Length();
+		result <<= 8 - chlength;
+		for (size_t i = 0; i < (8 / chlength); i++) { result |= result >> (chlength * i); }
+		break;
+	case 1:
+		result = mask.GreenMask.GetAlignedFrom(data);
+		chlength = mask.GreenMask.Length();
+		result <<= 8 - chlength;
+		for (size_t i = 0; i < (8 / chlength); i++) { result |= result >> (chlength * i); }
+		break;
+	case 2:
+		result = mask.BlueMask.GetAlignedFrom(data);
+		chlength = mask.BlueMask.Length();
+		result <<= 8 - chlength;
+		for (size_t i = 0; i < (8 / chlength); i++) { result |= result >> (chlength * i); }
+		break;
+	case 3:
+		if (mask.AlphaMask.has_value())
+		{
+			result = mask.AlphaMask.value().GetAlignedFrom(data);
+			chlength = mask.AlphaMask.value().Length();
+			result <<= 8 - chlength;
+			for (size_t i = 0; i < (8 / chlength); i++) { result |= result >> (chlength * i); }
+			break;
+		}
+		else
+		{
+			result = ChannelValueType::Max().value;
+			break;
+		}
+	default:
+		throw std::out_of_range("引数 ch の値がビットマップの範囲を超えています。");
 	}
+	return ChannelValueType(result);
 }
 void WbmpRGBData::setIndex(BitmapBufferBase<uint8_t>& inst, const size_t& x, const size_t& y, const size_t& ch, const ChannelValueType& value)
 {
@@ -71,13 +102,30 @@ void WbmpRGBData::setIndex(BitmapBufferBase<uint8_t>& inst, const size_t& x, con
 	uint32_t data = 0;
 	for (auto item : Range<size_t>(0, lengthbyte)) { data |= (cinst.LinearIndex(ibyte + item)) << (item * 8); }
 	auto mask = cinst.GetColorMask();
+	auto maskedvalue = value.value;
 	switch (ch)
 	{
-	case 0: data = mask.RedMask.SetAlignedTo(data, value); break;
-	case 1: data = mask.GreenMask.SetAlignedTo(data, value); break;
-	case 2: data = mask.BlueMask.SetAlignedTo(data, value); break;
-	case 3: if (mask.AlphaMask.has_value()) { data = mask.AlphaMask.value().SetAlignedTo(data, value); } break;
-	default: throw std::out_of_range("引数 ch の値がビットマップの範囲を超えています。");
+	case 0:
+		maskedvalue >>= 8 - mask.RedMask.Length();
+		data = mask.RedMask.SetAlignedTo(data, value);
+		break;
+	case 1:
+		maskedvalue >>= 8 - mask.GreenMask.Length();
+		data = mask.GreenMask.SetAlignedTo(data, value);
+		break;
+	case 2:
+		maskedvalue >>= 8 - mask.BlueMask.Length();
+		data = mask.BlueMask.SetAlignedTo(data, value);
+		break;
+	case 3:
+		if (mask.AlphaMask.has_value())
+		{
+			maskedvalue >>= 8 - mask.AlphaMask.value().Length();
+			data = mask.AlphaMask.value().SetAlignedTo(data, value);
+		}
+		break;
+	default:
+		throw std::out_of_range("引数 ch の値がビットマップの範囲を超えています。");
 	}
 	for (auto item : Range<size_t>(0, lengthbyte)) { cinst.LinearIndex(ibyte + item) = data << (item * 8); }
 }
@@ -113,6 +161,7 @@ WbmpRGBBuffer::WbmpRGBBuffer(const Point& size, const BitDepth& depth, const Col
 size_t WbmpRGBBuffer::GetWidth() const noexcept { return _x; }
 size_t WbmpRGBBuffer::GetHeight() const noexcept { return _y; }
 BitDepth WbmpRGBBuffer::GetBitDepth() const noexcept { return _depth; }
+size_t WbmpRGBBuffer::LinearLength() const noexcept { return _data.size(); }
 uint8_t& WbmpRGBBuffer::LinearIndex(const size_t& position) { return _data[position]; }
 const uint8_t& WbmpRGBBuffer::LinearIndex(const size_t& position) const { return _data[position]; }
 ColorMask WbmpRGBBuffer::GetColorMask() const { return _mask; }
