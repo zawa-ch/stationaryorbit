@@ -31,7 +31,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			auto yrange = Range<size_t>(0, bitmap.GetHeight());
 			auto xrange = Range<size_t>(0, bitmap.GetWidth());
 			auto chrange = Range<size_t>(0, bitmap.GetChannelCount());
-			auto result = ContainerType(bitmap.GetWidth(), bitmap.GetHeight(), bitmap.GetColorSpace());
+			auto result = ContainerType::Resemble(bitmap);
 			auto srcy = yrange.begin();
 			auto srcyend = yrange.end();
 			auto dsty = yrange.rbegin();
@@ -56,7 +56,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			auto xrange = Range<size_t>(0, bitmap.GetWidth());
 			auto yrange = Range<size_t>(0, bitmap.GetHeight());
 			auto chrange = Range<size_t>(0, bitmap.GetChannelCount());
-			auto result = ContainerType(bitmap.GetWidth(), bitmap.GetHeight(), bitmap.GetColorSpace());
+			auto result = ContainerType::Resemble(bitmap);
 			auto srcx = xrange.begin();
 			auto srcxend = xrange.end();
 			auto dstx = xrange.rbegin();

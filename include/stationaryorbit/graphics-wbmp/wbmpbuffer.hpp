@@ -83,6 +83,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 	public: // implement WbmpRGBData
 		uint32_t GetPixel(const size_t& x, const size_t& y) const;
 		void SetPixel(const size_t& x, const size_t& y, const uint32_t& value);
+	public: // static
+		static WbmpRGBBuffer Resemble(const BitmapBufferBase<uint8_t>& from);
 	private: // internal
 		static size_t CalcLength(const size_t& x, const size_t& y, const BitDepth& depth) noexcept;
 		static size_t CalcLineLength(const size_t& x, const BitDepth& depth) noexcept;

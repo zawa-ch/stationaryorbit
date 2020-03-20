@@ -143,7 +143,12 @@ void WbmpRGBBuffer::SetPixel(const size_t& x, const size_t& y, const uint32_t& v
 	if (GetHeight() <= y) { throw std::out_of_range("引数 y の値がビットマップの範囲を超えています。"); }
 	auto ibyte = CalcIndex(x, y);
 	auto length = (size_t(GetBitDepth()) / 8) + (((size_t(GetBitDepth())%8)!=0)?(1):(0));
-	for (auto item : Range<size_t>(0, length)) { _data[ibyte + item] = value << (item * 8); }
+	for (auto item : Range<size_t>(0, length)) { _data[ibyte + item] = value >> (item * 8); }
+}
+WbmpRGBBuffer WbmpRGBBuffer::Resemble(const BitmapBufferBase<uint8_t>& from)
+{
+	if (from.GetColorSpace() != BitmapColorSpace::ARGB) { throw InvalidOperationException("指定されたオブジェクトの色空間はこのクラスではサポートされません。"); }
+	return WbmpRGBBuffer(from.GetWidth(), from.GetHeight(), BitDepth::Bit24);
 }
 size_t WbmpRGBBuffer::LinearLength() const noexcept { return CalcLength(GetWidth(), GetHeight(), GetBitDepth()); }
 size_t WbmpRGBBuffer::CalcLength(const size_t& x, const size_t& y, const BitDepth& depth) noexcept { return CalcLineLength(x, depth) * y; }
@@ -191,7 +196,7 @@ void WbmpRGBStreamData::SetPixel(const size_t& x, const size_t& y, const uint32_
 	auto ibyte = CalcIndex(x, y);
 	auto length = (size_t(GetBitDepth()) / 8) + (((size_t(GetBitDepth())%8)!=0)?(1):(0));
 	_stream.seekp(_offset + std::streampos(ibyte));
-	for (auto item : Range<size_t>(0, length)) { _stream.put(value << (item * 8)); }
+	for (auto item : Range<size_t>(0, length)) { _stream.put(value >> (item * 8)); }
 }
 size_t WbmpRGBStreamData::LinearLength() const noexcept { return CalcLength(GetWidth(), GetHeight(), GetBitDepth()); }
 size_t WbmpRGBStreamData::CalcLength(const size_t& x, const size_t& y, const BitDepth& depth) noexcept { return CalcLineLength(x, depth) * y; }

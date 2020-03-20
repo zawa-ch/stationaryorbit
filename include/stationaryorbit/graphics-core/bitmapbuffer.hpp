@@ -253,11 +253,13 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			return result;
 		}
 	public: // static
+		///	指定されたオブジェクトと幅・高さ・色空間が同じ空のオブジェクトを取得します。
+		static BitmapBuffer<T> Resemble(const BitmapBufferBase<T>& from) { return BitmapBuffer<T>(from.GetWidth(), from.GetHeight(), from.GetColorSpace()); }
 		///	異なる型の @a BitmapBufferBase をこの型に変換します。
 		template<class FromT>
 		static BitmapBuffer<T> ConvertFrom(const BitmapBufferBase<FromT>& from)
 		{
-			auto result = BitmapBuffer<T>(from.GetWidth(), from.GetHeight(), from.GetColorSpace());
+			auto result = Resemble(from);
 			auto srcpx = from.cbegin();
 			auto srcend = from.cend();
 			auto destpx = result.begin();
