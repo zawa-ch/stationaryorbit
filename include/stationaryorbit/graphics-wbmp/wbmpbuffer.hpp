@@ -88,5 +88,36 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 		static size_t CalcLineLength(const size_t& x, const BitDepth& depth) noexcept;
 		size_t CalcIndex(const size_t& x, const size_t& y) const noexcept;
 	};
+	class WbmpRGBStreamData
+		: virtual public WbmpRGBData
+	{
+	private: // contains
+		std::iostream& _stream;
+		std::streampos _offset;
+		size_t _width;
+		size_t _height;
+		BitDepth _depth;
+	public: // construct
+		WbmpRGBStreamData(std::iostream& stream, const size_t& width, const size_t& height, const BitDepth& depth, std::streampos offset = 0U);
+		WbmpRGBStreamData(std::iostream& stream, const Point& size, const BitDepth& depth, std::streampos offset = 0U);
+	public: // member
+		std::iostream& Stream();
+	public: // implement BitmapBase
+		///	このバッファの幅を取得します。
+		size_t GetWidth() const noexcept;
+		///	このバッファの高さを取得します。
+		size_t GetHeight() const noexcept;
+	public: // implement WbmpBufferBase
+		///	バッファの大きさを取得します。
+		size_t LinearLength() const noexcept;
+		BitDepth GetBitDepth() const noexcept;
+	public: // implement WbmpRGBData
+		uint32_t GetPixel(const size_t& x, const size_t& y) const;
+		void SetPixel(const size_t& x, const size_t& y, const uint32_t& value);
+	private: // internal
+		static size_t CalcLength(const size_t& x, const size_t& y, const BitDepth& depth) noexcept;
+		static size_t CalcLineLength(const size_t& x, const BitDepth& depth) noexcept;
+		size_t CalcIndex(const size_t& x, const size_t& y) const noexcept;
+	};
 }
 #endif // __stationaryorbit_graphics_wbmp_wbmpbuffer__

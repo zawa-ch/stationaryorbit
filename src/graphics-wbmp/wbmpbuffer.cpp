@@ -154,3 +154,51 @@ size_t WbmpRGBBuffer::CalcLineLength(const size_t& x, const BitDepth& depth) noe
 }
 size_t WbmpRGBBuffer::CalcIndex(const size_t& x, const size_t& y) const noexcept
 { return ((GetHeight() - y - 1) * CalcLineLength(GetWidth(), GetBitDepth())) + (x * size_t(GetBitDepth()) / 8); }
+
+WbmpRGBStreamData::WbmpRGBStreamData(std::iostream& stream, const size_t& width, const size_t& height, const BitDepth& depth, std::streampos offset)
+	: _stream(stream)
+	, _width(width)
+	, _height(height)
+	, _depth(depth)
+	, _offset(offset)
+{}
+WbmpRGBStreamData::WbmpRGBStreamData(std::iostream& stream, const Point& size, const BitDepth& depth, std::streampos offset)
+	: _stream(stream)
+	, _width(size.getX())
+	, _height(size.getY())
+	, _depth(depth)
+	, _offset(offset)
+{}
+std::iostream& WbmpRGBStreamData::Stream() { return _stream; }
+size_t WbmpRGBStreamData::GetWidth() const noexcept { return _width; }
+size_t WbmpRGBStreamData::GetHeight() const noexcept { return _height; }
+BitDepth WbmpRGBStreamData::GetBitDepth() const noexcept { return _depth; }
+uint32_t WbmpRGBStreamData::GetPixel(const size_t& x, const size_t& y) const
+{
+	if (GetWidth() <= x) { throw std::out_of_range("引数 x の値がビットマップの範囲を超えています。"); }
+	if (GetHeight() <= y) { throw std::out_of_range("引数 y の値がビットマップの範囲を超えています。"); }
+	auto ibyte = CalcIndex(x, y);
+	auto length = (size_t(GetBitDepth()) / 8) + (((size_t(GetBitDepth())%8)!=0)?(1):(0));
+	uint32_t result = 0;
+	_stream.seekg(_offset + std::streampos(ibyte));
+	for (auto item : Range<size_t>(0, length)) { result |= uint32_t(_stream.get()) << (item * 8); }
+	return result;
+}
+void WbmpRGBStreamData::SetPixel(const size_t& x, const size_t& y, const uint32_t& value)
+{
+	if (GetWidth() <= x) { throw std::out_of_range("引数 x の値がビットマップの範囲を超えています。"); }
+	if (GetHeight() <= y) { throw std::out_of_range("引数 y の値がビットマップの範囲を超えています。"); }
+	auto ibyte = CalcIndex(x, y);
+	auto length = (size_t(GetBitDepth()) / 8) + (((size_t(GetBitDepth())%8)!=0)?(1):(0));
+	_stream.seekp(_offset + std::streampos(ibyte));
+	for (auto item : Range<size_t>(0, length)) { _stream.put(value << (item * 8)); }
+}
+size_t WbmpRGBStreamData::LinearLength() const noexcept { return CalcLength(GetWidth(), GetHeight(), GetBitDepth()); }
+size_t WbmpRGBStreamData::CalcLength(const size_t& x, const size_t& y, const BitDepth& depth) noexcept { return CalcLineLength(x, depth) * y; }
+size_t WbmpRGBStreamData::CalcLineLength(const size_t& x, const BitDepth& depth) noexcept
+{
+	auto linesize = size_t(depth) * x / 8;
+	return linesize + (((linesize%4)!=0)?((4-(linesize%4))):(0));
+}
+size_t WbmpRGBStreamData::CalcIndex(const size_t& x, const size_t& y) const noexcept
+{ return ((GetHeight() - y - 1) * CalcLineLength(GetWidth(), GetBitDepth())) + (x * size_t(GetBitDepth()) / 8); }
