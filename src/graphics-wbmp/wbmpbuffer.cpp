@@ -4,6 +4,7 @@ using namespace zawa_ch::StationaryOrbit;
 using namespace zawa_ch::StationaryOrbit::Graphics;
 using namespace zawa_ch::StationaryOrbit::Graphics::WBMP;
 
+/* TODO: トップダウン画像(画像高さが負の値)に対応する */
 BitmapColorSpace WbmpRGBData::GetColorSpace() const { return BitmapColorSpace::ARGB; }
 size_t WbmpRGBData::GetChannelCount() const noexcept { return 4; }
 ReadOnlyProperty<BitmapBufferBase<uint8_t>, WbmpRGBData::ChannelValueType> WbmpRGBData::Index(const size_t& x, const size_t& y, const size_t& ch) const
@@ -12,11 +13,12 @@ ReadOnlyProperty<BitmapBufferBase<uint8_t>, WbmpRGBData::ChannelValueType> WbmpR
 Property<BitmapBufferBase<uint8_t>, WbmpRGBData::ChannelValueType> WbmpRGBData::Index(const size_t& x, const size_t& y, const size_t& ch)
 { return Property<BitmapBufferBase<uint8_t>, ChannelValueType>(*this, std::bind(getIndex, std::placeholders::_1, x, y, ch), std::bind(setIndex, std::placeholders::_1, x, y, ch, std::placeholders::_2)); }
 Property<BitmapBufferBase<uint8_t>, WbmpRGBData::ChannelValueType> WbmpRGBData::Index(const Point& pos, const size_t& ch) { return Index(pos.getX(), pos.getY(), ch); }
+uint32_t WbmpRGBData::GetImageSize() const noexcept { return CalcLength(GetWidth(), GetHeight(), GetBitDepth()); }
 size_t WbmpRGBData::CalcLength(const size_t& x, const size_t& y, const BitDepth& depth) noexcept { return CalcLineLength(x, depth) * y; }
 size_t WbmpRGBData::CalcLineLength(const size_t& x, const BitDepth& depth) noexcept
 {
 	auto linesize = size_t(depth) * x / 8;
-	return linesize + (((linesize % 4) != 0)?(1):(0));
+	return linesize + (((linesize%4)!=0)?((4-(linesize%4))):(0));
 }
 ColorMask WbmpRGBData::DefaultColorMask(const BitDepth& depth)
 {
@@ -29,9 +31,8 @@ ColorMask WbmpRGBData::DefaultColorMask(const BitDepth& depth)
 	case BitDepth::Bit16:
 		return ColorMask{ BitMask<uint32_t>(0x7C00), BitMask<uint32_t>(0x03E0), BitMask<uint32_t>(0x001F), std::nullopt };
 	case BitDepth::Bit24:
-		return ColorMask{ BitMask<uint32_t>(0x000000FF), BitMask<uint32_t>(0x0000FF00), BitMask<uint32_t>(0x00FF0000), std::nullopt };
 	case BitDepth::Bit32:
-		return ColorMask{ BitMask<uint32_t>(0x000000FF), BitMask<uint32_t>(0x0000FF00), BitMask<uint32_t>(0x00FF0000), BitMask<uint32_t>(0xFF000000) };
+		return ColorMask{ BitMask<uint32_t>(0x00FF0000), BitMask<uint32_t>(0x0000FF00), BitMask<uint32_t>(0x000000FF), std::nullopt };
 	case BitDepth::Null:
 	default:
 		throw std::invalid_argument("depth に指定された値が無効です。");

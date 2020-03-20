@@ -20,9 +20,9 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/wbmpbuffer.hpp
     fileheader.cpp
     invalidwbmpformatexception.cpp
-    rgb24bmp.cpp
     wbmpbuffer.cpp
     wbmploader.cpp
+    wbmpsaver.cpp
 )
 
 set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 20)

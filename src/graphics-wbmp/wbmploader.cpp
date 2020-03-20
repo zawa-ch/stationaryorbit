@@ -58,6 +58,8 @@ WbmpLoader::WbmpLoader(std::istream& stream)
 	stream.exceptions(excbits);
 }
 const WbmpBufferBase& WbmpLoader::Buffer() const { return *_buffer; }
+uint32_t WbmpLoader::HorizonalResolution() const noexcept { return _resx; }
+uint32_t WbmpLoader::VerticalResolution() const noexcept { return _resy; }
 void WbmpLoader::ReadBody(std::istream& stream, const FileHeader& filehead, const CoreHeader& header)
 {
 	switch (header.BitCount)
@@ -69,11 +71,12 @@ void WbmpLoader::ReadBody(std::istream& stream, const FileHeader& filehead, cons
 	default:
 		throw InvalidWbmpFormatException("ビット深度が無効です。");
 	}
-	stream.ignore(filehead.Offset - stream.tellg());
+	stream.ignore(filehead.Offset - sizeof(FileHeader) - CoreHeader::Size);
 	for (auto item : Range<size_t>(0, _buffer->LinearLength())) { _buffer->LinearIndex(item) = stream.get(); if (stream.eof()) { break; } }
 }
 void WbmpLoader::ReadBody(std::istream& stream, const FileHeader& filehead, const InfoHeader& header)
 {
+	size_t readsize = sizeof(FileHeader) + InfoHeader::Size;
 	_resx = header.ResolutionHolizonal;
 	_resy = header.ResolutionVertical;
 	// ビットマスクRGB画像の場合はマスク用ビットフィールドを取得
@@ -82,12 +85,14 @@ void WbmpLoader::ReadBody(std::istream& stream, const FileHeader& filehead, cons
 	{
 		RGBColorMask maskdata;
 		stream.read((char*)&maskdata, sizeof(RGBColorMask));
+		readsize += sizeof(RGBColorMask);
 		mask = ColorMask{ BitMask<uint32_t>(maskdata.ColorMaskR), BitMask<uint32_t>(maskdata.ColorMaskG), BitMask<uint32_t>(maskdata.ColorMaskB), std::nullopt };
 	}
 	else if (header.ComplessionMethod == CompressionMethod::ALPHABITFIELDS)
 	{
 		RGBAColorMask maskdata;
 		stream.read((char*)&maskdata, sizeof(RGBAColorMask));
+		readsize += sizeof(RGBAColorMask);
 		mask = ColorMask{ BitMask<uint32_t>(maskdata.ColorMaskR), BitMask<uint32_t>(maskdata.ColorMaskG), BitMask<uint32_t>(maskdata.ColorMaskB), BitMask<uint32_t>(maskdata.ColorMaskA) };
 	}
 	else { /* do nothing */ }
@@ -140,7 +145,7 @@ void WbmpLoader::ReadBody(std::istream& stream, const FileHeader& filehead, cons
 	default:
 		throw InvalidWbmpFormatException("ビットマップ形式が無効です。");
 	}
-	stream.ignore(filehead.Offset - stream.tellg());
+	stream.ignore(filehead.Offset - readsize);
 	for (auto item : Range<size_t>(0, _buffer->LinearLength())) { _buffer->LinearIndex(item) = stream.get(); if (stream.eof()) { break; } }
 }
 void WbmpLoader::ReadBody(std::istream& stream, const FileHeader& filehead, const V4Header& header)

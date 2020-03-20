@@ -55,7 +55,7 @@ namespace zawa_ch::StationaryOrbit
 		static constexpr std::size_t GetEndIndex(const T& value, const T& start = std::numeric_limits<T>::max())
 		{
 			const size_t length = sizeof(T) * 8;
-			for (std::size_t i = ((start < length)?start:length); 0 < i; i--) { if ((value & (1 << (i - 1))) == 0) { return i; } }
+			for (std::size_t i = ((start < length)?start:length); 0 < i; i--) { if ((value & (1 << (i - 1))) != 0) { return i; } }
 			return length;
 		}
 		static constexpr BitMask<T> Zero() { return BitMask<T>(0); }

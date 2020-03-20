@@ -13,6 +13,9 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 {
 	class WbmpLoaderBase
 	{
+	public: // interface
+		virtual uint32_t HorizonalResolution() const noexcept = 0;
+		virtual uint32_t VerticalResolution() const noexcept = 0;
 	protected: // internal
 		static FileHeader ReadFileHead(std::istream& stream);
 		static uint32_t ReadHeaderSize(std::istream& stream);
@@ -33,6 +36,9 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 		WbmpLoader(std::istream& stream);
 	public: // member
 		const WbmpBufferBase& Buffer() const;
+	public: // implement WbmpLoaderBase
+		uint32_t HorizonalResolution() const noexcept;
+		uint32_t VerticalResolution() const noexcept;
 	private: // internal
 		void ReadBody(std::istream& stream, const FileHeader& filehead, const CoreHeader& header);
 		void ReadBody(std::istream& stream, const FileHeader& filehead, const InfoHeader& header);
