@@ -44,6 +44,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 		void ReadBody(std::istream& stream, const FileHeader& filehead, const InfoHeader& header);
 		void ReadBody(std::istream& stream, const FileHeader& filehead, const V4Header& header);
 		void ReadBody(std::istream& stream, const FileHeader& filehead, const V5Header& header);
+		std::unique_ptr<WbmpBufferBase> ReadRGB(std::istream& stream, const size_t &width, const size_t &height, const zawa_ch::StationaryOrbit::Graphics::WBMP::BitDepth &depth);
 	};
 }
 #endif // __stationaryorbit_graphics_wbmp_wbmploader__

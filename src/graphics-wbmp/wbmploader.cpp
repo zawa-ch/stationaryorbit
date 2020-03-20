@@ -62,17 +62,17 @@ uint32_t WbmpLoader::HorizonalResolution() const noexcept { return _resx; }
 uint32_t WbmpLoader::VerticalResolution() const noexcept { return _resy; }
 void WbmpLoader::ReadBody(std::istream& stream, const FileHeader& filehead, const CoreHeader& header)
 {
+	stream.ignore(filehead.Offset - sizeof(FileHeader) - CoreHeader::Size);
 	switch (header.BitCount)
 	{
 	case BitDepth::Bit1: case BitDepth::Bit4: case BitDepth::Bit8:
 		throw NotImplementedException();
 	case BitDepth::Bit24:
-		_buffer = std::unique_ptr<WbmpBufferBase>(new WbmpRGBBuffer(header.ImageWidth, header.ImageHeight, header.BitCount));
+		_buffer = ReadRGB(stream, header.ImageWidth, header.ImageHeight, header.BitCount);
+		break;
 	default:
 		throw InvalidWbmpFormatException("ビット深度が無効です。");
 	}
-	stream.ignore(filehead.Offset - sizeof(FileHeader) - CoreHeader::Size);
-	for (auto item : Range<size_t>(0, _buffer->LinearLength())) { _buffer->LinearIndex(item) = stream.get(); if (stream.eof()) { break; } }
 }
 void WbmpLoader::ReadBody(std::istream& stream, const FileHeader& filehead, const InfoHeader& header)
 {
@@ -97,6 +97,7 @@ void WbmpLoader::ReadBody(std::istream& stream, const FileHeader& filehead, cons
 	}
 	else { /* do nothing */ }
 	/* TODO: カラーパレットの読み込みに対応する */
+	stream.ignore(filehead.Offset - readsize);
 	// 画像データ保持用バッファの初期化
 	switch (header.ComplessionMethod)
 	{
@@ -110,7 +111,7 @@ void WbmpLoader::ReadBody(std::istream& stream, const FileHeader& filehead, cons
 				throw NotImplementedException();
 			case BitDepth::Bit16: case BitDepth::Bit24: case BitDepth::Bit32:
 				// RGBカラー画像
-				_buffer = std::unique_ptr<WbmpBufferBase>(new WbmpRGBBuffer(header.ImageWidth, header.ImageHeight, header.BitCount));
+				_buffer = ReadRGB(stream, header.ImageWidth, header.ImageHeight, header.BitCount);
 				break;
 			default:
 				throw InvalidWbmpFormatException("ビット深度が無効です。");
@@ -129,9 +130,8 @@ void WbmpLoader::ReadBody(std::istream& stream, const FileHeader& filehead, cons
 		// 8ビット/ピクセル ランレングス符号圧縮画像
 		throw NotImplementedException();
 	case CompressionMethod::BITFIELDS:
-		// RGBカラー画像
-		_buffer = std::unique_ptr<WbmpBufferBase>(new WbmpRGBBuffer(header.ImageWidth, header.ImageHeight, header.BitCount, mask));
-		break;
+		// ビットフィールドRGBカラー画像
+		throw NotImplementedException();
 	case CompressionMethod::JPEG:
 		// JPEG圧縮画像
 		throw NotImplementedException();
@@ -139,14 +139,11 @@ void WbmpLoader::ReadBody(std::istream& stream, const FileHeader& filehead, cons
 		// PNG圧縮画像
 		throw NotImplementedException();
 	case CompressionMethod::ALPHABITFIELDS:
-		// RGBカラー画像
-		_buffer = std::unique_ptr<WbmpBufferBase>(new WbmpRGBBuffer(header.ImageWidth, header.ImageHeight, header.BitCount, mask));
-		break;
+		// アルファ付きビットフィールドRGBカラー画像
+		throw NotImplementedException();
 	default:
 		throw InvalidWbmpFormatException("ビットマップ形式が無効です。");
 	}
-	stream.ignore(filehead.Offset - readsize);
-	for (auto item : Range<size_t>(0, _buffer->LinearLength())) { _buffer->LinearIndex(item) = stream.get(); if (stream.eof()) { break; } }
 }
 void WbmpLoader::ReadBody(std::istream& stream, const FileHeader& filehead, const V4Header& header)
 {
@@ -157,4 +154,10 @@ void WbmpLoader::ReadBody(std::istream& stream, const FileHeader& filehead, cons
 {
 	_resx = header.ResolutionHolizonal;
 	_resy = header.ResolutionVertical;
+}
+std::unique_ptr<WbmpBufferBase> WbmpLoader::ReadRGB(std::istream& stream, const size_t &width, const size_t &height, const zawa_ch::StationaryOrbit::Graphics::WBMP::BitDepth &depth)
+{
+	auto result = std::unique_ptr<WbmpRGBBuffer>(new WbmpRGBBuffer(width, height, depth));
+	for (auto item : Range<size_t>(0, result->LinearLength())) { result->Data()[item] = stream.get(); if (stream.eof()) { break; } }
+	return std::unique_ptr<WbmpBufferBase>(std::move(result));
 }

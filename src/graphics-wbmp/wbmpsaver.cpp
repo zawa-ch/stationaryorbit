@@ -46,7 +46,7 @@ void WbmpRGBSaver::WriteTo(std::ostream& stream) const
 	dataheader.PlaneCount = 1;
 	dataheader.BitCount = _data.GetBitDepth();
 	dataheader.ComplessionMethod = CompressionMethod::RGB;
-	dataheader.ImageSize = _data.GetImageSize();
+	dataheader.ImageSize = _data.LinearLength();
 	dataheader.ResolutionHolizonal = _resx;
 	dataheader.ResolutionVertical = _resy;
 	dataheader.IndexedColorCount = 0;
