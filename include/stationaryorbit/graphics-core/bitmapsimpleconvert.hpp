@@ -84,11 +84,12 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			auto xrange = Range<size_t>(0, bitmap.GetWidth());
 			auto yrange = Range<size_t>(0, bitmap.GetHeight());
 			auto chrange = Range<size_t>(0, bitmap.GetChannelCount());
-			auto result = ContainerType(bitmap.GetWidth(), bitmap.GetHeight(), bitmap.GetColorSpace());
+			// TODO: リサイズ後の大きさで初期化する
+			auto result = ContainerType::Resemble(bitmap);
 			for (auto y : yrange) for (auto x : xrange) for (auto ch : chrange)
 			{
 				auto dstpos = scalefactor * PointF(x, y);
-				result.Index(x, y) = complement(bitmap, dstpos);
+				result.Index(x, y, ch) = complement(bitmap, dstpos, ch);
 			}
 			return result;
 		}
@@ -124,7 +125,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			auto srcyrange = Range(srcorigin.getY(), srcend.getY());
 			auto dstyrange = Range(dstorigin.getY(), dstend.getY());
 			auto chrange = Range<size_t>(0, bitmap.GetChannelCount());
-			auto result = ContainerType(bitmap.GetWidth(), bitmap.GetHeight(), bitmap.GetColorSpace());
+			// TODO: リサイズ後の大きさで初期化する
+			auto result = ContainerType::Resemble(bitmap);
 			auto srcy = srcyrange.begin();
 			auto srcyend = srcyrange.end();
 			auto dsty = dstyrange.begin();
