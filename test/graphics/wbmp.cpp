@@ -1,11 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <chrono>
-#include "stationaryorbit/graphics-core/bitmap"
+#include <memory>
 #include "stationaryorbit/graphics-wbmp/bmpimage"
 using namespace zawa_ch::StationaryOrbit::Graphics;
 
-BMP::BMPImageBitmap bitmap;
+WBMP::WbmpLoader loader;
 
 void Read();
 void Write();
@@ -56,78 +56,97 @@ void Test_BMP()
 
 void Read()
 {
+	///	読み込みを行うWindowsビットマップファイル。
 	const char* ifile = "Jellyfish.bmp";
+	// ファイルを開く(ファイルオープンに失敗した場合は例外をスローする)
 	std::fstream istream = std::fstream(ifile, std::ios_base::openmode::_S_in | std::ios_base::openmode::_S_bin);
 	if (!istream.good()) throw std::logic_error("can't read file.");
-	BMP::BMPImage image = BMP::BMPImage(istream);
-	bitmap = image.getBitmap();
+	// ビットマップをロードする
+	loader = WBMP::WbmpLoader(istream);
+	// この段階で物理メモリにビットマップが格納されるためストリームは閉じても問題ない
 	istream.close();
 }
 
 void Write()
 {
 	const char* ofile = "output.bmp";
+	auto& buffer = dynamic_cast<const WBMP::WbmpRGBData&>(loader.Buffer());
+	auto saver = WBMP::WbmpRGBDirectSaver(buffer);
+	saver.HorizonalResolution() = loader.HorizonalResolution();
+	saver.VerticalResolution() = loader.VerticalResolution();
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
 	if (!ostream.good()) throw std::logic_error("can't write file.");
-	BMP::RGB24BMP::Export(ostream, bitmap);
+	saver.WriteTo(ostream);
     ostream.close();
 }
 
 void FripV()
 {
-	Bitmap out = BitmapSimpleConvert::FripVertical(bitmap);
 	const char* ofile = "output_fripv.bmp";
+	auto out = BitmapSimpleConvert<uint8_t, WBMP::WbmpRGBBuffer>::FripVertical(loader.Buffer());
+	auto saver = WBMP::WbmpRGBDirectSaver(out);
+	saver.HorizonalResolution() = loader.HorizonalResolution();
+	saver.VerticalResolution() = loader.VerticalResolution();
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
 	if (!ostream.good()) throw std::logic_error("can't write file.");
-	BMP::RGB24BMP::Export(ostream, out, bitmap.getBMPInfomation());
+	saver.WriteTo(ostream);
     ostream.close();
 }
 
 void FripH()
 {
-	Bitmap out = BitmapSimpleConvert::FripHorizonal(bitmap);
 	const char* ofile = "output_friph.bmp";
+	auto out = BitmapSimpleConvert<uint8_t, WBMP::WbmpRGBBuffer>::FripHorizonal(loader.Buffer());
+	auto saver = WBMP::WbmpRGBDirectSaver(out);
+	saver.HorizonalResolution() = loader.HorizonalResolution();
+	saver.VerticalResolution() = loader.VerticalResolution();
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
 	if (!ostream.good()) throw std::logic_error("can't write file.");
-	BMP::RGB24BMP::Export(ostream, out, bitmap.getBMPInfomation());
+	saver.WriteTo(ostream);
     ostream.close();
 }
 
 void Crop()
 {
-	BMP::BMPImageInfomation newinfo = bitmap.getBMPInfomation();
-	const Rectangle croparea = Rectangle(Point(100, 100), bitmap.getInfomation().getSize() - Point(100, 100));
-	newinfo.setSize(croparea.getSize());
-	Bitmap out = BitmapSimpleConvert::Crop(bitmap, croparea);
 	const char* ofile = "output_crop.bmp";
+	auto p1 = Point(100, 100);
+	auto p2 = Point(loader.Buffer().GetWidth(), loader.Buffer().GetHeight()) - Point(100, 100);
+	auto out = BitmapSimpleConvert<uint8_t, WBMP::WbmpRGBBuffer>::Crop(loader.Buffer(), Rectangle(p1, p2));
+	auto saver = WBMP::WbmpRGBDirectSaver(out);
+	saver.HorizonalResolution() = loader.HorizonalResolution();
+	saver.VerticalResolution() = loader.VerticalResolution();
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
 	if (!ostream.good()) throw std::logic_error("can't write file.");
-	BMP::RGB24BMP::Export(ostream, out, newinfo);
+	saver.WriteTo(ostream);
     ostream.close();
 }
 
 void Resize1()
 {
-	BMP::BMPImageInfomation newinfo = bitmap.getBMPInfomation();
-	const float resizefactor = 0.5f;
-	newinfo.setSize(Point(PointF(newinfo.getSize()) * resizefactor));
-	Bitmap out = BitmapSimpleConvert::Resize(bitmap, newinfo.getSize(), BitmapSimpleConvert::Nearest);
 	const char* ofile = "output_resize1.bmp";
+	const float resizefactor = 0.5f;
+	auto newsize = Point(size_t(loader.Buffer().GetWidth() * resizefactor), size_t(loader.Buffer().GetHeight() * resizefactor));
+	auto out = BitmapSimpleConvert<uint8_t, WBMP::WbmpRGBBuffer>::Resize(loader.Buffer(), newsize, BitmapSimpleConvert<uint8_t, WBMP::WbmpRGBBuffer>::Nearest);
+	auto saver = WBMP::WbmpRGBDirectSaver(out);
+	saver.HorizonalResolution() = loader.HorizonalResolution();
+	saver.VerticalResolution() = loader.VerticalResolution();
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
 	if (!ostream.good()) throw std::logic_error("can't write file.");
-	BMP::RGB24BMP::Export(ostream, out, newinfo);
+	saver.WriteTo(ostream);
     ostream.close();
 }
 
 void Resize2()
 {
-	BMP::BMPImageInfomation newinfo = bitmap.getBMPInfomation();
-	const float resizefactor = 2.0f;
-	newinfo.setSize(Point(PointF(newinfo.getSize()) * resizefactor));
-	Bitmap out = BitmapSimpleConvert::Resize(bitmap, newinfo.getSize(), BitmapSimpleConvert::Nearest);
 	const char* ofile = "output_resize2.bmp";
+	const float resizefactor = 2.0f;
+	auto newsize = Point(size_t(loader.Buffer().GetWidth() * resizefactor), size_t(loader.Buffer().GetHeight() * resizefactor));
+	auto out = BitmapSimpleConvert<uint8_t, WBMP::WbmpRGBBuffer>::Resize(loader.Buffer(), newsize, BitmapSimpleConvert<uint8_t, WBMP::WbmpRGBBuffer>::Nearest);
+	auto saver = WBMP::WbmpRGBDirectSaver(out);
+	saver.HorizonalResolution() = loader.HorizonalResolution();
+	saver.VerticalResolution() = loader.VerticalResolution();
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
 	if (!ostream.good()) throw std::logic_error("can't write file.");
-	BMP::RGB24BMP::Export(ostream, out, newinfo);
+	saver.WriteTo(ostream);
     ostream.close();
 }
