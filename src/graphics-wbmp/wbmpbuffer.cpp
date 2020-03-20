@@ -5,6 +5,7 @@ using namespace zawa_ch::StationaryOrbit::Graphics;
 using namespace zawa_ch::StationaryOrbit::Graphics::WBMP;
 
 /* TODO: トップダウン画像(画像高さが負の値)に対応する */
+ColorMask WbmpRGBData::GetColorMask() const { return DefaultColorMask(GetBitDepth()); }
 BitmapColorSpace WbmpRGBData::GetColorSpace() const { return BitmapColorSpace::ARGB; }
 size_t WbmpRGBData::GetChannelCount() const noexcept { return 4; }
 ReadOnlyProperty<BitmapBufferBase<uint8_t>, WbmpRGBData::ChannelValueType> WbmpRGBData::Index(const size_t& x, const size_t& y, const size_t& ch) const
@@ -13,13 +14,6 @@ ReadOnlyProperty<BitmapBufferBase<uint8_t>, WbmpRGBData::ChannelValueType> WbmpR
 Property<BitmapBufferBase<uint8_t>, WbmpRGBData::ChannelValueType> WbmpRGBData::Index(const size_t& x, const size_t& y, const size_t& ch)
 { return Property<BitmapBufferBase<uint8_t>, ChannelValueType>(*this, std::bind(getIndex, std::placeholders::_1, x, y, ch), std::bind(setIndex, std::placeholders::_1, x, y, ch, std::placeholders::_2)); }
 Property<BitmapBufferBase<uint8_t>, WbmpRGBData::ChannelValueType> WbmpRGBData::Index(const Point& pos, const size_t& ch) { return Index(pos.getX(), pos.getY(), ch); }
-uint32_t WbmpRGBData::GetImageSize() const noexcept { return CalcLength(GetWidth(), GetHeight(), GetBitDepth()); }
-size_t WbmpRGBData::CalcLength(const size_t& x, const size_t& y, const BitDepth& depth) noexcept { return CalcLineLength(x, depth) * y; }
-size_t WbmpRGBData::CalcLineLength(const size_t& x, const BitDepth& depth) noexcept
-{
-	auto linesize = size_t(depth) * x / 8;
-	return linesize + (((linesize%4)!=0)?((4-(linesize%4))):(0));
-}
 ColorMask WbmpRGBData::DefaultColorMask(const BitDepth& depth)
 {
 	switch (depth)
@@ -38,37 +32,28 @@ ColorMask WbmpRGBData::DefaultColorMask(const BitDepth& depth)
 		throw std::invalid_argument("depth に指定された値が無効です。");
 	}
 }
-size_t WbmpRGBData::calcIndex(const size_t& x, const size_t& y) const noexcept
-{ return ((GetHeight() - y - 1) * CalcLineLength(GetWidth(), GetBitDepth())) + (x * size_t(GetBitDepth()) / 8); }
 WbmpRGBData::ChannelValueType WbmpRGBData::getIndex(const BitmapBufferBase<uint8_t>& inst, const size_t& x, const size_t& y, const size_t& ch)
 {
 	auto& cinst = dynamic_cast<const WbmpRGBData&>(inst);
-	if (cinst.GetWidth() <= x) { throw std::out_of_range("引数 x の値がビットマップの範囲を超えています。"); }
-	if (cinst.GetHeight() <= y) { throw std::out_of_range("引数 y の値がビットマップの範囲を超えています。"); }
-	auto ibyte = cinst.calcIndex(x, y);
-	auto lengthbit = size_t(cinst.GetBitDepth());
-	auto lengthbyte = (lengthbit / 8) + (((lengthbit%8)!=0)?(1):(0));
-	uint32_t data = 0;
-	for (auto item : Range<size_t>(0, lengthbyte)) { data |= (cinst.LinearIndex(ibyte + item)) << (item * 8); }
 	auto mask = cinst.GetColorMask();
-	uint32_t result;
+	uint32_t result = cinst.GetPixel(x, y);
 	size_t chlength;
 	switch (ch)
 	{
 	case 0:
-		result = mask.RedMask.GetAlignedFrom(data);
+		result = mask.RedMask.GetAlignedFrom(result);
 		chlength = mask.RedMask.Length();
 		result <<= 8 - chlength;
 		for (size_t i = 0; i < (8 / chlength); i++) { result |= result >> (chlength * i); }
 		break;
 	case 1:
-		result = mask.GreenMask.GetAlignedFrom(data);
+		result = mask.GreenMask.GetAlignedFrom(result);
 		chlength = mask.GreenMask.Length();
 		result <<= 8 - chlength;
 		for (size_t i = 0; i < (8 / chlength); i++) { result |= result >> (chlength * i); }
 		break;
 	case 2:
-		result = mask.BlueMask.GetAlignedFrom(data);
+		result = mask.BlueMask.GetAlignedFrom(result);
 		chlength = mask.BlueMask.Length();
 		result <<= 8 - chlength;
 		for (size_t i = 0; i < (8 / chlength); i++) { result |= result >> (chlength * i); }
@@ -76,7 +61,7 @@ WbmpRGBData::ChannelValueType WbmpRGBData::getIndex(const BitmapBufferBase<uint8
 	case 3:
 		if (mask.AlphaMask.has_value())
 		{
-			result = mask.AlphaMask.value().GetAlignedFrom(data);
+			result = mask.AlphaMask.value().GetAlignedFrom(result);
 			chlength = mask.AlphaMask.value().Length();
 			result <<= 8 - chlength;
 			for (size_t i = 0; i < (8 / chlength); i++) { result |= result >> (chlength * i); }
@@ -95,13 +80,7 @@ WbmpRGBData::ChannelValueType WbmpRGBData::getIndex(const BitmapBufferBase<uint8
 void WbmpRGBData::setIndex(BitmapBufferBase<uint8_t>& inst, const size_t& x, const size_t& y, const size_t& ch, const ChannelValueType& value)
 {
 	auto& cinst = dynamic_cast<WbmpRGBData&>(inst);
-	if (cinst.GetWidth() <= x) { throw std::out_of_range("引数 x の値がビットマップの範囲を超えています。"); }
-	if (cinst.GetHeight() <= y) { throw std::out_of_range("引数 y の値がビットマップの範囲を超えています。"); }
-	auto ibyte = cinst.calcIndex(x, y);
-	auto lengthbit = size_t(cinst.GetBitDepth());
-	auto lengthbyte = (lengthbit / 8) + (((lengthbit%8)!=0)?(1):(0));
-	uint32_t data = 0;
-	for (auto item : Range<size_t>(0, lengthbyte)) { data |= (cinst.LinearIndex(ibyte + item)) << (item * 8); }
+	uint32_t data = cinst.GetPixel(x, y);
 	auto mask = cinst.GetColorMask();
 	auto maskedvalue = value.value;
 	switch (ch)
@@ -128,41 +107,50 @@ void WbmpRGBData::setIndex(BitmapBufferBase<uint8_t>& inst, const size_t& x, con
 	default:
 		throw std::out_of_range("引数 ch の値がビットマップの範囲を超えています。");
 	}
-	for (auto item : Range<size_t>(0, lengthbyte)) { cinst.LinearIndex(ibyte + item) = data << (item * 8); }
+	cinst.SetPixel(x, y, data);
 }
 
-WbmpRGBBuffer::WbmpRGBBuffer(const size_t& x, const size_t& y, const BitDepth& depth)
-	: _x(x)
-	, _y(y)
+WbmpRGBBuffer::WbmpRGBBuffer(const size_t& width, const size_t& height, const BitDepth& depth)
+	: _width(width)
+	, _height(height)
 	, _depth(depth)
-	, _mask(WbmpRGBData::DefaultColorMask(depth))
-	, _data(WbmpRGBData::CalcLength(x, y, depth))
+	, _data(CalcLength(width, height, depth))
 {}
 WbmpRGBBuffer::WbmpRGBBuffer(const Point& size, const BitDepth& depth)
-	: _x(size.getX())
-	, _y(size.getY())
+	: _width(size.getX())
+	, _height(size.getY())
 	, _depth(depth)
-	, _mask(WbmpRGBData::DefaultColorMask(depth))
-	, _data(WbmpRGBData::CalcLength(size.getX(), size.getY(), depth))
+	, _data(CalcLength(size.getX(), size.getY(), depth))
 {}
-WbmpRGBBuffer::WbmpRGBBuffer(const size_t& x, const size_t& y, const BitDepth& depth, const ColorMask& mask)
-	: _x(x)
-	, _y(y)
-	, _depth(depth)
-	, _mask(mask)
-	, _data(WbmpRGBData::CalcLength(x, y, depth))
-{}
-WbmpRGBBuffer::WbmpRGBBuffer(const Point& size, const BitDepth& depth, const ColorMask& mask)
-	: _x(size.getX())
-	, _y(size.getY())
-	, _depth(depth)
-	, _mask(mask)
-	, _data(WbmpRGBData::CalcLength(size.getX(), size.getY(), depth))
-{}
-size_t WbmpRGBBuffer::GetWidth() const noexcept { return _x; }
-size_t WbmpRGBBuffer::GetHeight() const noexcept { return _y; }
+std::vector<uint8_t>& WbmpRGBBuffer::Data() { return _data; }
+const std::vector<uint8_t>& WbmpRGBBuffer::Data() const { return _data; }
+size_t WbmpRGBBuffer::GetWidth() const noexcept { return _width; }
+size_t WbmpRGBBuffer::GetHeight() const noexcept { return _height; }
 BitDepth WbmpRGBBuffer::GetBitDepth() const noexcept { return _depth; }
-size_t WbmpRGBBuffer::LinearLength() const noexcept { return _data.size(); }
-uint8_t& WbmpRGBBuffer::LinearIndex(const size_t& position) { return _data[position]; }
-const uint8_t& WbmpRGBBuffer::LinearIndex(const size_t& position) const { return _data[position]; }
-ColorMask WbmpRGBBuffer::GetColorMask() const { return _mask; }
+uint32_t WbmpRGBBuffer::GetPixel(const size_t& x, const size_t& y) const
+{
+	if (GetWidth() <= x) { throw std::out_of_range("引数 x の値がビットマップの範囲を超えています。"); }
+	if (GetHeight() <= y) { throw std::out_of_range("引数 y の値がビットマップの範囲を超えています。"); }
+	auto ibyte = CalcIndex(x, y);
+	auto length = (size_t(GetBitDepth()) / 8) + (((size_t(GetBitDepth())%8)!=0)?(1):(0));
+	uint32_t result = 0;
+	for (auto item : Range<size_t>(0, length)) { result |= (_data[ibyte + item]) << (item * 8); }
+	return result;
+}
+void WbmpRGBBuffer::SetPixel(const size_t& x, const size_t& y, const uint32_t& value)
+{
+	if (GetWidth() <= x) { throw std::out_of_range("引数 x の値がビットマップの範囲を超えています。"); }
+	if (GetHeight() <= y) { throw std::out_of_range("引数 y の値がビットマップの範囲を超えています。"); }
+	auto ibyte = CalcIndex(x, y);
+	auto length = (size_t(GetBitDepth()) / 8) + (((size_t(GetBitDepth())%8)!=0)?(1):(0));
+	for (auto item : Range<size_t>(0, length)) { _data[ibyte + item] = value << (item * 8); }
+}
+size_t WbmpRGBBuffer::LinearLength() const noexcept { return CalcLength(GetWidth(), GetHeight(), GetBitDepth()); }
+size_t WbmpRGBBuffer::CalcLength(const size_t& x, const size_t& y, const BitDepth& depth) noexcept { return CalcLineLength(x, depth) * y; }
+size_t WbmpRGBBuffer::CalcLineLength(const size_t& x, const BitDepth& depth) noexcept
+{
+	auto linesize = size_t(depth) * x / 8;
+	return linesize + (((linesize%4)!=0)?((4-(linesize%4))):(0));
+}
+size_t WbmpRGBBuffer::CalcIndex(const size_t& x, const size_t& y) const noexcept
+{ return ((GetHeight() - y - 1) * CalcLineLength(GetWidth(), GetBitDepth())) + (x * size_t(GetBitDepth()) / 8); }

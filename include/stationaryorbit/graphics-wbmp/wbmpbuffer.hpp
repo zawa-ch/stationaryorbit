@@ -14,10 +14,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 	public: // interface
 		///	バッファのビット深度を取得します。
 		virtual BitDepth GetBitDepth() const noexcept = 0;
-		virtual uint32_t GetImageSize() const noexcept = 0;
+		///	バッファの大きさを取得します。
 		virtual size_t LinearLength() const noexcept = 0;
-		virtual uint8_t& LinearIndex(const size_t& position) = 0;
-		virtual const uint8_t& LinearIndex(const size_t& position) const = 0;
 	public: // copy/move/destruct
 		virtual ~WbmpBufferBase() = default;
 	};
@@ -28,8 +26,13 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 	public: // types
 		typedef ChannelValue<uint8_t> ChannelValueType;
 	public: // interface
-		///	このバッファから値を取得する際の色マスクを取得します。
-		virtual ColorMask GetColorMask() const = 0;
+		///	指定された1ピクセルの値を取得します。
+		virtual uint32_t GetPixel(const size_t& x, const size_t& y) const = 0;
+		///	指定された1ピクセルに値を設定します。
+		virtual void SetPixel(const size_t& x, const size_t& y, const uint32_t& value) = 0;
+	public: // member
+		///	このバッファでのピクセルへの読み書きに用いるビットマスクを取得します。 @a WbmpRGBData では常に @a BitDepth の値によって決定されます。
+		ColorMask GetColorMask() const;
 	public: // inplement BitmapBase
 		///	バッファに使用されている色空間を取得します。 @a WbmpRGBData では常に @a BitmapColorSpace::ARGB が返ります。
 		BitmapColorSpace GetColorSpace() const;
@@ -44,46 +47,46 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 		Property<BitmapBufferBase<uint8_t>, ChannelValueType> Index(const size_t& x, const size_t& y, const size_t& ch);
 		///	指定された1ピクセル・1チャネルにおける値を取得します。
 		Property<BitmapBufferBase<uint8_t>, ChannelValueType> Index(const Point& pos, const size_t& ch);
-	public: // implement WbmpBufferBase
-		uint32_t GetImageSize() const noexcept;
 	public: // static
-		static size_t CalcLength(const size_t& x, const size_t& y, const BitDepth& depth) noexcept;
-		static size_t CalcLineLength(const size_t& x, const BitDepth& depth) noexcept;
 		static ColorMask DefaultColorMask(const BitDepth& depth);
 	private: // internal
-		size_t calcIndex(const size_t& x, const size_t& y) const noexcept;
 		static ChannelValueType getIndex(const BitmapBufferBase<uint8_t>& inst, const size_t& x, const size_t& y, const size_t& ch);
 		static void setIndex(BitmapBufferBase<uint8_t>& inst, const size_t& x, const size_t& y, const size_t& ch, const ChannelValueType& value);
+	public: // copy/move/destruct
+		virtual ~WbmpRGBData() = default;
 	};
 	///	非圧縮RGBのWindowsビットマップとしてデータを保持します。
 	class WbmpRGBBuffer
 		: virtual public WbmpRGBData
 	{
 	private: // contains
-		size_t _x;
-		size_t _y;
+		size_t _width;
+		size_t _height;
 		BitDepth _depth;
-		ColorMask _mask;
 		std::vector<uint8_t> _data;
 	public: // construct
 		WbmpRGBBuffer() = default;
-		WbmpRGBBuffer(const size_t& x, const size_t& y, const BitDepth& depth);
+		WbmpRGBBuffer(const size_t& width, const size_t& height, const BitDepth& depth);
 		WbmpRGBBuffer(const Point& size, const BitDepth& depth);
-		WbmpRGBBuffer(const size_t& x, const size_t& y, const BitDepth& depth, const ColorMask& mask);
-		WbmpRGBBuffer(const Point& size, const BitDepth& depth, const ColorMask& mask);
+	public: // member
+		std::vector<uint8_t>& Data();
+		const std::vector<uint8_t>& Data() const;
 	public: // implement BitmapBase
 		///	このバッファの幅を取得します。
 		size_t GetWidth() const noexcept;
 		///	このバッファの高さを取得します。
 		size_t GetHeight() const noexcept;
 	public: // implement WbmpBufferBase
-		BitDepth GetBitDepth() const noexcept;
+		///	バッファの大きさを取得します。
 		size_t LinearLength() const noexcept;
-		uint8_t& LinearIndex(const size_t& position);
-		const uint8_t& LinearIndex(const size_t& position) const;
+		BitDepth GetBitDepth() const noexcept;
 	public: // implement WbmpRGBData
-		///	このバッファから値を取得する際の色マスクを取得します。
-		ColorMask GetColorMask() const;
+		uint32_t GetPixel(const size_t& x, const size_t& y) const;
+		void SetPixel(const size_t& x, const size_t& y, const uint32_t& value);
+	private: // internal
+		static size_t CalcLength(const size_t& x, const size_t& y, const BitDepth& depth) noexcept;
+		static size_t CalcLineLength(const size_t& x, const BitDepth& depth) noexcept;
+		size_t CalcIndex(const size_t& x, const size_t& y) const noexcept;
 	};
 }
 #endif // __stationaryorbit_graphics_wbmp_wbmpbuffer__
