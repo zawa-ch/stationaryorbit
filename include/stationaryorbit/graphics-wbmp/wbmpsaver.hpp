@@ -21,6 +21,24 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 		static void WriteV4Header(std::ostream& stream, const V4Header& data);
 		static void WriteV5Header(std::ostream& stream, const V5Header& data);
 	};
+	class WbmpRGBDirectSaver
+		: virtual public WbmpSaverBase
+	{
+	private:
+		const WbmpRGBData& _data;
+		uint32_t _resx;
+		uint32_t _resy;
+	public:
+		WbmpRGBDirectSaver(const WbmpRGBData& data) noexcept;
+	public:
+		uint32_t& HorizonalResolution() noexcept;
+		const uint32_t& HorizonalResolution() const noexcept;
+		uint32_t& VerticalResolution() noexcept;
+		const uint32_t& VerticalResolution() const noexcept;
+		void WriteTo(std::ostream& stream) const;
+	private:
+		static void WriteLine(std::ostream& stream, const WbmpRGBData& data, const size_t& y);
+	};
 	class WbmpRGBSaver
 		: virtual public WbmpSaverBase
 	{

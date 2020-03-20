@@ -27,6 +27,64 @@ void WbmpSaverBase::WriteV5Header(std::ostream& stream, const V5Header& data)
 	stream.write((const char*)&data, sizeof(V5Header));
 }
 
+WbmpRGBDirectSaver::WbmpRGBDirectSaver(const WbmpRGBData& data) noexcept
+	: _data(data)
+{}
+uint32_t& WbmpRGBDirectSaver::HorizonalResolution() noexcept { return _resx; }
+const uint32_t& WbmpRGBDirectSaver::HorizonalResolution() const noexcept { return _resx; }
+uint32_t& WbmpRGBDirectSaver::VerticalResolution() noexcept { return _resy; }
+const uint32_t& WbmpRGBDirectSaver::VerticalResolution() const noexcept { return _resy; }
+void WbmpRGBDirectSaver::WriteTo(std::ostream& stream) const
+{
+	FileHeader fileheader;
+	std::copy<const uint8_t*, uint8_t*>(&fileheader.FileType_Signature[0], &fileheader.FileType_Signature[2], &fileheader.FileType[0]);
+	/* TODO: 状況に応じてV4ヘッダ/V5ヘッダを使用する */
+	InfoHeader dataheader;
+	fileheader.Offset = InfoHeader::Size + sizeof(FileHeader) + ((((InfoHeader::Size + sizeof(FileHeader))%4)!=0)?(4-(((InfoHeader::Size + sizeof(FileHeader))%4))):(0));
+	dataheader.ImageHeight = _data.GetHeight();
+	dataheader.ImageWidth = _data.GetWidth();
+	dataheader.PlaneCount = 1;
+	dataheader.BitCount = _data.GetBitDepth();
+	dataheader.ComplessionMethod = CompressionMethod::RGB;
+	dataheader.ImageSize = _data.LinearLength();
+	dataheader.ResolutionHolizonal = _resx;
+	dataheader.ResolutionVertical = _resy;
+	dataheader.IndexedColorCount = 0;
+	dataheader.ImportantColorCount = 0;
+	fileheader.FileSize = fileheader.Offset + dataheader.ImageSize;
+	size_t writesize = 0;
+	WriteFileHeader(stream, fileheader);
+	stream.flush();
+	writesize += sizeof(FileHeader);
+	WriteInfoHeader(stream, dataheader);
+	stream.flush();
+	writesize += InfoHeader::Size;
+	for (auto item : Range<size_t>(0, fileheader.Offset - writesize)) { stream.put(char()); }
+	auto yrange = Range<size_t>(0, _data.GetHeight());
+	auto y = yrange.rbegin();
+	auto yend = yrange.rend();
+	while (y != yend)
+	{
+		WriteLine(stream, _data, *y);
+		++y;
+	}
+}
+void WbmpRGBDirectSaver::WriteLine(std::ostream& stream, const WbmpRGBData& data, const size_t& y)
+{
+	auto lengthbit = size_t(data.GetBitDepth());
+	auto lengthbyte = (lengthbit / 8) + (((lengthbit%8)!=0)?(1):(0));
+	auto lengthline = lengthbyte * data.GetWidth();
+	for (auto x : Range<size_t>(0, data.GetWidth()))
+	{
+		auto pixel = data.GetPixel(x, y);
+		stream.write((const char*)&pixel, lengthbyte);
+	}
+	for (auto i : Range<size_t>(0, (((lengthline%4)!=0)?((4-(lengthline%4))):(0))))
+	{
+		stream.put(0);
+	}
+}
+
 WbmpRGBSaver::WbmpRGBSaver(const WbmpBufferBase& data) noexcept
 	: _data(data)
 {}
