@@ -9,13 +9,14 @@
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 
-	template<class T>
+	template<class channelT, class destT = BitmapBuffer<channelT>>
 	class BitmapSimpleConvert final
 	{
 	public:
-		typedef BitmapBufferBase<T> FrameType;
-		typedef BitmapBuffer<T> ContainerType;
-		typedef std::function<ChannelValue<T>(const FrameType& bitmap, const PointF& position, const size_t& ch)> ComplementMethod;
+		typedef ChannelValue<channelT> ChannelType;
+		typedef BitmapBufferBase<channelT> FrameType;
+		typedef destT ContainerType;
+		typedef std::function<ChannelType(const FrameType& bitmap, const PointF& position, const size_t& ch)> ComplementMethod;
 	private:
 		BitmapSimpleConvert() = delete;
 		BitmapSimpleConvert(const BitmapSimpleConvert&) = delete;
@@ -92,23 +93,23 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			return result;
 		}
 		///	ニアレストネイバー補完。
-		static ChannelValue<T> Nearest(const FrameType& bitmap, const PointF& position, const size_t& ch)
+		static ChannelType Nearest(const FrameType& bitmap, const PointF& position, const size_t& ch)
 		{
 			Point dst = Point(position.Round());
 			return bitmap.Index(dst.getX(), dst.getY(), ch);
 		}
 		///	バイリニア補完。
-		static ChannelValue<T> Bilinear(const FrameType& bitmap, const PointF& position, const size_t& ch)
+		static ChannelType Bilinear(const FrameType& bitmap, const PointF& position, const size_t& ch)
 		{
 			auto pxupleft = bitmap.Index(Point(position.Floor()).getY(), Point(position.Floor()).getX(), ch);
 			auto pxupright = bitmap.Index(Point(position.Floor()).getY(), Point(position.Ceil()).getX(), ch);
 			auto pxdownleft = bitmap.Index(Point(position.Ceil()).getY(), Point(position.Floor()).getX(), ch);
 			auto pxdownright = bitmap.Index(Point(position.Ceil()).getY(), Point(position.Ceil()).getX(), ch);
 			auto x = position.Extract().getX();
-			auto pxup = pxupleft * ChannelValue<T>(T(ChannelValue<T>::Max() * (1 - x))) + pxupright * ChannelValue<T>(T(ChannelValue<T>::Max() * (x)));
-			auto pxdown = pxdownleft * ChannelValue<T>(T(ChannelValue<T>::Max() * (1 - x))) + pxdownright * ChannelValue<T>(T(ChannelValue<T>::Max() * (x)));
+			auto pxup = pxupleft * ChannelType(channelT(ChannelType::Max() * (1 - x))) + pxupright * ChannelType(channelT(ChannelType::Max() * (x)));
+			auto pxdown = pxdownleft * ChannelType(channelT(ChannelType::Max() * (1 - x))) + pxdownright * ChannelType(channelT(ChannelType::Max() * (x)));
 			auto y = position.Extract().getY();
-			return pxup * ChannelValue<T>(T(ChannelValue<T>::Max() * (1 - y))) + pxdown * ChannelValue<T>(T(ChannelValue<T>::Max() * (y)));
+			return pxup * ChannelType(channelT(ChannelType::Max() * (1 - y))) + pxdown * ChannelType(channelT(ChannelType::Max() * (y)));
 		}
 		///	指定された @a bitmap を @a area で指定された範囲で切り抜きます。
 		static ContainerType Crop(const FrameType& bitmap, const Rectangle& area)
