@@ -155,9 +155,9 @@ void WbmpLoader::ReadBody(std::istream& stream, const FileHeader& filehead, cons
 	_resx = header.ResolutionHolizonal;
 	_resy = header.ResolutionVertical;
 }
-std::unique_ptr<WbmpBufferBase> WbmpLoader::ReadRGB(std::istream& stream, const size_t &width, const size_t &height, const zawa_ch::StationaryOrbit::Graphics::WBMP::BitDepth &depth)
+std::unique_ptr<WbmpRGBBuffer> WbmpLoader::ReadRGB(std::istream& stream, const size_t &width, const size_t &height, const zawa_ch::StationaryOrbit::Graphics::WBMP::BitDepth &depth)
 {
 	auto result = std::unique_ptr<WbmpRGBBuffer>(new WbmpRGBBuffer(width, height, depth));
 	for (auto item : Range<size_t>(0, result->LinearLength())) { result->Data()[item] = stream.get(); if (stream.eof()) { break; } }
-	return std::unique_ptr<WbmpBufferBase>(std::move(result));
+	return std::unique_ptr<WbmpRGBBuffer>(std::move(result));
 }
