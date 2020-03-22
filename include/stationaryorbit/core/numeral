@@ -1,6 +1,7 @@
 // -*- C++ -*-
 
 #include "fractionaldec.hpp"
+#include "point.hpp"
 #include "quantumbit.hpp"
 #include "range.hpp"
 #include "real.hpp"

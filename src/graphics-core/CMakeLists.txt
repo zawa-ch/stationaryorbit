@@ -13,16 +13,12 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/channelvalue.hpp
     ${Include_Dir}/cmykcolor.hpp
     ${Include_Dir}/pixelreference.hpp
-    ${Include_Dir}/point.hpp
-    ${Include_Dir}/pointf.hpp
     ${Include_Dir}/rectangle.hpp
     ${Include_Dir}/rectanglef.hpp
     ${Include_Dir}/rgbcolor.hpp
     ${Include_Dir}/ycrcbcolor.hpp
     bitmap.cpp
     pixelreference.cpp
-    point.cpp
-    pointf.cpp
     rectangle.cpp
     rectanglef.cpp
     rgbcolor.cpp

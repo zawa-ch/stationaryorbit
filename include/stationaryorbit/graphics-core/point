@@ -1,6 +1,4 @@
 // -*- C++ -*-
 
-#include "point.hpp"
-#include "pointf.hpp"
 #include "rectangle.hpp"
 #include "rectanglef.hpp"
