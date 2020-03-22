@@ -20,3 +20,18 @@ void Test_Point()
     auto p4 = fp1.Round();
     std::cout << "p4 = (" << p4.X() << ", " << p4.Y() << ")" << std::endl;
 }
+
+void Test_Rectangle()
+{
+    auto r1 = GeometricRectangle(0, 0, 3, 4);
+    std::cout << "r1.left = " << r1.Left() << std::endl;
+    std::cout << "r1.right = " << r1.Right() << std::endl;
+    std::cout << "r1.top = " << r1.Top() << std::endl;
+    std::cout << "r1.bottom = " << r1.Bottom() << std::endl;
+    if (!r1.Contains(GeometricRectangle::PointType(1, 1))) { throw std::exception(); }
+    auto r2 = r1.Offset(GeometricRectangle::PointType(-3, 6));
+    std::cout << "r2.left = " << r2.Left() << std::endl;
+    std::cout << "r2.right = " << r2.Right() << std::endl;
+    std::cout << "r2.top = " << r2.Top() << std::endl;
+    std::cout << "r2.bottom = " << r2.Bottom() << std::endl;
+}

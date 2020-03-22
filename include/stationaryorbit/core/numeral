@@ -5,6 +5,7 @@
 #include "quantumbit.hpp"
 #include "range.hpp"
 #include "real.hpp"
+#include "rectangle.hpp"
 #include "rectanglesize.hpp"
 #include "rotation.hpp"
 #include "tristateboolean.hpp"
