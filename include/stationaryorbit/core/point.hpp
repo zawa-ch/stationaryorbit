@@ -1,6 +1,7 @@
 #ifndef __stationaryorbit_core_point__
 #define __stationaryorbit_core_point__
 #include <cmath>
+#include "rectanglesize.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	enum class Quadrants { UpRight, UpLeft, DownLeft, DownRight };
@@ -45,6 +46,7 @@ namespace zawa_ch::StationaryOrbit
 		constexpr Point(const int& x, const int& y) : _x(x), _y(y) {}
 		template<Quadrants fromquad>
 		constexpr Point(const Point<fromquad>& from) : _x((QuadrantConvertHelper<fromquad, quad>::InvertX())?(-from.X()):(from.X())), _y((QuadrantConvertHelper<fromquad, quad>::InvertY())?(-from.Y()):(from.Y())) {}
+		constexpr explicit Point(const RectangleSize& from) : _x(from.Width()), _y(from.Height()) {}
 	public: // copy/move/destruct
 		Point(const Point<quad>&) = default;
 		Point<quad>& operator=(const Point<quad>&) = default;
@@ -59,14 +61,20 @@ namespace zawa_ch::StationaryOrbit
 		constexpr bool IsEmpty() const { return (_x==0)&&(_y==0); }
 
 		constexpr Point<quad> operator+(const Point<quad>& other) const { return Point<quad>(_x + other._x, _y + other._y); }
+		constexpr Point<quad> operator+(const RectangleSize& other) const { return Point<quad>(_x + other.Width(), _y + other.Height()); }
 		constexpr Point<quad>& operator+=(const Point<quad>& other) { return *this = *this + other; }
+		constexpr Point<quad>& operator+=(const RectangleSize& other) { return *this = *this + other; }
 		constexpr Point<quad> operator-(const Point<quad>& other) const { return Point<quad>(_x - other._x, _y - other._y); }
+		constexpr Point<quad> operator-(const RectangleSize& other) const { return Point<quad>(_x - other.Width(), _y - other.Height()); }
 		constexpr Point<quad>& operator-=(const Point<quad>& other) { return *this = *this - other; }
+		constexpr Point<quad>& operator-=(const RectangleSize& other) { return *this = *this - other; }
 
 		///	指定されたオブジェクトがこのオブジェクトと等価であることをテストします。
 		constexpr bool Equals(const Point<quad>& value) const { return (_x == value._x)&&(_y == value._y); }
 		constexpr bool operator==(const Point<quad>& value) const { return Equals(value); }
 		constexpr bool operator!=(const Point<quad>& value) const { return !Equals(value); }
+
+		constexpr explicit operator RectangleSize() const { return RectangleSize(_x, _y); }
 
 		///	このオブジェクトにおける零点を表します。
 		static constexpr Point<quad> Empty() { return Point<quad>{}; }
@@ -84,6 +92,7 @@ namespace zawa_ch::StationaryOrbit
 		constexpr PointF(const Point<quad>& value) : _x(value.X()), _y(value.Y()) {}
 		template<Quadrants fromquad>
 		constexpr PointF(const PointF<fromquad>& from) : _x((QuadrantConvertHelper<fromquad, quad>::InvertX())?(-from._x):(from._x)), _y((QuadrantConvertHelper<fromquad, quad>::InvertY())?(-from._y):(from._y)) {}
+		constexpr explicit PointF(const RectangleSizeF& from) : _x(from.Width()), _y(from.Height()) {}
 	public: // copy/move/destruct
 		PointF(const PointF<quad>&) = default;
 		PointF<quad>& operator=(const PointF<quad>&) = default;
@@ -98,9 +107,13 @@ namespace zawa_ch::StationaryOrbit
 		constexpr bool IsEmpty() const { return (_x==0)&&(_y==0); }
 
 		constexpr PointF<quad> operator+(const PointF<quad>& other) const { return PointF<quad>(_x + other._x, _y + other._y); }
+		constexpr PointF<quad> operator+(const RectangleSizeF& other) const { return PointF<quad>(_x + other.Width(), _y + other.Height()); }
 		constexpr PointF<quad>& operator+=(const PointF<quad>& other) { return *this = *this + other; }
+		constexpr PointF<quad>& operator+=(const RectangleSizeF& other) { return *this = *this + other; }
 		constexpr PointF<quad> operator-(const PointF<quad>& other) const { return PointF<quad>(_x - other._x, _y - other._y); }
+		constexpr PointF<quad> operator-(const RectangleSizeF& other) const { return PointF<quad>(_x - other.Width(), _y - other.Height()); }
 		constexpr PointF<quad>& operator-=(const PointF<quad>& other) { return *this = *this - other; }
+		constexpr PointF<quad>& operator-=(const RectangleSizeF& other) { return *this = *this - other; }
 		constexpr PointF<quad> operator*(const PointF<quad>& other) const { return PointF<quad>(_x * other._x, _y * other._y); }
 		constexpr PointF<quad> operator*(const float& other) const { return PointF<quad>(_x * other, _y * other); }
 		constexpr PointF<quad>& operator*=(const float& other) { return *this = *this * other; }
@@ -114,6 +127,8 @@ namespace zawa_ch::StationaryOrbit
 		constexpr bool operator!=(const PointF<quad>& other) { return !Equals(other); }
 
 		constexpr explicit operator Point<quad>() const { return Point<quad>(int(_x), int(_y)); }
+		constexpr explicit operator RectangleSizeF() const { return RectangleSizeF(_x, _y); }
+
 		///	@a PointF<quad> の小数部を抜き出します。
 		PointF<quad> Extract() const { return PointF<quad>(_x - truncf(_x), _y - truncf(_y)); }
 		///	@a PointF を切り捨て方向に丸め、 @a Point に変換します。
