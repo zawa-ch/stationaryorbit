@@ -5,7 +5,7 @@
 namespace zawa_ch::StationaryOrbit
 {
 	enum class Quadrants { UpRight, UpLeft, DownLeft, DownRight };
-	template<Quadrants from, Quadrants to> class QuadrantConverter;
+	template<Quadrants from, Quadrants to> class QuadrantConvertHelper;
 	template<Quadrants quad> struct Point;
 	template<Quadrants quad> struct PointF;
 
