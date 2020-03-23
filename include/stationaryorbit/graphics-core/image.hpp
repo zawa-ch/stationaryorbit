@@ -2,7 +2,6 @@
 #define __stationaryorbit_graphics_core_bitmap__
 #include <cstddef>
 #include "channelvalue.hpp"
-#include "point.hpp"
 #include "rgbcolor.hpp"
 #include "pixelreference.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
