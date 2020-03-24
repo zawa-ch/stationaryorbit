@@ -17,7 +17,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/ycrcbcolor.hpp
     bitmap.cpp
     fundamental.cpp
-    ycrcbcolor.cpp
+    yuvcolor.cpp
 )
 
 set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 20)
