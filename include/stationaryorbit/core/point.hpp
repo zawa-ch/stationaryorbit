@@ -76,7 +76,7 @@ namespace zawa_ch::StationaryOrbit
 
 		constexpr explicit operator RectangleSize() const { return RectangleSize(_x, _y); }
 
-		///	このオブジェクトにおける零点を表します。
+		///	空の @a Point を表します。
 		static constexpr Point<quad> Empty() { return Point<quad>{}; }
 	};
 	///	二次元平面上におけるある一点を表します。
@@ -138,7 +138,7 @@ namespace zawa_ch::StationaryOrbit
 		/// @a PointF を最も近い @a Point に変換します。
 		Point<quad> Round() const { return Point<quad>(roundf(X()), roundf(Y())); }
 
-		///	このオブジェクトにおける零点を表します。
+		///	空の @a PointF を表します。
 		static constexpr PointF<quad> Empty() { return PointF<quad>{}; }
 	};
 

@@ -38,7 +38,7 @@ namespace zawa_ch::StationaryOrbit
 		constexpr bool operator==(const RectangleSize& value) const { return Equals(value); }
 		constexpr bool operator!=(const RectangleSize& value) const { return !Equals(value); }
 
-		///	このオブジェクトにおける零点を表します。
+		///	空の @a RectangleSize を表します。
 		static constexpr RectangleSize Empty() { return RectangleSize{}; }
 	};
 	///	幅・高さを持つオブジェクトの大きさを表します。
@@ -91,7 +91,7 @@ namespace zawa_ch::StationaryOrbit
 		/// @a RectangleSizeF を最も近い @a RectangleSize に変換します。
 		RectangleSize Round() const { return RectangleSize(roundf(_w), roundf(_h)); }
 
-		///	このオブジェクトにおける零点を表します。
+		///	空の @a RectangleSizeF を表します。
 		static constexpr RectangleSizeF Empty() { return RectangleSizeF{}; }
 	};
 

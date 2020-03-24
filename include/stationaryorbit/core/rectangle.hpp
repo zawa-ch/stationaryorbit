@@ -66,6 +66,7 @@ namespace zawa_ch::StationaryOrbit
 		bool operator==(const Rectangle<quad>& other) const { return Equals(other); }
 		bool operator!=(const Rectangle<quad>& other) const { return !Equals(other); }
 
+		///	空の @a Rectangle を表します。
 		constexpr static Rectangle<quad> Empty() { return Rectangle<quad>{ PointType::Empty(), SizeType::Empty() }; }
 	private:
 		template<Quadrants fromquad>
@@ -146,6 +147,7 @@ namespace zawa_ch::StationaryOrbit
 		bool operator==(const RectangleF<quad>& other) const { return Equals(other); }
 		bool operator!=(const RectangleF<quad>& other) const { return !Equals(other); }
 
+		///	空の @a RectangleF を表します。
 		constexpr static RectangleF<quad> Empty() { return RectangleF<quad>{ PointType::Empty(), SizeType::Empty() }; }
 	private:
 		template<Quadrants fromquad>
