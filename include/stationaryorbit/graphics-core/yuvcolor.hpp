@@ -1,52 +1,45 @@
-#ifndef __stationaryorbit_graphics_core_ycrcbcolor__
-#define __stationaryorbit_graphics_core_ycrcbcolor__
-#include "rgbcolor.hpp"
+#ifndef __stationaryorbit_graphics_core_yuvcolor__
+#define __stationaryorbit_graphics_core_yuvcolor__
 namespace zawa_ch::StationaryOrbit::Graphics
 {
-
-	struct YCrCbColor final
+	///	輝度と二つの色差によって表される色。
+	struct YUVColor final
 	{
-	private:
-
-		float _a;
+	private: // contains
 		float _y;
-		float _cr;
-		float _cb;
+		float _u;
+		float _v;
+	public: // constructor
+		///	既定の @a YUVColor を初期化します。
+		constexpr YUVColor() : _y(), _u(), _v() {}
+		///	YUV値を指定して @a YUVColor を初期化します。
+		constexpr YUVColor(const float& y, const float& cr, const float& cb) : _y(y), _u(cr), _v(cb) {}
+	public: // member
+		///	この @a YUVColor の赤要素を取得します。
+		constexpr const float& Y() const { return _y; }
+		///	この @a YUVColor の緑要素を取得します。
+		constexpr const float& U() const { return _u; }
+		///	この @a YUVColor の青要素を取得します。
+		constexpr const float& V() const { return _v; }
+		///	この @a YUVColor が正規化されているかを取得します。
+		constexpr bool IsNormalized() const { return (0 <= _y)&&(_y <= 1)&&(-0.5 <= _u)&&(_u <= 0.5)&&(-0.5 <= _v)&&(_v <= 0.5); }
+		///	この @a YUVColor が空であるかを取得します。
+		constexpr bool IsEmpty() const { return *this == Empty(); }
 
-	public:
+		constexpr YUVColor operator+(const YUVColor& other) const { return YUVColor(_y + other._y, _u + other._u, _v + other._v); }
+		constexpr YUVColor operator-(const YUVColor& other) const { return YUVColor(_y - other._y, _u - other._u, _v - other._v); }
+		constexpr YUVColor& operator+=(const YUVColor& other) { return *this = *this + other; }
+		constexpr YUVColor& operator-=(const YUVColor& other) { return *this = *this - other; }
 
-		/// 既定の @a YCrCbColor を初期化します。
-		YCrCbColor() = default;
+		///	正規化した @a YUVColor を取得します。
+		constexpr YUVColor Normalize() const { return YUVColor(((0 <= _y)?((_y <= 1)?(_y):(1)):(0)), ((-0.5 <= _u)?((_u <= 0.5)?(_u):(0.5)):(-0.5)), ((-0.5 <= _v)?((_v <= 0.5)?(_v):(0.5)):(-0.5))); }
 
-		/// 値を指定してYCrCbオブジェクトを初期化します。
-		YCrCbColor(float Y, float Cr, float Cb, float alpha);
+		///	指定されたオブジェクトがこのオブジェクトと等価であることをテストします。
+		constexpr bool Equals(const YUVColor& other) const { return (_y == other._y)&&(_u == other._u)&&(_v == other._v); }
+		constexpr bool operator==(const YUVColor& other) const { return Equals(other); }
+		constexpr bool operator!=(const YUVColor& other) const { return !Equals(other); }
 
-		///	@a RGBColor オブジェクトをこの型に変換します。
-		explicit YCrCbColor(const RGBColor& value);
-
-		~YCrCbColor() = default;
-
-		///	このオブジェクトの不透明度を取得します。
-		float getAlpha() const;
-
-		///	このオブジェクトの輝度成分を取得します。
-		float getY() const;
-
-		///	このオブジェクトの赤色差成分を取得します。
-		float getCr() const;
-
-		///	このオブジェクトの青色差成分を取得します。
-		float getCb() const;
-
-		///	このオブジェクトが正規化されているかを取得します。
-		bool IsNormalized() const;
-
-		///	このオブジェクトを正規化した @a YCrCbColor を取得します。
-		YCrCbColor Normalize() const;
-
-		explicit operator RGBColor() const;
-
+		constexpr static YUVColor Empty() { return YUVColor(); }
 	};
-
 }
-#endif // __stationaryorbit_graphics_core_ycrcbcolor__
+#endif // __stationaryorbit_graphics_core_yuvcolor__
