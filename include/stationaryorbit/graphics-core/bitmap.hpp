@@ -107,7 +107,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			BitmapPixelRef<Tp> Current()
 			{
 				auto size = _inst.Size();
-				return _inst.Index(DisplayPoint(_pos % size.Width(), _pos / size.Width()));
+				return _inst.Index(DisplayPoint((_pos - 1) % size.Width(), (_pos - 1) / size.Width()));
 			}
 			ReverceIterator<Tp>& Forward() { --_pos; return *this; }
 			ReverceIterator<Tp>& Forward(const int& count) { _pos -= count; return *this; }
@@ -131,7 +131,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			BitmapConstPixelRef<Tp> Current()
 			{
 				auto size = _inst.Size();
-				return _inst.Index(DisplayPoint(_pos % size.Width(), _pos / size.Width()));
+				return _inst.Index(DisplayPoint((_pos - 1) % size.Width(), (_pos - 1) / size.Width()));
 			}
 			ConstReverceIterator<Tp>& Forward() { --_pos; return *this; }
 			ConstReverceIterator<Tp>& Forward(const int& count) { _pos -= count; return *this; }
@@ -143,6 +143,102 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			ConstReverceIterator<Tp> operator--() { return Backward(); }
 			bool operator==(const ConstReverceIterator<Tp>& other) const noexcept { return Equals(other); }
 			bool operator!=(const ConstReverceIterator<Tp>& other) const noexcept { return !Equals(other); }
+		};
+		template<class Tp>
+		class VerticalIterator
+		{
+		private:
+			BitmapBase<Tp>& _inst;
+			size_t _pos;
+		public:
+			VerticalIterator(BitmapBase<Tp>& inst, const size_t& position) noexcept : _inst(inst), _pos(position) {}
+			BitmapPixelRef<Tp> Current()
+			{
+				auto size = _inst.Size();
+				return _inst.Index(DisplayPoint(_pos / size.Height(), _pos % size.Height()));
+			}
+			VerticalIterator<Tp>& Forward() { ++_pos; return *this; }
+			VerticalIterator<Tp>& Forward(const int& count) { _pos += count; return *this; }
+			VerticalIterator<Tp>& Backward() { --_pos; return *this; }
+			VerticalIterator<Tp>& Backward(const int& count) { _pos -= count; return *this; }
+			bool Equals(const VerticalIterator<Tp>& other) const noexcept { return (&_inst == &other._inst)&&(_pos == other._pos); }
+			BitmapPixelRef<Tp> operator*() { return Current(); }
+			VerticalIterator<Tp> operator++() { return Forward(); }
+			VerticalIterator<Tp> operator--() { return Backward(); }
+			bool operator==(const VerticalIterator<Tp>& other) const noexcept { return Equals(other); }
+			bool operator!=(const VerticalIterator<Tp>& other) const noexcept { return !Equals(other); }
+		};
+		template<class Tp>
+		class VerticalConstIterator
+		{
+		private:
+			const BitmapBase<Tp>& _inst;
+			size_t _pos;
+		public:
+			VerticalConstIterator(const BitmapBase<Tp>& inst, const size_t& position) noexcept : _inst(inst), _pos(position) {}
+			BitmapConstPixelRef<Tp> Current()
+			{
+				auto size = _inst.Size();
+				return _inst.Index(DisplayPoint(_pos / size.Height(), _pos % size.Height()));
+			}
+			VerticalConstIterator<Tp>& Forward() { ++_pos; return *this; }
+			VerticalConstIterator<Tp>& Forward(const int& count) { _pos += count; return *this; }
+			VerticalConstIterator<Tp>& Backward() { --_pos; return *this; }
+			VerticalConstIterator<Tp>& Backward(const int& count) { _pos -= count; return *this; }
+			bool Equals(const VerticalConstIterator<Tp>& other) const noexcept { return (&_inst == &other._inst)&&(_pos == other._pos); }
+			BitmapConstPixelRef<Tp> operator*() { return Current(); }
+			VerticalConstIterator<Tp> operator++() { return Forward(); }
+			VerticalConstIterator<Tp> operator--() { return Backward(); }
+			bool operator==(const VerticalConstIterator<Tp>& other) const noexcept { return Equals(other); }
+			bool operator!=(const VerticalConstIterator<Tp>& other) const noexcept { return !Equals(other); }
+		};
+		template<class Tp>
+		class VerticalReverceIterator
+		{
+		private:
+			BitmapBase<Tp>& _inst;
+			size_t _pos;
+		public:
+			VerticalReverceIterator(BitmapBase<Tp>& inst, const size_t& position) noexcept : _inst(inst), _pos(position) {}
+			BitmapPixelRef<Tp> Current()
+			{
+				auto size = _inst.Size();
+				return _inst.Index(DisplayPoint((_pos - 1) / size.Height(), (_pos - 1) % size.Height()));
+			}
+			VerticalReverceIterator<Tp>& Forward() { --_pos; return *this; }
+			VerticalReverceIterator<Tp>& Forward(const int& count) { _pos -= count; return *this; }
+			VerticalReverceIterator<Tp>& Backward() { ++_pos; return *this; }
+			VerticalReverceIterator<Tp>& Backward(const int& count) { _pos += count; return *this; }
+			bool Equals(const VerticalReverceIterator<Tp>& other) const noexcept { return (&_inst == &other._inst)&&(_pos == other._pos); }
+			BitmapPixelRef<Tp> operator*() { return Current(); }
+			VerticalReverceIterator<Tp> operator++() { return Forward(); }
+			VerticalReverceIterator<Tp> operator--() { return Backward(); }
+			bool operator==(const VerticalReverceIterator<Tp>& other) const noexcept { return Equals(other); }
+			bool operator!=(const VerticalReverceIterator<Tp>& other) const noexcept { return !Equals(other); }
+		};
+		template<class Tp>
+		class VerticalConstReverceIterator
+		{
+		private:
+			const BitmapBase<Tp>& _inst;
+			size_t _pos;
+		public:
+			VerticalConstReverceIterator(const BitmapBase<Tp>& inst, const size_t& position) noexcept : _inst(inst), _pos(position) {}
+			BitmapConstPixelRef<Tp> Current()
+			{
+				auto size = _inst.Size();
+				return _inst.Index(DisplayPoint((_pos - 1) / size.Height(), (_pos - 1) % size.Height()));
+			}
+			VerticalConstReverceIterator<Tp>& Forward() { --_pos; return *this; }
+			VerticalConstReverceIterator<Tp>& Forward(const int& count) { _pos -= count; return *this; }
+			VerticalConstReverceIterator<Tp>& Backward() { ++_pos; return *this; }
+			VerticalConstReverceIterator<Tp>& Backward(const int& count) { _pos += count; return *this; }
+			bool Equals(const VerticalConstReverceIterator<Tp>& other) const noexcept { return (&_inst == &other._inst)&&(_pos == other._pos); }
+			BitmapConstPixelRef<Tp> operator*() { return Current(); }
+			VerticalConstReverceIterator<Tp> operator++() { return Forward(); }
+			VerticalConstReverceIterator<Tp> operator--() { return Backward(); }
+			bool operator==(const VerticalConstReverceIterator<Tp>& other) const noexcept { return Equals(other); }
+			bool operator!=(const VerticalConstReverceIterator<Tp>& other) const noexcept { return !Equals(other); }
 		};
 	};
 	template<class Tp>
@@ -157,6 +253,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		typedef BitmapIterators::ConstIterator<Tp> ConstIteratorType;
 		typedef BitmapIterators::ReverceIterator<Tp> ReverceIteratorType;
 		typedef BitmapIterators::ConstReverceIterator<Tp> ConstReverceIteratorType;
+		typedef BitmapIterators::VerticalIterator<Tp> VerticalIteratorType;
+		typedef BitmapIterators::VerticalConstIterator<Tp> VerticalConstIteratorType;
+		typedef BitmapIterators::VerticalReverceIterator<Tp> VerticalReverceIteratorType;
+		typedef BitmapIterators::VerticalConstReverceIterator<Tp> VerticalConstReverceIteratorType;
 	private: // contains
 		std::vector<ValueType> _data;
 		RectangleSize _size;
@@ -195,12 +295,20 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		RefType Index(const int& x, const int& y) { return Index(DisplayPoint(x, y)); }
 		IteratorType begin() { return IteratorType(*this, 0); }
 		IteratorType end() { return IteratorType(*this, SolveCount(_size)); }
-		ConstIteratorType cbegin() { return ConstIteratorType(*this, 0); }
-		ConstIteratorType cend() { return ConstIteratorType(*this, SolveCount(_size)); }
-		ReverceIteratorType rbegin() { return ReverceIteratorType(*this, 0); }
-		ReverceIteratorType ernd() { return ReverceIteratorType(*this, SolveCount(_size)); }
-		ConstReverceIteratorType crbegin() { return ConstReverceIteratorType(*this, 0); }
-		ConstReverceIteratorType crend() { return ConstReverceIteratorType(*this, SolveCount(_size)); }
+		ConstIteratorType cbegin() const { return ConstIteratorType(*this, 0); }
+		ConstIteratorType cend() const { return ConstIteratorType(*this, SolveCount(_size)); }
+		ReverceIteratorType rbegin() { return ReverceIteratorType(*this, SolveCount(_size)); }
+		ReverceIteratorType rend() { return ReverceIteratorType(*this, 0); }
+		ConstReverceIteratorType crbegin() const { return ConstReverceIteratorType(*this, SolveCount(_size)); }
+		ConstReverceIteratorType crend() const { return ConstReverceIteratorType(*this, 0); }
+		VerticalIteratorType vbegin() { return VerticalIteratorType(*this, 0); }
+		VerticalIteratorType vend() { return VerticalIteratorType(*this, SolveCount(_size)); }
+		VerticalConstIteratorType vcbegin() const { return VerticalConstIteratorType(*this, 0); }
+		VerticalConstIteratorType vcend() const { return VerticalConstIteratorType(*this, SolveCount(_size)); }
+		VerticalReverceIteratorType vrbegin() { return VerticalReverceIteratorType(*this, SolveCount(_size)); }
+		VerticalReverceIteratorType vrend() { return VerticalReverceIteratorType(*this, 0); }
+		VerticalConstReverceIteratorType vcrbegin() const { return VerticalConstReverceIteratorType(*this, SolveCount(_size)); }
+		VerticalConstReverceIteratorType vcrend() const { return VerticalConstReverceIteratorType(*this, 0); }
 	};
 
 	typedef BitmapBase<uint8_t> Bitmap8;

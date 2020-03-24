@@ -2,152 +2,105 @@
 #define __stationaryorbit_graphics_core_bitmapsimpleconvert__
 #include <functional>
 #include "stationaryorbit/exception/soexcept"
-#include "point.hpp"
-#include "pointf.hpp"
-#include "rectangle.hpp"
-#include "bitmapbuffer.hpp"
+#include "stationaryorbit/core/numeral"
+#include "fundamental.hpp"
+#include "bitmap.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 
-	template<class channelT, class destT = BitmapBuffer<channelT>>
+	template<class channelT>
 	class BitmapSimpleConvert final
 	{
 	public:
-		typedef ChannelValue<channelT> ChannelType;
-		typedef BitmapBufferBase<channelT> FrameType;
-		typedef destT ContainerType;
-		typedef std::function<ChannelType(const FrameType& bitmap, const PointF& position, const size_t& ch)> ComplementMethod;
+		typedef channelT ChannelType;
+		typedef BitmapBase<channelT> ContainerType;
+		typedef std::function<ChannelType(const ContainerType& bitmap, const DisplayPointF& position, const size_t& ch)> ComplementMethod;
 	private:
 		BitmapSimpleConvert() = delete;
-		BitmapSimpleConvert(const BitmapSimpleConvert&) = delete;
-		BitmapSimpleConvert(BitmapSimpleConvert&&) = delete;
 		~BitmapSimpleConvert() = delete;
-		BitmapSimpleConvert operator=(const BitmapSimpleConvert&) = delete;
-		BitmapSimpleConvert operator=(BitmapSimpleConvert&&) = delete;
 	public:
 		///	指定された @a bitmap の上下を入れ替えます。
-		static ContainerType FripVertical(const FrameType& bitmap)
+		static ContainerType FripVertical(const ContainerType& bitmap)
 		{
-			auto yrange = Range<size_t>(0, bitmap.GetHeight());
-			auto xrange = Range<size_t>(0, bitmap.GetWidth());
-			auto chrange = Range<size_t>(0, bitmap.GetChannelCount());
-			auto result = ContainerType::Resemble(bitmap);
-			auto srcy = yrange.begin();
-			auto srcyend = yrange.end();
-			auto dsty = yrange.rbegin();
-			auto dstyend = yrange.rend();
-			while ((srcy != srcyend)&&(dsty != dstyend))
+			auto src = bitmap.cbegin();
+			auto srcend = bitmap.cend();
+			auto result = ContainerType(bitmap.Size(), bitmap.Channels());
+			auto dst = result.rbegin();
+			auto dstend = result.rend();
+			auto chrange = Range(0, bitmap.Channels());
+			while ((src != srcend)&&(dst != dstend))
 			{
-				for (auto x : xrange)
-				{
-					for (auto ch : chrange)
-					{
-						result.Index(x, *dsty, ch) = bitmap.Index(x, *srcy, ch);
-					}
-				}
-				++srcy;
-				++dsty;
+				for (auto ch : chrange) { (*dst)[ch] = (*src)[ch]; }
+				++src;
+				++dst;
 			}
 			return result;
 		}
 		///	指定された @a bitmap の左右を入れ替えます。
-		static ContainerType FripHorizonal(const FrameType& bitmap)
+		static ContainerType FripHorizonal(const ContainerType& bitmap)
 		{
-			auto xrange = Range<size_t>(0, bitmap.GetWidth());
-			auto yrange = Range<size_t>(0, bitmap.GetHeight());
-			auto chrange = Range<size_t>(0, bitmap.GetChannelCount());
-			auto result = ContainerType::Resemble(bitmap);
-			auto srcx = xrange.begin();
-			auto srcxend = xrange.end();
-			auto dstx = xrange.rbegin();
-			auto dstxend = xrange.rend();
-			while ((srcx != srcxend)&&(dstx != dstxend))
+			auto src = bitmap.vcbegin();
+			auto srcend = bitmap.vcend();
+			auto result = ContainerType(bitmap.Size(), bitmap.Channels());
+			auto dst = result.vrbegin();
+			auto dstend = result.vrend();
+			auto chrange = Range(0, bitmap.Channels());
+			while ((src != srcend)&&(dst != dstend))
 			{
-				for (auto y : yrange)
-				{
-					for (auto ch : chrange)
-					{
-						result.Index(*dstx, y, ch) = bitmap.Index(*srcx, y, ch);
-					}
-				}
-				++srcx;
-				++dstx;
+				for (auto ch : chrange) { (*dst)[ch] = (*src)[ch]; }
+				++src;
+				++dst;
 			}
 			return result;
 		}
 		///	指定された @a bitmap 拡大・縮小します。
-		static ContainerType Resize(const FrameType& bitmap, const Point& size, ComplementMethod complement)
+		static ContainerType Resize(const ContainerType& bitmap, const RectangleSize& size, ComplementMethod complement)
 		{
 			if (complement == nullptr) { throw NullReferenceException("引数 complement にnullを指定することはできません。"); }
-			auto srcsize = Point(bitmap.GetWidth(), bitmap.GetHeight());
-			auto scalefactor = PointF(srcsize - Point(1, 1)) / PointF(size - Point(1, 1));
-			auto xrange = Range<size_t>(0, bitmap.GetWidth());
-			auto yrange = Range<size_t>(0, bitmap.GetHeight());
-			auto chrange = Range<size_t>(0, bitmap.GetChannelCount());
-			// TODO: リサイズ後の大きさで初期化する
-			auto result = ContainerType::Resemble(bitmap);
-			for (auto y : yrange) for (auto x : xrange) for (auto ch : chrange)
+			auto srcsize = bitmap.Size();
+			auto scalefactor = RectangleSizeF(srcsize - RectangleSize(1, 1)) / RectangleSizeF(size - RectangleSize(1, 1));
+			auto result = ContainerType(size, bitmap.Channels());
+			auto yrange = Range(0, size.Height());
+			auto xrange = Range(0, size.Width());
+			auto chrange = Range(0, bitmap.Channels());
+			for (auto y : yrange) for (auto x : xrange)
 			{
-				auto dstpos = scalefactor * PointF(x, y);
-				result.Index(x, y, ch) = complement(bitmap, dstpos, ch);
+				auto dstpos = DisplayPointF(scalefactor) * DisplayPointF(x, y);
+				for (auto ch : chrange) { result.Index(x, y)[ch] = complement(bitmap, dstpos, ch); }
 			}
 			return result;
 		}
 		///	ニアレストネイバー補完。
-		static ChannelType Nearest(const FrameType& bitmap, const PointF& position, const size_t& ch)
+		static ChannelType Nearest(const ChannelType& bitmap, const DisplayPointF& position, const size_t& ch)
 		{
-			Point dst = Point(position.Round());
-			return bitmap.Index(dst.getX(), dst.getY(), ch);
+			auto dst = position.Round();
+			return bitmap.Index(dst)[ch];
 		}
 		///	バイリニア補完。
-		static ChannelType Bilinear(const FrameType& bitmap, const PointF& position, const size_t& ch)
+		static ChannelType Bilinear(const ContainerType& bitmap, const DisplayPointF& position, const size_t& ch)
 		{
-			auto pxupleft = bitmap.Index(Point(position.Floor()).getY(), Point(position.Floor()).getX(), ch);
-			auto pxupright = bitmap.Index(Point(position.Floor()).getY(), Point(position.Ceil()).getX(), ch);
-			auto pxdownleft = bitmap.Index(Point(position.Ceil()).getY(), Point(position.Floor()).getX(), ch);
-			auto pxdownright = bitmap.Index(Point(position.Ceil()).getY(), Point(position.Ceil()).getX(), ch);
-			auto x = position.Extract().getX();
-			auto pxup = pxupleft * ChannelType(channelT(ChannelType::Max() * (1 - x))) + pxupright * ChannelType(channelT(ChannelType::Max() * (x)));
-			auto pxdown = pxdownleft * ChannelType(channelT(ChannelType::Max() * (1 - x))) + pxdownright * ChannelType(channelT(ChannelType::Max() * (x)));
-			auto y = position.Extract().getY();
-			return pxup * ChannelType(channelT(ChannelType::Max() * (1 - y))) + pxdown * ChannelType(channelT(ChannelType::Max() * (y)));
+			auto pxi = DisplayRectangle(position.Floor(), RectangleSize(1, 1));
+			auto pxupleft = bitmap.Index(pxi.Left(), pxi.Top())[ch];
+			auto pxupright = bitmap.Index(pxi.Right(), pxi.Top())[ch];
+			auto pxdownleft = bitmap.Index(pxi.Left(), pxi.Bottom())[ch];
+			auto pxdownright = bitmap.Index(pxi.Right(), pxi.Bottom())[ch];
+			auto pxd = position.Extract();
+			auto pxup = pxupleft * ChannelType(channelT(ChannelType::Max() * (1 - pxd.X()))) + pxupright * ChannelType(channelT(ChannelType::Max() * (pxd.X())));
+			auto pxdown = pxdownleft * ChannelType(channelT(ChannelType::Max() * (1 - pxd.X()))) + pxdownright * ChannelType(channelT(ChannelType::Max() * (pxd.X())));
+			return pxup * ChannelType(channelT(ChannelType::Max() * (1 - pxd.Y()))) + pxdown * ChannelType(channelT(ChannelType::Max() * (pxd.Y())));
 		}
 		///	指定された @a bitmap を @a area で指定された範囲で切り抜きます。
-		static ContainerType Crop(const FrameType& bitmap, const Rectangle& area)
+		static ContainerType Crop(const ContainerType& bitmap, const DisplayRectangle& area)
 		{
-			if ((0 < area.getLeft())||(0 < area.getTop())||(area.getRight() <= bitmap.GetWidth())||(area.getBottom() <= bitmap.GetHeight())) { throw std::invalid_argument("area で指定している範囲がビットマップの範囲を超えています。"); }
-			auto srcorigin = area.getTopLeft();
-			auto srcend = area.getBottomRight();
-			auto dstorigin = Point(0, 0);
-			auto dstend = area.getSize();
-			auto srcxrange = Range(srcorigin.getX(), srcend.getX());
-			auto dstxrange = Range(dstorigin.getX(), dstend.getX());
-			auto srcyrange = Range(srcorigin.getY(), srcend.getY());
-			auto dstyrange = Range(dstorigin.getY(), dstend.getY());
-			auto chrange = Range<size_t>(0, bitmap.GetChannelCount());
-			// TODO: リサイズ後の大きさで初期化する
-			auto result = ContainerType::Resemble(bitmap);
-			auto srcy = srcyrange.begin();
-			auto srcyend = srcyrange.end();
-			auto dsty = dstyrange.begin();
-			auto dstyend = dstyrange.end();
-			while ((srcy != srcyend)&&(dsty != dstyend))
+			if ((area.Left() < 0)||(area.Bottom() < 0)||(bitmap.Size().Width() <= area.Right()) || (bitmap.Size().Height() <= area.Top())) { throw std::invalid_argument("area で指定している範囲がビットマップの範囲を超えています。"); }
+			auto yrange = Range(0, area.Size().Height());
+			auto xrange = Range(0, area.Size().Width());
+			auto chrange = Range(0, bitmap.Channels());
+			auto result = ContainerType(area.Size(), bitmap.Channels());
+			for (auto y : yrange) for (auto x : xrange)
 			{
-				auto srcx = srcxrange.begin();
-				auto srcxend = srcxrange.end();
-				auto dstx = dstxrange.begin();
-				auto dstxend = dstxrange.end();
-				while ((srcx != srcxend)&&(dstx != dstxend))
-				{
-					for (auto ch : chrange)
-					{
-						result.Index(*dstx, *dsty, ch) = bitmap.Index(*srcx, *srcy, ch);
-					}
-					++srcx;
-					++dstx;
-				}
-				++srcy;
-				++dsty;
+				auto dstpos = area.Location() + DisplayPoint(x, y);
+				for (auto ch : chrange) { result.Index(x, y)[ch] = bitmap.Index(x, y)[ch]; }
 			}
 			return result;
 		}
