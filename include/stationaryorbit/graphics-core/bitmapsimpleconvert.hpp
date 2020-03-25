@@ -22,15 +22,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	指定された @a bitmap の上下を入れ替えます。
 		static ContainerType FripVertical(const ContainerType& bitmap)
 		{
-			auto src = bitmap.cbegin();
-			auto srcend = bitmap.cend();
 			auto result = ContainerType(bitmap.Size(), bitmap.Channels());
-			auto dst = result.rbegin();
-			auto dstend = result.rend();
-			auto chrange = Range(0, bitmap.Channels());
+			auto range = bitmap.YRange();
+			auto src = range.rbegin();
+			auto dst = range.begin();
+			auto srcend = range.rend();
+			auto dstend = range.end();
 			while ((src != srcend)&&(dst != dstend))
 			{
-				for (auto ch : chrange) { (*dst)[ch] = (*src)[ch]; }
+				for (auto x : bitmap.XRange()) { result.Index(x, *dst).AssignAt(bitmap.Index(x, *src)); }
 				++src;
 				++dst;
 			}
@@ -39,15 +39,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	指定された @a bitmap の左右を入れ替えます。
 		static ContainerType FripHorizonal(const ContainerType& bitmap)
 		{
-			auto src = bitmap.vcbegin();
-			auto srcend = bitmap.vcend();
 			auto result = ContainerType(bitmap.Size(), bitmap.Channels());
-			auto dst = result.vrbegin();
-			auto dstend = result.vrend();
-			auto chrange = Range(0, bitmap.Channels());
+			auto range = bitmap.XRange();
+			auto src = range.rbegin();
+			auto dst = range.begin();
+			auto srcend = range.rend();
+			auto dstend = range.end();
 			while ((src != srcend)&&(dst != dstend))
 			{
-				for (auto ch : chrange) { (*dst)[ch] = (*src)[ch]; }
+				for (auto y : bitmap.YRange()) { result.Index(*dst, y).AssignAt(bitmap.Index(*src, y)); }
 				++src;
 				++dst;
 			}
@@ -60,8 +60,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			auto srcsize = bitmap.Size();
 			auto scalefactor = RectangleSizeF(srcsize - RectangleSize(1, 1)) / RectangleSizeF(size - RectangleSize(1, 1));
 			auto result = ContainerType(size, bitmap.Channels());
-			auto yrange = Range(0, size.Height());
-			auto xrange = Range(0, size.Width());
+			auto yrange = size.YRange();
+			auto xrange = size.XRange();
 			auto chrange = Range(0, bitmap.Channels());
 			for (auto y : yrange) for (auto x : xrange)
 			{
