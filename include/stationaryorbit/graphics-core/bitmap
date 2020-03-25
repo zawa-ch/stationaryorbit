@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
 #include "bitmap.hpp"
-#include "bitmapsimpleconvert.hpp"
+#include "bitmapconverter.hpp"
 #include "image.hpp"
 #include "rgbbitmapimage.hpp"

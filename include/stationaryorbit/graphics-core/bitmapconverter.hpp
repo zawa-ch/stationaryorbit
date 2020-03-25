@@ -1,5 +1,5 @@
-#ifndef __stationaryorbit_graphics_core_bitmapsimpleconvert__
-#define __stationaryorbit_graphics_core_bitmapsimpleconvert__
+#ifndef __stationaryorbit_graphics_core_bitmapconverter__
+#define __stationaryorbit_graphics_core_bitmapconverter__
 #include <functional>
 #include "stationaryorbit/exception/soexcept"
 #include "stationaryorbit/core/numeral"
@@ -9,15 +9,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 {
 
 	template<class channelT>
-	class BitmapSimpleConvert final
+	class BitmapConverter final
 	{
 	public:
 		typedef channelT ChannelType;
 		typedef BitmapBase<channelT> ContainerType;
 		typedef std::function<ChannelType(const ContainerType& bitmap, const DisplayPointF& position, const size_t& ch)> ComplementMethod;
 	private:
-		BitmapSimpleConvert() = delete;
-		~BitmapSimpleConvert() = delete;
+		BitmapConverter() = delete;
+		~BitmapConverter() = delete;
 	public:
 		///	指定された @a bitmap の上下を入れ替えます。
 		static ContainerType FripVertical(const ContainerType& bitmap)
@@ -108,4 +108,4 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	};
 
 }
-#endif // __stationaryorbit_graphics_core_bitmapsimpleconvert__
+#endif // __stationaryorbit_graphics_core_bitmapconverter__
