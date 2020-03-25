@@ -15,11 +15,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	YUV値を指定して @a YUVColor を初期化します。
 		constexpr YUVColor(const float& y, const float& cr, const float& cb) : _y(y), _u(cr), _v(cb) {}
 	public: // member
-		///	この @a YUVColor の赤要素を取得します。
+		///	この @a YUVColor の輝度コンポーネントを取得します。
 		constexpr const float& Y() const { return _y; }
-		///	この @a YUVColor の緑要素を取得します。
+		///	この @a YUVColor の赤色差コンポーネントを取得します。
 		constexpr const float& U() const { return _u; }
-		///	この @a YUVColor の青要素を取得します。
+		///	この @a YUVColor の青色差コンポーネントを取得します。
 		constexpr const float& V() const { return _v; }
 		///	この @a YUVColor が正規化されているかを取得します。
 		constexpr bool IsNormalized() const { return (0 <= _y)&&(_y <= 1)&&(-0.5 <= _u)&&(_u <= 0.5)&&(-0.5 <= _v)&&(_v <= 0.5); }

@@ -151,6 +151,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		constexpr ARGBColor& operator^=(const ARGBColor& other) { return *this = *this ^ other; }
 		constexpr ARGBColor& operator^=(const RGBColor& other) { return *this = *this ^ other; }
 
+		///	正規化した @a RGBColor を取得します。
+		constexpr ARGBColor Normalize() const { return ARGBColor(_color.Normalize(), ((0 <= _alpha)?((_alpha <= 1)?(_alpha):(1)):(0))); }
+
 		constexpr ARGB32 ToARGB32() const { return ARGB32::FromArgb(uint8_t(R() * 255U), uint8_t(G() * 255U), uint8_t(B() * 255U), uint8_t(_alpha * 255U)); }
 		constexpr explicit operator ARGB32() const { return ToARGB32(); }
 		constexpr explicit operator RGBColor() const { return Color(); }

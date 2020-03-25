@@ -16,6 +16,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/rgbcolor.hpp
     ${Include_Dir}/ycrcbcolor.hpp
     bitmap.cpp
+    color.cpp
     fundamental.cpp
 )
 
