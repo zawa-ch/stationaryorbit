@@ -1,7 +1,7 @@
-#ifndef __stationaryorbit_graphics_wbmp_ciexyz__
-#define __stationaryorbit_graphics_wbmp_ciexyz__
+#ifndef __stationaryorbit_graphics_dib_ciexyz__
+#define __stationaryorbit_graphics_dib_ciexyz__
 #include <cstdint>
-namespace zawa_ch::StationaryOrbit::Graphics::WBMP
+namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
     struct CIEXYZ_t
     {
@@ -16,4 +16,4 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
         CIEXYZ_t Blue;
     };
 }
-#endif // __stationaryorbit_graphics_wbmp_ciexyz__
+#endif // __stationaryorbit_graphics_dib_ciexyz__

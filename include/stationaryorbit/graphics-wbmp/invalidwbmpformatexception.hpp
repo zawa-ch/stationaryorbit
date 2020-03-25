@@ -1,7 +1,7 @@
-#ifndef __stationaryorbit_graphics_wbmp_invalidwbmpformatexception_
-#define __stationaryorbit_graphics_wbmp_invalidwbmpformatexception_
+#ifndef __stationaryorbit_graphics_dib_invalidwbmpformatexception_
+#define __stationaryorbit_graphics_dib_invalidwbmpformatexception_
 #include "stationaryorbit/exception/soexcept"
-namespace zawa_ch::StationaryOrbit::Graphics::WBMP
+namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
 
 	///	Windowsビットマップとしてのアクセスができないデータに対してパースを行おうとした際にスローされる例外。
@@ -14,4 +14,4 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 	};
 
 }
-#endif // __stationaryorbit_graphics_wbmp_invalidwbmpformatexception_
+#endif // __stationaryorbit_graphics_dib_invalidwbmpformatexception_

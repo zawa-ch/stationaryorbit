@@ -1,8 +1,8 @@
-#ifndef __stationaryorbit_graphics_wbmp_colormask__
-#define __stationaryorbit_graphics_wbmp_colormask__
+#ifndef __stationaryorbit_graphics_dib_colormask__
+#define __stationaryorbit_graphics_dib_colormask__
 #include <optional>
 #include "stationaryorbit/core/bitoperation"
-namespace zawa_ch::StationaryOrbit::Graphics::WBMP
+namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
 
 	struct ColorMask final
@@ -14,4 +14,4 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 	};
 
 }
-#endif // __stationaryorbit_graphics_wbmp_colormask__
+#endif // __stationaryorbit_graphics_dib_colormask__

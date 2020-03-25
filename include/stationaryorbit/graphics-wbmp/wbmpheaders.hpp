@@ -1,8 +1,8 @@
-#ifndef __stationaryorbit_graphics_wbmp_wbmpheaders__
-#define __stationaryorbit_graphics_wbmp_wbmpheaders__
+#ifndef __stationaryorbit_graphics_dib_wbmpheaders__
+#define __stationaryorbit_graphics_dib_wbmpheaders__
 #include <cstdint>
 #include "ciexyz.hpp"
-namespace zawa_ch::StationaryOrbit::Graphics::WBMP
+namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
 	enum class BitDepth : uint16_t
 	{
@@ -122,4 +122,4 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
 	};
 	#pragma pack()
 }
-#endif // __stationaryorbit_graphics_wbmp_wbmpheaders__
+#endif // __stationaryorbit_graphics_dib_wbmpheaders__

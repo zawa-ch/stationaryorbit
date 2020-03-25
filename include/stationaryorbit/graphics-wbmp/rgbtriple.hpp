@@ -1,7 +1,7 @@
-#ifndef __stationaryorbit_graphics_wbmp_rgbtriple__
-#define __stationaryorbit_graphics_wbmp_rgbtriple__
+#ifndef __stationaryorbit_graphics_dib_rgbtriple__
+#define __stationaryorbit_graphics_dib_rgbtriple__
 #include <cstdint>
-namespace zawa_ch::StationaryOrbit::Graphics::WBMP
+namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
 
     struct RGBTriple_t
@@ -12,4 +12,4 @@ namespace zawa_ch::StationaryOrbit::Graphics::WBMP
     };
 
 }
-#endif // __stationaryorbit_graphics_wbmp_rgbtriple__
+#endif // __stationaryorbit_graphics_dib_rgbtriple__
