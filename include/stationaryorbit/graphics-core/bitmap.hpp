@@ -9,7 +9,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 {
 	template<class Tp> class BitmapConstPixelRef;
 	template<class Tp> class BitmapPixelRef;
-	class BitmapIterators;
 	template<class Tp> class BitmapBase;
 
 	template<class Tp>
