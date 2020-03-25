@@ -16,44 +16,36 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 	template<class channelT>
 	class RGBBitmapImageBase
-		: public Image
+		: public BitmapBase<channelT>
 	{
 		static_assert(std::is_arithmetic_v<channelT>, "テンプレート引数 channelT は数値型である必要があります。");
-	public: // types
-		typedef BitmapBase<channelT> DataType;
-	private: // constains
-		DataType _data;
 	public: // constants
 		static constexpr int Channel = 3;
 	public: // constructor
 		RGBBitmapImageBase() = default;
-		explicit RGBBitmapImageBase(const RectangleSize& size) : _data(size, Channel) {}
-		RGBBitmapImageBase(const int& width, const int& height) : _data(RectangleSize(width, height), Channel) {}
-		explicit RGBBitmapImageBase(const DataType& data) : _data(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
-		explicit RGBBitmapImageBase(DataType&& data) : _data(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
+		explicit RGBBitmapImageBase(const RectangleSize& size) : BitmapBase<channelT>(size, Channel) {}
+		RGBBitmapImageBase(const int& width, const int& height) : BitmapBase<channelT>(RectangleSize(width, height), Channel) {}
+		explicit RGBBitmapImageBase(const BitmapBase<channelT>& data) : BitmapBase<channelT>(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
+		explicit RGBBitmapImageBase(BitmapBase<channelT>&& data) : BitmapBase<channelT>(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
 	public: // copy/move/destruct
 		virtual ~RGBBitmapImageBase() = default;
 	public: // member
-		DataType& Data() { return _data; }
-		const DataType& Data() const { return _data; }
 		Property<RGBBitmapImageBase<channelT>, RGBColor> Index(const DisplayPoint& position) { return Property<RGBBitmapImageBase<channelT>, RGBColor>(*this, std::bind(getIndex, std::placeholders::_1, position), std::bind(setIndex, std::placeholders::_1, position, std::placeholders::_2)); }
 		Property<RGBBitmapImageBase<channelT>, RGBColor> Index(const int& x, const int& y) { return Index(DisplayPoint(x, y)); }
 		Property<RGBBitmapImageBase<channelT>, RGBColor> operator[](const DisplayPoint& position) { return Index(position); }
 		ReadOnlyProperty<RGBBitmapImageBase<channelT>, RGBColor> Index(const DisplayPoint& position) const { return ReadOnlyProperty<RGBBitmapImageBase<channelT>, RGBColor>(*this, std::bind(getIndex, std::placeholders::_1, position)); }
 		ReadOnlyProperty<RGBBitmapImageBase<channelT>, RGBColor> Index(const int& x, const int& y) const { return Index(DisplayPoint(x, y)); }
 		ReadOnlyProperty<RGBBitmapImageBase<channelT>, RGBColor> operator[](const DisplayPoint& position) const { return Index(position); }
-	public: // implement Image
-		RectangleSize Size() const { return _data.Size(); }
 	private: // internal
 		static RGBColor getIndex(const RGBBitmapImageBase<channelT>& inst, const DisplayPoint& position)
 		{
-			auto px = inst._data[position];
+			auto px = inst.BitmapBase<channelT>::Index(position);
 			if constexpr (std::is_floating_point_v<channelT>) { return RGBColor(px[0], px[1], px[2]); }
 			if constexpr (std::is_integral_v<channelT>) { return RGBColor(float(px[0]) / std::numeric_limits<channelT>::max(), float(px[1] / std::numeric_limits<channelT>::max()), float(px[2] / std::numeric_limits<channelT>::max())); }
 		}
 		static void setIndex(RGBBitmapImageBase<channelT>& inst, const DisplayPoint& position, const RGBColor& value)
 		{
-			auto px = inst._data[position];
+			auto px = inst.BitmapBase<channelT>::Index(position);
 			if constexpr (std::is_floating_point_v<channelT>)
 			{
 				px[0] = value.R();
@@ -73,44 +65,36 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 	template<class channelT>
 	class ARGBBitmapImageBase
-		: public Image
+		: public BitmapBase<channelT>
 	{
 		static_assert(std::is_arithmetic_v<channelT>, "テンプレート引数 channelT は数値型である必要があります。");
-	public: // types
-		typedef BitmapBase<channelT> DataType;
-	private: // constains
-		DataType _data;
 	public: // constants
 		static constexpr int Channel = 4;
 	public: // constructor
 		ARGBBitmapImageBase() = default;
-		explicit ARGBBitmapImageBase(const RectangleSize& size) : _data(size, Channel) {}
-		ARGBBitmapImageBase(const int& width, const int& height) : _data(RectangleSize(width, height), Channel) {}
-		explicit ARGBBitmapImageBase(const DataType& data) : _data(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
-		explicit ARGBBitmapImageBase(DataType&& data) : _data(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
+		explicit ARGBBitmapImageBase(const RectangleSize& size) : BitmapBase<channelT>(size, Channel) {}
+		ARGBBitmapImageBase(const int& width, const int& height) : BitmapBase<channelT>(RectangleSize(width, height), Channel) {}
+		explicit ARGBBitmapImageBase(const BitmapBase<channelT>& data) : BitmapBase<channelT>(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
+		explicit ARGBBitmapImageBase(BitmapBase<channelT>&& data) : BitmapBase<channelT>(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
 	public: // copy/move/destruct
 		virtual ~ARGBBitmapImageBase() = default;
 	public: // member
-		DataType& Data() { return _data; }
-		const DataType& Data() const { return _data; }
 		Property<ARGBBitmapImageBase<channelT>, ARGBColor> Index(const DisplayPoint& position) { return Property<ARGBBitmapImageBase<channelT>, ARGBColor>(*this, std::bind(getIndex, std::placeholders::_1, position), std::bind(setIndex, std::placeholders::_1, position, std::placeholders::_2)); }
 		Property<ARGBBitmapImageBase<channelT>, ARGBColor> Index(const int& x, const int& y) { return Index(DisplayPoint(x, y)); }
 		Property<ARGBBitmapImageBase<channelT>, ARGBColor> operator[](const DisplayPoint& position) { return Index(position); }
 		ReadOnlyProperty<ARGBBitmapImageBase<channelT>, ARGBColor> Index(const DisplayPoint& position) const { return ReadOnlyProperty<ARGBBitmapImageBase<channelT>, ARGBColor>(*this, std::bind(getIndex, std::placeholders::_1, position)); }
 		ReadOnlyProperty<ARGBBitmapImageBase<channelT>, ARGBColor> Index(const int& x, const int& y) const { return Index(DisplayPoint(x, y)); }
 		ReadOnlyProperty<ARGBBitmapImageBase<channelT>, ARGBColor> operator[](const DisplayPoint& position) const { return Index(position); }
-	public: // implement Image
-		RectangleSize Size() const { return _data.Size(); }
 	private: // internal
 		static ARGBColor getIndex(const ARGBBitmapImageBase<channelT>& inst, const DisplayPoint& position)
 		{
-			auto px = inst._data[position];
+			auto px = inst.BitmapBase<channelT>::Index(position);
 			if constexpr (std::is_floating_point_v<channelT>) { return ARGBColor(px[0], px[1], px[2], px[3]); }
 			if constexpr (std::is_integral_v<channelT>) { return ARGBColor(float(px[0]) / std::numeric_limits<channelT>::max(), float(px[1] / std::numeric_limits<channelT>::max()), float(px[2] / std::numeric_limits<channelT>::max()), float(px[3] / std::numeric_limits<channelT>::max())); }
 		}
 		static void setIndex(ARGBBitmapImageBase<channelT>& inst, const DisplayPoint& position, const ARGBColor& value)
 		{
-			auto px = inst._data[position];
+			auto px = inst.BitmapBase<channelT>::Index(position);
 			if constexpr (std::is_floating_point_v<channelT>)
 			{
 				px[0] = value.R();
