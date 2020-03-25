@@ -4,6 +4,7 @@
 #include <vector>
 #include "stationaryorbit/exception/soexcept"
 #include "fundamental.hpp"
+#include "image.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	template<class Tp> class BitmapConstPixelRef;
@@ -51,6 +52,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	};
 	template<class Tp>
 	class BitmapBase
+		: public Image
 	{
 		static_assert(std::is_arithmetic_v<Tp>, "テンプレート引数 Tp は数値型である必要があります。");
 	public:
@@ -85,7 +87,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // copy/move/destruct
 		virtual ~BitmapBase() = default;
 	public: // member
-		RectangleSize Size() const { return _size; }
 		int Channels() const { return _ch; }
 		Range<int> XRange() const { return _size.XRange(); }
 		Range<int> YRange() const { return _size.YRange(); }
@@ -95,6 +96,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		RefType Index(const DisplayPoint& position) { return RefType(_data.data() + SolveIndex(position), _ch); }
 		RefType operator[](const DisplayPoint& index) { return Index(index); }
 		RefType Index(const int& x, const int& y) { return Index(DisplayPoint(x, y)); }
+	public: // implement Image
+		RectangleSize Size() const { return _size; }
 	};
 
 	typedef BitmapBase<uint8_t> Bitmap8;
