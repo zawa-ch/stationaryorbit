@@ -16,34 +16,38 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	{
 		static_assert(std::is_arithmetic_v<Tp>, "テンプレート引数 Tp は数値型である必要があります。");
 		friend class BitmapBase<Tp>;
-	private: // contains
+	protected: // contains
 		const Tp* _ref;
 		const int _ch;
-	private: // construct
+	protected: // construct
 		BitmapConstPixelRef(const Tp* ref, const int& ch) : _ref(ref), _ch(ch) {}
 	public: // copy/move/destruct
-		~BitmapConstPixelRef() = default;
+		virtual ~BitmapConstPixelRef() = default;
 	public: // member
 		const Tp& Index(const int& ch) const { if ((ch < 0)||(_ch <= ch)) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } return _ref[ch]; }
 		const Tp& operator[](const size_t& index) const { return Index(index); }
+		int Count() const { return _ch; }
 	};
 	template<class Tp>
 	class BitmapPixelRef
+		: public BitmapConstPixelRef<Tp>
 	{
 		static_assert(std::is_arithmetic_v<Tp>, "テンプレート引数 Tp は数値型である必要があります。");
 		friend class BitmapBase<Tp>;
 	private: // contains
 		Tp* _ref;
-		const int _ch;
 	private: // construct
-		BitmapPixelRef(Tp* ref, const int& ch) : _ref(ref), _ch(ch) {}
+		BitmapPixelRef(Tp* ref, const int& ch) : BitmapConstPixelRef<Tp>(ref, ch), _ref(ref) {}
 	public: // copy/move/destruct
-		~BitmapPixelRef() = default;
+		virtual ~BitmapPixelRef() = default;
 	public: // member
-		const Tp& Index(const int& ch) const { if ((ch < 0)||(_ch <= ch)) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } return _ref[ch]; }
-		const Tp& operator[](const size_t& index) const { return Index(index); }
-		Tp& Index(const int& ch) { if ((ch < 0)||(_ch <= ch)) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } return _ref[ch]; }
+		Tp& Index(const int& ch) { if ((ch < 0)||(this->Count() <= ch)) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } return _ref[ch]; }
 		Tp& operator[](const size_t& index) { return Index(index); }
+		void AssignAt(const BitmapConstPixelRef<Tp>& ref)
+		{
+			if (this->Count() != ref.Count()) { throw InvalidOperationException("チャネル数が異なるオブジェクトに対してこのメソッドを呼び出すことはできません。"); }
+			for (auto ch : Range(0, this->Count())) { Index(ch) = ref.Index(ch); }
+		}
 	};
 	template<class Tp>
 	class BitmapBase
