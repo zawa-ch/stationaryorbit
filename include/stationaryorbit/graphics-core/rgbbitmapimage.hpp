@@ -30,9 +30,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		explicit RGBBitmapImageBase(const RectangleSize& size) : _data(size, Channel) {}
 		RGBBitmapImageBase(const int& width, const int& height) : _data(RectangleSize(width, height), Channel) {}
 		explicit RGBBitmapImageBase(const DataType& data) : _data(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
+		explicit RGBBitmapImageBase(DataType&& data) : _data(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
 	public: // copy/move/destruct
 		virtual ~RGBBitmapImageBase() = default;
 	public: // member
+		DataType& Data() { return _data; }
 		const DataType& Data() const { return _data; }
 		Property<RGBBitmapImageBase<channelT>, RGBColor> Index(const DisplayPoint& position) { return Property<RGBBitmapImageBase<channelT>, RGBColor>(*this, std::bind(getIndex, std::placeholders::_1, position), std::bind(setIndex, std::placeholders::_1, position, std::placeholders::_2)); }
 		Property<RGBBitmapImageBase<channelT>, RGBColor> Index(const int& x, const int& y) { return Index(DisplayPoint(x, y)); }
@@ -85,9 +87,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		explicit ARGBBitmapImageBase(const RectangleSize& size) : _data(size, Channel) {}
 		ARGBBitmapImageBase(const int& width, const int& height) : _data(RectangleSize(width, height), Channel) {}
 		explicit ARGBBitmapImageBase(const DataType& data) : _data(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
+		explicit ARGBBitmapImageBase(DataType&& data) : _data(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
 	public: // copy/move/destruct
 		virtual ~ARGBBitmapImageBase() = default;
 	public: // member
+		DataType& Data() { return _data; }
 		const DataType& Data() const { return _data; }
 		Property<ARGBBitmapImageBase<channelT>, ARGBColor> Index(const DisplayPoint& position) { return Property<ARGBBitmapImageBase<channelT>, ARGBColor>(*this, std::bind(getIndex, std::placeholders::_1, position), std::bind(setIndex, std::placeholders::_1, position, std::placeholders::_2)); }
 		Property<ARGBBitmapImageBase<channelT>, ARGBColor> Index(const int& x, const int& y) { return Index(DisplayPoint(x, y)); }
