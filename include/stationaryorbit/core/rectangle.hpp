@@ -1,5 +1,6 @@
 #ifndef __stationaryorbit_core_rectangle__
 #define __stationaryorbit_core_rectangle__
+#include "range.hpp"
 #include "rectanglesize.hpp"
 #include "point.hpp"
 namespace zawa_ch::StationaryOrbit
@@ -42,6 +43,10 @@ namespace zawa_ch::StationaryOrbit
 		constexpr int Width() const { return _s.Width(); }
 		///	@a Rectangle の示す矩形の高さを取得します。
 		constexpr int Height() const { return _s.Height(); }
+		///	水平軸コンポーネントの値の範囲を示す @a Range を取得します。
+		constexpr Range<int> XRange() const { return Range(_p.X(), _p.X() + _s.Width()); }
+		///	垂直軸コンポーネントの値の範囲を示す @a Range を取得します。
+		constexpr Range<int> YRange() const { return Range(_p.Y(), _p.Y() + _s.Height()); }
 		constexpr bool IsEmpty() const { return _p.IsEmpty()||_s.IsEmpty(); }
 
 		///	指定された点が @a Rectangle の領域に含まれるかをテストします。

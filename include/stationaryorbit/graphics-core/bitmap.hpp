@@ -287,6 +287,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // member
 		RectangleSize Size() const { return _size; }
 		int Channels() const { return _ch; }
+		Range<int> XRange() const { return _size.XRange(); }
+		Range<int> YRange() const { return _size.YRange(); }
 		ConstRefType Index(const DisplayPoint& position) const { return ConstRefType(_data.data() + SolveIndex(position), _ch); }
 		ConstRefType operator[](const DisplayPoint& index) const { return Index(index); }
 		ConstRefType Index(const int& x, const int& y) const { return Index(DisplayPoint(x, y)); }

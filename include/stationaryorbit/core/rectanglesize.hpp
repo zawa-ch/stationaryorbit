@@ -1,6 +1,7 @@
 #ifndef __stationaryorbit_core_size__
 #define __stationaryorbit_core_size__
 #include <cmath>
+#include "range.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	struct RectangleSize;
@@ -26,6 +27,10 @@ namespace zawa_ch::StationaryOrbit
 		constexpr int Width() const { return _w; }
 		///	垂直軸の値を取得します。
 		constexpr int Height() const { return _h; }
+		///	水平軸コンポーネントの値の範囲を示す @a Range を取得します。
+		constexpr Range<int> XRange() const { return Range(0, _w); }
+		///	垂直軸コンポーネントの値の範囲を示す @a Range を取得します。
+		constexpr Range<int> YRange() const { return Range(0, _h); }
 		constexpr bool IsEmpty() const { return (_w==0)&&(_h==0); }
 
 		constexpr RectangleSize operator+(const RectangleSize& other) const { return RectangleSize(_w + other._w, _h + other._h); }

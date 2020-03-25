@@ -1,9 +1,5 @@
 // -*- C++ -*-
 
 #include "bitmap.hpp"
-#include "bitmapbuffer.hpp"
 #include "bitmapsimpleconvert.hpp"
-#include "bufferbindbitmap.hpp"
-#include "bufferedbitmap.hpp"
-#include "channelvalue.hpp"
-#include "pixelreference.hpp"
+#include "rgbbitmapimage.hpp"
