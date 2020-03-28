@@ -1,17 +1,17 @@
-#ifndef __stationaryorbit_graphics_dib_invalidwbmpformatexception_
-#define __stationaryorbit_graphics_dib_invalidwbmpformatexception_
+#ifndef __stationaryorbit_graphics_dib_invaliddibformatexception_
+#define __stationaryorbit_graphics_dib_invaliddibformatexception_
 #include "stationaryorbit/exception/soexcept"
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
 
 	///	Windowsビットマップとしてのアクセスができないデータに対してパースを行おうとした際にスローされる例外。
-	class InvalidWbmpFormatException
+	class InvalidDIBFormatException
 		: public InvalidOperationException
 	{
 	public:
-		explicit InvalidWbmpFormatException(const std::string& what_arg);
-		explicit InvalidWbmpFormatException(const char* what_arg);
+		explicit InvalidDIBFormatException(const std::string& what_arg);
+		explicit InvalidDIBFormatException(const char* what_arg);
 	};
 
 }
-#endif // __stationaryorbit_graphics_dib_invalidwbmpformatexception_
+#endif // __stationaryorbit_graphics_dib_invaliddibformatexception_
