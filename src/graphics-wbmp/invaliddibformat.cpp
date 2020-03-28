@@ -1,4 +1,4 @@
-#include "stationaryorbit/graphics-wbmp/invalidwbmpformatexception.hpp"
+#include "stationaryorbit/graphics-wbmp/invaliddibformat.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 Graphics::DIB::InvalidDIBFormatException::InvalidDIBFormatException(const std::string& what_arg)
