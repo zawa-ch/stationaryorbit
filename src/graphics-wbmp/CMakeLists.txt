@@ -16,11 +16,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/wbmpheaders.hpp
     ${Include_Dir}/wbmploader.hpp
     ${Include_Dir}/wbmpsaver.hpp
-    fileheader.cpp
-    invalidwbmpformatexception.cpp
-    wbmpbuffer.cpp
-    wbmploader.cpp
-    wbmpsaver.cpp
+    dibbitmap.cpp
 )
 
 set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 20)
