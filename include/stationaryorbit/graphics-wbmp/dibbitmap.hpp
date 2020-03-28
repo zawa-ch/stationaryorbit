@@ -2,7 +2,9 @@
 #define __stationaryorbit_graphics_dib_dibbitmap__
 #include <iostream>
 #include "stationaryorbit/graphics-core/bitmap"
+#include "dibheaders.hpp"
 #include "rgbtriple.hpp"
+#include "invaliddibformat.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
 	class DIBBitmap
@@ -12,6 +14,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		enum class DataTypes { GrayScale, ARGB, IndexedColor };
 	private: // contains
 		std::vector<RGBTriple_t> _cindex;
+		int _resh;
+		int _resv;
 	public: // construct
 		DIBBitmap();
 		DIBBitmap(const BitmapBase<uint8_t>& data);
@@ -24,6 +28,10 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		DataTypes DataType() const;
 		std::vector<RGBTriple_t>& ColorIndex();
 		const std::vector<RGBTriple_t>& ColorIndex() const;
+		int& HorizonalResolution();
+		const int& HorizonalResolution() const;
+		int& VerticalResolution();
+		const int& VerticalResolution() const;
 		Property<DIBBitmap, ARGBColor> Index(const DisplayPoint& position);
 		Property<DIBBitmap, ARGBColor> Index(const int& x, const int& y);
 		Property<DIBBitmap, ARGBColor> operator[](const DisplayPoint& index);
@@ -43,6 +51,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	private: // internal
 		static ARGBColor getIndex(const DIBBitmap& inst, const DisplayPoint& position);
 		static void setIndex(DIBBitmap& inst, const DisplayPoint& position, const ARGBColor& value);
+		static DIBBitmap readRGB(std::istream& stream, const int& width, const int& height, const BitDepth& bitdepth);
 	};
 }
 #endif // __stationaryorbit_graphics_dib_dibbitmap__

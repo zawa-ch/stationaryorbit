@@ -67,7 +67,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		{
 			if ((position.X() < 0)||(position.Y() < 0)) { throw std::invalid_argument("position の要素のいずれかが負です。"); }
 			if ((_size.Width() <= position.X())||(_size.Height() <= position.Y())) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); }
-			return (position.Y() * _size.Width()) + position.X();
+			return ((position.Y() * _size.Width()) + position.X()) * _ch;
 		}
 		static size_t SolveCount(const RectangleSize& size)
 		{

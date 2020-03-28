@@ -1,7 +1,6 @@
 // -*- C++ -*-
 
 #include "dibbitmap.hpp"
-#include "wbmpheaders.hpp"
-#include "wbmploader.hpp"
+#include "dibheaders.hpp"
 #include "wbmpsaver.hpp"
 
