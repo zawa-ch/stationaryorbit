@@ -1,6 +1,6 @@
-#include "stationaryorbit/graphics-wbmp/dibbitmap.hpp"
-#include "stationaryorbit/graphics-wbmp/fileheader.hpp"
-#include "stationaryorbit/graphics-wbmp/colormask.hpp"
+#include "stationaryorbit/graphics-dib/dibbitmap.hpp"
+#include "stationaryorbit/graphics-dib/fileheader.hpp"
+#include "stationaryorbit/graphics-dib/colormask.hpp"
 using namespace zawa_ch::StationaryOrbit;
 using namespace zawa_ch::StationaryOrbit::Graphics;
 using namespace zawa_ch::StationaryOrbit::Graphics::DIB;

@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 project(stationaryorbit CXX)
 
-set(AssemblyName stationaryorbit.graphics-wbmp)
-set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/graphics-wbmp)
+set(AssemblyName stationaryorbit.graphics-dib)
+set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/graphics-dib)
 
 add_library(${AssemblyName} SHARED
     ${Include_Dir}/ciexyz.hpp
@@ -25,4 +25,4 @@ target_link_libraries(${AssemblyName}
     stationaryorbit.graphics-core
 )
 
-target_include_directories(${AssemblyName} PUBLIC ${PROJECT_SOURCE_DIR}/include/stationaryorbit/graphics-wbmp)
+target_include_directories(${AssemblyName} PUBLIC ${PROJECT_SOURCE_DIR}/include/stationaryorbit/graphics-dib)

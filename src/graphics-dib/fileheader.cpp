@@ -1,4 +1,4 @@
-#include "stationaryorbit/graphics-wbmp/fileheader.hpp"
+#include "stationaryorbit/graphics-dib/fileheader.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 bool Graphics::DIB::FileHeader::CheckFileHeader() const

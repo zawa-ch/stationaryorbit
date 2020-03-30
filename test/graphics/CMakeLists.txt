@@ -7,13 +7,13 @@ set(AssemblyName stationaryorbit.test.graphics)
 # 依存するライブラリ
 set(DEPENDS_LIB)
 set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.graphics-core)
-set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.graphics-wbmp)
+set(DEPENDS_LIB ${DEPENDS_LIB} stationaryorbit.graphics-dib)
 
 # ビルドするソースファイル
 set(BUILD_SOURCES)
 set(BUILD_SOURCES ${BUILD_SOURCES} core.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} graphics-test.cpp)
-set(BUILD_SOURCES ${BUILD_SOURCES} wbmp.cpp)
+set(BUILD_SOURCES ${BUILD_SOURCES} dib.cpp)
 
 # ビルドおよびリンク
 add_executable(${AssemblyName} ${BUILD_SOURCES})

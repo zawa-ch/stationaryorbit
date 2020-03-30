@@ -2,7 +2,7 @@
 #include <fstream>
 #include <chrono>
 #include <memory>
-#include "stationaryorbit/graphics-wbmp/bmpimage"
+#include "stationaryorbit/graphics-dib/bmpimage"
 using namespace zawa_ch::StationaryOrbit;
 using namespace zawa_ch::StationaryOrbit::Graphics;
 
@@ -16,7 +16,7 @@ void Crop();
 void Resize1();
 void Resize2();
 
-void Test_BMP()
+void Test_DIB()
 {
 	std::chrono::duration<double> elapsed;
 	auto start = std::chrono::system_clock::now();
