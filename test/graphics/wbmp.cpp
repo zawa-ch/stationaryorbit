@@ -58,7 +58,7 @@ void Test_BMP()
 void Read()
 {
 	///	読み込みを行うWindowsビットマップファイル。
-	const char* ifile = "Jellyfish.bmp";
+	const char* ifile = "input.bmp";
 	// ファイルを開く(ファイルオープンに失敗した場合は例外をスローする)
 	std::fstream istream = std::fstream(ifile, std::ios_base::openmode::_S_in | std::ios_base::openmode::_S_bin);
 	if (!istream.good()) throw std::logic_error("can't read file.");
