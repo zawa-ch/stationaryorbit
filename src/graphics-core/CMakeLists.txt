@@ -6,15 +6,12 @@ set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/graphics-cor
 
 add_library(${AssemblyName} SHARED
     ${Include_Dir}/bitmap.hpp
-    ${Include_Dir}/bitmapbuffer.hpp
-    ${Include_Dir}/bitmapsimpleconvert.hpp
-    ${Include_Dir}/bufferbindbitmap.hpp
-    ${Include_Dir}/bufferedbitmap.hpp
-    ${Include_Dir}/channelvalue.hpp
+    ${Include_Dir}/bitmapconverter.hpp
     ${Include_Dir}/cmykcolor.hpp
-    ${Include_Dir}/pixelreference.hpp
+    ${Include_Dir}/image.hpp
+    ${Include_Dir}/rgbbitmapimage.hpp
     ${Include_Dir}/rgbcolor.hpp
-    ${Include_Dir}/ycrcbcolor.hpp
+    ${Include_Dir}/yuvcolor.hpp
     bitmap.cpp
     color.cpp
     fundamental.cpp

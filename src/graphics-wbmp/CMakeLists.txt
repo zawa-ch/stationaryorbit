@@ -7,15 +7,12 @@ set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/graphics-wbm
 add_library(${AssemblyName} SHARED
     ${Include_Dir}/ciexyz.hpp
     ${Include_Dir}/colormask.hpp
+    ${Include_Dir}/dibbitmap.hpp
+    ${Include_Dir}/dibheaders.hpp
     ${Include_Dir}/fileheader.hpp
-    ${Include_Dir}/invalidwbmpformatexception.hpp
-    ${Include_Dir}/rgb24bmp.hpp
+    ${Include_Dir}/invaliddibformat.hpp
     ${Include_Dir}/rgbquad.hpp
     ${Include_Dir}/rgbtriple.hpp
-    ${Include_Dir}/wbmpbuffer.hpp
-    ${Include_Dir}/wbmpheaders.hpp
-    ${Include_Dir}/wbmploader.hpp
-    ${Include_Dir}/wbmpsaver.hpp
     dibbitmap.cpp
     fileheader.cpp
     invaliddibformat.cpp
