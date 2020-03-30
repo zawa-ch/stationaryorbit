@@ -60,11 +60,12 @@ DIBBitmap DIBBitmap::FromStream(std::istream& stream)
 		{
 			CoreHeader header;
 			stream.read((char*)&header, sizeof(CoreHeader));
+			if (header.PlaneCount != 1) { throw InvalidDIBFormatException("指定されたプレーン数のビットマップはライブラリでサポートされていません。"); }
 			stream.ignore(fileheader.Offset - sizeof(FileHeader) - CoreHeader::Size);
 			switch (header.BitCount)
 			{
 			case BitDepth::Bit1: case BitDepth::Bit4: case BitDepth::Bit8:
-				throw NotImplementedException();
+				return readGray(stream, header.ImageWidth, header.ImageHeight, header.BitCount);
 			case BitDepth::Bit24:
 				return readRGB(stream, header.ImageWidth, header.ImageWidth, header.BitCount);
 			default:
@@ -75,6 +76,7 @@ DIBBitmap DIBBitmap::FromStream(std::istream& stream)
 		{
 			InfoHeader header;
 			stream.read((char*)&header, sizeof(InfoHeader));
+			if (header.PlaneCount != 1) { throw InvalidDIBFormatException("指定されたプレーン数のビットマップはライブラリでサポートされていません。"); }
 			size_t readsize = sizeof(FileHeader) + InfoHeader::Size;
 			// ビットマスクRGB画像の場合はマスク用ビットフィールドを取得
 			ColorMask mask;
@@ -105,7 +107,7 @@ DIBBitmap DIBBitmap::FromStream(std::istream& stream)
 					{
 					case BitDepth::Bit1: case BitDepth::Bit4: case BitDepth::Bit8:
 						// グレースケール画像
-						throw NotImplementedException();
+						result = readGray(stream, header.ImageWidth, header.ImageHeight, header.BitCount);
 					case BitDepth::Bit16: case BitDepth::Bit24: case BitDepth::Bit32:
 						// RGBカラー画像
 						result = readRGB(stream, header.ImageWidth, header.ImageHeight, header.BitCount);
@@ -149,12 +151,14 @@ DIBBitmap DIBBitmap::FromStream(std::istream& stream)
 		{
 			V4Header header;
 			stream.read((char*)&header, sizeof(V4Header));
+			if (header.PlaneCount != 1) { throw InvalidDIBFormatException("指定されたプレーン数のビットマップはライブラリでサポートされていません。"); }
 			throw NotImplementedException();
 		}
 		case V5Header::Size:
 		{
 			V5Header header;
 			stream.read((char*)&header, sizeof(V5Header));
+			if (header.PlaneCount != 1) { throw InvalidDIBFormatException("指定されたプレーン数のビットマップはライブラリでサポートされていません。"); }
 			throw NotImplementedException();
 		}
 		default:
@@ -226,9 +230,50 @@ void DIBBitmap::setIndex(DIBBitmap& inst, const DisplayPoint& position, const AR
 		default: { throw InvalidOperationException("このオブジェクトの DataType が無効です。"); }
 	}
 }
+DIBBitmap DIBBitmap::readGray(std::istream& stream, const int& width, const int& height, const BitDepth& bitdepth)
+{
+	if ((bitdepth!=BitDepth::Bit1)&&(bitdepth!=BitDepth::Bit4)&&(bitdepth!=BitDepth::Bit8)) { throw std::invalid_argument("サポートされない bitdepth を選択しました。"); }
+	auto result = CreateGlayScale(width, height);
+	auto readwidth = (size_t(bitdepth) / 8U) + (((size_t(bitdepth) % 8U) != 0)?1:0);
+	auto yrange = result.YRange();
+	auto xrange = result.XRange();
+	auto yend = yrange.rend();
+	for (auto y = yrange.rbegin(); y != yend; ++y)
+	{
+		for (auto x : xrange)
+		{
+			uint32_t readdata;
+			stream.read((char*)&readdata, readwidth);
+			auto px = result.BitmapBase::Index(x, *y);
+			switch (bitdepth)
+			{
+				case BitDepth::Bit1:
+				{
+					px[0] = (readdata & 0x1) << 7;
+					break;
+				}
+				case BitDepth::Bit4:
+				{
+					px[0] = (readdata & 0xF) << 4;
+					break;
+				}
+				case BitDepth::Bit8:
+				{
+					px[0] = (readdata & 0xFF);
+					break;
+				}
+				default:
+				{ throw InvalidOperationException("到達できないコードに到達しました。 bitdepth の値が無効です。"); }
+			}
+		}
+		auto padding = (4 - ((readwidth * width) % 4)) % 4;
+		if (padding != 0) { stream.ignore(padding); }
+	}
+	return result;
+}
 DIBBitmap DIBBitmap::readRGB(std::istream& stream, const int& width, const int& height, const BitDepth& bitdepth)
 {
-	if ((bitdepth!=BitDepth::Bit24)&&(bitdepth!=BitDepth::Bit32)) { throw std::invalid_argument("指定された bitdepth は無効です。"); }
+	if ((bitdepth!=BitDepth::Bit16)&&(bitdepth!=BitDepth::Bit24)&&(bitdepth!=BitDepth::Bit32)) { throw std::invalid_argument("サポートされない bitdepth を選択しました。"); }
 	auto result = CreateRGBColor(width, height);
 	auto readwidth = (size_t(bitdepth) / 8U) + (((size_t(bitdepth) % 8U) != 0)?1:0);
 	auto yrange = result.YRange();
@@ -241,9 +286,35 @@ DIBBitmap DIBBitmap::readRGB(std::istream& stream, const int& width, const int& 
 			uint32_t readdata;
 			stream.read((char*)&readdata, readwidth);
 			auto px = result.BitmapBase::Index(x, *y);
-			px[0] = (readdata >> 16) & 0xFF;
-			px[1] = (readdata >> 8) & 0xFF;
-			px[2] = (readdata >> 0) & 0xFF;
+			switch (bitdepth)
+			{
+				case BitDepth::Bit16:
+				{
+					px[0] = (readdata & 0x7C00) >> 7;
+					px[1] = (readdata & 0x03E0) >> 2;
+					px[2] = (readdata & 0x001F) << 3;
+					px[3] = 0;
+					break;
+				}
+				case BitDepth::Bit24:
+				{
+					px[0] = (readdata & 0x00FF0000) >> 16;
+					px[1] = (readdata & 0x0000FF00) >> 8;
+					px[2] = (readdata & 0x000000FF);
+					px[3] = 0;
+					break;
+				}
+				case BitDepth::Bit32:
+				{
+					px[0] = (readdata & 0x00FF0000) >> 16;
+					px[1] = (readdata & 0x0000FF00) >> 8;
+					px[2] = (readdata & 0x000000FF);
+					px[3] = 0;
+					break;
+				}
+				default:
+				{ throw InvalidOperationException("到達できないコードに到達しました。 bitdepth の値が無効です。"); }
+			}
 		}
 		auto padding = (4 - ((readwidth * width) % 4)) % 4;
 		if (padding != 0) { stream.ignore(padding); }
@@ -253,7 +324,7 @@ DIBBitmap DIBBitmap::readRGB(std::istream& stream, const int& width, const int& 
 void DIBBitmap::writeRGB(std::ostream& stream, const BitDepth& depth) const
 {
 	auto bitdepth = (depth != BitDepth::Null)?depth:BitDepth::Bit24;
-	if ((bitdepth != BitDepth::Bit24)&&(bitdepth != BitDepth::Bit32)) { throw std::invalid_argument("サポートされない depth を選択しました。"); }
+	if ((bitdepth != BitDepth::Bit16)&&(bitdepth != BitDepth::Bit24)&&(bitdepth != BitDepth::Bit32)) { throw std::invalid_argument("サポートされない depth を選択しました。"); }
 	auto writewidth = (size_t(bitdepth) / 8U) + (((size_t(bitdepth) % 8U) != 0)?1:0);
 	FileHeader fileheader;
 	std::copy<const uint8_t*, uint8_t*>(&fileheader.FileType_Signature[0], &fileheader.FileType_Signature[2], &fileheader.FileType[0]);
@@ -289,7 +360,33 @@ void DIBBitmap::writeRGB(std::ostream& stream, const BitDepth& depth) const
 		for (auto x : xrange)
 		{
 			auto px = BitmapBase::Index(x, *y);
-			uint32_t writedata = (px[0] << 16)|(px[1] << 8)|(px[2] << 0);
+			uint32_t writedata = 0;
+			switch (bitdepth)
+			{
+				case BitDepth::Bit16:
+				{
+					writedata |= (uint32_t(px[0]) << 7) & 0x7C00;
+					writedata |= (uint32_t(px[1]) << 2) & 0x03E0;
+					writedata |= (uint32_t(px[2]) >> 3) & 0x001F;
+					break;
+				}
+				case BitDepth::Bit24:
+				{
+					writedata |= (uint32_t(px[0]) << 16) & 0x00FF0000;
+					writedata |= (uint32_t(px[1]) << 8) & 0x0000FF00;
+					writedata |= (uint32_t(px[2])) & 0x000000FF;
+					break;
+				}
+				case BitDepth::Bit32:
+				{
+					writedata |= (uint32_t(px[0]) << 16) & 0x00FF0000;
+					writedata |= (uint32_t(px[1]) << 8) & 0x0000FF00;
+					writedata |= (uint32_t(px[2])) & 0x000000FF;
+					break;
+				}
+				default:
+				{ throw InvalidOperationException("到達できないコードに到達しました。 bitdepth の値が無効です。"); }
+			}
 			stream.write((char*)&writedata, writewidth);
 		}
 		auto padding = (4 - ((writewidth * Width()) % 4)) % 4;

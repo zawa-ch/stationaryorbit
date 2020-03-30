@@ -10,6 +10,7 @@ DIB::DIBBitmap bitmap;
 
 void Read();
 void Write();
+void Write16();
 void FripV();
 void FripH();
 void Crop();
@@ -28,6 +29,11 @@ void Test_DIB()
 	Write();
 	elapsed = std::chrono::system_clock::now() - start;
 	std::cout << "File write: " << elapsed.count() << "sec." << std::endl;
+
+	start = std::chrono::system_clock::now();
+	Write16();
+	elapsed = std::chrono::system_clock::now() - start;
+	std::cout << "File write at 16bit: " << elapsed.count() << "sec." << std::endl;
 
 	start = std::chrono::system_clock::now();
 	FripV();
@@ -74,7 +80,16 @@ void Write()
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
 	if (!ostream.good()) throw std::logic_error("can't write file.");
 	bitmap.WriteTo(ostream);
-    ostream.close();
+	ostream.close();
+}
+
+void Write16()
+{
+	const char* ofile = "output16.bmp";
+	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
+	if (!ostream.good()) throw std::logic_error("can't write file.");
+	bitmap.WriteTo(ostream, DIB::BitDepth::Bit16);
+	ostream.close();
 }
 
 void FripV()
@@ -86,7 +101,7 @@ void FripV()
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
 	if (!ostream.good()) throw std::logic_error("can't write file.");
 	out.WriteTo(ostream);
-    ostream.close();
+	ostream.close();
 }
 
 void FripH()
@@ -98,7 +113,7 @@ void FripH()
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
 	if (!ostream.good()) throw std::logic_error("can't write file.");
 	out.WriteTo(ostream);
-    ostream.close();
+	ostream.close();
 }
 
 void Crop()
@@ -111,7 +126,7 @@ void Crop()
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
 	if (!ostream.good()) throw std::logic_error("can't write file.");
 	out.WriteTo(ostream);
-    ostream.close();
+	ostream.close();
 }
 
 void Resize1()
@@ -125,7 +140,7 @@ void Resize1()
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
 	if (!ostream.good()) throw std::logic_error("can't write file.");
 	out.WriteTo(ostream);
-    ostream.close();
+	ostream.close();
 }
 
 void Resize2()
@@ -139,5 +154,5 @@ void Resize2()
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
 	if (!ostream.good()) throw std::logic_error("can't write file.");
 	out.WriteTo(ostream);
-    ostream.close();
+	ostream.close();
 }

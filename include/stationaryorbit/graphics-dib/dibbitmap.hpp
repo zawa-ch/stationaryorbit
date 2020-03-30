@@ -52,6 +52,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	private: // internal
 		static ARGBColor getIndex(const DIBBitmap& inst, const DisplayPoint& position);
 		static void setIndex(DIBBitmap& inst, const DisplayPoint& position, const ARGBColor& value);
+		static DIBBitmap readGray(std::istream& stream, const int& width, const int& height, const BitDepth& bitdepth);
 		static DIBBitmap readRGB(std::istream& stream, const int& width, const int& height, const BitDepth& bitdepth);
 		void writeRGB(std::ostream& stream, const BitDepth& depth) const;
 	};
