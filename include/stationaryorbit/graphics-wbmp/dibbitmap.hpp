@@ -38,6 +38,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		ReadOnlyProperty<DIBBitmap, ARGBColor> Index(const DisplayPoint& position) const;
 		ReadOnlyProperty<DIBBitmap, ARGBColor> Index(const int& x, const int& y) const;
 		ReadOnlyProperty<DIBBitmap, ARGBColor> operator[](const DisplayPoint& index) const;
+		void WriteTo(std::ostream& stream, const BitDepth& depth = BitDepth::Null) const;
 	public: // static
 		static DIBBitmap CreateRGBColor(const RectangleSize& size);
 		static DIBBitmap CreateRGBColor(const int& width, const int& height);
@@ -52,6 +53,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		static ARGBColor getIndex(const DIBBitmap& inst, const DisplayPoint& position);
 		static void setIndex(DIBBitmap& inst, const DisplayPoint& position, const ARGBColor& value);
 		static DIBBitmap readRGB(std::istream& stream, const int& width, const int& height, const BitDepth& bitdepth);
+		void writeRGB(std::ostream& stream, const BitDepth& depth) const;
 	};
 }
 #endif // __stationaryorbit_graphics_dib_dibbitmap__

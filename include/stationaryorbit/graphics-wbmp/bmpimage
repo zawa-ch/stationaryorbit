@@ -2,5 +2,4 @@
 
 #include "dibbitmap.hpp"
 #include "dibheaders.hpp"
-#include "wbmpsaver.hpp"
 

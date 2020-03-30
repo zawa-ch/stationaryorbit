@@ -29,6 +29,16 @@ Property<DIBBitmap, ARGBColor> DIBBitmap::operator[](const DisplayPoint& index) 
 ReadOnlyProperty<DIBBitmap, ARGBColor> DIBBitmap::Index(const DisplayPoint& position) const { return ReadOnlyProperty<DIBBitmap, ARGBColor>(*this, std::bind(getIndex, std::placeholders::_1, position)); }
 ReadOnlyProperty<DIBBitmap, ARGBColor> DIBBitmap::Index(const int& x, const int& y) const { return Index(DisplayPoint(x, y)); }
 ReadOnlyProperty<DIBBitmap, ARGBColor> DIBBitmap::operator[](const DisplayPoint& index) const { return Index(index); }
+void DIBBitmap::WriteTo(std::ostream& stream, const BitDepth& depth) const
+{
+	switch (DataType())
+	{
+		case DataTypes::ARGB: { writeRGB(stream, depth); break; }
+		case DataTypes::GrayScale: { throw NotImplementedException(); break; }
+		case DataTypes::IndexedColor: { throw NotImplementedException(); break; }
+		default: { throw InvalidOperationException("このオブジェクトのデータ型が無効です。"); }
+	}
+}
 DIBBitmap DIBBitmap::CreateRGBColor(const RectangleSize& size) { return DIBBitmap(size, DataTypes::ARGB); }
 DIBBitmap DIBBitmap::CreateRGBColor(const int& width, const int& height) { return DIBBitmap(RectangleSize(width, height), DataTypes::ARGB); }
 DIBBitmap DIBBitmap::CreateGlayScale(const RectangleSize& size) { return DIBBitmap(size, DataTypes::GrayScale); }
@@ -239,4 +249,51 @@ DIBBitmap DIBBitmap::readRGB(std::istream& stream, const int& width, const int& 
 		if (padding != 0) { stream.ignore(padding); }
 	}
 	return result;
+}
+void DIBBitmap::writeRGB(std::ostream& stream, const BitDepth& depth) const
+{
+	auto bitdepth = (depth != BitDepth::Null)?depth:BitDepth::Bit24;
+	if ((bitdepth != BitDepth::Bit24)&&(bitdepth != BitDepth::Bit32)) { throw std::invalid_argument("サポートされない depth を選択しました。"); }
+	auto writewidth = (size_t(bitdepth) / 8U) + (((size_t(bitdepth) % 8U) != 0)?1:0);
+	FileHeader fileheader;
+	std::copy<const uint8_t*, uint8_t*>(&fileheader.FileType_Signature[0], &fileheader.FileType_Signature[2], &fileheader.FileType[0]);
+	/* TODO: 状況に応じてV4ヘッダ/V5ヘッダを使用する */
+	InfoHeader dataheader;
+	fileheader.Offset = InfoHeader::Size + sizeof(FileHeader) + ((((InfoHeader::Size + sizeof(FileHeader))%4)!=0)?(4-(((InfoHeader::Size + sizeof(FileHeader))%4))):(0));
+	dataheader.ImageHeight = Height();
+	dataheader.ImageWidth = Width();
+	dataheader.PlaneCount = 1;
+	dataheader.BitCount = bitdepth;
+	dataheader.ComplessionMethod = CompressionMethod::RGB;
+	dataheader.ImageSize = (writewidth * Width());
+	dataheader.ImageSize += ((dataheader.ImageSize % 4)!=0)?1:0;
+	dataheader.ImageSize *= Height();
+	dataheader.ResolutionHolizonal = _resh;
+	dataheader.ResolutionVertical = _resv;
+	dataheader.IndexedColorCount = 0;
+	dataheader.ImportantColorCount = 0;
+	fileheader.FileSize = fileheader.Offset + dataheader.ImageSize;
+	size_t writesize = 0;
+	stream.write((char*)&fileheader, sizeof(FileHeader));
+	writesize += sizeof(FileHeader);
+	stream.write((char*)&InfoHeader::Size, sizeof(uint32_t));
+	stream.write((char*)&dataheader, sizeof(InfoHeader));
+	writesize += InfoHeader::Size;
+	for (auto item : Range<size_t>(0, fileheader.Offset - writesize)) { stream.put(char()); }
+	auto yrange = YRange();
+	auto xrange = XRange();
+	auto y = yrange.rbegin();
+	auto yend = yrange.rend();
+	while (y != yend)
+	{
+		for (auto x : xrange)
+		{
+			auto px = BitmapBase::Index(x, *y);
+			uint32_t writedata = (px[0] << 16)|(px[1] << 8)|(px[2] << 0);
+			stream.write((char*)&writedata, writewidth);
+		}
+		auto padding = (4 - ((writewidth * Width()) % 4)) % 4;
+		for (auto i : Range(0UL, padding)) { stream.put(0); }
+		++y;
+	}
 }
