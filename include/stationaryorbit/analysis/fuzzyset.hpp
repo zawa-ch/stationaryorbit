@@ -2,7 +2,7 @@
 #define __stationaryorbit_analysis_fuzzyset__
 #include <utility>
 #include "fuzzybool.hpp"
-namespace zawa_ch::StationaryOrbit::NumericAnalysis
+namespace zawa_ch::StationaryOrbit::Analysis
 {
 
 	///	ファジィ集合を表します。

@@ -3,7 +3,7 @@
 #include <utility>
 #include "fuzzyset.hpp"
 #include "fuzzyrelation.hpp"
-namespace zawa_ch::StationaryOrbit::NumericAnalysis
+namespace zawa_ch::StationaryOrbit::Analysis
 {
 
 	///	ファジィ関係に対して条件となるファジィ集合が与えられた場合のファジィ推論を表します。

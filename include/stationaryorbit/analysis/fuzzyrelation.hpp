@@ -2,7 +2,7 @@
 #define __stationaryorbit_analysis_fuzzyrelation__
 #include <utility>
 #include "fuzzyset.hpp"
-namespace zawa_ch::StationaryOrbit::NumericAnalysis
+namespace zawa_ch::StationaryOrbit::Analysis
 {
 
 	/// 二つのファジィ集合間のif-then関係を表します。

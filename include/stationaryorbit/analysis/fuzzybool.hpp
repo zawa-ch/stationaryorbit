@@ -1,7 +1,7 @@
 #ifndef __stationaryorbit_analysis_fuzzybool__
 #define __stationaryorbit_analysis_fuzzybool__
 #include "stationaryorbit/core/numeral"
-namespace zawa_ch::StationaryOrbit::NumericAnalysis
+namespace zawa_ch::StationaryOrbit::Analysis
 {
 
 	/// trueとfalseの中間を表現できるブール値を表します。
