@@ -71,7 +71,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			return result;
 		}
 		///	ニアレストネイバー補完。
-		static ChannelType Nearest(const ChannelType& bitmap, const DisplayPointF& position, const size_t& ch)
+		static ChannelType Nearest(const ContainerType& bitmap, const DisplayPointF& position, const size_t& ch)
 		{
 			auto dst = position.Round();
 			return bitmap.Index(dst)[ch];
@@ -80,14 +80,16 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static ChannelType Bilinear(const ContainerType& bitmap, const DisplayPointF& position, const size_t& ch)
 		{
 			auto pxi = DisplayRectangle(position.Floor(), RectangleSize(1, 1));
-			auto pxupleft = bitmap.Index(pxi.Left(), pxi.Top())[ch];
-			auto pxupright = bitmap.Index(pxi.Right(), pxi.Top())[ch];
-			auto pxdownleft = bitmap.Index(pxi.Left(), pxi.Bottom())[ch];
-			auto pxdownright = bitmap.Index(pxi.Right(), pxi.Bottom())[ch];
+			auto xrange = bitmap.XRange();
+			auto yrange = bitmap.YRange();
+			auto pxupleft = (xrange.isIncluded(pxi.Left())&&yrange.isIncluded(pxi.Top()))?(bitmap.Index(pxi.Left(), pxi.Top())[ch]):(0);
+			auto pxupright = (xrange.isIncluded(pxi.Right())&&yrange.isIncluded(pxi.Top()))?(bitmap.Index(pxi.Right(), pxi.Top())[ch]):(0);
+			auto pxdownleft = (xrange.isIncluded(pxi.Left())&&yrange.isIncluded(pxi.Bottom()))?(bitmap.Index(pxi.Left(), pxi.Bottom())[ch]):(0);
+			auto pxdownright = (xrange.isIncluded(pxi.Right())&&yrange.isIncluded(pxi.Bottom()))?(bitmap.Index(pxi.Right(), pxi.Bottom())[ch]):(0);
 			auto pxd = position.Extract();
-			auto pxup = pxupleft * ChannelType(channelT(ChannelType::Max() * (1 - pxd.X()))) + pxupright * ChannelType(channelT(ChannelType::Max() * (pxd.X())));
-			auto pxdown = pxdownleft * ChannelType(channelT(ChannelType::Max() * (1 - pxd.X()))) + pxdownright * ChannelType(channelT(ChannelType::Max() * (pxd.X())));
-			return pxup * ChannelType(channelT(ChannelType::Max() * (1 - pxd.Y()))) + pxdown * ChannelType(channelT(ChannelType::Max() * (pxd.Y())));
+			auto pxup = ChannelType(pxupleft * (1 - pxd.X()) + pxupright * (pxd.X()));
+			auto pxdown = ChannelType(pxdownleft * (1 - pxd.X()) + pxdownright * (pxd.X()));
+			return ChannelType(pxup * (1 - pxd.Y()) + pxdown * (pxd.Y()));
 		}
 		///	指定された @a bitmap を @a area で指定された範囲で切り抜きます。
 		static ContainerType Crop(const ContainerType& bitmap, const DisplayRectangle& area)
@@ -100,7 +102,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			for (auto y : yrange) for (auto x : xrange)
 			{
 				auto dstpos = area.Location() + DisplayPoint(x, y);
-				for (auto ch : chrange) { result.Index(x, y)[ch] = bitmap.Index(x, y)[ch]; }
+				for (auto ch : chrange) { result.Index(x, y)[ch] = bitmap.Index(dstpos)[ch]; }
 			}
 			return result;
 		}

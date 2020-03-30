@@ -82,8 +82,8 @@ namespace zawa_ch::StationaryOrbit
 
 		///	指定されたオブジェクトがこのオブジェクトと等価であることをテストします。
 		constexpr bool Equals(const RectangleSizeF& other) const { return (_w == other._w)&&(_h == other._h); }
-		constexpr bool operator==(const RectangleSizeF& other) { return Equals(other); }
-		constexpr bool operator!=(const RectangleSizeF& other) { return !Equals(other); }
+		constexpr bool operator==(const RectangleSizeF& other) const { return Equals(other); }
+		constexpr bool operator!=(const RectangleSizeF& other) const { return !Equals(other); }
 
 		constexpr explicit operator RectangleSize() const { return RectangleSize(int(_w), int(_h)); }
 
