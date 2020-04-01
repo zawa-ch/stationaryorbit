@@ -7,13 +7,11 @@
 
 	"settings": {
 		"C_Cpp.default.intelliSenseMode": "clang-x64",
-		"C_Cpp.default.cppStandard": "c++20",
+		"C_Cpp.default.cppStandard": "c++17",
 		"C_Cpp.configurationWarnings": "Disabled",
 		"C_Cpp.default.includePath": [
 			"${workspaceFolder}/include/**"
 		],
-		"cmake.cpptools.intelliSenseMode": "clang-x64",
-		"cmake.default.generator": "Ninja",
 	},
 
 	"extensions": {
@@ -21,5 +19,180 @@
 			"ms-vscode.cpptools",
 			"go2sh.cmake-integration-vscode"
 		]
+	},
+
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "CMake Configure - Debug",
+				"type": "shell",
+				"command": "cmake",
+				"linux": {
+					"args": [ "-B", "${workspaceFolder}/build", "-DCMAKE_BUILD_OPTIONS=Debug" ]
+				},
+				"problemMatcher": []
+			},
+			{
+				"label": "CMake Configure - Release",
+				"type": "shell",
+				"command": "cmake",
+				"linux": {
+					"args": [ "-B", "${workspaceFolder}/build", "-DCMAKE_BUILD_OPTIONS=Release" ]
+				},
+				"problemMatcher": []
+			},
+			{
+				"label": "CMake Configure - RelWithDebInfo",
+				"type": "shell",
+				"command": "cmake",
+				"linux": {
+					"args": [ "-B", "${workspaceFolder}/build", "-DCMAKE_BUILD_OPTIONS=RelWithDebInfo" ]
+				},
+				"problemMatcher": []
+			},
+			{
+				"label": "CMake Configure - MinSizeRel",
+				"type": "shell",
+				"command": "cmake",
+				"linux": {
+					"args": [ "-B", "${workspaceFolder}/build", "-DCMAKE_BUILD_OPTIONS=MinSizeRel" ]
+				},
+				"problemMatcher": []
+			},
+			{
+				"label": "build all",
+				"type": "shell",
+				"group": "build",
+				"options": {
+					"cwd": "${workspaceFolder}/build"
+				},
+				"linux": {
+					"command": "ninja",
+					"args": [
+						"all"
+					],
+					"problemMatcher": {
+						"owner": "cpp",
+						"base": "$gcc",
+						"fileLocation": [ "relative", "${workspaceFolder}/build" ]
+					}
+				},
+				"presentation": {
+					"echo": true,
+					"reveal": "silent",
+					"revealProblems": "onProblem",
+					"focus": false,
+					"panel": "dedicated",
+					"showReuseMessage": false,
+					"clear": true
+				}
+			},
+			{
+				"label": "clean",
+				"type": "shell",
+				"group": "build",
+				"options": {
+					"cwd": "${workspaceFolder}/build"
+				},
+				"linux": {
+					"command": "ninja",
+					"args": [ "clean" ]
+				},
+				"presentation": {
+					"echo": true,
+					"reveal": "silent",
+					"revealProblems": "onProblem",
+					"focus": false,
+					"panel": "dedicated",
+					"showReuseMessage": false,
+					"clear": true
+				},
+				"problemMatcher": []
+			},
+			{
+				"label": "rebuild",
+				"type": "shell",
+				"group": "build",
+				"dependsOn": [ "clean", "build all" ],
+				"dependsOrder": "sequence",
+				"presentation": {
+					"echo": true,
+					"reveal": "silent",
+					"revealProblems": "onProblem",
+					"focus": false,
+					"panel": "dedicated",
+					"showReuseMessage": false,
+					"clear": true
+				},
+				"problemMatcher": []
+			}
+		]
+	},
+
+	"launch": {
+		"configurations": [
+			{
+				"name": "(gdb) Launch test.core",
+				"type": "cppdbg",
+				"request": "launch",
+				"program": "${workspaceFolder}/build/test/core/stationaryorbit.test.core",
+				"args": [],
+				"stopAtEntry": false,
+				"cwd": "${workspaceFolder}/build/test/core/",
+				"environment": [],
+				"externalConsole": false,
+				"MIMode": "gdb",
+				"setupCommands": [
+					{
+						"description": "Enable pretty-printing for gdb",
+						"text": "-enable-pretty-printing",
+						"ignoreFailures": true
+					}
+				],
+				"preLaunchTask": "build all"
+			},
+			{
+				"name": "(gdb) Launch test.graphics",
+				"type": "cppdbg",
+				"request": "launch",
+				"program": "${workspaceFolder}/build/test/graphics/stationaryorbit.test.graphics",
+				"args": [],
+				"stopAtEntry": false,
+				"cwd": "${workspaceFolder}/build/test/graphics/",
+				"environment": [],
+				"externalConsole": false,
+				"MIMode": "gdb",
+				"preLaunchTask": "build all",
+				"setupCommands": [
+					{
+						"description": "Enable pretty-printing for gdb",
+						"text": "-enable-pretty-printing",
+						"ignoreFailures": true
+					}
+				]
+			},
+			{
+				"name": "(gdb) Launch test.analysis",
+				"type": "cppdbg",
+				"request": "launch",
+				"program": "${workspaceFolder}/build/test/analysis/stationaryorbit.test.analysis",
+				"args": [],
+				"stopAtEntry": false,
+				"cwd": "${workspaceFolder}/build/test/analysis/",
+				"environment": [],
+				"externalConsole": false,
+				"MIMode": "gdb",
+				"setupCommands": [
+					{
+						"description": "Enable pretty-printing for gdb",
+						"text": "-enable-pretty-printing",
+						"ignoreFailures": true
+					}
+				],
+				"preLaunchTask": "build all"
+			}
+		],
+		"compounds": []
 	}
 }
