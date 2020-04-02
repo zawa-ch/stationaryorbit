@@ -12,3 +12,13 @@ void Test_BitMask()
 	if (BitMask<uint32_t>(0xFFFF).GetFrom(0xDEADBEEF) == 0xBEEF) { std::cout << "mask(0xFFFF | 0xDEADBEEF) -> 0xBEEF" << std::endl; } else { throw std::exception(); }
 	if (BitMask<uint32_t>(0xFFFF0000).GetAlignedFrom(0xDEADBEEF) == 0xDEAD) { std::cout << "alignedmask(0xFFFF0000 | 0xDEADBEEF) -> 0xDEAD" << std::endl; } else { throw std::exception(); }
 }
+
+void Test_Endian()
+{
+	uint32_t deadbeef = 0xDEADBEEF;
+	auto fmtflg = std::cout.setf((std::ios_base::fmtflags)0, (std::ios_base::fmtflags)0);
+	std::cout.setf(std::ios_base::hex, std::ios_base::basefield);
+	std::cout << "little endian: 0x" << LittleEndian::Convert(deadbeef) << std::endl;
+	std::cout << "big endian: 0x" << BigEndian::Convert(deadbeef) << std::endl;
+	std::cout.setf(fmtflg, std::ios_base::basefield);
+}

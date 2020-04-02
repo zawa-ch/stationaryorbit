@@ -7,6 +7,7 @@ set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/core)
 add_library(${AssemblyName} SHARED
     ${Include_Dir}/bitreference.hpp
     ${Include_Dir}/delegate.hpp
+    ${Include_Dir}/endians.hpp
     ${Include_Dir}/fractionaldec.hpp
     ${Include_Dir}/quantumbit.hpp
     ${Include_Dir}/real.hpp
@@ -20,7 +21,7 @@ add_library(${AssemblyName} SHARED
     vector2d.cpp
 )
 
-set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 20)
+set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 17)
 
 target_link_libraries(${AssemblyName}
     stationaryorbit.exception

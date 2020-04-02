@@ -21,5 +21,5 @@ set(BUILD_SOURCES ${BUILD_SOURCES} vector2d.cpp)
 
 # ビルドおよびリンク
 add_executable(${AssemblyName} ${BUILD_SOURCES})
-set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 20)
+set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 17)
 target_link_libraries(${AssemblyName} ${DEPENDS_LIB})

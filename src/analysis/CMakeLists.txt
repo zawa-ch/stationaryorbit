@@ -31,7 +31,7 @@ add_library(${AssemblyName} SHARED
     trapeziumintegral.cpp
 )
 
-set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 20)
+set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 17)
 
 target_link_libraries(${AssemblyName}
     stationaryorbit.core

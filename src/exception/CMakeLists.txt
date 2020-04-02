@@ -11,6 +11,6 @@ add_library(${AssemblyName} SHARED
     nullreference.cpp
 )
 
-set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 20)
+set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 17)
 
 target_include_directories(${AssemblyName} PUBLIC ${PROJECT_SOURCE_DIR}/include/stationaryorbit/exception)
