@@ -20,5 +20,7 @@ void Test_Endian()
 	std::cout.setf(std::ios_base::hex, std::ios_base::basefield);
 	std::cout << "little endian: 0x" << LittleEndian::Convert(deadbeef) << std::endl;
 	std::cout << "big endian: 0x" << BigEndian::Convert(deadbeef) << std::endl;
+	uint32be_t bevalue = deadbeef;
+	std::cout << "0x" << bevalue << std::endl;
 	std::cout.setf(fmtflg, std::ios_base::basefield);
 }
