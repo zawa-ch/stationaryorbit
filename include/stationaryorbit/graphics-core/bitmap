@@ -2,5 +2,6 @@
 
 #include "bitmap.hpp"
 #include "bitmapconverter.hpp"
+#include "graybitmapimage.hpp"
 #include "image.hpp"
 #include "rgbbitmapimage.hpp"

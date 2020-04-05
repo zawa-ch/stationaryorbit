@@ -9,6 +9,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/bitmapconverter.hpp
     ${Include_Dir}/cmykcolor.hpp
     ${Include_Dir}/colorspace.hpp
+    ${Include_Dir}/graybitmapimage.hpp
     ${Include_Dir}/image.hpp
     ${Include_Dir}/rgbbitmapimage.hpp
     ${Include_Dir}/rgbcolor.hpp
