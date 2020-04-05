@@ -8,6 +8,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/bitmap.hpp
     ${Include_Dir}/bitmapconverter.hpp
     ${Include_Dir}/cmykcolor.hpp
+    ${Include_Dir}/colorspace.hpp
     ${Include_Dir}/image.hpp
     ${Include_Dir}/rgbbitmapimage.hpp
     ${Include_Dir}/rgbcolor.hpp
@@ -15,6 +16,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/xyzcolor.hpp
     bitmap.cpp
     color.cpp
+    colorspace.cpp
     fundamental.cpp
 )
 
