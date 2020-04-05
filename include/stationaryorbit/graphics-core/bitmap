@@ -2,6 +2,7 @@
 
 #include "bitmap.hpp"
 #include "bitmapconverter.hpp"
+#include "bitmapcolorconverter.hpp"
 #include "graybitmapimage.hpp"
 #include "image.hpp"
 #include "rgbbitmapimage.hpp"
