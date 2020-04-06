@@ -1,5 +1,6 @@
 // -*- C++ -*-
 
 #include "cmykcolor.hpp"
+#include "graycolor.hpp"
 #include "rgbcolor.hpp"
 #include "yuvcolor.hpp"
