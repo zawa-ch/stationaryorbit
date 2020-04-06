@@ -22,7 +22,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
             auto space = ColorSpace::sRGB;
             for (auto y : bitmap.YRange()) for (auto x : bitmap.XRange())
             {
-                result.Index(x, y) = space.ConvertXYZ(bitmap.Index(x, y).get()).Y();
+                result.Index(x, y) = GrayColor(space.ConvertXYZ(bitmap.Index(x, y).get()).Y());
             }
             return result;
 		}
