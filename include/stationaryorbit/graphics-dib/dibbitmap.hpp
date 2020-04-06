@@ -11,7 +11,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		: public BitmapBase<uint8_t>
 	{
 	public: // types
-		enum class DataTypes { GrayScale, ARGB, IndexedColor };
+		enum class DataTypes { ARGB, IndexedColor };
 	private: // contains
 		std::vector<RGBTriple_t> _cindex;
 		int _resh;
@@ -42,8 +42,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	public: // static
 		static DIBBitmap CreateRGBColor(const RectangleSize& size);
 		static DIBBitmap CreateRGBColor(const int& width, const int& height);
-		static DIBBitmap CreateGlayScale(const RectangleSize& size);
-		static DIBBitmap CreateGlayScale(const int& width, const int& height);
 		static DIBBitmap CreateIndexedColor(const RectangleSize& size, const int& palsize);
 		static DIBBitmap CreateIndexedColor(const int& width, const int& height, const int& palsize);
 		static DIBBitmap CreateIndexedColor(const RectangleSize& size, const std::vector<RGBTriple_t>& pal);
@@ -52,7 +50,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	private: // internal
 		static ARGBColor getIndex(const DIBBitmap& inst, const DisplayPoint& position);
 		static void setIndex(DIBBitmap& inst, const DisplayPoint& position, const ARGBColor& value);
-		static DIBBitmap readGray(std::istream& stream, const int& width, const int& height, const BitDepth& bitdepth);
 		static DIBBitmap readRGB(std::istream& stream, const int& width, const int& height, const BitDepth& bitdepth);
 		void writeRGB(std::ostream& stream, const BitDepth& depth) const;
 	};

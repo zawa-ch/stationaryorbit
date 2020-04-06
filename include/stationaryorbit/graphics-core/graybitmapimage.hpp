@@ -52,7 +52,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			}
 			if constexpr (std::is_integral_v<channelT>)
 			{
-				px[0] = channelT(value.Luminance() / std::numeric_limits<channelT>::max());
+				px[0] = channelT(value.Luminance() * std::numeric_limits<channelT>::max());
 				return;
 			}
 		}

@@ -17,14 +17,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static_assert(std::is_arithmetic_v<Tp>, "テンプレート引数 Tp は数値型である必要があります。");
 		friend class BitmapBase<Tp>;
 	protected: // contains
-		const Tp* _ref;
+		const std::vector<Tp>& _ref;
+		const size_t _bidx;
 		const int _ch;
 	protected: // construct
-		BitmapConstPixelRef(const Tp* ref, const int& ch) : _ref(ref), _ch(ch) {}
+		BitmapConstPixelRef(const std::vector<Tp>& ref, const size_t& index, const int& ch) : _ref(ref), _bidx(index), _ch(ch) {}
 	public: // copy/move/destruct
 		virtual ~BitmapConstPixelRef() = default;
 	public: // member
-		const Tp& Index(const int& ch) const { if ((ch < 0)||(_ch <= ch)) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } return _ref[ch]; }
+		const Tp& Index(const int& ch) const { if ((ch < 0)||(_ch <= ch)) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } return _ref[_bidx + ch]; }
 		const Tp& operator[](const size_t& index) const { return Index(index); }
 		int Count() const { return _ch; }
 	};
@@ -35,13 +36,13 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static_assert(std::is_arithmetic_v<Tp>, "テンプレート引数 Tp は数値型である必要があります。");
 		friend class BitmapBase<Tp>;
 	private: // contains
-		Tp* _ref;
+		std::vector<Tp>& _ref;
 	private: // construct
-		BitmapPixelRef(Tp* ref, const int& ch) : BitmapConstPixelRef<Tp>(ref, ch), _ref(ref) {}
+		BitmapPixelRef(std::vector<Tp>& ref, const size_t& index, const int& ch) : BitmapConstPixelRef<Tp>(ref, index, ch), _ref(ref) {}
 	public: // copy/move/destruct
 		virtual ~BitmapPixelRef() = default;
 	public: // member
-		Tp& Index(const int& ch) { if ((ch < 0)||(this->Count() <= ch)) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } return _ref[ch]; }
+		Tp& Index(const int& ch) { if ((ch < 0)||(BitmapConstPixelRef<Tp>::_ch <= ch)) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } return _ref[BitmapConstPixelRef<Tp>::_bidx + ch]; }
 		Tp& operator[](const size_t& index) { return Index(index); }
 		void AssignAt(const BitmapConstPixelRef<Tp>& ref)
 		{
@@ -89,10 +90,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		int Channels() const { return _ch; }
 		Range<int> XRange() const { return _size.XRange(); }
 		Range<int> YRange() const { return _size.YRange(); }
-		ConstRefType Index(const DisplayPoint& position) const { return ConstRefType(_data.data() + SolveIndex(position), _ch); }
+		ConstRefType Index(const DisplayPoint& position) const { return ConstRefType(_data, SolveIndex(position), _ch); }
 		ConstRefType operator[](const DisplayPoint& index) const { return Index(index); }
 		ConstRefType Index(const int& x, const int& y) const { return Index(DisplayPoint(x, y)); }
-		RefType Index(const DisplayPoint& position) { return RefType(_data.data() + SolveIndex(position), _ch); }
+		RefType Index(const DisplayPoint& position) { return RefType(_data, SolveIndex(position), _ch); }
 		RefType operator[](const DisplayPoint& index) { return Index(index); }
 		RefType Index(const int& x, const int& y) { return Index(DisplayPoint(x, y)); }
 	public: // implement Image

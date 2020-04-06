@@ -14,8 +14,8 @@ DIBBitmap::DIBBitmap(const RectangleSize& size, const std::vector<RGBTriple_t>& 
 DIBBitmap::DataTypes DIBBitmap::DataType() const
 {
 	if (Channels() == 4) { return DataTypes::ARGB; }
-	else if (_cindex.size() == 0) { return DataTypes::GrayScale; }
-	else { return DataTypes::IndexedColor; }
+	else if (Channels() == 1) { return DataTypes::IndexedColor; }
+	else { throw InvalidOperationException("このオブジェクトのデータ型が無効です。"); }
 }
 std::vector<RGBTriple_t>& DIBBitmap::ColorIndex() { return _cindex; }
 const std::vector<RGBTriple_t>& DIBBitmap::ColorIndex() const { return _cindex; }
@@ -34,15 +34,12 @@ void DIBBitmap::WriteTo(std::ostream& stream, const BitDepth& depth) const
 	switch (DataType())
 	{
 		case DataTypes::ARGB: { writeRGB(stream, depth); break; }
-		case DataTypes::GrayScale: { throw NotImplementedException(); break; }
 		case DataTypes::IndexedColor: { throw NotImplementedException(); break; }
 		default: { throw InvalidOperationException("このオブジェクトのデータ型が無効です。"); }
 	}
 }
 DIBBitmap DIBBitmap::CreateRGBColor(const RectangleSize& size) { return DIBBitmap(size, DataTypes::ARGB); }
 DIBBitmap DIBBitmap::CreateRGBColor(const int& width, const int& height) { return DIBBitmap(RectangleSize(width, height), DataTypes::ARGB); }
-DIBBitmap DIBBitmap::CreateGlayScale(const RectangleSize& size) { return DIBBitmap(size, DataTypes::GrayScale); }
-DIBBitmap DIBBitmap::CreateGlayScale(const int& width, const int& height) { return DIBBitmap(RectangleSize(width, height), DataTypes::GrayScale); }
 DIBBitmap DIBBitmap::CreateIndexedColor(const RectangleSize& size, const int& palsize) { return DIBBitmap(size, palsize); }
 DIBBitmap DIBBitmap::CreateIndexedColor(const int& width, const int& height, const int& palsize) { return DIBBitmap(RectangleSize(width, height), palsize); }
 DIBBitmap DIBBitmap::CreateIndexedColor(const RectangleSize& size, const std::vector<RGBTriple_t>& pal) { return DIBBitmap(size, pal); }
@@ -65,7 +62,7 @@ DIBBitmap DIBBitmap::FromStream(std::istream& stream)
 			switch (header.BitCount)
 			{
 			case BitDepth::Bit1: case BitDepth::Bit4: case BitDepth::Bit8:
-				return readGray(stream, header.ImageWidth, header.ImageHeight, header.BitCount);
+				throw NotImplementedException();
 			case BitDepth::Bit24:
 				return readRGB(stream, header.ImageWidth, header.ImageWidth, header.BitCount);
 			default:
@@ -107,7 +104,7 @@ DIBBitmap DIBBitmap::FromStream(std::istream& stream)
 					{
 					case BitDepth::Bit1: case BitDepth::Bit4: case BitDepth::Bit8:
 						// グレースケール画像
-						result = readGray(stream, header.ImageWidth, header.ImageHeight, header.BitCount);
+						throw NotImplementedException();
 					case BitDepth::Bit16: case BitDepth::Bit24: case BitDepth::Bit32:
 						// RGBカラー画像
 						result = readRGB(stream, header.ImageWidth, header.ImageHeight, header.BitCount);
@@ -173,11 +170,6 @@ ARGBColor DIBBitmap::getIndex(const DIBBitmap& inst, const DisplayPoint& positio
 	{
 		case DataTypes::ARGB:
 		{ return ARGBColor(float(px[0]) / 255, float(px[1]) / 255, float(px[2]) / 255, float(px[3]) / 255); }
-		case DataTypes::GrayScale:
-		{
-			// TODO: 輝度->RGB導出のアルゴリズム改善
-			return ARGBColor(float(px[0]) / 255, float(px[0]) / 255, float(px[0]) / 255, float(px[0]) / 255);
-		}
 		case DataTypes::IndexedColor:
 		{
 			index = inst._cindex[px[0]];
@@ -194,17 +186,10 @@ void DIBBitmap::setIndex(DIBBitmap& inst, const DisplayPoint& position, const AR
 	{
 		case DataTypes::ARGB:
 		{
-			px[0] = uint8_t(value.R() * 255);
-			px[1] = uint8_t(value.G() * 255);
-			px[2] = uint8_t(value.B() * 255);
-			px[3] = uint8_t(value.Alpha() * 255);
-			return;
-		}
-		case DataTypes::GrayScale:
-		{
-			// TODO: RGB->輝度導出のアルゴリズム改善
-			float lm = (value.R() + value.G() + value.B()) / 3;
-			px[0] = uint8_t(lm * 255);
+			px[0] = uint8_t(value.R() * 255.f);
+			px[1] = uint8_t(value.G() * 255.f);
+			px[2] = uint8_t(value.B() * 255.f);
+			px[3] = uint8_t(value.Alpha() * 255.f);
 			return;
 		}
 		case DataTypes::IndexedColor:
@@ -230,47 +215,6 @@ void DIBBitmap::setIndex(DIBBitmap& inst, const DisplayPoint& position, const AR
 		default: { throw InvalidOperationException("このオブジェクトの DataType が無効です。"); }
 	}
 }
-DIBBitmap DIBBitmap::readGray(std::istream& stream, const int& width, const int& height, const BitDepth& bitdepth)
-{
-	if ((bitdepth!=BitDepth::Bit1)&&(bitdepth!=BitDepth::Bit4)&&(bitdepth!=BitDepth::Bit8)) { throw std::invalid_argument("サポートされない bitdepth を選択しました。"); }
-	auto result = CreateGlayScale(width, height);
-	auto readwidth = (size_t(bitdepth) / 8U) + (((size_t(bitdepth) % 8U) != 0)?1:0);
-	auto yrange = result.YRange();
-	auto xrange = result.XRange();
-	auto yend = yrange.rend();
-	for (auto y = yrange.rbegin(); y != yend; ++y)
-	{
-		for (auto x : xrange)
-		{
-			uint32_t readdata;
-			stream.read((char*)&readdata, readwidth);
-			auto px = result.BitmapBase::Index(x, *y);
-			switch (bitdepth)
-			{
-				case BitDepth::Bit1:
-				{
-					px[0] = (readdata & 0x1) << 7;
-					break;
-				}
-				case BitDepth::Bit4:
-				{
-					px[0] = (readdata & 0xF) << 4;
-					break;
-				}
-				case BitDepth::Bit8:
-				{
-					px[0] = (readdata & 0xFF);
-					break;
-				}
-				default:
-				{ throw InvalidOperationException("到達できないコードに到達しました。 bitdepth の値が無効です。"); }
-			}
-		}
-		auto padding = (4 - ((readwidth * width) % 4)) % 4;
-		if (padding != 0) { stream.ignore(padding); }
-	}
-	return result;
-}
 DIBBitmap DIBBitmap::readRGB(std::istream& stream, const int& width, const int& height, const BitDepth& bitdepth)
 {
 	if ((bitdepth!=BitDepth::Bit16)&&(bitdepth!=BitDepth::Bit24)&&(bitdepth!=BitDepth::Bit32)) { throw std::invalid_argument("サポートされない bitdepth を選択しました。"); }
@@ -293,7 +237,7 @@ DIBBitmap DIBBitmap::readRGB(std::istream& stream, const int& width, const int& 
 					px[0] = (readdata & 0x7C00) >> 7;
 					px[1] = (readdata & 0x03E0) >> 2;
 					px[2] = (readdata & 0x001F) << 3;
-					px[3] = 0;
+					px[3] = 255;
 					break;
 				}
 				case BitDepth::Bit24:
@@ -301,7 +245,7 @@ DIBBitmap DIBBitmap::readRGB(std::istream& stream, const int& width, const int& 
 					px[0] = (readdata & 0x00FF0000) >> 16;
 					px[1] = (readdata & 0x0000FF00) >> 8;
 					px[2] = (readdata & 0x000000FF);
-					px[3] = 0;
+					px[3] = 255;
 					break;
 				}
 				case BitDepth::Bit32:
@@ -309,7 +253,7 @@ DIBBitmap DIBBitmap::readRGB(std::istream& stream, const int& width, const int& 
 					px[0] = (readdata & 0x00FF0000) >> 16;
 					px[1] = (readdata & 0x0000FF00) >> 8;
 					px[2] = (readdata & 0x000000FF);
-					px[3] = 0;
+					px[3] = 255;
 					break;
 				}
 				default:

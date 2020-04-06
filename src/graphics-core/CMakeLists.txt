@@ -7,7 +7,6 @@ set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/graphics-cor
 add_library(${AssemblyName} SHARED
     ${Include_Dir}/bitmap.hpp
     ${Include_Dir}/bitmapconverter.hpp
-    ${Include_Dir}/bitmapcolorconverter.hpp
     ${Include_Dir}/cmykcolor.hpp
     ${Include_Dir}/colorspace.hpp
     ${Include_Dir}/graybitmapimage.hpp

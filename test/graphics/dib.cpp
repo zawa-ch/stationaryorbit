@@ -16,6 +16,7 @@ void FripH();
 void Crop();
 void Resize1();
 void Resize2();
+void Mono();
 
 void Test_DIB()
 {
@@ -59,6 +60,11 @@ void Test_DIB()
 	Resize2();
 	elapsed = std::chrono::system_clock::now() - start;
 	std::cout << "Expand: " << elapsed.count() << "sec." << std::endl;
+
+	start = std::chrono::system_clock::now();
+	Mono();
+	elapsed = std::chrono::system_clock::now() - start;
+	std::cout << "Monotone: " << elapsed.count() << "sec." << std::endl;
 }
 
 void Read()
@@ -149,6 +155,19 @@ void Resize2()
 	const float resizefactor = 2.0f;
 	auto newsize = RectangleSizeF(bitmap.Width() * resizefactor, bitmap.Height() * resizefactor);
 	auto out = DIB::DIBBitmap(BitmapConverter<uint8_t>::Resize(bitmap, RectangleSize(newsize), BitmapConverter<uint8_t>::Bilinear));
+	out.HorizonalResolution() = bitmap.HorizonalResolution();
+	out.VerticalResolution() = bitmap.VerticalResolution();
+	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
+	if (!ostream.good()) throw std::logic_error("can't write file.");
+	out.WriteTo(ostream);
+	ostream.close();
+}
+
+void Mono()
+{
+	const char* ofile = "output_mono.bmp";
+	auto rgbbmp = ARGBBitmapImageBase(bitmap).RemoveAlpha(RGBColor(1, 1, 1));
+	auto out = DIB::DIBBitmap(ARGBBitmapImageBase(RGBBitmapImageBase<uint8_t>::FromGrayScale(rgbbmp.Monotone())));
 	out.HorizonalResolution() = bitmap.HorizonalResolution();
 	out.VerticalResolution() = bitmap.VerticalResolution();
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);

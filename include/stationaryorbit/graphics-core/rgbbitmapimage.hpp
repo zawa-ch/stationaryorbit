@@ -7,6 +7,7 @@
 #include "stationaryorbit/core/property"
 #include "fundamental.hpp"
 #include "rgbcolor.hpp"
+#include "colorspace.hpp"
 #include "image.hpp"
 #include "bitmap.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
@@ -36,12 +37,34 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		ReadOnlyProperty<RGBBitmapImageBase<channelT>, RGBColor> Index(const DisplayPoint& position) const { return ReadOnlyProperty<RGBBitmapImageBase<channelT>, RGBColor>(*this, std::bind(getIndex, std::placeholders::_1, position)); }
 		ReadOnlyProperty<RGBBitmapImageBase<channelT>, RGBColor> Index(const int& x, const int& y) const { return Index(DisplayPoint(x, y)); }
 		ReadOnlyProperty<RGBBitmapImageBase<channelT>, RGBColor> operator[](const DisplayPoint& position) const { return Index(position); }
+		GrayBitmapImageBase<channelT> Monotone() const
+		{
+            auto result = GrayBitmapImageBase<channelT>(BitmapBase<channelT>::Size());
+            auto space = ColorSpace::sRGB;
+            for (auto y : BitmapBase<channelT>::YRange()) for (auto x : BitmapBase<channelT>::XRange())
+            {
+                result.Index(x, y) = GrayColor(space.ConvertXYZ(Index(x, y).get()).Y());
+            }
+            return result;
+		}
+	public:
+		static RGBBitmapImageBase<channelT> FromGrayScale(const GrayBitmapImageBase<channelT>& from)
+		{
+			auto result = RGBBitmapImageBase<channelT>(from.Size());
+            auto space = ColorSpace::sRGB.Invert();
+            for (auto y : from.YRange()) for (auto x : from.XRange())
+            {
+				auto l = GrayColor(from.Index(x, y)).Luminance();
+                result.Index(x, y) = space.ConvertRGB(XYZColor(l, l, l)).Normalize();
+            }
+            return result;
+		}
 	private: // internal
 		static RGBColor getIndex(const RGBBitmapImageBase<channelT>& inst, const DisplayPoint& position)
 		{
 			auto px = inst.BitmapBase<channelT>::Index(position);
 			if constexpr (std::is_floating_point_v<channelT>) { return RGBColor(px[0], px[1], px[2]); }
-			if constexpr (std::is_integral_v<channelT>) { return RGBColor(float(px[0]) / std::numeric_limits<channelT>::max(), float(px[1] / std::numeric_limits<channelT>::max()), float(px[2] / std::numeric_limits<channelT>::max())); }
+			if constexpr (std::is_integral_v<channelT>) { return RGBColor(float(px[0]) / std::numeric_limits<channelT>::max(), float(px[1]) / std::numeric_limits<channelT>::max(), float(px[2]) / std::numeric_limits<channelT>::max()); }
 		}
 		static void setIndex(RGBBitmapImageBase<channelT>& inst, const DisplayPoint& position, const RGBColor& value)
 		{
@@ -55,9 +78,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			}
 			if constexpr (std::is_integral_v<channelT>)
 			{
-				px[0] = channelT(value.R() / std::numeric_limits<channelT>::max());
-				px[1] = channelT(value.G() / std::numeric_limits<channelT>::max());
-				px[2] = channelT(value.B() / std::numeric_limits<channelT>::max());
+				px[0] = channelT(value.R() * std::numeric_limits<channelT>::max());
+				px[1] = channelT(value.G() * std::numeric_limits<channelT>::max());
+				px[2] = channelT(value.B() * std::numeric_limits<channelT>::max());
 				return;
 			}
 		}
@@ -76,6 +99,13 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		ARGBBitmapImageBase(const int& width, const int& height) : BitmapBase<channelT>(RectangleSize(width, height), Channel) {}
 		explicit ARGBBitmapImageBase(const BitmapBase<channelT>& data) : BitmapBase<channelT>(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
 		explicit ARGBBitmapImageBase(BitmapBase<channelT>&& data) : BitmapBase<channelT>(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
+		explicit ARGBBitmapImageBase(const RGBBitmapImageBase<channelT>& from) : ARGBBitmapImageBase(from.Size())
+		{
+			for (auto y : BitmapBase<channelT>::YRange()) for (auto x : BitmapBase<channelT>::XRange())
+			{
+				Index(x, y) = ARGBColor(from.Index(x, y).get());
+			}
+		}
 	public: // copy/move/destruct
 		virtual ~ARGBBitmapImageBase() = default;
 	public: // member
@@ -85,12 +115,22 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		ReadOnlyProperty<ARGBBitmapImageBase<channelT>, ARGBColor> Index(const DisplayPoint& position) const { return ReadOnlyProperty<ARGBBitmapImageBase<channelT>, ARGBColor>(*this, std::bind(getIndex, std::placeholders::_1, position)); }
 		ReadOnlyProperty<ARGBBitmapImageBase<channelT>, ARGBColor> Index(const int& x, const int& y) const { return Index(DisplayPoint(x, y)); }
 		ReadOnlyProperty<ARGBBitmapImageBase<channelT>, ARGBColor> operator[](const DisplayPoint& position) const { return Index(position); }
+		RGBBitmapImageBase<channelT> RemoveAlpha(const RGBColor& basecolor) const
+		{
+			auto result = RGBBitmapImageBase<channelT>(BitmapBase<channelT>::Size());
+			for (auto y : BitmapBase<channelT>::YRange()) for (auto x : BitmapBase<channelT>::XRange())
+			{
+				auto color = ARGBColor(Index(x, y));
+				result.Index(x, y) = (color.Color() * color.Alpha()) + (basecolor * (1.f - color.Alpha()));
+			}
+			return result;
+		}
 	private: // internal
 		static ARGBColor getIndex(const ARGBBitmapImageBase<channelT>& inst, const DisplayPoint& position)
 		{
 			auto px = inst.BitmapBase<channelT>::Index(position);
 			if constexpr (std::is_floating_point_v<channelT>) { return ARGBColor(px[0], px[1], px[2], px[3]); }
-			if constexpr (std::is_integral_v<channelT>) { return ARGBColor(float(px[0]) / std::numeric_limits<channelT>::max(), float(px[1] / std::numeric_limits<channelT>::max()), float(px[2] / std::numeric_limits<channelT>::max()), float(px[3] / std::numeric_limits<channelT>::max())); }
+			if constexpr (std::is_integral_v<channelT>) { return ARGBColor(float(px[0]) / std::numeric_limits<channelT>::max(), float(px[1]) / std::numeric_limits<channelT>::max(), float(px[2]) / std::numeric_limits<channelT>::max(), float(px[3]) / std::numeric_limits<channelT>::max()); }
 		}
 		static void setIndex(ARGBBitmapImageBase<channelT>& inst, const DisplayPoint& position, const ARGBColor& value)
 		{
@@ -105,10 +145,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			}
 			if constexpr (std::is_integral_v<channelT>)
 			{
-				px[0] = channelT(value.R() / std::numeric_limits<channelT>::max());
-				px[1] = channelT(value.G() / std::numeric_limits<channelT>::max());
-				px[2] = channelT(value.B() / std::numeric_limits<channelT>::max());
-				px[3] = channelT(value.Alpha() / std::numeric_limits<channelT>::max());
+				px[0] = channelT(value.R() * std::numeric_limits<channelT>::max());
+				px[1] = channelT(value.G() * std::numeric_limits<channelT>::max());
+				px[2] = channelT(value.B() * std::numeric_limits<channelT>::max());
+				px[3] = channelT(value.Alpha() * std::numeric_limits<channelT>::max());
 				return;
 			}
 		}
