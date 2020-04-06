@@ -103,7 +103,6 @@ DIBBitmap DIBBitmap::FromStream(std::istream& stream)
 					switch (header.BitCount)
 					{
 					case BitDepth::Bit1: case BitDepth::Bit4: case BitDepth::Bit8:
-						// グレースケール画像
 						throw NotImplementedException();
 					case BitDepth::Bit16: case BitDepth::Bit24: case BitDepth::Bit32:
 						// RGBカラー画像

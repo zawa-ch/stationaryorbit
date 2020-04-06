@@ -1,10 +1,13 @@
 #ifndef __stationaryorbit_graphics_core_colorspace__
 #define __stationaryorbit_graphics_core_colorspace__
+#include <memory>
 #include "rgbcolor.hpp"
 #include "xyzcolor.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	class ColorSpace;
+	class RGBColorSpace;
+	class RGBInvertedColorSpace;
 	class XYZMatrixRGBColorSpace;
 	class RGBMatrixXYZColorSpace;
 
@@ -12,10 +15,29 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	{
 	public:
 		static const XYZMatrixRGBColorSpace sRGB;
+		virtual ~ColorSpace() = default;
+	};
+
+	class RGBColorSpace
+		: public ColorSpace
+	{
+	public:
+		///	@a RGBColor を @a XYZColor に変換します。
+		virtual XYZColor ConvertXYZ(const RGBColor& color) const = 0;
+		virtual std::unique_ptr<RGBColorSpace> Clone() const = 0;
+	};
+
+	class RGBInvertedColorSpace
+		: public ColorSpace
+	{
+	public:
+		///	@a XYZColor を @a RGBColor に変換します。
+		virtual RGBColor ConvertRGB(const XYZColor& color) const = 0;
+		virtual std::unique_ptr<RGBInvertedColorSpace> Clone() const = 0;
 	};
 
 	class XYZMatrixRGBColorSpace
-		: public ColorSpace
+		: public RGBColorSpace
 	{
 	private: // contains
 		XYZColor _r;
@@ -27,6 +49,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // member
 		///	@a RGBColor を @a XYZColor に変換します。
 		XYZColor ConvertXYZ(const RGBColor& color) const;
+		std::unique_ptr<RGBColorSpace> Clone() const;
 
 		RGBMatrixXYZColorSpace Invert() const;
 
@@ -34,7 +57,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	};
 
 	class RGBMatrixXYZColorSpace
-		: public ColorSpace
+		: public RGBInvertedColorSpace
 	{
 	private: // contains
 		RGBColor _x;
@@ -46,6 +69,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // member
 		///	@a XYZColor を @a RGBColor に変換します。
 		RGBColor ConvertRGB(const XYZColor& color) const;
+		std::unique_ptr<RGBInvertedColorSpace> Clone() const;
 
 		XYZMatrixRGBColorSpace Invert() const;
 

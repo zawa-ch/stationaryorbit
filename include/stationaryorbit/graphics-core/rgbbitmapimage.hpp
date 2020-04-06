@@ -22,15 +22,22 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static_assert(std::is_arithmetic_v<channelT>, "テンプレート引数 channelT は数値型である必要があります。");
 	public: // constants
 		static constexpr int Channel = 3;
+	private: // contains
+		std::unique_ptr<RGBColorSpace> _space;
 	public: // constructor
 		RGBBitmapImageBase() = default;
-		explicit RGBBitmapImageBase(const RectangleSize& size) : BitmapBase<channelT>(size, Channel) {}
-		RGBBitmapImageBase(const int& width, const int& height) : BitmapBase<channelT>(RectangleSize(width, height), Channel) {}
-		explicit RGBBitmapImageBase(const BitmapBase<channelT>& data) : BitmapBase<channelT>(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
-		explicit RGBBitmapImageBase(BitmapBase<channelT>&& data) : BitmapBase<channelT>(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
+		explicit RGBBitmapImageBase(const RectangleSize& size) : BitmapBase<channelT>(size, Channel), _space(ColorSpace::sRGB.Clone()) {}
+		RGBBitmapImageBase(const int& width, const int& height) : BitmapBase<channelT>(RectangleSize(width, height), Channel), _space(ColorSpace::sRGB.Clone()) {}
+		explicit RGBBitmapImageBase(const RectangleSize& size, const RGBColorSpace& colorspace) : BitmapBase<channelT>(size, Channel), _space(colorspace.Clone()) {}
+		RGBBitmapImageBase(const int& width, const int& height, const RGBColorSpace& colorspace) : BitmapBase<channelT>(RectangleSize(width, height), Channel), _space(colorspace.Clone()) {}
+		explicit RGBBitmapImageBase(const BitmapBase<channelT>& data) : BitmapBase<channelT>(data), _space(ColorSpace::sRGB.Clone()) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
+		explicit RGBBitmapImageBase(BitmapBase<channelT>&& data) : BitmapBase<channelT>(data), _space(ColorSpace::sRGB.Clone()) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
 	public: // copy/move/destruct
+		RGBBitmapImageBase(const RGBBitmapImageBase<channelT>& value) : BitmapBase<channelT>(value), _space((value._space)?(value._space->Clone()):(ColorSpace::sRGB.Clone())) {}
 		virtual ~RGBBitmapImageBase() = default;
 	public: // member
+		RGBColorSpace& ColorSpace() { return *_space; }
+		const RGBColorSpace& ColorSpace() const { return *_space; }
 		Property<RGBBitmapImageBase<channelT>, RGBColor> Index(const DisplayPoint& position) { return Property<RGBBitmapImageBase<channelT>, RGBColor>(*this, std::bind(getIndex, std::placeholders::_1, position), std::bind(setIndex, std::placeholders::_1, position, std::placeholders::_2)); }
 		Property<RGBBitmapImageBase<channelT>, RGBColor> Index(const int& x, const int& y) { return Index(DisplayPoint(x, y)); }
 		Property<RGBBitmapImageBase<channelT>, RGBColor> operator[](const DisplayPoint& position) { return Index(position); }
@@ -39,10 +46,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		ReadOnlyProperty<RGBBitmapImageBase<channelT>, RGBColor> operator[](const DisplayPoint& position) const { return Index(position); }
 		void Monotone()
 		{
-            auto space = ColorSpace::sRGB;
             for (auto y : BitmapBase<channelT>::YRange()) for (auto x : BitmapBase<channelT>::XRange())
             {
-				auto l = space.ConvertXYZ(Index(x, y).get()).Y();
+				auto l = _space->ConvertXYZ(Index(x, y).get()).Y();
                 Index(x, y) = RGBColor(l, l, l);
             }
 		}
@@ -80,13 +86,17 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static_assert(std::is_arithmetic_v<channelT>, "テンプレート引数 channelT は数値型である必要があります。");
 	public: // constants
 		static constexpr int Channel = 4;
+	private: // contains
+		std::unique_ptr<RGBColorSpace> _space;
 	public: // constructor
 		ARGBBitmapImageBase() = default;
-		explicit ARGBBitmapImageBase(const RectangleSize& size) : BitmapBase<channelT>(size, Channel) {}
-		ARGBBitmapImageBase(const int& width, const int& height) : BitmapBase<channelT>(RectangleSize(width, height), Channel) {}
-		explicit ARGBBitmapImageBase(const BitmapBase<channelT>& data) : BitmapBase<channelT>(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
-		explicit ARGBBitmapImageBase(BitmapBase<channelT>&& data) : BitmapBase<channelT>(data) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
-		explicit ARGBBitmapImageBase(const RGBBitmapImageBase<channelT>& from) : ARGBBitmapImageBase(from.Size())
+		explicit ARGBBitmapImageBase(const RectangleSize& size) : BitmapBase<channelT>(size, Channel), _space(ColorSpace::sRGB.Clone()) {}
+		ARGBBitmapImageBase(const int& width, const int& height) : BitmapBase<channelT>(RectangleSize(width, height), Channel), _space(ColorSpace::sRGB.Clone()) {}
+		explicit ARGBBitmapImageBase(const RectangleSize& size, const RGBColorSpace& colorspace) : BitmapBase<channelT>(size, Channel), _space(colorspace.Clone()) {}
+		ARGBBitmapImageBase(const int& width, const int& height, const RGBColorSpace& colorspace) : BitmapBase<channelT>(RectangleSize(width, height), Channel), _space(colorspace.Clone()) {}
+		explicit ARGBBitmapImageBase(const BitmapBase<channelT>& data) : BitmapBase<channelT>(data), _space(ColorSpace::sRGB.Clone()) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
+		explicit ARGBBitmapImageBase(BitmapBase<channelT>&& data) : BitmapBase<channelT>(data), _space(ColorSpace::sRGB.Clone()) { if (data.Channels() != Channel) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
+		explicit ARGBBitmapImageBase(const RGBBitmapImageBase<channelT>& from) : ARGBBitmapImageBase(from.Size(), from.ColorSpace().Clone())
 		{
 			for (auto y : BitmapBase<channelT>::YRange()) for (auto x : BitmapBase<channelT>::XRange())
 			{
@@ -96,6 +106,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // copy/move/destruct
 		virtual ~ARGBBitmapImageBase() = default;
 	public: // member
+		RGBColorSpace& ColorSpace() { return *_space; }
+		const RGBColorSpace& ColorSpace() const { return *_space; }
 		Property<ARGBBitmapImageBase<channelT>, ARGBColor> Index(const DisplayPoint& position) { return Property<ARGBBitmapImageBase<channelT>, ARGBColor>(*this, std::bind(getIndex, std::placeholders::_1, position), std::bind(setIndex, std::placeholders::_1, position, std::placeholders::_2)); }
 		Property<ARGBBitmapImageBase<channelT>, ARGBColor> Index(const int& x, const int& y) { return Index(DisplayPoint(x, y)); }
 		Property<ARGBBitmapImageBase<channelT>, ARGBColor> operator[](const DisplayPoint& position) { return Index(position); }
@@ -114,11 +126,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		}
 		void Monotone()
 		{
-            auto space = ColorSpace::sRGB;
             for (auto y : BitmapBase<channelT>::YRange()) for (auto x : BitmapBase<channelT>::XRange())
             {
 				auto a = Index(x, y).get().Alpha();
-				auto l = space.ConvertXYZ(ARGBColor(Index(x, y)).Color()).Y();
+				auto l = _space->ConvertXYZ(ARGBColor(Index(x, y)).Color()).Y();
                 Index(x, y) = ARGBColor(l, l, l, a);
             }
 		}

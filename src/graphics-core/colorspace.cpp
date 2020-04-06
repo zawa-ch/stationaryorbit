@@ -22,6 +22,10 @@ XYZColor XYZMatrixRGBColorSpace::ConvertXYZ(const RGBColor& color) const
 		color.R() * _r.Z() + color.G() * _g.Z() + color.B() * _b.Z()
 	);
 }
+std::unique_ptr<RGBColorSpace> XYZMatrixRGBColorSpace::Clone() const
+{
+	return std::unique_ptr<RGBColorSpace>(new XYZMatrixRGBColorSpace(*this));
+}
 RGBMatrixXYZColorSpace XYZMatrixRGBColorSpace::Invert() const
 {
 	float factor = (_r.X() * _g.Y() * _b.Z()) + (_g.X() * _b.Y() * _r.Z()) + (_b.X() * _r.Y() * _g.Z()) - (_r.X() * _b.Y() * _g.Z()) - (_g.X() * _r.Y() * _b.Z()) - (_b.X() * _g.Y() * _r.Z());
@@ -47,6 +51,10 @@ RGBColor RGBMatrixXYZColorSpace::ConvertRGB(const XYZColor& color) const
 		color.X() * _x.G() + color.Y() * _y.G() + color.Z() * _z.G(),
 		color.X() * _x.B() + color.Y() * _y.B() + color.Z() * _z.B()
 	);
+}
+std::unique_ptr<RGBInvertedColorSpace> RGBMatrixXYZColorSpace::Clone() const
+{
+	return std::unique_ptr<RGBInvertedColorSpace>(new RGBMatrixXYZColorSpace(*this));
 }
 XYZMatrixRGBColorSpace RGBMatrixXYZColorSpace::Invert() const
 {
