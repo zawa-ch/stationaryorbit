@@ -166,8 +166,9 @@ void Resize2()
 void Mono()
 {
 	const char* ofile = "output_mono.bmp";
-	auto rgbbmp = ARGBBitmapImageBase(bitmap).RemoveAlpha(RGBColor(1, 1, 1));
-	auto out = DIB::DIBBitmap(ARGBBitmapImageBase(RGBBitmapImageBase<uint8_t>::FromGrayScale(rgbbmp.Monotone())));
+	auto rgbbmp = ARGBBitmapImageBase(bitmap);
+	rgbbmp.Monotone();
+	auto out = DIB::DIBBitmap(rgbbmp);
 	out.HorizonalResolution() = bitmap.HorizonalResolution();
 	out.VerticalResolution() = bitmap.VerticalResolution();
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);

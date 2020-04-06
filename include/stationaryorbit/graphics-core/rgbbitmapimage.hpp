@@ -37,27 +37,14 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		ReadOnlyProperty<RGBBitmapImageBase<channelT>, RGBColor> Index(const DisplayPoint& position) const { return ReadOnlyProperty<RGBBitmapImageBase<channelT>, RGBColor>(*this, std::bind(getIndex, std::placeholders::_1, position)); }
 		ReadOnlyProperty<RGBBitmapImageBase<channelT>, RGBColor> Index(const int& x, const int& y) const { return Index(DisplayPoint(x, y)); }
 		ReadOnlyProperty<RGBBitmapImageBase<channelT>, RGBColor> operator[](const DisplayPoint& position) const { return Index(position); }
-		GrayBitmapImageBase<channelT> Monotone() const
+		void Monotone()
 		{
-            auto result = GrayBitmapImageBase<channelT>(BitmapBase<channelT>::Size());
             auto space = ColorSpace::sRGB;
             for (auto y : BitmapBase<channelT>::YRange()) for (auto x : BitmapBase<channelT>::XRange())
             {
-                result.Index(x, y) = GrayColor(space.ConvertXYZ(Index(x, y).get()).Y());
+				auto l = space.ConvertXYZ(Index(x, y).get()).Y();
+                Index(x, y) = RGBColor(l, l, l);
             }
-            return result;
-		}
-	public:
-		static RGBBitmapImageBase<channelT> FromGrayScale(const GrayBitmapImageBase<channelT>& from)
-		{
-			auto result = RGBBitmapImageBase<channelT>(from.Size());
-            auto space = ColorSpace::sRGB.Invert();
-            for (auto y : from.YRange()) for (auto x : from.XRange())
-            {
-				auto l = GrayColor(from.Index(x, y)).Luminance();
-                result.Index(x, y) = space.ConvertRGB(XYZColor(l, l, l)).Normalize();
-            }
-            return result;
 		}
 	private: // internal
 		static RGBColor getIndex(const RGBBitmapImageBase<channelT>& inst, const DisplayPoint& position)
@@ -124,6 +111,16 @@ namespace zawa_ch::StationaryOrbit::Graphics
 				result.Index(x, y) = (color.Color() * color.Alpha()) + (basecolor * (1.f - color.Alpha()));
 			}
 			return result;
+		}
+		void Monotone()
+		{
+            auto space = ColorSpace::sRGB;
+            for (auto y : BitmapBase<channelT>::YRange()) for (auto x : BitmapBase<channelT>::XRange())
+            {
+				auto a = Index(x, y).get().Alpha();
+				auto l = space.ConvertXYZ(ARGBColor(Index(x, y)).Color()).Y();
+                Index(x, y) = ARGBColor(l, l, l, a);
+            }
 		}
 	private: // internal
 		static ARGBColor getIndex(const ARGBBitmapImageBase<channelT>& inst, const DisplayPoint& position)

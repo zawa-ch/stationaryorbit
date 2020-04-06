@@ -7,5 +7,6 @@ void Test_Core()
 	auto fbitmap2 = Graphics::BitmapConverter<float>::FripVertical(fbitmap1);
 	auto fbitmap3 = Graphics::BitmapConverter<float>::FripHorizonal(fbitmap2);
 	auto rgbbitmap = Graphics::RGBBitmapImage(10, 10);
-	auto graybitmap = rgbbitmap.Monotone();
+	auto graybitmap = rgbbitmap;
+	graybitmap.Monotone();
 }
