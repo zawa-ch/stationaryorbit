@@ -43,13 +43,22 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		XYZColor _r;
 		XYZColor _g;
 		XYZColor _b;
+		RGBColor _gamma;
 	public: // construct
 		XYZMatrixRGBColorSpace();
-		XYZMatrixRGBColorSpace(const XYZColor& redpoint, const XYZColor& greenpoint, const XYZColor& bluepoint);
+		XYZMatrixRGBColorSpace(const XYZColor& redpoint, const XYZColor& greenpoint, const XYZColor& bluepoint, const RGBColor& gamma);
 	public: // member
 		///	@a RGBColor を @a XYZColor に変換します。
 		XYZColor ConvertXYZ(const RGBColor& color) const;
 		std::unique_ptr<RGBColorSpace> Clone() const;
+		XYZColor& RedPoint();
+		const XYZColor& RedPoint() const;
+		XYZColor& GreenPoint();
+		const XYZColor& GreenPoint() const;
+		XYZColor& BluePoint();
+		const XYZColor& BluePoint() const;
+		RGBColor& Gamma();
+		const RGBColor& Gamma() const;
 
 		RGBMatrixXYZColorSpace Invert() const;
 
@@ -63,13 +72,22 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		RGBColor _x;
 		RGBColor _y;
 		RGBColor _z;
+		RGBColor _gamma;
 	public: // construct
 		RGBMatrixXYZColorSpace();
-		RGBMatrixXYZColorSpace(const RGBColor& xpoint, const RGBColor& ypoint, const RGBColor& zpoint);
+		RGBMatrixXYZColorSpace(const RGBColor& xpoint, const RGBColor& ypoint, const RGBColor& zpoint, const RGBColor& gamma);
 	public: // member
 		///	@a XYZColor を @a RGBColor に変換します。
 		RGBColor ConvertRGB(const XYZColor& color) const;
 		std::unique_ptr<RGBInvertedColorSpace> Clone() const;
+		RGBColor& XPoint();
+		const RGBColor& XPoint() const;
+		RGBColor& YPoint();
+		const RGBColor& YPoint() const;
+		RGBColor& ZPoint();
+		const RGBColor& ZPoint() const;
+		RGBColor& Gamma();
+		const RGBColor& Gamma() const;
 
 		XYZMatrixRGBColorSpace Invert() const;
 
