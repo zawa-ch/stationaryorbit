@@ -5,9 +5,30 @@ using namespace zawa_ch::StationaryOrbit;
 using namespace zawa_ch::StationaryOrbit::Graphics;
 using namespace zawa_ch::StationaryOrbit::Graphics::DIB;
 
-DIBBitmap::DIBBitmap() : BitmapBase<uint8_t>(), _cindex() {}
-DIBBitmap::DIBBitmap(const BitmapBase<uint8_t>& data) : BitmapBase<uint8_t>(data), _cindex() { if ((data.Channels() != 4)&&(data.Channels() != 1)) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
-DIBBitmap::DIBBitmap(const BitmapBase<uint8_t>& data, const std::vector<RGBTriple_t>& pal) : BitmapBase<uint8_t>(data), _cindex(pal) { if (data.Channels() != 1) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); } }
+DIBBitmap::DIBBitmap() : BitmapBase<uint8_t>(), _space(ColorSpace::sRGB.Clone()), _cindex() {}
+DIBBitmap::DIBBitmap(const RGBBitmapImage& data)
+	: BitmapBase<uint8_t>(data.Size(), 4), _space(data.ColorSpace().Clone()), _cindex()
+{
+	for (auto y : data.YRange()) for (auto x : data.XRange())
+	{
+		auto dst = BitmapBase<uint8_t>::Index(x, y);
+		auto src = data.BitmapBase<uint8_t>::Index(x, y);
+		dst[0] = src[0];
+		dst[1] = src[1];
+		dst[2] = src[2];
+		dst[3] = 255U;
+	}
+}
+DIBBitmap::DIBBitmap(const ARGBBitmapImage& data)
+	: BitmapBase<uint8_t>(data.Size(), 4), _space(data.ColorSpace().Clone()), _cindex()
+{
+	for (auto y : data.YRange()) for (auto x : data.XRange())
+	{
+		BitmapBase<uint8_t>::Index(x, y).AssignAt(data.BitmapBase<uint8_t>::Index(x, y));
+	}
+}
+DIBBitmap::DIBBitmap(const BitmapBase<uint8_t>& data, const RGBColorSpace& colorspace) : BitmapBase<uint8_t>(data), _space(colorspace.Clone()), _cindex() {}
+DIBBitmap::DIBBitmap(const BitmapBase<uint8_t>& data, const std::vector<RGBTriple_t>& pal, const RGBColorSpace& colorspace) : BitmapBase<uint8_t>(data), _space(colorspace.Clone()), _cindex(pal) {}
 DIBBitmap::DIBBitmap(const RectangleSize& size, const DataTypes& datatype) : BitmapBase<uint8_t>(size, (datatype==DataTypes::ARGB)?4:1), _cindex() {}
 DIBBitmap::DIBBitmap(const RectangleSize& size, const int& palsize) : BitmapBase<uint8_t>(size, 1), _cindex(palsize) {}
 DIBBitmap::DIBBitmap(const RectangleSize& size, const std::vector<RGBTriple_t>& pal) : BitmapBase<uint8_t>(size, 1), _cindex(pal) {}
@@ -17,6 +38,8 @@ DIBBitmap::DataTypes DIBBitmap::DataType() const
 	else if (Channels() == 1) { return DataTypes::IndexedColor; }
 	else { throw InvalidOperationException("このオブジェクトのデータ型が無効です。"); }
 }
+RGBColorSpace& DIBBitmap::ColorSpace() { return *_space; }
+const RGBColorSpace& DIBBitmap::ColorSpace() const { return *_space; }
 std::vector<RGBTriple_t>& DIBBitmap::ColorIndex() { return _cindex; }
 const std::vector<RGBTriple_t>& DIBBitmap::ColorIndex() const { return _cindex; }
 int& DIBBitmap::HorizonalResolution() { return _resh; }
@@ -37,6 +60,15 @@ void DIBBitmap::WriteTo(std::ostream& stream, const BitDepth& depth) const
 		case DataTypes::IndexedColor: { throw NotImplementedException(); break; }
 		default: { throw InvalidOperationException("このオブジェクトのデータ型が無効です。"); }
 	}
+}
+DIBBitmap::operator ARGBBitmapImage() const
+{
+	auto result = ARGBBitmapImage(Size());
+	for (auto y : YRange()) for (auto x : XRange())
+	{
+		result.BitmapBase<uint8_t>::Index(x, y).AssignAt(BitmapBase<uint8_t>::Index(x, y));
+	}
+	return result;
 }
 DIBBitmap DIBBitmap::CreateRGBColor(const RectangleSize& size) { return DIBBitmap(size, DataTypes::ARGB); }
 DIBBitmap DIBBitmap::CreateRGBColor(const int& width, const int& height) { return DIBBitmap(RectangleSize(width, height), DataTypes::ARGB); }
@@ -148,7 +180,75 @@ DIBBitmap DIBBitmap::FromStream(std::istream& stream)
 			V4Header header;
 			stream.read((char*)&header, sizeof(V4Header));
 			if (header.PlaneCount != 1) { throw InvalidDIBFormatException("指定されたプレーン数のビットマップはライブラリでサポートされていません。"); }
-			throw NotImplementedException();
+			size_t readsize = sizeof(FileHeader) + InfoHeader::Size;
+			// ビットマスクRGB画像の場合はマスク用ビットフィールドを取得
+			ColorMask mask;
+			if (header.ComplessionMethod == CompressionMethod::BITFIELDS)
+			{
+				RGBColorMask maskdata;
+				stream.read((char*)&maskdata, sizeof(RGBColorMask));
+				readsize += sizeof(RGBColorMask);
+				mask = ColorMask{ BitMask<uint32_t>(maskdata.ColorMaskR), BitMask<uint32_t>(maskdata.ColorMaskG), BitMask<uint32_t>(maskdata.ColorMaskB), std::nullopt };
+			}
+			else if (header.ComplessionMethod == CompressionMethod::ALPHABITFIELDS)
+			{
+				RGBAColorMask maskdata;
+				stream.read((char*)&maskdata, sizeof(RGBAColorMask));
+				readsize += sizeof(RGBAColorMask);
+				mask = ColorMask{ BitMask<uint32_t>(maskdata.ColorMaskR), BitMask<uint32_t>(maskdata.ColorMaskG), BitMask<uint32_t>(maskdata.ColorMaskB), BitMask<uint32_t>(maskdata.ColorMaskA) };
+			}
+			else { /* do nothing */ }
+			/* TODO: カラーパレットの読み込みに対応する */
+			stream.ignore(fileheader.Offset - readsize);
+			DIBBitmap result;
+			switch (header.ComplessionMethod)
+			{
+			case CompressionMethod::RGB:
+				if (header.IndexedColorCount == 0)
+				{
+					switch (header.BitCount)
+					{
+					case BitDepth::Bit1: case BitDepth::Bit4: case BitDepth::Bit8:
+						throw NotImplementedException();
+					case BitDepth::Bit16: case BitDepth::Bit24: case BitDepth::Bit32:
+						// RGBカラー画像
+						result = readRGB(stream, header.ImageWidth, header.ImageHeight, header.BitCount);
+						break;
+					default:
+						throw InvalidDIBFormatException("サポートされないビット深度が選択されました。");
+					}
+				}
+				else
+				{
+					// インデックスカラー画像
+					throw NotImplementedException();
+				}
+				break;
+			case CompressionMethod::RLE4:
+				// 4ビット/ピクセル ランレングス符号圧縮画像
+				throw NotImplementedException();
+			case CompressionMethod::RLE8:
+				// 8ビット/ピクセル ランレングス符号圧縮画像
+				throw NotImplementedException();
+			case CompressionMethod::BITFIELDS:
+				// ビットフィールドRGBカラー画像
+				throw NotImplementedException();
+			case CompressionMethod::JPEG:
+				// JPEG圧縮画像
+				throw NotImplementedException();
+			case CompressionMethod::PNG:
+				// PNG圧縮画像
+				throw NotImplementedException();
+			case CompressionMethod::ALPHABITFIELDS:
+				// アルファ付きビットフィールドRGBカラー画像
+				throw NotImplementedException();
+			default:
+				throw InvalidDIBFormatException("サポートされないビットマップ形式が選択されました。");
+			}
+			result._resh = header.ResolutionHolizonal;
+			result._resv = header.ResolutionVertical;
+			/* TODO: 色空間の読み込みに対応する */
+			return result;
 		}
 		case V5Header::Size:
 		{
@@ -160,6 +260,30 @@ DIBBitmap DIBBitmap::FromStream(std::istream& stream)
 		default:
 		{ throw InvalidDIBFormatException("ヘッダサイズが無効です。"); }
 	}
+}
+DIBBitmap DIBBitmap::ReinterpretFrom(const BitmapBase<uint8_t>& data) { return ReinterpretFrom(data, ColorSpace::sRGB); }
+DIBBitmap DIBBitmap::ReinterpretFrom(const BitmapBase<uint8_t>& data, const RGBColorSpace& colorspace)
+{
+	if (data.Channels() != 4) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); }
+	return DIBBitmap(data, colorspace);
+}
+DIBBitmap DIBBitmap::ReinterpretFrom(const BitmapBase<uint8_t>& data, const std::vector<RGBTriple_t>& pallet) { return ReinterpretFrom(data, pallet, ColorSpace::sRGB); }
+DIBBitmap DIBBitmap::ReinterpretFrom(const BitmapBase<uint8_t>& data, const std::vector<RGBTriple_t>& pallet, const RGBColorSpace& colorspace)
+{
+	if (data.Channels() != 1) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); }
+	return DIBBitmap(data, pallet, colorspace);
+}
+DIBBitmap DIBBitmap::ReinterpretFrom(BitmapBase<uint8_t>&& data) { return ReinterpretFrom(data, ColorSpace::sRGB); }
+DIBBitmap DIBBitmap::ReinterpretFrom(BitmapBase<uint8_t>&& data, const RGBColorSpace& colorspace)
+{
+	if (data.Channels() != 4) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); }
+	return DIBBitmap(data, colorspace);
+}
+DIBBitmap DIBBitmap::ReinterpretFrom(BitmapBase<uint8_t>&& data, const std::vector<RGBTriple_t>& pallet) { return ReinterpretFrom(data, pallet, ColorSpace::sRGB); }
+DIBBitmap DIBBitmap::ReinterpretFrom(BitmapBase<uint8_t>&& data, const std::vector<RGBTriple_t>& pallet, const RGBColorSpace& colorspace)
+{
+	if (data.Channels() != 1) { throw std::invalid_argument("指定された data のチャネル数はこのクラスではサポートされていません。"); }
+	return DIBBitmap(data, pallet, colorspace);
 }
 ARGBColor DIBBitmap::getIndex(const DIBBitmap& inst, const DisplayPoint& position)
 {
@@ -252,7 +376,7 @@ DIBBitmap DIBBitmap::readRGB(std::istream& stream, const int& width, const int& 
 					px[0] = (readdata & 0x00FF0000) >> 16;
 					px[1] = (readdata & 0x0000FF00) >> 8;
 					px[2] = (readdata & 0x000000FF);
-					px[3] = 255;
+					px[3] = (readdata & 0xFF000000) >> 24;
 					break;
 				}
 				default:
@@ -325,6 +449,7 @@ void DIBBitmap::writeRGB(std::ostream& stream, const BitDepth& depth) const
 					writedata |= (uint32_t(px[0]) << 16) & 0x00FF0000;
 					writedata |= (uint32_t(px[1]) << 8) & 0x0000FF00;
 					writedata |= (uint32_t(px[2])) & 0x000000FF;
+					writedata |= (uint32_t(px[3]) << 24) & 0xFF000000;
 					break;
 				}
 				default:

@@ -101,7 +101,7 @@ void Write16()
 void FripV()
 {
 	const char* ofile = "output_fripv.bmp";
-	auto out = DIB::DIBBitmap(BitmapConverter<uint8_t>::FripVertical(bitmap));
+	auto out = DIB::DIBBitmap::ReinterpretFrom(BitmapConverter<uint8_t>::FripVertical(bitmap));
 	out.HorizonalResolution() = bitmap.HorizonalResolution();
 	out.VerticalResolution() = bitmap.VerticalResolution();
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
@@ -113,7 +113,7 @@ void FripV()
 void FripH()
 {
 	const char* ofile = "output_friph.bmp";
-	auto out = DIB::DIBBitmap(BitmapConverter<uint8_t>::FripHorizonal(bitmap));
+	auto out = DIB::DIBBitmap::ReinterpretFrom(BitmapConverter<uint8_t>::FripHorizonal(bitmap));
 	out.HorizonalResolution() = bitmap.HorizonalResolution();
 	out.VerticalResolution() = bitmap.VerticalResolution();
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
@@ -126,7 +126,7 @@ void Crop()
 {
 	const char* ofile = "output_crop.bmp";
 	auto rec = DisplayRectangle(100, 100, bitmap.Width() - 200, bitmap.Height() - 200);
-	auto out = DIB::DIBBitmap(BitmapConverter<uint8_t>::Crop(bitmap, rec));
+	auto out = DIB::DIBBitmap::ReinterpretFrom(BitmapConverter<uint8_t>::Crop(bitmap, rec));
 	out.HorizonalResolution() = bitmap.HorizonalResolution();
 	out.VerticalResolution() = bitmap.VerticalResolution();
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
@@ -140,7 +140,7 @@ void Resize1()
 	const char* ofile = "output_resize1.bmp";
 	const float resizefactor = 0.5f;
 	auto newsize = RectangleSizeF(bitmap.Width() * resizefactor, bitmap.Height() * resizefactor);
-	auto out = DIB::DIBBitmap(BitmapConverter<uint8_t>::Resize(bitmap, RectangleSize(newsize), BitmapConverter<uint8_t>::Bilinear));
+	auto out = DIB::DIBBitmap::ReinterpretFrom(BitmapConverter<uint8_t>::Resize(bitmap, RectangleSize(newsize), BitmapConverter<uint8_t>::Bilinear));
 	out.HorizonalResolution() = bitmap.HorizonalResolution();
 	out.VerticalResolution() = bitmap.VerticalResolution();
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
@@ -154,7 +154,7 @@ void Resize2()
 	const char* ofile = "output_resize2.bmp";
 	const float resizefactor = 2.0f;
 	auto newsize = RectangleSizeF(bitmap.Width() * resizefactor, bitmap.Height() * resizefactor);
-	auto out = DIB::DIBBitmap(BitmapConverter<uint8_t>::Resize(bitmap, RectangleSize(newsize), BitmapConverter<uint8_t>::Bilinear));
+	auto out = DIB::DIBBitmap::ReinterpretFrom(BitmapConverter<uint8_t>::Resize(bitmap, RectangleSize(newsize), BitmapConverter<uint8_t>::Bilinear));
 	out.HorizonalResolution() = bitmap.HorizonalResolution();
 	out.VerticalResolution() = bitmap.VerticalResolution();
 	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
@@ -166,7 +166,7 @@ void Resize2()
 void Mono()
 {
 	const char* ofile = "output_mono.bmp";
-	auto rgbbmp = ARGBBitmapImageBase(bitmap);
+	auto rgbbmp = ARGBBitmapImageBase<uint8_t>(bitmap);
 	rgbbmp.Monotone();
 	auto out = DIB::DIBBitmap(rgbbmp);
 	out.HorizonalResolution() = bitmap.HorizonalResolution();
