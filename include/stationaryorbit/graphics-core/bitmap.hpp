@@ -54,6 +54,12 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			if (this->Count() != ref.Count()) { throw InvalidOperationException("チャネル数が異なるオブジェクトに対してこのメソッドを呼び出すことはできません。"); }
 			for (auto ch : Range(0, this->Count())) { Index(ch) = ref.Index(ch); }
 		}
+		template<class fromT>
+		void AssignAt(const BitmapConstPixelRef<fromT>& ref)
+		{
+			if (this->Count() != ref.Count()) { throw InvalidOperationException("チャネル数が異なるオブジェクトに対してこのメソッドを呼び出すことはできません。"); }
+			for (auto ch : Range(0, this->Count())) { Index(ch) = ValueType(ref.Index(ch)); }
+		}
 	};
 	template<class Tp>
 	class BitmapBase
@@ -89,6 +95,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		BitmapBase() : _data(), _size(RectangleSize::Empty()), _ch() {}
 		BitmapBase(const RectangleSize& size, const int& channel) : _data(SolveCount(size, channel)), _size(size), _ch(channel) {}
 		BitmapBase(const int& width, const int& height, const int& channel) : BitmapBase(RectangleSize(width, height), channel) {}
+		template<class fromT>
+		explicit BitmapBase(const BitmapBase<fromT>& from) : BitmapBase<Tp>(from.Size(), from.Channels())
+		{
+			for (auto y : YRange()) for (auto x : XRange()) { Index(x, y).AssignAt(from.Index(x, y)); }
+		}
 	public: // copy/move/destruct
 		virtual ~BitmapBase() = default;
 	public: // member
