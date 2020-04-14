@@ -9,21 +9,26 @@ namespace zawa_ch::StationaryOrbit
 	template<Quadrants quad> struct RectangleF;
 
 	template<Quadrants quad = Quadrants::UpRight>
-	///	@a Point によって表される矩形範囲を表します。
+	///	@a Point と @a RectangleSize によって表される矩形範囲を表します。
 	struct Rectangle final
 	{
 	public: // types
+		///	矩形範囲の起点を表す @a Point 型。
 		typedef Point<quad> PointType;
+		///	矩形範囲の大きさを表す @a RectangleSize 型。
 		typedef RectangleSize SizeType;
 	private: // contains
 		PointType _p;
 		SizeType _s;
 	public: // construct
 		constexpr Rectangle() : _p(), _s() {}
+		///	起点となる座標、および大きさから @a Rectangle を初期化します。
 		constexpr Rectangle(const PointType& point, const SizeType& size) : _p(point), _s(size) {}
+		///	起点となる座標、および大きさから @a Rectangle を初期化します。
 		constexpr Rectangle(const int& x, const int& y, const int& width, const int& height) : _p(PointType(x, y)), _s(SizeType(width, height)) {}
+		///	異なる @a Quadrants を持つ @a Rectangle を変換します。
 		template<Quadrants fromquad>
-		constexpr Rectangle(const Rectangle<fromquad>& from) : _p(ConvertPoint(from)), _s(from.Size()) {}
+		constexpr explicit Rectangle(const Rectangle<fromquad>& from) : _p(ConvertPoint(from)), _s(from.Size()) {}
 	public: // copy/move/destruct
 		~Rectangle() = default;
 	public: // member
@@ -47,7 +52,8 @@ namespace zawa_ch::StationaryOrbit
 		constexpr Range<int> XRange() const { return Range(_p.X(), _p.X() + _s.Width()); }
 		///	垂直軸コンポーネントの値の範囲を示す @a Range を取得します。
 		constexpr Range<int> YRange() const { return Range(_p.Y(), _p.Y() + _s.Height()); }
-		constexpr bool IsEmpty() const { return _p.IsEmpty()||_s.IsEmpty(); }
+		///	この @a Rectangle を空のオブジェクトと比較します。
+		constexpr bool IsEmpty() const { return *this == Empty(); }
 
 		///	指定された点が @a Rectangle の領域に含まれるかをテストします。
 		constexpr bool Contains(const PointType& point) const { return (_p.X() <= point.X())&&(_p.Y() <= point.Y())&&(point.X() <= (_p + _s).X())&&(point.Y() <= (_p + _s).Y()); }
@@ -56,8 +62,18 @@ namespace zawa_ch::StationaryOrbit
 
 		///	@a Rectangle の位置を @a offset 分移動します。
 		constexpr Rectangle<quad> Offset(const PointType& offset) const { return Rectangle<quad>(_p + offset, _s); }
+		///	@a Rectangle の大きさを @a size 分拡げます。
 		constexpr Rectangle<quad> Inflate(const SizeType& size) const { return Rectangle<quad>(_p, _s + size); }
 
+		///	四辺の座標から @a Rectangle オブジェクトを作成します。
+		///	@param	left
+		///	矩形の左端に位置する辺のx座標。
+		///	@param	right
+		///	矩形の右端に位置する辺のx座標。
+		///	@param	top
+		///	矩形の上端に位置する辺のy座標。
+		///	@param	bottom
+		///	矩形の下端に位置する辺のy座標。
 		constexpr static Rectangle<quad> FromEdge(const int& left, const int& right, const int& top, const int& bottom)
 		{
 			if constexpr (quad == Quadrants::UpRight) { return Rectangle<quad>(left, bottom, right - left, top - bottom); }
@@ -67,9 +83,9 @@ namespace zawa_ch::StationaryOrbit
 		}
 
 		///	指定されたオブジェクトがこのオブジェクトと等価であることをテストします。
-		bool Equals(const Rectangle<quad>& other) const { return (_p == other._p)&&(_s == other._s); }
-		bool operator==(const Rectangle<quad>& other) const { return Equals(other); }
-		bool operator!=(const Rectangle<quad>& other) const { return !Equals(other); }
+		constexpr bool Equals(const Rectangle<quad>& other) const { return (_p == other._p)&&(_s == other._s); }
+		constexpr bool operator==(const Rectangle<quad>& other) const { return Equals(other); }
+		constexpr bool operator!=(const Rectangle<quad>& other) const { return !Equals(other); }
 
 		///	空の @a Rectangle を表します。
 		constexpr static Rectangle<quad> Empty() { return Rectangle<quad>{ PointType::Empty(), SizeType::Empty() }; }
@@ -84,22 +100,28 @@ namespace zawa_ch::StationaryOrbit
 		}
 	};
 	template<Quadrants quad = Quadrants::UpRight>
-	///	@a Point によって表される矩形範囲を表します。
+	///	@a PointF と @a RectangleSizeF によって表される矩形範囲を表します。
 	struct RectangleF final
 	{
 	public: // types
+		///	矩形範囲の起点を表す @a PointF 型。
 		typedef PointF<quad> PointType;
+		///	矩形範囲の大きさを表す @a RectangleSizeF 型。
 		typedef RectangleSizeF SizeType;
 	private: // contains
 		PointType _p;
 		SizeType _s;
 	public: // construct
 		constexpr RectangleF() : _p(), _s() {}
+		///	起点となる座標、および大きさから @a RectangleF を初期化します。
 		constexpr RectangleF(const PointType& point, const SizeType& size) : _p(point), _s(size) {}
+		///	起点となる座標、および大きさから @a RectangleF を初期化します。
 		constexpr RectangleF(const float& x, const float& y, const float& width, const float& height) : _p(PointType(x, y)), _s(SizeType(width, height)) {}
+		///	@a Rectangle を @a RectangleF に変換します。
 		constexpr RectangleF(const Rectangle<quad>& rect) : _p(rect.Location()), _s(rect.Size()) {}
+		///	異なる @a Quadrants を持つ @a RectangleF を変換します。
 		template<Quadrants fromquad>
-		constexpr RectangleF(const RectangleF<fromquad>& from) : _p(ConvertPoint(from)), _s(from.SizeType()) {}
+		constexpr explicit RectangleF(const RectangleF<fromquad>& from) : _p(ConvertPoint(from)), _s(from.SizeType()) {}
 	public: // copy/move/destruct
 		~RectangleF() = default;
 	public: // member
@@ -119,7 +141,12 @@ namespace zawa_ch::StationaryOrbit
 		constexpr float Width() const { return _s.Width(); }
 		///	@a RectangleF の示す矩形の高さを取得します。
 		constexpr float Height() const { return _s.Height(); }
-		constexpr bool IsEmpty() const { return _p.IsEmpty()||_s.IsEmpty(); }
+		///	水平軸コンポーネントの値の範囲を示す @a Range を取得します。
+		constexpr Range<float> XRange() const { return Range(_p.X(), _p.X() + _s.Width()); }
+		///	垂直軸コンポーネントの値の範囲を示す @a Range を取得します。
+		constexpr Range<float> YRange() const { return Range(_p.Y(), _p.Y() + _s.Height()); }
+		///	この @a RectangleF を空のオブジェクトと比較します。
+		constexpr bool IsEmpty() const { return *this == Empty(); }
 
 		///	指定された点が @a RectangleF の領域に含まれるかをテストします。
 		constexpr bool Contains(const PointType& point) const { return (_p.X() <= point.X())&&(_p.Y() <= point.Y())&&(point.X() <= (_p + _s).X())&&(point.Y() <= (_p + _s).Y()); }
@@ -128,8 +155,18 @@ namespace zawa_ch::StationaryOrbit
 
 		///	@a RectangleF の位置を @a offset 分移動します。
 		constexpr RectangleF<quad> Offset(const PointType& offset) const { return RectangleF<quad>(_p + offset, _s); }
+		///	@a RectangleF の大きさを @a size 分拡げます。
 		constexpr RectangleF<quad> Inflate(const SizeType& size) const { return RectangleF<quad>(_p, _s + size); }
 
+		///	四辺の座標から @a RectangleF オブジェクトを作成します。
+		///	@param	left
+		///	矩形の左端に位置する辺のx座標。
+		///	@param	right
+		///	矩形の右端に位置する辺のx座標。
+		///	@param	top
+		///	矩形の上端に位置する辺のy座標。
+		///	@param	bottom
+		///	矩形の下端に位置する辺のy座標。
 		constexpr static RectangleF<quad> FromEdge(const float& left, const float& right, const float& top, const float& bottom)
 		{
 			if constexpr (quad == Quadrants::UpRight) { return RectangleF<quad>(left, bottom, right - left, top - bottom); }
@@ -148,9 +185,9 @@ namespace zawa_ch::StationaryOrbit
 		Rectangle<quad> Round() const { return Rectangle<quad>(_p.Round(), _s.Round()); }
 
 		///	指定されたオブジェクトがこのオブジェクトと等価であることをテストします。
-		bool Equals(const RectangleF<quad>& other) const { return (_p == other._p)&&(_s == other._s); }
-		bool operator==(const RectangleF<quad>& other) const { return Equals(other); }
-		bool operator!=(const RectangleF<quad>& other) const { return !Equals(other); }
+		constexpr bool Equals(const RectangleF<quad>& other) const { return (_p == other._p)&&(_s == other._s); }
+		constexpr bool operator==(const RectangleF<quad>& other) const { return Equals(other); }
+		constexpr bool operator!=(const RectangleF<quad>& other) const { return !Equals(other); }
 
 		///	空の @a RectangleF を表します。
 		constexpr static RectangleF<quad> Empty() { return RectangleF<quad>{ PointType::Empty(), SizeType::Empty() }; }
@@ -165,7 +202,9 @@ namespace zawa_ch::StationaryOrbit
 		}
 	};
 
+	///	幾何学的な座標軸上で表される @a Rectangle 。
 	typedef Rectangle<Quadrants::UpRight> GeometricRectangle;
+	///	幾何学的な座標軸上で表される @a RectangleF 。
 	typedef RectangleF<Quadrants::UpRight> GeometricRectangleF;
 
 }
