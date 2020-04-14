@@ -292,11 +292,11 @@ ARGBColor DIBBitmap::getIndex(const DIBBitmap& inst, const DisplayPoint& positio
 	switch (inst.DataType())
 	{
 		case DataTypes::ARGB:
-		{ return ARGBColor(float(px[0]) / 255, float(px[1]) / 255, float(px[2]) / 255, float(px[3]) / 255); }
+		{ return ARGBColor(ChannelValue<float>(px[0]), ChannelValue<float>(px[1]), ChannelValue<float>(px[2]), ChannelValue<float>(px[3])); }
 		case DataTypes::IndexedColor:
 		{
 			index = inst._cindex[px[0]];
-			return ARGBColor(float(index.Red) / 255, float(index.Green) / 255, float(index.Blue) / 255);
+			return ARGBColor(ChannelValue<float>(ChannelValue<uint8_t>(index.Red)), ChannelValue<float>(ChannelValue<uint8_t>(index.Green)), ChannelValue<float>(ChannelValue<uint8_t>(index.Blue)));
 		}
 		default:
 		{ throw InvalidOperationException("このオブジェクトの DataType が無効です。"); }
@@ -309,10 +309,10 @@ void DIBBitmap::setIndex(DIBBitmap& inst, const DisplayPoint& position, const AR
 	{
 		case DataTypes::ARGB:
 		{
-			px[0] = uint8_t(value.R() * 255.f);
-			px[1] = uint8_t(value.G() * 255.f);
-			px[2] = uint8_t(value.B() * 255.f);
-			px[3] = uint8_t(value.Alpha() * 255.f);
+			px[0] = ChannelValue<uint8_t>(ChannelValue<float>(value.R()));
+			px[1] = ChannelValue<uint8_t>(ChannelValue<float>(value.G()));
+			px[2] = ChannelValue<uint8_t>(ChannelValue<float>(value.B()));
+			px[3] = ChannelValue<uint8_t>(ChannelValue<float>(value.Alpha()));
 			return;
 		}
 		case DataTypes::IndexedColor:
@@ -322,9 +322,9 @@ void DIBBitmap::setIndex(DIBBitmap& inst, const DisplayPoint& position, const AR
 			for (auto i : Range(0UL, inst._cindex.size()))
 			{
 			// TODO: 色差導出のアルゴリズム改善
-				float dr = value.R() - 255.f * inst._cindex[i].Red;
-				float dg = value.G() - 255.f * inst._cindex[i].Green;
-				float db = value.B() - 255.f * inst._cindex[i].Blue;
+				float dr = value.R() - ChannelValue<float>(ChannelValue<uint8_t>(inst._cindex[i].Red));
+				float dg = value.G() - ChannelValue<float>(ChannelValue<uint8_t>(inst._cindex[i].Green));
+				float db = value.B() - ChannelValue<float>(ChannelValue<uint8_t>(inst._cindex[i].Blue));
 				float dist = std::sqrt((dr * dr) + (dg * dg) + (db * db));
 				if (dist < mindist)
 				{
