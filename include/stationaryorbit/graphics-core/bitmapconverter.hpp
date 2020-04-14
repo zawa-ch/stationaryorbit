@@ -94,16 +94,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	指定された @a bitmap を @a area で指定された範囲で切り抜きます。
 		static ContainerType Crop(const ContainerType& bitmap, const DisplayRectangle& area)
 		{
-			if ((area.Left() < 0)||(area.Bottom() < 0)||(bitmap.Size().Width() <= area.Right()) || (bitmap.Size().Height() <= area.Top())) { throw std::invalid_argument("area で指定している範囲がビットマップの範囲を超えています。"); }
-			auto yrange = Range(0, area.Size().Height());
-			auto xrange = Range(0, area.Size().Width());
-			auto chrange = Range(0, bitmap.Channels());
+			if (!bitmap.Region().Contains(area)) { throw std::invalid_argument("area で指定している範囲がビットマップの範囲を超えています。"); }
 			auto result = ContainerType(area.Size(), bitmap.Channels());
-			for (auto y : yrange) for (auto x : xrange)
-			{
-				auto dstpos = area.Location() + DisplayPoint(x, y);
-				for (auto ch : chrange) { result.Index(x, y)[ch] = bitmap.Index(dstpos)[ch]; }
-			}
+			bitmap.Copy(result, area.Location(), DisplayPoint(0, 0), area.Size());
 			return result;
 		}
 

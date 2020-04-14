@@ -106,12 +106,26 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		int Channels() const { return _ch; }
 		Range<int> XRange() const { return _size.XRange(); }
 		Range<int> YRange() const { return _size.YRange(); }
+		DisplayRectangle Region() const { return DisplayRectangle(DisplayPoint(0, 0), _size); }
 		ConstRefType Index(const DisplayPoint& position) const { return ConstRefType(_data, SolveIndex(position), _ch); }
 		ConstRefType operator[](const DisplayPoint& index) const { return Index(index); }
 		ConstRefType Index(const int& x, const int& y) const { return Index(DisplayPoint(x, y)); }
 		RefType Index(const DisplayPoint& position) { return RefType(_data, SolveIndex(position), _ch); }
 		RefType operator[](const DisplayPoint& index) { return Index(index); }
 		RefType Index(const int& x, const int& y) { return Index(DisplayPoint(x, y)); }
+		void Copy(BitmapBase<Tp>& destbmp, const DisplayPoint& srclocation, const DisplayPoint& destlocation, const RectangleSize& areasize) const
+		{
+			if (!Region().Contains(DisplayRectangle(srclocation, areasize))) { throw std::invalid_argument("指定された srclocation と areasize の組み合わせはビットマップ領域を超えています。"); }
+			if (!destbmp.Region().Contains(DisplayRectangle(destlocation, areasize))) { throw std::invalid_argument("指定された destlocation と areasize の組み合わせは destbmp のビットマップ領域を超えています。"); }
+			for (auto y : areasize.YRange()) for (auto x : areasize.XRange())
+			{
+				auto src = DisplayPoint(x, y) + srclocation;
+				auto dest = DisplayPoint(x, y) + destlocation;
+				destbmp[dest].AssignAt(Index(src));
+			}
+		}
+		void Copy(BitmapBase<Tp>& destbmp, const DisplayPoint& destlocation) const { Copy(destbmp, DisplayPoint(0, 0), destlocation, _size); }
+		void Copy(BitmapBase<Tp>& destbmp) const { Copy(destbmp, DisplayPoint(0, 0), DisplayPoint(0, 0), _size); }
 	public: // implement Image
 		RectangleSize Size() const { return _size; }
 	};
