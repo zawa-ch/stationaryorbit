@@ -1,7 +1,6 @@
 #ifndef __stationaryorbit_graphics_core_rgbbitmapimage__
 #define __stationaryorbit_graphics_core_rgbbitmapimage__
 #include <type_traits>
-#include <limits>
 #include <memory>
 #include "stationaryorbit/core/numeral"
 #include "stationaryorbit/core/property"
@@ -69,26 +68,14 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static RGBColor getIndex(const RGBBitmapImageBase<channelT>& inst, const DisplayPoint& position)
 		{
 			auto px = inst.BitmapBase<channelT>::Index(position);
-			if constexpr (std::is_floating_point_v<channelT>) { return RGBColor(px[0], px[1], px[2]); }
-			if constexpr (std::is_integral_v<channelT>) { return RGBColor(float(px[0]) / std::numeric_limits<channelT>::max(), float(px[1]) / std::numeric_limits<channelT>::max(), float(px[2]) / std::numeric_limits<channelT>::max()); }
+			return RGBColor(ChannelValue<float>(px[0]), ChannelValue<float>(px[1]), ChannelValue<float>(px[2]));
 		}
 		static void setIndex(RGBBitmapImageBase<channelT>& inst, const DisplayPoint& position, const RGBColor& value)
 		{
 			auto px = inst.BitmapBase<channelT>::Index(position);
-			if constexpr (std::is_floating_point_v<channelT>)
-			{
-				px[0] = value.R();
-				px[1] = value.G();
-				px[2] = value.B();
-				return;
-			}
-			if constexpr (std::is_integral_v<channelT>)
-			{
-				px[0] = channelT(value.R() * std::numeric_limits<channelT>::max());
-				px[1] = channelT(value.G() * std::numeric_limits<channelT>::max());
-				px[2] = channelT(value.B() * std::numeric_limits<channelT>::max());
-				return;
-			}
+			px[0] = ChannelValue<channelT>(ChannelValue<float>(value.R()));
+			px[1] = ChannelValue<channelT>(ChannelValue<float>(value.G()));
+			px[2] = ChannelValue<channelT>(ChannelValue<float>(value.B()));
 		}
 	};
 
@@ -164,28 +151,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static ARGBColor getIndex(const ARGBBitmapImageBase<channelT>& inst, const DisplayPoint& position)
 		{
 			auto px = inst.BitmapBase<channelT>::Index(position);
-			if constexpr (std::is_floating_point_v<channelT>) { return ARGBColor(px[0], px[1], px[2], px[3]); }
-			if constexpr (std::is_integral_v<channelT>) { return ARGBColor(float(px[0]) / std::numeric_limits<channelT>::max(), float(px[1]) / std::numeric_limits<channelT>::max(), float(px[2]) / std::numeric_limits<channelT>::max(), float(px[3]) / std::numeric_limits<channelT>::max()); }
+			return ARGBColor(ChannelValue<float>(px[0]), ChannelValue<float>(px[1]), ChannelValue<float>(px[2]), ChannelValue<float>(px[3]));
 		}
 		static void setIndex(ARGBBitmapImageBase<channelT>& inst, const DisplayPoint& position, const ARGBColor& value)
 		{
 			auto px = inst.BitmapBase<channelT>::Index(position);
-			if constexpr (std::is_floating_point_v<channelT>)
-			{
-				px[0] = value.R();
-				px[1] = value.G();
-				px[2] = value.B();
-				px[3] = value.Alpha();
-				return;
-			}
-			if constexpr (std::is_integral_v<channelT>)
-			{
-				px[0] = channelT(value.R() * std::numeric_limits<channelT>::max());
-				px[1] = channelT(value.G() * std::numeric_limits<channelT>::max());
-				px[2] = channelT(value.B() * std::numeric_limits<channelT>::max());
-				px[3] = channelT(value.Alpha() * std::numeric_limits<channelT>::max());
-				return;
-			}
+			px[0] = ChannelValue<channelT>(ChannelValue<float>(value.R()));
+			px[1] = ChannelValue<channelT>(ChannelValue<float>(value.G()));
+			px[2] = ChannelValue<channelT>(ChannelValue<float>(value.B()));
+			px[3] = ChannelValue<channelT>(ChannelValue<float>(value.Alpha()));
 		}
 	};
 
