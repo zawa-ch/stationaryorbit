@@ -3,6 +3,7 @@
 #include <type_traits>
 #include <vector>
 #include "stationaryorbit/exception/soexcept"
+#include "channelvalue.hpp"
 #include "fundamental.hpp"
 #include "image.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
@@ -16,17 +17,19 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	{
 		static_assert(std::is_arithmetic_v<Tp>, "テンプレート引数 Tp は数値型である必要があります。");
 		friend class BitmapBase<Tp>;
+	public:
+		typedef ChannelValue<Tp> ValueType;
 	protected: // contains
-		const std::vector<Tp>& _ref;
+		const std::vector<ValueType>& _ref;
 		const size_t _bidx;
 		const int _ch;
 	protected: // construct
-		BitmapConstPixelRef(const std::vector<Tp>& ref, const size_t& index, const int& ch) : _ref(ref), _bidx(index), _ch(ch) {}
+		BitmapConstPixelRef(const std::vector<ValueType>& ref, const size_t& index, const int& ch) : _ref(ref), _bidx(index), _ch(ch) {}
 	public: // copy/move/destruct
 		virtual ~BitmapConstPixelRef() = default;
 	public: // member
-		const Tp& Index(const int& ch) const { if ((ch < 0)||(_ch <= ch)) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } return _ref[_bidx + ch]; }
-		const Tp& operator[](const size_t& index) const { return Index(index); }
+		const ValueType& Index(const int& ch) const { if ((ch < 0)||(_ch <= ch)) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } return _ref[_bidx + ch]; }
+		const ValueType& operator[](const size_t& index) const { return Index(index); }
 		int Count() const { return _ch; }
 	};
 	template<class Tp>
@@ -35,15 +38,17 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	{
 		static_assert(std::is_arithmetic_v<Tp>, "テンプレート引数 Tp は数値型である必要があります。");
 		friend class BitmapBase<Tp>;
+	public:
+		typedef ChannelValue<Tp> ValueType;
 	private: // contains
-		std::vector<Tp>& _ref;
+		std::vector<ValueType>& _ref;
 	private: // construct
-		BitmapPixelRef(std::vector<Tp>& ref, const size_t& index, const int& ch) : BitmapConstPixelRef<Tp>(ref, index, ch), _ref(ref) {}
+		BitmapPixelRef(std::vector<ValueType>& ref, const size_t& index, const int& ch) : BitmapConstPixelRef<Tp>(ref, index, ch), _ref(ref) {}
 	public: // copy/move/destruct
 		virtual ~BitmapPixelRef() = default;
 	public: // member
-		Tp& Index(const int& ch) { if ((ch < 0)||(BitmapConstPixelRef<Tp>::_ch <= ch)) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } return _ref[BitmapConstPixelRef<Tp>::_bidx + ch]; }
-		Tp& operator[](const size_t& index) { return Index(index); }
+		ValueType& Index(const int& ch) { if ((ch < 0)||(BitmapConstPixelRef<Tp>::_ch <= ch)) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } return _ref[BitmapConstPixelRef<Tp>::_bidx + ch]; }
+		ValueType& operator[](const size_t& index) { return Index(index); }
 		void AssignAt(const BitmapConstPixelRef<Tp>& ref)
 		{
 			if (this->Count() != ref.Count()) { throw InvalidOperationException("チャネル数が異なるオブジェクトに対してこのメソッドを呼び出すことはできません。"); }
@@ -56,7 +61,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	{
 		static_assert(std::is_arithmetic_v<Tp>, "テンプレート引数 Tp は数値型である必要があります。");
 	public:
-		typedef Tp ValueType;
+		typedef ChannelValue<Tp> ValueType;
 		typedef BitmapConstPixelRef<Tp> ConstRefType;
 		typedef BitmapPixelRef<Tp> RefType;
 	private: // contains
