@@ -8,15 +8,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 {
 
 	///	色チャネルの値を表現するためのラッパーです。
-	///	@param	T
+	///	@param	Tp
 	///	値を表現するために用いられる型。
-	template<class T = float>
+	template<class Tp = float>
 	struct ChannelValue
 	{
-		static_assert(std::is_arithmetic_v<T>, "テンプレート型 T は算術型である必要があります。");
-		static_assert((std::is_floating_point_v<T>)||(std::is_integral_v<T>), "テンプレート型 T は整数型または浮動小数点数型のいずれかである必要があります。");
+		static_assert(std::is_arithmetic_v<Tp>, "テンプレート型 Tp は算術型である必要があります。");
+		static_assert((std::is_floating_point_v<Tp>)||(std::is_integral_v<Tp>), "テンプレート型 Tp は整数型または浮動小数点数型のいずれかである必要があります。");
 	public: // type
-		typedef T ValueType;
+		typedef Tp ValueType;
 	public: // contains
 		ValueType value;
 	public: // constructor
@@ -28,84 +28,84 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public: // member
 		constexpr bool IsNormalized() const { return (Min().value < value)&&(value < Max().value); }
 	public: // static
-		constexpr static ChannelValue<T> Max()
+		constexpr static ChannelValue<Tp> Max()
 		{
-			static_assert((std::is_floating_point_v<T>)||(std::is_integral_v<T>), "テンプレートの特殊化に失敗しました(テンプレート型 T は整数型または浮動小数点数型のいずれでもありません)。");
-			if constexpr (std::is_floating_point_v<T>) { return ChannelValue(ValueType(1.0)); }
-			if constexpr (std::is_integral_v<T>) { return ChannelValue(std::numeric_limits<T>::max()); }
+			static_assert((std::is_floating_point_v<Tp>)||(std::is_integral_v<Tp>), "テンプレートの特殊化に失敗しました(テンプレート型 Tp は整数型または浮動小数点数型のいずれでもありません)。");
+			if constexpr (std::is_floating_point_v<Tp>) { return ChannelValue(ValueType(1.0)); }
+			if constexpr (std::is_integral_v<Tp>) { return ChannelValue(std::numeric_limits<Tp>::max()); }
 		}
-		constexpr static ChannelValue<T> Min()
+		constexpr static ChannelValue<Tp> Min()
 		{
-			static_assert((std::is_floating_point_v<T>)||(std::is_integral_v<T>), "テンプレートの特殊化に失敗しました(テンプレート型 T は整数型または浮動小数点数型のいずれでもありません)。");
-			if constexpr (std::is_floating_point_v<T>) { return ChannelValue(ValueType(0.0)); }
-			if constexpr (std::is_integral_v<T>) { return ChannelValue(0); }
+			static_assert((std::is_floating_point_v<Tp>)||(std::is_integral_v<Tp>), "テンプレートの特殊化に失敗しました(テンプレート型 Tp は整数型または浮動小数点数型のいずれでもありません)。");
+			if constexpr (std::is_floating_point_v<Tp>) { return ChannelValue(ValueType(0.0)); }
+			if constexpr (std::is_integral_v<Tp>) { return ChannelValue(0); }
 		}
-		constexpr ChannelValue<T> Abs() const { return ChannelValue(+value); }
-		constexpr ChannelValue<T> Negative() const { return ChannelValue(-value); }
+		constexpr ChannelValue<Tp> Abs() const { return ChannelValue(+value); }
+		constexpr ChannelValue<Tp> Negative() const { return ChannelValue(-value); }
 	public: // arithmetic operation
-		constexpr ChannelValue<T> operator+() const { return Abs(); }
-		constexpr ChannelValue<T> operator-() const { return Negative(); }
-		constexpr ChannelValue<T> operator+(const ChannelValue<T>& other) const { return ChannelValue(value + other.value); }
-		constexpr ChannelValue<T> operator+(const T& other) const { return ChannelValue(value + other); }
-		constexpr ChannelValue<T> operator-(const ChannelValue<T>& other) const { return ChannelValue(value - other.value); }
-		constexpr ChannelValue<T> operator-(const T& other) const { return ChannelValue(value - other); }
-		constexpr ChannelValue<T> operator*(const ChannelValue<T>& other) const { return ChannelValue(value * other.value); }
-		constexpr ChannelValue<T> operator*(const T& other) const { return ChannelValue(value * other); }
-		constexpr ChannelValue<T> operator/(const ChannelValue<T>& other) const { return ChannelValue(value / other.value); }
-		constexpr ChannelValue<T> operator/(const T& other) const { return ChannelValue(value / other); }
-		constexpr ChannelValue<T>& operator+=(const ChannelValue<T>& other) const { return *this = ChannelValue(value + other.value); }
-		constexpr ChannelValue<T>& operator+=(const T& other) const { return *this = ChannelValue(value + other); }
-		constexpr ChannelValue<T>& operator-=(const ChannelValue<T>& other) const { return *this = ChannelValue(value - other.value); }
-		constexpr ChannelValue<T>& operator-=(const T& other) const { return *this = ChannelValue(value - other); }
-		constexpr ChannelValue<T>& operator*=(const ChannelValue<T>& other) const { return *this = ChannelValue(value * other.value); }
-		constexpr ChannelValue<T>& operator*=(const T& other) const { return *this = ChannelValue(value * other); }
-		constexpr ChannelValue<T>& operator/=(const ChannelValue<T>& other) const { return *this = ChannelValue(value / other.value); }
-		constexpr ChannelValue<T>& operator/=(const T& other) const { return *this = ChannelValue(value / other); }
+		constexpr ChannelValue<Tp> operator+() const { return Abs(); }
+		constexpr ChannelValue<Tp> operator-() const { return Negative(); }
+		constexpr ChannelValue<Tp> operator+(const ChannelValue<Tp>& other) const { return ChannelValue(value + other.value); }
+		constexpr ChannelValue<Tp> operator+(const Tp& other) const { return ChannelValue(value + other); }
+		constexpr ChannelValue<Tp> operator-(const ChannelValue<Tp>& other) const { return ChannelValue(value - other.value); }
+		constexpr ChannelValue<Tp> operator-(const Tp& other) const { return ChannelValue(value - other); }
+		constexpr ChannelValue<Tp> operator*(const ChannelValue<Tp>& other) const { return ChannelValue(value * other.value); }
+		constexpr ChannelValue<Tp> operator*(const Tp& other) const { return ChannelValue(value * other); }
+		constexpr ChannelValue<Tp> operator/(const ChannelValue<Tp>& other) const { return ChannelValue(value / other.value); }
+		constexpr ChannelValue<Tp> operator/(const Tp& other) const { return ChannelValue(value / other); }
+		constexpr ChannelValue<Tp>& operator+=(const ChannelValue<Tp>& other) const { return *this = ChannelValue(value + other.value); }
+		constexpr ChannelValue<Tp>& operator+=(const Tp& other) const { return *this = ChannelValue(value + other); }
+		constexpr ChannelValue<Tp>& operator-=(const ChannelValue<Tp>& other) const { return *this = ChannelValue(value - other.value); }
+		constexpr ChannelValue<Tp>& operator-=(const Tp& other) const { return *this = ChannelValue(value - other); }
+		constexpr ChannelValue<Tp>& operator*=(const ChannelValue<Tp>& other) const { return *this = ChannelValue(value * other.value); }
+		constexpr ChannelValue<Tp>& operator*=(const Tp& other) const { return *this = ChannelValue(value * other); }
+		constexpr ChannelValue<Tp>& operator/=(const ChannelValue<Tp>& other) const { return *this = ChannelValue(value / other.value); }
+		constexpr ChannelValue<Tp>& operator/=(const Tp& other) const { return *this = ChannelValue(value / other); }
 	public: // equatability
-		constexpr bool Equals(const ChannelValue<T>& other) const { return value == other.value; }
-		constexpr bool operator==(const ChannelValue<T>& other) const { return Equals(other); }
-		constexpr bool operator!=(const ChannelValue<T>& other) const { return !Equals(other); }
+		constexpr bool Equals(const ChannelValue<Tp>& other) const { return value == other.value; }
+		constexpr bool operator==(const ChannelValue<Tp>& other) const { return Equals(other); }
+		constexpr bool operator!=(const ChannelValue<Tp>& other) const { return !Equals(other); }
 	public: // comparability
-		constexpr int Compare(const ChannelValue<T>& other) const
+		constexpr int Compare(const ChannelValue<Tp>& other) const
 		{
 			if (value > other.value) { return 1; }
 			else if (value < other.value) { return -1; }
 			else { return 0; }
 		}
-		constexpr bool operator<(const ChannelValue<T>& other) const { return Compare(other) < 0; }
-		constexpr bool operator>(const ChannelValue<T>& other) const { return Compare(other) > 0; }
-		constexpr bool operator<=(const ChannelValue<T>& other) const { return Compare(other) <= 0; }
-		constexpr bool operator>=(const ChannelValue<T>& other) const { return Compare(other) >= 0; }
+		constexpr bool operator<(const ChannelValue<Tp>& other) const { return Compare(other) < 0; }
+		constexpr bool operator>(const ChannelValue<Tp>& other) const { return Compare(other) > 0; }
+		constexpr bool operator<=(const ChannelValue<Tp>& other) const { return Compare(other) <= 0; }
+		constexpr bool operator>=(const ChannelValue<Tp>& other) const { return Compare(other) >= 0; }
 	public: // assign
-		ChannelValue<T>& operator=(const ValueType& value) { return *this = ChannelValue(value); }
-		ChannelValue<T>& operator=(ValueType&& value) { std::swap(this->value, value); return *this; }
+		ChannelValue<Tp>& operator=(const ValueType& value) { return *this = ChannelValue(value); }
+		ChannelValue<Tp>& operator=(ValueType&& value) { std::swap(this->value, value); return *this; }
 	public: // convert
 		constexpr operator ValueType() const { return value; }
 		template<class fromT>
-		constexpr static ChannelValue<T> ConvertFrom(const ChannelValue<fromT>& from)
+		constexpr static ChannelValue<Tp> ConvertFrom(const ChannelValue<fromT>& from)
 		{
-			static_assert((std::is_floating_point_v<fromT>)||(std::is_integral_v<fromT>), "テンプレートの特殊化に失敗しました(テンプレート型 T は整数型または浮動小数点数型のいずれでもありません)。");
-			static_assert((std::is_floating_point_v<T>)||(std::is_integral_v<T>), "テンプレートの特殊化に失敗しました(テンプレート型 T は整数型または浮動小数点数型のいずれでもありません)。");
-			if constexpr (std::is_floating_point_v<T>)
+			static_assert((std::is_floating_point_v<fromT>)||(std::is_integral_v<fromT>), "テンプレートの特殊化に失敗しました(テンプレート型 fromT は整数型または浮動小数点数型のいずれでもありません)。");
+			static_assert((std::is_floating_point_v<Tp>)||(std::is_integral_v<Tp>), "テンプレートの特殊化に失敗しました(テンプレート型 Tp は整数型または浮動小数点数型のいずれでもありません)。");
+			if constexpr (std::is_floating_point_v<Tp>)
 			{
-				if constexpr (std::is_floating_point_v<fromT>) { return ChannelValue(T(from.value)); }
-				if constexpr (std::is_integral_v<fromT>) { return ChannelValue(T(from.value) / ChannelValue<T>::Max().value); }
+				if constexpr (std::is_floating_point_v<fromT>) { return ChannelValue(Tp(from.value)); }
+				if constexpr (std::is_integral_v<fromT>) { return ChannelValue(Tp(from.value) / ChannelValue<Tp>::Max().value); }
 			}
-			if constexpr (std::is_integral_v<T>)
+			if constexpr (std::is_integral_v<Tp>)
 			{
-				if constexpr (std::is_floating_point_v<fromT>) { return ChannelValue(T(from.value * ChannelValue<T>::Max().value)); }
+				if constexpr (std::is_floating_point_v<fromT>) { return ChannelValue(Tp(from.value * ChannelValue<Tp>::Max().value)); }
 				if constexpr (std::is_integral_v<fromT>)
 				{
-					if constexpr (sizeof(fromT) < sizeof(T)) { return ChannelValue(T(from.value) * (ChannelValue<T>::Max().value / ChannelValue<fromT>::Max().value)); }
-					else { return ChannelValue(T(from.value / (ChannelValue<fromT>::Max().value / ChannelValue<T>::Max().value))); }
+					if constexpr (sizeof(fromT) < sizeof(Tp)) { return ChannelValue(Tp(from.value) * (ChannelValue<Tp>::Max().value / ChannelValue<fromT>::Max().value)); }
+					else { return ChannelValue(Tp(from.value / (ChannelValue<fromT>::Max().value / ChannelValue<Tp>::Max().value))); }
 				}
 			}
 		}
 	public: // copy/move/destruct
-		constexpr ChannelValue(const ChannelValue<T>&) = default;
-		ChannelValue<T>& operator=(const ChannelValue<T>& value) = default;
-		constexpr ChannelValue(ChannelValue<T>&&) = default;
-		ChannelValue<T>& operator=(ChannelValue<T>&& value) = default;
+		constexpr ChannelValue(const ChannelValue<Tp>&) = default;
+		ChannelValue<Tp>& operator=(const ChannelValue<Tp>& value) = default;
+		constexpr ChannelValue(ChannelValue<Tp>&&) = default;
+		ChannelValue<Tp>& operator=(ChannelValue<Tp>&& value) = default;
 		~ChannelValue() = default;
 	};
 
