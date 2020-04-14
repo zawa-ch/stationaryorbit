@@ -1,7 +1,6 @@
 #ifndef __stationaryorbit_graphics_core_graybitmapimage__
 #define __stationaryorbit_graphics_core_graybitmapimage__
 #include <type_traits>
-#include <limits>
 #include <memory>
 #include "stationaryorbit/core/numeral"
 #include "stationaryorbit/core/property"
@@ -39,22 +38,12 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static GrayColor getIndex(const GrayBitmapImageBase<channelT>& inst, const DisplayPoint& position)
 		{
 			auto px = inst.BitmapBase<channelT>::Index(position);
-			if constexpr (std::is_floating_point_v<channelT>) { return GrayColor(px[0]); }
-			if constexpr (std::is_integral_v<channelT>) { return GrayColor(float(px[0]) / std::numeric_limits<channelT>::max()); }
+			return GrayColor(ChannelValue<float>(px[0]));
 		}
 		static void setIndex(GrayBitmapImageBase<channelT>& inst, const DisplayPoint& position, const GrayColor& value)
 		{
 			auto px = inst.BitmapBase<channelT>::Index(position);
-			if constexpr (std::is_floating_point_v<channelT>)
-			{
-				px[0] = value.Luminance();
-				return;
-			}
-			if constexpr (std::is_integral_v<channelT>)
-			{
-				px[0] = channelT(value.Luminance() * std::numeric_limits<channelT>::max());
-				return;
-			}
+			px[0] = ChannelValue<channelT>(ChannelValue<float>(value.Luminance()));
 		}
 	};
 
