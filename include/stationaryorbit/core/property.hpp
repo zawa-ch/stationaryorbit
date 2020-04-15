@@ -35,8 +35,8 @@ namespace zawa_ch::StationaryOrbit
 	public: // member
 		constexpr T get() const { return _getter(_inst); }
 		constexpr operator T() const { return _getter(_inst); }
-		constexpr void set(const T& value) { return _setter(_inst, value); }
-		constexpr Property<classT, T>& operator=(const T& value) { _setter(_inst, value); return *this; }
+		constexpr void set(const T& value) const { return _setter(_inst, value); }
+		constexpr const Property<classT, T>& operator=(const T& value) const { _setter(_inst, value); return *this; }
 	};
 
 }
