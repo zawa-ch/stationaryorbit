@@ -73,9 +73,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static void setIndex(RGBBitmapImageBase<channelT>& inst, const DisplayPoint& position, const RGBColor& value)
 		{
 			auto px = inst.BitmapBase<channelT>::Index(position);
-			px[0] = ChannelValue<channelT>(ChannelValue<float>(value.R()));
-			px[1] = ChannelValue<channelT>(ChannelValue<float>(value.G()));
-			px[2] = ChannelValue<channelT>(ChannelValue<float>(value.B()));
+			px[0] = ChannelValue<float>(value.R()).ConvertTo<channelT>();
+			px[1] = ChannelValue<float>(value.G()).ConvertTo<channelT>();
+			px[2] = ChannelValue<float>(value.B()).ConvertTo<channelT>();
 		}
 	};
 
@@ -156,10 +156,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static void setIndex(ARGBBitmapImageBase<channelT>& inst, const DisplayPoint& position, const ARGBColor& value)
 		{
 			auto px = inst.BitmapBase<channelT>::Index(position);
-			px[0] = ChannelValue<channelT>(ChannelValue<float>(value.R()));
-			px[1] = ChannelValue<channelT>(ChannelValue<float>(value.G()));
-			px[2] = ChannelValue<channelT>(ChannelValue<float>(value.B()));
-			px[3] = ChannelValue<channelT>(ChannelValue<float>(value.Alpha()));
+			px[0] = ChannelValue<float>(value.R()).ConvertTo<channelT>();
+			px[1] = ChannelValue<float>(value.G()).ConvertTo<channelT>();
+			px[2] = ChannelValue<float>(value.B()).ConvertTo<channelT>();
+			px[3] = ChannelValue<float>(value.Alpha()).ConvertTo<channelT>();
 		}
 	};
 
