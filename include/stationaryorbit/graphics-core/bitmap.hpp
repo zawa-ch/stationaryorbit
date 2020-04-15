@@ -15,7 +15,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	template<class Tp>
 	class BitmapConstPixelRef
 	{
-		static_assert(std::is_arithmetic_v<Tp>, "テンプレート引数 Tp は数値型である必要があります。");
 		friend class BitmapBase<Tp>;
 	public:
 		typedef ChannelValue<Tp> ValueType;
@@ -36,7 +35,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	class BitmapPixelRef
 		: public BitmapConstPixelRef<Tp>
 	{
-		static_assert(std::is_arithmetic_v<Tp>, "テンプレート引数 Tp は数値型である必要があります。");
 		friend class BitmapBase<Tp>;
 	public:
 		typedef ChannelValue<Tp> ValueType;
@@ -65,7 +63,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	class BitmapBase
 		: public Image
 	{
-		static_assert(std::is_arithmetic_v<Tp>, "テンプレート引数 Tp は数値型である必要があります。");
 	public:
 		typedef ChannelValue<Tp> ValueType;
 		typedef BitmapConstPixelRef<Tp> ConstRefType;
