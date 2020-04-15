@@ -43,7 +43,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static void setIndex(GrayBitmapImageBase<channelT>& inst, const DisplayPoint& position, const GrayColor& value)
 		{
 			auto px = inst.BitmapBase<channelT>::Index(position);
-			px[0] = ChannelValue<channelT>(ChannelValue<float>(value.Luminance()));
+			px[0] = ChannelValue<float>(value.Luminance()).ConvertTo<channelT>();
 		}
 	};
 
