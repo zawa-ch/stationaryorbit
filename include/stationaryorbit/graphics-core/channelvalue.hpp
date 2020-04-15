@@ -113,5 +113,41 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		~ChannelValue() = default;
 	};
 
+	template<> class ChannelValue<bool>
+	{
+	public: // contains
+		bool value;
+	public: // constructor
+		constexpr ChannelValue() : value() {}
+		constexpr explicit ChannelValue(const bool& value) : value(value) {}
+		template<class fromT>
+		constexpr explicit ChannelValue(const ChannelValue<fromT>& from) : ChannelValue(ConvertFrom(from)) {}
+	public: // member
+		constexpr bool IsNormalized() const { return (Min().value < value)&&(value < Max().value); }
+	public: // static
+		constexpr static ChannelValue<bool> Max()
+		{
+			return ChannelValue<bool>(true);
+		}
+		constexpr static ChannelValue<bool> Min()
+		{
+			return ChannelValue<bool>(false);
+		}
+		constexpr ChannelValue<bool> Abs() const { return ChannelValue(value); }
+		constexpr ChannelValue<bool> Negative() const { return ChannelValue(value); }
+	public: // comparability
+		constexpr int Compare(const ChannelValue<bool>& other) const
+		{
+			if (value == other.value) { return 0; }
+			else if (value) { return 1; }
+			else { return -1; }
+		}
+	public: // convert
+		template<class castT>
+		constexpr ChannelValue<castT> ConvertTo() const
+		{
+			return (value)?(ChannelValue<castT>::Max()):(ChannelValue<castT>::Min());
+		}
+	};
 }
 #endif // __stationaryorbit_graphics_core_channelvalue__
