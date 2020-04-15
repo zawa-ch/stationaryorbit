@@ -5,6 +5,7 @@ set(AssemblyName stationaryorbit.graphics-core)
 set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/graphics-core)
 
 add_library(${AssemblyName} SHARED
+    ${Include_Dir}/binarybitmap.hpp
     ${Include_Dir}/bitmap.hpp
     ${Include_Dir}/bitmapconverter.hpp
     ${Include_Dir}/cmykcolor.hpp
@@ -16,6 +17,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/rgbcolor.hpp
     ${Include_Dir}/yuvcolor.hpp
     ${Include_Dir}/xyzcolor.hpp
+    binarybitmap.cpp
     bitmap.cpp
     color.cpp
     colorspace.cpp
