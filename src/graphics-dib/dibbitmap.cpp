@@ -309,10 +309,10 @@ void DIBBitmap::setIndex(DIBBitmap& inst, const DisplayPoint& position, const AR
 	{
 		case DataTypes::ARGB:
 		{
-			px[0] = ChannelValue<uint8_t>(ChannelValue<float>(value.R()));
-			px[1] = ChannelValue<uint8_t>(ChannelValue<float>(value.G()));
-			px[2] = ChannelValue<uint8_t>(ChannelValue<float>(value.B()));
-			px[3] = ChannelValue<uint8_t>(ChannelValue<float>(value.Alpha()));
+			px[0] = ChannelValue<float>(value.R()).ConvertTo<uint8_t>();
+			px[1] = ChannelValue<float>(value.G()).ConvertTo<uint8_t>();
+			px[2] = ChannelValue<float>(value.B()).ConvertTo<uint8_t>();
+			px[3] = ChannelValue<float>(value.Alpha()).ConvertTo<uint8_t>();
 			return;
 		}
 		case DataTypes::IndexedColor:
@@ -322,9 +322,9 @@ void DIBBitmap::setIndex(DIBBitmap& inst, const DisplayPoint& position, const AR
 			for (auto i : Range(0UL, inst._cindex.size()))
 			{
 			// TODO: 色差導出のアルゴリズム改善
-				float dr = value.R() - ChannelValue<float>(ChannelValue<uint8_t>(inst._cindex[i].Red));
-				float dg = value.G() - ChannelValue<float>(ChannelValue<uint8_t>(inst._cindex[i].Green));
-				float db = value.B() - ChannelValue<float>(ChannelValue<uint8_t>(inst._cindex[i].Blue));
+				float dr = value.R() - ChannelValue<uint8_t>(inst._cindex[i].Red).ConvertTo<float>();
+				float dg = value.G() - ChannelValue<uint8_t>(inst._cindex[i].Green).ConvertTo<float>();
+				float db = value.B() - ChannelValue<uint8_t>(inst._cindex[i].Blue).ConvertTo<float>();
 				float dist = std::sqrt((dr * dr) + (dg * dg) + (db * db));
 				if (dist < mindist)
 				{
