@@ -10,4 +10,10 @@ void Test_Core()
 	auto rgbbitmap = Graphics::RGBBitmapImage(10, 10);
 	auto graybitmap = rgbbitmap;
 	graybitmap.Monotone();
+	auto bbitmap1 = Graphics::BinaryBitmap(fbitmap1, (
+		[](const Graphics::BitmapF32::ConstRefType & value) -> bool { return (value[0] > 0.5)?true:false; }
+	));
+	auto bbitmap2 = rgbbitmap.Binalize(
+		[](const Graphics::RGBColor& color) -> bool { return ((color.R() > 0.5)&&(color.G() > 0.5)&&(color.B() > 0.5))?true:false; }
+	);
 }

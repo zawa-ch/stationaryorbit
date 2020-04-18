@@ -14,6 +14,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		BinaryBitmap() = default;
 		explicit BinaryBitmap(const RectangleSize& size);
 		BinaryBitmap(const int& width, const int& height);
+		template<class fromCh>
+		BinaryBitmap(const BitmapBase<fromCh>& from, const std::function<bool(const typename BitmapBase<fromCh>::ConstRefType&)>& predecate) : BitmapBase<bool>(from.Size(), Channel)
+		{
+			for (auto y : YRange()) for (auto x : XRange()) { Index(x, y) = ChannelValue<bool>(predecate(from.Index(x, y))); }
+		}
 	private: // constructor
 		explicit BinaryBitmap(const BitmapBase<bool>& data);
 		explicit BinaryBitmap(BitmapBase<bool>&& data);

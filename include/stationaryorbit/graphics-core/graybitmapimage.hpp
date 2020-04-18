@@ -6,8 +6,8 @@
 #include "stationaryorbit/core/property"
 #include "fundamental.hpp"
 #include "graycolor.hpp"
-#include "image.hpp"
 #include "bitmap.hpp"
+#include "binarybitmap.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	template<class channelT> class GrayBitmapImageBase;
@@ -34,6 +34,16 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		ReadOnlyProperty<GrayBitmapImageBase<channelT>, GrayColor> Index(const DisplayPoint& position) const { return ReadOnlyProperty<GrayBitmapImageBase<channelT>, GrayColor>(*this, std::bind(getIndex, std::placeholders::_1, position)); }
 		ReadOnlyProperty<GrayBitmapImageBase<channelT>, GrayColor> Index(const int& x, const int& y) const { return Index(DisplayPoint(x, y)); }
 		ReadOnlyProperty<GrayBitmapImageBase<channelT>, GrayColor> operator[](const DisplayPoint& position) const { return Index(position); }
+		///	このビットマップを指定された述語に従って二値化します。
+		BinaryBitmap Binalize(const std::function<bool(const GrayColor&)>& predicate)
+		{
+			auto result = BinaryBitmap(BitmapBase<channelT>::Size());
+			for (auto y : BitmapBase<channelT>::YRange()) for (auto x : BitmapBase<channelT>::XRange())
+			{
+				result.Index(x, y) = ChannelValue<bool>(predicate(Index(x, y).get()));
+			}
+			return result;
+		}
 	private: // internal
 		static GrayColor getIndex(const GrayBitmapImageBase<channelT>& inst, const DisplayPoint& position)
 		{

@@ -7,8 +7,8 @@
 #include "fundamental.hpp"
 #include "rgbcolor.hpp"
 #include "colorspace.hpp"
-#include "image.hpp"
 #include "bitmap.hpp"
+#include "binarybitmap.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	template<class channelT> class RGBBitmapImageBase;
@@ -51,6 +51,16 @@ namespace zawa_ch::StationaryOrbit::Graphics
 				auto l = _space->ConvertXYZ(Index(x, y).get()).Y();
                 Index(x, y) = RGBColor(l, l, l);
             }
+		}
+		///	このビットマップを指定された述語に従って二値化します。
+		BinaryBitmap Binalize(const std::function<bool(const RGBColor&)>& predicate)
+		{
+			auto result = BinaryBitmap(BitmapBase<channelT>::Size());
+			for (auto y : BitmapBase<channelT>::YRange()) for (auto x : BitmapBase<channelT>::XRange())
+			{
+				result.Index(x, y) = ChannelValue<bool>(predicate(Index(x, y).get()));
+			}
+			return result;
 		}
 		static RGBBitmapImageBase<channelT> ReinterpretFrom(const BitmapBase<channelT>& data) { return ReinterpretFrom(data, ColorSpace::sRGB); }
 		static RGBBitmapImageBase<channelT> ReinterpretFrom(const BitmapBase<channelT>& data, const RGBColorSpace& colorspace)
@@ -134,6 +144,16 @@ namespace zawa_ch::StationaryOrbit::Graphics
 				auto l = _space->ConvertXYZ(ARGBColor(Index(x, y)).Color()).Y();
                 Index(x, y) = ARGBColor(l, l, l, a);
             }
+		}
+		///	このビットマップを指定された述語に従って二値化します。
+		BinaryBitmap Binalize(const std::function<bool(const ARGBColor&)>& predicate)
+		{
+			auto result = BinaryBitmap(BitmapBase<channelT>::Size());
+			for (auto y : BitmapBase<channelT>::YRange()) for (auto x : BitmapBase<channelT>::XRange())
+			{
+				result.Index(x, y) = ChannelValue<bool>(predicate(Index(x, y).get()));
+			}
+			return result;
 		}
 		static ARGBBitmapImageBase<channelT> ReinterpretFrom(const BitmapBase<channelT>& data) { return ReinterpretFrom(data, ColorSpace::sRGB); }
 		static ARGBBitmapImageBase<channelT> ReinterpretFrom(const BitmapBase<channelT>& data, const RGBColorSpace& colorspace)
