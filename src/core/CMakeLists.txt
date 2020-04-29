@@ -12,7 +12,6 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/real.hpp
     ${Include_Dir}/rotation.hpp
     ${Include_Dir}/vector2d.hpp
-    fractionaldec.cpp
     real.cpp
     rotation.cpp
     vector2d.cpp

@@ -9,6 +9,29 @@ void Test_Logic()
 	if (bool(Logic::Indefinited() || Logic::True())) { std::cout << "I | T -> T" << std::endl; } else { throw std::exception(); }
 }
 
+void Test_FractionalDec()
+{
+	std::cout << "<--- FractionalDec --->" << std::endl;
+    FractionalDec fr1 = FractionalDec(1, 5);
+    FractionalDec fr2 = FractionalDec(3, 4);
+    std::cout.precision(16);
+	if (double(fr1) == 0.2) { std::cout << "fr1 = 1/5" << std::endl; } else { throw std::exception(); }
+	if (double(fr2) == 0.75) { std::cout << "fr2 = 3/4" << std::endl; } else { throw std::exception(); }
+	if (fr1 < fr2) { std::cout << "fr1 < fr2" << std::endl; } else { throw std::exception(); }
+	if (double(fr1 + fr2) == 0.95) { std::cout << "fr1 + fr2 = 19/20" << std::endl; } else { throw std::exception(); }
+	if (double(fr2 - fr1) == 0.55) { std::cout << "fr2 - fr1 = 11/20" << std::endl; } else { throw std::exception(); }
+	if (double(fr1.Square()) == (1.0 / 25.0)) { std::cout << "fr1^2 = 1/25" << std::endl; } else { throw std::exception(); }
+	if (double(fr2.Square()) == (9.0 / 16.0)) { std::cout << "fr2^2 = 9/16" << std::endl; } else { throw std::exception(); }
+	if (double(fr1 * fr1) != double(fr1.Square())) { throw std::exception(); }
+	if (double(fr2 * fr2) != double(fr2.Square())) { throw std::exception(); }
+	if (double(FractionalDec::Max() - fr2) == 0.25) { std::cout << "~fr2 = 1/4" << std::endl; } else { throw std::exception(); }
+	if (double((fr1 * fr1).Sqrt()) != double(fr1)) { throw std::exception(); }
+    std::cout << "sqrt(fr1) = " << double((fr1).Sqrt()) << std::endl;
+    std::cout << "epsiron = " << double(FractionalDec::Epsiron()) << std::endl;
+    std::cout << "~epsiron = " << double(FractionalDec::Max() - FractionalDec::Epsiron()) << std::endl;
+    std::cout << "1 == ~epsiron = " << bool((FractionalDec::Max())==(FractionalDec::Max() - FractionalDec::Epsiron())) << std::endl;
+}
+
 void Test_Point()
 {
 	auto p1 = Point<>(3, 4);
