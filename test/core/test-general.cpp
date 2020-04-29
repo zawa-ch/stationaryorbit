@@ -1,5 +1,6 @@
 void Test_BitMask();
 void Test_Endian();
+void Test_Logic();
 void Test_Point();
 void Test_Rectangle();
 int Test_Property();
@@ -10,6 +11,7 @@ void Test_Range();
 
 int main(int argc, char const *argv[])
 {
+    Test_Logic();
     Test_Point();
     Test_Rectangle();
     Test_BitMask();
