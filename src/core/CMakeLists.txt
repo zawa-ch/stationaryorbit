@@ -9,13 +9,10 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/delegate.hpp
     ${Include_Dir}/endians.hpp
     ${Include_Dir}/fractionaldec.hpp
-    ${Include_Dir}/quantumbit.hpp
     ${Include_Dir}/real.hpp
     ${Include_Dir}/rotation.hpp
-    ${Include_Dir}/tristateboolean.hpp
     ${Include_Dir}/vector2d.hpp
     fractionaldec.cpp
-    quantumbit.cpp
     real.cpp
     rotation.cpp
     vector2d.cpp
