@@ -2,6 +2,7 @@
 #define __stationaryorbit_core_range__
 #include <limits>
 #include <type_traits>
+#include <stdexcept>
 namespace zawa_ch::StationaryOrbit
 {
 
