@@ -1,5 +1,5 @@
 #include <iostream>
-#include "stationaryorbit/core/bitoperation"
+#include "stationaryorbit/core.bitoperation.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 void Test_BitMask()

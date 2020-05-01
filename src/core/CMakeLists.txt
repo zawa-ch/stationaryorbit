@@ -2,16 +2,13 @@ cmake_minimum_required(VERSION 3.0)
 project(stationaryorbit CXX)
 
 set(AssemblyName stationaryorbit.core)
-set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/core)
+set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include)
 
 add_library(${AssemblyName} SHARED
-    ${Include_Dir}/bitreference.hpp
-    ${Include_Dir}/delegate.hpp
-    ${Include_Dir}/endians.hpp
-    ${Include_Dir}/fractionaldec.hpp
-    ${Include_Dir}/real.hpp
-    ${Include_Dir}/rotation.hpp
-    ${Include_Dir}/vector2d.hpp
+    ${Include_Dir}/stationaryorbit/core.bitoperation.hpp
+    ${Include_Dir}/stationaryorbit/core.delegate.hpp
+    ${Include_Dir}/stationaryorbit/core.numeral.hpp
+    ${Include_Dir}/stationaryorbit/core.property.hpp
     real.cpp
     rotation.cpp
     vector2d.cpp

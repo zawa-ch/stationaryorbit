@@ -1,5 +1,5 @@
 // -*- C++ -*-
 
-#include "bitmask.hpp"
-#include "bitreference.hpp"
-#include "endians.hpp"
+#include "core/bitmask.hpp"
+#include "core/bitreference.hpp"
+#include "core/endians.hpp"

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-#include "stationaryorbit/core/numeral"
+#include "stationaryorbit/core.numeral.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 int Test_Vector2d()

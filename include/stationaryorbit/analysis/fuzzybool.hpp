@@ -1,6 +1,6 @@
 #ifndef __stationaryorbit_analysis_fuzzybool__
 #define __stationaryorbit_analysis_fuzzybool__
-#include "stationaryorbit/core/numeral"
+#include "stationaryorbit/core.numeral.hpp"
 namespace zawa_ch::StationaryOrbit::Analysis
 {
 

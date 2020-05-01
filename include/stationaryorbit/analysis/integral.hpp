@@ -1,6 +1,6 @@
 #ifndef __StationaryOrbit_NumericAnalysis_IIntegral__
 #define __StationaryOrbit_NumericAnalysis_IIntegral__
-#include "stationaryorbit/core/numeral"
+#include "stationaryorbit/core.numeral.hpp"
 #include "mathematicfunction.hpp"
 namespace zawa_ch::StationaryOrbit::Analysis
 {

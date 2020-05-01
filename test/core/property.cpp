@@ -1,5 +1,5 @@
 #include <iostream>
-#include "stationaryorbit/core/property"
+#include "stationaryorbit/core.property.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 class testcase

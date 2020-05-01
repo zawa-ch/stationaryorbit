@@ -1,6 +1,6 @@
 #ifndef __stationaryorbit_graphics_core_binarybitmap__
 #define __stationaryorbit_graphics_core_binarybitmap__
-#include "stationaryorbit/core/property"
+#include "stationaryorbit/core.property.hpp"
 #include "fundamental.hpp"
 #include "bitmap.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics

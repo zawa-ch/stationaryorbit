@@ -2,8 +2,8 @@
 #define __stationaryorbit_graphics_core_rgbbitmapimage__
 #include <type_traits>
 #include <memory>
-#include "stationaryorbit/core/numeral"
-#include "stationaryorbit/core/property"
+#include "stationaryorbit/core.numeral.hpp"
+#include "stationaryorbit/core.property.hpp"
 #include "fundamental.hpp"
 #include "rgbcolor.hpp"
 #include "colorspace.hpp"

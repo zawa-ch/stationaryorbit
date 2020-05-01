@@ -1,7 +1,7 @@
 #ifndef __stationaryorbit_graphics_dib_colormask__
 #define __stationaryorbit_graphics_dib_colormask__
 #include <optional>
-#include "stationaryorbit/core/bitoperation"
+#include "stationaryorbit/core.bitoperation.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
 

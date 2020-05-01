@@ -2,7 +2,7 @@
 #define __stationaryorbit_graphics_core_bitmapconverter__
 #include <functional>
 #include "stationaryorbit/exception/soexcept"
-#include "stationaryorbit/core/numeral"
+#include "stationaryorbit/core.numeral.hpp"
 #include "fundamental.hpp"
 #include "bitmap.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics

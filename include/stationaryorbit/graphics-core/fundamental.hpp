@@ -1,6 +1,6 @@
 #ifndef __stationaryorbit_graphics_core_fundamental__
 #define __stationaryorbit_graphics_core_fundamental__
-#include "stationaryorbit/core/numeral"
+#include "stationaryorbit/core.numeral.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
     typedef Point<Quadrants::DownRight> DisplayPoint;

@@ -1,3 +1,3 @@
 // -*- C++ -*-
 
-#include "delegate.hpp"
+#include "core/delegate.hpp"

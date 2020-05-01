@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdexcept>
-#include "stationaryorbit/core/numeral"
+#include "stationaryorbit/core.numeral.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 void Test_Range()
