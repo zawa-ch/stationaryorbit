@@ -1,7 +1,7 @@
 #ifndef __stationaryorbit_graphics_core_xyzcolor__
 #define __stationaryorbit_graphics_core_xyzcolor__
 #include <cstdint>
-#include "stationaryorbit/exception/soexcept"
+#include "stationaryorbit/exception.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	///	CIE1931 XYZ色空間によって表される色。

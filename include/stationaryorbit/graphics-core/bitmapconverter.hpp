@@ -1,7 +1,7 @@
 #ifndef __stationaryorbit_graphics_core_bitmapconverter__
 #define __stationaryorbit_graphics_core_bitmapconverter__
 #include <functional>
-#include "stationaryorbit/exception/soexcept"
+#include "stationaryorbit/exception.hpp"
 #include "stationaryorbit/core.numeral.hpp"
 #include "fundamental.hpp"
 #include "bitmap.hpp"

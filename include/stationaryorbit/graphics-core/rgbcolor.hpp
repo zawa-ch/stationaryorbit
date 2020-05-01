@@ -1,7 +1,7 @@
 #ifndef __stationaryorbit_graphics_core_rgbcolor__
 #define __stationaryorbit_graphics_core_rgbcolor__
 #include <cstdint>
-#include "stationaryorbit/exception/soexcept"
+#include "stationaryorbit/exception.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	///	赤(Red), 緑(Green), 青(Blue)の三要素とアルファ値によって表される色。

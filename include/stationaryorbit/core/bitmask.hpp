@@ -3,7 +3,7 @@
 #include <limits>
 #include <type_traits>
 #include <vector>
-#include "stationaryorbit/exception/soexcept"
+#include "stationaryorbit/exception.hpp"
 #include "range.hpp"
 namespace zawa_ch::StationaryOrbit
 {

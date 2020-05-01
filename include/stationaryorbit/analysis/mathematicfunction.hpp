@@ -1,6 +1,6 @@
 #ifndef __StationaryOrbit_NumericAnalysis_MathematicFunction__
 #define __StationaryOrbit_NumericAnalysis_MathematicFunction__
-#include "stationaryorbit/exception/soexcept"
+#include "stationaryorbit/exception.hpp"
 namespace zawa_ch::StationaryOrbit::Analysis
 {
 

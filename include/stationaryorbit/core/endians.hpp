@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <type_traits>
 #include <array>
-#include "stationaryorbit/exception/soexcept"
+#include "stationaryorbit/exception.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	すべてのスカラー型のエンディアンを表します。

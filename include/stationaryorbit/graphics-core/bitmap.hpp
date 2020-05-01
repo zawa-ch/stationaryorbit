@@ -2,7 +2,7 @@
 #define __stationaryorbit_graphics_core_bitmap__
 #include <type_traits>
 #include <vector>
-#include "stationaryorbit/exception/soexcept"
+#include "stationaryorbit/exception.hpp"
 #include "channelvalue.hpp"
 #include "fundamental.hpp"
 #include "image.hpp"

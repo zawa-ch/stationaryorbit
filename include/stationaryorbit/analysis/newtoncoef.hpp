@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_NumericAnalysis_NewtonCoef__
 #define __StationaryOrbit_NumericAnalysis_NewtonCoef__
 #include <vector>
-#include "stationaryorbit/exception/soexcept"
+#include "stationaryorbit/exception.hpp"
 #include "stationaryorbit/core.numeral.hpp"
 #include "mathematicfunction.hpp"
 namespace zawa_ch::StationaryOrbit::Analysis

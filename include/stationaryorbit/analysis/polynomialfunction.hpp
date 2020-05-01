@@ -1,7 +1,7 @@
 #ifndef __StationaryOrbit_NumericAnalysis_PolynomialFunction__
 #define __StationaryOrbit_NumericAnalysis_PolynomialFunction__
 #include <vector>
-#include "stationaryorbit/exception/soexcept"
+#include "stationaryorbit/exception.hpp"
 #include "mathematicfunction.hpp"
 namespace zawa_ch::StationaryOrbit::Analysis
 {

@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <vector>
 #include <string>
-#include "stationaryorbit/exception/soexcept"
+#include "stationaryorbit/exception.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 
