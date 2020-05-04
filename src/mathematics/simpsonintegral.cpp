@@ -1,4 +1,4 @@
-#include "stationaryorbit/analysis/simpsonintegral.hpp"
+#include "stationaryorbit/mathematics/simpsonintegral.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 Analysis::SimpsonIntegral::SimpsonIntegral(const IMathematicFunction<double>& function, const Range<double, true, true>& integrationrange)

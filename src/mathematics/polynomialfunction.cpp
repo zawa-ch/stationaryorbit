@@ -1,5 +1,5 @@
-#include "stationaryorbit/analysis/compensatedfloat.hpp"
-#include "stationaryorbit/analysis/polynomialfunction.hpp"
+#include "stationaryorbit/mathematics/compensatedfloat.hpp"
+#include "stationaryorbit/mathematics/polynomialfunction.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 Analysis::PolynomialFunction::PolynomialFunction(const std::vector<double>& value)

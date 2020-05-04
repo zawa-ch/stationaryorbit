@@ -1,5 +1,5 @@
-#include "stationaryorbit/analysis/compensatedfloat.hpp"
-#include "stationaryorbit/analysis/newtoncoef.hpp"
+#include "stationaryorbit/mathematics/compensatedfloat.hpp"
+#include "stationaryorbit/mathematics/newtoncoef.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 void Analysis::NewtonCoef::Complete()

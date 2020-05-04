@@ -1,7 +1,7 @@
 #include <cmath>
 #include <climits>
 #include <limits>
-#include "stationaryorbit/analysis/differencial.hpp"
+#include "stationaryorbit/mathematics/differencial.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 double Analysis::Differencial::Diff(const double& value, const double& h) const

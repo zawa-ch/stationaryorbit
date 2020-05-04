@@ -1,5 +1,5 @@
 #include <iostream>
-#include "stationaryorbit/analysis/numerals"
+#include "stationaryorbit/mathematics/numerals"
 using namespace zawa_ch::StationaryOrbit;
 
 void Test_CompensatedFloat()

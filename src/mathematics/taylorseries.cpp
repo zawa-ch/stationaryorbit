@@ -1,6 +1,6 @@
 #include <climits>
-#include "stationaryorbit/analysis/compensatedfloat.hpp"
-#include "stationaryorbit/analysis/taylorseries.hpp"
+#include "stationaryorbit/mathematics/compensatedfloat.hpp"
+#include "stationaryorbit/mathematics/taylorseries.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 size_t Analysis::TaylorSeries::DefaultSuc(const size_t& value)

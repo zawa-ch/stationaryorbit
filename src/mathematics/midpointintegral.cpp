@@ -1,5 +1,5 @@
-#include "stationaryorbit/analysis/compensatedfloat.hpp"
-#include "stationaryorbit/analysis/midpointintegral.hpp"
+#include "stationaryorbit/mathematics/compensatedfloat.hpp"
+#include "stationaryorbit/mathematics/midpointintegral.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 Analysis::MidpointIntegral::MidpointIntegral(const IMathematicFunction<double>& function, const Range<double, true, true>& integrationrange)

@@ -1,4 +1,4 @@
-#include "stationaryorbit/analysis/fuzzybool.hpp"
+#include "stationaryorbit/mathematics/fuzzybool.hpp"
 using namespace zawa_ch::StationaryOrbit::Analysis;
 
 FuzzyBool::FuzzyBool(bool value)

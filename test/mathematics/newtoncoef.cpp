@@ -1,6 +1,6 @@
 #include <cmath>
 #include <iostream>
-#include "stationaryorbit/analysis/mathematic"
+#include "stationaryorbit/mathematics/mathematic"
 using namespace zawa_ch::StationaryOrbit;
 
 void Test_NewtonCoef()

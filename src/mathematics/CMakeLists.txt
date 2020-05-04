@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 project(stationaryorbit CXX)
 
-set(AssemblyName stationaryorbit.analysis)
-set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/analysis)
+set(AssemblyName stationaryorbit.mathematics)
+set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/mathematics)
 
 add_library(${AssemblyName} SHARED
     ${Include_Dir}/compensatedfloat.hpp
@@ -20,7 +20,6 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/simpsonintegral.hpp
     ${Include_Dir}/taylorseries.hpp
     ${Include_Dir}/trapeziumintegral.hpp
-    compensatedfloat.cpp
     differencial.cpp
     fuzzybool.cpp
     midpointintegral.cpp

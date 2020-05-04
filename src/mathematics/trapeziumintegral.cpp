@@ -1,5 +1,5 @@
-#include "stationaryorbit/analysis/compensatedfloat.hpp"
-#include "stationaryorbit/analysis/trapeziumintegral.hpp"
+#include "stationaryorbit/mathematics/compensatedfloat.hpp"
+#include "stationaryorbit/mathematics/trapeziumintegral.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 Analysis::TrapeziumIntegral::TrapeziumIntegral(const IMathematicFunction<double>& function, const Range<double, true, true>& integrationrange)
