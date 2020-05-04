@@ -2,7 +2,6 @@
 
 #include "differencial.hpp"
 #include "integral.hpp"
-#include "mathematicfunction.hpp"
 #include "midpointintegral.hpp"
 #include "newtoncoef.hpp"
 #include "polynomialfunction.hpp"
