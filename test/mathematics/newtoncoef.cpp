@@ -15,7 +15,7 @@ void Test_NewtonCoef()
 		double x = x_min + ((x_max - x_min) * i / m_div);
         mpt.push_back(x);
     }
-    Analysis::NewtonCoef comp = Analysis::NewtonCoef(Analysis::MathematicFunction<double>(exp), mpt);
+    Mathematics::NewtonCoef comp = Mathematics::NewtonCoef(Mathematics::MathematicFunction<double>(exp), mpt);
 	for(size_t i = 0; i <= x_div; i++)
 	{
 		double x = x_min + ((x_max - x_min) * i / x_div);

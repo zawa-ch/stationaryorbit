@@ -1,22 +1,22 @@
 #include <climits>
 #include "stationaryorbit/mathematics/compensatedfloat.hpp"
 #include "stationaryorbit/mathematics/taylorseries.hpp"
-using namespace zawa_ch::StationaryOrbit;
+using namespace zawa_ch::StationaryOrbit::Mathematics;
 
-size_t Analysis::TaylorSeries::DefaultSuc(const size_t& value)
+size_t TaylorSeries::DefaultSuc(const size_t& value)
 {
 	return value + 1;
 }
 
-Analysis::TaylorSeries::TaylorSeries(BaseFunction func, const double& basep)
+TaylorSeries::TaylorSeries(BaseFunction func, const double& basep)
 	: func(func), base(basep), suc(DefaultSuc), init(0U)
 {}
 
-Analysis::TaylorSeries::TaylorSeries(BaseFunction func, const double& basep, SuccessorFunction successor, size_t init)
+TaylorSeries::TaylorSeries(BaseFunction func, const double& basep, SuccessorFunction successor, size_t init)
 	: func(func), base(basep), suc(successor), init(init)
 {}
 
-double Analysis::TaylorSeries::Calc(const double& value, size_t ceiling) const
+double TaylorSeries::Calc(const double& value, size_t ceiling) const
 {
 	if ((func == NULL)||(suc == NULL)) throw NullReferenceException("");
 
@@ -46,7 +46,7 @@ double Analysis::TaylorSeries::Calc(const double& value, size_t ceiling) const
 	return double(sum);
 }
 
-double Analysis::TaylorSeries::Calc(const double& value) const
+double TaylorSeries::Calc(const double& value) const
 {
 	return Calc(value, UINT_MAX);
 }

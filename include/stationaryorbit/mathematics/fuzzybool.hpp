@@ -1,7 +1,7 @@
-#ifndef __stationaryorbit_analysis_fuzzybool__
-#define __stationaryorbit_analysis_fuzzybool__
+#ifndef __stationaryorbit_mathematics_fuzzybool__
+#define __stationaryorbit_mathematics_fuzzybool__
 #include "stationaryorbit/core.numeral.hpp"
-namespace zawa_ch::StationaryOrbit::Analysis
+namespace zawa_ch::StationaryOrbit::Mathematics
 {
 
 	/// trueとfalseの中間を表現できるブール値を表します。
@@ -46,4 +46,4 @@ namespace zawa_ch::StationaryOrbit::Analysis
 	};
 
 }
-#endif // __stationaryorbit_analysis_fuzzybool__
+#endif // __stationaryorbit_mathematics_fuzzybool__

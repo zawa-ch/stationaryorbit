@@ -1,7 +1,7 @@
-#ifndef __StationaryOrbit_Analysis_CompensatedFloat__
-#define __StationaryOrbit_Analysis_CompensatedFloat__
+#ifndef __stationaryorbit_mathematics_compensatedfloat__
+#define __stationaryorbit_mathematics_compensatedfloat__
 #include <type_traits>
-namespace zawa_ch::StationaryOrbit::Analysis
+namespace zawa_ch::StationaryOrbit::Mathematics
 {
 	/// 計算時に誤差の補償が行われる浮動小数点数を表します。
 	template<class T>
@@ -50,4 +50,4 @@ namespace zawa_ch::StationaryOrbit::Analysis
 	typedef CompensatedFloat<double> CompensatedDouble;
 
 }
-#endif // __StationaryOrbit_NumericAnalysis_CompensatedFloat__
+#endif // __stationaryorbit_mathematics_compensatedfloat__

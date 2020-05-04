@@ -1,8 +1,8 @@
-#ifndef __StationaryOrbit_NumericAnalysis_IIntegral__
-#define __StationaryOrbit_NumericAnalysis_IIntegral__
+#ifndef __stationaryorbit_mathematics_integral__
+#define __stationaryorbit_mathematics_integral__
 #include "stationaryorbit/core.numeral.hpp"
 #include "mathematicfunction.hpp"
-namespace zawa_ch::StationaryOrbit::Analysis
+namespace zawa_ch::StationaryOrbit::Mathematics
 {
 
 	///	@a IMathematicFunction<double> の有限区間における定積分の関数を実装します。
@@ -29,4 +29,4 @@ namespace zawa_ch::StationaryOrbit::Analysis
 	};
 
 }
-#endif // __StationaryOrbit_NumericAnalysis_IIntegral__
+#endif // __stationaryorbit_mathematics_integral__

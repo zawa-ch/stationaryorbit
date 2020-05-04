@@ -1,7 +1,7 @@
-#ifndef __StationaryOrbit_NumericAnalysis_MathematicFunction__
-#define __StationaryOrbit_NumericAnalysis_MathematicFunction__
+#ifndef __stationaryorbit_mathematics_mathematicfunction__
+#define __stationaryorbit_mathematics_mathematicfunction__
 #include "stationaryorbit/exception.hpp"
-namespace zawa_ch::StationaryOrbit::Analysis
+namespace zawa_ch::StationaryOrbit::Mathematics
 {
 
     /// @a T 型の値を受け取り、 @a T 型の値を返す数学的な関数を実装します。
@@ -57,4 +57,4 @@ namespace zawa_ch::StationaryOrbit::Analysis
 	};
 
 }
-#endif // __StationaryOrbit_NumericAnalysis_MathematicFunction__
+#endif // __stationaryorbit_mathematics_mathematicfunction_

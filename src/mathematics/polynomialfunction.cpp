@@ -1,12 +1,12 @@
 #include "stationaryorbit/mathematics/compensatedfloat.hpp"
 #include "stationaryorbit/mathematics/polynomialfunction.hpp"
-using namespace zawa_ch::StationaryOrbit;
+using namespace zawa_ch::StationaryOrbit::Mathematics;
 
-Analysis::PolynomialFunction::PolynomialFunction(const std::vector<double>& value)
+PolynomialFunction::PolynomialFunction(const std::vector<double>& value)
 	: num(value)
 {}
 
-double Analysis::PolynomialFunction::Calc(const double& value) const
+double PolynomialFunction::Calc(const double& value) const
 {
 	if (num.empty()) throw InvalidOperationException("");
 	CompensatedDouble numvalue = CompensatedDouble();

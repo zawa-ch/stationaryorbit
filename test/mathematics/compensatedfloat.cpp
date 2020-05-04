@@ -5,7 +5,7 @@ using namespace zawa_ch::StationaryOrbit;
 void Test_CompensatedFloat()
 {
     float sum1 = float();
-    Analysis::CompensatedSingle sum2 = Analysis::CompensatedSingle();
+    Mathematics::CompensatedSingle sum2 = Mathematics::CompensatedSingle();
     for(int i = 0; i < 10000; i++)
     {
         sum1 += 0.1f;

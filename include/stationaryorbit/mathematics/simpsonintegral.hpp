@@ -1,9 +1,9 @@
-#ifndef __StationaryOrbit_NumericAnalysis_SimpsonIntegral__
-#define __StationaryOrbit_NumericAnalysis_SimpsonIntegral__
+#ifndef __stationaryorbit_mathematics_simpsonintegral__
+#define __stationaryorbit_mathematics_simpsonintegral__
 #include "integral.hpp"
 #include "midpointintegral.hpp"
 #include "trapeziumintegral.hpp"
-namespace zawa_ch::StationaryOrbit::Analysis
+namespace zawa_ch::StationaryOrbit::Mathematics
 {
 
 	///	シンプソン則を用いた数値積分を行う関数を表します。
@@ -49,4 +49,4 @@ namespace zawa_ch::StationaryOrbit::Analysis
 	};
 
 }
-#endif // __StationaryOrbit_NumericAnalysis_SimpsonIntegral__
+#endif // __stationaryorbit_mathematics_simpsonintegral__

@@ -1,7 +1,7 @@
-#ifndef __stationaryorbit_analysis_crispset__
-#define __stationaryorbit_analysis_crispset__
+#ifndef __stationaryorbit_mathematics_crispset__
+#define __stationaryorbit_mathematics_crispset__
 #include <utility>
-namespace zawa_ch::StationaryOrbit::NumericAnalysis
+namespace zawa_ch::StationaryOrbit::MatheMatics
 {
 
 	///	クリスプ集合を実装します。
@@ -151,4 +151,4 @@ namespace zawa_ch::StationaryOrbit::NumericAnalysis
 	};
 
 }
-#endif // __stationaryorbit_analysis_crispset__
+#endif // __stationaryorbit_mathematics_crispset__

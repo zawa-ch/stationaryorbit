@@ -1,5 +1,5 @@
 #include "stationaryorbit/mathematics/fuzzybool.hpp"
-using namespace zawa_ch::StationaryOrbit::Analysis;
+using namespace zawa_ch::StationaryOrbit::Mathematics;
 
 FuzzyBool::FuzzyBool(bool value)
     : _value((value?1U:0U), 1U)

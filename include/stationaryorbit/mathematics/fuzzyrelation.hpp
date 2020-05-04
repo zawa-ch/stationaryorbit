@@ -1,8 +1,8 @@
-#ifndef __stationaryorbit_analysis_fuzzyrelation__
-#define __stationaryorbit_analysis_fuzzyrelation__
+#ifndef __stationaryorbit_mathematics_fuzzyrelation__
+#define __stationaryorbit_mathematics_fuzzyrelation__
 #include <utility>
 #include "fuzzyset.hpp"
-namespace zawa_ch::StationaryOrbit::Analysis
+namespace zawa_ch::StationaryOrbit::Mathematics
 {
 
 	/// 二つのファジィ集合間のif-then関係を表します。
@@ -30,4 +30,4 @@ namespace zawa_ch::StationaryOrbit::Analysis
 	};
 
 }
-#endif // __stationaryorbit_analysis_fuzzyrelation__
+#endif // __stationaryorbit_mathematics_fuzzyrelation__

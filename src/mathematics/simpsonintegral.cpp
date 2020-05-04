@@ -1,7 +1,8 @@
 #include "stationaryorbit/mathematics/simpsonintegral.hpp"
 using namespace zawa_ch::StationaryOrbit;
+using namespace zawa_ch::StationaryOrbit::Mathematics;
 
-Analysis::SimpsonIntegral::SimpsonIntegral(const IMathematicFunction<double>& function, const Range<double, true, true>& integrationrange)
+SimpsonIntegral::SimpsonIntegral(const IMathematicFunction<double>& function, const Range<double, true, true>& integrationrange)
 	: _func(function), _irange(integrationrange)
 {
 	if (
@@ -15,20 +16,20 @@ Analysis::SimpsonIntegral::SimpsonIntegral(const IMathematicFunction<double>& fu
 	{ throw std::invalid_argument("引数 integrationrange として指定可能な範囲は有限な実数である必要があります。"); }
 }
 
-const Analysis::IMathematicFunction<double>& Analysis::SimpsonIntegral::Function() const
+const IMathematicFunction<double>& SimpsonIntegral::Function() const
 { return _func; }
 
-Range<double, true, true> Analysis::SimpsonIntegral::getIntegrationRange() const
+Range<double, true, true> SimpsonIntegral::getIntegrationRange() const
 { return _irange; }
 
-double Analysis::SimpsonIntegral::Calc(const double& value) const
+double SimpsonIntegral::Calc(const double& value) const
 {
 	auto mresult = MidpointIntegral(_func, _irange).Calc(value);
 	auto tresult = SimpsonIntegral(_func, _irange).Calc(value);
 	return (mresult * 2 + tresult) / 3;
 }
 
-double Analysis::SimpsonIntegral::Calc(const double& value, size_t div) const
+double SimpsonIntegral::Calc(const double& value, size_t div) const
 {
 	auto mresult = MidpointIntegral(_func, _irange).Calc(value, div);
 	auto tresult = SimpsonIntegral(_func, _irange).Calc(value, div);

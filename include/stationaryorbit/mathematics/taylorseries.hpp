@@ -1,8 +1,8 @@
-#ifndef __StationaryOrbit_NumericAnalusis_TaylorSeries__
-#define __StationaryOrbit_NumericAnalusis_TaylorSeries__
+#ifndef __stationaryorbit_mathematics_taylorseries__
+#define __stationaryorbit_mathematics_taylorseries__
 #include "stationaryorbit/exception.hpp"
 #include "mathematicfunction.hpp"
-namespace zawa_ch::StationaryOrbit::Analysis
+namespace zawa_ch::StationaryOrbit::Mathematics
 {
 
 	///	Σ(k=0 → n-1, (f(a)/((dx^k)*k!)) * (x-a)^k )によるテイラー級数を表します。
@@ -79,4 +79,4 @@ namespace zawa_ch::StationaryOrbit::Analysis
 	};
 
 }
-#endif // __StationaryOrbit_NumericAnalusis_TaylorSeries__
+#endif // __stationaryorbit_mathematics_taylorseries__

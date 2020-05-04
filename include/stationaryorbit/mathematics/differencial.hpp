@@ -1,7 +1,7 @@
-#ifndef __StationaryOrbit_NumericAnalysis_Differencial__
-#define __StationaryOrbit_NumericAnalysis_Differencial__
+#ifndef __stationaryorbit_mathematics_differencial__
+#define __stationaryorbit_mathematics_differencial__
 #include "mathematicfunction.hpp"
-namespace zawa_ch::StationaryOrbit::Analysis
+namespace zawa_ch::StationaryOrbit::Mathematics
 {
 
 	///	@a IMathematicFunction<double> の微分関数を表します。
@@ -49,4 +49,4 @@ namespace zawa_ch::StationaryOrbit::Analysis
 	};
 
 }
-#endif // __StationaryOrbit_NumericAnalysis_Differencial__
+#endif // __stationaryorbit_mathematics_differencial__

@@ -1,8 +1,8 @@
-#ifndef __stationaryorbit_analysis_fuzzyset__
-#define __stationaryorbit_analysis_fuzzyset__
+#ifndef __stationaryorbit_mathematics_fuzzyset__
+#define __stationaryorbit_mathematics_fuzzyset__
 #include <utility>
 #include "fuzzybool.hpp"
-namespace zawa_ch::StationaryOrbit::Analysis
+namespace zawa_ch::StationaryOrbit::Mathematics
 {
 
 	///	ファジィ集合を表します。
@@ -94,7 +94,7 @@ namespace zawa_ch::StationaryOrbit::Analysis
 	};
 
 	///	A{ input ~= value } を表すファジィ集合を表します。
-	template<typename T, SimpleFuzzyLogicSetData<T>::DecreaseFunction Decrfunc = FuzzyLogicFunctions<T>::Liner>
+	template<typename T, typename SimpleFuzzyLogicSetData<T>::DecreaseFunction Decrfunc = FuzzyLogicFunctions<T>::Liner>
 	class FuzzyEqualSet
 		: virtual public FuzzySet<T>
 		, private SimpleFuzzyLogicSetData<T>
@@ -105,7 +105,7 @@ namespace zawa_ch::StationaryOrbit::Analysis
 	};
 
 	///	A{ input ~!= value } を表すファジィ集合を表します。
-	template<typename T, SimpleFuzzyLogicSetData<T>::DecreaseFunction Decrfunc = FuzzyLogicFunctions<T>::Liner>
+	template<typename T, typename SimpleFuzzyLogicSetData<T>::DecreaseFunction Decrfunc = FuzzyLogicFunctions<T>::Liner>
 	class FuzzyNotEqualSet
 		: virtual public FuzzySet<T>
 		, private SimpleFuzzyLogicSetData<T>
@@ -116,7 +116,7 @@ namespace zawa_ch::StationaryOrbit::Analysis
 	};
 
 	///	A{ input ~< value } を表すファジィ集合を表します。
-	template<typename T, SimpleFuzzyLogicSetData<T>::DecreaseFunction Decrfunc = FuzzyLogicFunctions<T>::Liner>
+	template<typename T, typename SimpleFuzzyLogicSetData<T>::DecreaseFunction Decrfunc = FuzzyLogicFunctions<T>::Liner>
 	class FuzzyMoreSet
 		: virtual public FuzzySet<T>
 		, private SimpleFuzzyLogicSetData<T>
@@ -127,7 +127,7 @@ namespace zawa_ch::StationaryOrbit::Analysis
 	};
 
 	///	A{ input ~<= value } を表すファジィ集合を表します。
-	template<typename T, SimpleFuzzyLogicSetData<T>::DecreaseFunction Decrfunc = FuzzyLogicFunctions<T>::Liner>
+	template<typename T, typename SimpleFuzzyLogicSetData<T>::DecreaseFunction Decrfunc = FuzzyLogicFunctions<T>::Liner>
 	class FuzzyMoreEqualSet
 		: virtual public FuzzySet<T>
 		, private SimpleFuzzyLogicSetData<T>
@@ -138,7 +138,7 @@ namespace zawa_ch::StationaryOrbit::Analysis
 	};
 
 	///	A{ input ~> value } を表すファジィ集合を表します。
-	template<typename T, SimpleFuzzyLogicSetData<T>::DecreaseFunction Decrfunc = FuzzyLogicFunctions<T>::Liner>
+	template<typename T, typename SimpleFuzzyLogicSetData<T>::DecreaseFunction Decrfunc = FuzzyLogicFunctions<T>::Liner>
 	class FuzzyLessSet
 		: virtual public FuzzySet<T>
 		, private SimpleFuzzyLogicSetData<T>
@@ -149,7 +149,7 @@ namespace zawa_ch::StationaryOrbit::Analysis
 	};
 
 	///	A{ input ~>= value } を表すファジィ集合を表します。
-	template<typename T, SimpleFuzzyLogicSetData<T>::DecreaseFunction Decrfunc = FuzzyLogicFunctions<T>::Liner>
+	template<typename T, typename SimpleFuzzyLogicSetData<T>::DecreaseFunction Decrfunc = FuzzyLogicFunctions<T>::Liner>
 	class FuzzyLessEqualSet
 		: virtual public FuzzySet<T>
 		, private SimpleFuzzyLogicSetData<T>
@@ -160,4 +160,4 @@ namespace zawa_ch::StationaryOrbit::Analysis
 	};
 
 }
-#endif // __stationaryorbit_analysis_fuzzyset__
+#endif // __stationaryorbit_mathematics_fuzzyset__
