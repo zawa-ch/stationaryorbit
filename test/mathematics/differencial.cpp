@@ -1,5 +1,5 @@
 #include <iostream>
-#include "stationaryorbit/mathematics/mathematic"
+#include "stationaryorbit/mathematics.algorithm.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 void Test_Differencial()

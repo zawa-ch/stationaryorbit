@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-#include "fuzzybool.hpp"
-#include "fuzzyreasoning.hpp"
-#include "fuzzyrelation.hpp"
-#include "fuzzyset.hpp"
+#include "mathematics/fuzzybool.hpp"
+#include "mathematics/fuzzyreasoning.hpp"
+#include "mathematics/fuzzyrelation.hpp"
+#include "mathematics/fuzzyset.hpp"

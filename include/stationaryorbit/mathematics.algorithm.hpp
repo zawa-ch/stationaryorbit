@@ -1,10 +1,10 @@
 // -*- C++ -*-
 
-#include "differencial.hpp"
-#include "integral.hpp"
-#include "midpointintegral.hpp"
-#include "newtoncoef.hpp"
-#include "polynomialfunction.hpp"
-#include "simpsonintegral.hpp"
-#include "taylorseries.hpp"
-#include "trapeziumintegral.hpp"
+#include "mathematics/differencial.hpp"
+#include "mathematics/integral.hpp"
+#include "mathematics/midpointintegral.hpp"
+#include "mathematics/newtoncoef.hpp"
+#include "mathematics/polynomialfunction.hpp"
+#include "mathematics/simpsonintegral.hpp"
+#include "mathematics/taylorseries.hpp"
+#include "mathematics/trapeziumintegral.hpp"

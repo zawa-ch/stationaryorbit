@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <cmath>
-#include "stationaryorbit/mathematics/mathematic"
+#include "stationaryorbit/mathematics.algorithm.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 double exp0(const size_t& n);

@@ -1,4 +1,4 @@
 // -*- C++ -*-
 
-#include "crispset.hpp"
-#include "fuzzyset.hpp"
+#include "mathematics/crispset.hpp"
+#include "mathematics/fuzzyset.hpp"

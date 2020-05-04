@@ -1,5 +1,5 @@
 #include <iostream>
-#include "stationaryorbit/mathematics/numerals"
+#include "stationaryorbit/mathematics.primitives.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 void Test_CompensatedFloat()

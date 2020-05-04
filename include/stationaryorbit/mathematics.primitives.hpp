@@ -1,5 +1,5 @@
 // -*- C++ -*-
 
-#include "compensatedfloat.hpp"
-#include "fuzzybool.hpp"
-#include "mathematicfunction.hpp"
+#include "mathematics/compensatedfloat.hpp"
+#include "mathematics/fuzzybool.hpp"
+#include "mathematics/mathematicfunction.hpp"
