@@ -50,7 +50,7 @@ namespace zawa_ch::StationaryOrbit
 			for (std::size_t i = ((start < length)?start:length); 0 < i; i--) { if ((value & (1 << (i - 1))) != 0) { return i; } }
 			return length;
 		}
-		static constexpr BitMask<T> Zero() { return BitMask<T>(0); }
+		static constexpr BitMask<T> Empty() { return BitMask<T>(0); }
 	};
 
 }
