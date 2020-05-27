@@ -11,7 +11,6 @@
 		"C_Cpp.default.includePath": [
 			"${workspaceFolder}/include/**"
 		],
-		"cmake.useCMakeServer": true,
 	},
 
 	"extensions": {
@@ -65,12 +64,12 @@
 				"type": "shell",
 				"group": "build",
 				"options": {
-					"cwd": "${workspaceFolder}/build"
+					"cwd": "${workspaceFolder}"
 				},
 				"linux": {
-					"command": "ninja",
+					"command": "cmake",
 					"args": [
-						"all"
+						"--build", "build/"
 					],
 					"problemMatcher": {
 						"owner": "cpp",
@@ -96,8 +95,8 @@
 					"cwd": "${workspaceFolder}/build"
 				},
 				"linux": {
-					"command": "ninja",
-					"args": [ "clean" ]
+					"command": "cmake",
+					"args": [ "--clean" ]
 				},
 				"presentation": {
 					"echo": true,
@@ -173,13 +172,13 @@
 				]
 			},
 			{
-				"name": "(gdb) Launch test.analysis",
+				"name": "(gdb) Launch test.mathematics",
 				"type": "cppdbg",
 				"request": "launch",
-				"program": "${workspaceFolder}/build/test/analysis/stationaryorbit.test.analysis",
+				"program": "${workspaceFolder}/build/test/mathematics/stationaryorbit.test.mathematics",
 				"args": [],
 				"stopAtEntry": false,
-				"cwd": "${workspaceFolder}/build/test/analysis/",
+				"cwd": "${workspaceFolder}/build/test/mathematics/",
 				"environment": [],
 				"externalConsole": false,
 				"MIMode": "gdb",
