@@ -8,9 +8,10 @@ namespace zawa_ch::StationaryOrbit
 	{
 	private:
 		enum { _False = false, _True = true, _Indefinited, _Undefined } _value;
+		constexpr Logic(const decltype(_value)& value) : _value(value) {}
 	public:
 		constexpr Logic() : _value(_Undefined) {}
-		constexpr Logic(const bool& value) : _value((value)?(_True):(_False)) {}
+		explicit constexpr Logic(const bool& value) : _value((value)?(_True):(_False)) {}
 
 		///	真の論理値を表します。
 		static constexpr Logic True() { return Logic{ _True }; }
@@ -21,7 +22,9 @@ namespace zawa_ch::StationaryOrbit
 		///	値を持たない論理値を表します。
 		static constexpr Logic Undefined() { return Logic{ _Undefined }; }
 
-		constexpr bool Equals(const Logic& other) const { return _value == other._value; }
+		constexpr bool IsUndefined() const { return _value == _Undefined; }
+
+		constexpr bool Equals(const Logic& other) const { return (_value == other._value)&&(_value != _Undefined); }
 		constexpr bool operator==(const Logic& other) const { return Equals(other); }
 		constexpr bool operator!=(const Logic& other) const { return !Equals(other); }
 		constexpr bool Equals(const bool& other) const { if (((other == true)&&(_value == _True))||((other == false)&&(_value == _False))) { return true; } else { return false; } }
