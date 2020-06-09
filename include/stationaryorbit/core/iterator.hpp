@@ -28,10 +28,10 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		typedef contT ContainerType;
 		typedef T ValueType;
-		typedef typename contT::const_iterator ConstIterator;
+		typedef typename contT::const_iterator IteratorType;
 	private:
 		const ContainerType& _cont;
-		ConstIterator _itr;
+		IteratorType _itr;
 		bool _start;
 	public:
 		LegacyIterator(const ContainerType& container) : _cont(container), _start(false) {}
@@ -49,8 +49,40 @@ namespace zawa_ch::StationaryOrbit
 		}
 		virtual bool Next()
 		{
-			if (_start) { ++_itr; } else { _itr = _cont.cbegin(); _start = true; }
+			if (HasValue()) { ++_itr; } else { _itr = _cont.cbegin(); _start = true; }
 			return _itr != _cont.cend();
+		}
+	};
+
+	template<class contT, class T = typename contT::value_type>
+	class LegacyReverseIterator : public IIterator<T>
+	{
+	public:
+		typedef contT ContainerType;
+		typedef T ValueType;
+		typedef typename contT::const_reverse_iterator IteratorType;
+	private:
+		const ContainerType& _cont;
+		IteratorType _itr;
+		bool _start;
+	public:
+		LegacyReverseIterator(const ContainerType& container) : _cont(container), _start(false) {}
+		virtual void Reset()
+		{
+			_start = false;
+		}
+		virtual bool HasValue() const
+		{
+			if (_start) { return _itr != _cont.crend(); } else { return false; }
+		}
+		virtual const T& Current() const
+		{
+			if (HasValue()) { return *_itr; } else { throw std::out_of_range("要素の範囲外にあるイテレータに対して逆参照を試みました。"); }
+		}
+		virtual bool Next()
+		{
+			if (HasValue()) { ++_itr; } else { _itr = _cont.crbegin(); _start = true; }
+			return _itr != _cont.crend();
 		}
 	};
 }

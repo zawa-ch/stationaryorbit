@@ -8,4 +8,7 @@ void Test_Iterator()
 	LegacyIterator(cont1).ForEach(
 		[](const auto& item)->void { std::cout << item << std::endl; }
 	);
+	LegacyReverseIterator(cont1).ForEach(
+		[](const auto& item)->void { std::cout << item << std::endl; }
+	);
 }
