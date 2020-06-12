@@ -1,5 +1,6 @@
 #ifndef __stationaryorbit_mathematics_mathematicfunction__
 #define __stationaryorbit_mathematics_mathematicfunction__
+#include <functional>
 #include "stationaryorbit/exception.hpp"
 namespace zawa_ch::StationaryOrbit::Mathematics
 {
@@ -9,51 +10,33 @@ namespace zawa_ch::StationaryOrbit::Mathematics
     class IMathematicFunction
     {
     public:
-
         /// この関数に値を代入した解を取得します。
-        ///
         /// @param  value
         /// 代入する値。
-        ///
         /// @return
         /// 計算を行い、得られた解が返ります。
         virtual T Calc(const T& value) const = 0;
-
     };
-
     /// @a T 型の値を受け取り、 @a T 型の値を返す数学的な関数を表します。
 	template<class T>
 	class MathematicFunction
 		: public IMathematicFunction<T>
 	{
 	public:
-
 		///	@a T 型の値を受け取り、 @a T 型の値を返す数学的な関数の実体。
-		typedef T (*BaseFunc)(T);
-
+		typedef std::function<T(T)> HandlerType;
 	private:
-
-		BaseFunc func;
-
+		HandlerType func;
 	public:
-
 		///	実体となる関数を指定してこのオブジェクトを初期化します。
-		explicit MathematicFunction(BaseFunc function) : func(function) {}
-
+		explicit MathematicFunction(HandlerType function) : func(function) {}
         /// この関数に値を代入した解を取得します。
-        ///
         /// @param  value
         /// 代入する値。
-        ///
         /// @return
         /// 計算を行い、得られた解が返ります。
-		T Calc(const T& value) const
-		{
-			if (func == NULL) throw NullReferenceException("function pointer must be non-null value");
-			return func(value);
-		}
+		T Calc(const T& value) const { return func(value); }
 		T operator()(const T& value) const { return Calc(value); }
-
 	};
 
 }
