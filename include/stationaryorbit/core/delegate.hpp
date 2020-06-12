@@ -1,6 +1,7 @@
 #ifndef __StationaryOrbit_Delegate__
 #define __StationaryOrbit_Delegate__
-#include <set>
+#include <map>
+#include <functional>
 namespace zawa_ch::StationaryOrbit
 {
 
@@ -11,11 +12,11 @@ namespace zawa_ch::StationaryOrbit
 	public:
 
 		///	この @a Delegate におけるハンドラーの型。
-		typedef void (*Action)(argsT ... );
+		typedef std::function<void(const argsT&...)> Action;
 
 	private:
 
-		std::set<Action> actions;
+		std::map<void*, Action> actions;
 
 	public:
 
@@ -24,31 +25,25 @@ namespace zawa_ch::StationaryOrbit
 		///
 		///	@param	[in]action
 		///	追加する @a Action 。
-		///
-		///	@return
-		///	このオブジェクトが返ります。
-		constexpr Delegate<argsT...>& Add(Action action) { actions.insert(action); return *this; }
-		constexpr Delegate<argsT...>& operator+=(Action action) { return Add(action); }
+		constexpr void Add(Action action) { actions.insert(std::pair{action.template target<void*>(), action}); }
+		constexpr Delegate<argsT...>& operator+=(Action action) { Add(action); return *this; }
 
 		///	このオブジェクトから要素を削除します。
 		///	要素がこのオブジェクトに含まれていない場合は何も行いません。
 		///
 		///	@param	[in]action
 		///	削除する @a Action 。
-		///
-		///	@return
-		///	このオブジェクトが返ります。
-		constexpr Delegate<argsT...>& Remove(Action action) { actions.erase(action); return *this; }
-		constexpr Delegate<argsT...>& operator-=(Action action) { return Remove(action); }
+		constexpr void Remove(Action action) { actions.erase(action.template target<void*>()); }
+		constexpr Delegate<argsT...>& operator-=(Action action) { Remove(action); return *this; }
 
 		///	このオブジェクトからすべての要素を削除します。
 		///
 		///	@return
 		///	このオブジェクトが返ります。
-		constexpr Delegate<argsT...>& Clear() { actions.clear(); return *this; }
+		constexpr void Clear() { actions.clear(); }
 
 		///	このオブジェクトに引数を渡し、ハンドラーを実行します。
-		constexpr void Invoke(argsT ... args) const { for(Action item : actions) { item(args...); } }
+		constexpr void Invoke(argsT ... args) const { for(auto item : actions) { item.second(args...); } }
 		constexpr void operator()(argsT ... args) const { Invoke(args...); }
 
 	};

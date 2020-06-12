@@ -1,5 +1,6 @@
 void Test_BitMask();
 void Test_Endian();
+void Test_Delegate();
 void Test_Logic();
 void Test_Point();
 void Test_Rectangle();
@@ -12,6 +13,7 @@ void Test_Iterator();
 
 int main(int argc, char const *argv[])
 {
+    Test_Delegate();
     Test_Logic();
     Test_Point();
     Test_Rectangle();
