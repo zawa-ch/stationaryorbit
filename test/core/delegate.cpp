@@ -1,8 +1,9 @@
 #include <iostream>
 #include "stationaryorbit/core.delegate.hpp"
+#include "stationaryorbit/core.event.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
-class Default_EventArgs {};
+class Default_EventArgs : EventArgs {};
 
 class Has_Event
 {
@@ -18,7 +19,7 @@ public:
 
 void Test_Delegate()
 {
-	std::cout << "<--- Delegate --->" << std::endl;
+	std::cout << "<--- Delegate/Event --->" << std::endl;
 	// Delegate型を使用したイベントを持つ型を用意する
 	auto inst = Has_Event();
 	bool handled = false;
