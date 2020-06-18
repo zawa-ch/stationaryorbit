@@ -22,6 +22,13 @@ namespace zawa_ch::StationaryOrbit
 		}
 	};
 
+	template<class It, class resultT = typename It::ValueType, class predT = std::function<void(resultT)>>
+	constexpr void ForEach(It iter, const predT& pred)
+	{
+		iter.Reset();
+		while(iter.Next()) { pred(iter.Current()); }
+	}
+
 	template<class contT, class T = typename contT::value_type>
 	class LegacyIterator : public IIterator<T>
 	{
