@@ -4,12 +4,10 @@ using namespace zawa_ch::StationaryOrbit;
 
 void Test_Iterator()
 {
+	std::cout << "<--- Iteration --->" << std::endl;
 	std::vector<int> cont1 = {1, 2, 3, 4, 5};
-	ForEach(LegacyIterator(cont1), [](auto item) { std::cout << item << std::endl; });
-	LegacyIterator(cont1).ForEach(
-		[](const auto& item)->void { std::cout << item << std::endl; }
-	);
-	LegacyReverseIterator(cont1).ForEach(
-		[](const auto& item)->void { std::cout << item << std::endl; }
-	);
+	ItrProcesser::ForEach(LegacyIterator(cont1), [](auto item) { std::cout << item << " "; });
+	std::cout << std::endl;
+	ItrProcesser::ForEach(LegacyReverseIterator(cont1), [](const auto& item)->void { std::cout << item << " "; });
+	std::cout << std::endl;
 }

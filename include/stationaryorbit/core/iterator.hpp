@@ -5,32 +5,25 @@
 #include <functional>
 namespace zawa_ch::StationaryOrbit
 {
-	template<class T>
-	class IIterator
+	enum class IteratorTraits
+	{
+	};
+	///	イテレータを使用した処理を行います。
+	class ItrProcesser
 	{
 	public:
-		typedef T ValueType;
-		virtual void Reset() = 0;
-		virtual bool HasValue() const = 0;
-		virtual const T& Current() const = 0;
-		virtual bool Next() = 0;
-
-		void ForEach(const std::function<void(const T&)>& pred)
+		///	イテレータで列挙されるすべての要素に対して、指定された述語を適用します。
+		///	@note
+		///	計算時間はイテレータの要素数に比例。
+		template<class It, class resultT = typename It::ValueType, class predT = std::function<void(resultT)>>
+		constexpr static void ForEach(It iter, const predT& pred)
 		{
-			Reset();
-			while (Next()) { pred(Current()); }
+			iter.Reset();
+			while(iter.Next()) { pred(iter.Current()); }
 		}
 	};
-
-	template<class It, class resultT = typename It::ValueType, class predT = std::function<void(resultT)>>
-	constexpr void ForEach(It iter, const predT& pred)
-	{
-		iter.Reset();
-		while(iter.Next()) { pred(iter.Current()); }
-	}
-
 	template<class contT, class T = typename contT::value_type>
-	class LegacyIterator : public IIterator<T>
+	class LegacyIterator
 	{
 	public:
 		typedef contT ContainerType;
@@ -60,9 +53,8 @@ namespace zawa_ch::StationaryOrbit
 			return _itr != _cont.cend();
 		}
 	};
-
 	template<class contT, class T = typename contT::value_type>
-	class LegacyReverseIterator : public IIterator<T>
+	class LegacyReverseIterator
 	{
 	public:
 		typedef contT ContainerType;
