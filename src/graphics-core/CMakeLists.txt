@@ -11,7 +11,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/cmykcolor.hpp
     ${Include_Dir}/colorspace.hpp
     ${Include_Dir}/graybitmapimage.hpp
-    ${Include_Dir}/graycolor.hpp
+    ${Include_Dir}/grayscalecolor.hpp
     ${Include_Dir}/image.hpp
     ${Include_Dir}/rgbbitmapimage.hpp
     ${Include_Dir}/rgbcolor.hpp

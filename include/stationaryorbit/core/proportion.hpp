@@ -23,10 +23,8 @@ namespace zawa_ch::StationaryOrbit
 		constexpr explicit Proportion(const ValueType& init) : _value(init) {}
 	public:
 		constexpr Proportion() : _value() {}
-		constexpr explicit Proportion(const float& value) : Proportion(Proportion<float>(value)) {}
-		constexpr explicit Proportion(const double& value) : Proportion(Proportion<double>(value)) {}
 		template<class fromT>
-		constexpr explicit Proportion(const Proportion<fromT>& from) : Proportion(from.template ConvertTo<T>()) {}
+		constexpr explicit Proportion(const Proportion<fromT>& from) : Proportion(from.template CastTo<T>()) {}
 		constexpr Proportion(const Proportion<T>&) = default;
 		constexpr Proportion(Proportion<T>&&) = default;
 		~Proportion() = default;
@@ -95,7 +93,7 @@ namespace zawa_ch::StationaryOrbit
 		///	@param	castT
 		///	変換先の型。返ってくる値の型は @a Proportion<castT> となります。
 		template<class castT>
-		constexpr Proportion<castT> ConvertTo() const
+		constexpr Proportion<castT> CastTo() const
 		{
 			static_assert((std::is_floating_point_v<T>)||(std::is_unsigned_v<T>), "テンプレートの特殊化に失敗しました(テンプレート型 T は符号なし算術型または浮動小数点数型のいずれでもありません)。");
 			static_assert((std::is_floating_point_v<castT>)||(std::is_unsigned_v<castT>), "テンプレートの特殊化に失敗しました(テンプレート型 castT は符号なし算術型または浮動小数点数型のいずれでもありません)。");
