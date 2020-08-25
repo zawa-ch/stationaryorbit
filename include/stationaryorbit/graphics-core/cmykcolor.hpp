@@ -1,6 +1,8 @@
 #ifndef __stationaryorbit_graphics_core_cmykcolor__
 #define __stationaryorbit_graphics_core_cmykcolor__
 #include <algorithm>
+#include <cstdint>
+#include "stationaryorbit/core.numeral.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	///	シアン(Cyan), マゼンタ(Magenta), イエロー(Yellow)の三要素によって表される色。
@@ -93,6 +95,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		constexpr ACMYColor(const CMYColor<Tp>& color) : _alpha(ChannelType::Max()), _color(color) {}
 		///	CMY値を指定して @a ACMYColor を初期化します。
 		constexpr ACMYColor(const CMYColor<Tp>& color, const ChannelType& alpha) : _alpha(alpha), _color(color) {}
+		template <class fromT>
+		constexpr explicit ACMYColor(const ACMYColor<fromT>& from) : ACMYColor(from.template CastTo<Tp>()) {}
 	public: // member
 		constexpr const CMYColor<Tp>& Color() const { return _color; }
 		///	この @a ACMYColor の不透明度を取得します。
