@@ -16,9 +16,9 @@ void Test_Logic()
 void Test_FractionalDec()
 {
 	std::cout << "<--- FractionalDec --->" << std::endl;
-    FractionalDec fr1 = FractionalDec(1, 5);
-    FractionalDec fr2 = FractionalDec(3, 4);
-    std::cout.precision(16);
+	FractionalDec fr1 = FractionalDec(1, 5);
+	FractionalDec fr2 = FractionalDec(3, 4);
+	std::cout.precision(16);
 	if (double(fr1) == 0.2) { std::cout << "fr1 = 1/5" << std::endl; } else { throw std::exception(); }
 	if (double(fr2) == 0.75) { std::cout << "fr2 = 3/4" << std::endl; } else { throw std::exception(); }
 	if (fr1 < fr2) { std::cout << "fr1 < fr2" << std::endl; } else { throw std::exception(); }
@@ -30,10 +30,30 @@ void Test_FractionalDec()
 	if (double(fr2 * fr2) != double(fr2.Square())) { throw std::exception(); }
 	if (double(FractionalDec::Max() - fr2) == 0.25) { std::cout << "~fr2 = 1/4" << std::endl; } else { throw std::exception(); }
 	if (double((fr1 * fr1).Sqrt()) != double(fr1)) { throw std::exception(); }
-    std::cout << "sqrt(fr1) = " << double((fr1).Sqrt()) << std::endl;
-    std::cout << "epsiron = " << double(FractionalDec::Epsiron()) << std::endl;
-    std::cout << "~epsiron = " << double(FractionalDec::Max() - FractionalDec::Epsiron()) << std::endl;
-    std::cout << "1 == ~epsiron = " << bool((FractionalDec::Max())==(FractionalDec::Max() - FractionalDec::Epsiron())) << std::endl;
+	std::cout << "sqrt(fr1) = " << double((fr1).Sqrt()) << std::endl;
+	std::cout << "epsiron = " << double(FractionalDec::Epsiron()) << std::endl;
+	std::cout << "~epsiron = " << double(FractionalDec::Max() - FractionalDec::Epsiron()) << std::endl;
+	std::cout << "1 == ~epsiron = " << bool((FractionalDec::Max())==(FractionalDec::Max() - FractionalDec::Epsiron())) << std::endl;
+}
+
+void Test_Proportion()
+{
+	std::cout << "<--- Proportion --->" << std::endl;
+	auto p1 = Proportion8_t(0.5);
+	auto p2 = Proportion8_t(0.25);
+	std::cout.precision(16);
+	std::cout << "p1 = " << double(p1) << std::endl;
+	std::cout << "p2 = " << double(p2) << std::endl;
+	if (p1 > p2) { std::cout << "p1 > p2" << std::endl; } else { throw std::exception(); }
+	if (p1 + p2 == Proportion8_t::From(192)) { std::cout << "p1 + p2 = " << double(p1 + p2) << std::endl; } else { throw std::exception(); }
+	if (p1 - p2 == Proportion8_t(0.25)) { std::cout << "p2 - p1 = " << double(p1 - p2) << std::endl; } else { throw std::exception(); }
+	if (p1 * p2 == Proportion8_t(0.125)) { std::cout << "p1 * p2 = " << double(p1 * p2) << std::endl; } else { throw std::exception(); }
+	if (p2 / p1 == Proportion8_t::From(127)) { std::cout << "p2 / p1 = " << double(p2 / p1) << std::endl; } else { throw std::exception(); }
+	auto p3 = Proportion32_t(0.5);
+	if (p1 == Proportion8_t(p3)) { std::cout << "p1 = p3 = " << double(p3) << std::endl; } else { throw std::exception(); }
+	std::cout << "Proportion64_t(p2) = " << double(Proportion64_t(p2)) << std::endl;
+	std::cout << "Proportion64_t(p2).UnscaledValue = " << Proportion64_t(p2).UnscaledValue() << std::endl;
+	if (Proportion1_t::Max() == Proportion1_t(Proportion8_t(1.0))) { std::cout << "Proportion1_t::Max() = " << double(Proportion1_t::Max()) << std::endl; } else { throw std::exception(); }
 }
 
 void Test_Point()

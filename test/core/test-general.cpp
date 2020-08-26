@@ -8,23 +8,25 @@ int Test_Property();
 int Test_Rotation();
 int Test_Vector2d();
 void Test_FractionalDec();
+void Test_Proportion();
 void Test_Range();
 void Test_Iterator();
 
 int main(int argc, char const *argv[])
 {
-    Test_Delegate();
-    Test_Logic();
-    Test_Point();
-    Test_Rectangle();
-    Test_BitMask();
-    Test_Endian();
-    Test_Property();
-    Test_Rotation();
-    Test_Vector2d();
-    Test_FractionalDec();
-    Test_Range();
-    Test_Iterator();
+	Test_Delegate();
+	Test_Logic();
+	Test_Point();
+	Test_Rectangle();
+	Test_BitMask();
+	Test_Endian();
+	Test_Property();
+	Test_Rotation();
+	Test_Vector2d();
+	Test_FractionalDec();
+	Test_Proportion();
+	Test_Range();
+	Test_Iterator();
 
-    return 0;
+	return 0;
 }
