@@ -62,14 +62,14 @@ void Test_Proportion()
 	std::cout << "p1 = " << double(p1) << std::endl;
 	std::cout << "p2 = " << double(p2) << std::endl;
 	if (p1 > p2) { std::cout << "p1 > p2" << std::endl; } else { throw std::exception(); }
-	if (p1 + p2 == Proportion8_t::From(192)) { std::cout << "p1 + p2 = " << double(p1 + p2) << std::endl; } else { throw std::exception(); }
+	if (p1 + p2 == Proportion8_t::DirectConstruct(192)) { std::cout << "p1 + p2 = " << double(p1 + p2) << std::endl; } else { throw std::exception(); }
 	if (p1 - p2 == Proportion8_t(0.25)) { std::cout << "p2 - p1 = " << double(p1 - p2) << std::endl; } else { throw std::exception(); }
 	if (p1 * p2 == Proportion8_t(0.125)) { std::cout << "p1 * p2 = " << double(p1 * p2) << std::endl; } else { throw std::exception(); }
-	if (p2 / p1 == Proportion8_t::From(127)) { std::cout << "p2 / p1 = " << double(p2 / p1) << std::endl; } else { throw std::exception(); }
+	if (p2 / p1 == Proportion8_t::DirectConstruct(127)) { std::cout << "p2 / p1 = " << double(p2 / p1) << std::endl; } else { throw std::exception(); }
 	auto p3 = Proportion32_t(0.5);
 	if (p1 == Proportion8_t(p3)) { std::cout << "p1 = p3 = " << double(p3) << std::endl; } else { throw std::exception(); }
 	std::cout << "Proportion64_t(p2) = " << double(Proportion64_t(p2)) << std::endl;
-	std::cout << "Proportion64_t(p2).UnscaledValue = " << Proportion64_t(p2).UnscaledValue() << std::endl;
+	std::cout << "Proportion64_t(p2).Data = " << Proportion64_t(p2).Data() << std::endl;
 	if (Proportion1_t::Max() == Proportion1_t(Proportion8_t(1.0))) { std::cout << "Proportion1_t::Max() = " << double(Proportion1_t::Max()) << std::endl; } else { throw std::exception(); }
 }
 

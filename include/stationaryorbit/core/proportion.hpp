@@ -4,6 +4,8 @@
 #include <cmath>
 #include <type_traits>
 #include <stdexcept>
+#include "fundamental.hpp"
+#include "algorithms.hpp"
 #include "range.hpp"
 namespace zawa_ch::StationaryOrbit
 {
@@ -15,94 +17,73 @@ namespace zawa_ch::StationaryOrbit
 	template <class Tp>
 	struct Proportion
 	{
+		template<class> friend struct Proportion;
 		static_assert(std::is_unsigned_v<Tp>, "テンプレート型 Tp は符号なし算術型である必要があります。");
+
 	public:
 		///	この型の値の表現のために内部で使用されている型。
 		typedef Tp ValueType;
+
 	private:
+		///	この型の内部で使用されているデータとしての値。
 		ValueType _value;
-		constexpr explicit Proportion(const ValueType& init) : _value(init) {}
+
+		///	この型のオブジェクトを @a ValueType の値から直接構築します。
+		constexpr explicit Proportion(const ValueType& init, const Unit&) noexcept : _value(init) {}
+
 	public:
 		///	既定の @a Proportion オブジェクトを作成します。
-		constexpr Proportion() : _value() {}
-		///	@a float から値をキャストします。
-		constexpr explicit Proportion(const float& from) : Proportion(convertFromFloat(from)) {}
+		constexpr Proportion() = default;
 		///	@a double から値をキャストします。
-		constexpr explicit Proportion(const double& from) : Proportion(convertFromFloat(from)) {}
-		constexpr Proportion(const ValueType& numerator, const ValueType& denominator) : Proportion(checkedFraction(numerator, denominator)) {}
+		constexpr explicit Proportion(const double& from) : Proportion(convertFromFloat(from), UnitValue) {}
+		///	分子・分母の値からオブジェクトを作成します。
+		constexpr Proportion(const ValueType& numerator, const ValueType& denominator) : Proportion(checkedFraction(numerator, denominator), UnitValue) {}
 		///	@a オブジェクトの内部の型をキャストします。
-		template<class fromT>
-		constexpr explicit Proportion(const Proportion<fromT>& from) : Proportion(from.template CastTo<Tp>()) {}
+		template<class fromT> constexpr explicit Proportion(const Proportion<fromT>& from) : Proportion(from.template CastTo<Tp>()) {}
 		constexpr Proportion(const Proportion<Tp>&) = default;
 		constexpr Proportion(Proportion<Tp>&&) = default;
 		~Proportion() = default;
+
 	public:
-		constexpr ValueType UnscaledValue() const { return _value; }
-		///	このオブジェクトが正規化されているかどうかを取得します。
-		///	@note
-		///	このメソッドの実行結果は常に @a true が返ります。
-		constexpr bool IsNormalized() const { return (Min()._value < _value)&&(_value < Max()._value); }
-		///	このオブジェクトを正規化します。
-		constexpr Proportion<Tp> Normalize() const { return Proportion((Min()._value <= _value)?((_value <= Max()._value)?(_value):(Max()._value)):(Min()._value)); }
-	public:
-		constexpr static Proportion<Tp> From(const ValueType& value)
-		{
-			return Proportion<Tp>(value);
-		}
-		///	この型で表すことのできる最大の値を取得します。
-		///	@note
-		///
-		constexpr static Proportion<Tp> Max()
-		{
-			static_assert(std::is_unsigned_v<Tp>, "テンプレートの特殊化に失敗しました(テンプレート型 Tp は符号なし算術型ではありません)。");
-			if constexpr (std::is_integral_v<Tp>) { return Proportion(std::numeric_limits<Tp>::max()); }
-			if constexpr (std::is_same_v<Tp, bool>) { return Proportion(true); }
-		}
-		///	この型で表すことのできる最小の値を取得します。
-		constexpr static Proportion<Tp> Min()
-		{
-			return Proportion(Tp(0));
-		}
-		///	この型で表すことのできる零値を取得します。
-		constexpr static Proportion<Tp> Zero()
-		{
-			return Proportion(Tp(0));
-		}
+		///	このオブジェクトの内部で保持している値を取得します。
+		[[nodiscard]] constexpr ValueType Data() const noexcept { return _value; }
+		///	このオブジェクトが空であるかを評価します。
+		constexpr bool IsEmpty() const noexcept { return *this == Empty(); }
 
 		// TODO: 計算結果の完全な情報を保持するResult<T, U>を作成、四則演算メソッドに適用する
 
 		///	このオブジェクトと指定されたオブジェクトの和を求めます。
-		constexpr Proportion<Tp> Add(const Proportion<Tp>& other) const { return Proportion(Tp(_value + other._value)); }
+		[[nodiscard]] constexpr Proportion<Tp> Add(const Proportion<Tp>& other) const noexcept { return Proportion(Tp(_value + other._value), UnitValue); }
 		///	このオブジェクトと指定されたオブジェクトの差を求めます。
-		constexpr Proportion<Tp> Sub(const Proportion<Tp>& other) const { return Proportion(Tp(_value - other._value)); }
+		[[nodiscard]] constexpr Proportion<Tp> Sub(const Proportion<Tp>& other) const noexcept { return Proportion(Tp(_value - other._value), UnitValue); }
 		///	このオブジェクトと指定されたオブジェクトの積を求めます。
-		constexpr Proportion<Tp> Multiple(const Proportion<Tp>& other) const { return Proportion(multiple_inner(_value, other._value)); }
+		[[nodiscard]] constexpr Proportion<Tp> Multiple(const Proportion<Tp>& other) const noexcept { return Proportion(multiple_inner(_value, other._value), UnitValue); }
 		///	このオブジェクトと指定されたオブジェクトの商を求めます。
-		constexpr Proportion<Tp> Divide(const Proportion<Tp>& other) const { return Proportion(fraction(_value, other._value)); }
+		[[nodiscard]] constexpr Proportion<Tp> Divide(const Proportion<Tp>& other) const noexcept { return Proportion(Algorithms::IntegralFraction(_value, other._value, std::numeric_limits<Tp>::max()), UnitValue); }
 		///	このオブジェクトと指定されたオブジェクトの和を求めます。
 		///	計算結果がオーバーフローする場合、表現できる値域に丸めを行います。
-		constexpr Proportion<Tp> SaturateAdd(const Proportion<Tp>& other) const
+		[[nodiscard]] constexpr Proportion<Tp> SaturateAdd(const Proportion<Tp>& other) const noexcept
 		{
 			if ((Max()._value - other._value) <= _value) { return Proportion(Tp(_value + other._value)); }
 			else { return Max(); }
 		}
 		///	このオブジェクトと指定されたオブジェクトの差を求めます。
 		///	計算結果がオーバーフローする場合、表現できる値域に丸めを行います。
-		constexpr Proportion<Tp> SaturateSub(const Proportion<Tp>& other) const
+		[[nodiscard]] constexpr Proportion<Tp> SaturateSub(const Proportion<Tp>& other) const noexcept
 		{
 			if (other._value <= _value) { return Proportion(Tp(_value - other._value)); }
 			else { return Min(); }
 		}
 		///	このオブジェクトと指定されたオブジェクトの積を求めます。
 		///	計算結果がオーバーフローする場合、表現できる値域に丸めを行います。
-		constexpr Proportion<Tp> SaturateMultiple(const Proportion<Tp>& other) const
+		[[nodiscard]] constexpr Proportion<Tp> SaturateMultiple(const Proportion<Tp>& other) const noexcept
 		{
 			// note: この型で表せる値域のどの組み合わせでもオーバーフローは発生しない
 			return Proportion(multiple_inner(_value, other._value));
 		}
 		///	このオブジェクトと指定されたオブジェクトの商を求めます。
 		///	計算結果がオーバーフローする場合、表現できる値域に丸めを行います。
-		constexpr Proportion<Tp> SaturateDivide(const Proportion<Tp>& other) const
+		[[nodiscard]] constexpr Proportion<Tp> SaturateDivide(const Proportion<Tp>& other) const noexcept
 		{
 			if (other._value < _value) { return Max(); }
 			return Proportion(checkedFraction(_value, other._value));
@@ -112,7 +93,7 @@ namespace zawa_ch::StationaryOrbit
 		///	@exception
 		///	std::overflow_error
 		///	計算結果がオーバーフローしました。
-		constexpr Proportion<Tp> CheckedAdd(const Proportion<Tp>& other) const
+		[[nodiscard]] constexpr Proportion<Tp> CheckedAdd(const Proportion<Tp>& other) const
 		{
 			if ((Max()._value - other._value) <= _value) { return Proportion(Tp(_value + other._value)); }
 			else { throw std::overflow_error("計算結果はこの型で表せる範囲を超えています。"); }
@@ -122,7 +103,7 @@ namespace zawa_ch::StationaryOrbit
 		///	@exception
 		///	std::overflow_error
 		///	計算結果がオーバーフローしました。
-		constexpr Proportion<Tp> CheckedSub(const Proportion<Tp>& other) const
+		[[nodiscard]] constexpr Proportion<Tp> CheckedSub(const Proportion<Tp>& other) const
 		{
 			if (other._value <= _value) { return Proportion(Tp(_value - other._value)); }
 			else { throw std::overflow_error("計算結果はこの型で表せる範囲を超えています。"); }
@@ -132,7 +113,7 @@ namespace zawa_ch::StationaryOrbit
 		///	@exception
 		///	std::overflow_error
 		///	計算結果がオーバーフローしました。
-		constexpr Proportion<Tp> CheckedMultiple(const Proportion<Tp>& other) const
+		[[nodiscard]] constexpr Proportion<Tp> CheckedMultiple(const Proportion<Tp>& other) const
 		{
 			// note: この型で表せる値域のどの組み合わせでもオーバーフローは発生しない
 			return Proportion(multiple_inner(_value, other._value));
@@ -142,12 +123,12 @@ namespace zawa_ch::StationaryOrbit
 		///	@exception
 		///	std::overflow_error
 		///	計算結果がオーバーフローしました。
-		constexpr Proportion<Tp> CheckedDivide(const Proportion<Tp>& other) const
+		[[nodiscard]] constexpr Proportion<Tp> CheckedDivide(const Proportion<Tp>& other) const
 		{ return Proportion(checkedFraction(_value, other._value)); }
 		///	この値の平方数を取得します。
-		constexpr Proportion<Tp> Square() const { return Multiple(*this); }
+		[[nodiscard]] constexpr Proportion<Tp> Square() const noexcept { return Multiple(*this); }
 		///	この値の平方根を取得します。
-		constexpr Proportion<Tp> Sqrt() const
+		[[nodiscard]] constexpr Proportion<Tp> Sqrt() const noexcept
 		{
 			ValueType result = _value;
 			ValueType b = _value;
@@ -157,7 +138,7 @@ namespace zawa_ch::StationaryOrbit
 				if (result == 0U) { break; }
 				b = result;	///< 前回値(X[N])保持
 				// a / X[N] の導出
-				ValueType delta = fraction(_value, b);
+				ValueType delta = Algorithms::IntegralFraction(_value, b, std::numeric_limits<Tp>::max());
 				// X[N] / 2
 				result /= 2;
 				// 剰余分の計算
@@ -165,43 +146,43 @@ namespace zawa_ch::StationaryOrbit
 				// (a / X[n]) / 2
 				result += delta / 2;
 			} while (2U < ((result < b)?(b-result):(result - b)));
-			return Proportion<Tp> { result };
+			return Proportion<Tp>(result, UnitValue);
 		}
 
-		constexpr Proportion<Tp> operator+(const Proportion<Tp>& other) const { return Add(other); }
-		constexpr Proportion<Tp> operator-(const Proportion<Tp>& other) const { return Sub(other); }
-		constexpr Proportion<Tp> operator*(const Proportion<Tp>& other) const { return Multiple(other); }
-		constexpr Proportion<Tp> operator/(const Proportion<Tp>& other) const { return Divide(other); }
-		constexpr Proportion<Tp>& operator+=(const Proportion<Tp>& other) { return *this = *this + other; }
-		constexpr Proportion<Tp>& operator-=(const Proportion<Tp>& other) { return *this = *this - other; }
-		constexpr Proportion<Tp>& operator*=(const Proportion<Tp>& other) { return *this = *this * other; }
-		constexpr Proportion<Tp>& operator/=(const Proportion<Tp>& other) { return *this = *this / other; }
+		[[nodiscard]] constexpr Proportion<Tp> operator+(const Proportion<Tp>& other) const noexcept { return Add(other); }
+		[[nodiscard]] constexpr Proportion<Tp> operator-(const Proportion<Tp>& other) const noexcept { return Sub(other); }
+		[[nodiscard]] constexpr Proportion<Tp> operator*(const Proportion<Tp>& other) const noexcept { return Multiple(other); }
+		[[nodiscard]] constexpr Proportion<Tp> operator/(const Proportion<Tp>& other) const noexcept { return Divide(other); }
+		[[nodiscard]] constexpr Proportion<Tp>& operator+=(const Proportion<Tp>& other) noexcept { return *this = *this + other; }
+		[[nodiscard]] constexpr Proportion<Tp>& operator-=(const Proportion<Tp>& other) noexcept { return *this = *this - other; }
+		[[nodiscard]] constexpr Proportion<Tp>& operator*=(const Proportion<Tp>& other) noexcept { return *this = *this * other; }
+		[[nodiscard]] constexpr Proportion<Tp>& operator/=(const Proportion<Tp>& other) noexcept { return *this = *this / other; }
 
-		constexpr bool Equals(const Proportion<Tp>& other) const { return _value == other._value; }
-		constexpr bool operator==(const Proportion<Tp>& other) const { return Equals(other); }
-		constexpr bool operator!=(const Proportion<Tp>& other) const { return !Equals(other); }
+		[[nodiscard]] constexpr bool Equals(const Proportion<Tp>& other) const noexcept { return _value == other._value; }
+		[[nodiscard]] constexpr bool operator==(const Proportion<Tp>& other) const noexcept { return Equals(other); }
+		[[nodiscard]] constexpr bool operator!=(const Proportion<Tp>& other) const noexcept { return !Equals(other); }
 
-		constexpr int Compare(const Proportion<Tp>& other) const
+		[[nodiscard]] constexpr int Compare(const Proportion<Tp>& other) const noexcept
 		{
 			if (_value > other._value) { return 1; }
 			else if (_value < other._value) { return -1; }
 			else { return 0; }
 		}
-		constexpr bool operator<(const Proportion<Tp>& other) const { return Compare(other) < 0; }
-		constexpr bool operator>(const Proportion<Tp>& other) const { return Compare(other) > 0; }
-		constexpr bool operator<=(const Proportion<Tp>& other) const { return Compare(other) <= 0; }
-		constexpr bool operator>=(const Proportion<Tp>& other) const { return Compare(other) >= 0; }
+		[[nodiscard]] constexpr bool operator<(const Proportion<Tp>& other) const noexcept { return Compare(other) < 0; }
+		[[nodiscard]] constexpr bool operator>(const Proportion<Tp>& other) const noexcept { return Compare(other) > 0; }
+		[[nodiscard]] constexpr bool operator<=(const Proportion<Tp>& other) const noexcept { return Compare(other) <= 0; }
+		[[nodiscard]] constexpr bool operator>=(const Proportion<Tp>& other) const noexcept { return Compare(other) >= 0; }
 
-		Proportion<Tp>& operator=(const Proportion<Tp>& value) = default;
-		Proportion<Tp>& operator=(Proportion<Tp>&& value) = default;
+		[[nodiscard]] Proportion<Tp>& operator=(const Proportion<Tp>& value) = default;
+		[[nodiscard]] Proportion<Tp>& operator=(Proportion<Tp>&& value) = default;
 
-		constexpr explicit operator float() const { return convertToFloat<float>(); }
-		constexpr explicit operator double() const { return convertToFloat<double>(); }
+		[[nodiscard]] constexpr explicit operator float() const { return convertToFloat<float>(); }
+		[[nodiscard]] constexpr explicit operator double() const { return convertToFloat<double>(); }
 		///	内部に使用する型のキャストを行います。
 		///	@param	castT
-		///	変換先の型。返ってくる値の型は @a Proportion<castT> となります。
+		///	変換先の型。返ってくる値の型は @a Proportion&lt;castT&gt; となります。
 		template<class castT>
-		constexpr Proportion<castT> CastTo() const
+		[[nodiscard]] constexpr Proportion<castT> CastTo() const
 		{
 			static_assert(std::is_unsigned_v<Tp>, "テンプレートの特殊化に失敗しました(テンプレート型 Tp は符号なし算術型ではありません)。");
 			static_assert(std::is_unsigned_v<castT>, "テンプレートの特殊化に失敗しました(テンプレート型 castT は符号なし算術型ではありません)。");
@@ -223,12 +204,12 @@ namespace zawa_ch::StationaryOrbit
 						{
 							result |= castT(_value) << ((length * i) + mod);
 						}
-						return Proportion<castT>::From(result);
+						return Proportion<castT>(result, UnitValue);
 					}
 					else
 					{
 						const size_t length = (sizeof(Tp) - sizeof(castT)) * 8U;
-						return Proportion<castT>::From(castT(_value >> length));
+						return Proportion<castT>(castT(_value >> length), UnitValue);
 					}
 				}
 				else
@@ -240,54 +221,41 @@ namespace zawa_ch::StationaryOrbit
 					if constexpr (std::is_integral_v<Tp> && std::is_same_v<castT, bool>)
 					{
 						const size_t length = sizeof(Tp) * 8U;
-						return Proportion<castT>::From((_value >> (length - 1)) != 0);
+						return Proportion<castT>((_value >> (length - 1)) != 0, UnitValue);
 					}
 				}
 			}
 		}
 
-	private:
-		///	除算を行います。
-		///	@param	numerator
-		///	除算時の被除数。
-		///	@param	denominator
-		///	除算時の除数。
-		///	@exception
-		///	std::invalid_argument
-		///	0で除算することはできません。
-		static constexpr ValueType fraction(const ValueType& numerator, const ValueType& denominator)
+	public:
+		///	この型のオブジェクトを @a ValueType の値から直接構築します。
+		[[nodiscard]] constexpr static Proportion<Tp> DirectConstruct(const ValueType& value) { return Proportion<Tp>(value, UnitValue); }
+		///	この型で表すことのできる最大の値を取得します。
+		[[nodiscard]] constexpr static Proportion<Tp> Max()
 		{
-			if constexpr ((std::is_integral_v<ValueType>)&&(std::is_unsigned_v<ValueType>))
-			{
-				if (denominator == 0U) { throw std::invalid_argument("分母に0を指定することはできません。"); }
-				ValueType unit = std::numeric_limits<ValueType>::max() / denominator;
-				ValueType result = unit * numerator;
-				ValueType surplus = std::numeric_limits<ValueType>::max() % denominator;
-				if (surplus != 0U)
-				{
-					ValueType dv = 0U;
-					ValueType md = 0U;
-					for(size_t i = (sizeof(ValueType) * 8U); 0 < i; i--)
-					{
-						dv *= 2U;
-						md *= 2U;
-						if (numerator & (ValueType(1U) << (i - 1)))
-						{
-							md += surplus;
-						}
-						dv += md / denominator;
-						md %= denominator;
-					}
-					result += dv;
-				}
-				return result;
-			}
-			if constexpr (std::is_same_v<ValueType, bool>)
-			{
-				if (denominator == false) { throw std::invalid_argument("分母に0を指定することはできません。"); }
-				return numerator;
-			}
+			static_assert(std::is_unsigned_v<Tp>, "テンプレートの特殊化に失敗しました(テンプレート型 Tp は符号なし算術型ではありません)。");
+			if constexpr (std::is_same_v<Tp, bool>) { return Proportion<Tp>(true, UnitValue); }
+			else { return Proportion<Tp>(std::numeric_limits<Tp>::max(), UnitValue); }
 		}
+		///	この型で表すことのできる最小の値を取得します。
+		[[nodiscard]] constexpr static Proportion<Tp> Min()
+		{
+			static_assert(std::is_unsigned_v<Tp>, "テンプレートの特殊化に失敗しました(テンプレート型 Tp は符号なし算術型ではありません)。");
+			if constexpr (std::is_same_v<Tp, bool>) { return Proportion<Tp>(false, UnitValue); }
+			else { return Proportion<Tp>(std::numeric_limits<Tp>::min(), UnitValue); }
+		}
+		///	この型で表すことのできる零値を取得します。
+		[[nodiscard]] constexpr static Proportion<Tp> Zero()
+		{
+			return Proportion<Tp>(Tp(0), UnitValue);
+		}
+		///	空のオブジェクトを取得します。
+		[[nodiscard]] constexpr static Proportion<Tp> Empty()
+		{
+			return Proportion<Tp> {};
+		}
+
+	private:
 		///	値域チェックが行われる除算を行います。
 		///	@param	numerator
 		///	除算時の被除数。
@@ -303,11 +271,11 @@ namespace zawa_ch::StationaryOrbit
 			if constexpr ((std::is_integral_v<ValueType>)&&(std::is_unsigned_v<ValueType>))
 			{
 				if (denominator < numerator) { throw std::overflow_error("計算結果はこの型で表せる範囲を超えています。"); }
-				return fraction(numerator, denominator);
+				return Algorithms::IntegralFraction(numerator, denominator, std::numeric_limits<Tp>::max());
 			}
 			else
 			{
-				return fraction(numerator, denominator);
+				return Algorithms::IntegralFraction(numerator, denominator, std::numeric_limits<Tp>::max());
 			}
 		}
 		static constexpr ValueType multiple_inner(const ValueType& left, const ValueType& right)
