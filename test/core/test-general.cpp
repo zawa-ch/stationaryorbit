@@ -2,6 +2,7 @@ void Test_BitMask();
 void Test_Endian();
 void Test_Delegate();
 void Test_Logic();
+void Test_FixedPoint();
 void Test_Point();
 void Test_Rectangle();
 int Test_Property();
@@ -16,6 +17,7 @@ int main(int argc, char const *argv[])
 {
 	Test_Delegate();
 	Test_Logic();
+	Test_FixedPoint();
 	Test_Point();
 	Test_Rectangle();
 	Test_BitMask();
