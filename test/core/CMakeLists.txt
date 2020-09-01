@@ -15,10 +15,7 @@ set(BUILD_SOURCES ${BUILD_SOURCES} delegate.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} iteration.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} numeral.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} property.cpp)
-set(BUILD_SOURCES ${BUILD_SOURCES} range.cpp)
-set(BUILD_SOURCES ${BUILD_SOURCES} rotation.cpp)
 set(BUILD_SOURCES ${BUILD_SOURCES} test-general.cpp)
-set(BUILD_SOURCES ${BUILD_SOURCES} vector2d.cpp)
 
 # ビルドおよびリンク
 add_executable(${AssemblyName} ${BUILD_SOURCES})

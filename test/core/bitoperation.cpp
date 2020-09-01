@@ -2,8 +2,18 @@
 #include "stationaryorbit/core.bitoperation.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
+void Test_BitMask();
+void Test_Endian();
+
+void Test_BitOperation()
+{
+	Test_BitMask();
+	Test_Endian();
+}
+
 void Test_BitMask()
 {
+	std::cout << "<--- BitMask --->" << std::endl;
 	auto mask = BitMask<uint32_t>(0xF0);
 	if (mask.GetFrom(0x38) == 0x30) { std::cout << "mask(0xF0 | 0x38) -> 0x30" << std::endl; } else { throw std::exception(); }
 	if (mask.GetAlignedFrom(0x38) == 0x3) { std::cout << "alignedmask(0xF0 | 0x38) -> 0x3" << std::endl; } else { throw std::exception(); }
@@ -15,6 +25,7 @@ void Test_BitMask()
 
 void Test_Endian()
 {
+	std::cout << "<--- Endian --->" << std::endl;
 	uint32_t deadbeef = 0xDEADBEEF;
 	auto fmtflg = std::cout.setf((std::ios_base::fmtflags)0, (std::ios_base::fmtflags)0);
 	std::cout.setf(std::ios_base::hex, std::ios_base::basefield);

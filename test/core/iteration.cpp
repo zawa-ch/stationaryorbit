@@ -2,9 +2,16 @@
 #include "stationaryorbit/core.iteration.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
+void Test_Iterator();
+
+void Test_Iteration()
+{
+	Test_Iterator();
+}
+
 void Test_Iterator()
 {
-	std::cout << "<--- Iteration --->" << std::endl;
+	std::cout << "<--- Iterator --->" << std::endl;
 	std::vector<int> cont1 = {1, 2, 3, 4, 5};
 	ItrProcesser::ForEach(LegacyIterator(cont1), [](auto item) { std::cout << item << " "; });
 	std::cout << std::endl;
