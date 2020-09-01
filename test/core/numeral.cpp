@@ -16,18 +16,18 @@ void Test_Logic()
 void Test_FixedPoint()
 {
 	std::cout << "<--- FixedPoint --->" << std::endl;
-	auto f1 = FixedPoint<uint16_t, 8>(16);
-	auto f2 = FixedPoint<uint16_t, 8>(0.125);
+	auto f1 = FixedPoint16q8_t(16);
+	auto f2 = FixedPoint16q8_t(0.125);
 	if (double(f1) == 16) { std::cout << "f1 = " << double(f1) << std::endl; } else { throw std::exception(); }
 	if (double(f2) == 0.125) { std::cout << "f2 = " << double(f2) << std::endl; } else { throw std::exception(); }
 	if (double(f1 + f2) == 16.125) { std::cout << "f1 + f2 = " << double(f1 + f2) << std::endl; } else { throw std::exception(); }
 	if (double(f1 - f2) == 15.875) { std::cout << "f1 - f2 = " << double(f1 - f2) << std::endl; } else { throw std::exception(); }
 	if (double(f1 * f2) == 2) { std::cout << "f1 * f2 = " << double(f1 * f2) << std::endl; } else { throw std::exception(); }
 	if (double(f1 / f2) == 128) { std::cout << "f1 / f2 = " << double(f1 / f2) << std::endl; } else { throw std::exception(); }
-	if (FixedPoint<uint32_t, 16>(f1) == FixedPoint<uint32_t, 16>(16)) { std::cout << "f1 -> " << double(FixedPoint<uint32_t, 16>(16)) << std::endl; } else { throw std::exception(); }
-	std::cout << "FixedPoint<uint16_t, 8>::Max() = " << double(FixedPoint<uint16_t, 8>::Max()) << std::endl;
-	std::cout << "FixedPoint<uint16_t, 8>::Min() = " << double(FixedPoint<uint16_t, 8>::Min()) << std::endl;
-	std::cout << "FixedPoint<uint16_t, 8>::Epsiron() = " << double(FixedPoint<uint16_t, 8>::Epsiron()) << std::endl;
+	if (FixedPoint32q16_t(f1) == FixedPoint32q16_t(16)) { std::cout << "f1 -> " << double(FixedPoint<uint32_t, 16>(16)) << std::endl; } else { throw std::exception(); }
+	std::cout << "FixedPoint16q8_t::Max() = " << double(FixedPoint16q8_t::Max()) << std::endl;
+	std::cout << "FixedPoint16q8_t::Min() = " << double(FixedPoint16q8_t::Min()) << std::endl;
+	std::cout << "FixedPoint16q8_t::Epsiron() = " << double(FixedPoint16q8_t::Epsiron()) << std::endl;
 }
 
 void Test_FractionalDec()

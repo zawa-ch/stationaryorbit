@@ -16,6 +16,7 @@ namespace zawa_ch::StationaryOrbit
 	///	@note
 	///	小数部分のビット長 @a Ql は現在型 @a Tp のビット長を超えることはできませんが、今後の拡張によって実装される可能性はあります。
 	///	テンプレート型 @a Tp は符号付きの整数型を使用することはできませんが、今後の拡張によって実装される可能性はあります。
+	///	端数処理は現在行われていません。すべて切り捨てで実装されています。
 	template<class Tp, size_t Ql>
 	class FixedPoint final
 	{
@@ -93,6 +94,26 @@ namespace zawa_ch::StationaryOrbit
 			// TODO: 除算のオーバーフロー検出処理の実装
 			return Divide(other);
 		}
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> CheckedAdd(const FixedPoint<Tp, Ql>& other) const
+		{
+			if (_value < (Max()._value - other._value)) { return Add(other); }
+			else { throw std::overflow_error("計算結果はこの型で表せる範囲を超えています。"); }
+		}
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> CheckedSub(const FixedPoint<Tp, Ql>& other) const
+		{
+			if ((Min()._value + other._value) < _value) { return Sub(other); }
+			else { throw std::overflow_error("計算結果はこの型で表せる範囲を超えています。"); }
+		}
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> CheckedMultiple(const FixedPoint<Tp, Ql>& other) const
+		{
+			// TODO: 乗算のオーバーフロー検出処理の実装
+			return Multiple(other);
+		}
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> CheckedDivide(const FixedPoint<Tp, Ql>& other) const
+		{
+			// TODO: 除算のオーバーフロー検出処理の実装
+			return Divide(other);
+		}
 
 		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator+(const FixedPoint<Tp, Ql>& other) const { return Add(other); }
 		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator-(const FixedPoint<Tp, Ql>& other) const { return Sub(other); }
@@ -161,5 +182,21 @@ namespace zawa_ch::StationaryOrbit
 			return castT(castT(_value) / std::exp2(QLength));
 		}
 	};
+
+	extern template class FixedPoint<uint8_t, 7>;
+	extern template class FixedPoint<uint16_t, 8>;
+	extern template class FixedPoint<uint16_t, 15>;
+	extern template class FixedPoint<uint32_t, 16>;
+	extern template class FixedPoint<uint32_t, 31>;
+	extern template class FixedPoint<uint64_t, 32>;
+	extern template class FixedPoint<uint64_t, 63>;
+
+	typedef FixedPoint<uint8_t, 7> FixedPoint8q7_t;
+	typedef FixedPoint<uint16_t, 8> FixedPoint16q8_t;
+	typedef FixedPoint<uint16_t, 15> FixedPoint16q15_t;
+	typedef FixedPoint<uint32_t, 16> FixedPoint32q16_t;
+	typedef FixedPoint<uint32_t, 31> FixedPoint32q31_t;
+	typedef FixedPoint<uint64_t, 32> FixedPoint64q32_t;
+	typedef FixedPoint<uint64_t, 63> FixedPoint64q63_t;
 }
 #endif // __stationaryorbit_core_fixedpoint__

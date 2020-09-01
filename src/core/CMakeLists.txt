@@ -9,6 +9,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/stationaryorbit/core.delegate.hpp
     ${Include_Dir}/stationaryorbit/core.numeral.hpp
     ${Include_Dir}/stationaryorbit/core.property.hpp
+    fixedpoint.cpp
     proportion.cpp
     real.cpp
     rotation.cpp
