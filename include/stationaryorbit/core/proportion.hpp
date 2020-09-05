@@ -33,13 +33,13 @@ namespace zawa_ch::StationaryOrbit
 
 	public:
 		///	既定の @a Proportion オブジェクトを作成します。
-		constexpr Proportion() = default;
+		constexpr Proportion() noexcept = default;
 		///	@a double から値をキャストします。
 		constexpr explicit Proportion(const double& from) : Proportion(convertFromFloat(from), UnitValue) {}
 		///	分子・分母の値からオブジェクトを作成します。
 		constexpr Proportion(const ValueType& numerator, const ValueType& denominator) : Proportion(checkedFraction(numerator, denominator), UnitValue) {}
 		///	@a オブジェクトの内部の型をキャストします。
-		template<class fromT> constexpr explicit Proportion(const Proportion<fromT>& from) : Proportion(from.template CastTo<Tp>()) {}
+		template<class fromT> constexpr explicit Proportion(const Proportion<fromT>& from) noexcept : Proportion(from.template CastTo<Tp>()) {}
 		constexpr Proportion(const Proportion<Tp>&) = default;
 		constexpr Proportion(Proportion<Tp>&&) = default;
 		~Proportion() = default;
@@ -182,7 +182,7 @@ namespace zawa_ch::StationaryOrbit
 		///	@param	castT
 		///	変換先の型。返ってくる値の型は @a Proportion&lt;castT&gt; となります。
 		template<class castT>
-		[[nodiscard]] constexpr Proportion<castT> CastTo() const
+		[[nodiscard]] constexpr Proportion<castT> CastTo() const noexcept
 		{
 			static_assert(std::is_unsigned_v<Tp>, "テンプレートの特殊化に失敗しました(テンプレート型 Tp は符号なし算術型ではありません)。");
 			static_assert(std::is_unsigned_v<castT>, "テンプレートの特殊化に失敗しました(テンプレート型 castT は符号なし算術型ではありません)。");
@@ -229,28 +229,28 @@ namespace zawa_ch::StationaryOrbit
 
 	public:
 		///	この型のオブジェクトを @a ValueType の値から直接構築します。
-		[[nodiscard]] constexpr static Proportion<Tp> DirectConstruct(const ValueType& value) { return Proportion<Tp>(value, UnitValue); }
+		[[nodiscard]] constexpr static Proportion<Tp> DirectConstruct(const ValueType& value) noexcept { return Proportion<Tp>(value, UnitValue); }
 		///	この型で表すことのできる最大の値を取得します。
-		[[nodiscard]] constexpr static Proportion<Tp> Max()
+		[[nodiscard]] constexpr static Proportion<Tp> Max() noexcept
 		{
 			static_assert(std::is_unsigned_v<Tp>, "テンプレートの特殊化に失敗しました(テンプレート型 Tp は符号なし算術型ではありません)。");
 			if constexpr (std::is_same_v<Tp, bool>) { return Proportion<Tp>(true, UnitValue); }
 			else { return Proportion<Tp>(std::numeric_limits<Tp>::max(), UnitValue); }
 		}
 		///	この型で表すことのできる最小の値を取得します。
-		[[nodiscard]] constexpr static Proportion<Tp> Min()
+		[[nodiscard]] constexpr static Proportion<Tp> Min() noexcept
 		{
 			static_assert(std::is_unsigned_v<Tp>, "テンプレートの特殊化に失敗しました(テンプレート型 Tp は符号なし算術型ではありません)。");
 			if constexpr (std::is_same_v<Tp, bool>) { return Proportion<Tp>(false, UnitValue); }
 			else { return Proportion<Tp>(std::numeric_limits<Tp>::min(), UnitValue); }
 		}
 		///	この型で表すことのできる零値を取得します。
-		[[nodiscard]] constexpr static Proportion<Tp> Zero()
+		[[nodiscard]] constexpr static Proportion<Tp> Zero() noexcept
 		{
 			return Proportion<Tp>(Tp(0), UnitValue);
 		}
 		///	空のオブジェクトを取得します。
-		[[nodiscard]] constexpr static Proportion<Tp> Empty()
+		[[nodiscard]] constexpr static Proportion<Tp> Empty() noexcept
 		{
 			return Proportion<Tp> {};
 		}
