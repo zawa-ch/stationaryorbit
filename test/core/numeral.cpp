@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>
+#include "stationaryorbit/core.traits.hpp"
 #include "stationaryorbit/core.numeral.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
@@ -98,6 +99,16 @@ void Test_Point()
 void Test_Proportion()
 {
 	std::cout << "<--- Proportion --->" << std::endl;
+
+	// 型トレイト
+	if (Traits::HasArithmeticOperation<Proportion8_t>) { std::cout << "HasArithmeticOperation<Proportion8_t> -> true" << std::endl; } else { throw std::exception(); }
+	if (!Traits::HasBitOperation<Proportion8_t>) { std::cout << "HasBitOperation<Proportion8_t> -> false" << std::endl; } else { throw std::exception(); }
+	if (!Traits::IsIntegerType<Proportion8_t>) { std::cout << "IsIntegerType<Proportion8_t> -> false" << std::endl; } else { throw std::exception(); }
+	if (Traits::Comparable<Proportion8_t>) { std::cout << "Comparable<Proportion8_t> -> true" << std::endl; } else { throw std::exception(); }
+	if (Traits::Equatable<Proportion8_t>) { std::cout << "Equatable<Proportion8_t> -> true" << std::endl; } else { throw std::exception(); }
+	if (Traits::HasSaturateOperation<Proportion8_t>) { std::cout << "HasSaturateOperation<Proportion8_t> -> true" << std::endl; } else { throw std::exception(); }
+	if (Traits::HasCheckedOperation<Proportion8_t>) { std::cout << "HasCheckedOperation<Proportion8_t> -> true" << std::endl; } else { throw std::exception(); }
+
 	auto p1 = Proportion8_t(0.5);
 	auto p2 = Proportion8_t(0.25);
 	std::cout.precision(16);

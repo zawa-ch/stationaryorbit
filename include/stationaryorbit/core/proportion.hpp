@@ -1,3 +1,6 @@
+//	stationaryorbit/core/proportion
+//	Copyright 2020 zawa-ch.
+//
 #ifndef __stationaryorbit_core_proportion__
 #define __stationaryorbit_core_proportion__
 #include <cstdint>
@@ -52,14 +55,18 @@ namespace zawa_ch::StationaryOrbit
 
 		// TODO: 計算結果の完全な情報を保持するResult<T, U>を作成、四則演算メソッドに適用する
 
+		///	このオブジェクトを昇格します。
+		[[nodiscard]] constexpr Proportion<Tp> Promote() const noexcept { return DirectConstruct(+_value); }
+		///	このオブジェクトの反数を求めます。
+		[[nodiscard]] constexpr Proportion<Tp> Invert() const noexcept { return DirectConstruct(-_value); }
 		///	このオブジェクトと指定されたオブジェクトの和を求めます。
 		[[nodiscard]] constexpr Proportion<Tp> Add(const Proportion<Tp>& other) const noexcept { return Proportion(Tp(_value + other._value), UnitValue); }
 		///	このオブジェクトと指定されたオブジェクトの差を求めます。
 		[[nodiscard]] constexpr Proportion<Tp> Sub(const Proportion<Tp>& other) const noexcept { return Proportion(Tp(_value - other._value), UnitValue); }
 		///	このオブジェクトと指定されたオブジェクトの積を求めます。
-		[[nodiscard]] constexpr Proportion<Tp> Multiple(const Proportion<Tp>& other) const noexcept { return Proportion(multiple_inner(_value, other._value), UnitValue); }
+		[[nodiscard]] constexpr Proportion<Tp> Mul(const Proportion<Tp>& other) const noexcept { return Proportion(multiple_inner(_value, other._value), UnitValue); }
 		///	このオブジェクトと指定されたオブジェクトの商を求めます。
-		[[nodiscard]] constexpr Proportion<Tp> Divide(const Proportion<Tp>& other) const noexcept { return Proportion(Algorithms::IntegralFraction(_value, other._value, std::numeric_limits<Tp>::max()), UnitValue); }
+		[[nodiscard]] constexpr Proportion<Tp> Div(const Proportion<Tp>& other) const noexcept { return Proportion(Algorithms::IntegralFraction(_value, other._value, std::numeric_limits<Tp>::max()), UnitValue); }
 		///	このオブジェクトと指定されたオブジェクトの和を求めます。
 		///	計算結果がオーバーフローする場合、表現できる値域に丸めを行います。
 		[[nodiscard]] constexpr Proportion<Tp> SaturateAdd(const Proportion<Tp>& other) const noexcept
@@ -76,14 +83,14 @@ namespace zawa_ch::StationaryOrbit
 		}
 		///	このオブジェクトと指定されたオブジェクトの積を求めます。
 		///	計算結果がオーバーフローする場合、表現できる値域に丸めを行います。
-		[[nodiscard]] constexpr Proportion<Tp> SaturateMultiple(const Proportion<Tp>& other) const noexcept
+		[[nodiscard]] constexpr Proportion<Tp> SaturateMul(const Proportion<Tp>& other) const noexcept
 		{
 			// note: この型で表せる値域のどの組み合わせでもオーバーフローは発生しない
 			return Proportion(multiple_inner(_value, other._value));
 		}
 		///	このオブジェクトと指定されたオブジェクトの商を求めます。
 		///	計算結果がオーバーフローする場合、表現できる値域に丸めを行います。
-		[[nodiscard]] constexpr Proportion<Tp> SaturateDivide(const Proportion<Tp>& other) const noexcept
+		[[nodiscard]] constexpr Proportion<Tp> SaturateDiv(const Proportion<Tp>& other) const noexcept
 		{
 			if (other._value < _value) { return Max(); }
 			return Proportion(checkedFraction(_value, other._value));
@@ -113,7 +120,7 @@ namespace zawa_ch::StationaryOrbit
 		///	@exception
 		///	std::overflow_error
 		///	計算結果がオーバーフローしました。
-		[[nodiscard]] constexpr Proportion<Tp> CheckedMultiple(const Proportion<Tp>& other) const
+		[[nodiscard]] constexpr Proportion<Tp> CheckedMul(const Proportion<Tp>& other) const
 		{
 			// note: この型で表せる値域のどの組み合わせでもオーバーフローは発生しない
 			return Proportion(multiple_inner(_value, other._value));
@@ -123,10 +130,10 @@ namespace zawa_ch::StationaryOrbit
 		///	@exception
 		///	std::overflow_error
 		///	計算結果がオーバーフローしました。
-		[[nodiscard]] constexpr Proportion<Tp> CheckedDivide(const Proportion<Tp>& other) const
+		[[nodiscard]] constexpr Proportion<Tp> CheckedDiv(const Proportion<Tp>& other) const
 		{ return Proportion(checkedFraction(_value, other._value)); }
 		///	この値の平方数を取得します。
-		[[nodiscard]] constexpr Proportion<Tp> Square() const noexcept { return Multiple(*this); }
+		[[nodiscard]] constexpr Proportion<Tp> Square() const noexcept { return Mul(*this); }
 		///	この値の平方根を取得します。
 		[[nodiscard]] constexpr Proportion<Tp> Sqrt() const noexcept
 		{
@@ -149,10 +156,12 @@ namespace zawa_ch::StationaryOrbit
 			return Proportion<Tp>(result, UnitValue);
 		}
 
+		[[nodiscard]] constexpr Proportion<Tp> operator+() const noexcept { return Promote(); }
+		[[nodiscard]] constexpr Proportion<Tp> operator-() const noexcept { return Invert(); }
 		[[nodiscard]] constexpr Proportion<Tp> operator+(const Proportion<Tp>& other) const noexcept { return Add(other); }
 		[[nodiscard]] constexpr Proportion<Tp> operator-(const Proportion<Tp>& other) const noexcept { return Sub(other); }
-		[[nodiscard]] constexpr Proportion<Tp> operator*(const Proportion<Tp>& other) const noexcept { return Multiple(other); }
-		[[nodiscard]] constexpr Proportion<Tp> operator/(const Proportion<Tp>& other) const noexcept { return Divide(other); }
+		[[nodiscard]] constexpr Proportion<Tp> operator*(const Proportion<Tp>& other) const noexcept { return Mul(other); }
+		[[nodiscard]] constexpr Proportion<Tp> operator/(const Proportion<Tp>& other) const noexcept { return Div(other); }
 		[[nodiscard]] constexpr Proportion<Tp>& operator+=(const Proportion<Tp>& other) noexcept { return *this = *this + other; }
 		[[nodiscard]] constexpr Proportion<Tp>& operator-=(const Proportion<Tp>& other) noexcept { return *this = *this - other; }
 		[[nodiscard]] constexpr Proportion<Tp>& operator*=(const Proportion<Tp>& other) noexcept { return *this = *this * other; }
