@@ -1,3 +1,6 @@
+//	stationaryorbit.test.core/traits
+//	Copyright 2020 zawa-ch.
+//
 #include <cstdint>
 #include <iostream>
 #include <stdexcept>
@@ -11,21 +14,27 @@ void Test_Traits()
 	std::cout << "<--- Traits --->" << std::endl;
 	if (Traits::HasArithmeticOperation<int>) { std::cout << "HasArithmeticOperation<int> -> true" << std::endl; } else { throw std::exception(); }
 	if (Traits::HasBitOperation<int>) { std::cout << "HasBitOperation<int> -> true" << std::endl; } else { throw std::exception(); }
+	if (Traits::IsIntegerType<int>) { std::cout << "IsIntegerType<int> -> true" << std::endl; } else { throw std::exception(); }
 	if (Traits::Comparable<int>) { std::cout << "Comparable<int> -> true" << std::endl; } else { throw std::exception(); }
 	if (Traits::Equatable<int>) { std::cout << "Equatable<int> -> true" << std::endl; } else { throw std::exception(); }
 
 	if (Traits::HasArithmeticOperation<double>) { std::cout << "HasArithmeticOperation<double> -> true" << std::endl; } else { throw std::exception(); }
 	if (!Traits::HasBitOperation<double>) { std::cout << "HasBitOperation<double> -> false" << std::endl; } else { throw std::exception(); }
+	if (!Traits::IsIntegerType<double>) { std::cout << "IsIntegerType<double> -> false" << std::endl; } else { throw std::exception(); }
 	if (Traits::Comparable<double>) { std::cout << "Comparable<double> -> true" << std::endl; } else { throw std::exception(); }
 	if (Traits::Equatable<double>) { std::cout << "Equatable<double> -> true" << std::endl; } else { throw std::exception(); }
 
 	if (!Traits::HasArithmeticOperation<std::string>) { std::cout << "HasArithmeticOperation<std::string> -> false" << std::endl; } else { throw std::exception(); }
 	if (!Traits::HasBitOperation<std::string>) { std::cout << "HasBitOperation<std::string> -> false" << std::endl; } else { throw std::exception(); }
+	if (!Traits::IsIntegerType<std::string>) { std::cout << "IsIntegerType<std::string> -> false" << std::endl; } else { throw std::exception(); }
 	if (Traits::Comparable<std::string>) { std::cout << "Comparable<std::string> -> true" << std::endl; } else { throw std::exception(); }
 	if (Traits::Equatable<std::string>) { std::cout << "Equatable<std::string> -> true" << std::endl; } else { throw std::exception(); }
 
 	if (Traits::HasArithmeticOperation<Proportion8_t>) { std::cout << "HasArithmeticOperation<Proportion8_t> -> true" << std::endl; } else { throw std::exception(); }
 	if (!Traits::HasBitOperation<Proportion8_t>) { std::cout << "HasBitOperation<Proportion8_t> -> false" << std::endl; } else { throw std::exception(); }
+	if (!Traits::IsIntegerType<Proportion8_t>) { std::cout << "IsIntegerType<Proportion8_t> -> false" << std::endl; } else { throw std::exception(); }
+	if (Traits::Comparable<Proportion8_t>) { std::cout << "Comparable<Proportion8_t> -> true" << std::endl; } else { throw std::exception(); }
+	if (Traits::Equatable<Proportion8_t>) { std::cout << "Equatable<Proportion8_t> -> true" << std::endl; } else { throw std::exception(); }
 	if (Traits::HasSaturateOperation<Proportion8_t>) { std::cout << "HasSaturateOperation<Proportion8_t> -> true" << std::endl; } else { throw std::exception(); }
 	if (Traits::HasCheckedOperation<Proportion8_t>) { std::cout << "HasCheckedOperation<Proportion8_t> -> true" << std::endl; } else { throw std::exception(); }
 

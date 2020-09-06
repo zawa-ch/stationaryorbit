@@ -33,83 +33,144 @@ namespace zawa_ch::StationaryOrbit
 		Traits(Traits&&) = delete;
 		~Traits() = delete;
 
+		///	単項算術演算子+の実装を識別します。
 		template<class, class = std::void_t<>>
 		struct HasPromotion_t : std::false_type {};
 		template<class T>
 		struct HasPromotion_t<T, std::void_t< decltype( +std::declval<T&>() ) > >
 			: std::is_convertible< decltype( +std::declval<T&>() ), T> {};
 
+		///	単項算術演算子-の実装を識別します。
 		template<class, class = std::void_t<>>
 		struct HasInverse_t : std::false_type {};
 		template<class T>
 		struct HasInverse_t<T, std::void_t< decltype( -std::declval<T&>() ) > >
 			: std::is_convertible< decltype( -std::declval<T&>() ), T> {};
 
+		///	二項算術演算子+の実装を識別します。
 		template<class, class, class = std::void_t<>>
 		struct HasAddition_t : std::false_type {};
 		template<class T, class U>
 		struct HasAddition_t<T, U, std::void_t< decltype( std::declval<T&>() + std::declval<U&>() ) > >
 			: std::is_convertible< decltype( std::declval<T&>() + std::declval<U&>() ), T> {};
 
+		///	二項算術演算子-の実装を識別します。
 		template<class, class, class = std::void_t<>>
 		struct HasSubtraction_t : std::false_type {};
 		template<class T, class U>
 		struct HasSubtraction_t<T, U, std::void_t< decltype( std::declval<T&>() - std::declval<U&>() ) > >
 			: std::is_convertible< decltype( std::declval<T&>() - std::declval<U&>() ), T> {};
 
+		///	二項算術演算子*の実装を識別します。
 		template<class, class, class = std::void_t<>>
 		struct HasMultiplication_t : std::false_type {};
 		template<class T, class U>
 		struct HasMultiplication_t<T, U, std::void_t< decltype( std::declval<T&>() * std::declval<U&>() ) > >
 			: std::is_convertible< decltype( std::declval<T&>() * std::declval<U&>() ), T> {};
 
+		///	二項算術演算子/の実装を識別します。
 		template<class, class, class = std::void_t<>>
 		struct HasDivision_t : std::false_type {};
 		template<class T, class U>
 		struct HasDivision_t<T, U, std::void_t< decltype( std::declval<T&>() / std::declval<U&>() ) > >
 			: std::is_convertible< decltype( std::declval<T&>() / std::declval<U&>() ), T> {};
 
+		///	二項算術演算子%の実装を識別します。
 		template<class, class, class = std::void_t<>>
 		struct HasModulation_t : std::false_type {};
 		template<class T, class U>
 		struct HasModulation_t<T, U, std::void_t< decltype( std::declval<T&>() % std::declval<U&>() ) > >
 			: std::is_convertible< decltype( std::declval<T&>() % std::declval<U&>() ), T> {};
 
+		///	二項算術演算子~の実装を識別します。
 		template<class, class = std::void_t<>>
 		struct HasArithmeticNot_t : std::false_type {};
 		template<class T>
 		struct HasArithmeticNot_t<T, std::void_t< decltype( ~std::declval<T&>() ) > >
 			: std::is_convertible< decltype( ~std::declval<T&>() ), T> {};
 
+		///	二項算術演算子|の実装を識別します。
 		template<class, class, class = std::void_t<>>
 		struct HasArithmeticOr_t : std::false_type {};
 		template<class T, class U>
 		struct HasArithmeticOr_t<T, U, std::void_t< decltype( std::declval<T&>() | std::declval<U&>() ) > >
 			: std::is_convertible< decltype( std::declval<T&>() | std::declval<U&>() ), T> {};
 
+		///	二項算術演算子&の実装を識別します。
 		template<class, class, class = std::void_t<>>
 		struct HasArithmeticAnd_t : std::false_type {};
 		template<class T, class U>
 		struct HasArithmeticAnd_t<T, U, std::void_t< decltype( std::declval<T&>() & std::declval<U&>() ) > >
 			: std::is_convertible< decltype( std::declval<T&>() & std::declval<U&>() ), T> {};
 
+		///	二項算術演算子^の実装を識別します。
 		template<class, class, class = std::void_t<>>
 		struct HasArithmeticXor_t : std::false_type {};
 		template<class T, class U>
 		struct HasArithmeticXor_t<T, U, std::void_t< decltype( std::declval<T&>() ^ std::declval<U&>() ) > >
 			: std::is_convertible< decltype( std::declval<T&>() ^ std::declval<U&>() ), T> {};
 
+		///	二項算術演算子<<の実装を識別します。
 		template<class, class, class = std::void_t<>>
 		struct HasLShift_t : std::false_type {};
 		template<class T, class U>
 		struct HasLShift_t<T, U, std::void_t< decltype( std::declval<T&>() << std::declval<U&>() ) > >
 			: std::is_convertible< decltype( std::declval<T&>() << std::declval<U&>() ), T> {};
 
+		///	二項算術演算子>>の実装を識別します。
 		template<class, class, class = std::void_t<>>
 		struct HasRShift_t : std::false_type {};
 		template<class T, class U>
 		struct HasRShift_t<T, U, std::void_t< decltype( std::declval<T&>() >> std::declval<U&>() ) > >
 			: std::is_convertible< decltype( std::declval<T&>() >> std::declval<U&>() ), T> {};
+
+		///	比較演算子==の実装を識別します。
+		template<class, class, class = std::void_t<>>
+		struct HasEqual_t : std::false_type {};
+		template<class T, class U>
+		struct HasEqual_t<T, U, std::void_t< decltype( std::declval<T&>() == std::declval<U&>() ) > >
+			: std::is_convertible< decltype( std::declval<T&>() == std::declval<U&>() ), bool> {};
+
+		///	比較演算子!=の実装を識別します。
+		template<class, class, class = std::void_t<>>
+		struct HasNotEqual_t : std::false_type {};
+		template<class T, class U>
+		struct HasNotEqual_t<T, U, std::void_t< decltype( std::declval<T&>() != std::declval<U&>() ) > >
+			: std::is_convertible< decltype( std::declval<T&>() != std::declval<U&>() ), bool> {};
+
+		///	比較演算子>の実装を識別します。
+		template<class, class, class = std::void_t<>>
+		struct HasComparamentLarger_t : std::false_type {};
+		template<class T, class U>
+		struct HasComparamentLarger_t<T, U, std::void_t< decltype( std::declval<T&>() > std::declval<U&>() ) > >
+			: std::is_convertible< decltype( std::declval<T&>() > std::declval<U&>() ), bool> {};
+
+		///	比較演算子<の実装を識別します。
+		template<class, class, class = std::void_t<>>
+		struct HasComparamentSmaller_t : std::false_type {};
+		template<class T, class U>
+		struct HasComparamentSmaller_t<T, U, std::void_t< decltype( std::declval<T&>() < std::declval<U&>() ) > >
+			: std::is_convertible< decltype( std::declval<T&>() < std::declval<U&>() ), bool> {};
+
+		///	比較演算子>=の実装を識別します。
+		template<class, class, class = std::void_t<>>
+		struct HasComparamentLeast_t : std::false_type {};
+		template<class T, class U>
+		struct HasComparamentLeast_t<T, U, std::void_t< decltype( std::declval<T&>() >= std::declval<U&>() ) > >
+			: std::is_convertible< decltype( std::declval<T&>() >= std::declval<U&>() ), bool> {};
+
+		///	比較演算子<=の実装を識別します。
+		template<class, class, class = std::void_t<>>
+		struct HasComparamentMost_t : std::false_type {};
+		template<class T, class U>
+		struct HasComparamentMost_t<T, U, std::void_t< decltype( std::declval<T&>() <= std::declval<U&>() ) > >
+			: std::is_convertible< decltype( std::declval<T&>() <= std::declval<U&>() ), bool> {};
+
+		template<class T, class U>
+		struct Equatable_t : std::conjunction< HasEqual_t<T, U>, HasNotEqual_t<T, U> > {};
+
+		template<class T, class U>
+		struct Comparable_t : std::conjunction< HasComparamentLarger_t<T, U>, HasComparamentSmaller_t<T, U>, HasComparamentLeast_t<T, U>, HasComparamentMost_t<T, U> > {};
 
 		template<class T>
 		struct HasUnaryOperation_t : std::conjunction<HasPromotion_t<T>, HasInverse_t<T>> {};
@@ -120,101 +181,104 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class U>
 		struct HasMultiplicativeOperation_t : std::conjunction<HasMultiplication_t<T, U>, HasDivision_t<T, U>> {};
 
-		template<class T, class U>
-		struct HasArithmeticOperation_t : std::conjunction<HasUnaryOperation_t<T>, HasAdditiveOperation_t<T, U>, HasMultiplicativeOperation_t<T, U>> {};
+		template<class T>
+		struct HasArithmeticOperation_t : std::conjunction<HasUnaryOperation_t<T>, HasAdditiveOperation_t<T, T>, HasMultiplicativeOperation_t<T, T>> {};
 
 		template<class T, class U>
-		struct HasBitOperation_t : std::conjunction<HasArithmeticNot_t<T>, HasArithmeticOr_t<T, U>, HasArithmeticAnd_t<T, U>, HasArithmeticXor_t<T, U>, HasLShift_t<T, U>, HasRShift_t<T, U>> {};
+		struct HasBitOperation_t : std::conjunction<HasArithmeticNot_t<T>, HasArithmeticOr_t<T, T>, HasArithmeticAnd_t<T, T>, HasArithmeticXor_t<T, T>, HasLShift_t<T, U>, HasRShift_t<T, U>> {};
 
-		template<class, class, class = std::void_t<>>
-		struct HasSaturateAdd_t : std::false_type {};
-		template<class T, class U>
-		struct HasSaturateAdd_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateAdd(std::declval<U&>()) ) > > : std::true_type {};
+		template<class T>
+		struct IsIntegerType_t : std::conjunction< HasArithmeticOperation_t<T>, HasModulation_t<T, T>, HasBitOperation_t<T, T> > {};
 
 		template<class, class, class = std::void_t<>>
-		struct HasSaturateSub_t : std::false_type {};
+		struct HasSaturateAddition_t : std::false_type {};
 		template<class T, class U>
-		struct HasSaturateSub_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateSub(std::declval<U&>()) ) > > : std::true_type {};
+		struct HasSaturateAddition_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateAdd(std::declval<U&>()) ) > > : std::true_type {};
 
 		template<class, class, class = std::void_t<>>
-		struct HasSaturateMultiple_t : std::false_type {};
+		struct HasSaturateSubtraction_t : std::false_type {};
 		template<class T, class U>
-		struct HasSaturateMultiple_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateMultiple(std::declval<U&>()) ) > > : std::true_type {};
+		struct HasSaturateSubtraction_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateSub(std::declval<U&>()) ) > > : std::true_type {};
 
 		template<class, class, class = std::void_t<>>
-		struct HasSaturateDivide_t : std::false_type {};
+		struct HasSaturateMultiplication_t : std::false_type {};
 		template<class T, class U>
-		struct HasSaturateDivide_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateDivide(std::declval<U&>()) ) > > : std::true_type {};
-
-		template<class T, class U>
-		struct HasSaturateOperation_t : std::conjunction<HasSaturateAdd_t<T, U>, HasSaturateSub_t<T, U>, HasSaturateMultiple_t<T, U>, HasSaturateDivide_t<T, U>> {};
+		struct HasSaturateMultiplication_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateMul(std::declval<U&>()) ) > > : std::true_type {};
 
 		template<class, class, class = std::void_t<>>
-		struct HasCheckedAdd_t : std::false_type {};
+		struct HasSaturateDivision_t : std::false_type {};
 		template<class T, class U>
-		struct HasCheckedAdd_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedAdd(std::declval<U&>()) ) > > : std::true_type {};
+		struct HasSaturateDivision_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateDiv(std::declval<U&>()) ) > > : std::true_type {};
+
+		template<class T, class U>
+		struct HasSaturateOperation_t : std::conjunction<HasSaturateAddition_t<T, U>, HasSaturateSubtraction_t<T, U>, HasSaturateMultiplication_t<T, U>, HasSaturateDivision_t<T, U>> {};
 
 		template<class, class, class = std::void_t<>>
-		struct HasCheckedSub_t : std::false_type {};
+		struct HasCheckedAddition_t : std::false_type {};
 		template<class T, class U>
-		struct HasCheckedSub_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedSub(std::declval<U&>()) ) > > : std::true_type {};
+		struct HasCheckedAddition_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedAdd(std::declval<U&>()) ) > > : std::true_type {};
 
 		template<class, class, class = std::void_t<>>
-		struct HasCheckedMultiple_t : std::false_type {};
+		struct HasCheckedSubtraction_t : std::false_type {};
 		template<class T, class U>
-		struct HasCheckedMultiple_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedMultiple(std::declval<U&>()) ) > > : std::true_type {};
+		struct HasCheckedSubtraction_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedSub(std::declval<U&>()) ) > > : std::true_type {};
 
 		template<class, class, class = std::void_t<>>
-		struct HasCheckedDivide_t : std::false_type {};
+		struct HasCheckedMultiplication_t : std::false_type {};
 		template<class T, class U>
-		struct HasCheckedDivide_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedDivide(std::declval<U&>()) ) > > : std::true_type {};
-
-		template<class T, class U>
-		struct HasCheckedOperation_t : std::conjunction<HasCheckedAdd_t<T, U>, HasCheckedSub_t<T, U>, HasCheckedMultiple_t<T, U>, HasCheckedDivide_t<T, U>> {};
+		struct HasCheckedMultiplication_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedMul(std::declval<U&>()) ) > > : std::true_type {};
 
 		template<class, class, class = std::void_t<>>
-		struct HasComparamentLarger : std::false_type {};
+		struct HasCheckedDivision_t : std::false_type {};
 		template<class T, class U>
-		struct HasComparamentLarger<T, U, std::void_t< decltype( std::declval<T&>() > std::declval<U&>() ) > >
-			: std::is_convertible< decltype( std::declval<T&>() > std::declval<U&>() ), bool> {};
-
-		template<class, class, class = std::void_t<>>
-		struct HasComparamentSmaller : std::false_type {};
-		template<class T, class U>
-		struct HasComparamentSmaller<T, U, std::void_t< decltype( std::declval<T&>() < std::declval<U&>() ) > >
-			: std::is_convertible< decltype( std::declval<T&>() < std::declval<U&>() ), bool> {};
-
-		template<class, class, class = std::void_t<>>
-		struct HasComparamentLeast : std::false_type {};
-		template<class T, class U>
-		struct HasComparamentLeast<T, U, std::void_t< decltype( std::declval<T&>() >= std::declval<U&>() ) > >
-			: std::is_convertible< decltype( std::declval<T&>() >= std::declval<U&>() ), bool> {};
-
-		template<class, class, class = std::void_t<>>
-		struct HasComparamentMost : std::false_type {};
-		template<class T, class U>
-		struct HasComparamentMost<T, U, std::void_t< decltype( std::declval<T&>() <= std::declval<U&>() ) > >
-			: std::is_convertible< decltype( std::declval<T&>() <= std::declval<U&>() ), bool> {};
+		struct HasCheckedDivision_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedDiv(std::declval<U&>()) ) > > : std::true_type {};
 
 		template<class T, class U>
-		struct Comparable_t : std::conjunction< HasComparamentLarger<T, U>, HasComparamentSmaller<T, U>, HasComparamentLeast<T, U>, HasComparamentMost<T, U> > {};
-
-		template<class, class, class = std::void_t<>>
-		struct HasEqual : std::false_type {};
-		template<class T, class U>
-		struct HasEqual<T, U, std::void_t< decltype( std::declval<T&>() == std::declval<U&>() ) > >
-			: std::is_convertible< decltype( std::declval<T&>() == std::declval<U&>() ), bool> {};
-
-		template<class, class, class = std::void_t<>>
-		struct HasNotEqual : std::false_type {};
-		template<class T, class U>
-		struct HasNotEqual<T, U, std::void_t< decltype( std::declval<T&>() != std::declval<U&>() ) > >
-			: std::is_convertible< decltype( std::declval<T&>() != std::declval<U&>() ), bool> {};
-
-		template<class T, class U>
-		struct Equatable_t : std::conjunction< HasEqual<T, U>, HasNotEqual<T, U> > {};
+		struct HasCheckedOperation_t : std::conjunction<HasCheckedAddition_t<T, U>, HasCheckedSubtraction_t<T, U>, HasCheckedMultiplication_t<T, U>, HasCheckedDivision_t<T, U>> {};
 
 	public:
+		///	単項算術演算子+の実装を識別します。
+		template<class T> inline constexpr static bool HasOperatorPromotion = HasPromotion_t<T>::value;
+		///	単項算術演算子-の実装を識別します。
+		template<class T> inline constexpr static bool HasOperatorInverse = HasInverse_t<T>::value;
+		///	二項算術演算子+の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorAddition = HasAddition_t<T, U>::value;
+		///	二項算術演算子-の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorSubtraction = HasSubtraction_t<T, U>::value;
+		///	二項算術演算子*の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorMultiplication = HasMultiplication_t<T, U>::value;
+		///	二項算術演算子/の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorDivision = HasDivision_t<T, U>::value;
+		///	二項算術演算子%の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorModulation = HasModulation_t<T, U>::value;
+		///	二項算術演算子~の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorArithmeticNot = HasArithmeticNot_t<T, U>::value;
+		///	二項算術演算子|の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorArithmeticOr = HasArithmeticOr_t<T, U>::value;
+		///	二項算術演算子&の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorArithmeticAnd = HasArithmeticAnd_t<T, U>::value;
+		///	二項算術演算子^の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorArithmeticXor = HasArithmeticXor_t<T, U>::value;
+		///	二項算術演算子<<の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorLShift = HasLShift_t<T, U>::value;
+		///	二項算術演算子>>の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorRShift = HasRShift_t<T, U>::value;
+		///	比較演算子==の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorEqual = HasEqual_t<T, U>::value;
+		///	比較演算子!=の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorNotEqual = HasNotEqual_t<T, U>::value;
+		///	比較演算子>の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorComparamentLarger = HasComparamentLarger_t<T, U>::value;
+		///	比較演算子<の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorComparamentSmaller = HasComparamentSmaller_t<T, U>::value;
+		///	比較演算子>=の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorComparamentLeast = HasComparamentLeast_t<T, U>::value;
+		///	比較演算子<=の実装を識別します。
+		template<class T, class U = T> inline constexpr static bool HasOperatorComparamentMost = HasComparamentMost_t<T, U>::value;
+		///	指定された型のオブジェクトとの等価比較が可能な型を識別します。
+		template<class T, class U = T> inline constexpr static bool Equatable = Equatable_t<T, U>::value;
+		///	指定された型のオブジェクトとの大小比較が可能な型を識別します。
+		template<class T, class U = T> inline constexpr static bool Comparable = Comparable_t<T, U>::value;
 		///	単項算術演算子を持つ型を識別します。
 		template<class T> inline constexpr static bool HasUnaryOperation = HasUnaryOperation_t<T>::value;
 		///	加法演算子を持つ型を識別します。
@@ -222,17 +286,15 @@ namespace zawa_ch::StationaryOrbit
 		///	乗法演算子を持つ型を識別します。
 		template<class T, class U = T> inline constexpr static bool HasMultiplicativeOperation = HasMultiplicativeOperation_t<T, U>::value;
 		///	基本的な算術演算を持つ型を識別します。
-		template<class T, class U = T> inline constexpr static bool HasArithmeticOperation = HasArithmeticOperation_t<T, U>::value;
+		template<class T> inline constexpr static bool HasArithmeticOperation = HasArithmeticOperation_t<T>::value;
+		///	整数型を識別します。
+		template<class T> inline constexpr static bool IsIntegerType = IsIntegerType_t<T>::value;
 		///	基本的なビット演算を持つ型を識別します。
 		template<class T, class U = T> inline constexpr static bool HasBitOperation = HasBitOperation_t<T, U>::value;
 		///	計算結果が飽和する四則演算を持つ型を識別します。
 		template<class T, class U = T> inline constexpr static bool HasSaturateOperation = HasSaturateOperation_t<T, U>::value;
 		///	計算結果の値域チェックが行われる四則演算を持つ型を識別します。
 		template<class T, class U = T> inline constexpr static bool HasCheckedOperation = HasCheckedOperation_t<T, U>::value;
-		///	指定された型のオブジェクトとの比較が可能な型を識別します。
-		template<class T, class U = T> inline constexpr static bool Comparable = Comparable_t<T, U>::value;
-		///	指定された型のオブジェクトとの比較が可能な型を識別します。
-		template<class T, class U = T> inline constexpr static bool Equatable = Equatable_t<T, U>::value;
 	};
 
 	///	指定された型の有効なビット幅を識別するための機能を提供します。
