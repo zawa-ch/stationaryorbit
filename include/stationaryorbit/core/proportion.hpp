@@ -317,12 +317,12 @@ namespace zawa_ch::StationaryOrbit
 		{
 			if ((value == std::numeric_limits<double>::quiet_NaN()) || (value == std::numeric_limits<double>::signaling_NaN())) { throw std::invalid_argument("指定する値はNaNであってはなりません。"); }
 			if ((value < 0.0) || (1.0 < value)) { throw std::overflow_error("指定された値がこの型で表せる範囲を超えています。"); }
-			if constexpr (std::is_integral_v<Tp>) { return ValueType(round(value * std::numeric_limits<ValueType>::max())); }
+			if constexpr (std::is_integral_v<Tp>) { return ValueType(round(value * fromT(std::numeric_limits<ValueType>::max()))); }
 		}
 		template<class castT>
 		constexpr castT convertToFloat() const
 		{
-			return castT(_value) / std::numeric_limits<ValueType>::max();
+			return castT(_value) / castT(std::numeric_limits<ValueType>::max());
 		}
 	};
 
