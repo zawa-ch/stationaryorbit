@@ -1,4 +1,4 @@
-//	stationaryorbit.test.core:/test-general
+//	stationaryorbit/graphics-dib.bmpimage
 //	Copyright 2020 zawa-ch.
 //	GPLv3 (or later) license
 //
@@ -16,21 +16,7 @@
 //	along with this program.
 //	If not, see <http://www.gnu.org/licenses/>.
 //
-void Test_Numeral();
-void Test_BitOperation();
-void Test_Iteration();
-void Test_Delegate();
-int Test_Property();
-void Test_Traits();
 
-int main(int argc, char const *argv[])
-{
-	Test_Traits();
-	Test_Numeral();
-	Test_BitOperation();
-	Test_Iteration();
-	Test_Delegate();
-	Test_Property();
+#include "graphics-dib/dibbitmap.hpp"
+#include "graphics-dib/dibheaders.hpp"
 
-	return 0;
-}

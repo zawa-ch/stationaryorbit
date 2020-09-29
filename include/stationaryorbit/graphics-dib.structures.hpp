@@ -1,4 +1,4 @@
-//	stationaryorbit.test.core:/test-general
+//	stationaryorbit/graphics-dib.structures
 //	Copyright 2020 zawa-ch.
 //	GPLv3 (or later) license
 //
@@ -16,21 +16,10 @@
 //	along with this program.
 //	If not, see <http://www.gnu.org/licenses/>.
 //
-void Test_Numeral();
-void Test_BitOperation();
-void Test_Iteration();
-void Test_Delegate();
-int Test_Property();
-void Test_Traits();
 
-int main(int argc, char const *argv[])
-{
-	Test_Traits();
-	Test_Numeral();
-	Test_BitOperation();
-	Test_Iteration();
-	Test_Delegate();
-	Test_Property();
-
-	return 0;
-}
+#include "graphics-dib/ciexyz.hpp"
+#include "graphics-dib/colormask.hpp"
+#include "graphics-dib/dibheaders.hpp"
+#include "graphics-dib/fileheader.hpp"
+#include "graphics-dib/rgbquad.hpp"
+#include "graphics-dib/rgbtriple.hpp"
