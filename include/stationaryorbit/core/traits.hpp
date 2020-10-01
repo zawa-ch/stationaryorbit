@@ -313,25 +313,25 @@ namespace zawa_ch::StationaryOrbit
 		struct HasReference_t<T, R, std::void_t< decltype( &std::declval<T&>() ) > >
 			: std::is_convertible< decltype( &std::declval<T&>() ), R> {};
 
-		///	アロー演算子->の実装を識別します。
+		///	アロー演算子->のオーバーロード実装を識別します。
 		template<class, class, class = std::void_t<>>
-		struct HasArrow_t : std::false_type {};
+		struct HasArrowOverload_t : std::false_type {};
 		template<class T, class R>
-		struct HasArrow_t<T, R, std::void_t< decltype( std::declval<T&>().operator->() ) > >
+		struct HasArrowOverload_t<T, R, std::void_t< decltype( std::declval<T&>().operator->() ) > >
 			: std::is_convertible< decltype( std::declval<T&>().operator->() ), R> {};
 
-		///	アロー間接参照演算子->*の実装を識別します。
+		///	アロー間接参照演算子->*のオーバーロード実装を識別します。
 		template<class, class, class = std::void_t<>>
-		struct HasArrowDereference_t : std::false_type {};
+		struct HasArrowDereferenceOverload_t : std::false_type {};
 		template<class T, class R>
-		struct HasArrowDereference_t<T, R, std::void_t< decltype( std::declval<T&>().operator->*() ) > >
+		struct HasArrowDereferenceOverload_t<T, R, std::void_t< decltype( std::declval<T&>().operator->*() ) > >
 			: std::is_convertible< decltype( std::declval<T&>().operator->*() ), R> {};
 
 		///	コンマ演算子,の実装を識別します。
 		template<class, class, class, class = std::void_t<>>
 		struct HasComma_t : std::false_type {};
 		template<class T, class U, class R>
-		struct HasComma_t<T, U, std::void_t< decltype( std::declval<T&>() , std::declval<U&>() ) > >
+		struct HasComma_t<T, U, R, std::void_t< decltype( std::declval<T&>() , std::declval<U&>() ) > >
 			: std::is_convertible< decltype( std::declval<T&>() , std::declval<U&>() ), R> {};
 
 		template<class T, class U>
@@ -497,11 +497,11 @@ namespace zawa_ch::StationaryOrbit
 		///	間接参照演算子*の実装を識別します。
 		template<class T, class R> inline constexpr static bool HasDereference = HasDereference_t<T, R>::value;
 		///	アドレス取得演算子&の実装を識別します。
-		template<class T, class R> inline constexpr static bool HasReference = HasReference_t<T, R>::value;
-		///	アロー演算子->の実装を識別します。
-		template<class T, class R> inline constexpr static bool HasArrow = HasArrow_t<T, R>::value;
-		///	アロー間接参照演算子->*の実装を識別します。
-		template<class T, class R> inline constexpr static bool HasArrowDereference = HasArrowDereference_t<T, R>::value;
+		template<class T, class R = T*> inline constexpr static bool HasReference = HasReference_t<T, R>::value;
+		///	アロー演算子->のオーバーロード実装を識別します。
+		template<class T, class R = T*> inline constexpr static bool HasArrow = HasArrowOverload_t<T, R>::value;
+		///	アロー間接参照演算子->*のオーバーロード実装を識別します。
+		template<class T, class R> inline constexpr static bool HasArrowDereference = HasArrowDereferenceOverload_t<T, R>::value;
 		///	コンマ演算子,の実装を識別します。
 		template<class T, class U = T, class R = T> inline constexpr static bool HasComma = HasComma_t<T, U, R>::value;
 		///	指定された型のオブジェクトとの等価比較が可能な型を識別します。

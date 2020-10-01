@@ -20,6 +20,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <array>
 #include "stationaryorbit/core.traits.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
@@ -43,6 +44,9 @@ void Test_Traits()
 	if (!Traits::IsIntegerType<std::string>) { std::cout << "IsIntegerType<std::string> -> false" << std::endl; } else { throw std::exception(); }
 	if (Traits::Comparable<std::string>) { std::cout << "Comparable<std::string> -> true" << std::endl; } else { throw std::exception(); }
 	if (Traits::Equatable<std::string>) { std::cout << "Equatable<std::string> -> true" << std::endl; } else { throw std::exception(); }
+
+	if (Traits::HasSubScript<std::array<uint8_t, 20>, size_t, uint8_t>) { std::cout << "HasSubScript<std::array<uint8_t, 20>, size_t, uint8_t> -> true" << std::endl; } else { throw std::exception(); }
+	if (Traits::HasDereference<int*, int>) { std::cout << "HasDereference<int*, int> -> true" << std::endl; } else { throw std::exception(); }
 
 	if (BitWidth<uint32_t> == 32UL) { std::cout << "BitWidth<uint32_t> -> " << BitWidth<uint32_t> << "[bit(s)]" << std::endl; } else { throw std::exception(); }
 	if (BitWidth<int64_t> == 64UL) { std::cout << "BitWidth<int64_t> -> " << BitWidth<int64_t> << "[bit(s)]" << std::endl; } else { throw std::exception(); }
