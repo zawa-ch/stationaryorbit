@@ -356,13 +356,13 @@ namespace zawa_ch::StationaryOrbit
 		struct HasBitOperation_t : std::conjunction<HasArithmeticNot_t<T, T>, HasArithmeticOr_t<T, T, T>, HasArithmeticAnd_t<T, T, T>, HasArithmeticXor_t<T, T, T>, HasLShift_t<T, U, T>, HasRShift_t<T, U, T>> {};
 
 		template<class T>
-		struct IsSequencialOrder_t : std::conjunction<HasPreIncrement_t<T, T&>> {};
+		struct IsSequencialOrder_t : std::conjunction<HasPreIncrement_t<T, T&>, HasPostIncrement_t<T, T>> {};
 
 		template<class T>
-		struct IsBidirectionalOrder_t : std::conjunction<IsSequencialOrder_t<T>, HasPreDecrement_t<T, T&>> {};
+		struct IsBidirectionalOrder_t : std::conjunction<IsSequencialOrder_t<T>, HasPreDecrement_t<T, T&>, HasPostDecrement_t<T, T>> {};
 
-		template<class T>
-		struct IsLinearOrder_t : std::conjunction<IsBidirectionalOrder_t<T>> {};
+		template<class T, class N>
+		struct IsLinearOrder_t : std::conjunction<IsBidirectionalOrder_t<T>, HasAdditiveOperation_t<T, N, T>, HasAddSubstitution_t<T, N, T&>, HasSubtractSubstitution_t<T, N, T&>> {};
 
 		template<class T>
 		struct IsIntegerType_t : std::conjunction< HasArithmeticOperation_t<T>, HasModulation_t<T, T, T>, HasBitOperation_t<T, T>, IsBidirectionalOrder_t<T> > {};
@@ -412,6 +412,93 @@ namespace zawa_ch::StationaryOrbit
 
 		template<class T, class U>
 		struct HasCheckedOperation_t : std::conjunction<HasCheckedAddition_t<T, U>, HasCheckedSubtraction_t<T, U>, HasCheckedMultiplication_t<T, U>, HasCheckedDivision_t<T, U>> {};
+
+		template<class, class = std::void_t<>>
+		struct IsStdLegacyIterator_t : std::false_type {};
+		template<class It>
+		struct IsStdLegacyIterator_t
+		<
+			It,
+			std::void_t
+			<
+				typename std::iterator_traits<It>::value_type,
+				typename std::iterator_traits<It>::difference_type,
+				typename std::iterator_traits<It>::reference,
+				typename std::iterator_traits<It>::pointer,
+				typename std::iterator_traits<It>::iterator_category,
+				decltype( *std::declval<It&>() )
+			>
+		> : HasPreIncrement_t<It, It&> {};
+
+		template<class, class = std::void_t<>>
+		struct IsStdLegacyInputIterator_t : std::false_type {};
+		template<class It>
+		struct IsStdLegacyInputIterator_t
+		<
+			It,
+			std::void_t
+			<
+				typename std::iterator_traits<It>::value_type,
+				typename std::iterator_traits<It>::reference,
+				decltype( *std::declval<It&>()++ ),
+				decltype( (void)std::declval<It&>()++ )
+			>
+		>
+			: std::conjunction
+			<
+				IsStdLegacyIterator_t<It>,
+				Equatable_t<It, It>,
+				HasDereference_t<It, typename std::iterator_traits<It>::value_type>,
+				HasPreIncrement_t<It, It&>,
+				std::is_convertible<decltype( *std::declval<It&>()++ ), typename std::iterator_traits<It>::value_type>
+			>
+		{};
+
+		template<class, class = std::void_t<>>
+		struct IsStdLegacyForwardIterator_t : std::false_type {};
+		template<class It>
+		struct IsStdLegacyForwardIterator_t<It, std::void_t< typename std::iterator_traits<It>::reference, decltype( *std::declval<It&>()++ ) >>
+			: std::conjunction
+			<
+				IsStdLegacyInputIterator_t<It>,
+				HasPostIncrement_t<It, It>,
+				std::is_same<decltype( *std::declval<It&>()++ ), typename std::iterator_traits<It>::reference>
+			>
+		{};
+
+		template<class, class = std::void_t<>>
+		struct IsStdLegacyBidirectionalIterator_t : std::false_type {};
+		template<class It>
+		struct IsStdLegacyBidirectionalIterator_t<It, std::void_t< typename std::iterator_traits<It>::reference, decltype( *std::declval<It&>()-- ) >>
+			: std::conjunction
+			<
+				IsStdLegacyForwardIterator_t<It>,
+				HasPreDecrement_t<It, It&>,
+				HasPostDecrement_t<It, const It&>,
+				std::is_same<decltype( *std::declval<It&>()-- ), typename std::iterator_traits<It>::reference>
+			>
+		{};
+
+		template<class, class = std::void_t<>>
+		struct IsStdLegacyRandomAccessIterator_t : std::false_type {};
+		template<class It>
+		struct IsStdLegacyRandomAccessIterator_t<It, std::void_t< typename std::iterator_traits<It>::value_type, typename std::iterator_traits<It>::difference_type, typename std::iterator_traits<It>::reference, decltype( *std::declval<It&>()-- ) >>
+			: std::conjunction
+			<
+				IsStdLegacyBidirectionalIterator_t<It>,
+				HasAddSubstitution_t<It, typename std::iterator_traits<It>::difference_type, It&>,
+				HasSubtractSubstitution_t<It, typename std::iterator_traits<It>::difference_type, It&>,
+				HasAdditiveOperation_t<It, typename std::iterator_traits<It>::difference_type, It>,
+				Comparable_t<It, It>,
+				HasSubScript_t<It, typename std::iterator_traits<It>::difference_type, typename std::iterator_traits<It>::reference>
+			>
+		{};
+
+		template<class, class, class = std::void_t<>>
+		struct IsStdLegacyOutputIterator_t : std::false_type {};
+		template<class It, class O>
+		struct IsStdLegacyOutputIterator_t < It, O, std::void_t < decltype( *std::declval<It&>() = std::declval<O&>() ), decltype( *std::declval<It&>()++ = std::declval<O&>() ) > >
+			: std::conjunction< IsStdLegacyIterator_t<It>, HasPreIncrement_t<It, It&>, HasPostIncrement_t<It, It> > {};
 
 		template<class T, typename std::true_type::value_type = T::value>
 		struct VoidImpl_t {};
@@ -521,7 +608,7 @@ namespace zawa_ch::StationaryOrbit
 		///	双方向の順序を持つ値型を識別します。
 		template<class T> inline constexpr static bool IsBidirectionalOrder = IsBidirectionalOrder_t<T>::value;
 		///	線形の順序を持つ値型を識別します。
-		template<class T> inline constexpr static bool IsLinearOrder = IsLinearOrder_t<T>::value;
+		template<class T, class N = std::make_signed_t<size_t>> inline constexpr static bool IsLinearOrder = IsLinearOrder_t<T, N>::value;
 		///	整数型を識別します。
 		template<class T> inline constexpr static bool IsIntegerType = IsIntegerType_t<T>::value;
 		///	基本的なビット演算を持つ型を識別します。
@@ -530,6 +617,18 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class U = T> inline constexpr static bool HasSaturateOperation = HasSaturateOperation_t<T, U>::value;
 		///	計算結果の値域チェックが行われる四則演算を持つ型を識別します。
 		template<class T, class U = T> inline constexpr static bool HasCheckedOperation = HasCheckedOperation_t<T, U>::value;
+		///	名前付き要件:LegacyIteratorを満たす型を識別します。
+		template<class It> inline constexpr static bool IsStdLegacyIterator = IsStdLegacyIterator_t<It>::value;
+		///	名前付き要件:LegacyInputIteratorを満たす型を識別します。
+		template<class It> inline constexpr static bool IsStdLegacyInputIterator = IsStdLegacyInputIterator_t<It>::value;
+		///	名前付き要件:LegacyForwardIteratorを満たす型を識別します。
+		template<class It> inline constexpr static bool IsStdLegacyForwardIterator = IsStdLegacyForwardIterator_t<It>::value;
+		///	名前付き要件:LegacyBidirectionalIteratorを満たす型を識別します。
+		template<class It> inline constexpr static bool IsStdLegacyBidirectionalIterator = IsStdLegacyBidirectionalIterator_t<It>::value;
+		///	名前付き要件:LegacyRandomAccessIteratorを満たす型を識別します。
+		template<class It> inline constexpr static bool IsStdLegacyRandomAccessIterator = IsStdLegacyRandomAccessIterator_t<It>::value;
+		///	名前付き要件:LegacyOutputIteratorを満たす型を識別します。
+		template<class It, class O> inline constexpr static bool IsStdLegacyOutputIterator = IsStdLegacyOutputIterator_t<It, O>::value;
 		///	@a T が @a std::true_type と等価な場合にのみ実体化できるメタテンプレートです。
 		template<class T> inline constexpr static bool VoidImpl = VoidImpl_t<T>::impl;
 	};

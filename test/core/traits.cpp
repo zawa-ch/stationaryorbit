@@ -21,6 +21,9 @@
 #include <stdexcept>
 #include <string>
 #include <array>
+#include <vector>
+#include <deque>
+#include <list>
 #include "stationaryorbit/core.traits.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
@@ -47,6 +50,34 @@ void Test_Traits()
 
 	if (Traits::HasSubScript<std::array<uint8_t, 20>, size_t, uint8_t>) { std::cout << "HasSubScript<std::array<uint8_t, 20>, size_t, uint8_t> -> true" << std::endl; } else { throw std::exception(); }
 	if (Traits::HasDereference<int*, int>) { std::cout << "HasDereference<int*, int> -> true" << std::endl; } else { throw std::exception(); }
+
+	static_assert(Traits::IsStdLegacyIterator<std::array<int, 16>::iterator>, "std::arrayのイテレータはLegacyIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyInputIterator<std::array<int, 16>::iterator>, "std::arrayのイテレータはLegacyInputIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyForwardIterator<std::array<int, 16>::iterator>, "std::arrayのイテレータはLegacyForwardIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyBidirectionalIterator<std::array<int, 16>::iterator>, "std::arrayのイテレータはLegacyBidirectionalIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyRandomAccessIterator<std::array<int, 16>::iterator>, "std::arrayのイテレータはLegacyRandomAccessIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyOutputIterator<std::array<int, 16>::iterator, int>, "std::arrayのイテレータはLegacyOutputIteratorを満たしますが、識別結果はfalseを返しました。");
+
+	static_assert(Traits::IsStdLegacyIterator<std::vector<int>::iterator>, "std::vectorのイテレータはLegacyIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyInputIterator<std::vector<int>::iterator>, "std::vectorのイテレータはLegacyInputIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyForwardIterator<std::vector<int>::iterator>, "std::vectorのイテレータはLegacyForwardIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyBidirectionalIterator<std::vector<int>::iterator>, "std::vectorのイテレータはLegacyBidirectionalIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyRandomAccessIterator<std::vector<int>::iterator>, "std::vectorのイテレータはLegacyRandomAccessIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyOutputIterator<std::vector<int>::iterator, int>, "std::vectorのイテレータはLegacyOutputIteratorを満たしますが、識別結果はfalseを返しました。");
+
+	static_assert(Traits::IsStdLegacyIterator<std::deque<int>::iterator>, "std::dequeのイテレータはLegacyIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyInputIterator<std::deque<int>::iterator>, "std::dequeのイテレータはLegacyInputIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyForwardIterator<std::deque<int>::iterator>, "std::dequeのイテレータはLegacyForwardIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyBidirectionalIterator<std::deque<int>::iterator>, "std::dequeのイテレータはLegacyBidirectionalIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyRandomAccessIterator<std::deque<int>::iterator>, "std::dequeのイテレータはLegacyRandomAccessIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyOutputIterator<std::deque<int>::iterator, int>, "std::dequeのイテレータはLegacyOutputIteratorを満たしますが、識別結果はfalseを返しました。");
+
+	static_assert(Traits::IsStdLegacyIterator<std::list<int>::iterator>, "std::listのイテレータはLegacyIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyInputIterator<std::list<int>::iterator>, "std::listのイテレータはLegacyInputIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyForwardIterator<std::list<int>::iterator>, "std::listのイテレータはLegacyForwardIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(Traits::IsStdLegacyBidirectionalIterator<std::list<int>::iterator>, "std::listのイテレータはLegacyBidirectionalIteratorを満たしますが、識別結果はfalseを返しました。");
+	static_assert(!Traits::IsStdLegacyRandomAccessIterator<std::list<int>::iterator>, "std::listのイテレータはLegacyRandomAccessIteratorを満たしませんが、識別結果はtrueを返しました。");
+	static_assert(Traits::IsStdLegacyOutputIterator<std::list<int>::iterator, int>, "std::listのイテレータはLegacyOutputIteratorを満たしますが、識別結果はfalseを返しました。");
 
 	if (BitWidth<uint32_t> == 32UL) { std::cout << "BitWidth<uint32_t> -> " << BitWidth<uint32_t> << "[bit(s)]" << std::endl; } else { throw std::exception(); }
 	if (BitWidth<int64_t> == 64UL) { std::cout << "BitWidth<int64_t> -> " << BitWidth<int64_t> << "[bit(s)]" << std::endl; } else { throw std::exception(); }
