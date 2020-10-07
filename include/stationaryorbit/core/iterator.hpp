@@ -21,11 +21,133 @@
 #include <stdexcept>
 #include <utility>
 #include <functional>
+#include "traits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
-	enum class IteratorTraits
+	///	イテレータの初期位置。
+	enum class IteratorOrigin
 	{
+		Begin = 0,
+		End = -1,
 	};
+
+	///	このライブラリで用いられるイテレータの型特性を識別します。
+	class IteratorTraits
+	{
+	private:
+		IteratorTraits() = delete;
+		IteratorTraits(const IteratorTraits&) = delete;
+		IteratorTraits& operator=(const IteratorTraits&) = delete;
+		IteratorTraits&& operator=(IteratorTraits&&) = delete;
+		IteratorTraits(IteratorTraits&&) = delete;
+		~IteratorTraits() = delete;
+
+	public:
+		typedef std::make_signed_t<size_t> IteratorDiff_t;
+
+	private:
+
+		///	イテレータを識別します。
+		template<class, class = std::void_t<>>
+		struct IsIterator_t : std::false_type {};
+		template<class T>
+		struct IsIterator_t
+		<
+			T,
+			std::void_t
+			<
+				typename T::ValueType,
+				decltype( std::declval<T&>().Equals(std::declval<const T&>()) ),
+				decltype( std::declval<T&>().Next() ),
+				decltype( std::declval<T&>().Current() ),
+				decltype( std::declval<T&>().HasValue() )
+			>
+		>
+			: std::conjunction
+			<
+				std::is_convertible<decltype( std::declval<T&>().Equals(std::declval<const T&>()) ), bool>,
+				std::is_convertible<decltype( std::declval<T&>().Next() ), bool>,
+				std::is_convertible<decltype( std::declval<T&>().HasValue() ), bool>,
+				std::is_convertible<decltype( std::declval<T&>().Current() ), typename T::ValueType>,
+				std::is_copy_constructible<T>
+			>
+		{};
+
+		///	始点および単方向の順序を持つイテレータを識別します。
+		template<class, class = std::void_t<>>
+		struct IsSequencialOrderIterator_t : std::false_type {};
+		template<class T>
+		struct IsSequencialOrderIterator_t
+		<
+			T,
+			std::void_t
+			<
+				decltype( std::declval<T&>().Reset() )
+			>
+		>
+			: std::conjunction
+			<
+				IsIterator_t<T>
+			>
+		{};
+
+		///	始点・終点および双方向の順序を持つイテレータを識別します。
+		template<class, class = std::void_t<>>
+		struct IsBidirectionalOrderIterator_t : std::false_type {};
+		template<class T>
+		struct IsBidirectionalOrderIterator_t
+		<
+			T,
+			std::void_t
+			<
+				decltype( std::declval<T&>().Previous() ),
+				decltype( std::declval<T&>().Reset(std::declval<const IteratorOrigin&>()) ),
+				decltype( std::declval<T&>().IsBeforeBegin() ),
+				decltype( std::declval<T&>().IsAfterEnd() )
+			>
+		>
+			: std::conjunction
+			<
+				IsSequencialOrderIterator_t<T>,
+				std::is_convertible<decltype( std::declval<T&>().IsBeforeBegin() ), bool>,
+				std::is_convertible<decltype( std::declval<T&>().IsAfterEnd() ), bool>,
+				std::is_convertible<decltype( std::declval<T&>().Previous() ), bool>
+			>
+		{};
+
+		///	要素が線形に配置されているイテレータを識別します。
+		template<class, class = std::void_t<>>
+		struct IsLinearOrderIterator_t : std::false_type {};
+		template<class T>
+		struct IsLinearOrderIterator_t
+		<
+			T,
+			std::void_t
+			<
+				decltype( std::declval<T&>().Compare(std::declval<const T&>()) ),
+				decltype( std::declval<T&>().Next(std::declval<const IteratorDiff_t&>()) ),
+				decltype( std::declval<T&>().Previous(std::declval<const IteratorDiff_t&>()) )
+			>
+		>
+			: std::conjunction
+			<
+				IsBidirectionalOrderIterator_t<T>,
+				std::is_convertible<decltype( std::declval<T&>().Compare(std::declval<const T&>()) ), bool>,
+				std::is_convertible<decltype( std::declval<T&>().Next(std::declval<const IteratorDiff_t&>()) ), bool>,
+				std::is_convertible<decltype( std::declval<T&>().Previous(std::declval<const IteratorDiff_t&>()) ), bool>
+			>
+		{};
+	public:
+		///	イテレータを識別します。
+		template<class T> inline constexpr static bool IsIterator = IsIterator_t<T>::value;
+		///	始点および単方向の順序を持つイテレータを識別します。
+		template<class T> inline constexpr static bool IsSequencialOrderIterator = IsSequencialOrderIterator_t<T>::value;
+		///	始点・終点および双方向の順序を持つイテレータを識別します。
+		template<class T> inline constexpr static bool IsBidirectionalOrderIterator = IsBidirectionalOrderIterator_t<T>::value;
+		///	要素が線形に配置されているイテレータを識別します。
+		template<class T> inline constexpr static bool IsLinearOrderIterator = IsLinearOrderIterator_t<T>::value;
+	};
+
 	///	イテレータを使用した処理を行います。
 	class ItrProcesser
 	{
