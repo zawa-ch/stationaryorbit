@@ -224,7 +224,7 @@ namespace zawa_ch::StationaryOrbit
 						const size_t itr = (sizeof(castT) * 8U) / length;
 						const size_t mod = (sizeof(castT) * 8U) % length;
 						auto result = castT(_value) >> ((length - mod) % length);
-						for (auto i : Range<size_t>(0, itr))
+						for (auto i : Range<size_t>(0, itr).GetStdIterator())
 						{
 							result |= castT(_value) << ((length * i) + mod);
 						}
