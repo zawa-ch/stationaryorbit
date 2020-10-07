@@ -131,15 +131,17 @@ namespace zawa_ch::StationaryOrbit
 			<
 				decltype( std::declval<T&>().Compare(std::declval<const T&>()) ),
 				decltype( std::declval<T&>().Next(std::declval<const IteratorDiff_t&>()) ),
-				decltype( std::declval<T&>().Previous(std::declval<const IteratorDiff_t&>()) )
+				decltype( std::declval<T&>().Previous(std::declval<const IteratorDiff_t&>()) ),
+				decltype( std::declval<T&>().Distance(std::declval<const T&>()) )
 			>
 		>
 			: std::conjunction
 			<
 				IsBidirectionalOrderIterator_t<T>,
-				std::is_convertible<decltype( std::declval<T&>().Compare(std::declval<const T&>()) ), bool>,
+				std::is_convertible<decltype( std::declval<T&>().Compare(std::declval<const T&>()) ), int>,
 				std::is_convertible<decltype( std::declval<T&>().Next(std::declval<const IteratorDiff_t&>()) ), bool>,
-				std::is_convertible<decltype( std::declval<T&>().Previous(std::declval<const IteratorDiff_t&>()) ), bool>
+				std::is_convertible<decltype( std::declval<T&>().Previous(std::declval<const IteratorDiff_t&>()) ), bool>,
+				std::is_convertible<decltype( std::declval<T&>().Distance(std::declval<const T&>()) ), IteratorDiff_t>
 			>
 		{};
 	public:
@@ -218,7 +220,7 @@ namespace zawa_ch::StationaryOrbit
 	///	@param	T
 	///	変換するイテレータの型。 @a IteratorTraits::IsBidirectionalOrderIterator を満たす場合の拡張が存在します。
 	template<class T>
-	class IteratorAdapter<T, std::enable_if_t<IteratorTraits::IsBidirectionalOrderIterator<T>>>
+	class IteratorAdapter<T, std::enable_if_t<IteratorTraits::IsBidirectionalOrderIterator<T> && !IteratorTraits::IsLinearOrderIterator<T>>>
 	{
 		static_assert(IteratorTraits::IsBidirectionalOrderIterator<T>, "テンプレート型 T はIteratorTraits::IsBidirectionalOrderIteratorを満たす必要があります。");
 		template<class, class> friend class IteratorAdaptContainer;
@@ -273,11 +275,129 @@ namespace zawa_ch::StationaryOrbit
 			return result;
 		}
 	};
+	///	このライブラリで使用されるイテレータをC++標準のイテレータに変換します。
+	///	@param	T
+	///	変換するイテレータの型。 @a IteratorTraits::IsLinearOrderIterator を満たす場合の拡張が存在します。
+	template<class T>
+	class IteratorAdapter<T, std::enable_if_t<IteratorTraits::IsLinearOrderIterator<T>>>
+	{
+		static_assert(IteratorTraits::IsLinearOrderIterator<T>, "テンプレート型 T はIteratorTraits::IsLinearOrderIteratorを満たす必要があります。");
+		template<class, class> friend class IteratorAdaptContainer;
+	private:
+		std::optional<T> _itr;
+	public:
+		///	イテレータを渡してオブジェクトを生成します。
+		constexpr explicit IteratorAdapter(const T& itr) : _itr(itr) {}
+	private:
+		///	イテレータの持たないオブジェクトを生成します。
+		constexpr explicit IteratorAdapter(const std::nullptr_t& itr) : _itr(std::nullopt) {}
+
+	public:
+		///	指定されたオブジェクトと等価であるか比較します。
+		constexpr bool Equals(const IteratorAdapter<T>& other) const
+		{
+			if (!_itr.has_value()) { return _itr == other._itr; }
+			if (other._itr.has_value()) { return _itr->Equals(*(other._itr)); }
+			else { return !_itr->HasValue(); }
+		}
+		constexpr bool operator==(const IteratorAdapter<T>& other) const { return Equals(other); }
+		constexpr bool operator!=(const IteratorAdapter<T>& other) const { return !Equals(other); }
+		constexpr typename std::iterator_traits<IteratorAdapter<T>>::reference operator*() const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			return _itr->Current();
+		}
+		constexpr IteratorAdapter<T>& operator++()
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			(void)_itr->Next();
+			return *this;
+		}
+		constexpr IteratorAdapter<T> operator++(int)
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			auto result = *this;
+			(void)_itr->Next();
+			return result;
+		}
+		constexpr IteratorAdapter<T>& operator--()
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			(void)_itr->Previous();
+			return *this;
+		}
+		constexpr IteratorAdapter<T> operator--(int)
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			auto result = *this;
+			(void)_itr->Previous();
+			return result;
+		}
+		constexpr IteratorAdapter<T>& operator+=(const typename std::iterator_traits<IteratorAdapter<T>>::difference_type& count)
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			(void)_itr->Next(count);
+			return *this;
+		}
+		constexpr IteratorAdapter<T> operator+(const typename std::iterator_traits<IteratorAdapter<T>>::difference_type& count) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			auto result = *this;
+			(void)result._itr->Next(count);
+			return result;
+		}
+		constexpr IteratorAdapter<T>& operator-=(const typename std::iterator_traits<IteratorAdapter<T>>::difference_type& count)
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			(void)_itr->Previous(count);
+			return *this;
+		}
+		constexpr IteratorAdapter<T> operator-(const typename std::iterator_traits<IteratorAdapter<T>>::difference_type& count) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			auto result = *this;
+			(void)result._itr->Previous(count);
+			return result;
+		}
+		constexpr typename std::iterator_traits<IteratorAdapter<T>>::difference_type& operator-(const IteratorAdapter<T>& other) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			if (!other._itr.has_value()) { throw InvalidOperationException("指定されたオブジェクトはイテレータを持ちません。"); }
+			return _itr->Distance(other._itr.value());
+		}
+		constexpr typename std::iterator_traits<IteratorAdapter<T>>::reference operator[](const typename std::iterator_traits<IteratorAdapter<T>>::difference_type& count) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			auto result = *this;
+			(void)result._itr->Next(count);
+			return result._itr->Current();
+		}
+		constexpr bool operator<(const IteratorAdapter<T>& other) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			return _itr->Compare(other._itr.value()) < 0;
+		}
+		constexpr bool operator>(const IteratorAdapter<T>& other) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			return _itr->Compare(other._itr.value()) > 0;
+		}
+		constexpr bool operator<=(const IteratorAdapter<T>& other) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			return _itr->Compare(other._itr.value()) <= 0;
+		}
+		constexpr bool operator>=(const IteratorAdapter<T>& other) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			return _itr->Compare(other._itr.value()) >= 0;
+		}
+	};
 
 	///	このライブラリで使用されるイテレータをC++標準の逆イテレータに変換します。
 	///	@param	T
 	///	変換するイテレータの型。 @a IteratorTraits::IsBidirectionalOrderIterator を満たす必要があります。
-	template<class T>
+	template<class T, class = void>
 	class IteratorReverseAdapter
 	{
 		static_assert(IteratorTraits::IsBidirectionalOrderIterator<T>, "テンプレート型 T はIteratorTraits::IsBidirectionalOrderIteratorを満たす必要があります。");
@@ -293,44 +413,162 @@ namespace zawa_ch::StationaryOrbit
 
 	public:
 		///	指定されたオブジェクトと等価であるか比較します。
-		bool Equals(const IteratorReverseAdapter<T>& other) const
+		constexpr bool Equals(const IteratorReverseAdapter<T>& other) const
 		{
 			if (!_itr.has_value()) { return _itr == other._itr; }
 			if (other._itr.has_value()) { return _itr->Equals(*(other._itr)); }
 			else { return !_itr->HasValue(); }
 		}
-		bool operator==(const IteratorReverseAdapter<T>& other) const { return Equals(other); }
-		bool operator!=(const IteratorReverseAdapter<T>& other) const { return !Equals(other); }
-		typename std::iterator_traits<IteratorReverseAdapter<T>>::reference operator*() const
+		constexpr bool operator==(const IteratorReverseAdapter<T>& other) const { return Equals(other); }
+		constexpr bool operator!=(const IteratorReverseAdapter<T>& other) const { return !Equals(other); }
+		constexpr typename std::iterator_traits<IteratorReverseAdapter<T>>::reference operator*() const
 		{
 			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
 			return _itr->Current();
 		}
-		IteratorReverseAdapter<T>& operator++()
+		constexpr IteratorReverseAdapter<T>& operator++()
 		{
 			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
 			(void)_itr->Previous();
 			return *this;
 		}
-		IteratorReverseAdapter<T> operator++(int)
+		constexpr IteratorReverseAdapter<T> operator++(int)
 		{
 			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
 			auto result = *this;
 			(void)_itr->Previous();
 			return result;
 		}
-		IteratorReverseAdapter<T>& operator--()
+		constexpr IteratorReverseAdapter<T>& operator--()
 		{
 			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
 			(void)_itr->Next();
 			return *this;
 		}
-		IteratorReverseAdapter<T> operator--(int)
+		constexpr IteratorReverseAdapter<T> operator--(int)
 		{
 			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
 			auto result = *this;
 			(void)_itr->Next();
 			return result;
+		}
+	};
+	///	このライブラリで使用されるイテレータをC++標準の逆イテレータに変換します。
+	///	@param	T
+	///	変換するイテレータの型。 @a IteratorTraits::IsLinearOrderIterator を満たす場合の拡張が存在します。
+	template<class T>
+	class IteratorReverseAdapter<T, std::enable_if_t<IteratorTraits::IsLinearOrderIterator<T>>>
+	{
+		static_assert(IteratorTraits::IsLinearOrderIterator<T>, "テンプレート型 T はIteratorTraits::IsLinearOrderIteratorを満たす必要があります。");
+		template<class, class> friend class IteratorAdaptContainer;
+	private:
+		std::optional<T> _itr;
+	public:
+		///	イテレータを渡してオブジェクトを生成します。
+		constexpr explicit IteratorReverseAdapter(const T& itr) : _itr(itr) {}
+	private:
+		///	イテレータの持たないオブジェクトを生成します。
+		constexpr explicit IteratorReverseAdapter(const std::nullptr_t& itr) : _itr(std::nullopt) {}
+
+	public:
+		///	指定されたオブジェクトと等価であるか比較します。
+		constexpr bool Equals(const IteratorReverseAdapter<T>& other) const
+		{
+			if (!_itr.has_value()) { return _itr == other._itr; }
+			if (other._itr.has_value()) { return _itr->Equals(*(other._itr)); }
+			else { return !_itr->HasValue(); }
+		}
+		constexpr bool operator==(const IteratorReverseAdapter<T>& other) const { return Equals(other); }
+		constexpr bool operator!=(const IteratorReverseAdapter<T>& other) const { return !Equals(other); }
+		constexpr typename std::iterator_traits<IteratorReverseAdapter<T>>::reference operator*() const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			return _itr->Current();
+		}
+		constexpr IteratorReverseAdapter<T>& operator++()
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			(void)_itr->Previous();
+			return *this;
+		}
+		constexpr IteratorReverseAdapter<T> operator++(int)
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			auto result = *this;
+			(void)_itr->Previous();
+			return result;
+		}
+		constexpr IteratorReverseAdapter<T>& operator--()
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			(void)_itr->Next();
+			return *this;
+		}
+		constexpr IteratorReverseAdapter<T> operator--(int)
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			auto result = *this;
+			(void)_itr->Next();
+			return result;
+		}
+		constexpr IteratorAdapter<T>& operator+=(const typename std::iterator_traits<IteratorAdapter<T>>::difference_type& count)
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			(void)_itr->Previous(count);
+			return *this;
+		}
+		constexpr IteratorAdapter<T> operator+(const typename std::iterator_traits<IteratorAdapter<T>>::difference_type& count) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			auto result = *this;
+			(void)result._itr->Previous(count);
+			return result;
+		}
+		constexpr IteratorAdapter<T>& operator-=(const typename std::iterator_traits<IteratorAdapter<T>>::difference_type& count)
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			(void)_itr->Next(count);
+			return *this;
+		}
+		constexpr IteratorAdapter<T> operator-(const typename std::iterator_traits<IteratorAdapter<T>>::difference_type& count) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			auto result = *this;
+			(void)result._itr->Next(count);
+			return result;
+		}
+		constexpr typename std::iterator_traits<IteratorAdapter<T>>::difference_type& operator-(const IteratorAdapter<T>& other) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			if (!other._itr.has_value()) { throw InvalidOperationException("指定されたオブジェクトはイテレータを持ちません。"); }
+			return other._itr->Distance(_itr.value());
+		}
+		constexpr typename std::iterator_traits<IteratorAdapter<T>>::reference operator[](const typename std::iterator_traits<IteratorAdapter<T>>::difference_type& count) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			auto result = *this;
+			(void)result._itr->Previous(count);
+			return result._itr->Current();
+		}
+		constexpr bool operator<(const IteratorAdapter<T>& other) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			return _itr->Compare(other._itr.value()) > 0;
+		}
+		constexpr bool operator>(const IteratorAdapter<T>& other) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			return _itr->Compare(other._itr.value()) < 0;
+		}
+		constexpr bool operator<=(const IteratorAdapter<T>& other) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			return _itr->Compare(other._itr.value()) >= 0;
+		}
+		constexpr bool operator>=(const IteratorAdapter<T>& other) const
+		{
+			if (!_itr.has_value()) { throw InvalidOperationException("このオブジェクトはイテレータを持ちません。"); }
+			return _itr->Compare(other._itr.value()) <= 0;
 		}
 	};
 
@@ -352,16 +590,16 @@ namespace zawa_ch::StationaryOrbit
 	private:
 		T _itr;
 	public:
-		explicit IteratorAdaptContainer(const T& itr) : _itr(itr) {}
+		explicit constexpr IteratorAdaptContainer(const T& itr) : _itr(itr) {}
 
 		///	最初の要素を指すイテレータを取得します。
-		iterator begin() const { auto result = _itr; result.Reset(); return iterator(result); }
+		constexpr iterator begin() const { auto result = _itr; result.Reset(); return iterator(result); }
 		///	最後の要素を指すイテレータを取得します。
-		iterator end() const { return IteratorAdapter<T>(nullptr); }
+		constexpr iterator end() const { return IteratorAdapter<T>(nullptr); }
 		///	最初の要素を指すイテレータを取得します。
-		const_iterator cbegin() const { return begin(); }
+		constexpr const_iterator cbegin() const { return begin(); }
 		///	最後の要素を指すイテレータを取得します。
-		const_iterator cend() const { return end(); }
+		constexpr const_iterator cend() const { return end(); }
 	};
 	///	このライブラリで使用されるイテレータをC++範囲ベースforで使用できるようにします。
 	///	@param	T
@@ -383,24 +621,24 @@ namespace zawa_ch::StationaryOrbit
 	private:
 		T _itr;
 	public:
-		explicit IteratorAdaptContainer(const T& itr) : _itr(itr) {}
+		explicit constexpr IteratorAdaptContainer(const T& itr) : _itr(itr) {}
 
 		///	最初の要素を指すイテレータを取得します。
-		iterator begin() const { auto result = _itr; result.Reset(); return iterator(result); }
+		constexpr iterator begin() const { auto result = _itr; result.Reset(); return iterator(result); }
 		///	最後の要素を指すイテレータを取得します。
-		iterator end() const { return iterator(nullptr); }
+		constexpr iterator end() const { return iterator(nullptr); }
 		///	最初の要素を指すイテレータを取得します。
-		const_iterator cbegin() const { return begin(); }
+		constexpr const_iterator cbegin() const { return begin(); }
 		///	最後の要素を指すイテレータを取得します。
-		const_iterator cend() const { return end(); }
+		constexpr const_iterator cend() const { return end(); }
 		///	最初の要素を指す逆イテレータを取得します。
-		reverse_iterator rbegin() const { auto result = _itr; result.Reset(IteratorOrigin::End); return reverse_iterator(result); }
+		constexpr reverse_iterator rbegin() const { auto result = _itr; result.Reset(IteratorOrigin::End); return reverse_iterator(result); }
 		///	最後の要素を指す逆イテレータを取得します。
-		reverse_iterator rend() const { return reverse_iterator(nullptr); }
+		constexpr reverse_iterator rend() const { return reverse_iterator(nullptr); }
 		///	最初の要素を指す逆イテレータを取得します。
-		reverse_const_iterator crbegin() const { return rbegin(); }
+		constexpr reverse_const_iterator crbegin() const { return rbegin(); }
 		///	最後の要素を指す逆イテレータを取得します。
-		reverse_const_iterator crend() const { return rend(); }
+		constexpr reverse_const_iterator crend() const { return rend(); }
 	};
 
 	template<class contT, class T = typename contT::value_type>
