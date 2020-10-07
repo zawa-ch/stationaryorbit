@@ -159,70 +159,42 @@ namespace zawa_ch::StationaryOrbit
 		constexpr static void ForEach(It iter, const predT& pred)
 		{
 			iter.Reset();
-			while(iter.Next()) { pred(iter.Current()); }
+			while(iter.HasValue()) { pred(iter.Current()); (void)iter.Next(); }
 		}
 	};
+
 	template<class contT, class T = typename contT::value_type>
 	class LegacyIterator
 	{
 	public:
 		typedef contT ContainerType;
 		typedef T ValueType;
-		typedef typename contT::const_iterator IteratorType;
 	private:
 		const ContainerType& _cont;
-		IteratorType _itr;
-		bool _start;
+		typename contT::const_iterator _itr;
 	public:
-		LegacyIterator(const ContainerType& container) : _cont(container), _start(false) {}
-		virtual void Reset()
-		{
-			_start = false;
-		}
-		virtual bool HasValue() const
-		{
-			if (_start) { return _itr != _cont.cend(); } else { return false; }
-		}
-		virtual const T& Current() const
-		{
-			if (HasValue()) { return *_itr; } else { throw std::out_of_range("要素の範囲外にあるイテレータに対して逆参照を試みました。"); }
-		}
-		virtual bool Next()
-		{
-			if (HasValue()) { ++_itr; } else { _itr = _cont.cbegin(); _start = true; }
-			return _itr != _cont.cend();
-		}
+		LegacyIterator(const ContainerType& container) : _cont(container) {}
+		virtual void Reset() { _itr = _cont.cbegin(); }
+		virtual bool HasValue() const { return _itr != _cont.cend(); }
+		virtual const T& Current() const { if (HasValue()) { return *_itr; } else { throw std::out_of_range("要素の範囲外にあるイテレータに対して逆参照を試みました。"); } }
+		virtual bool Next() { if (HasValue()) { ++_itr; } return _itr != _cont.cend(); }
 	};
+
 	template<class contT, class T = typename contT::value_type>
 	class LegacyReverseIterator
 	{
 	public:
 		typedef contT ContainerType;
 		typedef T ValueType;
-		typedef typename contT::const_reverse_iterator IteratorType;
 	private:
 		const ContainerType& _cont;
-		IteratorType _itr;
-		bool _start;
+		typename contT::const_reverse_iterator _itr;
 	public:
-		LegacyReverseIterator(const ContainerType& container) : _cont(container), _start(false) {}
-		virtual void Reset()
-		{
-			_start = false;
-		}
-		virtual bool HasValue() const
-		{
-			if (_start) { return _itr != _cont.crend(); } else { return false; }
-		}
-		virtual const T& Current() const
-		{
-			if (HasValue()) { return *_itr; } else { throw std::out_of_range("要素の範囲外にあるイテレータに対して逆参照を試みました。"); }
-		}
-		virtual bool Next()
-		{
-			if (HasValue()) { ++_itr; } else { _itr = _cont.crbegin(); _start = true; }
-			return _itr != _cont.crend();
-		}
+		LegacyReverseIterator(const ContainerType& container) : _cont(container) {}
+		virtual void Reset() { _itr = _cont.crbegin(); }
+		virtual bool HasValue() const { return _itr != _cont.crend(); }
+		virtual const T& Current() const { if (HasValue()) { return *_itr; } else { throw std::out_of_range("要素の範囲外にあるイテレータに対して逆参照を試みました。"); } }
+		virtual bool Next() { if (HasValue()) { ++_itr; } return _itr != _cont.crend(); }
 	};
 }
 #endif // __stationaryorbit_core_iterator__
