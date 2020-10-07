@@ -428,7 +428,16 @@ namespace zawa_ch::StationaryOrbit
 				typename std::iterator_traits<It>::iterator_category,
 				decltype( *std::declval<It&>() )
 			>
-		> : HasPreIncrement_t<It, It&> {};
+		>
+			: std::conjunction
+			<
+				std::is_copy_constructible<It>,
+				std::is_copy_assignable<It>,
+				std::is_destructible<It>,
+				std::is_swappable<It&>,
+				HasPreIncrement_t<It, It&>
+			>
+		{};
 
 		template<class, class = std::void_t<>>
 		struct IsStdLegacyInputIterator_t : std::false_type {};
@@ -499,10 +508,6 @@ namespace zawa_ch::StationaryOrbit
 		template<class It, class O>
 		struct IsStdLegacyOutputIterator_t < It, O, std::void_t < decltype( *std::declval<It&>() = std::declval<O&>() ), decltype( *std::declval<It&>()++ = std::declval<O&>() ) > >
 			: std::conjunction< IsStdLegacyIterator_t<It>, HasPreIncrement_t<It, It&>, HasPostIncrement_t<It, It> > {};
-
-		template<class T, typename std::true_type::value_type = T::value>
-		struct VoidImpl_t {};
-		template<class T> struct VoidImpl_t<T, std::true_type::value> { constexpr static bool impl = true; };
 
 	public:
 		///	代入演算子=の実装を識別します。
@@ -629,8 +634,6 @@ namespace zawa_ch::StationaryOrbit
 		template<class It> inline constexpr static bool IsStdLegacyRandomAccessIterator = IsStdLegacyRandomAccessIterator_t<It>::value;
 		///	名前付き要件:LegacyOutputIteratorを満たす型を識別します。
 		template<class It, class O> inline constexpr static bool IsStdLegacyOutputIterator = IsStdLegacyOutputIterator_t<It, O>::value;
-		///	@a T が @a std::true_type と等価な場合にのみ実体化できるメタテンプレートです。
-		template<class T> inline constexpr static bool VoidImpl = VoidImpl_t<T>::impl;
 	};
 
 	///	指定された型の有効なビット幅を識別するための機能を提供します。
