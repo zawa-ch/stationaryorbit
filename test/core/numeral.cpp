@@ -48,6 +48,7 @@ void Test_Numeral()
 void Test_FixedPoint()
 {
 	std::cout << "<--- FixedPoint --->" << std::endl;
+	if (!Traits::HasArithmeticOperation<FixedPoint16q8_t>) { throw std::exception(); }
 	auto f1 = FixedPoint16q8_t(16);
 	auto f2 = FixedPoint16q8_t(0.125);
 	if (double(f1) == 16) { std::cout << "f1 = " << double(f1) << std::endl; } else { throw std::exception(); }

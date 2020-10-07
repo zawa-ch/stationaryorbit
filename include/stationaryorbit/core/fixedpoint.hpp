@@ -59,6 +59,8 @@ namespace zawa_ch::StationaryOrbit
 		constexpr FixedPoint(FixedPoint<Tp, Ql>&&) = default;
 		~FixedPoint() = default;
 	public:
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Promote() const { return *this; }
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Invert() const { return FixedPoint<Tp, Ql>(-_value); }
 		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Add(const FixedPoint<Tp, Ql>& other) const { return DirectConstruct(_value + other._value); }
 		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Sub(const FixedPoint<Tp, Ql>& other) const { return DirectConstruct(_value - other._value); }
 		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Multiple(const FixedPoint<Tp, Ql>& other) const
@@ -66,7 +68,7 @@ namespace zawa_ch::StationaryOrbit
 			const size_t width = sizeof(Tp) * 8U;
 			const size_t point = width - Ql;
 			auto result = Tp();
-			for (auto i : Range<size_t>(0U, width))
+			for (auto i : Range<size_t>(0U, width).GetStdIterator())
 			{
 				result |=
 					((other._value & (1U << (width - 1U - i))) != 0U)
@@ -83,7 +85,7 @@ namespace zawa_ch::StationaryOrbit
 		{
 			auto result = Tp(_value / other._value);
 			auto remain = Tp(_value % other._value);
-			for (auto i : Range<size_t>(0U, QLength))
+			for (auto i : Range<size_t>(0U, QLength).GetStdIterator())
 			{
 				remain *= 2U;
 				result = (result * 2U) + (remain / other._value);
@@ -133,6 +135,8 @@ namespace zawa_ch::StationaryOrbit
 			return Divide(other);
 		}
 
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator+() const { return Promote(); }
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator-() const { return Invert(); }
 		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator+(const FixedPoint<Tp, Ql>& other) const { return Add(other); }
 		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator-(const FixedPoint<Tp, Ql>& other) const { return Sub(other); }
 		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator*(const FixedPoint<Tp, Ql>& other) const { return Multiple(other); }
