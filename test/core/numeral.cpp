@@ -147,31 +147,26 @@ void Test_Proportion()
 void Test_Range()
 {
 	std::cout << "<--- Range --->" << std::endl;
+	static_assert(IteratorTraits::IsIterator<Range<size_t>::IteratorType>, "Range<size_t>::IteratorTypeがIteratorTraits::IsIteratorの要件を満たしません。");
+	static_assert(IteratorTraits::IsSequencialOrderIterator<Range<size_t>::IteratorType>, "Range<size_t>::IteratorTypeがIteratorTraits::IsIteratorの要件を満たしません。");
+	static_assert(IteratorTraits::IsBidirectionalOrderIterator<Range<size_t>::IteratorType>, "Range<size_t>::IteratorTypeがIteratorTraits::IsBidirectionalOrderIteratorの要件を満たしません。");
 	// 範囲forを用いて0..9の数値を列挙する
-	for(auto i : Range(0, 10))
+	for(auto i : Range(0, 10).GetStdIterator())
 	{
 		std::cout << i << " ";
 	}
 	std::cout << std::endl;
 	// 逆イテレータを使用して5..11の数値を逆に列挙する
 	auto range = Range(5, 12);
-	auto rit = range.rbegin();
-	do
+	auto rit = range.GetIteratorEnd();
+	while(rit.HasValue())
 	{
-		auto i = *rit;
+		auto i = *rit--;
 		std::cout << i << " ";
-	} while((++rit)!=range.rend());
+	}
 	std::cout << std::endl;
 	// 0.5fが0.0f以上1.0f未満であることを検査する
-	auto frange = Range(0.0f, 1.0f);
-	if (frange.isIncluded(0.5f))
-	{
-		std::cout << "0.0 <= " << 0.5f << " < 1.0f" << std::endl;
-	}
-	else
-	{
-		throw std::exception();
-	}
+	static_assert(Range(0.0f, 1.0f).isIncluded(0.5f), "0.5fが0.0f以上1.0f未満ではありません。");
 }
 
 void Test_Rectangle()

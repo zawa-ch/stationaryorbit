@@ -21,11 +21,12 @@
 #include <limits>
 #include <type_traits>
 #include <stdexcept>
+#include "traits.hpp"
+#include "iterator.hpp"
 namespace zawa_ch::StationaryOrbit
 {
-
-	template<class T, bool floor_included, bool ceiling_included> class RangeSlice;
-	template<class T, bool floor_included, bool ceiling_included> class RangeReverseSlice;
+	template<class T, bool floor_included, bool ceiling_included> class Range;
+	template<class T, bool floor_included, bool ceiling_included> class RangeIterator;
 
 	///	二つの値に囲まれた範囲を表します。
 	///	@param	T
@@ -37,35 +38,32 @@ namespace zawa_ch::StationaryOrbit
 	template<typename T, bool floor_included = true, bool ceiling_included = false>
 	struct Range final
 	{
-		static_assert(std::is_arithmetic<T>::value, "この型のテンプレート T は算術型のクラスである必要があります。");
+		static_assert(Traits::HasArithmeticOperation<T>, "この型のテンプレート T は算術型のクラスである必要があります。");
+		static_assert(Traits::Comparable<T>, "この型のテンプレート T は比較可能である必要があります。");
 
 	public: // type
-
 		///	値の表現に使用されている型。
 		typedef T ValueType;
+		///	この @a Range の型。
 		typedef Range<T, floor_included, ceiling_included> RangeType;
-		typedef RangeSlice<T, floor_included, ceiling_included> SliceType;
-		typedef RangeReverseSlice<T, floor_included, ceiling_included> RSliceType;
+		///	この @a Range のイテレータ。
+		typedef RangeIterator<T, floor_included, ceiling_included> IteratorType;
 
 	private: // contains
-
-		ValueType _bottom;	///< 下限値。
-		ValueType _top;	///< 上限値。
+		ValueType _bottom;
+		ValueType _top;
 
 	public: // constructor
-
 		///	オブジェクトを既定の値で初期化します。
 		constexpr Range() = default;
-
 		///	値を指定してオブジェクトを構築します。
 		constexpr Range(const T& bottom, const T& top) noexcept : _bottom(bottom), _top(top) {}
 
 	public: // menber
-
 		///	範囲の下限値を取得します。
-		ValueType getFloor() const { return _bottom; }
+		ValueType GetFloor() const { return _bottom; }
 		///	範囲の上限値を取得します。
-		ValueType getCailing() const { return _top; }
+		ValueType GetCeiling() const { return _top; }
 		///	範囲の長さを求めます。
 		ValueType Length() const
 		{
@@ -100,14 +98,12 @@ namespace zawa_ch::StationaryOrbit
 		constexpr bool isLess(const ValueType& value) const { return !isOverBottom(value) && isUnderTop(value); }
 		bool operator>(const ValueType& value) const { return isLess(value); }
 
-		constexpr SliceType getSlice() const noexcept { return SliceType(*this, floor_included?(_bottom-1):(_bottom)); }
+		constexpr bool isOverBottom(const ValueType& value) const noexcept { if constexpr (floor_included) { return _bottom <= value; } else { return _bottom < value; } }
+		constexpr bool isUnderTop(const ValueType& value) const noexcept { if constexpr (ceiling_included) { return value <= _top; } else { return value < _top; } }
 
-	public: // container
-
-		constexpr SliceType begin() const noexcept { return SliceType(*this, floor_included?(_bottom):(_bottom+1)); }
-		constexpr SliceType end() const noexcept { return SliceType(*this, ceiling_included?(_top+1):(_top)); }
-		constexpr RSliceType rbegin() const noexcept { return RSliceType(*this, ceiling_included?(_top):(_top-1)); }
-		constexpr RSliceType rend() const noexcept { return RSliceType(*this, floor_included?(_bottom-1):(_bottom)); }
+		constexpr IteratorType GetIteratorBegin() const noexcept { return IteratorType(*this, IteratorOrigin::Begin); }
+		constexpr IteratorType GetIteratorEnd() const noexcept { return IteratorType(*this, IteratorOrigin::End); }
+		IteratorAdaptContainer<IteratorType> GetStdIterator() const noexcept { return IteratorAdaptContainer<IteratorType>(GetIteratorBegin()); }
 
 	public: // equatable
 
@@ -115,20 +111,15 @@ namespace zawa_ch::StationaryOrbit
 		constexpr bool Equals(const Range<ValueType, floor_included, ceiling_included>& value) const { return (_bottom == value._bottom)&&(_top == value._top); }
 		bool operator==(const Range<ValueType, floor_included, ceiling_included>& value) const { return Equals(value); }
 		bool operator!=(const Range<ValueType, floor_included, ceiling_included>& value) const { return !Equals(value); }
-
-	private:
-
-		constexpr bool isOverBottom(const ValueType& value) const noexcept { if constexpr (floor_included) { return _bottom <= value; } else { return _bottom < value; } }
-		constexpr bool isUnderTop(const ValueType& value) const noexcept { if constexpr (ceiling_included) { return value <= _top; } else { return value < _top; } }
-
 	};
 
 	///	@a Range の区間内を反復するためのイテレータを提供します。
 	template<class T, bool floor_included = true, bool ceiling_included = false>
-	class RangeSlice
+	class RangeIterator
 	{
-		static_assert(std::is_integral<T>::value, "この型のテンプレート T は整数型のクラスである必要があります。");
-		friend class Range<T, floor_included, ceiling_included>;
+		static_assert(Traits::HasArithmeticOperation<T>, "この型のテンプレート T は算術型のクラスである必要があります。");
+		static_assert(Traits::Comparable<T>, "この型のテンプレート T は比較可能である必要があります。");
+		static_assert(Traits::IsBidirectionalOrder<T>, "この型のテンプレート T は双方向の順序を持つ値型である必要があります。");
 
 	public: // type
 
@@ -136,95 +127,57 @@ namespace zawa_ch::StationaryOrbit
 		typedef T ValueType;
 		///	スライシング元の @a Range の型。
 		typedef Range<T, floor_included, ceiling_included> RangeType;
-		typedef RangeSlice<T, floor_included, ceiling_included> SliceType;
+		typedef RangeIterator<T, floor_included, ceiling_included> IteratorType;
 
 	private: // contains
 
 		const RangeType _range;
 		ValueType _value;
 
-	private: // constructor
+	public: // constructor
 
-		constexpr RangeSlice(const RangeType& range, const ValueType& value) : _range(range), _value(value) {}
-
-	public: // member
-
-		///	このイテレータの現在示している値を取得します。
-		ValueType Current() const noexcept { return _value; }
-		///	このイテレータを次に進めます。
-		bool Next() noexcept { return _range.isUnderTop(++_value); }
-		///	このイテレータを初期位置、つまり最初のオブジェクトの前の位置に進めます。
-		void Reset() noexcept { _value = floor_included?(_range._bottom-1):(_range._bottom); }
-		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
-		bool Equals(const SliceType& other) const noexcept { return (_range.Equals(other._range))&&(_value == other._value); }
-
-	public: // implement LegacyIterator
-
-		ValueType operator*() const noexcept { return _value; }
-		SliceType& operator++() noexcept { _value++; return *this; }
-
-	public: // implement LegacyInputIterator
-
-		bool operator==(const SliceType& other) const noexcept { return Equals(other); }
-		bool operator!=(const SliceType& other) const noexcept { return !Equals(other); }
-		const ValueType* operator->() const noexcept { return &_value; }
-
-	public: // implement LegacyBidirectionalIterator
-
-		SliceType& operator--() noexcept { _value--; return *this; }
-
-	};
-
-	///	@a Range の区間内を反復するための逆イテレータを提供します。
-	template<class T, bool floor_included = true, bool ceiling_included = false>
-	class RangeReverseSlice
-	{
-		static_assert(std::is_integral<T>::value, "この型のテンプレート T は整数型のクラスである必要があります。");
-		friend class Range<T, floor_included, ceiling_included>;
-
-	public: // type
-
-		///	値の表現に使用されている型。
-		typedef T ValueType;
-		///	スライシング元の @a Range の型。
-		typedef Range<T, floor_included, ceiling_included> RangeType;
-		typedef RangeReverseSlice<T, floor_included, ceiling_included> RSliceType;
-
-	private: // contains
-
-		const RangeType _range;
-		ValueType _value;
-
-	private: // constructor
-
-		constexpr RangeReverseSlice(const RangeType& range, const ValueType& value) : _range(range), _value(value) {}
+		constexpr RangeIterator(const RangeType& range) noexcept : RangeIterator(range, IteratorOrigin::Begin) {}
+		constexpr RangeIterator(const RangeType& range, const IteratorOrigin& origin) : _range(range), _value(getOrigin(range, origin)) {}
 
 	public: // member
 
 		///	このイテレータの現在示している値を取得します。
-		ValueType Current() const noexcept { return _value; }
+		constexpr const ValueType& Current() const noexcept { return _value; }
+		///	このイテレータが示している値を取得できるかを返します。
+		constexpr bool HasValue() const noexcept { return _range.isIncluded(_value); }
+		///	このイテレータが最初の位置より前にあるかを取得します。
+		constexpr bool IsBeforeBegin() const noexcept { return !_range.isOverBottom(_value); }
+		///	このイテレータが最後の位置より後にあるかを取得します。
+		constexpr bool IsAfterEnd() const noexcept { return !_range.isUnderTop(_value); }
 		///	このイテレータを次に進めます。
-		bool Next() noexcept { return _range.isOverBottom(--_value); }
-		///	このイテレータを初期位置、つまり最初のオブジェクトの前の位置に進めます。
-		void Reset() noexcept { _value = ceiling_included?(_range._top):(_range._top-1); }
+		constexpr bool Next() noexcept { return _range.isUnderTop(_range.isUnderTop(_value)?(++_value):(_value)); }
+		///	このイテレータを前に進めます。
+		constexpr bool Previous() noexcept { return _range.isOverBottom(_range.isOverBottom(_value)?(--_value):(_value)); }
+		///	このイテレータを初期位置に進めます。
+		constexpr void Reset() { Reset(IteratorOrigin::Begin); }
+		///	このイテレータを初期位置に進めます。
+		///	@param	origin
+		///	進める初期位置の場所。
+		constexpr void Reset(const IteratorOrigin& origin) { _value = getOrigin(_range, origin); }
 		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
-		bool Equals(const RSliceType& other) const noexcept { return (_range.Equals(other._range))&&(_value == other._value); }
+		constexpr bool Equals(const IteratorType& other) const noexcept { return (_range.Equals(other._range))&&(_value == other._value); }
 
-	public: // implement LegacyIterator
+		constexpr bool operator==(const IteratorType& other) const noexcept { return Equals(other); }
+		constexpr bool operator!=(const IteratorType& other) const noexcept { return !Equals(other); }
 
-		ValueType operator*() const noexcept { return _value; }
-		RSliceType& operator++() noexcept { _value--; return *this; }
-
-	public: // implement LegacyInputIterator
-
-		bool operator==(const RSliceType& other) const noexcept { return Equals(other); }
-		bool operator!=(const RSliceType& other) const noexcept { return !Equals(other); }
-		const ValueType* operator->() const noexcept { return &_value; }
-
-	public: // implement LegacyBidirectionalIterator
-
-		RSliceType& operator--() noexcept { _value++; return *this; }
-
+	private:
+		constexpr static ValueType getOrigin(const RangeType& range, const IteratorOrigin& origin)
+		{
+			switch(origin)
+			{
+			case IteratorOrigin::Begin:
+				return floor_included?(range.GetFloor()):(range.GetFloor() + 1);
+			case IteratorOrigin::End:
+				return ceiling_included?(range.GetCeiling()):(range.GetCeiling() - 1);
+			default:
+				throw std::invalid_argument("origin に無効な値が設定されています。");
+			}
+		}
 	};
 
 }
