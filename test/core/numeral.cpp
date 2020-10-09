@@ -60,7 +60,7 @@ void Test_FixedPoint()
 	if (FixedPoint32q16_t(f1) == FixedPoint32q16_t(16)) { std::cout << "f1 -> " << double(FixedPoint<uint32_t, 16>(16)) << std::endl; } else { throw std::exception(); }
 	std::cout << "FixedPoint16q8_t::Max() = " << double(FixedPoint16q8_t::Max()) << std::endl;
 	std::cout << "FixedPoint16q8_t::Min() = " << double(FixedPoint16q8_t::Min()) << std::endl;
-	std::cout << "FixedPoint16q8_t::Epsiron() = " << double(FixedPoint16q8_t::Epsiron()) << std::endl;
+	std::cout << "FixedPoint16q8_t::Epsilon() = " << double(FixedPoint16q8_t::Epsilon()) << std::endl;
 }
 
 void Test_FractionalDec()
@@ -81,9 +81,9 @@ void Test_FractionalDec()
 	if (double(FractionalDec::Max() - fr2) == 0.25) { std::cout << "~fr2 = 1/4" << std::endl; } else { throw std::exception(); }
 	if (double((fr1 * fr1).Sqrt()) != double(fr1)) { throw std::exception(); }
 	std::cout << "sqrt(fr1) = " << double((fr1).Sqrt()) << std::endl;
-	std::cout << "epsiron = " << double(FractionalDec::Epsiron()) << std::endl;
-	std::cout << "~epsiron = " << double(FractionalDec::Max() - FractionalDec::Epsiron()) << std::endl;
-	std::cout << "1 == ~epsiron = " << bool((FractionalDec::Max())==(FractionalDec::Max() - FractionalDec::Epsiron())) << std::endl;
+	std::cout << "epsilon = " << double(FractionalDec::Epsilon()) << std::endl;
+	std::cout << "~epsilon = " << double(FractionalDec::Max() - FractionalDec::Epsilon()) << std::endl;
+	std::cout << "1 == ~epsilon = " << bool((FractionalDec::Max())==(FractionalDec::Max() - FractionalDec::Epsilon())) << std::endl;
 }
 
 void Test_Logic()

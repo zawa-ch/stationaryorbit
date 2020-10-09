@@ -112,7 +112,7 @@ namespace zawa_ch::StationaryOrbit
 		///	このオブジェクトが表現できる最大値を取得します。
 		static constexpr FractionalDec Max() { return { UINTMAX_MAX }; }
 		///	このオブジェクトが表現できる最小刻み幅を取得します。
-		static constexpr FractionalDec Epsiron() { return { 1UL }; }
+		static constexpr FractionalDec Epsilon() { return { 1UL }; }
 
 	private:
 		///	除算を行います。
@@ -172,5 +172,40 @@ namespace zawa_ch::StationaryOrbit
 
 	static constexpr double operator*(const double& left, const FractionalDec& right) { return left * right / double(UINTMAX_MAX); }
 
+}
+namespace std
+{
+	template<>
+	class numeric_limits<zawa_ch::StationaryOrbit::FractionalDec> : public numeric_limits<void>
+	{
+	public:
+		static constexpr bool is_specialized = true;
+		static constexpr bool is_signed = false;
+		static constexpr bool is_integer = false;
+		static constexpr bool is_exact = false;
+		static constexpr bool has_infinity = false;
+		static constexpr bool has_quiet_NaN = false;
+		static constexpr bool has_signaling_NaN = false;
+		static constexpr float_denorm_style has_denorm = denorm_absent;
+		static constexpr bool has_denorm_loss = false;
+		static constexpr float_round_style round_style = round_toward_zero;
+		static constexpr bool is_iec559 = false;
+		static constexpr bool is_bounded = true;
+		static constexpr bool is_modulo = false;
+		static constexpr int digits = numeric_limits<uintmax_t>::digits;
+		static constexpr int digits10 = numeric_limits<uintmax_t>::digits10;
+		static constexpr int max_digits10 = numeric_limits<uintmax_t>::max_digits10;
+		static constexpr int radix = 2;
+		static constexpr int min_exponent = 0;
+		static constexpr int min_exponent10 = 0;
+		static constexpr int max_exponent = 0;
+		static constexpr int max_exponent10 = 0;
+		static constexpr bool traps = true;
+		static constexpr bool tinyness_before = true;
+		static constexpr zawa_ch::StationaryOrbit::FractionalDec min() noexcept { return zawa_ch::StationaryOrbit::FractionalDec::Min(); }
+		static constexpr zawa_ch::StationaryOrbit::FractionalDec lowest() noexcept { return zawa_ch::StationaryOrbit::FractionalDec::Min(); }
+		static constexpr zawa_ch::StationaryOrbit::FractionalDec max() noexcept { return zawa_ch::StationaryOrbit::FractionalDec::Max(); }
+		static constexpr zawa_ch::StationaryOrbit::FractionalDec epsilon() noexcept { return zawa_ch::StationaryOrbit::FractionalDec::Epsilon(); }
+	};
 }
 #endif // __stationaryorbit_core_fractionaldec__

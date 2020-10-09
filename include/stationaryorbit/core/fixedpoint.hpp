@@ -175,17 +175,19 @@ namespace zawa_ch::StationaryOrbit
 
 	public:
 		///	この型で表すことのできる最大の値を取得します。
-		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> Max() { return DirectConstruct(std::numeric_limits<Tp>::max()); }
+		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> Max() noexcept { return DirectConstruct(std::numeric_limits<Tp>::max()); }
 		///	この型で表すことのできる最小の値を取得します。
-		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> Min() { return DirectConstruct(std::numeric_limits<Tp>::min()); }
+		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> Min() noexcept { return DirectConstruct(std::numeric_limits<Tp>::min()); }
 		///	この型で表すことのできる零値を取得します。
-		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> Zero() { return DirectConstruct(0); }
+		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> Zero() noexcept { return DirectConstruct(0); }
+		///	この型で表すことのできる1.0の値を取得します。
+		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> One() noexcept { return DirectConstruct(Tp(1) << Ql); }
 		///	この型で表すことのできる最小の刻み幅を取得します。
-		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> Epsiron() { return DirectConstruct(1); }
+		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> Epsilon() noexcept { return DirectConstruct(1); }
 		///	空の @a FixedPoint を取得します。
-		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> Empty() { return FixedPoint<Tp, Ql> {}; }
+		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> Empty() noexcept { return FixedPoint<Tp, Ql> {}; }
 		///	@a FixedPoint を直接構築します。
-		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> DirectConstruct(const ValueType& value) { return FixedPoint<Tp, Ql>(value, UnitValue); }
+		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> DirectConstruct(const ValueType& value) noexcept { return FixedPoint<Tp, Ql>(value, UnitValue); }
 
 	private:
 		template<class fromT> constexpr static Tp convertFromInteger(const fromT& from)
@@ -220,5 +222,41 @@ namespace zawa_ch::StationaryOrbit
 	typedef FixedPoint<uint32_t, 31> FixedPoint32q31_t;
 	typedef FixedPoint<uint64_t, 32> FixedPoint64q32_t;
 	typedef FixedPoint<uint64_t, 63> FixedPoint64q63_t;
+}
+namespace std
+{
+	template<class T, size_t Ql>
+	class numeric_limits<zawa_ch::StationaryOrbit::FixedPoint<T, Ql>> : public numeric_limits<void>
+	{
+	public:
+		static constexpr bool is_specialized = true;
+		static constexpr bool is_signed = false;
+		static constexpr bool is_integer = false;
+		static constexpr bool is_exact = false;
+		static constexpr bool has_infinity = false;
+		static constexpr bool has_quiet_NaN = false;
+		static constexpr bool has_signaling_NaN = false;
+		static constexpr float_denorm_style has_denorm = denorm_absent;
+		static constexpr bool has_denorm_loss = false;
+		static constexpr float_round_style round_style = round_toward_zero;
+		static constexpr bool is_iec559 = false;
+		static constexpr bool is_bounded = true;
+		static constexpr bool is_modulo = true;
+		static constexpr int digits = numeric_limits<T>::digits;
+		static constexpr int digits10 = numeric_limits<T>::digits10;
+		static constexpr int max_digits10 = numeric_limits<T>::max_digits10;
+		static constexpr int radix = 2;
+		static constexpr int min_exponent = 0;
+		static constexpr int min_exponent10 = 0;
+		static constexpr int max_exponent = 0;
+		static constexpr int max_exponent10 = 0;
+		static constexpr bool traps = true;
+		static constexpr bool tinyness_before = true;
+		static constexpr zawa_ch::StationaryOrbit::FixedPoint<T, Ql> min() noexcept { return zawa_ch::StationaryOrbit::FixedPoint<T, Ql>::Min(); }
+		static constexpr zawa_ch::StationaryOrbit::FixedPoint<T, Ql> lowest() noexcept { return zawa_ch::StationaryOrbit::FixedPoint<T, Ql>::Min(); }
+		static constexpr zawa_ch::StationaryOrbit::FixedPoint<T, Ql> max() noexcept { return zawa_ch::StationaryOrbit::FixedPoint<T, Ql>::Max(); }
+		static constexpr zawa_ch::StationaryOrbit::FixedPoint<T, Ql> epsilon() noexcept { return zawa_ch::StationaryOrbit::FixedPoint<T, Ql>::Epsilon(); }
+		static constexpr zawa_ch::StationaryOrbit::FixedPoint<T, Ql> round_error() noexcept { return zawa_ch::StationaryOrbit::FixedPoint<T, Ql>::DirectConstruct((T(1) << Ql) - 1); }
+	};
 }
 #endif // __stationaryorbit_core_fixedpoint__

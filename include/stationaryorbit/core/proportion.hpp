@@ -268,6 +268,11 @@ namespace zawa_ch::StationaryOrbit
 			if constexpr (std::is_same_v<Tp, bool>) { return Proportion<Tp>(false, UnitValue); }
 			else { return Proportion<Tp>(std::numeric_limits<Tp>::min(), UnitValue); }
 		}
+		///	この型で表すことのできる最小の刻み幅を取得します。
+		[[nodiscard]] constexpr static Proportion<Tp> Epsilon() noexcept
+		{
+			return Proportion<Tp>(Tp(1), UnitValue);
+		}
 		///	この型で表すことのできる零値を取得します。
 		[[nodiscard]] constexpr static Proportion<Tp> Zero() noexcept
 		{
@@ -352,5 +357,40 @@ namespace zawa_ch::StationaryOrbit
 	typedef Proportion<uint16_t> Proportion16_t;
 	typedef Proportion<uint32_t> Proportion32_t;
 	typedef Proportion<uint64_t> Proportion64_t;
+}
+namespace std
+{
+	template<class T>
+	class numeric_limits<zawa_ch::StationaryOrbit::Proportion<T>> : public numeric_limits<void>
+	{
+	public:
+		static constexpr bool is_specialized = true;
+		static constexpr bool is_signed = false;
+		static constexpr bool is_integer = false;
+		static constexpr bool is_exact = false;
+		static constexpr bool has_infinity = false;
+		static constexpr bool has_quiet_NaN = false;
+		static constexpr bool has_signaling_NaN = false;
+		static constexpr float_denorm_style has_denorm = denorm_absent;
+		static constexpr bool has_denorm_loss = false;
+		static constexpr float_round_style round_style = round_toward_zero;
+		static constexpr bool is_iec559 = false;
+		static constexpr bool is_bounded = true;
+		static constexpr bool is_modulo = false;
+		static constexpr int digits = numeric_limits<T>::digits;
+		static constexpr int digits10 = numeric_limits<T>::digits10;
+		static constexpr int max_digits10 = numeric_limits<T>::max_digits10;
+		static constexpr int radix = 2;
+		static constexpr int min_exponent = 0;
+		static constexpr int min_exponent10 = 0;
+		static constexpr int max_exponent = 0;
+		static constexpr int max_exponent10 = 0;
+		static constexpr bool traps = true;
+		static constexpr bool tinyness_before = true;
+		static constexpr zawa_ch::StationaryOrbit::Proportion<T> min() noexcept { return zawa_ch::StationaryOrbit::Proportion<T>::Min(); }
+		static constexpr zawa_ch::StationaryOrbit::Proportion<T> lowest() noexcept { return zawa_ch::StationaryOrbit::Proportion<T>::Min(); }
+		static constexpr zawa_ch::StationaryOrbit::Proportion<T> max() noexcept { return zawa_ch::StationaryOrbit::Proportion<T>::Max(); }
+		static constexpr zawa_ch::StationaryOrbit::Proportion<T> epsilon() noexcept { return zawa_ch::StationaryOrbit::Proportion<T>::Epsilon(); }
+	};
 }
 #endif // __stationaryorbit_core_proportion__
