@@ -51,6 +51,7 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		///	既定の @a FixedPoint オブジェクトを作成します。
 		constexpr FixedPoint() : _value() {}
+		constexpr FixedPoint(const ZeroValue_t&) : _value(0) {}
 		constexpr explicit FixedPoint(const double& value) : _value(convertFromFloat(value)) {}
 		///	ほかの @a FixedPoint テンプレート型から変換します。
 		template<class fromTp, size_t fromQ>
@@ -178,8 +179,6 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> Max() noexcept { return DirectConstruct(std::numeric_limits<Tp>::max()); }
 		///	この型で表すことのできる最小の値を取得します。
 		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> Min() noexcept { return DirectConstruct(std::numeric_limits<Tp>::min()); }
-		///	この型で表すことのできる零値を取得します。
-		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> Zero() noexcept { return DirectConstruct(0); }
 		///	この型で表すことのできる1.0の値を取得します。
 		[[nodiscard]] constexpr static FixedPoint<Tp, Ql> One() noexcept { return DirectConstruct(Tp(1) << Ql); }
 		///	この型で表すことのできる最小の刻み幅を取得します。

@@ -52,6 +52,7 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		///	既定の @a Proportion オブジェクトを作成します。
 		constexpr Proportion() noexcept = default;
+		constexpr Proportion(const ZeroValue_t&) : _value(0) {}
 		///	@a double から値をキャストします。
 		constexpr explicit Proportion(const double& from) : Proportion(convertFromFloat(from), UnitValue) {}
 		///	分子・分母の値からオブジェクトを作成します。
@@ -272,11 +273,6 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr static Proportion<Tp> Epsilon() noexcept
 		{
 			return Proportion<Tp>(Tp(1), UnitValue);
-		}
-		///	この型で表すことのできる零値を取得します。
-		[[nodiscard]] constexpr static Proportion<Tp> Zero() noexcept
-		{
-			return Proportion<Tp>(Tp(0), UnitValue);
 		}
 		///	空のオブジェクトを取得します。
 		[[nodiscard]] constexpr static Proportion<Tp> Empty() noexcept
