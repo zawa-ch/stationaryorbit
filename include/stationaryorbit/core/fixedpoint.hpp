@@ -99,12 +99,12 @@ namespace zawa_ch::StationaryOrbit
 			if (_value < (Max()._value - other._value)) { return Add(other); }
 			else { return Max(); }
 		}
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> SaturateSub(const FixedPoint<Tp, Ql>& other) const
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> SaturateSubtract(const FixedPoint<Tp, Ql>& other) const
 		{
 			if ((Min()._value + other._value) < _value) { return Sub(other); }
 			else { return Min(); }
 		}
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> SaturateMultiple(const FixedPoint<Tp, Ql>& other) const
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> SaturateMultiply(const FixedPoint<Tp, Ql>& other) const
 		{
 			// TODO: 乗算のオーバーフロー検出処理の実装
 			return Multiple(other);
@@ -119,12 +119,12 @@ namespace zawa_ch::StationaryOrbit
 			if (_value < (Max()._value - other._value)) { return Add(other); }
 			else { throw std::overflow_error("計算結果はこの型で表せる範囲を超えています。"); }
 		}
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> CheckedSub(const FixedPoint<Tp, Ql>& other) const
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> CheckedSubtract(const FixedPoint<Tp, Ql>& other) const
 		{
 			if ((Min()._value + other._value) < _value) { return Sub(other); }
 			else { throw std::overflow_error("計算結果はこの型で表せる範囲を超えています。"); }
 		}
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> CheckedMultiple(const FixedPoint<Tp, Ql>& other) const
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> CheckedMultiply(const FixedPoint<Tp, Ql>& other) const
 		{
 			// TODO: 乗算のオーバーフロー検出処理の実装
 			return Multiple(other);

@@ -91,21 +91,21 @@ namespace zawa_ch::StationaryOrbit
 		}
 		///	このオブジェクトと指定されたオブジェクトの差を求めます。
 		///	計算結果がオーバーフローする場合、表現できる値域に丸めを行います。
-		[[nodiscard]] constexpr Proportion<Tp> SaturateSub(const Proportion<Tp>& other) const noexcept
+		[[nodiscard]] constexpr Proportion<Tp> SaturateSubtract(const Proportion<Tp>& other) const noexcept
 		{
 			if (other._value <= _value) { return Proportion(Tp(_value - other._value)); }
 			else { return Min(); }
 		}
 		///	このオブジェクトと指定されたオブジェクトの積を求めます。
 		///	計算結果がオーバーフローする場合、表現できる値域に丸めを行います。
-		[[nodiscard]] constexpr Proportion<Tp> SaturateMul(const Proportion<Tp>& other) const noexcept
+		[[nodiscard]] constexpr Proportion<Tp> SaturateMultiply(const Proportion<Tp>& other) const noexcept
 		{
 			// note: この型で表せる値域のどの組み合わせでもオーバーフローは発生しない
 			return Proportion(multiple_inner(_value, other._value));
 		}
 		///	このオブジェクトと指定されたオブジェクトの商を求めます。
 		///	計算結果がオーバーフローする場合、表現できる値域に丸めを行います。
-		[[nodiscard]] constexpr Proportion<Tp> SaturateDiv(const Proportion<Tp>& other) const noexcept
+		[[nodiscard]] constexpr Proportion<Tp> SaturateDivide(const Proportion<Tp>& other) const noexcept
 		{
 			if (other._value < _value) { return Max(); }
 			return Proportion(checkedFraction(_value, other._value));
@@ -125,7 +125,7 @@ namespace zawa_ch::StationaryOrbit
 		///	@exception
 		///	std::overflow_error
 		///	計算結果がオーバーフローしました。
-		[[nodiscard]] constexpr Proportion<Tp> CheckedSub(const Proportion<Tp>& other) const
+		[[nodiscard]] constexpr Proportion<Tp> CheckedSubtract(const Proportion<Tp>& other) const
 		{
 			if (other._value <= _value) { return Proportion(Tp(_value - other._value)); }
 			else { throw std::overflow_error("計算結果はこの型で表せる範囲を超えています。"); }
@@ -135,7 +135,7 @@ namespace zawa_ch::StationaryOrbit
 		///	@exception
 		///	std::overflow_error
 		///	計算結果がオーバーフローしました。
-		[[nodiscard]] constexpr Proportion<Tp> CheckedMul(const Proportion<Tp>& other) const
+		[[nodiscard]] constexpr Proportion<Tp> CheckedMultiply(const Proportion<Tp>& other) const
 		{
 			// note: この型で表せる値域のどの組み合わせでもオーバーフローは発生しない
 			return Proportion(multiple_inner(_value, other._value));
@@ -145,7 +145,7 @@ namespace zawa_ch::StationaryOrbit
 		///	@exception
 		///	std::overflow_error
 		///	計算結果がオーバーフローしました。
-		[[nodiscard]] constexpr Proportion<Tp> CheckedDiv(const Proportion<Tp>& other) const
+		[[nodiscard]] constexpr Proportion<Tp> CheckedDivide(const Proportion<Tp>& other) const
 		{ return Proportion(checkedFraction(_value, other._value)); }
 		///	この値の平方数を取得します。
 		[[nodiscard]] constexpr Proportion<Tp> Square() const noexcept { return Mul(*this); }

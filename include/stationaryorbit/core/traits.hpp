@@ -375,17 +375,17 @@ namespace zawa_ch::StationaryOrbit
 		template<class, class, class = std::void_t<>>
 		struct HasSaturateSubtraction_t : std::false_type {};
 		template<class T, class U>
-		struct HasSaturateSubtraction_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateSub(std::declval<U&>()) ) > > : std::true_type {};
+		struct HasSaturateSubtraction_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateSubtract(std::declval<U&>()) ) > > : std::true_type {};
 
 		template<class, class, class = std::void_t<>>
 		struct HasSaturateMultiplication_t : std::false_type {};
 		template<class T, class U>
-		struct HasSaturateMultiplication_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateMul(std::declval<U&>()) ) > > : std::true_type {};
+		struct HasSaturateMultiplication_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateMultiply(std::declval<U&>()) ) > > : std::true_type {};
 
 		template<class, class, class = std::void_t<>>
 		struct HasSaturateDivision_t : std::false_type {};
 		template<class T, class U>
-		struct HasSaturateDivision_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateDiv(std::declval<U&>()) ) > > : std::true_type {};
+		struct HasSaturateDivision_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateDivide(std::declval<U&>()) ) > > : std::true_type {};
 
 		template<class T, class U>
 		struct HasSaturateOperation_t : std::conjunction<HasSaturateAddition_t<T, U>, HasSaturateSubtraction_t<T, U>, HasSaturateMultiplication_t<T, U>, HasSaturateDivision_t<T, U>> {};
@@ -398,17 +398,17 @@ namespace zawa_ch::StationaryOrbit
 		template<class, class, class = std::void_t<>>
 		struct HasCheckedSubtraction_t : std::false_type {};
 		template<class T, class U>
-		struct HasCheckedSubtraction_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedSub(std::declval<U&>()) ) > > : std::true_type {};
+		struct HasCheckedSubtraction_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedSubtract(std::declval<U&>()) ) > > : std::true_type {};
 
 		template<class, class, class = std::void_t<>>
 		struct HasCheckedMultiplication_t : std::false_type {};
 		template<class T, class U>
-		struct HasCheckedMultiplication_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedMul(std::declval<U&>()) ) > > : std::true_type {};
+		struct HasCheckedMultiplication_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedMultiply(std::declval<U&>()) ) > > : std::true_type {};
 
 		template<class, class, class = std::void_t<>>
 		struct HasCheckedDivision_t : std::false_type {};
 		template<class T, class U>
-		struct HasCheckedDivision_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedDiv(std::declval<U&>()) ) > > : std::true_type {};
+		struct HasCheckedDivision_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedDivide(std::declval<U&>()) ) > > : std::true_type {};
 
 		template<class T, class U>
 		struct HasCheckedOperation_t : std::conjunction<HasCheckedAddition_t<T, U>, HasCheckedSubtraction_t<T, U>, HasCheckedMultiplication_t<T, U>, HasCheckedDivision_t<T, U>> {};
