@@ -25,6 +25,7 @@
 #include "fundamental.hpp"
 #include "algorithms.hpp"
 #include "range.hpp"
+#include "zerovalue.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	0.0から1.0の値を符号なし整数を用いて保持します。

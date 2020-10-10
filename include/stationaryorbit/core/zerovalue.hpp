@@ -34,34 +34,23 @@ namespace zawa_ch::StationaryOrbit
 		constexpr operator std::nullptr_t() const { return nullptr; }
 		constexpr operator std::byte() const { return std::byte('\0'); }
 
-		constexpr ZeroValue_t operator+() const { return Zero; }
-		constexpr ZeroValue_t operator-() const { return Zero; }
-		constexpr ZeroValue_t operator+(const ZeroValue_t&) const { return Zero; }
-		constexpr ZeroValue_t operator-(const ZeroValue_t&) const { return Zero; }
-		constexpr ZeroValue_t operator*(const ZeroValue_t&) const { return Zero; }
-		constexpr ZeroValue_t operator/(const ZeroValue_t&) const { throw std::range_error("結果は NaN となりますが、 ZeroValue_t は NaN を表現できません。"); }
-		constexpr ZeroValue_t operator%(const ZeroValue_t&) const { throw std::range_error("結果は NaN となりますが、 ZeroValue_t は NaN を表現できません。"); }
-		constexpr ZeroValue_t operator~() const { throw std::range_error("結果は ~0 となりますが、 ZeroValue_t は ~0 を表現できません。"); }
-		constexpr ZeroValue_t operator|(const ZeroValue_t&) const { return Zero; }
-		constexpr ZeroValue_t operator&(const ZeroValue_t&) const { return Zero; }
-		constexpr ZeroValue_t operator^(const ZeroValue_t&) const { return Zero; }
-		constexpr ZeroValue_t operator<<(const int&) const { return Zero; }
-		constexpr ZeroValue_t operator>>(const int&) const { return Zero; }
+		constexpr ZeroValue_t operator+() const { return ZeroValue_t(); }
+		constexpr ZeroValue_t operator-() const { return ZeroValue_t(); }
+		constexpr ZeroValue_t operator+(const ZeroValue_t&) const { return ZeroValue_t(); }
+		constexpr ZeroValue_t operator-(const ZeroValue_t&) const { return ZeroValue_t(); }
+		constexpr ZeroValue_t operator*(const ZeroValue_t&) const { return ZeroValue_t(); }
+		constexpr ZeroValue_t operator|(const ZeroValue_t&) const { return ZeroValue_t(); }
+		constexpr ZeroValue_t operator&(const ZeroValue_t&) const { return ZeroValue_t(); }
+		constexpr ZeroValue_t operator^(const ZeroValue_t&) const { return ZeroValue_t(); }
+		constexpr ZeroValue_t operator<<(const int&) const { return ZeroValue_t(); }
+		constexpr ZeroValue_t operator>>(const int&) const { return ZeroValue_t(); }
 
-		constexpr ZeroValue_t& operator++() { throw std::range_error("結果は >0 となりますが、 ZeroValue_t は >0 を表現できません。"); }
-		constexpr ZeroValue_t& operator--() { throw std::range_error("結果は <0 となりますが、 ZeroValue_t は <0 を表現できません。"); }
-		constexpr ZeroValue_t operator++(int) { throw std::range_error("結果は >0 となりますが、 ZeroValue_t は >0 を表現できません。"); }
-		constexpr ZeroValue_t operator--(int) { throw std::range_error("結果は <0 となりますが、 ZeroValue_t は <0 を表現できません。"); }
-
-		constexpr ZeroValue_t operator!() const { throw std::range_error("結果は true となりますが、 ZeroValue_t は true を表現できません。"); }
-		constexpr ZeroValue_t operator||(const ZeroValue_t&) const { return Zero; }
-		constexpr ZeroValue_t operator&&(const ZeroValue_t&) const { return Zero; }
+		constexpr ZeroValue_t operator||(const ZeroValue_t&) const { return ZeroValue_t(); }
+		constexpr ZeroValue_t operator&&(const ZeroValue_t&) const { return ZeroValue_t(); }
 
 		constexpr ZeroValue_t& operator+=(const ZeroValue_t&) { return *this; }
 		constexpr ZeroValue_t& operator-=(const ZeroValue_t&) { return *this; }
 		constexpr ZeroValue_t& operator*=(const ZeroValue_t&) { return *this; }
-		constexpr ZeroValue_t& operator/=(const ZeroValue_t&) { throw std::range_error("結果は NaN となりますが、 ZeroValue_t は NaN を表現できません。"); }
-		constexpr ZeroValue_t& operator%=(const ZeroValue_t&) { throw std::range_error("結果は NaN となりますが、 ZeroValue_t は NaN を表現できません。"); }
 		constexpr ZeroValue_t& operator|=(const ZeroValue_t&) { return *this; }
 		constexpr ZeroValue_t& operator&=(const ZeroValue_t&) { return *this; }
 		constexpr ZeroValue_t& operator^=(const ZeroValue_t&) { return *this; }

@@ -24,6 +24,7 @@
 #include <type_traits>
 #include "fundamental.hpp"
 #include "range.hpp"
+#include "zerovalue.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	固定小数点数を表します。
