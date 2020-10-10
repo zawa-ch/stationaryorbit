@@ -52,17 +52,19 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		///	既定の @a FixedPoint オブジェクトを作成します。
 		constexpr FixedPoint() : _value() {}
-		constexpr FixedPoint(const ZeroValue_t&) : _value(0) {}
+		constexpr explicit FixedPoint(const Tp& value) : _value(convertFromInteger(value)) {}
+		constexpr explicit FixedPoint(const int& value) : _value(convertFromInteger(Tp(value))) {}
 		constexpr explicit FixedPoint(const double& value) : _value(convertFromFloat(value)) {}
 		///	ほかの @a FixedPoint テンプレート型から変換します。
 		template<class fromTp, size_t fromQ>
 		constexpr explicit FixedPoint(const FixedPoint<fromTp, fromQ>& from) : FixedPoint(from.template CastTo<Tp, Ql>()) {}
+		constexpr FixedPoint(const ZeroValue_t&) : _value(0) {}
 		constexpr FixedPoint(const FixedPoint<Tp, Ql>&) = default;
 		constexpr FixedPoint(FixedPoint<Tp, Ql>&&) = default;
 		~FixedPoint() = default;
 	public:
 		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Promote() const { return *this; }
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Invert() const { return FixedPoint<Tp, Ql>(-_value); }
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Invert() const { return DirectConstruct(-_value); }
 		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Add(const FixedPoint<Tp, Ql>& other) const { return DirectConstruct(_value + other._value); }
 		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Sub(const FixedPoint<Tp, Ql>& other) const { return DirectConstruct(_value - other._value); }
 		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Multiple(const FixedPoint<Tp, Ql>& other) const
