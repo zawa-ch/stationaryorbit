@@ -53,13 +53,14 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		///	既定の @a Proportion オブジェクトを作成します。
 		constexpr Proportion() noexcept = default;
-		constexpr Proportion(const ZeroValue_t&) : _value(0) {}
+		constexpr explicit Proportion(const int& from) : _value(convertFromInteger(from)) {}
 		///	@a double から値をキャストします。
-		constexpr explicit Proportion(const double& from) : Proportion(convertFromFloat(from), UnitValue) {}
+		constexpr explicit Proportion(const double& from) : _value(convertFromFloat(from)) {}
 		///	分子・分母の値からオブジェクトを作成します。
 		constexpr Proportion(const ValueType& numerator, const ValueType& denominator) : Proportion(checkedFraction(numerator, denominator), UnitValue) {}
 		///	@a オブジェクトの内部の型をキャストします。
 		template<class fromT> constexpr explicit Proportion(const Proportion<fromT>& from) noexcept : Proportion(from.template CastTo<Tp>()) {}
+		constexpr Proportion(const ZeroValue_t&) : _value(0) {}
 		constexpr Proportion(const Proportion<Tp>&) = default;
 		constexpr Proportion(Proportion<Tp>&&) = default;
 		~Proportion() = default;
@@ -330,10 +331,31 @@ namespace zawa_ch::StationaryOrbit
 			}
 		}
 		template<class fromT>
+		static constexpr ValueType convertFromInteger(const fromT& value)
+		{
+			if constexpr(std::is_same_v<fromT, bool>)
+			{
+				if(value) { return Max().Data(); }
+				else { return Min().Data(); }
+			}
+			else
+			{
+				switch(value)
+				{
+				case 0:
+					return Min().Data();
+				case 1:
+					return Max().Data();
+				default:
+					throw std::range_error("指定された値がこの型で表せる範囲を超えています。");
+				}
+			}
+		}
+		template<class fromT>
 		static constexpr ValueType convertFromFloat(const fromT& value)
 		{
 			if ((value == std::numeric_limits<double>::quiet_NaN()) || (value == std::numeric_limits<double>::signaling_NaN())) { throw std::invalid_argument("指定する値はNaNであってはなりません。"); }
-			if ((value < 0.0) || (1.0 < value)) { throw std::overflow_error("指定された値がこの型で表せる範囲を超えています。"); }
+			if ((value < 0.0) || (1.0 < value)) { throw std::range_error("指定された値がこの型で表せる範囲を超えています。"); }
 			if constexpr (std::is_integral_v<Tp>) { return ValueType(round(value * fromT(std::numeric_limits<ValueType>::max()))); }
 		}
 		template<class castT>
