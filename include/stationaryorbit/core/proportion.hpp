@@ -179,10 +179,10 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr Proportion<Tp> operator-(const Proportion<Tp>& other) const noexcept { return Sub(other); }
 		[[nodiscard]] constexpr Proportion<Tp> operator*(const Proportion<Tp>& other) const noexcept { return Mul(other); }
 		[[nodiscard]] constexpr Proportion<Tp> operator/(const Proportion<Tp>& other) const noexcept { return Div(other); }
-		[[nodiscard]] constexpr Proportion<Tp>& operator+=(const Proportion<Tp>& other) noexcept { return *this = *this + other; }
-		[[nodiscard]] constexpr Proportion<Tp>& operator-=(const Proportion<Tp>& other) noexcept { return *this = *this - other; }
-		[[nodiscard]] constexpr Proportion<Tp>& operator*=(const Proportion<Tp>& other) noexcept { return *this = *this * other; }
-		[[nodiscard]] constexpr Proportion<Tp>& operator/=(const Proportion<Tp>& other) noexcept { return *this = *this / other; }
+		constexpr Proportion<Tp>& operator+=(const Proportion<Tp>& other) noexcept { return *this = *this + other; }
+		constexpr Proportion<Tp>& operator-=(const Proportion<Tp>& other) noexcept { return *this = *this - other; }
+		constexpr Proportion<Tp>& operator*=(const Proportion<Tp>& other) noexcept { return *this = *this * other; }
+		constexpr Proportion<Tp>& operator/=(const Proportion<Tp>& other) noexcept { return *this = *this / other; }
 
 		[[nodiscard]] constexpr bool Equals(const Proportion<Tp>& other) const noexcept { return _value == other._value; }
 		[[nodiscard]] constexpr bool operator==(const Proportion<Tp>& other) const noexcept { return Equals(other); }
@@ -199,8 +199,8 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr bool operator<=(const Proportion<Tp>& other) const noexcept { return Compare(other) <= 0; }
 		[[nodiscard]] constexpr bool operator>=(const Proportion<Tp>& other) const noexcept { return Compare(other) >= 0; }
 
-		[[nodiscard]] Proportion<Tp>& operator=(const Proportion<Tp>& value) = default;
-		[[nodiscard]] Proportion<Tp>& operator=(Proportion<Tp>&& value) = default;
+		Proportion<Tp>& operator=(const Proportion<Tp>& value) = default;
+		Proportion<Tp>& operator=(Proportion<Tp>&& value) = default;
 
 		[[nodiscard]] constexpr explicit operator float() const { return convertToFloat<float>(); }
 		[[nodiscard]] constexpr explicit operator double() const { return convertToFloat<double>(); }
