@@ -38,6 +38,12 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		constexpr RelativeColor(const ZeroValue_t&) : RelativeColor(Expand(ValueType(Zero))) {}
 
 		[[nodiscard]] constexpr const std::array<ValueType, N>& Data() const { return _value; }
+		[[nodiscard]] constexpr bool IsNormalized() const noexcept
+		{
+			for(const auto& item: _value) { if (!item.IsNormalized()) { return false; } }
+			return true;
+		}
+		[[nodiscard]] constexpr bool Normalize() const noexcept { return Apply([](const auto& item)->Valuetype { return item.Normalize(); }); }
 
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Add(const RelativeColor<Tp, N>& other) const { return Merge(other, [](const auto& a, const auto& b)->Valuetype { return a.Add(b); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Subtract(const RelativeColor<Tp, N>& other) const { return Merge(other, [](const auto& a, const auto& b)->Valuetype { return a.Subtract(b); }); }
