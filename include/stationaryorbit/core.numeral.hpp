@@ -28,3 +28,4 @@
 #include "core/rectanglesize.hpp"
 #include "core/rotation.hpp"
 #include "core/vector2d.hpp"
+#include "core/zerovalue.hpp"
