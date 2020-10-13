@@ -25,6 +25,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/binarybitmap.hpp
     ${Include_Dir}/bitmap.hpp
     ${Include_Dir}/bitmapconverter.hpp
+    ${Include_Dir}/channelvalue.hpp
     ${Include_Dir}/cmykcolor.hpp
     ${Include_Dir}/colorspace.hpp
     ${Include_Dir}/graybitmapimage.hpp
@@ -34,6 +35,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/rgbcolor.hpp
     ${Include_Dir}/yuvcolor.hpp
     ${Include_Dir}/xyzcolor.hpp
+    channelvalue.cpp
     binarybitmap.cpp
     bitmap.cpp
     color.cpp
