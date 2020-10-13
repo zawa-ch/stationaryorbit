@@ -43,7 +43,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		constexpr ChannelValue(const ValueType& value) noexcept : _value(value) {}
 		template<class fromT>
 		constexpr explicit ChannelValue(const ChannelValue<fromT>& from) : _value(static_cast<ValueType>(from.Data())) {}
-		constexpr ChannelValue(const ZeroValue_t&) : _value(Zero) {}
+		constexpr ChannelValue(const ZeroValue_t&) noexcept : _value(Zero) {}
 		constexpr ChannelValue(const ChannelValue<Tp>&) = default;
 		constexpr ChannelValue(ChannelValue<Tp>&&) = default;
 		~ChannelValue() = default;
@@ -126,6 +126,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public:
 		constexpr ChannelValue() noexcept = default;
 		constexpr ChannelValue(const ValueType& value) noexcept : _value(value) {}
+		template<class fromT>
+		constexpr explicit ChannelValue(const ChannelValue<fromT>& from) : _value(static_cast<ValueType>(from.Data())) {}
+		constexpr ChannelValue(const ZeroValue_t&) : _value(Zero) {}
 		constexpr ChannelValue(const ChannelValue<Tp>&) = default;
 		constexpr ChannelValue(ChannelValue<Tp>&&) = default;
 		~ChannelValue() = default;
@@ -133,7 +136,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public:
 		[[nodiscard]] constexpr ValueType Data() const noexcept { return _value; }
 		[[nodiscard]] constexpr bool IsNormalized() const noexcept { return (Min()._value <= _value)&&(_value <= Max()._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> Normalize() const noexcept { return (Min()._value <= _value)?((_value <= ValueType(1))?_value:ValueType(1)):(Min()._value); }
+		[[nodiscard]] constexpr ChannelValue<Tp> Normalize() const noexcept { return (Min()._value <= _value)?((_value <= Max()._value)?_value:Max()._value):(Min()._value); }
 
 		[[nodiscard]] constexpr ChannelValue<Tp> Promote() const noexcept { return ChannelValue<Tp>(+_value); }
 		[[nodiscard]] constexpr ChannelValue<Tp> Invert() const noexcept { return ChannelValue<Tp>(-_value); }
