@@ -48,15 +48,21 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Add(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.Add(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Subtract(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.Subtract(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Multiply(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.Multiply(value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> Multiply(const ValueType& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.Multiply(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Divide(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.Divide(value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> Divide(const ValueType& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.Divide(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateAdd(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.SaturateAdd(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateSubtract(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.SaturateSubtract(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateMultiply(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.SaturateMultiply(value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateMultiply(const ValueType& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.SaturateMultiply(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateDivide(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.SaturateDivide(value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateDivide(const ValueType& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.SaturateDivide(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedAdd(const RelativeColor<Tp, N>& other) const { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.CheckedAdd(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedSubtract(const RelativeColor<Tp, N>& other) const { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.CheckedSubtract(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedMultiply(const RelativeColor<Tp, N>& other) const { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.CheckedMultiply(value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedMultiply(const ValueType& other) const { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.CheckedMultiply(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedDivide(const RelativeColor<Tp, N>& other) const { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.CheckedDivide(value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedDivide(const ValueType& other) const { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.CheckedDivide(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> And(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.And(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Or(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.Or(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Not() const noexcept { return Apply([](const auto& item)->Valuetype { return item.Not(); }); }
@@ -79,7 +85,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr RelativeColor<Tp, N> operator+(const RelativeColor<Tp, N>& other) const noexcept { return Add(other); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> operator-(const RelativeColor<Tp, N>& other) const noexcept { return Subtract(other); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> operator*(const RelativeColor<Tp, N>& other) const noexcept { return Multiply(other); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator*(const ValueType& other) const noexcept { return Multiply(other); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> operator/(const RelativeColor<Tp, N>& other) const noexcept { return Divide(other); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator/(const ValueType& other) const noexcept { return Divide(other); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> operator|(const RelativeColor<Tp, N>& other) const noexcept { return Or(other); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> operator&(const RelativeColor<Tp, N>& other) const noexcept { return And(other); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> operator~() const noexcept { return Not(); }
@@ -126,6 +134,21 @@ namespace zawa_ch::StationaryOrbit::Graphics
 				++di;
 				++s1i;
 				++s2i;
+			}
+			return result;
+		}
+		[[nodiscard]] constexpr RelativeColor<Tp, N> Merge(const ValueType& value, const std::function<ValueType(const ValueType&, const ValueType&)>& pred) const
+		{
+			RelativeColor<Tp, N> result;
+			auto si = _value.cbegin();
+			auto di = result._value.begin();
+			auto se = _value.cend();
+			auto de = result._value.end();
+			while((si != se) && (di != de))
+			{
+				*di = pred(*si, *value);
+				++di;
+				++si;
 			}
 			return result;
 		}
