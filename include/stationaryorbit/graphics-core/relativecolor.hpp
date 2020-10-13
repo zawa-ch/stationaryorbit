@@ -34,7 +34,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		constexpr RelativeColor() : _value() {}
 		constexpr RelativeColor(const std::initializer_list<ValueType>& list) : _value(list) {}
 		template<class fromT>
-		constexpr explicit RelativeColor(const RelativeColor<fromT, N>& from) : _value(convert(from._value)) {}
+		constexpr explicit RelativeColor(const RelativeColor<fromT, N>& from) : _value(convert(from.Data())) {}
 		constexpr RelativeColor(const ZeroValue_t&) : RelativeColor(Expand(ValueType(Zero))) {}
 
 		[[nodiscard]] constexpr const std::array<ValueType, N>& Data() const { return _value; }
