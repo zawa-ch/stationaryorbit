@@ -1,4 +1,4 @@
-//	stationaryorbit.graphics-core:/fundamental
+//	stationaryorbit.graphics-core:/rgbcolor
 //	Copyright 2020 zawa-ch.
 //	GPLv3 (or later) license
 //
