@@ -35,7 +35,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	既定の @a RGBColor を初期化します。
 		constexpr RGBColor() : _value() {}
 		///	RGB値を指定して @a RGBColor を初期化します。
-		constexpr RGBColor(ValueType r, ValueType g, ValueType b) : _value({r, g, b}) {}
+		constexpr RGBColor(const ValueType& r, const ValueType& g, const ValueType& b) : _value({r, g, b}) {}
 		constexpr explicit RGBColor(const RelativeColor<Tp, 3UL>& value) : _value(value) {}
 		template <class fromT>
 		constexpr explicit RGBColor(const RGBColor<fromT>& from) : RGBColor(RelativeColor<Tp, 3UL>(from.Data())) {}
