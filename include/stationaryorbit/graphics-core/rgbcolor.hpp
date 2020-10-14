@@ -18,7 +18,6 @@
 //
 #ifndef __stationaryorbit_graphics_core_rgbcolor__
 #define __stationaryorbit_graphics_core_rgbcolor__
-#include <cstdint>
 #include "relativecolor.hpp"
 #include "translucentcolor.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
