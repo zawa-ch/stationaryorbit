@@ -35,7 +35,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	既定の @a CMYColor を初期化します。
 		constexpr CMYColor() : _value() {}
 		///	CMY値を指定して @a CMYColor を初期化します。
-		constexpr CMYColor(ValueType c, ValueType m, ValueType y) : _value({c, m, y}) {}
+		constexpr CMYColor(const ValueType& c, const ValueType& m, const ValueType& y) : _value({c, m, y}) {}
 		constexpr explicit CMYColor(const RelativeColor<Tp, 3UL>& value) : _value(value) {}
 		template <class fromT>
 		constexpr explicit CMYColor(const CMYColor<fromT>& from) : CMYColor(RelativeColor<Tp, 3UL>(from.Data())) {}
