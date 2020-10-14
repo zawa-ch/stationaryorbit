@@ -36,6 +36,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		constexpr Opacity(const ZeroValue_t&) : _value(Zero) {}
 
 		[[nodiscard]] constexpr const ValueType& Data() const noexcept { return _value; }
+		[[nodiscard]] constexpr bool IsNormalized() const noexcept { return _value.IsNormalized(); }
+		[[nodiscard]] constexpr Opacity<Tp> Normalize() const noexcept { return _value.Normalize(); }
 
 		[[nodiscard]] constexpr Opacity<Tp> Add(const Opacity<Tp>& other) const noexcept { return _value.Add(other); }
 		[[nodiscard]] constexpr Opacity<Tp> Subtract(const Opacity<Tp>& other) const noexcept { return _value.Subtract(other); }
@@ -79,6 +81,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr bool operator>=(const Opacity<Tp>& other) const noexcept { return Compare(other) >= 0; }
 		constexpr Opacity<Tp>& operator=(const Opacity<Tp>&) = default;
 		constexpr Opacity<Tp>& operator=(Opacity<Tp>&&) = default;
+
+		[[nodiscard]] constexpr static Opacity<Tp> Empty() noexcept { return Opacity<Tp>(); }
+		[[nodiscard]] constexpr static Opacity<Tp> Max() noexcept { return Opacity<Tp>(ValueType::Max()); }
+		[[nodiscard]] constexpr static Opacity<Tp> Min() noexcept { return Opacity<Tp>(ValueType::Min()); }
 	};
 }
 #endif // __stationaryorbit_graphics_core_opacity__
