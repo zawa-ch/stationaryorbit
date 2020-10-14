@@ -43,7 +43,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			for(const auto& item: _value) { if (!item.IsNormalized()) { return false; } }
 			return true;
 		}
-		[[nodiscard]] constexpr bool Normalize() const noexcept { return Apply([](const auto& item)->Valuetype { return item.Normalize(); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> Normalize() const noexcept { return Apply([](const auto& item)->Valuetype { return item.Normalize(); }); }
 
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Add(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.Add(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Subtract(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->Valuetype { return item.Subtract(value); }); }
@@ -95,7 +95,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		constexpr RelativeColor<Tp, N>& operator+=(const RelativeColor<Tp, N>& other) noexcept { return *this = Add(other); }
 		constexpr RelativeColor<Tp, N>& operator-=(const RelativeColor<Tp, N>& other) noexcept { return *this = Subtract(other); }
 		constexpr RelativeColor<Tp, N>& operator*=(const RelativeColor<Tp, N>& other) noexcept { return *this = Multiply(other); }
+		constexpr RelativeColor<Tp, N>& operator*=(const ValueType& other) noexcept { return *this = Multiply(other); }
 		constexpr RelativeColor<Tp, N>& operator/=(const RelativeColor<Tp, N>& other) noexcept { return *this = Divide(other); }
+		constexpr RelativeColor<Tp, N>& operator/=(const ValueType& other) noexcept { return *this = Divide(other); }
 		constexpr RelativeColor<Tp, N>& operator|=(const RelativeColor<Tp, N>& other) noexcept { return *this = Or(other); }
 		constexpr RelativeColor<Tp, N>& operator&=(const RelativeColor<Tp, N>& other) noexcept { return *this = And(other); }
 		constexpr RelativeColor<Tp, N>& operator^=(const RelativeColor<Tp, N>& other) noexcept { return *this = Xor(other); }
