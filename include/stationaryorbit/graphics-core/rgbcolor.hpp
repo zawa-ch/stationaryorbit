@@ -19,165 +19,127 @@
 #ifndef __stationaryorbit_graphics_core_rgbcolor__
 #define __stationaryorbit_graphics_core_rgbcolor__
 #include <cstdint>
-#include "stationaryorbit/core.numeral.hpp"
+#include "relativecolor.hpp"
+#include "translucentcolor.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	///	赤(Red), 緑(Green), 青(Blue)の三要素によって表される色。
-	template <class Tp = float>
+	template <class Tp>
 	struct RGBColor final
 	{
 	public: // types
 		///	この型の各チャネルの値の表現のために内部で使用されている型。
-		typedef Proportion<Tp> ChannelType;
+		typedef typename RelativeColor<Tp, 3UL>::ValueType ValueType;
 	private: // contains
-		ChannelType _r;
-		ChannelType _g;
-		ChannelType _b;
+		RelativeColor<Tp, 3UL> _value;
 	public: // constructor
 		///	既定の @a RGBColor を初期化します。
-		constexpr RGBColor() : _r(), _g(), _b() {}
+		constexpr RGBColor() : _value() {}
 		///	RGB値を指定して @a RGBColor を初期化します。
-		constexpr RGBColor(ChannelType r, ChannelType g, ChannelType b) : _r(r), _g(g), _b(b) {}
+		constexpr RGBColor(ValueType r, ValueType g, ValueType b) : _value({r, g, b}) {}
+		constexpr explicit RGBColor(const RelativeColor<Tp, 3UL>& value) : _value(value) {}
 		template <class fromT>
-		constexpr explicit RGBColor(const RGBColor<fromT>& from) : RGBColor(from.template CastTo<Tp>()) {}
+		constexpr explicit RGBColor(const RGBColor<fromT>& from) : RGBColor(RelativeColor<Tp, 3UL>(from.Data())) {}
+		constexpr RGBColor(const ZeroValue_t&) : _value(Zero) {}
 	public: // member
+		constexpr const RelativeColor<Tp, 3U>& Data() const { return _value; }
 		///	この @a RGBColor の赤要素を取得します。
-		constexpr const ChannelType& R() const { return _r; }
+		constexpr const ValueType& R() const { return _value.Data()[0]; }
 		///	この @a RGBColor の緑要素を取得します。
-		constexpr const ChannelType& G() const { return _g; }
+		constexpr const ValueType& G() const { return _value.Data()[1]; }
 		///	この @a RGBColor の青要素を取得します。
-		constexpr const ChannelType& B() const { return _b; }
+		constexpr const ValueType& B() const { return _value.Data()[2]; }
 		///	この @a RGBColor が正規化されているかを取得します。
-		constexpr bool IsNormalized() const { return (_r.IsNormalized())&&(_g.IsNormalized())&&(_b.IsNormalized()); }
-		///	この @a RGBColor が空であるかを取得します。
-		constexpr bool IsEmpty() const { return *this == Empty(); }
+		constexpr bool IsNormalized() const { return _value.IsNormalized(); }
+		///	正規化した @a RGBColor を取得します。
+		constexpr RGBColor<Tp> Normalize() const { return RGBColor<Tp>(_value.Normalize()); }
 
-		constexpr RGBColor<Tp> operator+(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_r + other._r, _g + other._g, _b + other._b); }
-		constexpr RGBColor<Tp> operator-(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_r - other._r, _g - other._g, _b - other._b); }
-		constexpr RGBColor<Tp> operator*(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_r * other._r, _g * other._g, _b * other._b); }
-		constexpr RGBColor<Tp> operator*(const ChannelType& other) const { return RGBColor<Tp>(_r * other, _g * other, _b * other); }
-		constexpr RGBColor<Tp> operator/(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_r / other._r, _g / other._g, _b / other._b); }
-		constexpr RGBColor<Tp> operator/(const ChannelType& other) const { return RGBColor<Tp>(_r / other, _g / other, _b / other); }
-		constexpr RGBColor<Tp> operator~() const { return RGBColor<Tp>(ChannelType::Max()-_r, ChannelType::Max()-_g, ChannelType::Max()-_b); }
-		constexpr RGBColor<Tp> operator|(const RGBColor<Tp>& other) const { return RGBColor<Tp>(((other._r < _r)?(_r):(other._r)), ((other._g < _g)?(_g):(other._g)), ((other._b < _b)?(_b):(other._b))); }
-		constexpr RGBColor<Tp> operator&(const RGBColor<Tp>& other) const { return RGBColor<Tp>(((_r < other._r)?(_r):(other._r)), ((_g < other._g)?(_g):(other._g)), ((_b < other._b)?(_b):(other._b))); }
-		constexpr RGBColor<Tp> operator^(const RGBColor<Tp>& other) const { return (*this | other) & ~(*this & other); }
+		[[nodiscard]] constexpr RGBColor<Tp> Add(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Add(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> Subtract(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Subtract(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> Multiply(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Multiply(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> Multiply(const ValueType& other) const noexcept { return RGBColor<Tp>(_value.Multiply(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> Divide(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Divide(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> Divide(const ValueType& other) const noexcept { return RGBColor<Tp>(_value.Divide(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> SaturateAdd(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.SaturateAdd(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> SaturateSubtract(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.SaturateSubtract(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> SaturateMultiply(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.SaturateMultiply(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> SaturateMultiply(const ValueType& other) const noexcept { return RGBColor<Tp>(_value.SaturateMultiply(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> SaturateDivide(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.SaturateDivide(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> SaturateDivide(const ValueType& other) const noexcept { return RGBColor<Tp>(_value.SaturateDivide(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> CheckedAdd(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value.CheckedAdd(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> CheckedSubtract(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value.CheckedSubtract(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> CheckedMultiply(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value.CheckedMultiply(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> CheckedMultiply(const ValueType& other) const { return RGBColor<Tp>(_value.CheckedMultiply(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> CheckedDivide(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value.CheckedDivide(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> CheckedDivide(const ValueType& other) const { return RGBColor<Tp>(_value.CheckedDivide(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> And(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.And(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> Or(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Or(other._value)); }
+		[[nodiscard]] constexpr RGBColor<Tp> Not() const noexcept { return RGBColor<Tp>(_value.Not()); }
+		[[nodiscard]] constexpr RGBColor<Tp> Xor(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Xor(other._value)); }
+
+		constexpr RGBColor<Tp> operator+(const RGBColor<Tp>& other) const { return Add(other); }
+		constexpr RGBColor<Tp> operator-(const RGBColor<Tp>& other) const { return Subtract(other); }
+		constexpr RGBColor<Tp> operator*(const RGBColor<Tp>& other) const { return Multiply(other); }
+		constexpr RGBColor<Tp> operator*(const ValueType& other) const { return Multiply(other); }
+		constexpr RGBColor<Tp> operator/(const RGBColor<Tp>& other) const { return Divide(other); }
+		constexpr RGBColor<Tp> operator/(const ValueType& other) const { return Divide(other); }
+		constexpr RGBColor<Tp> operator~() const { return Not(); }
+		constexpr RGBColor<Tp> operator|(const RGBColor<Tp>& other) const { return Or(other); }
+		constexpr RGBColor<Tp> operator&(const RGBColor<Tp>& other) const { return And(other); }
+		constexpr RGBColor<Tp> operator^(const RGBColor<Tp>& other) const { return Xor(other); }
 		constexpr RGBColor<Tp>& operator+=(const RGBColor<Tp>& other) { return *this = *this + other; }
 		constexpr RGBColor<Tp>& operator-=(const RGBColor<Tp>& other) { return *this = *this - other; }
 		constexpr RGBColor<Tp>& operator*=(const RGBColor<Tp>& other) { return *this = *this * other; }
-		constexpr RGBColor<Tp>& operator*=(const ChannelType& other) { return *this = *this * other; }
+		constexpr RGBColor<Tp>& operator*=(const ValueType& other) { return *this = *this * other; }
 		constexpr RGBColor<Tp>& operator/=(const RGBColor<Tp>& other) { return *this = *this / other; }
-		constexpr RGBColor<Tp>& operator/=(const ChannelType& other) { return *this = *this / other; }
+		constexpr RGBColor<Tp>& operator/=(const ValueType& other) { return *this = *this / other; }
 		constexpr RGBColor<Tp>& operator|=(const RGBColor<Tp>& other) { return *this = *this | other; }
 		constexpr RGBColor<Tp>& operator&=(const RGBColor<Tp>& other) { return *this = *this & other; }
 		constexpr RGBColor<Tp>& operator^=(const RGBColor<Tp>& other) { return *this = *this ^ other; }
 
-		///	正規化した @a RGBColor を取得します。
-		constexpr RGBColor<Tp> Normalize() const { return RGBColor<Tp>(_r.Normalize(), _g.Normalize(), _b.Normalize()); }
-
-		template <class castT>
-		constexpr RGBColor<castT> CastTo() const { return RGBColor<castT>(_r.template CastTo<castT>(), _g.template CastTo<castT>(), _g.template CastTo<castT>()); }
-
-		constexpr bool Equals(const RGBColor<Tp>& other) const { return (_r == other._r)&&(_g == other._g)&&(_b == other._b); }
+		constexpr bool Equals(const RGBColor<Tp>& other) const { return _value.Equals(other._value); }
 		constexpr bool operator==(const RGBColor<Tp>& other) const { return Equals(other); }
 		constexpr bool operator!=(const RGBColor<Tp>& other) const { return !Equals(other); }
 
 		constexpr static RGBColor<Tp> Empty() { return RGBColor<Tp>(); }
 	};
 
-	typedef RGBColor<uint8_t> RGBI8_t;
-	typedef RGBColor<uint16_t> RGBI16_t;
+	extern template struct RGBColor<Proportion8_t>;
+	extern template struct RGBColor<Proportion16_t>;
+	extern template struct RGBColor<Proportion32_t>;
+	extern template struct RGBColor<Proportion64_t>;
+	extern template struct RGBColor<FixedPoint16q15_t>;
+	extern template struct RGBColor<FixedPoint32q31_t>;
+	extern template struct RGBColor<FixedPoint64q63_t>;
+	extern template struct RGBColor<float>;
+	extern template struct RGBColor<double>;
+	extern template struct TranslucentColor<RGBColor<Proportion8_t>>;
+	extern template struct TranslucentColor<RGBColor<Proportion16_t>>;
+	extern template struct TranslucentColor<RGBColor<Proportion32_t>>;
+	extern template struct TranslucentColor<RGBColor<Proportion64_t>>;
+	extern template struct TranslucentColor<RGBColor<FixedPoint16q15_t>>;
+	extern template struct TranslucentColor<RGBColor<FixedPoint32q31_t>>;
+	extern template struct TranslucentColor<RGBColor<FixedPoint64q63_t>>;
+	extern template struct TranslucentColor<RGBColor<float>>;
+	extern template struct TranslucentColor<RGBColor<double>>;
+
+	typedef RGBColor<Proportion8_t> RGB8_t;
+	typedef RGBColor<Proportion16_t> RGB16_t;
+	typedef RGBColor<Proportion32_t> RGB32_t;
+	typedef RGBColor<Proportion64_t> RGB64_t;
+	typedef RGBColor<FixedPoint16q15_t> RGBI16_t;
+	typedef RGBColor<FixedPoint32q31_t> RGBI32_t;
+	typedef RGBColor<FixedPoint64q63_t> RGBI64_t;
 	typedef RGBColor<float> RGBF32_t;
 	typedef RGBColor<double> RGBF64_t;
-
-	///	不透明度の要素を持つ @a RGBColor 。
-	template <class Tp = float>
-	struct ARGBColor final
-	{
-	public: // types
-		///	この型の各チャネルの値の表現のために内部で使用されている型。
-		typedef Proportion<Tp> ChannelType;
-	private: // contains
-		ChannelType _alpha;
-		RGBColor<Tp> _color;
-	public: // constructor
-		///	既定の @a ARGBColor のオブジェクトを作成します。
-		constexpr ARGBColor() : _color(), _alpha() {}
-		///	@a RGBColor を @a ARGBColor に変換します。
-		constexpr ARGBColor(const RGBColor<Tp>& color) : _color(color), _alpha(ChannelType::Max()) {}
-		constexpr ARGBColor(const RGBColor<Tp>& color, const ChannelType& alpha) : _color(color), _alpha(alpha) {}
-		constexpr ARGBColor(const ChannelType& r, const ChannelType& g, const ChannelType& b) : _color(r, g, b), _alpha(ChannelType::Max()) {}
-		constexpr ARGBColor(const ChannelType& r, const ChannelType& g, const ChannelType& b, const ChannelType& alpha) : _color(r, g, b), _alpha(alpha) {}
-		template <class fromT>
-		constexpr explicit ARGBColor(const ARGBColor<fromT>& from) : ARGBColor(from.template CastTo<Tp>()) {}
-	public: // member
-		///	この @a ARGBColor の色要素を示す @a RGBColor を取得します。
-		constexpr const RGBColor<Tp>& Color() const { return _color; }
-		///	この @a ARGBColor の不透明度を取得します。
-		constexpr const ChannelType& Alpha() const { return _alpha; }
-		///	この @a ARGBColor の赤要素を取得します。
-		constexpr const ChannelType& R() const { return _color.R(); }
-		///	この @a ARGBColor の緑要素を取得します。
-		constexpr const ChannelType& G() const { return _color.G(); }
-		///	この @a ARGBColor の青要素を取得します。
-		constexpr const ChannelType& B() const { return _color.B(); }
-		///	この @a ARGBColor が正規化されているかを取得します。
-		constexpr bool IsNormalized() const { return (_alpha.IsNormalized())&&(_color.IsNormalized()); }
-		///	この @a ARGBColor が空であるかを取得します。
-		constexpr bool IsEmpty() const { return *this == Empty(); }
-
-		constexpr ARGBColor<Tp> operator+(const ARGBColor<Tp>& other) const { return ARGBColor<Tp>(_color + (other._color * other._alpha), _alpha); }
-		constexpr ARGBColor<Tp> operator+(const RGBColor<Tp>& other) const { return ARGBColor<Tp>(_color + other, _alpha); }
-		constexpr ARGBColor<Tp> operator-(const ARGBColor<Tp>& other) const { return ARGBColor<Tp>(_color - (other._color * other._alpha), _alpha); }
-		constexpr ARGBColor<Tp> operator-(const RGBColor<Tp>& other) const { return ARGBColor<Tp>(_color - other, _alpha); }
-		constexpr ARGBColor<Tp> operator*(const ARGBColor<Tp>& other) const { return ARGBColor<Tp>(_color * (other._color * other._alpha), _alpha); }
-		constexpr ARGBColor<Tp> operator*(const RGBColor<Tp>& other) const { return ARGBColor<Tp>(_color * other, _alpha); }
-		constexpr ARGBColor<Tp> operator*(const float& other) const { return ARGBColor<Tp>(_color, _alpha * other); }
-		constexpr ARGBColor<Tp> operator/(const ARGBColor<Tp>& other) const { return ARGBColor<Tp>(_color / (other._color * other._alpha), _alpha); }
-		constexpr ARGBColor<Tp> operator/(const RGBColor<Tp>& other) const { return ARGBColor<Tp>(_color / other, _alpha); }
-		constexpr ARGBColor<Tp> operator/(const float& other) const { return ARGBColor<Tp>(_color, _alpha / other); }
-		constexpr ARGBColor<Tp> operator~() const { return ARGBColor<Tp>(~_color, _alpha); }
-		constexpr ARGBColor<Tp> operator|(const ARGBColor<Tp>& other) const { return ARGBColor<Tp>(_color | (other._color * other._alpha), _alpha); }
-		constexpr ARGBColor<Tp> operator|(const RGBColor<Tp>& other) const { return ARGBColor<Tp>(_color | other, _alpha); }
-		constexpr ARGBColor<Tp> operator&(const ARGBColor<Tp>& other) const { return ARGBColor<Tp>(_color & (other._color * other._alpha), _alpha); }
-		constexpr ARGBColor<Tp> operator&(const RGBColor<Tp>& other) const { return ARGBColor<Tp>(_color & other, _alpha); }
-		constexpr ARGBColor<Tp> operator^(const ARGBColor<Tp>& other) const { return ARGBColor<Tp>(_color ^ (other._color * other._alpha), _alpha); }
-		constexpr ARGBColor<Tp> operator^(const RGBColor<Tp>& other) const { return ARGBColor<Tp>(_color ^ other, _alpha); }
-		constexpr ARGBColor<Tp>& operator+=(const ARGBColor<Tp>& other) { return *this = *this + other; }
-		constexpr ARGBColor<Tp>& operator+=(const RGBColor<Tp>& other) { return *this = *this + other; }
-		constexpr ARGBColor<Tp>& operator-=(const ARGBColor<Tp>& other) { return *this = *this - other; }
-		constexpr ARGBColor<Tp>& operator-=(const RGBColor<Tp>& other) { return *this = *this - other; }
-		constexpr ARGBColor<Tp>& operator*=(const ARGBColor<Tp>& other) { return *this = *this * other; }
-		constexpr ARGBColor<Tp>& operator*=(const RGBColor<Tp>& other) { return *this = *this * other; }
-		constexpr ARGBColor<Tp>& operator*=(const float& other) { return *this = *this * other; }
-		constexpr ARGBColor<Tp>& operator/=(const ARGBColor<Tp>& other) { return *this = *this / other; }
-		constexpr ARGBColor<Tp>& operator/=(const RGBColor<Tp>& other) { return *this = *this / other; }
-		constexpr ARGBColor<Tp>& operator/=(const float& other) { return *this = *this / other; }
-		constexpr ARGBColor<Tp>& operator|=(const ARGBColor<Tp>& other) { return *this = *this | other; }
-		constexpr ARGBColor<Tp>& operator|=(const RGBColor<Tp>& other) { return *this = *this | other; }
-		constexpr ARGBColor<Tp>& operator&=(const ARGBColor<Tp>& other) { return *this = *this & other; }
-		constexpr ARGBColor<Tp>& operator&=(const RGBColor<Tp>& other) { return *this = *this & other; }
-		constexpr ARGBColor<Tp>& operator^=(const ARGBColor<Tp>& other) { return *this = *this ^ other; }
-		constexpr ARGBColor<Tp>& operator^=(const RGBColor<Tp>& other) { return *this = *this ^ other; }
-
-		///	正規化した @a RGBColor を取得します。
-		constexpr ARGBColor<Tp> Normalize() const { return ARGBColor<Tp>(_color.Normalize(), _alpha.Normalize()); }
-
-		constexpr explicit operator RGBColor<Tp>() const { return Color(); }
-		template <class castT>
-		constexpr ARGBColor<castT> CastTo() const { return ARGBColor<castT>(_color.template CastTo<castT>(), _alpha.template CastTo<castT>()); }
-
-		///	指定されたオブジェクトがこのオブジェクトと等価であることをテストします。
-		constexpr bool Equals(const ARGBColor<Tp>& other) const { return (_color == other._color)&&(_alpha == other._alpha); }
-		constexpr bool operator==(const ARGBColor<Tp>& other) const { return Equals(other); }
-		constexpr bool operator!=(const ARGBColor<Tp>& other) const { return !Equals(other); }
-
-		constexpr static ARGBColor<Tp> Empty() { return ARGBColor<Tp>(); }
-	};
-
-	typedef ARGBColor<uint8_t> ARGBI8_t;
-	typedef ARGBColor<uint16_t> ARGBI16_t;
-	typedef ARGBColor<float> ARGBF32_t;
-	typedef ARGBColor<double> ARGBF64_t;
+	typedef TranslucentColor<RGBColor<Proportion8_t>> ARGB8_t;
+	typedef TranslucentColor<RGBColor<Proportion16_t>> ARGB16_t;
+	typedef TranslucentColor<RGBColor<Proportion32_t>> ARGB32_t;
+	typedef TranslucentColor<RGBColor<Proportion64_t>> ARGB64_t;
+	typedef TranslucentColor<RGBColor<FixedPoint16q15_t>> ARGBI16_t;
+	typedef TranslucentColor<RGBColor<FixedPoint32q31_t>> ARGBI32_t;
+	typedef TranslucentColor<RGBColor<FixedPoint64q63_t>> ARGBI64_t;
+	typedef TranslucentColor<RGBColor<float>> ARGBF32_t;
+	typedef TranslucentColor<RGBColor<double>> ARGBF64_t;
 }
 #endif // __stationaryorbit_graphics_core_rgbcolor__

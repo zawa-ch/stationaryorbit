@@ -38,9 +38,9 @@ add_library(${AssemblyName} SHARED
     channelvalue.cpp
     binarybitmap.cpp
     bitmap.cpp
-    color.cpp
     colorspace.cpp
     fundamental.cpp
+    rgbcolor.cpp
 )
 
 set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 17)
