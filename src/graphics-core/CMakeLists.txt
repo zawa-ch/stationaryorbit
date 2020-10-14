@@ -40,6 +40,7 @@ add_library(${AssemblyName} SHARED
     binarybitmap.cpp
     bitmap.cpp
     cmycolor.cpp
+    cmykcolor.cpp
     colorspace.cpp
     fundamental.cpp
     rgbcolor.cpp
