@@ -35,7 +35,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	既定の @a CMYKColor を初期化します。
 		constexpr CMYKColor() : _value() {}
 		///	CMYK値を指定して @a CMYKColor を初期化します。
-		constexpr CMYKColor(ValueType c, ValueType m, ValueType y, ValueType k) : _value({c, m, y, k}) {}
+		constexpr CMYKColor(const ValueType& c, const ValueType& m, const ValueType& y, const ValueType& k) : _value({c, m, y, k}) {}
 		constexpr explicit CMYKColor(const RelativeColor<Tp, 4UL>& value) : _value(value) {}
 		template <class fromT>
 		constexpr explicit CMYKColor(const CMYKColor<fromT>& from) : CMYKColor(RelativeColor<Tp, 4UL>(from.Data())) {}
