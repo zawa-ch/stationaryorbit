@@ -33,7 +33,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		ColorType _color;
 	public:
 		constexpr TranslucentColor() : _opacity(), _color() {}
-		constexpr TranslucentColor(const ColorType& color) : _opacity(Opacity::Max()), _color(color) {}
+		constexpr TranslucentColor(const ColorType& color) : _opacity(OpacityType::Max()), _color(color) {}
 		constexpr TranslucentColor(const ColorType& color, const OpacityType& alpha) : _opacity(alpha), _color(color) {}
 		constexpr TranslucentColor(const ZeroValue_t&) : _opacity(Zero), _color() {}
 
