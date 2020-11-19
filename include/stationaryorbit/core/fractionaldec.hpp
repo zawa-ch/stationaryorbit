@@ -28,7 +28,9 @@ namespace zawa_ch::StationaryOrbit
 	///
 	///	このオブジェクトは0.0以上1.0以下の数値を @a uintmax_t 型に等分割して格納します。
 	///	@a uintmax_t が64ビット幅の場合、分割幅は5.42101086242752e-20です。
-	struct FractionalDec final
+	///
+	///	obsolete: この型は今後削除される予定です。
+	[[obsolete]] struct FractionalDec final
 	{
 	private:
 		uintmax_t _value;	///< このオブジェクトの内部的な値。
