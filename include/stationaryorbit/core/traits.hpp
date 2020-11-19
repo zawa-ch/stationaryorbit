@@ -365,6 +365,32 @@ namespace zawa_ch::StationaryOrbit
 		struct IsLinearOrder_t : std::conjunction<IsBidirectionalOrder_t<T>, HasAdditiveOperation_t<T, N, T>, HasAddSubstitution_t<T, N, T&>, HasSubtractSubstitution_t<T, N, T&>> {};
 
 		template<class T>
+		struct IsValueType_t :
+			std::conjunction
+			<
+				std::is_default_constructible<T>,
+				std::is_trivially_default_constructible<T>,
+				std::is_nothrow_default_constructible<T>,
+				std::is_destructible<T>,
+				std::is_nothrow_destructible<T>,
+				std::is_trivially_destructible<T>,
+				std::is_copy_constructible<T>,
+				std::is_nothrow_copy_constructible<T>,
+				std::is_trivially_copy_constructible<T>,
+				std::is_move_constructible<T>,
+				std::is_nothrow_move_constructible<T>,
+				std::is_trivially_move_constructible<T>,
+				std::is_copy_assignable<T>,
+				std::is_nothrow_copy_assignable<T>,
+				std::is_trivially_copy_assignable<T>,
+				std::is_move_assignable<T>,
+				std::is_nothrow_move_assignable<T>,
+				std::is_trivially_move_assignable<T>,
+				Equatable_t<T, T>
+			>
+		{};
+
+		template<class T>
 		struct IsIntegerType_t : std::conjunction< HasArithmeticOperation_t<T>, HasModulation_t<T, T, T>, HasBitOperation_t<T, T>, IsBidirectionalOrder_t<T> > {};
 
 		template<class, class, class = std::void_t<>>
@@ -614,6 +640,8 @@ namespace zawa_ch::StationaryOrbit
 		template<class T> inline constexpr static bool IsBidirectionalOrder = IsBidirectionalOrder_t<T>::value;
 		///	線形の順序を持つ値型を識別します。
 		template<class T, class N = std::make_signed_t<size_t>> inline constexpr static bool IsLinearOrder = IsLinearOrder_t<T, N>::value;
+		///	値型を識別します。
+		template<class T> inline constexpr static bool IsValueType = IsValueType_t<T>::value;
 		///	整数型を識別します。
 		template<class T> inline constexpr static bool IsIntegerType = IsIntegerType_t<T>::value;
 		///	基本的なビット演算を持つ型を識別します。
