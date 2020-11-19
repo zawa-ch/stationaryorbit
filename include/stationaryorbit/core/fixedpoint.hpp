@@ -51,7 +51,7 @@ namespace zawa_ch::StationaryOrbit
 		constexpr FixedPoint(const Tp& value, const Unit&) : _value(value) {}
 	public:
 		///	既定の @a FixedPoint オブジェクトを作成します。
-		constexpr FixedPoint() : _value() {}
+		constexpr FixedPoint() noexcept = default;
 		constexpr explicit FixedPoint(const Tp& value) : _value(convertFromInteger(value)) {}
 		constexpr explicit FixedPoint(const int& value) : _value(convertFromInteger(Tp(value))) {}
 		constexpr explicit FixedPoint(const double& value) : _value(convertFromFloat(value)) {}
