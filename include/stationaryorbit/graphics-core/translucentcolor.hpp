@@ -32,13 +32,17 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		OpacityType _opacity;
 		ColorType _color;
 	public:
-		constexpr TranslucentColor() : _opacity(), _color() {}
+		constexpr TranslucentColor() = default;
 		constexpr TranslucentColor(const ColorType& color) : _opacity(OpacityType::Max()), _color(color) {}
 		constexpr TranslucentColor(const ColorType& color, const OpacityType& alpha) : _opacity(alpha), _color(color) {}
 		constexpr TranslucentColor(const ZeroValue_t&) : _opacity(Zero), _color() {}
 
-		constexpr const OpacityType& Alpha() const { return _opacity; }
-		constexpr const ColorType& Color() const { return _color; }
+		[[nodiscard]] constexpr const OpacityType& Alpha() const { return _opacity; }
+		[[nodiscard]] constexpr const ColorType& Color() const { return _color; }
+
+		[[nodiscard]] constexpr bool Equals(const TranslucentColor<colorT>& other) const { return Color().Equals(other.Color()) && Alpha().Equals(other.Alpha()); }
+		[[nodiscard]] constexpr bool operator==(const TranslucentColor<colorT>& other) const { return Equals(other); }
+		[[nodiscard]] constexpr bool operator!=(const TranslucentColor<colorT>& other) const { return !Equals(other); }
 	};
 }
 #endif // __stationaryorbit_graphics_core_translucentcolor__
