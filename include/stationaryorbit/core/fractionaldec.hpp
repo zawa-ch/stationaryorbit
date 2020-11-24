@@ -30,7 +30,7 @@ namespace zawa_ch::StationaryOrbit
 	///	@a uintmax_t が64ビット幅の場合、分割幅は5.42101086242752e-20です。
 	///
 	///	obsolete: この型は今後削除される予定です。
-	[[obsolete]] struct FractionalDec final
+	struct [[deprecated]] FractionalDec final
 	{
 	private:
 		uintmax_t _value;	///< このオブジェクトの内部的な値。
