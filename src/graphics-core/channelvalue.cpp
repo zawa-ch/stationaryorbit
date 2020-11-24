@@ -18,12 +18,51 @@
 //
 #include "stationaryorbit/graphics-core/channelvalue.hpp"
 
-template struct zawa_ch::StationaryOrbit::Graphics::ChannelValue<zawa_ch::StationaryOrbit::Proportion8_t>;
-template struct zawa_ch::StationaryOrbit::Graphics::ChannelValue<zawa_ch::StationaryOrbit::Proportion16_t>;
-template struct zawa_ch::StationaryOrbit::Graphics::ChannelValue<zawa_ch::StationaryOrbit::Proportion32_t>;
-template struct zawa_ch::StationaryOrbit::Graphics::ChannelValue<zawa_ch::StationaryOrbit::Proportion64_t>;
-template struct zawa_ch::StationaryOrbit::Graphics::ChannelValue<zawa_ch::StationaryOrbit::FixedPoint16q15_t>;
-template struct zawa_ch::StationaryOrbit::Graphics::ChannelValue<zawa_ch::StationaryOrbit::FixedPoint32q31_t>;
-template struct zawa_ch::StationaryOrbit::Graphics::ChannelValue<zawa_ch::StationaryOrbit::FixedPoint64q63_t>;
-template struct zawa_ch::StationaryOrbit::Graphics::ChannelValue<float>;
-template struct zawa_ch::StationaryOrbit::Graphics::ChannelValue<double>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::ChannelValue<zawa_ch::StationaryOrbit::Proportion8_t>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::ChannelValue<zawa_ch::StationaryOrbit::Proportion16_t>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::ChannelValue<zawa_ch::StationaryOrbit::Proportion32_t>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::ChannelValue<zawa_ch::StationaryOrbit::Proportion64_t>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::ChannelValue<zawa_ch::StationaryOrbit::FixedPoint16q15_t>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::ChannelValue<zawa_ch::StationaryOrbit::FixedPoint32q31_t>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::ChannelValue<zawa_ch::StationaryOrbit::FixedPoint64q63_t>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::ChannelValue<float>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::ChannelValue<double>;
+
+// ChannelValueの型要件
+// 値型である
+// - デフォルトコンストラクタを持つ
+// - デフォルトコンストラクタがnoexceptである
+// - デフォルトコンストラクタがtrivialである
+// - コピーコンストラクタを持つ
+// - コピーコンストラクタがnoexceptである
+// - コピーコンストラクタがtrivialである
+// - ムーブコンストラクタを持つ
+// - ムーブコンストラクタがnoexceptである
+// - ムーブコンストラクタがtrivialである
+// - コピー代入演算子を持つ
+// - コピー代入演算子がnoexceptである
+// - コピー代入演算子がtrivialである
+// - ムーブ代入演算子を持つ
+// - ムーブ代入演算子がnoexceptである
+// - ムーブ代入演算子がtrivialである
+// - デストラクタを持つ
+// - デストラクタがnoexceptである
+// - デストラクタがtrivialである
+static_assert(zawa_ch::StationaryOrbit::Traits::IsValueType<zawa_ch::StationaryOrbit::Graphics::Channel8_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsValueType<zawa_ch::StationaryOrbit::Graphics::Channel16_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsValueType<zawa_ch::StationaryOrbit::Graphics::Channel32_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsValueType<zawa_ch::StationaryOrbit::Graphics::Channel64_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsValueType<zawa_ch::StationaryOrbit::Graphics::ChannelI16_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsValueType<zawa_ch::StationaryOrbit::Graphics::ChannelI32_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsValueType<zawa_ch::StationaryOrbit::Graphics::ChannelI64_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsValueType<zawa_ch::StationaryOrbit::Graphics::ChannelF32_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsValueType<zawa_ch::StationaryOrbit::Graphics::ChannelF64_t>);

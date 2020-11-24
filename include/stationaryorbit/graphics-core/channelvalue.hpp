@@ -28,6 +28,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	template<class Tp, class = void>
 	struct ChannelValue final
 	{
+		static_assert(Traits::IsValueType<Tp>, "テンプレート型 Tp は Traits::IsValueType の要件を満たす必要があります。");
 		static_assert(Traits::Equatable<Tp>, "テンプレート型 Tp は Traits::Equatable の要件を満たす必要があります。");
 		static_assert(Traits::Comparable<Tp>, "テンプレート型 Tp は Traits::Comparable の要件を満たす必要があります。");
 		static_assert(Traits::HasArithmeticOperation<Tp>, "テンプレート型 Tp は Traits::HasArithmeticOperation の要件を満たす必要があります。");
@@ -42,7 +43,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		ValueType _value;
 
 	public:
-		constexpr ChannelValue() noexcept : _value() {}
+		constexpr ChannelValue() noexcept = default;
 		constexpr ChannelValue(const ValueType& value) noexcept : _value(value) {}
 		template<class fromT>
 		constexpr explicit ChannelValue(const ChannelValue<fromT>& from) : _value(static_cast<ValueType>(from.Data())) {}
