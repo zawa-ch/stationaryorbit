@@ -20,6 +20,7 @@
 #define __stationaryorbit_graphics_core_relativecolor__
 #include <array>
 #include <functional>
+#include "stationaryorbit/core.traits.hpp"
 #include "channelvalue.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
@@ -28,16 +29,17 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	{
 	public:
 		typedef ChannelValue<Tp> ValueType;
+		typedef std::array<ValueType, N> DataType;
 	private:
-		std::array<ValueType, N> _value;
+		DataType _value;
 	public:
-		constexpr RelativeColor() : _value() {}
-		constexpr RelativeColor(const std::initializer_list<ValueType>& list) : _value(list) {}
+		constexpr RelativeColor() = default;
+		constexpr explicit RelativeColor(const DataType& list) : _value(list) {}
 		template<class fromT>
 		constexpr explicit RelativeColor(const RelativeColor<fromT, N>& from) : _value(convert(from.Data())) {}
 		constexpr RelativeColor(const ZeroValue_t&) : RelativeColor(Expand(ValueType(Zero))) {}
 
-		[[nodiscard]] constexpr const std::array<ValueType, N>& Data() const { return _value; }
+		[[nodiscard]] constexpr const DataType& Data() const { return _value; }
 		[[nodiscard]] constexpr bool IsNormalized() const noexcept
 		{
 			for(const auto& item: _value) { if (!item.IsNormalized()) { return false; } }
@@ -103,8 +105,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		constexpr RelativeColor<Tp, N>& operator^=(const RelativeColor<Tp, N>& other) noexcept { return *this = Xor(other); }
 		[[nodiscard]] constexpr bool operator==(const RelativeColor<Tp, N>& other) const noexcept { return Equals(other); }
 		[[nodiscard]] constexpr bool operator!=(const RelativeColor<Tp, N>& other) const noexcept { return !Equals(other); }
-		constexpr RelativeColor<Tp, N>& operator=(const RelativeColor<Tp, N>&) = default;
-		constexpr RelativeColor<Tp, N>& operator=(RelativeColor<Tp, N>&&) = default;
 
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Apply(const std::function<ValueType(const ValueType&)>& pred) const
 		{
@@ -148,7 +148,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			auto de = result._value.end();
 			while((si != se) && (di != de))
 			{
-				*di = pred(*si, *value);
+				*di = pred(*si, value);
 				++di;
 				++si;
 			}
@@ -158,7 +158,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] static constexpr RelativeColor<Tp, N> Expand(const ValueType& value)
 		{
 			RelativeColor<Tp, N> result;
-			for(auto& item: result)
+			for(auto& item: result._value)
 			{
 				item = value;
 			}
