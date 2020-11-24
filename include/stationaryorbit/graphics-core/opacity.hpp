@@ -29,7 +29,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	private:
 		ValueType _value;
 	public:
-		constexpr Opacity() : _value() {}
+		constexpr Opacity() = default;
 		constexpr explicit Opacity(const ValueType& value) : _value(value) {}
 		template<class fromT>
 		constexpr explicit Opacity(const Opacity<fromT>& from) : _value(ValueType(from.Data())) {}
@@ -79,8 +79,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr bool operator>(const Opacity<Tp>& other) const noexcept { return Compare(other) > 0; }
 		[[nodiscard]] constexpr bool operator<=(const Opacity<Tp>& other) const noexcept { return Compare(other) <= 0; }
 		[[nodiscard]] constexpr bool operator>=(const Opacity<Tp>& other) const noexcept { return Compare(other) >= 0; }
-		constexpr Opacity<Tp>& operator=(const Opacity<Tp>&) = default;
-		constexpr Opacity<Tp>& operator=(Opacity<Tp>&&) = default;
 
 		[[nodiscard]] constexpr static Opacity<Tp> Empty() noexcept { return Opacity<Tp>(); }
 		[[nodiscard]] constexpr static Opacity<Tp> Max() noexcept { return Opacity<Tp>(ValueType::Max()); }
