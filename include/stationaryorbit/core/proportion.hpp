@@ -71,8 +71,6 @@ namespace zawa_ch::StationaryOrbit
 		///	このオブジェクトが空であるかを評価します。
 		constexpr bool IsEmpty() const noexcept { return *this == Empty(); }
 
-		// TODO: 計算結果の完全な情報を保持するResult<T, U>を作成、四則演算メソッドに適用する
-
 		///	このオブジェクトを昇格します。
 		[[nodiscard]] constexpr Proportion<Tp> Promote() const noexcept { return DirectConstruct(+_value); }
 		///	このオブジェクトの反数を求めます。
