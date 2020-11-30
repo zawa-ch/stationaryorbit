@@ -39,24 +39,24 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr bool IsNormalized() const noexcept { return _value.IsNormalized(); }
 		[[nodiscard]] constexpr Opacity<Tp> Normalize() const noexcept { return _value.Normalize(); }
 
-		[[nodiscard]] constexpr Opacity<Tp> Add(const Opacity<Tp>& other) const noexcept { return _value.Add(other); }
-		[[nodiscard]] constexpr Opacity<Tp> Subtract(const Opacity<Tp>& other) const noexcept { return _value.Subtract(other); }
-		[[nodiscard]] constexpr Opacity<Tp> Multiply(const Opacity<Tp>& other) const noexcept { return _value.Multiply(other); }
-		[[nodiscard]] constexpr Opacity<Tp> Divide(const Opacity<Tp>& other) const noexcept { return _value.Divide(other); }
-		[[nodiscard]] constexpr Opacity<Tp> SaturateAdd(const Opacity<Tp>& other) const noexcept { return _value.SaturateAdd(other); }
-		[[nodiscard]] constexpr Opacity<Tp> SaturateSubtract(const Opacity<Tp>& other) const noexcept { return _value.SaturateSubtract(other); }
-		[[nodiscard]] constexpr Opacity<Tp> SaturateMultiply(const Opacity<Tp>& other) const noexcept { return _value.SaturateMultiply(other); }
-		[[nodiscard]] constexpr Opacity<Tp> SaturateDivide(const Opacity<Tp>& other) const noexcept { return _value.SaturateDivide(other); }
-		[[nodiscard]] constexpr Opacity<Tp> CheckedAdd(const Opacity<Tp>& other) const { return _value.CheckedAdd(other); }
-		[[nodiscard]] constexpr Opacity<Tp> CheckedSubtract(const Opacity<Tp>& other) const { return _value.CheckedSubtract(other); }
-		[[nodiscard]] constexpr Opacity<Tp> CheckedMultiply(const Opacity<Tp>& other) const { return _value.CheckedMultiply(other); }
-		[[nodiscard]] constexpr Opacity<Tp> CheckedDivide(const Opacity<Tp>& other) const { return _value.CheckedDivide(other); }
-		[[nodiscard]] constexpr Opacity<Tp> And(const Opacity<Tp>& other) const noexcept { return _value.And(other); }
-		[[nodiscard]] constexpr Opacity<Tp> Or(const Opacity<Tp>& other) const noexcept { return _value.Or(other); }
+		[[nodiscard]] constexpr Opacity<Tp> Add(const Opacity<Tp>& other) const noexcept { return _value.Add(other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> Subtract(const Opacity<Tp>& other) const noexcept { return _value.Subtract(other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> Multiply(const Opacity<Tp>& other) const noexcept { return _value.Multiply(other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> Divide(const Opacity<Tp>& other) const noexcept { return _value.Divide(other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> SaturateAdd(const Opacity<Tp>& other) const noexcept { return _value.SaturateAdd(other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> SaturateSubtract(const Opacity<Tp>& other) const noexcept { return _value.SaturateSubtract(other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> SaturateMultiply(const Opacity<Tp>& other) const noexcept { return _value.SaturateMultiply(other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> SaturateDivide(const Opacity<Tp>& other) const noexcept { return _value.SaturateDivide(other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> CheckedAdd(const Opacity<Tp>& other) const { return _value.CheckedAdd(other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> CheckedSubtract(const Opacity<Tp>& other) const { return _value.CheckedSubtract(other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> CheckedMultiply(const Opacity<Tp>& other) const { return _value.CheckedMultiply(other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> CheckedDivide(const Opacity<Tp>& other) const { return _value.CheckedDivide(other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> And(const Opacity<Tp>& other) const noexcept { return _value.And(other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> Or(const Opacity<Tp>& other) const noexcept { return _value.Or(other._value); }
 		[[nodiscard]] constexpr Opacity<Tp> Not() const noexcept { return _value.Not(); }
-		[[nodiscard]] constexpr Opacity<Tp> Xor(const Opacity<Tp>& other) const noexcept { return _value.Xor(other); }
-		[[nodiscard]] constexpr bool Equals(const Opacity<Tp>& other) const noexcept { return _value.Equals(other); }
-		[[nodiscard]] constexpr bool Compare(const Opacity<Tp>& other) const noexcept { return _value.Compare(other); }
+		[[nodiscard]] constexpr Opacity<Tp> Xor(const Opacity<Tp>& other) const noexcept { return _value.Xor(other._value); }
+		[[nodiscard]] constexpr bool Equals(const Opacity<Tp>& other) const noexcept { return _value.Equals(other._value); }
+		[[nodiscard]] constexpr bool Compare(const Opacity<Tp>& other) const noexcept { return _value.Compare(other._value); }
 
 		[[nodiscard]] constexpr Opacity<Tp> operator+(const Opacity<Tp>& other) const noexcept { return Add(other); }
 		[[nodiscard]] constexpr Opacity<Tp> operator-(const Opacity<Tp>& other) const noexcept { return Subtract(other); }
