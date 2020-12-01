@@ -41,6 +41,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public:
 		Pixmap() = default;
 		Pixmap(const RectangleSize& size) : _size(size), _data(solveItemcount(size)) {}
+		Pixmap(const int& width, const int& height) : Pixmap(RectangleSize(width, height)) {}
 		template<class fromTcolor, class fromAllocator>
 		Pixmap(const Pixmap<fromTcolor, fromAllocator>& from) : _size(from.Size()), _data(solveItemcount(from.Size()))
 		{
@@ -57,14 +58,31 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		}
 		virtual ~Pixmap() = default;
 
-		const DataType& Data() const noexcept { return _data; }
-		const RectangleSize& Size() const noexcept { return _size; }
+		[[nodiscard]] const DataType& Data() const noexcept { return _data; }
+		[[nodiscard]] const RectangleSize& Size() const noexcept { return _size; }
 
-		const ValueType& At(const DisplayPoint& index) const { return _data.at(solveindex(index)); }
-		ValueType& At(const DisplayPoint& index) { return _data.at(solveindex(index)); }
+		[[nodiscard]] const ValueType& At(const DisplayPoint& index) const { return _data.at(solveindex(index)); }
+		[[nodiscard]] ValueType& At(const DisplayPoint& index) { return _data.at(solveindex(index)); }
 
-		const ValueType& operator[](const DisplayPoint& index) const { return _data[solveindex(index)]; }
-		ValueType& operator[](const DisplayPoint& index) { return _data[solveindex(index)]; }
+		[[nodiscard]] const ValueType& operator[](const DisplayPoint& index) const { return _data[solveindex(index)]; }
+		[[nodiscard]] ValueType& operator[](const DisplayPoint& index) { return _data[solveindex(index)]; }
+
+		template<class fromTcolor, class fromAllocator>
+		[[nodiscard]] static Pixmap<Tcolor, Allocator> Convert(const Pixmap<fromTcolor, fromAllocator>& value, const std::function<Tcolor(const fromTcolor&)>& pred)
+		{
+			Pixmap<Tcolor, Allocator> result = Pixmap<Tcolor, Allocator>(value.Size());
+			auto di = result.Data().begin();
+			auto si = value.Data().cbegin();
+			auto de = result.Data().end();
+			auto se = value.Data().cend();
+			while((di != de)&&(si != se))
+			{
+				*di = pred(*si);
+				++di;
+				++si;
+			}
+			return result;
+		}
 
 	private:
 		size_t solveindex(const DisplayPoint& point) const
