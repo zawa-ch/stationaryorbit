@@ -40,10 +40,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		RectangleSize _size;
 	public:
 		Pixmap() = default;
-		Pixmap(const RectangleSize& size) : _size(size), _data(solveItemcount(size)) {}
+		explicit Pixmap(const RectangleSize& size) : _size(size), _data(solveItemcount(size)) {}
 		Pixmap(const int& width, const int& height) : Pixmap(RectangleSize(width, height)) {}
 		template<class fromTcolor, class fromAllocator>
-		Pixmap(const Pixmap<fromTcolor, fromAllocator>& from) : _size(from.Size()), _data(solveItemcount(from.Size()))
+		explicit Pixmap(const Pixmap<fromTcolor, fromAllocator>& from) : _size(from.Size()), _data(solveItemcount(from.Size()))
 		{
 			auto di = Data().begin();
 			auto si = from.Data().cbegin();
