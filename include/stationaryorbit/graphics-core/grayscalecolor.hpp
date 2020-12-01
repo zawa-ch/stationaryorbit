@@ -18,69 +18,106 @@
 //
 #ifndef __stationaryorbit_graphics_core_grayscalecolor__
 #define __stationaryorbit_graphics_core_grayscalecolor__
-#include "stationaryorbit/core.numeral.hpp"
+#include "relativecolor.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	///
-	template <class Tp = float>
+	template <class Tp>
 	struct GrayScaleColor final
 	{
 	public: // types
+		typedef RelativeColor<Tp, 1UL> DataType;
 		///	この型の各チャネルの値の表現のために内部で使用されている型。
-		typedef Proportion<Tp> ChannelType;
+		typedef typename DataType::ValueType ValueType;
 	private:
-		ChannelType _l;
+		DataType _value;
 	public:
 		///	既定の @a GrayScaleColor を初期化します。
-		constexpr GrayScaleColor() : _l() {}
+		constexpr GrayScaleColor() = default;
 		///	輝度を指定して @a GrayScaleColor を初期化します。
-		constexpr explicit GrayScaleColor(const ChannelType& luminance) : _l(luminance) {}
+		constexpr explicit GrayScaleColor(const ValueType& luminance) : _value({luminance}) {}
+		constexpr explicit GrayScaleColor(const DataType& value) : _value(value) {}
 		template <class fromT>
-		constexpr explicit GrayScaleColor(const GrayScaleColor<fromT>& from) : GrayScaleColor(from.template CastTo<Tp>()) {}
+		constexpr explicit GrayScaleColor(const GrayScaleColor<fromT>& from) : GrayScaleColor(DataType(from.Data())) {}
+		constexpr GrayScaleColor(const ZeroValue_t&) : _value(Zero) {}
 	public:
+		constexpr const DataType& Data() const { return _value; }
 		///	この @a GrayScaleColor の輝度コンポーネントを取得します。
-		constexpr ChannelType Luminance() const { return _l; }
+		constexpr ValueType Luminance() const { return _value.Data()[0]; }
 		///	この @a GrayScaleColor が正規化されているかを取得します。
-		constexpr bool IsNormalized() const { return _l.IsNormalized(); }
-		///	この @a GrayScaleColor が空であるかを取得します。
-		constexpr bool IsEmpty() const { return *this == Empty(); }
-
-		constexpr GrayScaleColor operator+(const GrayScaleColor& other) const { return GrayScaleColor(_l + other._l); }
-		constexpr GrayScaleColor operator-(const GrayScaleColor& other) const { return GrayScaleColor(_l - other._l); }
-		constexpr GrayScaleColor operator*(const GrayScaleColor& other) const { return GrayScaleColor(_l * other._l); }
-		constexpr GrayScaleColor operator*(const ChannelType& other) const { return GrayScaleColor(_l * other); }
-		constexpr GrayScaleColor operator/(const GrayScaleColor& other) const { return GrayScaleColor(_l / other._l); }
-		constexpr GrayScaleColor operator/(const ChannelType& other) const { return GrayScaleColor(_l / other); }
-		constexpr GrayScaleColor operator~() const { return GrayScaleColor(1-_l); }
-		constexpr GrayScaleColor operator|(const GrayScaleColor& other) const { return GrayScaleColor(((other._l < _l)?(_l):(other._l))); }
-		constexpr GrayScaleColor operator&(const GrayScaleColor& other) const { return GrayScaleColor(((_l < other._l)?(_l):(other._l))); }
-		constexpr GrayScaleColor operator^(const GrayScaleColor& other) const { return (*this | other) & ~(*this & other); }
-		constexpr GrayScaleColor& operator+=(const GrayScaleColor& other) { return *this = *this + other; }
-		constexpr GrayScaleColor& operator-=(const GrayScaleColor& other) { return *this = *this - other; }
-		constexpr GrayScaleColor& operator*=(const GrayScaleColor& other) { return *this = *this * other; }
-		constexpr GrayScaleColor& operator*=(const ChannelType& other) { return *this = *this * other; }
-		constexpr GrayScaleColor& operator/=(const GrayScaleColor& other) { return *this = *this / other; }
-		constexpr GrayScaleColor& operator/=(const ChannelType& other) { return *this = *this / other; }
-		constexpr GrayScaleColor& operator|=(const GrayScaleColor& other) { return *this = *this | other; }
-		constexpr GrayScaleColor& operator&=(const GrayScaleColor& other) { return *this = *this & other; }
-		constexpr GrayScaleColor& operator^=(const GrayScaleColor& other) { return *this = *this ^ other; }
-
+		constexpr bool IsNormalized() const { return _value.IsNormalized(); }
 		///	正規化した @a GrayScaleColor を取得します。
-		constexpr GrayScaleColor Normalize() const { return GrayScaleColor(_l.Normalize()); }
+		constexpr GrayScaleColor<Tp> Normalize() const { return GrayScaleColor<Tp>(_value.Normalize()); }
 
-		template <class castT>
-		constexpr GrayScaleColor<castT> CastTo() const { return GrayScaleColor<castT>(_l.template CastTo<castT>()); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> Add(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Add(other._value)); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> Subtract(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Subtract(other._value)); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> Multiply(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Multiply(other._value)); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> Multiply(const ValueType& other) const noexcept { return GrayScaleColor<Tp>(_value.Multiply(other.Data())); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> Divide(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Divide(other._value)); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> Divide(const ValueType& other) const noexcept { return GrayScaleColor<Tp>(_value.Divide(other.Data())); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> SaturateAdd(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.SaturateAdd(other._value)); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> SaturateSubtract(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.SaturateSubtract(other._value)); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> SaturateMultiply(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.SaturateMultiply(other._value)); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> SaturateMultiply(const ValueType& other) const noexcept { return GrayScaleColor<Tp>(_value.SaturateMultiply(other.Data())); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> SaturateDivide(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.SaturateDivide(other._value)); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> SaturateDivide(const ValueType& other) const noexcept { return GrayScaleColor<Tp>(_value.SaturateDivide(other.Data())); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> CheckedAdd(const GrayScaleColor<Tp>& other) const { return GrayScaleColor<Tp>(_value.CheckedAdd(other._value)); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> CheckedSubtract(const GrayScaleColor<Tp>& other) const { return GrayScaleColor<Tp>(_value.CheckedSubtract(other._value)); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> CheckedMultiply(const GrayScaleColor<Tp>& other) const { return GrayScaleColor<Tp>(_value.CheckedMultiply(other._value)); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> CheckedMultiply(const ValueType& other) const { return GrayScaleColor<Tp>(_value.CheckedMultiply(other.Data())); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> CheckedDivide(const GrayScaleColor<Tp>& other) const { return GrayScaleColor<Tp>(_value.CheckedDivide(other._value)); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> CheckedDivide(const ValueType& other) const { return GrayScaleColor<Tp>(_value.CheckedDivide(other.Data())); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> And(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.And(other._value)); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> Or(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Or(other._value)); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> Not() const noexcept { return GrayScaleColor<Tp>(_value.Not()); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> Xor(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Xor(other._value)); }
 
-		///	指定されたオブジェクトがこのオブジェクトと等価であることをテストします。
-		constexpr bool Equals(const GrayScaleColor& other) const { return (_l == other._l); }
-		constexpr bool operator==(const GrayScaleColor& other) const { return Equals(other); }
-		constexpr bool operator!=(const GrayScaleColor& other) const { return !Equals(other); }
+		constexpr GrayScaleColor<Tp> operator+(const GrayScaleColor<Tp>& other) const { return Add(other); }
+		constexpr GrayScaleColor<Tp> operator-(const GrayScaleColor<Tp>& other) const { return Subtract(other); }
+		constexpr GrayScaleColor<Tp> operator*(const GrayScaleColor<Tp>& other) const { return Multiply(other); }
+		constexpr GrayScaleColor<Tp> operator*(const ValueType& other) const { return Multiply(other); }
+		constexpr GrayScaleColor<Tp> operator/(const GrayScaleColor<Tp>& other) const { return Divide(other); }
+		constexpr GrayScaleColor<Tp> operator/(const ValueType& other) const { return Divide(other); }
+		constexpr GrayScaleColor<Tp> operator~() const { return Not(); }
+		constexpr GrayScaleColor<Tp> operator|(const GrayScaleColor<Tp>& other) const { return Or(other); }
+		constexpr GrayScaleColor<Tp> operator&(const GrayScaleColor<Tp>& other) const { return And(other); }
+		constexpr GrayScaleColor<Tp> operator^(const GrayScaleColor<Tp>& other) const { return Xor(other); }
+		constexpr GrayScaleColor<Tp>& operator+=(const GrayScaleColor<Tp>& other) { return *this = *this + other; }
+		constexpr GrayScaleColor<Tp>& operator-=(const GrayScaleColor<Tp>& other) { return *this = *this - other; }
+		constexpr GrayScaleColor<Tp>& operator*=(const GrayScaleColor<Tp>& other) { return *this = *this * other; }
+		constexpr GrayScaleColor<Tp>& operator*=(const ValueType& other) { return *this = *this * other; }
+		constexpr GrayScaleColor<Tp>& operator/=(const GrayScaleColor<Tp>& other) { return *this = *this / other; }
+		constexpr GrayScaleColor<Tp>& operator/=(const ValueType& other) { return *this = *this / other; }
+		constexpr GrayScaleColor<Tp>& operator|=(const GrayScaleColor<Tp>& other) { return *this = *this | other; }
+		constexpr GrayScaleColor<Tp>& operator&=(const GrayScaleColor<Tp>& other) { return *this = *this & other; }
+		constexpr GrayScaleColor<Tp>& operator^=(const GrayScaleColor<Tp>& other) { return *this = *this ^ other; }
 
-		constexpr static GrayScaleColor Empty() { return GrayScaleColor(); }
+		constexpr bool Equals(const GrayScaleColor<Tp>& other) const { return _value.Equals(other._value); }
+		constexpr bool operator==(const GrayScaleColor<Tp>& other) const { return Equals(other); }
+		constexpr bool operator!=(const GrayScaleColor<Tp>& other) const { return !Equals(other); }
+
+		constexpr static GrayScaleColor<Tp> Empty() { return GrayScaleColor<Tp>(); }
 	};
 
-	typedef GrayScaleColor<uint8_t> GrayScaleI8_t;
-	typedef GrayScaleColor<uint16_t> GrayScaleI16_t;
+	extern template struct GrayScaleColor<Proportion1_t>;
+	extern template struct GrayScaleColor<Proportion8_t>;
+	extern template struct GrayScaleColor<Proportion16_t>;
+	extern template struct GrayScaleColor<Proportion32_t>;
+	extern template struct GrayScaleColor<Proportion64_t>;
+	extern template struct GrayScaleColor<FixedPoint16q15_t>;
+	extern template struct GrayScaleColor<FixedPoint32q31_t>;
+	extern template struct GrayScaleColor<FixedPoint64q63_t>;
+	extern template struct GrayScaleColor<float>;
+	extern template struct GrayScaleColor<double>;
+
+	typedef GrayScaleColor<Proportion1_t> GrayScale1_t;
+	typedef GrayScaleColor<Proportion8_t> GrayScale8_t;
+	typedef GrayScaleColor<Proportion16_t> GrayScale16_t;
+	typedef GrayScaleColor<Proportion32_t> GrayScale32_t;
+	typedef GrayScaleColor<Proportion64_t> GrayScale64_t;
+	typedef GrayScaleColor<FixedPoint16q15_t> GrayScaleI16_t;
+	typedef GrayScaleColor<FixedPoint32q31_t> GrayScaleI32_t;
+	typedef GrayScaleColor<FixedPoint64q63_t> GrayScaleI64_t;
 	typedef GrayScaleColor<float> GrayScaleF32_t;
 	typedef GrayScaleColor<double> GrayScaleF64_t;
 }

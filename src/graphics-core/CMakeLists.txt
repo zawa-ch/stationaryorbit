@@ -43,6 +43,7 @@ add_library(${AssemblyName} SHARED
     cmykcolor.cpp
     colorspace.cpp
     fundamental.cpp
+    grayscalecolor.cpp
     pixmap.cpp
     opacity.cpp
     rgbcolor.cpp
