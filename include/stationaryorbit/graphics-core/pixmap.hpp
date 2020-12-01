@@ -42,6 +42,22 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		Pixmap() = default;
 		explicit Pixmap(const RectangleSize& size) : _size(size), _data(solveItemcount(size)) {}
 		Pixmap(const int& width, const int& height) : Pixmap(RectangleSize(width, height)) {}
+		Pixmap(const Pixmap<Tcolor, Allocator>& value, const DisplayRectangle& area)
+			: Pixmap
+			(
+				[](const RectangleSize& size, const DisplayRectangle& area) -> RectangleSize
+				{
+					if ((area.Left() < 0)||(area.Top() < 0)||(size.Width() <= area.Right())||(size.Height() <= area.Bottom()))
+					{ throw std::out_of_range("指定された領域は境界を超えています。"); }
+					else { return area.Size(); }
+				}(value.Size(), area)
+			)
+		{
+			for(auto y: area.YRange().GetStdIterator()) for(auto x: area.XRange().GetStdIterator())
+			{
+				(*this)[DisplayPoint(x-area.Left(), y-area.Top())] = value[DisplayPoint(x, y)];
+			}
+		}
 		template<class fromTcolor, class fromAllocator>
 		explicit Pixmap(const Pixmap<fromTcolor, fromAllocator>& from) : _size(from.Size()), _data(solveItemcount(from.Size()))
 		{
@@ -56,6 +72,23 @@ namespace zawa_ch::StationaryOrbit::Graphics
 				++si;
 			}
 		}
+		template<class fromTcolor, class fromAllocator>
+		Pixmap(const Pixmap<fromTcolor, fromAllocator>& value, const DisplayRectangle& area)
+			: Pixmap
+			(
+				[](const RectangleSize& size, const DisplayRectangle& area) -> RectangleSize
+				{
+					if ((area.Left() < 0)||(area.Top() < 0)||(size.Width() <= area.Right())||(size.Height() <= area.Bottom()))
+					{ throw std::out_of_range("指定された領域は境界を超えています。"); }
+					else { return area.Size(); }
+				}(value.Size(), area)
+			)
+		{
+			for(auto y: area.YRange().GetStdIterator()) for(auto x: area.XRange().GetStdIterator())
+			{
+				(*this)[DisplayPoint(x-area.Left(), y-area.Top())] = ValueType(value[DisplayPoint(x, y)]);
+			}
+		}
 		virtual ~Pixmap() = default;
 
 		[[nodiscard]] const DataType& Data() const noexcept { return _data; }
@@ -63,6 +96,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		[[nodiscard]] const ValueType& At(const DisplayPoint& index) const { return _data.at(solveindex(index)); }
 		[[nodiscard]] ValueType& At(const DisplayPoint& index) { return _data.at(solveindex(index)); }
+		[[nodiscard]] const ValueType& At(const int& x, const int& y) const { return At(DisplayPoint(x, y)); }
+		[[nodiscard]] ValueType& At(const int& x, const int& y) { return At(DisplayPoint(x, y)); }
 
 		[[nodiscard]] const ValueType& operator[](const DisplayPoint& index) const { return _data[solveindex(index)]; }
 		[[nodiscard]] ValueType& operator[](const DisplayPoint& index) { return _data[solveindex(index)]; }
