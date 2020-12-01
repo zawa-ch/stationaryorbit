@@ -22,30 +22,24 @@ set(AssemblyName stationaryorbit.graphics-core)
 set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/graphics-core)
 
 add_library(${AssemblyName} SHARED
-    ${Include_Dir}/binarybitmap.hpp
-    ${Include_Dir}/bitmap.hpp
     ${Include_Dir}/bitmapconverter.hpp
     ${Include_Dir}/channelvalue.hpp
     ${Include_Dir}/cmycolor.hpp
     ${Include_Dir}/cmykcolor.hpp
     ${Include_Dir}/colorspace.hpp
-    ${Include_Dir}/graybitmapimage.hpp
     ${Include_Dir}/grayscalecolor.hpp
     ${Include_Dir}/image.hpp
-    ${Include_Dir}/rgbbitmapimage.hpp
     ${Include_Dir}/rgbcolor.hpp
     ${Include_Dir}/yuvcolor.hpp
     ${Include_Dir}/xyzcolor.hpp
     channelvalue.cpp
-    binarybitmap.cpp
-    bitmap.cpp
     cmycolor.cpp
     cmykcolor.cpp
     colorspace.cpp
     fundamental.cpp
     grayscalecolor.cpp
-    pixmap.cpp
     opacity.cpp
+    pixmap.cpp
     rgbcolor.cpp
 )
 
