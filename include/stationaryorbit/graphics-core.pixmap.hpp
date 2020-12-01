@@ -1,4 +1,4 @@
-//	stationaryorbit/graphics-core.bitmap
+//	stationaryorbit/graphics-core.pixmap
 //	Copyright 2020 zawa-ch.
 //	GPLv3 (or later) license
 //
@@ -17,8 +17,4 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "graphics-core/bitmap.hpp"
-#include "graphics-core/bitmapconverter.hpp"
-#include "graphics-core/graybitmapimage.hpp"
-#include "graphics-core/image.hpp"
-#include "graphics-core/rgbbitmapimage.hpp"
+#include "graphics-core/pixmap.hpp"
