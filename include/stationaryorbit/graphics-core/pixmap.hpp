@@ -102,6 +102,22 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] const ValueType& operator[](const DisplayPoint& index) const { return _data[solveindex(index)]; }
 		[[nodiscard]] ValueType& operator[](const DisplayPoint& index) { return _data[solveindex(index)]; }
 
+		template<class fromTcolor = Tcolor, class fromAllocator = Allocator>
+		void Copy(const Pixmap<fromTcolor, fromAllocator>& source, const DisplayRectangle& area, const DisplayPoint& destination = DisplayPoint(Zero, Zero))
+		{
+			if ((0 < area.Left())||(0 < area.Top())||(area.Right() <= source.Size().Width())||(area.Bottom() <= source.Size().Height()))
+			{ throw std::invalid_argument("コピー指定された領域はコピー元の境界を超えています。"); }
+			auto destarea = DisplayRectangle(destination, area.Size());
+			if ((0 < destarea.Left())||(0 < destarea.Top())||(destarea.Right() <= Size().Width())||(destarea.Bottom() <= Size().Height()))
+			{ throw std::out_of_range("コピー指定された領域はコピー先の領域を超えています。"); }
+			auto copyarea = DisplayRectangle(DisplayPoint(Zero, Zero), area.Size());
+			for(auto y: copyarea.YRange().GetStdIterator()) for(auto x: copyarea.XRange().GetStdIterator())
+			{
+				auto p = DisplayPoint(x, y);
+				(*this)[p + destination] = ValueType(source[p + area.Location()]);
+			}
+		}
+
 		template<class fromTcolor, class fromAllocator>
 		[[nodiscard]] static Pixmap<Tcolor, Allocator> Convert(const Pixmap<fromTcolor, fromAllocator>& value, const std::function<Tcolor(const fromTcolor&)>& pred)
 		{
