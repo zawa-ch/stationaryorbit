@@ -17,7 +17,9 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include "graphics-core/cmycolor.hpp"
 #include "graphics-core/cmykcolor.hpp"
 #include "graphics-core/grayscalecolor.hpp"
 #include "graphics-core/rgbcolor.hpp"
+#include "graphics-core/xyzcolor.hpp"
 #include "graphics-core/yuvcolor.hpp"
