@@ -37,24 +37,24 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		[[nodiscard]] constexpr const ValueType& Data() const noexcept { return _value; }
 		[[nodiscard]] constexpr bool IsNormalized() const noexcept { return _value.IsNormalized(); }
-		[[nodiscard]] constexpr Opacity<Tp> Normalize() const noexcept { return _value.Normalize(); }
+		[[nodiscard]] constexpr Opacity<Tp> Normalize() const noexcept { return Opacity<Tp>(_value.Normalize()); }
 
-		[[nodiscard]] constexpr Opacity<Tp> Add(const Opacity<Tp>& other) const noexcept { return _value.Add(other._value); }
-		[[nodiscard]] constexpr Opacity<Tp> Subtract(const Opacity<Tp>& other) const noexcept { return _value.Subtract(other._value); }
-		[[nodiscard]] constexpr Opacity<Tp> Multiply(const Opacity<Tp>& other) const noexcept { return _value.Multiply(other._value); }
-		[[nodiscard]] constexpr Opacity<Tp> Divide(const Opacity<Tp>& other) const noexcept { return _value.Divide(other._value); }
-		[[nodiscard]] constexpr Opacity<Tp> SaturateAdd(const Opacity<Tp>& other) const noexcept { return _value.SaturateAdd(other._value); }
-		[[nodiscard]] constexpr Opacity<Tp> SaturateSubtract(const Opacity<Tp>& other) const noexcept { return _value.SaturateSubtract(other._value); }
-		[[nodiscard]] constexpr Opacity<Tp> SaturateMultiply(const Opacity<Tp>& other) const noexcept { return _value.SaturateMultiply(other._value); }
-		[[nodiscard]] constexpr Opacity<Tp> SaturateDivide(const Opacity<Tp>& other) const noexcept { return _value.SaturateDivide(other._value); }
-		[[nodiscard]] constexpr Opacity<Tp> CheckedAdd(const Opacity<Tp>& other) const { return _value.CheckedAdd(other._value); }
-		[[nodiscard]] constexpr Opacity<Tp> CheckedSubtract(const Opacity<Tp>& other) const { return _value.CheckedSubtract(other._value); }
-		[[nodiscard]] constexpr Opacity<Tp> CheckedMultiply(const Opacity<Tp>& other) const { return _value.CheckedMultiply(other._value); }
-		[[nodiscard]] constexpr Opacity<Tp> CheckedDivide(const Opacity<Tp>& other) const { return _value.CheckedDivide(other._value); }
-		[[nodiscard]] constexpr Opacity<Tp> And(const Opacity<Tp>& other) const noexcept { return _value.And(other._value); }
-		[[nodiscard]] constexpr Opacity<Tp> Or(const Opacity<Tp>& other) const noexcept { return _value.Or(other._value); }
-		[[nodiscard]] constexpr Opacity<Tp> Not() const noexcept { return _value.Not(); }
-		[[nodiscard]] constexpr Opacity<Tp> Xor(const Opacity<Tp>& other) const noexcept { return _value.Xor(other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> Add(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.Add(other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> Subtract(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.Subtract(other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> Multiply(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.Multiply(other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> Divide(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.Divide(other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> SaturateAdd(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.SaturateAdd(other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> SaturateSubtract(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.SaturateSubtract(other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> SaturateMultiply(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.SaturateMultiply(other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> SaturateDivide(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.SaturateDivide(other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> CheckedAdd(const Opacity<Tp>& other) const { return  Opacity<Tp>(_value.CheckedAdd(other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> CheckedSubtract(const Opacity<Tp>& other) const { return  Opacity<Tp>(_value.CheckedSubtract(other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> CheckedMultiply(const Opacity<Tp>& other) const { return  Opacity<Tp>(_value.CheckedMultiply(other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> CheckedDivide(const Opacity<Tp>& other) const { return  Opacity<Tp>(_value.CheckedDivide(other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> And(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.And(other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> Or(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.Or(other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> Not() const noexcept { return  Opacity<Tp>(_value.Not()); }
+		[[nodiscard]] constexpr Opacity<Tp> Xor(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.Xor(other._value)); }
 		[[nodiscard]] constexpr bool Equals(const Opacity<Tp>& other) const noexcept { return _value.Equals(other._value); }
 		[[nodiscard]] constexpr bool Compare(const Opacity<Tp>& other) const noexcept { return _value.Compare(other._value); }
 
@@ -84,5 +84,27 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr static Opacity<Tp> Max() noexcept { return Opacity<Tp>(ValueType::Max()); }
 		[[nodiscard]] constexpr static Opacity<Tp> Min() noexcept { return Opacity<Tp>(ValueType::Min()); }
 	};
+
+	extern template struct Opacity<Proportion1_t>;
+	extern template struct Opacity<Proportion8_t>;
+	extern template struct Opacity<Proportion16_t>;
+	extern template struct Opacity<Proportion32_t>;
+	extern template struct Opacity<Proportion64_t>;
+	extern template struct Opacity<FixedPoint16q15_t>;
+	extern template struct Opacity<FixedPoint32q31_t>;
+	extern template struct Opacity<FixedPoint64q63_t>;
+	extern template struct Opacity<float>;
+	extern template struct Opacity<double>;
+
+	typedef Opacity<Proportion1_t> Opacity1_t;
+	typedef Opacity<Proportion8_t> Opacity8_t;
+	typedef Opacity<Proportion16_t> Opacity16_t;
+	typedef Opacity<Proportion32_t> Opacity32_t;
+	typedef Opacity<Proportion64_t> Opacity64_t;
+	typedef Opacity<FixedPoint16q15_t> OpacityI16_t;
+	typedef Opacity<FixedPoint32q31_t> OpacityI32_t;
+	typedef Opacity<FixedPoint64q63_t> OpacityI64_t;
+	typedef Opacity<float> OpacityF32_t;
+	typedef Opacity<double> OpacityF64_t;
 }
 #endif // __stationaryorbit_graphics_core_opacity__

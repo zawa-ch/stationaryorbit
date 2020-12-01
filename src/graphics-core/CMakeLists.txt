@@ -44,6 +44,7 @@ add_library(${AssemblyName} SHARED
     colorspace.cpp
     fundamental.cpp
     pixmap.cpp
+    opacity.cpp
     rgbcolor.cpp
 )
 
