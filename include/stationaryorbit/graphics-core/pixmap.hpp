@@ -27,10 +27,11 @@
 #include "cmycolor.hpp"
 #include "cmykcolor.hpp"
 #include "opacity.hpp"
+#include "image.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	template<class Tcolor, class Allocator = typename std::vector<Tcolor>::allocator_type>
-	class Pixmap
+	class Pixmap : public Image<Tcolor>
 	{
 	public:
 		typedef Tcolor ValueType;
@@ -72,8 +73,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 				++si;
 			}
 		}
-		template<class fromTcolor, class fromAllocator>
-		Pixmap(const Pixmap<fromTcolor, fromAllocator>& value, const DisplayRectangle& area)
+		template<class fromTcolor>
+		Pixmap(const Image<fromTcolor>& source, const DisplayRectangle& area)
 			: Pixmap
 			(
 				[](const RectangleSize& size, const DisplayRectangle& area) -> RectangleSize
@@ -81,18 +82,19 @@ namespace zawa_ch::StationaryOrbit::Graphics
 					if ((area.Left() < 0)||(area.Top() < 0)||(size.Width() <= area.Right())||(size.Height() <= area.Bottom()))
 					{ throw std::out_of_range("指定された領域は境界を超えています。"); }
 					else { return area.Size(); }
-				}(value.Size(), area)
+				}(source.Size(), area)
 			)
 		{
 			for(auto y: area.YRange().GetStdIterator()) for(auto x: area.XRange().GetStdIterator())
 			{
-				(*this)[DisplayPoint(x-area.Left(), y-area.Top())] = ValueType(value[DisplayPoint(x, y)]);
+				(*this)[DisplayPoint(x-area.Left(), y-area.Top())] = ValueType(source[DisplayPoint(x, y)]);
 			}
 		}
 		virtual ~Pixmap() = default;
 
 		[[nodiscard]] const DataType& Data() const noexcept { return _data; }
 		[[nodiscard]] const RectangleSize& Size() const noexcept { return _size; }
+		[[nodiscard]] DisplayRectangle Area() const noexcept { return Rectangle(DisplayPoint(0, 0), _size); }
 
 		[[nodiscard]] const ValueType& At(const DisplayPoint& index) const { return _data.at(solveindex(index)); }
 		[[nodiscard]] ValueType& At(const DisplayPoint& index) { return _data.at(solveindex(index)); }
