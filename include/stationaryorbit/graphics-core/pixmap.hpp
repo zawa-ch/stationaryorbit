@@ -148,6 +148,16 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		}
 	};
 
+	typedef Pixmap<Opacity1_t> Mask1Pixmap_t;
+	typedef Pixmap<Opacity8_t> Mask8Pixmap_t;
+	typedef Pixmap<Opacity16_t> Mask16Pixmap_t;
+	typedef Pixmap<Opacity32_t> Mask32Pixmap_t;
+	typedef Pixmap<Opacity64_t> Mask64Pixmap_t;
+	typedef Pixmap<OpacityI16_t> MaskI16Pixmap_t;
+	typedef Pixmap<OpacityI32_t> MaskI32Pixmap_t;
+	typedef Pixmap<OpacityI64_t> MaskI64Pixmap_t;
+	typedef Pixmap<OpacityF32_t> MaskF32Pixmap_t;
+	typedef Pixmap<OpacityF64_t> MaskF64Pixmap_t;
 	typedef Pixmap<RGB8_t> RGB8Pixmap_t;
 	typedef Pixmap<RGB16_t> RGB16Pixmap_t;
 	typedef Pixmap<RGB32_t> RGB32Pixmap_t;
@@ -167,6 +177,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	typedef Pixmap<ARGBF32_t> ARGBF32Pixmap_t;
 	typedef Pixmap<ARGBF64_t> ARGBF64Pixmap_t;
 
+	extern template class Pixmap<Opacity8_t>;
+	extern template class Pixmap<Opacity16_t>;
+	extern template class Pixmap<Opacity32_t>;
+	extern template class Pixmap<Opacity64_t>;
+	extern template class Pixmap<OpacityI16_t>;
+	extern template class Pixmap<OpacityI32_t>;
+	extern template class Pixmap<OpacityI64_t>;
+	extern template class Pixmap<OpacityF32_t>;
+	extern template class Pixmap<OpacityF64_t>;
 	extern template class Pixmap<RGB8_t>;
 	extern template class Pixmap<RGB16_t>;
 	extern template class Pixmap<RGB32_t>;

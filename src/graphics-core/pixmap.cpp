@@ -19,6 +19,24 @@
 #include "stationaryorbit/graphics-core/pixmap.hpp"
 
 template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::Opacity8_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::Opacity16_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::Opacity32_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::Opacity64_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::OpacityI16_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::OpacityI32_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::OpacityI64_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::OpacityF32_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::OpacityF64_t>;
+template class
 zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::RGB8_t>;
 template class
 zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::RGB16_t>;
