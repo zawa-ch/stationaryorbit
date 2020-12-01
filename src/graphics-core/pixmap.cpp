@@ -37,6 +37,24 @@ zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::O
 template class
 zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::OpacityF64_t>;
 template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t>;
+template class
+zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t>;
+template class
 zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::RGB8_t>;
 template class
 zawa_ch::StationaryOrbit::Graphics::Pixmap<zawa_ch::StationaryOrbit::Graphics::RGB16_t>;
