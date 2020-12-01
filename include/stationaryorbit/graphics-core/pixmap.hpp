@@ -110,8 +110,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			auto destarea = DisplayRectangle(destination, area.Size());
 			if ((0 < destarea.Left())||(0 < destarea.Top())||(destarea.Right() <= Size().Width())||(destarea.Bottom() <= Size().Height()))
 			{ throw std::out_of_range("コピー指定された領域はコピー先の領域を超えています。"); }
-			auto copyarea = DisplayRectangle(DisplayPoint(Zero, Zero), area.Size());
-			for(auto y: copyarea.YRange().GetStdIterator()) for(auto x: copyarea.XRange().GetStdIterator())
+			for(auto y: area.Size().YRange().GetStdIterator()) for(auto x: area.Size().XRange().GetStdIterator())
 			{
 				auto p = DisplayPoint(x, y);
 				(*this)[p + destination] = ValueType(source[p + area.Location()]);
