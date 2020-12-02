@@ -102,8 +102,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] const ValueType& operator[](const DisplayPoint& index) const { return _data[solveindex(index)]; }
 		[[nodiscard]] ValueType& operator[](const DisplayPoint& index) { return _data[solveindex(index)]; }
 
-		template<class fromTcolor = Tcolor, class fromAllocator = Allocator>
-		void Copy(const Pixmap<fromTcolor, fromAllocator>& source, const DisplayRectangle& area, const DisplayPoint& destination = DisplayPoint(Zero, Zero))
+		template<class fromTcolor = Tcolor>
+		void Copy(const Image<fromTcolor>& source, const DisplayRectangle& area, const DisplayPoint& destination = DisplayPoint(Zero, Zero))
 		{
 			if ((0 < area.Left())||(0 < area.Top())||(area.Right() <= source.Size().Width())||(area.Bottom() <= source.Size().Height()))
 			{ throw std::invalid_argument("コピー指定された領域はコピー元の境界を超えています。"); }
