@@ -27,21 +27,22 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	struct CMYKColor final
 	{
 	public: // types
+		typedef RelativeColor<Tp, 4UL> DataType;
 		///	この型の各チャネルの値の表現のために内部で使用されている型。
-		typedef typename RelativeColor<Tp, 4UL>::ValueType ValueType;
+		typedef typename DataType::ValueType ValueType;
 	private: // contains
-		RelativeColor<Tp, 4UL> _value;
+		DataType _value;
 	public: // constructor
 		///	既定の @a CMYKColor を初期化します。
 		constexpr CMYKColor() : _value() {}
 		///	CMYK値を指定して @a CMYKColor を初期化します。
 		constexpr CMYKColor(const ValueType& c, const ValueType& m, const ValueType& y, const ValueType& k) : _value({c, m, y, k}) {}
-		constexpr explicit CMYKColor(const RelativeColor<Tp, 4UL>& value) : _value(value) {}
+		constexpr explicit CMYKColor(const DataType& value) : _value(value) {}
 		template <class fromT>
-		constexpr explicit CMYKColor(const CMYKColor<fromT>& from) : CMYKColor(RelativeColor<Tp, 4UL>(from.Data())) {}
+		constexpr explicit CMYKColor(const CMYKColor<fromT>& from) : CMYKColor(DataType(from.Data())) {}
 		constexpr CMYKColor(const ZeroValue_t&) : _value(Zero) {}
 	public: // member
-		constexpr const RelativeColor<Tp, 3U>& Data() const { return _value; }
+		constexpr const DataType& Data() const { return _value; }
 		///	この @a CMYKColor のシアンのコンポーネントを取得します。
 		constexpr const ValueType& C() const { return _value.Data()[0]; }
 		///	この @a CMYKColor のマゼンタのコンポーネントを取得します。
@@ -58,21 +59,21 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr CMYKColor<Tp> Add(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.Add(other._value)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> Subtract(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.Subtract(other._value)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> Multiply(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.Multiply(other._value)); }
-		[[nodiscard]] constexpr CMYKColor<Tp> Multiply(const ValueType& other) const noexcept { return CMYKColor<Tp>(_value.Multiply(other._value)); }
+		[[nodiscard]] constexpr CMYKColor<Tp> Multiply(const ValueType& other) const noexcept { return CMYKColor<Tp>(_value.Multiply(other)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> Divide(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.Divide(other._value)); }
-		[[nodiscard]] constexpr CMYKColor<Tp> Divide(const ValueType& other) const noexcept { return CMYKColor<Tp>(_value.Divide(other._value)); }
+		[[nodiscard]] constexpr CMYKColor<Tp> Divide(const ValueType& other) const noexcept { return CMYKColor<Tp>(_value.Divide(other)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> SaturateAdd(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.SaturateAdd(other._value)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> SaturateSubtract(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.SaturateSubtract(other._value)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> SaturateMultiply(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.SaturateMultiply(other._value)); }
-		[[nodiscard]] constexpr CMYKColor<Tp> SaturateMultiply(const ValueType& other) const noexcept { return CMYKColor<Tp>(_value.SaturateMultiply(other._value)); }
+		[[nodiscard]] constexpr CMYKColor<Tp> SaturateMultiply(const ValueType& other) const noexcept { return CMYKColor<Tp>(_value.SaturateMultiply(other)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> SaturateDivide(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.SaturateDivide(other._value)); }
-		[[nodiscard]] constexpr CMYKColor<Tp> SaturateDivide(const ValueType& other) const noexcept { return CMYKColor<Tp>(_value.SaturateDivide(other._value)); }
+		[[nodiscard]] constexpr CMYKColor<Tp> SaturateDivide(const ValueType& other) const noexcept { return CMYKColor<Tp>(_value.SaturateDivide(other)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> CheckedAdd(const CMYKColor<Tp>& other) const { return CMYKColor<Tp>(_value.CheckedAdd(other._value)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> CheckedSubtract(const CMYKColor<Tp>& other) const { return CMYKColor<Tp>(_value.CheckedSubtract(other._value)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> CheckedMultiply(const CMYKColor<Tp>& other) const { return CMYKColor<Tp>(_value.CheckedMultiply(other._value)); }
-		[[nodiscard]] constexpr CMYKColor<Tp> CheckedMultiply(const ValueType& other) const { return CMYKColor<Tp>(_value.CheckedMultiply(other._value)); }
+		[[nodiscard]] constexpr CMYKColor<Tp> CheckedMultiply(const ValueType& other) const { return CMYKColor<Tp>(_value.CheckedMultiply(other)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> CheckedDivide(const CMYKColor<Tp>& other) const { return CMYKColor<Tp>(_value.CheckedDivide(other._value)); }
-		[[nodiscard]] constexpr CMYKColor<Tp> CheckedDivide(const ValueType& other) const { return CMYKColor<Tp>(_value.CheckedDivide(other._value)); }
+		[[nodiscard]] constexpr CMYKColor<Tp> CheckedDivide(const ValueType& other) const { return CMYKColor<Tp>(_value.CheckedDivide(other)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> And(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.And(other._value)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> Or(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.Or(other._value)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> Not() const noexcept { return CMYKColor<Tp>(_value.Not()); }
