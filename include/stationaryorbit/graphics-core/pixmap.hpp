@@ -98,8 +98,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		[[nodiscard]] const ValueType& At(const DisplayPoint& index) const { return _data.at(solveindex(index)); }
 		[[nodiscard]] ValueType& At(const DisplayPoint& index) { return _data.at(solveindex(index)); }
-		[[nodiscard]] const ValueType& At(const int& x, const int& y) const { return At(DisplayPoint(x, y)); }
-		[[nodiscard]] ValueType& At(const int& x, const int& y) { return At(DisplayPoint(x, y)); }
 
 		[[nodiscard]] const ValueType& operator[](const DisplayPoint& index) const { return _data[solveindex(index)]; }
 		[[nodiscard]] ValueType& operator[](const DisplayPoint& index) { return _data[solveindex(index)]; }

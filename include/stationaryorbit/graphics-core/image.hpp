@@ -33,8 +33,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] virtual DisplayRectangle Area() const noexcept = 0;
 		[[nodiscard]] virtual const ValueType& At(const DisplayPoint& index) const = 0;
 		[[nodiscard]] virtual ValueType& At(const DisplayPoint& index) = 0;
-		[[nodiscard]] virtual const ValueType& At(const int& x, const int& y) const = 0;
-		[[nodiscard]] virtual ValueType& At(const int& x, const int& y) = 0;
+		[[nodiscard]] virtual const ValueType& At(const int& x, const int& y) const { return At(DisplayPoint(x, y)); }
+		[[nodiscard]] virtual ValueType& At(const int& x, const int& y) { return At(DisplayPoint(x, y)); }
 
 		[[nodiscard]] virtual const ValueType& operator[](const DisplayPoint& index) const = 0;
 		[[nodiscard]] virtual ValueType& operator[](const DisplayPoint& index) = 0;
