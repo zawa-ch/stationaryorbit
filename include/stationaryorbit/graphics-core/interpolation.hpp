@@ -19,6 +19,7 @@
 #ifndef __stationaryorbit_geaphics_core_interpolation__
 #define __stationaryorbit_geaphics_core_interpolation__
 #include "image.hpp"
+#include "pixarray.hpp"
 #include "cmycolor.hpp"
 #include "cmykcolor.hpp"
 #include "grayscalecolor.hpp"
@@ -32,10 +33,20 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		ImageInterpolation(ImageInterpolation&&) = delete;
 		~ImageInterpolation() = delete;
 	public:
-		template<class colorT>
-		static colorT NearestNeighbor(const Image<colorT>& image, const DisplayPointF& pos)
+		template<class Tcolor>
+		static Tcolor NearestNeighbor(const Image<Tcolor>& image, const DisplayPointF& pos)
 		{
 			return image[pos.Round()];
+		}
+		template<class Tcolor>
+		static Tcolor Bilinear(const Image<Tcolor>& image, const DisplayPointF& pos)
+		{
+			if (pos == DisplayPointF(pos.Floor())) { return image[pos.Floor()]; }
+			auto buffer = PixArray<Tcolor, 2, 2>(image, pos.Floor());
+			auto fpos = pos.Extract();
+			auto pxup = (buffer.At(DisplayPoint(0, 0)) * typename Tcolor::ValueType::ValueType(1 - fpos.X()) + buffer.At(DisplayPoint(1, 0)) * typename Tcolor::ValueType::ValueType(fpos.X()));
+			auto pxdown = (buffer.At(DisplayPoint(0, 1)) * typename Tcolor::ValueType::ValueType(1 - fpos.X()) + buffer.At(DisplayPoint(1, 1)) * typename Tcolor::ValueType::ValueType(fpos.X()));
+			return (pxup * typename Tcolor::ValueType::ValueType(1 - fpos.Y()) + pxdown * typename Tcolor::ValueType::ValueType(fpos.Y()));
 		}
 	};
 
@@ -103,5 +114,42 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	extern template ARGBI64_t ImageInterpolation::NearestNeighbor(const Image<ARGBI64_t>&, const DisplayPointF&);
 	extern template ARGBF32_t ImageInterpolation::NearestNeighbor(const Image<ARGBF32_t>&, const DisplayPointF&);
 	extern template ARGBF64_t ImageInterpolation::NearestNeighbor(const Image<ARGBF64_t>&, const DisplayPointF&);
+	extern template GrayScale1_t ImageInterpolation::Bilinear(const Image<GrayScale1_t>&, const DisplayPointF&);
+	extern template GrayScale8_t ImageInterpolation::Bilinear(const Image<GrayScale8_t>&, const DisplayPointF&);
+	extern template GrayScale16_t ImageInterpolation::Bilinear(const Image<GrayScale16_t>&, const DisplayPointF&);
+	extern template GrayScale32_t ImageInterpolation::Bilinear(const Image<GrayScale32_t>&, const DisplayPointF&);
+	extern template GrayScale64_t ImageInterpolation::Bilinear(const Image<GrayScale64_t>&, const DisplayPointF&);
+	extern template GrayScaleI16_t ImageInterpolation::Bilinear(const Image<GrayScaleI16_t>&, const DisplayPointF&);
+	extern template GrayScaleI32_t ImageInterpolation::Bilinear(const Image<GrayScaleI32_t>&, const DisplayPointF&);
+	extern template GrayScaleI64_t ImageInterpolation::Bilinear(const Image<GrayScaleI64_t>&, const DisplayPointF&);
+	extern template GrayScaleF32_t ImageInterpolation::Bilinear(const Image<GrayScaleF32_t>&, const DisplayPointF&);
+	extern template GrayScaleF64_t ImageInterpolation::Bilinear(const Image<GrayScaleF64_t>&, const DisplayPointF&);
+	extern template CMY8_t ImageInterpolation::Bilinear(const Image<CMY8_t>&, const DisplayPointF&);
+	extern template CMY16_t ImageInterpolation::Bilinear(const Image<CMY16_t>&, const DisplayPointF&);
+	extern template CMY32_t ImageInterpolation::Bilinear(const Image<CMY32_t>&, const DisplayPointF&);
+	extern template CMY64_t ImageInterpolation::Bilinear(const Image<CMY64_t>&, const DisplayPointF&);
+	extern template CMYI16_t ImageInterpolation::Bilinear(const Image<CMYI16_t>&, const DisplayPointF&);
+	extern template CMYI32_t ImageInterpolation::Bilinear(const Image<CMYI32_t>&, const DisplayPointF&);
+	extern template CMYI64_t ImageInterpolation::Bilinear(const Image<CMYI64_t>&, const DisplayPointF&);
+	extern template CMYF32_t ImageInterpolation::Bilinear(const Image<CMYF32_t>&, const DisplayPointF&);
+	extern template CMYF64_t ImageInterpolation::Bilinear(const Image<CMYF64_t>&, const DisplayPointF&);
+	extern template CMYK8_t ImageInterpolation::Bilinear(const Image<CMYK8_t>&, const DisplayPointF&);
+	extern template CMYK16_t ImageInterpolation::Bilinear(const Image<CMYK16_t>&, const DisplayPointF&);
+	extern template CMYK32_t ImageInterpolation::Bilinear(const Image<CMYK32_t>&, const DisplayPointF&);
+	extern template CMYK64_t ImageInterpolation::Bilinear(const Image<CMYK64_t>&, const DisplayPointF&);
+	extern template CMYKI16_t ImageInterpolation::Bilinear(const Image<CMYKI16_t>&, const DisplayPointF&);
+	extern template CMYKI32_t ImageInterpolation::Bilinear(const Image<CMYKI32_t>&, const DisplayPointF&);
+	extern template CMYKI64_t ImageInterpolation::Bilinear(const Image<CMYKI64_t>&, const DisplayPointF&);
+	extern template CMYKF32_t ImageInterpolation::Bilinear(const Image<CMYKF32_t>&, const DisplayPointF&);
+	extern template CMYKF64_t ImageInterpolation::Bilinear(const Image<CMYKF64_t>&, const DisplayPointF&);
+	extern template RGB8_t ImageInterpolation::Bilinear(const Image<RGB8_t>&, const DisplayPointF&);
+	extern template RGB16_t ImageInterpolation::Bilinear(const Image<RGB16_t>&, const DisplayPointF&);
+	extern template RGB32_t ImageInterpolation::Bilinear(const Image<RGB32_t>&, const DisplayPointF&);
+	extern template RGB64_t ImageInterpolation::Bilinear(const Image<RGB64_t>&, const DisplayPointF&);
+	extern template RGBI16_t ImageInterpolation::Bilinear(const Image<RGBI16_t>&, const DisplayPointF&);
+	extern template RGBI32_t ImageInterpolation::Bilinear(const Image<RGBI32_t>&, const DisplayPointF&);
+	extern template RGBI64_t ImageInterpolation::Bilinear(const Image<RGBI64_t>&, const DisplayPointF&);
+	extern template RGBF32_t ImageInterpolation::Bilinear(const Image<RGBF32_t>&, const DisplayPointF&);
+	extern template RGBF64_t ImageInterpolation::Bilinear(const Image<RGBF64_t>&, const DisplayPointF&);
 }
 #endif // __stationaryorbit_geaphics_core_interpolation__
