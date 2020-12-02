@@ -57,21 +57,21 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr RGBColor<Tp> Add(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Add(other._value)); }
 		[[nodiscard]] constexpr RGBColor<Tp> Subtract(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Subtract(other._value)); }
 		[[nodiscard]] constexpr RGBColor<Tp> Multiply(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Multiply(other._value)); }
-		[[nodiscard]] constexpr RGBColor<Tp> Multiply(const ValueType& other) const noexcept { return RGBColor<Tp>(_value.Multiply(other.Data())); }
+		[[nodiscard]] constexpr RGBColor<Tp> Multiply(const ValueType& other) const noexcept { return RGBColor<Tp>(_value.Multiply(other)); }
 		[[nodiscard]] constexpr RGBColor<Tp> Divide(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Divide(other._value)); }
-		[[nodiscard]] constexpr RGBColor<Tp> Divide(const ValueType& other) const noexcept { return RGBColor<Tp>(_value.Divide(other.Data())); }
+		[[nodiscard]] constexpr RGBColor<Tp> Divide(const ValueType& other) const noexcept { return RGBColor<Tp>(_value.Divide(other)); }
 		[[nodiscard]] constexpr RGBColor<Tp> SaturateAdd(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.SaturateAdd(other._value)); }
 		[[nodiscard]] constexpr RGBColor<Tp> SaturateSubtract(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.SaturateSubtract(other._value)); }
 		[[nodiscard]] constexpr RGBColor<Tp> SaturateMultiply(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.SaturateMultiply(other._value)); }
-		[[nodiscard]] constexpr RGBColor<Tp> SaturateMultiply(const ValueType& other) const noexcept { return RGBColor<Tp>(_value.SaturateMultiply(other.Data())); }
+		[[nodiscard]] constexpr RGBColor<Tp> SaturateMultiply(const ValueType& other) const noexcept { return RGBColor<Tp>(_value.SaturateMultiply(other)); }
 		[[nodiscard]] constexpr RGBColor<Tp> SaturateDivide(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.SaturateDivide(other._value)); }
-		[[nodiscard]] constexpr RGBColor<Tp> SaturateDivide(const ValueType& other) const noexcept { return RGBColor<Tp>(_value.SaturateDivide(other.Data())); }
+		[[nodiscard]] constexpr RGBColor<Tp> SaturateDivide(const ValueType& other) const noexcept { return RGBColor<Tp>(_value.SaturateDivide(other)); }
 		[[nodiscard]] constexpr RGBColor<Tp> CheckedAdd(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value.CheckedAdd(other._value)); }
 		[[nodiscard]] constexpr RGBColor<Tp> CheckedSubtract(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value.CheckedSubtract(other._value)); }
 		[[nodiscard]] constexpr RGBColor<Tp> CheckedMultiply(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value.CheckedMultiply(other._value)); }
-		[[nodiscard]] constexpr RGBColor<Tp> CheckedMultiply(const ValueType& other) const { return RGBColor<Tp>(_value.CheckedMultiply(other.Data())); }
+		[[nodiscard]] constexpr RGBColor<Tp> CheckedMultiply(const ValueType& other) const { return RGBColor<Tp>(_value.CheckedMultiply(other)); }
 		[[nodiscard]] constexpr RGBColor<Tp> CheckedDivide(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value.CheckedDivide(other._value)); }
-		[[nodiscard]] constexpr RGBColor<Tp> CheckedDivide(const ValueType& other) const { return RGBColor<Tp>(_value.CheckedDivide(other.Data())); }
+		[[nodiscard]] constexpr RGBColor<Tp> CheckedDivide(const ValueType& other) const { return RGBColor<Tp>(_value.CheckedDivide(other)); }
 		[[nodiscard]] constexpr RGBColor<Tp> And(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.And(other._value)); }
 		[[nodiscard]] constexpr RGBColor<Tp> Or(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Or(other._value)); }
 		[[nodiscard]] constexpr RGBColor<Tp> Not() const noexcept { return RGBColor<Tp>(_value.Not()); }
