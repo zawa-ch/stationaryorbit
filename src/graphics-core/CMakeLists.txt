@@ -40,6 +40,7 @@ add_library(${AssemblyName} SHARED
     grayscalecolor.cpp
     interpolation.cpp
     opacity.cpp
+    pixarray.cpp
     pixmap.cpp
     rgbcolor.cpp
 )
