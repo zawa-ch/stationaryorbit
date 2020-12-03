@@ -97,13 +97,13 @@ void Test_Proportion()
 	std::cout << "<--- Proportion --->" << std::endl;
 
 	// 型トレイト
-	if (Traits::HasArithmeticOperation<Proportion8_t>) { std::cout << "HasArithmeticOperation<Proportion8_t> -> true" << std::endl; } else { throw std::exception(); }
-	if (!Traits::HasBitOperation<Proportion8_t>) { std::cout << "HasBitOperation<Proportion8_t> -> false" << std::endl; } else { throw std::exception(); }
-	if (!Traits::IsIntegerType<Proportion8_t>) { std::cout << "IsIntegerType<Proportion8_t> -> false" << std::endl; } else { throw std::exception(); }
-	if (Traits::Comparable<Proportion8_t>) { std::cout << "Comparable<Proportion8_t> -> true" << std::endl; } else { throw std::exception(); }
-	if (Traits::Equatable<Proportion8_t>) { std::cout << "Equatable<Proportion8_t> -> true" << std::endl; } else { throw std::exception(); }
-	if (Traits::HasSaturateOperation<Proportion8_t>) { std::cout << "HasSaturateOperation<Proportion8_t> -> true" << std::endl; } else { throw std::exception(); }
-	if (Traits::HasCheckedOperation<Proportion8_t>) { std::cout << "HasCheckedOperation<Proportion8_t> -> true" << std::endl; } else { throw std::exception(); }
+	static_assert(Traits::HasArithmeticOperation<Proportion8_t>, "ProportionがTraitsHasArithmeticOperationの要件を満たしません。");
+	static_assert(!Traits::HasBitOperation<Proportion8_t>, "ProportionがTraitsHasBitOperationの要件を満たしました。");
+	static_assert(!Traits::IsIntegerType<Proportion8_t>, "ProportionがTraitsIsIntegerTypeの要件を満たしました。");
+	static_assert(Traits::Comparable<Proportion8_t>, "ProportionがTraitsComparableの要件を満たしません。");
+	static_assert(Traits::Equatable<Proportion8_t>, "ProportionがTraitsEquatableの要件を満たしません。");
+	static_assert(Traits::HasSaturateOperation<Proportion8_t>, "ProportionがTraitsHasSaturateOperationの要件を満たしません。");
+	static_assert(Traits::HasCheckedOperation<Proportion8_t>, "ProportionがTraitsHasCheckedOperationの要件を満たしません。");
 
 	auto p1 = Proportion8_t(0.5);
 	auto p2 = Proportion8_t(0.25);
@@ -119,7 +119,7 @@ void Test_Proportion()
 	if (p1 == Proportion8_t(p3)) { std::cout << "p1 = p3 = " << double(p3) << std::endl; } else { throw std::exception(); }
 	std::cout << "Proportion64_t(p2) = " << double(Proportion64_t(p2)) << std::endl;
 	std::cout << "Proportion64_t(p2).Data = " << Proportion64_t(p2).Data() << std::endl;
-	if (Proportion1_t::Max() == Proportion1_t(Proportion8_t(1.0))) { std::cout << "Proportion1_t::Max() = " << double(Proportion1_t::Max()) << std::endl; } else { throw std::exception(); }
+	static_assert(Proportion1_t::Max() == Proportion1_t(Proportion8_t::Max()), "Proportion1_t::Max() == Proportion1_t(Proportion8_t::Max())を満たしませんでした。");
 }
 
 void Test_Range()
@@ -128,6 +128,8 @@ void Test_Range()
 	static_assert(IteratorTraits::IsIterator<Range<size_t>::IteratorType>, "Range<size_t>::IteratorTypeがIteratorTraits::IsIteratorの要件を満たしません。");
 	static_assert(IteratorTraits::IsSequencialOrderIterator<Range<size_t>::IteratorType>, "Range<size_t>::IteratorTypeがIteratorTraits::IsIteratorの要件を満たしません。");
 	static_assert(IteratorTraits::IsBidirectionalOrderIterator<Range<size_t>::IteratorType>, "Range<size_t>::IteratorTypeがIteratorTraits::IsBidirectionalOrderIteratorの要件を満たしません。");
+	static_assert(Traits::IsSequencialOrder<Range<size_t>::IteratorType>, "Range<size_t>::IteratorTypeがTraits::IsSequencialOrderの要件を満たしません。");
+	static_assert(Traits::IsBidirectionalOrder<Range<size_t>::IteratorType>, "Range<size_t>::IteratorTypeがTraits::IsBidirectionalOrderの要件を満たしません。");
 	// 範囲forを用いて0..9の数値を列挙する
 	for(auto i : Range(0, 10).GetStdIterator())
 	{
