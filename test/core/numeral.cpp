@@ -30,6 +30,7 @@ void Test_Range();
 void Test_Rectangle();
 void Test_Rotation();
 int Test_Vector2d();
+void Test_ZeroValue();
 
 void Test_Numeral()
 {
@@ -41,6 +42,7 @@ void Test_Numeral()
 	Test_Rectangle();
 	Test_Rotation();
 	Test_Vector2d();
+	Test_ZeroValue();
 }
 
 void Test_FixedPoint()
@@ -198,4 +200,16 @@ int Test_Vector2d()
 	}
 
 	return 0;
+}
+
+void Test_ZeroValue()
+{
+	static_assert(Zero == false, "Zero == false ではありません。");
+	static_assert(Zero == 0, "Zero == 0 ではありません。");
+	static_assert(Zero == 0L, "Zero == 0L ではありません。");
+	static_assert(Zero == 0UL, "Zero == 0UL ではありません。");
+	static_assert(Zero == 0.0, "Zero == 0.0 ではありません。");
+	static_assert(Zero == '\0', "Zero == '\\0' ではありません。");
+	static_assert(Zero == (void*)(0), "Zero == (void*)0 ではありません。");
+	static_assert((5 + Zero) == 5, "5 + Zero == 5 ではありません。");
 }
