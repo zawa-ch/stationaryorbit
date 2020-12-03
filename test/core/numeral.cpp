@@ -23,7 +23,6 @@
 using namespace zawa_ch::StationaryOrbit;
 
 void Test_FixedPoint();
-void Test_FractionalDec();
 void Test_Logic();
 void Test_Point();
 void Test_Proportion();
@@ -35,7 +34,6 @@ int Test_Vector2d();
 void Test_Numeral()
 {
 	Test_FixedPoint();
-	Test_FractionalDec();
 	Test_Logic();
 	Test_Point();
 	Test_Proportion();
@@ -61,29 +59,6 @@ void Test_FixedPoint()
 	std::cout << "FixedPoint16q8_t::Max() = " << double(FixedPoint16q8_t::Max()) << std::endl;
 	std::cout << "FixedPoint16q8_t::Min() = " << double(FixedPoint16q8_t::Min()) << std::endl;
 	std::cout << "FixedPoint16q8_t::Epsilon() = " << double(FixedPoint16q8_t::Epsilon()) << std::endl;
-}
-
-void Test_FractionalDec()
-{
-	std::cout << "<--- FractionalDec --->" << std::endl;
-	FractionalDec fr1 = FractionalDec(1, 5);
-	FractionalDec fr2 = FractionalDec(3, 4);
-	std::cout.precision(16);
-	if (double(fr1) == 0.2) { std::cout << "fr1 = 1/5" << std::endl; } else { throw std::exception(); }
-	if (double(fr2) == 0.75) { std::cout << "fr2 = 3/4" << std::endl; } else { throw std::exception(); }
-	if (fr1 < fr2) { std::cout << "fr1 < fr2" << std::endl; } else { throw std::exception(); }
-	if (double(fr1 + fr2) == 0.95) { std::cout << "fr1 + fr2 = 19/20" << std::endl; } else { throw std::exception(); }
-	if (double(fr2 - fr1) == 0.55) { std::cout << "fr2 - fr1 = 11/20" << std::endl; } else { throw std::exception(); }
-	if (double(fr1.Square()) == (1.0 / 25.0)) { std::cout << "fr1^2 = 1/25" << std::endl; } else { throw std::exception(); }
-	if (double(fr2.Square()) == (9.0 / 16.0)) { std::cout << "fr2^2 = 9/16" << std::endl; } else { throw std::exception(); }
-	if (double(fr1 * fr1) != double(fr1.Square())) { throw std::exception(); }
-	if (double(fr2 * fr2) != double(fr2.Square())) { throw std::exception(); }
-	if (double(FractionalDec::Max() - fr2) == 0.25) { std::cout << "~fr2 = 1/4" << std::endl; } else { throw std::exception(); }
-	if (double((fr1 * fr1).Sqrt()) != double(fr1)) { throw std::exception(); }
-	std::cout << "sqrt(fr1) = " << double((fr1).Sqrt()) << std::endl;
-	std::cout << "epsilon = " << double(FractionalDec::Epsilon()) << std::endl;
-	std::cout << "~epsilon = " << double(FractionalDec::Max() - FractionalDec::Epsilon()) << std::endl;
-	std::cout << "1 == ~epsilon = " << bool((FractionalDec::Max())==(FractionalDec::Max() - FractionalDec::Epsilon())) << std::endl;
 }
 
 void Test_Logic()
