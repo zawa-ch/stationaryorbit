@@ -25,6 +25,7 @@
 #include "fundamental.hpp"
 #include "range.hpp"
 #include "zerovalue.hpp"
+#include "proportion.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	固定小数点数を表します。
@@ -58,6 +59,8 @@ namespace zawa_ch::StationaryOrbit
 		///	ほかの @a FixedPoint テンプレート型から変換します。
 		template<class fromTp, size_t fromQ>
 		constexpr explicit FixedPoint(const FixedPoint<fromTp, fromQ>& from) : FixedPoint(from.template CastTo<Tp, Ql>()) {}
+		template<class fromTp>
+		constexpr explicit FixedPoint(const Proportion<fromTp>& from) : _value(Algorithms::IntegralFraction(Proportion<Tp>(from).Data(), Proportion<Tp>::Max().Data(), Tp(1) << Ql)) {}
 		constexpr FixedPoint(const ZeroValue_t&) : _value(0) {}
 		constexpr FixedPoint(const FixedPoint<Tp, Ql>&) = default;
 		constexpr FixedPoint(FixedPoint<Tp, Ql>&&) = default;
@@ -176,6 +179,12 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr explicit operator float() const { return convertToFloat<float>(); }
 		[[nodiscard]] constexpr explicit operator double() const { return convertToFloat<double>(); }
+		template<class castTp>
+		[[nodiscard]] constexpr explicit operator Proportion<castTp>() const
+		{
+			if (One() < *this) { return InvalidOperationException("現在のオブジェクトの値が大きすぎるため、Proportionに変換できません。"); }
+			return Proportion<castTp>(Proportion<Tp>(_value, 1 << Ql));
+		}
 
 	public:
 		///	この型で表すことのできる最大の値を取得します。
