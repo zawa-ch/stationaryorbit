@@ -40,6 +40,8 @@ namespace zawa_ch::StationaryOrbit
 		template<class Tp>
 		static constexpr Tp IntegralFraction(const Tp& numerator, const Tp& denominator, const Tp& scale)
 		{
+			// FIXME: scale < denominator のときに計算が正しく実行されない
+			// unit=0となる結果surplusに大きな値が入り、mdがオーバーフローする
 			static_assert(std::is_unsigned_v<Tp>, "テンプレート型 Tp は符号なし算術型である必要があります。");
 			if constexpr (std::is_same_v<Tp, bool>)
 			{
