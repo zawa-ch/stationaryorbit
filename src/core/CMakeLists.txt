@@ -26,6 +26,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/stationaryorbit/core.delegate.hpp
     ${Include_Dir}/stationaryorbit/core.numeral.hpp
     ${Include_Dir}/stationaryorbit/core.property.hpp
+    algorithms.cpp
     fixedpoint.cpp
     proportion.cpp
     real.cpp
