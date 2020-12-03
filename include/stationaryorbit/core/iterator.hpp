@@ -224,6 +224,7 @@ namespace zawa_ch::StationaryOrbit
 	{
 		static_assert(IteratorTraits::IsBidirectionalOrderIterator<T>, "テンプレート型 T はIteratorTraits::IsBidirectionalOrderIteratorを満たす必要があります。");
 		template<class, class> friend class IteratorAdaptContainer;
+		template<class> friend class IteratorReverseAdaptContainer;
 	private:
 		std::optional<T> _itr;
 	public:
@@ -283,6 +284,7 @@ namespace zawa_ch::StationaryOrbit
 	{
 		static_assert(IteratorTraits::IsLinearOrderIterator<T>, "テンプレート型 T はIteratorTraits::IsLinearOrderIteratorを満たす必要があります。");
 		template<class, class> friend class IteratorAdaptContainer;
+		template<class> friend class IteratorReverseAdaptContainer;
 	private:
 		std::optional<T> _itr;
 	public:
@@ -402,6 +404,7 @@ namespace zawa_ch::StationaryOrbit
 	{
 		static_assert(IteratorTraits::IsBidirectionalOrderIterator<T>, "テンプレート型 T はIteratorTraits::IsBidirectionalOrderIteratorを満たす必要があります。");
 		template<class, class> friend class IteratorAdaptContainer;
+		template<class> friend class IteratorReverseAdaptContainer;
 	private:
 		std::optional<T> _itr;
 	public:
@@ -461,6 +464,7 @@ namespace zawa_ch::StationaryOrbit
 	{
 		static_assert(IteratorTraits::IsLinearOrderIterator<T>, "テンプレート型 T はIteratorTraits::IsLinearOrderIteratorを満たす必要があります。");
 		template<class, class> friend class IteratorAdaptContainer;
+		template<class> friend class IteratorReverseAdaptContainer;
 	private:
 		std::optional<T> _itr;
 	public:
@@ -670,21 +674,21 @@ namespace zawa_ch::StationaryOrbit
 		constexpr IteratorAdaptContainer<T> Reverce() const { return IteratorAdaptContainer(_itr); }
 
 		///	最初の要素を指すイテレータを取得します。
-		constexpr reverse_iterator begin() const { auto result = _itr; result.Reset(IteratorOrigin::End); return reverse_iterator(result); }
+		constexpr iterator begin() const { auto result = _itr; result.Reset(IteratorOrigin::End); return iterator(result); }
 		///	最後の要素を指すイテレータを取得します。
-		constexpr reverse_iterator end() const { return reverse_iterator(nullptr); }
+		constexpr iterator end() const { return iterator(nullptr); }
 		///	最初の要素を指すイテレータを取得します。
-		constexpr reverse_const_iterator cbegin() const { return begin(); }
+		constexpr const_iterator cbegin() const { return begin(); }
 		///	最後の要素を指すイテレータを取得します。
-		constexpr reverse_const_iterator cend() const { return end(); }
+		constexpr const_iterator cend() const { return end(); }
 		///	最初の要素を指す逆イテレータを取得します。
-		constexpr iterator rbegin() const { auto result = _itr; result.Reset(); return iterator(result); }
+		constexpr reverse_iterator rbegin() const { auto result = _itr; result.Reset(); return reverse_iterator(result); }
 		///	最後の要素を指す逆イテレータを取得します。
-		constexpr iterator rend() const { return iterator(nullptr); }
+		constexpr reverse_iterator rend() const { return reverse_iterator(nullptr); }
 		///	最初の要素を指す逆イテレータを取得します。
-		constexpr const_iterator crbegin() const { return rbegin(); }
+		constexpr reverse_const_iterator crbegin() const { return rbegin(); }
 		///	最後の要素を指す逆イテレータを取得します。
-		constexpr const_iterator crend() const { return rend(); }
+		constexpr reverse_const_iterator crend() const { return rend(); }
 	};
 
 	template<class contT, class T = typename contT::value_type>

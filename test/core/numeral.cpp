@@ -137,11 +137,8 @@ void Test_Range()
 	}
 	std::cout << std::endl;
 	// 逆イテレータを使用して5..11の数値を逆に列挙する
-	auto range = Range(5, 12);
-	auto rit = range.GetIteratorEnd();
-	while(rit.HasValue())
+	for(auto i : Range(5, 12).GetStdReverseIterator())
 	{
-		auto i = *rit--;
 		std::cout << i << " ";
 	}
 	std::cout << std::endl;
