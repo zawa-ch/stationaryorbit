@@ -59,8 +59,9 @@ namespace zawa_ch::StationaryOrbit
 				}
 				else
 				{
+					bool s = (numerator < Tp(0)) ^ (denominator < Tp(0)) ^ (scale < Tp(0));
 					auto r = IntegralFraction<std::make_unsigned_t<Tp>>((numerator >= Tp(0))?numerator:-numerator, (denominator >= Tp(0))?denominator:-denominator, (scale >= Tp(0))?scale:-scale);
-					return { ((numerator < Tp(0)) ^ (denominator < Tp(0)) ^ (scale < Tp(0)))?(-r.Value):(r.Value), ((numerator < Tp(0)) ^ (denominator < Tp(0)) ^ (scale < Tp(0)))?(-r.Mod):(r.Mod) };
+					return { Tp((s)?(-Tp(r.Value)):(Tp(r.Value))), Tp((s)?(-Tp(r.Mod)):(Tp(r.Mod))) };
 				}
 			}
 		}
@@ -179,6 +180,15 @@ namespace zawa_ch::StationaryOrbit
 		}
 	};
 
+	extern template DivisionResult<bool> Algorithms::IntegralFraction<bool>(const bool& numerator, const bool& denominator, const bool& scale);
+	extern template DivisionResult<uint8_t> Algorithms::IntegralFraction<uint8_t>(const uint8_t& numerator, const uint8_t& denominator, const uint8_t& scale);
+	extern template DivisionResult<uint16_t> Algorithms::IntegralFraction<uint16_t>(const uint16_t& numerator, const uint16_t& denominator, const uint16_t& scale);
+	extern template DivisionResult<uint32_t> Algorithms::IntegralFraction<uint32_t>(const uint32_t& numerator, const uint32_t& denominator, const uint32_t& scale);
+	extern template DivisionResult<uint64_t> Algorithms::IntegralFraction<uint64_t>(const uint64_t& numerator, const uint64_t& denominator, const uint64_t& scale);
+	extern template DivisionResult<int8_t> Algorithms::IntegralFraction<int8_t>(const int8_t& numerator, const int8_t& denominator, const int8_t& scale);
+	extern template DivisionResult<int16_t> Algorithms::IntegralFraction<int16_t>(const int16_t& numerator, const int16_t& denominator, const int16_t& scale);
+	extern template DivisionResult<int32_t> Algorithms::IntegralFraction<int32_t>(const int32_t& numerator, const int32_t& denominator, const int32_t& scale);
+	extern template DivisionResult<int64_t> Algorithms::IntegralFraction<int64_t>(const int64_t& numerator, const int64_t& denominator, const int64_t& scale);
 	extern template bool Algorithms::MayOverflowWithAddition<bool>(const bool&, const bool&);
 	extern template bool Algorithms::MayOverflowWithAddition<char>(const char&, const char&);
 	extern template bool Algorithms::MayOverflowWithAddition<signed char>(const signed char&, const signed char&);
