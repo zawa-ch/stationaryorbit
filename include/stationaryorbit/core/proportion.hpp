@@ -57,7 +57,17 @@ namespace zawa_ch::StationaryOrbit
 		///	@a double から値をキャストします。
 		constexpr explicit Proportion(const double& from) : _value(convertFromFloat(from)) {}
 		///	分子・分母の値からオブジェクトを作成します。
-		constexpr Proportion(const ValueType& numerator, const ValueType& denominator) : Proportion(checkedFraction(numerator, denominator), UnitValue) {}
+		constexpr Proportion(const ValueType& numerator, const ValueType& denominator)
+			: Proportion
+			(
+				[](const auto& n, const auto& d) -> ValueType
+				{
+					auto v = checkedFraction(n, d);
+					return v.Value + (((d/2) <= v.Mod)?(1):(0));
+				} (numerator, denominator)
+				, UnitValue
+			)
+		{}
 		///	@a オブジェクトの内部の型をキャストします。
 		template<class fromT> constexpr explicit Proportion(const Proportion<fromT>& from) noexcept : Proportion(from.template CastTo<Tp>()) {}
 		constexpr Proportion(const ZeroValue_t&) : _value(0) {}
@@ -82,7 +92,7 @@ namespace zawa_ch::StationaryOrbit
 		///	このオブジェクトと指定されたオブジェクトの積を求めます。
 		[[nodiscard]] constexpr Proportion<Tp> Mul(const Proportion<Tp>& other) const noexcept { return Proportion(multiple_inner(_value, other._value), UnitValue); }
 		///	このオブジェクトと指定されたオブジェクトの商を求めます。
-		[[nodiscard]] constexpr Proportion<Tp> Div(const Proportion<Tp>& other) const noexcept { return Proportion(Algorithms::IntegralFraction(_value, other._value, std::numeric_limits<Tp>::max()), UnitValue); }
+		[[nodiscard]] constexpr Proportion<Tp> Div(const Proportion<Tp>& other) const noexcept { return Proportion(Algorithms::IntegralFraction(_value, other._value, std::numeric_limits<Tp>::max()).Value, UnitValue); }
 		///	このオブジェクトと指定されたオブジェクトの和を求めます。
 		///	計算結果がオーバーフローする場合、表現できる値域に丸めを行います。
 		[[nodiscard]] constexpr Proportion<Tp> SaturateAdd(const Proportion<Tp>& other) const noexcept
@@ -109,7 +119,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr Proportion<Tp> SaturateDivide(const Proportion<Tp>& other) const noexcept
 		{
 			if (other._value < _value) { return Max(); }
-			return DirectConstruct(checkedFraction(_value, other._value));
+			return DirectConstruct(checkedFraction(_value, other._value).Value);
 		}
 		///	このオブジェクトと指定されたオブジェクトの和を求めます。
 		///	計算結果がオーバーフローする場合、例外をスローします。
@@ -147,7 +157,7 @@ namespace zawa_ch::StationaryOrbit
 		///	std::overflow_error
 		///	計算結果がオーバーフローしました。
 		[[nodiscard]] constexpr Proportion<Tp> CheckedDivide(const Proportion<Tp>& other) const
-		{ return DirectConstruct(checkedFraction(_value, other._value)); }
+		{ return DirectConstruct(checkedFraction(_value, other._value).Value); }
 		///	この値の平方数を取得します。
 		[[nodiscard]] constexpr Proportion<Tp> Square() const noexcept { return Mul(*this); }
 		///	この値の平方根を取得します。
@@ -161,7 +171,7 @@ namespace zawa_ch::StationaryOrbit
 				if (result == 0U) { break; }
 				b = result;	///< 前回値(X[N])保持
 				// a / X[N] の導出
-				ValueType delta = Algorithms::IntegralFraction(_value, b, std::numeric_limits<Tp>::max());
+				ValueType delta = Algorithms::IntegralFraction(_value, b, std::numeric_limits<Tp>::max()).Value;
 				// X[N] / 2
 				result /= 2;
 				// 剰余分の計算
@@ -291,7 +301,7 @@ namespace zawa_ch::StationaryOrbit
 		///	0で除算することはできません。
 		///	std::overflow_error
 		///	被除数が除数を超えました。
-		static constexpr ValueType checkedFraction(const ValueType& numerator, const ValueType& denominator)
+		static constexpr DivisionResult<ValueType> checkedFraction(const ValueType& numerator, const ValueType& denominator)
 		{
 			if constexpr ((std::is_integral_v<ValueType>)&&(std::is_unsigned_v<ValueType>))
 			{
