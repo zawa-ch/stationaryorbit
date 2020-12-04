@@ -20,6 +20,8 @@
 #define __stationaryorbit__core_algorithms__
 #include <stdexcept>
 #include "traits.hpp"
+#include "range.hpp"
+#include "multiplelong.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	ライブラリで使用される基本的なアルゴリズムを実装します。
@@ -40,38 +42,28 @@ namespace zawa_ch::StationaryOrbit
 		template<class Tp>
 		static constexpr Tp IntegralFraction(const Tp& numerator, const Tp& denominator, const Tp& scale)
 		{
-			// FIXME: scale < denominator のときに計算が正しく実行されない
-			// unit=0となる結果surplusに大きな値が入り、mdがオーバーフローする
-			static_assert(std::is_unsigned_v<Tp>, "テンプレート型 Tp は符号なし算術型である必要があります。");
+			static_assert(std::is_same_v<Tp, bool> || Traits::IsNumeralType<Tp>, "テンプレート型 Tp は算術型またはboolである必要があります。");
+			static_assert(!std::numeric_limits<Tp>::is_signed, "テンプレート型 Tp は符号なしである必要があります。");
+
 			if constexpr (std::is_same_v<Tp, bool>)
 			{
 				if (denominator == false) { throw std::invalid_argument("分母に0を指定することはできません。"); }
-				return numerator;
+				return numerator&&scale;
 			}
-			if constexpr ((std::is_integral_v<Tp>)&&(std::is_unsigned_v<Tp>))
+			else
 			{
-				if (denominator == 0U) { throw std::invalid_argument("分母に0を指定することはできません。"); }
-				Tp unit = scale / denominator;
-				Tp result = unit * numerator;
-				Tp surplus = scale % denominator;
-				if (surplus != 0U)
+				if constexpr (!std::numeric_limits<Tp>::is_signed)
 				{
-					Tp dv = 0U;
-					Tp md = 0U;
-					for(size_t i = (sizeof(Tp) * 8U); 0 < i; i--)
-					{
-						dv *= 2U;
-						md *= 2U;
-						if (numerator & (Tp(1U) << (i - 1)))
-						{
-							md += surplus;
-						}
-						dv += md / denominator;
-						md %= denominator;
-					}
-					result += dv;
+					auto r = MultipleULong<Tp, 2UL>(numerator);
+					r *= scale;
+					r /= denominator;
+					return Tp(r);
 				}
-				return result;
+				else
+				{
+					auto r = IntegralFraction<std::make_unsigned_t<Tp>>((numerator >= Tp(0))?numerator:-numerator, (denominator >= Tp(0))?denominator:-denominator, (scale >= Tp(0))?scale:-scale);
+					return ((numerator < Tp(0)) ^ (denominator < Tp(0)) ^ (scale < Tp(0)))?(-r):(r);
+				}
 			}
 		}
 
