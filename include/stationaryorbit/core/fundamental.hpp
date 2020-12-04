@@ -34,5 +34,12 @@ namespace zawa_ch::StationaryOrbit
 	typedef float float32_t;
 	typedef double float64_t;
 	typedef long double floatmax_t;
+
+	template<class T>
+	struct DivisionResult final
+	{
+		T Value;
+		T Mod;
+	};
 }
 #endif // __stationaryorbit_core_fundamental__
