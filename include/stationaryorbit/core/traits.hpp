@@ -113,6 +113,12 @@ namespace zawa_ch::StationaryOrbit
 		///	前置インクリメント演算子++の実装を識別します。
 		template<class, class, class = std::void_t<>>
 		struct HasPreIncrement_t : std::false_type {};
+		#if 201703L <= __cplusplus
+		// Clang C++17でコンパイルするとbool::operator++()を実体化しようとしてエラーを吐くため
+		// boolによるインクリメントトレイトは強制的にfalseで実体化する
+		template<class R>
+		struct HasPreIncrement_t<bool, R> : std::false_type {};
+		#endif
 		template<class T, class R>
 		struct HasPreIncrement_t<T, R, std::void_t< decltype( ++std::declval<T&>() ) > >
 			: std::is_convertible< decltype( ++std::declval<T&>() ), R> {};
@@ -127,6 +133,12 @@ namespace zawa_ch::StationaryOrbit
 		///	後置インクリメント演算子++の実装を識別します。
 		template<class, class, class = std::void_t<>>
 		struct HasPostIncrement_t : std::false_type {};
+		#if 201703L <= __cplusplus
+		// Clang C++17でコンパイルするとbool::operator++(int)を実体化しようとしてエラーを吐くため
+		// boolによるインクリメントトレイトは強制的にfalseで実体化する
+		template<class R>
+		struct HasPostIncrement_t<bool, R> : std::false_type {};
+		#endif
 		template<class T, class R>
 		struct HasPostIncrement_t<T, R, std::void_t< decltype( std::declval<T&>()++ ) > >
 			: std::is_convertible< decltype( std::declval<T&>()++ ), R> {};
@@ -397,7 +409,7 @@ namespace zawa_ch::StationaryOrbit
 		struct IsNumeralType_t : std::conjunction< IsValueType_t<T>, HasArithmeticOperation_t<T>, Comparable_t<T, T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
 
 		template<class T>
-		struct IsIntegerType_t : std::conjunction< IsNumeralType_t<T>, HasModulation_t<T, T, T>, HasBitOperation_t<T, T>, IsBidirectionalOrder_t<T> > {};
+		struct IsIntegerType_t : std::conjunction< IsNumeralType_t<T>, IsBitSequence_t<T>, HasModulation_t<T, T, T>, HasBitOperation_t<T, T>, IsBidirectionalOrder_t<T> > {};
 
 		template<class, class, class = std::void_t<>>
 		struct HasSaturateAddition_t : std::false_type {};
