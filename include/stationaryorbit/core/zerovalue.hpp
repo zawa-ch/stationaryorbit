@@ -31,6 +31,8 @@ namespace zawa_ch::StationaryOrbit
 		constexpr ZeroValue_t(ZeroValue_t&&) = default;
 
 		constexpr operator bool() const { return 0; }
+		template<class = std::enable_if_t<std::negation_v<std::is_same<std::nullptr_t, void*>>>>
+		constexpr operator void*() const { return (void*)(0); }
 		constexpr operator std::nullptr_t() const { return nullptr; }
 		constexpr operator std::byte() const { return std::byte('\0'); }
 
