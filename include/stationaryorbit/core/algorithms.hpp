@@ -40,29 +40,27 @@ namespace zawa_ch::StationaryOrbit
 		///	std::invalid_argument
 		///	0で除算することはできません。
 		template<class Tp>
-		static constexpr Tp IntegralFraction(const Tp& numerator, const Tp& denominator, const Tp& scale)
+		static constexpr DivisionResult<Tp> IntegralFraction(const Tp& numerator, const Tp& denominator, const Tp& scale)
 		{
 			static_assert(std::is_same_v<Tp, bool> || Traits::IsIntegerType<Tp>, "テンプレート型 Tp は整数型またはboolである必要があります。");
 
 			if constexpr (std::is_same_v<Tp, bool>)
 			{
 				if (denominator == false) { throw std::invalid_argument("分母に0を指定することはできません。"); }
-				return numerator&&scale;
+				return { numerator&&scale, false };
 			}
 			if constexpr (Traits::IsIntegerType<Tp>)
 			{
 				if (denominator == Tp(0)) { throw std::invalid_argument("分母に0を指定することはできません。"); }
 				if constexpr (!std::numeric_limits<Tp>::is_signed)
 				{
-					auto r = MultipleULong<Tp, 2UL>(numerator);
-					r *= scale;
-					r /= denominator;
-					return Tp(r);
+					auto r = (MultipleULong<Tp, 2UL>(numerator) * scale).Divide(denominator);
+					return { Tp(r.Value), Tp(r.Mod) };
 				}
 				else
 				{
 					auto r = IntegralFraction<std::make_unsigned_t<Tp>>((numerator >= Tp(0))?numerator:-numerator, (denominator >= Tp(0))?denominator:-denominator, (scale >= Tp(0))?scale:-scale);
-					return ((numerator < Tp(0)) ^ (denominator < Tp(0)) ^ (scale < Tp(0)))?(-r):(r);
+					return { ((numerator < Tp(0)) ^ (denominator < Tp(0)) ^ (scale < Tp(0)))?(-r.Value):(r.Value), ((numerator < Tp(0)) ^ (denominator < Tp(0)) ^ (scale < Tp(0)))?(-r.Mod):(r.Mod) };
 				}
 			}
 		}
