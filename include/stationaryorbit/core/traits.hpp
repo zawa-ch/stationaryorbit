@@ -391,6 +391,9 @@ namespace zawa_ch::StationaryOrbit
 		{};
 
 		template<class T>
+		struct IsBitSequence_t : std::conjunction< IsValueType_t<T>, HasBitOperation_t<T, int> > {};
+
+		template<class T>
 		struct IsNumeralType_t : std::conjunction< IsValueType_t<T>, HasArithmeticOperation_t<T>, Comparable_t<T, T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
 
 		template<class T>
@@ -645,6 +648,8 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class N = std::make_signed_t<size_t>> inline constexpr static bool IsLinearOrder = IsLinearOrder_t<T, N>::value;
 		///	値型を識別します。
 		template<class T> inline constexpr static bool IsValueType = IsValueType_t<T>::value;
+		///	ビット列型を識別します。
+		template<class T> inline constexpr static bool IsBitSequence = IsBitSequence_t<T>::value;
 		///	算術型を識別します。
 		template<class T> inline constexpr static bool IsNumeralType = IsNumeralType_t<T>::value;
 		///	整数型を識別します。
