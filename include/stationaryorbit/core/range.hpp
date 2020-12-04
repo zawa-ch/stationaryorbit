@@ -104,6 +104,7 @@ namespace zawa_ch::StationaryOrbit
 		constexpr IteratorType GetIteratorBegin() const noexcept { return IteratorType(*this, IteratorOrigin::Begin); }
 		constexpr IteratorType GetIteratorEnd() const noexcept { return IteratorType(*this, IteratorOrigin::End); }
 		IteratorAdaptContainer<IteratorType> GetStdIterator() const noexcept { return IteratorAdaptContainer<IteratorType>(GetIteratorBegin()); }
+		IteratorReverseAdaptContainer<IteratorType> GetStdReverseIterator() const noexcept { return IteratorReverseAdaptContainer<IteratorType>(GetIteratorBegin()); }
 
 	public: // equatable
 
