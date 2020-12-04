@@ -60,7 +60,18 @@ namespace zawa_ch::StationaryOrbit
 		template<class fromTp, size_t fromQ>
 		constexpr explicit FixedPoint(const FixedPoint<fromTp, fromQ>& from) : FixedPoint(from.template CastTo<Tp, Ql>()) {}
 		template<class fromTp>
-		constexpr explicit FixedPoint(const Proportion<fromTp>& from) : _value(Algorithms::IntegralFraction(Proportion<Tp>(from).Data(), Proportion<Tp>::Max().Data(), Tp(1) << Ql)) {}
+		constexpr explicit FixedPoint(const Proportion<fromTp>& from)
+			: _value
+			(
+				[](const auto& i) -> ValueType
+				{
+					const auto n = Proportion<Tp>(i).Data();
+					const auto d = Proportion<Tp>::Max().Data();
+					auto v = Algorithms::IntegralFraction<Tp>(n, d, Tp(1) << Ql);
+					return v.Value + (((d/2) <= v.Mod)?(1):(0));
+				}(from)
+			)
+		{}
 		constexpr FixedPoint(const ZeroValue_t&) : _value(0) {}
 		constexpr FixedPoint(const FixedPoint<Tp, Ql>&) = default;
 		constexpr FixedPoint(FixedPoint<Tp, Ql>&&) = default;
@@ -182,7 +193,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class castTp>
 		[[nodiscard]] constexpr explicit operator Proportion<castTp>() const
 		{
-			if (One() < *this) { return InvalidOperationException("現在のオブジェクトの値が大きすぎるため、Proportionに変換できません。"); }
+			if (One() < *this) { throw InvalidOperationException("現在のオブジェクトの値が大きすぎるため、Proportionに変換できません。"); }
 			return Proportion<castTp>(Proportion<Tp>(_value, 1 << Ql));
 		}
 
