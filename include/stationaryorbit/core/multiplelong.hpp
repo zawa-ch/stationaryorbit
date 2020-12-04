@@ -49,7 +49,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr MultipleULong<T, N> operator+(const MultipleULong<T, N>& other) const noexcept
 		{
 			bool c = false;
-			MultipleULong<T, N> result;
+			auto result = MultipleULong<T, N>();
 			for (auto i: Range<size_t>(0, _data.size()).GetStdIterator())
 			{
 				result._data[i] = _data[i] + (c?1U:0U);
@@ -61,7 +61,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr MultipleULong<T, N> operator-(const MultipleULong<T, N>& other) const noexcept
 		{
 			bool b = false;
-			MultipleULong<T, N> result;
+			auto result = MultipleULong<T, N>();
 			for (auto i: Range<size_t>(0, _data.size()).GetStdIterator())
 			{
 				result._data[i] = _data[i] - (b?1U:0U);
@@ -72,7 +72,7 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr MultipleULong<T, N> operator*(const MultipleULong<T, N>& other) const noexcept
 		{
-			MultipleULong<T, N> result;
+			auto result = MultipleULong<T, N>();
 			for (auto i: Range<size_t>(0, BitWidth<T> * N).GetStdIterator())
 			{
 				if ((other & (MultipleULong<T, N>(1)<<i)) != 0)
@@ -89,9 +89,9 @@ namespace zawa_ch::StationaryOrbit
 			{
 				if (((other << i) & (MultipleULong<T, N>(1U) << (BitWidth<T> * N - 1))) != 0) { w = i; break; }
 			}
-			MultipleULong<T, N> result;
+			auto result = MultipleULong<T, N>();
 			MultipleULong<T, N> surplus = *this;
-			for (auto i: Range<size_t, true, true>(w, BitWidth<T> * N).GetStdReverseIterator())
+			for (auto i: Range<size_t>(0, w).GetStdReverseIterator())
 			{
 				MultipleULong<T, N> div = other << i;
 				if (div <= surplus)
@@ -109,9 +109,9 @@ namespace zawa_ch::StationaryOrbit
 			{
 				if (((other << i) & (MultipleULong<T, N>(1U) << (BitWidth<T> * N - 1))) != 0) { w = i; }
 			}
-			MultipleULong<T, N> result;
+			auto result = MultipleULong<T, N>();
 			MultipleULong<T, N> surplus = *this;
-			for (auto i: Range<size_t, true, true>(w, BitWidth<T> * N).GetStdReverseIterator())
+			for (auto i: Range<size_t>(0, w).GetStdReverseIterator())
 			{
 				MultipleULong<T, N> div = other << i;
 				if (div <= surplus)
@@ -124,7 +124,7 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr MultipleULong<T, N> operator~() const noexcept
 		{
-			MultipleULong<T, N> result;
+			auto result = MultipleULong<T, N>();
 			for (auto i: Range<size_t>(0, _data.size()).GetStdIterator())
 			{
 				result._data[i] = ~_data[i];
@@ -133,7 +133,7 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr MultipleULong<T, N> operator|(const MultipleULong<T, N>& other) const noexcept
 		{
-			MultipleULong<T, N> result;
+			auto result = MultipleULong<T, N>();
 			for (auto i: Range<size_t>(0, _data.size()).GetStdIterator())
 			{
 				result._data[i] = _data[i] | other._data[i];
@@ -142,7 +142,7 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr MultipleULong<T, N> operator&(const MultipleULong<T, N>& other) const noexcept
 		{
-			MultipleULong<T, N> result;
+			auto result = MultipleULong<T, N>();
 			for (auto i: Range<size_t>(0, _data.size()).GetStdIterator())
 			{
 				result._data[i] = _data[i] & other._data[i];
@@ -151,7 +151,7 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr MultipleULong<T, N> operator^(const MultipleULong<T, N>& other) const noexcept
 		{
-			MultipleULong<T, N> result;
+			auto result = MultipleULong<T, N>();
 			for (auto i: Range<size_t>(0, _data.size()).GetStdIterator())
 			{
 				result._data[i] = _data[i] ^ other._data[i];
@@ -162,7 +162,7 @@ namespace zawa_ch::StationaryOrbit
 		{
 			size_t shiftindex = count / BitWidth<T>;
 			size_t shiftbit = count % BitWidth<T>;
-			MultipleULong<T, N> result;
+			auto result = MultipleULong<T, N>();
 			for (size_t i = 0U; (i < _data.size()) && ((i + shiftindex) < _data.size()); i++)
 			{
 				if ((shiftbit != 0U) && (i + shiftindex + 1U) < _data.size()) { result._data[i] |= _data[i + shiftindex + 1U] << (BitWidth<T> - shiftbit); }
@@ -174,7 +174,7 @@ namespace zawa_ch::StationaryOrbit
 		{
 			size_t shiftindex = count / BitWidth<T>;
 			size_t shiftbit = count % BitWidth<T>;
-			MultipleULong<T, N> result;
+			auto result = MultipleULong<T, N>();
 			for (size_t i = shiftindex; i < _data.size(); i++)
 			{
 				if ((shiftbit != 0U) && (0U < (i - shiftindex))) { result._data[i] |= _data[i - shiftindex - 1U] >> (BitWidth<T> - shiftbit); }
@@ -190,6 +190,7 @@ namespace zawa_ch::StationaryOrbit
 		constexpr MultipleULong<T, N>& operator+=(const MultipleULong<T, N>& other) noexcept { return *this = *this + other; }
 		constexpr MultipleULong<T, N>& operator-=(const MultipleULong<T, N>& other) noexcept { return *this = *this - other; }
 		constexpr MultipleULong<T, N>& operator*=(const MultipleULong<T, N>& other) noexcept { return *this = *this * other; }
+		constexpr MultipleULong<T, N>& operator/=(const MultipleULong<T, N>& other) noexcept { return *this = *this / other; }
 		constexpr MultipleULong<T, N>& operator|=(const MultipleULong<T, N>& other) noexcept { return *this = *this | other; }
 		constexpr MultipleULong<T, N>& operator&=(const MultipleULong<T, N>& other) noexcept { return *this = *this & other; }
 		constexpr MultipleULong<T, N>& operator^=(const MultipleULong<T, N>& other) noexcept { return *this = *this ^ other; }
