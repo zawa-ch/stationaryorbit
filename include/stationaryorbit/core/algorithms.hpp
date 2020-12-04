@@ -42,16 +42,16 @@ namespace zawa_ch::StationaryOrbit
 		template<class Tp>
 		static constexpr Tp IntegralFraction(const Tp& numerator, const Tp& denominator, const Tp& scale)
 		{
-			static_assert(std::is_same_v<Tp, bool> || Traits::IsNumeralType<Tp>, "テンプレート型 Tp は算術型またはboolである必要があります。");
-			static_assert(!std::numeric_limits<Tp>::is_signed, "テンプレート型 Tp は符号なしである必要があります。");
+			static_assert(std::is_same_v<Tp, bool> || Traits::IsIntegerType<Tp>, "テンプレート型 Tp は整数型またはboolである必要があります。");
 
 			if constexpr (std::is_same_v<Tp, bool>)
 			{
 				if (denominator == false) { throw std::invalid_argument("分母に0を指定することはできません。"); }
 				return numerator&&scale;
 			}
-			else
+			if constexpr (Traits::IsIntegerType<Tp>)
 			{
+				if (denominator == Tp(0)) { throw std::invalid_argument("分母に0を指定することはできません。"); }
 				if constexpr (!std::numeric_limits<Tp>::is_signed)
 				{
 					auto r = MultipleULong<Tp, 2UL>(numerator);
