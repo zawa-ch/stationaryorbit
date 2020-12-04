@@ -20,6 +20,7 @@
 #define __stationaryorbit_core_multiplelong__
 #include <cstddef>
 #include <array>
+#include "fundamental.hpp"
 #include "zerovalue.hpp"
 #include "traits.hpp"
 #include "range.hpp"
@@ -81,6 +82,26 @@ namespace zawa_ch::StationaryOrbit
 				}
 			}
 			return result;
+		}
+		[[nodiscard]] constexpr DivisionResult<MultipleULong<T, N>> Divide(const MultipleULong<T, N>& other) const noexcept
+		{
+			size_t w = 0;
+			for (auto i: Range<size_t>(0, BitWidth<T> * N).GetStdIterator())
+			{
+				if (((other << i) & (MultipleULong<T, N>(1U) << (BitWidth<T> * N - 1))) != 0) { w = i; break; }
+			}
+			auto result = MultipleULong<T, N>();
+			MultipleULong<T, N> surplus = *this;
+			for (auto i: Range<size_t>(0, w).GetStdReverseIterator())
+			{
+				MultipleULong<T, N> div = other << i;
+				if (div <= surplus)
+				{
+					result |= MultipleULong<T, N>(1) << i;
+					surplus -= div;
+				}
+			}
+			return { result, surplus };
 		}
 		[[nodiscard]] constexpr MultipleULong<T, N> operator/(const MultipleULong<T, N>& other) const noexcept
 		{
