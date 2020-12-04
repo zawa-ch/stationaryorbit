@@ -28,6 +28,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/stationaryorbit/core.property.hpp
     algorithms.cpp
     fixedpoint.cpp
+    multiplelong.cpp
     proportion.cpp
     real.cpp
     rotation.cpp
