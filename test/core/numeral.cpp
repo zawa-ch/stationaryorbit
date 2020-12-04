@@ -58,6 +58,7 @@ void Test_FixedPoint()
 	if (double(f1 * f2) == 2) { std::cout << "f1 * f2 = " << double(f1 * f2) << std::endl; } else { throw std::exception(); }
 	if (double(f1 / f2) == 128) { std::cout << "f1 / f2 = " << double(f1 / f2) << std::endl; } else { throw std::exception(); }
 	if (FixedPoint32q16_t(f1) == FixedPoint32q16_t(16)) { std::cout << "f1 -> " << double(FixedPoint<uint32_t, 16>(16)) << std::endl; } else { throw std::exception(); }
+	if (FixedPoint16q15_t(Proportion16_t(3, 4)) == FixedPoint16q15_t(0.75)) { std::cout << "(3/4) = 0.75" << std::endl; } else { throw std::exception(); }
 	std::cout << "FixedPoint16q8_t::Max() = " << double(FixedPoint16q8_t::Max()) << std::endl;
 	std::cout << "FixedPoint16q8_t::Min() = " << double(FixedPoint16q8_t::Min()) << std::endl;
 	std::cout << "FixedPoint16q8_t::Epsilon() = " << double(FixedPoint16q8_t::Epsilon()) << std::endl;
@@ -119,6 +120,7 @@ void Test_Proportion()
 	if (p1 == Proportion8_t(p3)) { std::cout << "p1 = p3 = " << double(p3) << std::endl; } else { throw std::exception(); }
 	std::cout << "Proportion64_t(p2) = " << double(Proportion64_t(p2)) << std::endl;
 	std::cout << "Proportion64_t(p2).Data = " << Proportion64_t(p2).Data() << std::endl;
+	if (Proportion16_t(FixedPoint16q15_t(0.125)) == Proportion16_t(0.125)) { std::cout << "FP(0.125) == Prop(0.125)" << std::endl; } else { throw std::exception(); }
 	static_assert(Proportion1_t::Max() == Proportion1_t(Proportion8_t::Max()), "Proportion1_t::Max() == Proportion1_t(Proportion8_t::Max())を満たしませんでした。");
 }
 
