@@ -31,30 +31,50 @@ template class
 zawa_ch::StationaryOrbit::Proportion<uint64_t>;
 
 // Proportionの型要件
-// 値型である
-// - デフォルトコンストラクタを持つ
-// - デフォルトコンストラクタがnoexceptである
-// - デフォルトコンストラクタがtrivialである
-// - コピーコンストラクタを持つ
-// - コピーコンストラクタがnoexceptである
-// - コピーコンストラクタがtrivialである
-// - ムーブコンストラクタを持つ
-// - ムーブコンストラクタがnoexceptである
-// - ムーブコンストラクタがtrivialである
-// - コピー代入演算子を持つ
-// - コピー代入演算子がnoexceptである
-// - コピー代入演算子がtrivialである
-// - ムーブ代入演算子を持つ
-// - ムーブ代入演算子がnoexceptである
-// - ムーブ代入演算子がtrivialである
-// - デストラクタを持つ
-// - デストラクタがnoexceptである
-// - デストラクタがtrivialである
-static_assert(zawa_ch::StationaryOrbit::Traits::IsValueType<zawa_ch::StationaryOrbit::Proportion1_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::IsValueType<zawa_ch::StationaryOrbit::Proportion8_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::IsValueType<zawa_ch::StationaryOrbit::Proportion16_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::IsValueType<zawa_ch::StationaryOrbit::Proportion32_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::IsValueType<zawa_ch::StationaryOrbit::Proportion64_t>);
+// 算術型である
+// - 値型である
+//   - デフォルトコンストラクタを持つ
+//   - デフォルトコンストラクタがnoexceptである
+//   - デフォルトコンストラクタがtrivialである
+//   - コピーコンストラクタを持つ
+//   - コピーコンストラクタがnoexceptである
+//   - コピーコンストラクタがtrivialである
+//   - ムーブコンストラクタを持つ
+//   - ムーブコンストラクタがnoexceptである
+//   - ムーブコンストラクタがtrivialである
+//   - コピー代入演算子を持つ
+//   - コピー代入演算子がnoexceptである
+//   - コピー代入演算子がtrivialである
+//   - ムーブ代入演算子を持つ
+//   - ムーブ代入演算子がnoexceptである
+//   - ムーブ代入演算子がtrivialである
+//   - デストラクタを持つ
+//   - デストラクタがnoexceptである
+//   - デストラクタがtrivialである
+//   - 等価比較ができる
+//     - bool T::operator ==(T) を持つ
+//     - bool T::operator !=(T) を持つ
+// - 算術演算を行うことができる
+//   - 単項演算子を持つ
+//     - T T::operator +()を持つ
+//     - T T::operator -()を持つ
+//   - 加法演算子を持つ
+//     - T T::operator +(T)を持つ
+//     - T T::operator -(T)を持つ
+//   - 乗法演算子を持つ
+//     - T T::operator *(T)を持つ
+//     - T T::operator /(T)を持つ
+// - 比較可能である
+//   - bool T::operator <(T)を持つ
+//   - bool T::operator >(T)を持つ
+//   - bool T::operator <=(T)を持つ
+//   - bool T::operator >=(T)を持つ
+// - std::numeric_limits<T>::is_specializedがtrueである
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::Proportion1_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::Proportion8_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::Proportion16_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::Proportion32_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::Proportion64_t>);
 // (int)からのコンストラクタを持つ
 static_assert(std::is_constructible_v<zawa_ch::StationaryOrbit::Proportion1_t, int>);
 static_assert(std::is_constructible_v<zawa_ch::StationaryOrbit::Proportion8_t, int>);
@@ -73,9 +93,3 @@ static_assert(std::is_constructible_v<zawa_ch::StationaryOrbit::Proportion8_t, d
 static_assert(std::is_constructible_v<zawa_ch::StationaryOrbit::Proportion16_t, double>);
 static_assert(std::is_constructible_v<zawa_ch::StationaryOrbit::Proportion32_t, double>);
 static_assert(std::is_constructible_v<zawa_ch::StationaryOrbit::Proportion64_t, double>);
-// 基本的な算術演算子を持つ
-static_assert(zawa_ch::StationaryOrbit::Traits::HasArithmeticOperation<zawa_ch::StationaryOrbit::Proportion1_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::HasArithmeticOperation<zawa_ch::StationaryOrbit::Proportion8_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::HasArithmeticOperation<zawa_ch::StationaryOrbit::Proportion16_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::HasArithmeticOperation<zawa_ch::StationaryOrbit::Proportion32_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::HasArithmeticOperation<zawa_ch::StationaryOrbit::Proportion64_t>);
