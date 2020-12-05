@@ -18,21 +18,39 @@
 //
 #include "stationaryorbit/graphics-core/cmykcolor.hpp"
 
-extern template struct zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion8_t>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion16_t>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion32_t>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion64_t>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::FixedPoint16q15_t>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::FixedPoint32q31_t>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::FixedPoint64q63_t>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::CMYKColor<float>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::CMYKColor<double>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion8_t>>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion16_t>>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion32_t>>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion64_t>>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::FixedPoint16q15_t>>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::FixedPoint32q31_t>>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::FixedPoint64q63_t>>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<float>>;
-extern template struct zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<double>>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion8_t>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion16_t>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion32_t>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion64_t>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::FixedPoint16q15_t>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::FixedPoint32q31_t>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::FixedPoint64q63_t>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::CMYKColor<float>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::CMYKColor<double>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion8_t>>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion16_t>>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion32_t>>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::Proportion64_t>>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::FixedPoint16q15_t>>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::FixedPoint32q31_t>>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<zawa_ch::StationaryOrbit::FixedPoint64q63_t>>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<float>>;
+template struct
+zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<double>>;
