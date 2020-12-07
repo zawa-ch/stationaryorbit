@@ -34,7 +34,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		DataType _value;
 	public: // constructor
 		///	既定の @a CMYKColor を初期化します。
-		constexpr CMYKColor() : _value() {}
+		constexpr CMYKColor() = default;
 		///	CMYK値を指定して @a CMYKColor を初期化します。
 		constexpr CMYKColor(const ValueType& c, const ValueType& m, const ValueType& y, const ValueType& k) : _value({c, m, y, k}) {}
 		constexpr explicit CMYKColor(const DataType& value) : _value(value) {}
@@ -56,6 +56,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	正規化した @a CMYKColor を取得します。
 		constexpr CMYKColor<Tp> Normalize() const { return CMYKColor<Tp>(_value.Normalize()); }
 
+		[[nodiscard]] constexpr CMYKColor<Tp> Promote() const noexcept { return CMYKColor<Tp>(_value.Promote()); }
+		[[nodiscard]] constexpr CMYKColor<Tp> Invert() const noexcept { return CMYKColor<Tp>(_value.Invert()); }
 		[[nodiscard]] constexpr CMYKColor<Tp> Add(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.Add(other._value)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> Subtract(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.Subtract(other._value)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> Multiply(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.Multiply(other._value)); }
@@ -79,6 +81,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr CMYKColor<Tp> Not() const noexcept { return CMYKColor<Tp>(_value.Not()); }
 		[[nodiscard]] constexpr CMYKColor<Tp> Xor(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.Xor(other._value)); }
 
+		constexpr CMYKColor<Tp> operator+() const { return Promote(); }
+		constexpr CMYKColor<Tp> operator-() const { return Invert(); }
 		constexpr CMYKColor<Tp> operator+(const CMYKColor<Tp>& other) const { return Add(other); }
 		constexpr CMYKColor<Tp> operator-(const CMYKColor<Tp>& other) const { return Subtract(other); }
 		constexpr CMYKColor<Tp> operator*(const CMYKColor<Tp>& other) const { return Multiply(other); }
