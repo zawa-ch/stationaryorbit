@@ -56,15 +56,15 @@ template struct
 zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::RGBColor<double>>;
 
 // RGBColorの型要件
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::RGB8_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::RGB16_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::RGB32_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::RGB64_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::RGBI16_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::RGBI32_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::RGBI64_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::RGBF32_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::RGBF64_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsRGBColorType<zawa_ch::StationaryOrbit::Graphics::RGB8_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsRGBColorType<zawa_ch::StationaryOrbit::Graphics::RGB16_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsRGBColorType<zawa_ch::StationaryOrbit::Graphics::RGB32_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsRGBColorType<zawa_ch::StationaryOrbit::Graphics::RGB64_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsRGBColorType<zawa_ch::StationaryOrbit::Graphics::RGBI16_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsRGBColorType<zawa_ch::StationaryOrbit::Graphics::RGBI32_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsRGBColorType<zawa_ch::StationaryOrbit::Graphics::RGBI64_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsRGBColorType<zawa_ch::StationaryOrbit::Graphics::RGBF32_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsRGBColorType<zawa_ch::StationaryOrbit::Graphics::RGBF64_t>);
 // ARGBColorの型要件
 static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsTranslucentColorType<zawa_ch::StationaryOrbit::Graphics::ARGB8_t>);
 static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsTranslucentColorType<zawa_ch::StationaryOrbit::Graphics::ARGB16_t>);

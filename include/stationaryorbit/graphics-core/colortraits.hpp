@@ -61,6 +61,61 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		{};
 
 		template<class, class = std::void_t<>>
+		struct IsGrayScaleColorType_t : std::false_type {};
+		template<class T>
+		struct IsGrayScaleColorType_t<T, std::void_t< typename T::ValueType, decltype(std::declval<T>().Luminance()) >>
+			: std::conjunction
+			<
+				IsColorType_t<T>,
+				std::is_convertible<decltype(std::declval<T>().Luminance()), typename T::ValueType>,
+				std::true_type
+			>
+		{};
+
+		template<class, class = std::void_t<>>
+		struct IsRGBColorType_t : std::false_type {};
+		template<class T>
+		struct IsRGBColorType_t<T, std::void_t< typename T::ValueType, decltype(std::declval<T>().R()), decltype(std::declval<T>().G()), decltype(std::declval<T>().B()) >>
+			: std::conjunction
+			<
+				IsColorType_t<T>,
+				std::is_convertible<decltype(std::declval<T>().R()), typename T::ValueType>,
+				std::is_convertible<decltype(std::declval<T>().G()), typename T::ValueType>,
+				std::is_convertible<decltype(std::declval<T>().B()), typename T::ValueType>,
+				std::true_type
+			>
+		{};
+
+		template<class, class = std::void_t<>>
+		struct IsCMYColorType_t : std::false_type {};
+		template<class T>
+		struct IsCMYColorType_t<T, std::void_t< typename T::ValueType, decltype(std::declval<T>().C()), decltype(std::declval<T>().M()), decltype(std::declval<T>().Y()) >>
+			: std::conjunction
+			<
+				IsColorType_t<T>,
+				std::is_convertible<decltype(std::declval<T>().C()), typename T::ValueType>,
+				std::is_convertible<decltype(std::declval<T>().M()), typename T::ValueType>,
+				std::is_convertible<decltype(std::declval<T>().Y()), typename T::ValueType>,
+				std::true_type
+			>
+		{};
+
+		template<class, class = std::void_t<>>
+		struct IsCMYKColorType_t : std::false_type {};
+		template<class T>
+		struct IsCMYKColorType_t<T, std::void_t< typename T::ValueType, decltype(std::declval<T>().C()), decltype(std::declval<T>().M()), decltype(std::declval<T>().Y()), decltype(std::declval<T>().K()) >>
+			: std::conjunction
+			<
+				IsColorType_t<T>,
+				std::is_convertible<decltype(std::declval<T>().C()), typename T::ValueType>,
+				std::is_convertible<decltype(std::declval<T>().M()), typename T::ValueType>,
+				std::is_convertible<decltype(std::declval<T>().Y()), typename T::ValueType>,
+				std::is_convertible<decltype(std::declval<T>().K()), typename T::ValueType>,
+				std::true_type
+			>
+		{};
+
+		template<class, class = std::void_t<>>
 		struct IsTranslucentColorType_t : std::false_type {};
 		template<class T>
 		struct IsTranslucentColorType_t
@@ -90,6 +145,14 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static constexpr bool IsColorTypeBase = IsColorTypeBase_t<T>::value;
 		template<class T>
 		static constexpr bool IsColorType = IsColorType_t<T>::value;
+		template<class T>
+		static constexpr bool IsGrayScaleColorType = IsGrayScaleColorType_t<T>::value;
+		template<class T>
+		static constexpr bool IsRGBColorType = IsRGBColorType_t<T>::value;
+		template<class T>
+		static constexpr bool IsCMYColorType = IsCMYColorType_t<T>::value;
+		template<class T>
+		static constexpr bool IsCMYKColorType = IsCMYKColorType_t<T>::value;
 		template<class T>
 		static constexpr bool IsTranslucentColorType = IsTranslucentColorType_t<T>::value;
 	};

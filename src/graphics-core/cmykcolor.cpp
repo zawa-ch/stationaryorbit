@@ -56,15 +56,15 @@ template struct
 zawa_ch::StationaryOrbit::Graphics::TranslucentColor<zawa_ch::StationaryOrbit::Graphics::CMYKColor<double>>;
 
 // CMYKColorの型要件
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::CMYK8_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::CMYK16_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::CMYK32_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::CMYK64_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t>);
-static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsCMYKColorType<zawa_ch::StationaryOrbit::Graphics::CMYK8_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsCMYKColorType<zawa_ch::StationaryOrbit::Graphics::CMYK16_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsCMYKColorType<zawa_ch::StationaryOrbit::Graphics::CMYK32_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsCMYKColorType<zawa_ch::StationaryOrbit::Graphics::CMYK64_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsCMYKColorType<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsCMYKColorType<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsCMYKColorType<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsCMYKColorType<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsCMYKColorType<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t>);
 // ACMYKColorの型要件
 static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsTranslucentColorType<zawa_ch::StationaryOrbit::Graphics::ACMYK8_t>);
 static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsTranslucentColorType<zawa_ch::StationaryOrbit::Graphics::ACMYK16_t>);
