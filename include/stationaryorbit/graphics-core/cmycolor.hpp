@@ -34,7 +34,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		DataType _value;
 	public: // constructor
 		///	既定の @a CMYColor を初期化します。
-		constexpr CMYColor() : _value() {}
+		constexpr CMYColor() = default;
 		///	CMY値を指定して @a CMYColor を初期化します。
 		constexpr CMYColor(const ValueType& c, const ValueType& m, const ValueType& y) : _value({c, m, y}) {}
 		constexpr explicit CMYColor(const DataType& value) : _value(value) {}
@@ -54,6 +54,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	正規化した @a CMYColor を取得します。
 		constexpr CMYColor<Tp> Normalize() const { return CMYColor<Tp>(_value.Normalize()); }
 
+		[[nodiscard]] constexpr CMYColor<Tp> Promote() const noexcept { return CMYColor<Tp>(_value.Promote()); }
+		[[nodiscard]] constexpr CMYColor<Tp> Invert() const noexcept { return CMYColor<Tp>(_value.Invert()); }
 		[[nodiscard]] constexpr CMYColor<Tp> Add(const CMYColor<Tp>& other) const noexcept { return CMYColor<Tp>(_value.Add(other._value)); }
 		[[nodiscard]] constexpr CMYColor<Tp> Subtract(const CMYColor<Tp>& other) const noexcept { return CMYColor<Tp>(_value.Subtract(other._value)); }
 		[[nodiscard]] constexpr CMYColor<Tp> Multiply(const CMYColor<Tp>& other) const noexcept { return CMYColor<Tp>(_value.Multiply(other._value)); }
@@ -77,6 +79,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr CMYColor<Tp> Not() const noexcept { return CMYColor<Tp>(_value.Not()); }
 		[[nodiscard]] constexpr CMYColor<Tp> Xor(const CMYColor<Tp>& other) const noexcept { return CMYColor<Tp>(_value.Xor(other._value)); }
 
+		constexpr CMYColor<Tp> operator+() const { return Promote(); }
+		constexpr CMYColor<Tp> operator-() const { return Invert(); }
 		constexpr CMYColor<Tp> operator+(const CMYColor<Tp>& other) const { return Add(other); }
 		constexpr CMYColor<Tp> operator-(const CMYColor<Tp>& other) const { return Subtract(other); }
 		constexpr CMYColor<Tp> operator*(const CMYColor<Tp>& other) const { return Multiply(other); }
