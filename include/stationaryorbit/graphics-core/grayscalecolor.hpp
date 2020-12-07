@@ -49,6 +49,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	正規化した @a GrayScaleColor を取得します。
 		constexpr GrayScaleColor<Tp> Normalize() const { return GrayScaleColor<Tp>(_value.Normalize()); }
 
+		[[nodiscard]] constexpr GrayScaleColor<Tp> Promote() const noexcept { return GrayScaleColor<Tp>(_value.Promote()); }
+		[[nodiscard]] constexpr GrayScaleColor<Tp> Invert() const noexcept { return GrayScaleColor<Tp>(_value.Invert()); }
 		[[nodiscard]] constexpr GrayScaleColor<Tp> Add(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Add(other._value)); }
 		[[nodiscard]] constexpr GrayScaleColor<Tp> Subtract(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Subtract(other._value)); }
 		[[nodiscard]] constexpr GrayScaleColor<Tp> Multiply(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Multiply(other._value)); }
@@ -72,6 +74,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr GrayScaleColor<Tp> Not() const noexcept { return GrayScaleColor<Tp>(_value.Not()); }
 		[[nodiscard]] constexpr GrayScaleColor<Tp> Xor(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Xor(other._value)); }
 
+		constexpr GrayScaleColor<Tp> operator+() const { return Promote(); }
+		constexpr GrayScaleColor<Tp> operator-() const { return Invert(); }
 		constexpr GrayScaleColor<Tp> operator+(const GrayScaleColor<Tp>& other) const { return Add(other); }
 		constexpr GrayScaleColor<Tp> operator-(const GrayScaleColor<Tp>& other) const { return Subtract(other); }
 		constexpr GrayScaleColor<Tp> operator*(const GrayScaleColor<Tp>& other) const { return Multiply(other); }

@@ -38,3 +38,15 @@ template struct
 zawa_ch::StationaryOrbit::Graphics::GrayScaleColor<float>;
 template struct
 zawa_ch::StationaryOrbit::Graphics::GrayScaleColor<double>;
+
+// GrayScaleColorの型要件
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::GrayScale1_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t>);
+static_assert(zawa_ch::StationaryOrbit::Graphics::ColorTraits::IsColorType<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t>);
