@@ -21,6 +21,7 @@
 #include <array>
 #include <functional>
 #include "stationaryorbit/core.traits.hpp"
+#include "colortraits.hpp"
 #include "channelvalue.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
@@ -47,6 +48,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		}
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Normalize() const noexcept { return Apply([](const auto& item)->ValueType { return item.Normalize(); }); }
 
+		[[nodiscard]] constexpr RelativeColor<Tp, N> Promote() const noexcept { return Apply([](const auto& item)->ValueType { return item.Promote(); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> Invert() const noexcept { return Apply([](const auto& item)->ValueType { return item.Invert(); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Add(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.Add(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Subtract(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.Subtract(value); }); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Multiply(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.Multiply(value); }); }
@@ -84,6 +87,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			return true;
 		}
 
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator+() const noexcept { return Promote(); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator-() const noexcept { return Invert(); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> operator+(const RelativeColor<Tp, N>& other) const noexcept { return Add(other); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> operator-(const RelativeColor<Tp, N>& other) const noexcept { return Subtract(other); }
 		[[nodiscard]] constexpr RelativeColor<Tp, N> operator*(const RelativeColor<Tp, N>& other) const noexcept { return Multiply(other); }
