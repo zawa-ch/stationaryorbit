@@ -54,6 +54,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	正規化した @a RGBColor を取得します。
 		constexpr RGBColor<Tp> Normalize() const { return RGBColor<Tp>(_value.Normalize()); }
 
+		[[nodiscard]] constexpr RGBColor<Tp> Promote() const noexcept { return RGBColor<Tp>(_value.Promote()); }
+		[[nodiscard]] constexpr RGBColor<Tp> Invert() const noexcept { return RGBColor<Tp>(_value.Invert()); }
 		[[nodiscard]] constexpr RGBColor<Tp> Add(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Add(other._value)); }
 		[[nodiscard]] constexpr RGBColor<Tp> Subtract(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Subtract(other._value)); }
 		[[nodiscard]] constexpr RGBColor<Tp> Multiply(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Multiply(other._value)); }
@@ -77,6 +79,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr RGBColor<Tp> Not() const noexcept { return RGBColor<Tp>(_value.Not()); }
 		[[nodiscard]] constexpr RGBColor<Tp> Xor(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Xor(other._value)); }
 
+		constexpr RGBColor<Tp> operator+() const { return Promote(); }
+		constexpr RGBColor<Tp> operator-() const { return Invert(); }
 		constexpr RGBColor<Tp> operator+(const RGBColor<Tp>& other) const { return Add(other); }
 		constexpr RGBColor<Tp> operator-(const RGBColor<Tp>& other) const { return Subtract(other); }
 		constexpr RGBColor<Tp> operator*(const RGBColor<Tp>& other) const { return Multiply(other); }
