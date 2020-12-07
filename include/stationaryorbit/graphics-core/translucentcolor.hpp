@@ -25,7 +25,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	struct TranslucentColor final
 	{
 	public:
-		typedef typename colorT::ValueType::ValueType ValueType;
+		typedef typename colorT::ValueType ValueType;
 		typedef colorT ColorType;
 		typedef Opacity<typename colorT::ValueType::ValueType> OpacityType;
 	private:
