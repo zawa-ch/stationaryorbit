@@ -31,12 +31,23 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		[[nodiscard]] virtual const RectangleSize& Size() const noexcept = 0;
 		[[nodiscard]] virtual DisplayRectangle Area() const noexcept = 0;
-		[[nodiscard]] virtual const ValueType& At(const DisplayPoint& index) const = 0;
+		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const = 0;
+		[[nodiscard]] virtual ValueType At(const int& x, const int& y) const { return At(DisplayPoint(x, y)); }
+
+		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const = 0;
+	};
+
+	template<class Tcolor>
+	class WritableImage : public Image<Tcolor>
+	{
+	public:
+		typedef Tcolor ValueType;
+
+		virtual ~WritableImage() = default;
+
 		[[nodiscard]] virtual ValueType& At(const DisplayPoint& index) = 0;
-		[[nodiscard]] virtual const ValueType& At(const int& x, const int& y) const { return At(DisplayPoint(x, y)); }
 		[[nodiscard]] virtual ValueType& At(const int& x, const int& y) { return At(DisplayPoint(x, y)); }
 
-		[[nodiscard]] virtual const ValueType& operator[](const DisplayPoint& index) const = 0;
 		[[nodiscard]] virtual ValueType& operator[](const DisplayPoint& index) = 0;
 	};
 }

@@ -23,7 +23,7 @@
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	template<class Tcolor, int width, int height>
-	class PixArray : public Image<Tcolor>
+	class PixArray : public WritableImage<Tcolor>
 	{
 		static_assert(0 <= width, "幅は0以上である必要があります。");
 		static_assert(0 <= height, "高さは0以上である必要があります。");
@@ -55,10 +55,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] const RectangleSize& Size() const noexcept { return _size; }
 		[[nodiscard]] DisplayRectangle Area() const noexcept { return Rectangle(DisplayPoint(0, 0), _size); }
 
-		[[nodiscard]] const ValueType& At(const DisplayPoint& index) const { return _data.at(solveindex(index)); }
+		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return _data.at(solveindex(index)); }
 		[[nodiscard]] ValueType& At(const DisplayPoint& index) { return _data.at(solveindex(index)); }
 
-		[[nodiscard]] const ValueType& operator[](const DisplayPoint& index) const { return _data[solveindex(index)]; }
+		[[nodiscard]] ValueType operator[](const DisplayPoint& index) const { return _data[solveindex(index)]; }
 		[[nodiscard]] ValueType& operator[](const DisplayPoint& index) { return _data[solveindex(index)]; }
 
 		template<class fromTcolor = Tcolor>

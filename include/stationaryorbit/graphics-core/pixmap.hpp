@@ -31,7 +31,7 @@
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	template<class Tcolor, class Allocator = typename std::vector<Tcolor>::allocator_type>
-	class Pixmap : public Image<Tcolor>
+	class Pixmap : public WritableImage<Tcolor>
 	{
 	public:
 		typedef Tcolor ValueType;
@@ -96,10 +96,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] const RectangleSize& Size() const noexcept { return _size; }
 		[[nodiscard]] DisplayRectangle Area() const noexcept { return Rectangle(DisplayPoint(0, 0), _size); }
 
-		[[nodiscard]] const ValueType& At(const DisplayPoint& index) const { return _data.at(solveindex(index)); }
+		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return _data.at(solveindex(index)); }
 		[[nodiscard]] ValueType& At(const DisplayPoint& index) { return _data.at(solveindex(index)); }
 
-		[[nodiscard]] const ValueType& operator[](const DisplayPoint& index) const { return _data[solveindex(index)]; }
+		[[nodiscard]] ValueType operator[](const DisplayPoint& index) const { return _data[solveindex(index)]; }
 		[[nodiscard]] ValueType& operator[](const DisplayPoint& index) { return _data[solveindex(index)]; }
 
 		template<class fromTcolor = Tcolor>
