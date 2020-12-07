@@ -63,7 +63,19 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		template<class, class = std::void_t<>>
 		struct IsTranslucentColorType_t : std::false_type {};
 		template<class T>
-		struct IsTranslucentColorType_t<T, std::void_t< typename T::ColorType, typename T::OpacityType, decltype(std::declval<T>().Color()), decltype(std::declval<T>().Alpha()) >>
+		struct IsTranslucentColorType_t
+		<
+			T,
+			std::void_t
+			<
+				typename T::ColorType,
+				typename T::OpacityType,
+				decltype(std::declval<T>().Color()),
+				decltype(std::declval<T>().Alpha()),
+				decltype(T(std::declval<typename T::ColorType>())),
+				decltype(T(std::declval<typename T::ColorType>(), std::declval<typename T::OpacityType>()))
+			>
+		>
 			: std::conjunction
 			<
 				IsColorTypeBase_t<T>,
