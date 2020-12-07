@@ -43,6 +43,7 @@ add_library(${AssemblyName} SHARED
     pixarray.cpp
     pixmap.cpp
     rgbcolor.cpp
+    yuvcolor.cpp
 )
 
 set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 17)

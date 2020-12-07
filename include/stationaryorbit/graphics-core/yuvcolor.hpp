@@ -18,46 +18,132 @@
 //
 #ifndef __stationaryorbit_graphics_core_yuvcolor__
 #define __stationaryorbit_graphics_core_yuvcolor__
+#include "relativecolor.hpp"
+#include "translucentcolor.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	///	輝度と二つの色差によって表される色。
+	template <class Tp>
 	struct YUVColor final
 	{
+	public: // types
+		typedef RelativeColor<Tp, 3UL> DataType;
+		///	この型の各チャネルの値の表現のために内部で使用されている型。
+		typedef typename DataType::ValueType ValueType;
 	private: // contains
-		float _y;
-		float _u;
-		float _v;
+		DataType _value;
 	public: // constructor
 		///	既定の @a YUVColor を初期化します。
-		constexpr YUVColor() : _y(), _u(), _v() {}
-		///	YUV値を指定して @a YUVColor を初期化します。
-		constexpr YUVColor(const float& y, const float& cr, const float& cb) : _y(y), _u(cr), _v(cb) {}
+		constexpr YUVColor() = default;
+		///	RGB値を指定して @a YUVColor を初期化します。
+		constexpr YUVColor(const ValueType& y, const ValueType& u, const ValueType& v) : _value({y, u, v}) {}
+		constexpr explicit YUVColor(const DataType& value) : _value(value) {}
+		template <class fromT>
+		constexpr explicit YUVColor(const YUVColor<fromT>& from) : YUVColor(DataType(from.Data())) {}
+		constexpr YUVColor(const ZeroValue_t&) : _value(Zero) {}
 	public: // member
-		///	この @a YUVColor の輝度コンポーネントを取得します。
-		constexpr const float& Y() const { return _y; }
-		///	この @a YUVColor の赤色差コンポーネントを取得します。
-		constexpr const float& U() const { return _u; }
-		///	この @a YUVColor の青色差コンポーネントを取得します。
-		constexpr const float& V() const { return _v; }
+		constexpr const DataType& Data() const { return _value; }
+		///	この @a YUVColor の輝度要素を取得します。
+		constexpr const ValueType& Y() const { return _value.Data()[0]; }
+		///	この @a YUVColor の赤色差要素を取得します。
+		constexpr const ValueType& U() const { return _value.Data()[1]; }
+		///	この @a YUVColor の青色差要素を取得します。
+		constexpr const ValueType& V() const { return _value.Data()[2]; }
 		///	この @a YUVColor が正規化されているかを取得します。
-		constexpr bool IsNormalized() const { return (0 <= _y)&&(_y <= 1)&&(-0.5 <= _u)&&(_u <= 0.5)&&(-0.5 <= _v)&&(_v <= 0.5); }
-		///	この @a YUVColor が空であるかを取得します。
-		constexpr bool IsEmpty() const { return *this == Empty(); }
-
-		constexpr YUVColor operator+(const YUVColor& other) const { return YUVColor(_y + other._y, _u + other._u, _v + other._v); }
-		constexpr YUVColor operator-(const YUVColor& other) const { return YUVColor(_y - other._y, _u - other._u, _v - other._v); }
-		constexpr YUVColor& operator+=(const YUVColor& other) { return *this = *this + other; }
-		constexpr YUVColor& operator-=(const YUVColor& other) { return *this = *this - other; }
-
+		constexpr bool IsNormalized() const { return _value.IsNormalized(); }
 		///	正規化した @a YUVColor を取得します。
-		constexpr YUVColor Normalize() const { return YUVColor(((0 <= _y)?((_y <= 1)?(_y):(1)):(0)), ((-0.5 <= _u)?((_u <= 0.5)?(_u):(0.5)):(-0.5)), ((-0.5 <= _v)?((_v <= 0.5)?(_v):(0.5)):(-0.5))); }
+		constexpr YUVColor<Tp> Normalize() const { return YUVColor<Tp>(_value.Normalize()); }
 
-		///	指定されたオブジェクトがこのオブジェクトと等価であることをテストします。
-		constexpr bool Equals(const YUVColor& other) const { return (_y == other._y)&&(_u == other._u)&&(_v == other._v); }
-		constexpr bool operator==(const YUVColor& other) const { return Equals(other); }
-		constexpr bool operator!=(const YUVColor& other) const { return !Equals(other); }
+		[[nodiscard]] constexpr YUVColor<Tp> Promote() const noexcept { return YUVColor<Tp>(_value.Promote()); }
+		[[nodiscard]] constexpr YUVColor<Tp> Invert() const noexcept { return YUVColor<Tp>(_value.Invert()); }
+		[[nodiscard]] constexpr YUVColor<Tp> Add(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.Add(other._value)); }
+		[[nodiscard]] constexpr YUVColor<Tp> Subtract(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.Subtract(other._value)); }
+		[[nodiscard]] constexpr YUVColor<Tp> Multiply(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.Multiply(other._value)); }
+		[[nodiscard]] constexpr YUVColor<Tp> Multiply(const ValueType& other) const noexcept { return YUVColor<Tp>(_value.Multiply(other)); }
+		[[nodiscard]] constexpr YUVColor<Tp> Divide(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.Divide(other._value)); }
+		[[nodiscard]] constexpr YUVColor<Tp> Divide(const ValueType& other) const noexcept { return YUVColor<Tp>(_value.Divide(other)); }
+		[[nodiscard]] constexpr YUVColor<Tp> SaturateAdd(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.SaturateAdd(other._value)); }
+		[[nodiscard]] constexpr YUVColor<Tp> SaturateSubtract(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.SaturateSubtract(other._value)); }
+		[[nodiscard]] constexpr YUVColor<Tp> SaturateMultiply(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.SaturateMultiply(other._value)); }
+		[[nodiscard]] constexpr YUVColor<Tp> SaturateMultiply(const ValueType& other) const noexcept { return YUVColor<Tp>(_value.SaturateMultiply(other)); }
+		[[nodiscard]] constexpr YUVColor<Tp> SaturateDivide(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.SaturateDivide(other._value)); }
+		[[nodiscard]] constexpr YUVColor<Tp> SaturateDivide(const ValueType& other) const noexcept { return YUVColor<Tp>(_value.SaturateDivide(other)); }
+		[[nodiscard]] constexpr YUVColor<Tp> CheckedAdd(const YUVColor<Tp>& other) const { return YUVColor<Tp>(_value.CheckedAdd(other._value)); }
+		[[nodiscard]] constexpr YUVColor<Tp> CheckedSubtract(const YUVColor<Tp>& other) const { return YUVColor<Tp>(_value.CheckedSubtract(other._value)); }
+		[[nodiscard]] constexpr YUVColor<Tp> CheckedMultiply(const YUVColor<Tp>& other) const { return YUVColor<Tp>(_value.CheckedMultiply(other._value)); }
+		[[nodiscard]] constexpr YUVColor<Tp> CheckedMultiply(const ValueType& other) const { return YUVColor<Tp>(_value.CheckedMultiply(other)); }
+		[[nodiscard]] constexpr YUVColor<Tp> CheckedDivide(const YUVColor<Tp>& other) const { return YUVColor<Tp>(_value.CheckedDivide(other._value)); }
+		[[nodiscard]] constexpr YUVColor<Tp> CheckedDivide(const ValueType& other) const { return YUVColor<Tp>(_value.CheckedDivide(other)); }
+		[[nodiscard]] constexpr YUVColor<Tp> And(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.And(other._value)); }
+		[[nodiscard]] constexpr YUVColor<Tp> Or(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.Or(other._value)); }
+		[[nodiscard]] constexpr YUVColor<Tp> Not() const noexcept { return YUVColor<Tp>(_value.Not()); }
+		[[nodiscard]] constexpr YUVColor<Tp> Xor(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.Xor(other._value)); }
 
-		constexpr static YUVColor Empty() { return YUVColor(); }
+		constexpr YUVColor<Tp> operator+() const { return Promote(); }
+		constexpr YUVColor<Tp> operator-() const { return Invert(); }
+		constexpr YUVColor<Tp> operator+(const YUVColor<Tp>& other) const { return Add(other); }
+		constexpr YUVColor<Tp> operator-(const YUVColor<Tp>& other) const { return Subtract(other); }
+		constexpr YUVColor<Tp> operator*(const YUVColor<Tp>& other) const { return Multiply(other); }
+		constexpr YUVColor<Tp> operator*(const ValueType& other) const { return Multiply(other); }
+		constexpr YUVColor<Tp> operator/(const YUVColor<Tp>& other) const { return Divide(other); }
+		constexpr YUVColor<Tp> operator/(const ValueType& other) const { return Divide(other); }
+		constexpr YUVColor<Tp> operator~() const { return Not(); }
+		constexpr YUVColor<Tp> operator|(const YUVColor<Tp>& other) const { return Or(other); }
+		constexpr YUVColor<Tp> operator&(const YUVColor<Tp>& other) const { return And(other); }
+		constexpr YUVColor<Tp> operator^(const YUVColor<Tp>& other) const { return Xor(other); }
+		constexpr YUVColor<Tp>& operator+=(const YUVColor<Tp>& other) { return *this = *this + other; }
+		constexpr YUVColor<Tp>& operator-=(const YUVColor<Tp>& other) { return *this = *this - other; }
+		constexpr YUVColor<Tp>& operator*=(const YUVColor<Tp>& other) { return *this = *this * other; }
+		constexpr YUVColor<Tp>& operator*=(const ValueType& other) { return *this = *this * other; }
+		constexpr YUVColor<Tp>& operator/=(const YUVColor<Tp>& other) { return *this = *this / other; }
+		constexpr YUVColor<Tp>& operator/=(const ValueType& other) { return *this = *this / other; }
+		constexpr YUVColor<Tp>& operator|=(const YUVColor<Tp>& other) { return *this = *this | other; }
+		constexpr YUVColor<Tp>& operator&=(const YUVColor<Tp>& other) { return *this = *this & other; }
+		constexpr YUVColor<Tp>& operator^=(const YUVColor<Tp>& other) { return *this = *this ^ other; }
+
+		constexpr bool Equals(const YUVColor<Tp>& other) const { return _value.Equals(other._value); }
+		constexpr bool operator==(const YUVColor<Tp>& other) const { return Equals(other); }
+		constexpr bool operator!=(const YUVColor<Tp>& other) const { return !Equals(other); }
+
+		constexpr static YUVColor<Tp> Empty() { return YUVColor<Tp>(); }
 	};
+
+	extern template struct YUVColor<Proportion8_t>;
+	extern template struct YUVColor<Proportion16_t>;
+	extern template struct YUVColor<Proportion32_t>;
+	extern template struct YUVColor<Proportion64_t>;
+	extern template struct YUVColor<FixedPoint16q15_t>;
+	extern template struct YUVColor<FixedPoint32q31_t>;
+	extern template struct YUVColor<FixedPoint64q63_t>;
+	extern template struct YUVColor<float>;
+	extern template struct YUVColor<double>;
+	extern template struct TranslucentColor<YUVColor<Proportion8_t>>;
+	extern template struct TranslucentColor<YUVColor<Proportion16_t>>;
+	extern template struct TranslucentColor<YUVColor<Proportion32_t>>;
+	extern template struct TranslucentColor<YUVColor<Proportion64_t>>;
+	extern template struct TranslucentColor<YUVColor<FixedPoint16q15_t>>;
+	extern template struct TranslucentColor<YUVColor<FixedPoint32q31_t>>;
+	extern template struct TranslucentColor<YUVColor<FixedPoint64q63_t>>;
+	extern template struct TranslucentColor<YUVColor<float>>;
+	extern template struct TranslucentColor<YUVColor<double>>;
+
+	typedef YUVColor<Proportion8_t> YUV8_t;
+	typedef YUVColor<Proportion16_t> YUV16_t;
+	typedef YUVColor<Proportion32_t> YUV32_t;
+	typedef YUVColor<Proportion64_t> YUV64_t;
+	typedef YUVColor<FixedPoint16q15_t> YUVI16_t;
+	typedef YUVColor<FixedPoint32q31_t> YUVI32_t;
+	typedef YUVColor<FixedPoint64q63_t> YUVI64_t;
+	typedef YUVColor<float> YUVF32_t;
+	typedef YUVColor<double> YUVF64_t;
+	typedef TranslucentColor<YUVColor<Proportion8_t>> AYUV8_t;
+	typedef TranslucentColor<YUVColor<Proportion16_t>> AYUV16_t;
+	typedef TranslucentColor<YUVColor<Proportion32_t>> AYUV32_t;
+	typedef TranslucentColor<YUVColor<Proportion64_t>> AYUV64_t;
+	typedef TranslucentColor<YUVColor<FixedPoint16q15_t>> AYUVI16_t;
+	typedef TranslucentColor<YUVColor<FixedPoint32q31_t>> AYUVI32_t;
+	typedef TranslucentColor<YUVColor<FixedPoint64q63_t>> AYUVI64_t;
+	typedef TranslucentColor<YUVColor<float>> AYUVF32_t;
+	typedef TranslucentColor<YUVColor<double>> AYUVF64_t;
 }
 #endif // __stationaryorbit_graphics_core_yuvcolor__
