@@ -38,15 +38,30 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		{
 			return image[pos.Round()];
 		}
-		template<class Tcolor>
+		template<class Tcolor, std::enable_if_t<ColorTraits::IsColorType<Tcolor> && !ColorTraits::IsTranslucentColorType<Tcolor>, int> = 0>
 		static Tcolor Bilinear(const Image<Tcolor>& image, const DisplayPointF& pos)
 		{
+			typedef typename Tcolor::ValueType::ValueType ChannelType;
+			static_assert(ColorTraits::IsColorType<Tcolor>, "指定する型は ColorTraits::IsColorType の要件を満たす必要があります。");
 			if (pos == DisplayPointF(pos.Floor())) { return image[pos.Floor()]; }
 			auto buffer = PixArray<Tcolor, 2, 2>(image, pos.Floor());
 			auto fpos = pos.Extract();
-			auto pxup = (buffer.At(DisplayPoint(0, 0)) * typename Tcolor::ValueType::ValueType(1 - fpos.X()) + buffer.At(DisplayPoint(1, 0)) * typename Tcolor::ValueType::ValueType(fpos.X()));
-			auto pxdown = (buffer.At(DisplayPoint(0, 1)) * typename Tcolor::ValueType::ValueType(1 - fpos.X()) + buffer.At(DisplayPoint(1, 1)) * typename Tcolor::ValueType::ValueType(fpos.X()));
-			return (pxup * typename Tcolor::ValueType::ValueType(1 - fpos.Y()) + pxdown * typename Tcolor::ValueType::ValueType(fpos.Y()));
+			auto pxup = (buffer.At(DisplayPoint(0, 0)) * ChannelType(1 - fpos.X()) + buffer.At(DisplayPoint(1, 0)) * ChannelType(fpos.X()));
+			auto pxdown = (buffer.At(DisplayPoint(0, 1)) * ChannelType(1 - fpos.X()) + buffer.At(DisplayPoint(1, 1)) * ChannelType(fpos.X()));
+			return (pxup * ChannelType(1 - fpos.Y()) + pxdown * ChannelType(fpos.Y()));
+		}
+		template<class Tcolor, std::enable_if_t<ColorTraits::IsTranslucentColorType<Tcolor>, int> = 0>
+		static Tcolor Bilinear(const Image<Tcolor>& image, const DisplayPointF& pos)
+		{
+			typedef typename Tcolor::ValueType::ValueType ChannelType;
+			if (pos == DisplayPointF(pos.Floor())) { return image[pos.Floor()]; }
+			auto buffer = PixArray<Tcolor, 2, 2>(image, pos.Floor());
+			auto fpos = pos.Extract();
+			auto apxup = (buffer.At(DisplayPoint(0, 0)).Alpha() * typename Tcolor::OpacityType(ChannelType(1 - fpos.X())) + buffer.At(DisplayPoint(1, 0)).Alpha() * typename Tcolor::OpacityType(ChannelType(fpos.X())));
+			auto cpxup = (buffer.At(DisplayPoint(0, 0)).Color() * ChannelType(1 - fpos.X()) + buffer.At(DisplayPoint(1, 0)).Color() * ChannelType(fpos.X()));
+			auto apxdown = (buffer.At(DisplayPoint(0, 1)).Alpha() * typename Tcolor::OpacityType(ChannelType(1 - fpos.X())) + buffer.At(DisplayPoint(1, 1)).Alpha() * typename Tcolor::OpacityType(ChannelType(fpos.X())));
+			auto cpxdown = (buffer.At(DisplayPoint(0, 1)).Color() * ChannelType(1 - fpos.X()) + buffer.At(DisplayPoint(1, 1)).Color() * ChannelType(fpos.X()));
+			return Tcolor(cpxup * ChannelType(1 - fpos.Y()) + cpxdown * ChannelType(fpos.Y()), apxup * typename Tcolor::OpacityType(ChannelType(1 - fpos.Y())) + apxdown * typename Tcolor::OpacityType(ChannelType(fpos.Y())));
 		}
 	};
 
@@ -133,6 +148,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	extern template CMYI64_t ImageInterpolation::Bilinear(const Image<CMYI64_t>&, const DisplayPointF&);
 	extern template CMYF32_t ImageInterpolation::Bilinear(const Image<CMYF32_t>&, const DisplayPointF&);
 	extern template CMYF64_t ImageInterpolation::Bilinear(const Image<CMYF64_t>&, const DisplayPointF&);
+	extern template ACMY8_t ImageInterpolation::Bilinear(const Image<ACMY8_t>&, const DisplayPointF&);
+	extern template ACMY16_t ImageInterpolation::Bilinear(const Image<ACMY16_t>&, const DisplayPointF&);
+	extern template ACMY32_t ImageInterpolation::Bilinear(const Image<ACMY32_t>&, const DisplayPointF&);
+	extern template ACMY64_t ImageInterpolation::Bilinear(const Image<ACMY64_t>&, const DisplayPointF&);
+	extern template ACMYI16_t ImageInterpolation::Bilinear(const Image<ACMYI16_t>&, const DisplayPointF&);
+	extern template ACMYI32_t ImageInterpolation::Bilinear(const Image<ACMYI32_t>&, const DisplayPointF&);
+	extern template ACMYI64_t ImageInterpolation::Bilinear(const Image<ACMYI64_t>&, const DisplayPointF&);
+	extern template ACMYF32_t ImageInterpolation::Bilinear(const Image<ACMYF32_t>&, const DisplayPointF&);
+	extern template ACMYF64_t ImageInterpolation::Bilinear(const Image<ACMYF64_t>&, const DisplayPointF&);
 	extern template CMYK8_t ImageInterpolation::Bilinear(const Image<CMYK8_t>&, const DisplayPointF&);
 	extern template CMYK16_t ImageInterpolation::Bilinear(const Image<CMYK16_t>&, const DisplayPointF&);
 	extern template CMYK32_t ImageInterpolation::Bilinear(const Image<CMYK32_t>&, const DisplayPointF&);
@@ -142,6 +166,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	extern template CMYKI64_t ImageInterpolation::Bilinear(const Image<CMYKI64_t>&, const DisplayPointF&);
 	extern template CMYKF32_t ImageInterpolation::Bilinear(const Image<CMYKF32_t>&, const DisplayPointF&);
 	extern template CMYKF64_t ImageInterpolation::Bilinear(const Image<CMYKF64_t>&, const DisplayPointF&);
+	extern template ACMYK8_t ImageInterpolation::Bilinear(const Image<ACMYK8_t>&, const DisplayPointF&);
+	extern template ACMYK16_t ImageInterpolation::Bilinear(const Image<ACMYK16_t>&, const DisplayPointF&);
+	extern template ACMYK32_t ImageInterpolation::Bilinear(const Image<ACMYK32_t>&, const DisplayPointF&);
+	extern template ACMYK64_t ImageInterpolation::Bilinear(const Image<ACMYK64_t>&, const DisplayPointF&);
+	extern template ACMYKI16_t ImageInterpolation::Bilinear(const Image<ACMYKI16_t>&, const DisplayPointF&);
+	extern template ACMYKI32_t ImageInterpolation::Bilinear(const Image<ACMYKI32_t>&, const DisplayPointF&);
+	extern template ACMYKI64_t ImageInterpolation::Bilinear(const Image<ACMYKI64_t>&, const DisplayPointF&);
+	extern template ACMYKF32_t ImageInterpolation::Bilinear(const Image<ACMYKF32_t>&, const DisplayPointF&);
+	extern template ACMYKF64_t ImageInterpolation::Bilinear(const Image<ACMYKF64_t>&, const DisplayPointF&);
 	extern template RGB8_t ImageInterpolation::Bilinear(const Image<RGB8_t>&, const DisplayPointF&);
 	extern template RGB16_t ImageInterpolation::Bilinear(const Image<RGB16_t>&, const DisplayPointF&);
 	extern template RGB32_t ImageInterpolation::Bilinear(const Image<RGB32_t>&, const DisplayPointF&);
@@ -151,5 +184,14 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	extern template RGBI64_t ImageInterpolation::Bilinear(const Image<RGBI64_t>&, const DisplayPointF&);
 	extern template RGBF32_t ImageInterpolation::Bilinear(const Image<RGBF32_t>&, const DisplayPointF&);
 	extern template RGBF64_t ImageInterpolation::Bilinear(const Image<RGBF64_t>&, const DisplayPointF&);
+	extern template ARGB8_t ImageInterpolation::Bilinear(const Image<ARGB8_t>&, const DisplayPointF&);
+	extern template ARGB16_t ImageInterpolation::Bilinear(const Image<ARGB16_t>&, const DisplayPointF&);
+	extern template ARGB32_t ImageInterpolation::Bilinear(const Image<ARGB32_t>&, const DisplayPointF&);
+	extern template ARGB64_t ImageInterpolation::Bilinear(const Image<ARGB64_t>&, const DisplayPointF&);
+	extern template ARGBI16_t ImageInterpolation::Bilinear(const Image<ARGBI16_t>&, const DisplayPointF&);
+	extern template ARGBI32_t ImageInterpolation::Bilinear(const Image<ARGBI32_t>&, const DisplayPointF&);
+	extern template ARGBI64_t ImageInterpolation::Bilinear(const Image<ARGBI64_t>&, const DisplayPointF&);
+	extern template ARGBF32_t ImageInterpolation::Bilinear(const Image<ARGBF32_t>&, const DisplayPointF&);
+	extern template ARGBF64_t ImageInterpolation::Bilinear(const Image<ARGBF64_t>&, const DisplayPointF&);
 }
 #endif // __stationaryorbit_geaphics_core_interpolation__
