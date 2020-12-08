@@ -51,9 +51,9 @@ namespace zawa_ch::StationaryOrbit
 		~Rectangle() = default;
 	public: // member
 		///	@a Rectangle の原点を表す @a Point を取得します。
-		constexpr PointType Location() const { return _p; }
+		constexpr const PointType& Location() const { return _p; }
 		///	@a Rectangle の大きさを表す @a RectangleSize を取得します。
-		constexpr SizeType Size() const { return _s; }
+		constexpr const SizeType& Size() const { return _s; }
 		///	@a Rectangle の左端のx座標の値を取得します。
 		constexpr int Left() const { if constexpr ((quad==Quadrants::UpLeft)||(quad==Quadrants::DownLeft)) { return (_p + _s).X(); } else { return _p.X(); } }
 		///	@a Rectangle の右端のx座標の値を取得します。
@@ -144,9 +144,9 @@ namespace zawa_ch::StationaryOrbit
 		~RectangleF() = default;
 	public: // member
 		///	@a RectangleF の原点を表す @a PointF を取得します。
-		constexpr PointType Location() const { return _p; }
+		constexpr const PointType& Location() const { return _p; }
 		///	@a RectangleF の大きさを表す @a SizeType を取得します。
-		constexpr SizeType Size() const { return _s; }
+		constexpr const SizeType& Size() const { return _s; }
 		///	@a RectangleF の左端のx座標の値を取得します。
 		constexpr float Left() const { if constexpr ((quad==Quadrants::UpLeft)||(quad==Quadrants::DownLeft)) { return (_p + _s).X(); } else { return _p.X(); } }
 		///	@a RectangleF の右端のx座標の値を取得します。
