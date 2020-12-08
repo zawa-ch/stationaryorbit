@@ -73,9 +73,9 @@ namespace zawa_ch::StationaryOrbit
 		~Point() = default;
 	public: // member
 		///	水平軸の値を取得します。
-		constexpr int X() const { return _x; }
+		constexpr const int& X() const { return _x; }
 		///	垂直軸の値を取得します。
-		constexpr int Y() const { return _y; }
+		constexpr const int& Y() const { return _y; }
 		constexpr bool IsEmpty() const { return (_x==0)&&(_y==0); }
 
 		constexpr Point<quad> operator+(const Point<quad>& other) const { return Point<quad>(_x + other._x, _y + other._y); }
@@ -119,9 +119,9 @@ namespace zawa_ch::StationaryOrbit
 		~PointF() = default;
 	public: // member
 		///	水平軸の値を取得します。
-		constexpr float X() const { return _x; }
+		constexpr const float& X() const { return _x; }
 		///	垂直軸の値を取得します。
-		constexpr float Y() const { return _y; }
+		constexpr const float& Y() const { return _y; }
 		constexpr bool IsEmpty() const { return (_x==0)&&(_y==0); }
 
 		constexpr PointF<quad> operator+(const PointF<quad>& other) const { return PointF<quad>(_x + other._x, _y + other._y); }
