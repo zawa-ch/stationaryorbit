@@ -36,6 +36,7 @@ add_library(${AssemblyName} SHARED
     cmycolor.cpp
     cmykcolor.cpp
     colorspace.cpp
+    deformation.cpp
     fundamental.cpp
     grayscalecolor.cpp
     interpolation.cpp
