@@ -43,6 +43,23 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[DisplayPoint(-index.X(), index.Y())]; }
 	};
+	template<class Tcolor>
+	class ImageVerticalFlip : public Image<Tcolor>
+	{
+	public:
+		typedef Tcolor ValueType;
+	private:
+		const Image<Tcolor>& _data;
+		DisplayPoint _orig;
+	public:
+		ImageVerticalFlip(const Image<Tcolor>& source) : _data(source), _orig(_data.Area().Left(), -_data.Area().Bottom()) {}
+
+		[[nodiscard]] virtual const RectangleSize& Size() const noexcept { return _data.Size(); }
+		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return DisplayRectangle(_orig, _data.Size()); }
+		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _data.At(DisplayPoint(index.X(), -index.Y())); }
+
+		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[DisplayPoint(index.X(), -index.Y())]; }
+	};
 
 	extern template class ImageHorizonalFlip<CMY8_t>;
 	extern template class ImageHorizonalFlip<CMY16_t>;
@@ -126,5 +143,88 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	extern template class ImageHorizonalFlip<AYUVI64_t>;
 	extern template class ImageHorizonalFlip<AYUVF32_t>;
 	extern template class ImageHorizonalFlip<AYUVF64_t>;
+
+	extern template class ImageVerticalFlip<CMY8_t>;
+	extern template class ImageVerticalFlip<CMY16_t>;
+	extern template class ImageVerticalFlip<CMY32_t>;
+	extern template class ImageVerticalFlip<CMY64_t>;
+	extern template class ImageVerticalFlip<CMYI16_t>;
+	extern template class ImageVerticalFlip<CMYI32_t>;
+	extern template class ImageVerticalFlip<CMYI64_t>;
+	extern template class ImageVerticalFlip<CMYF32_t>;
+	extern template class ImageVerticalFlip<CMYF64_t>;
+	extern template class ImageVerticalFlip<ACMY8_t>;
+	extern template class ImageVerticalFlip<ACMY16_t>;
+	extern template class ImageVerticalFlip<ACMY32_t>;
+	extern template class ImageVerticalFlip<ACMY64_t>;
+	extern template class ImageVerticalFlip<ACMYI16_t>;
+	extern template class ImageVerticalFlip<ACMYI32_t>;
+	extern template class ImageVerticalFlip<ACMYI64_t>;
+	extern template class ImageVerticalFlip<ACMYF32_t>;
+	extern template class ImageVerticalFlip<ACMYF64_t>;
+	extern template class ImageVerticalFlip<CMYK8_t>;
+	extern template class ImageVerticalFlip<CMYK16_t>;
+	extern template class ImageVerticalFlip<CMYK32_t>;
+	extern template class ImageVerticalFlip<CMYK64_t>;
+	extern template class ImageVerticalFlip<CMYKI16_t>;
+	extern template class ImageVerticalFlip<CMYKI32_t>;
+	extern template class ImageVerticalFlip<CMYKI64_t>;
+	extern template class ImageVerticalFlip<CMYKF32_t>;
+	extern template class ImageVerticalFlip<CMYKF64_t>;
+	extern template class ImageVerticalFlip<ACMYK8_t>;
+	extern template class ImageVerticalFlip<ACMYK16_t>;
+	extern template class ImageVerticalFlip<ACMYK32_t>;
+	extern template class ImageVerticalFlip<ACMYK64_t>;
+	extern template class ImageVerticalFlip<ACMYKI16_t>;
+	extern template class ImageVerticalFlip<ACMYKI32_t>;
+	extern template class ImageVerticalFlip<ACMYKI64_t>;
+	extern template class ImageVerticalFlip<ACMYKF32_t>;
+	extern template class ImageVerticalFlip<ACMYKF64_t>;
+	extern template class ImageVerticalFlip<GrayScale1_t>;
+	extern template class ImageVerticalFlip<GrayScale8_t>;
+	extern template class ImageVerticalFlip<GrayScale16_t>;
+	extern template class ImageVerticalFlip<GrayScale32_t>;
+	extern template class ImageVerticalFlip<GrayScale64_t>;
+	extern template class ImageVerticalFlip<GrayScaleI16_t>;
+	extern template class ImageVerticalFlip<GrayScaleI32_t>;
+	extern template class ImageVerticalFlip<GrayScaleI64_t>;
+	extern template class ImageVerticalFlip<GrayScaleF32_t>;
+	extern template class ImageVerticalFlip<GrayScaleF64_t>;
+	extern template class ImageVerticalFlip<RGB8_t>;
+	extern template class ImageVerticalFlip<RGB16_t>;
+	extern template class ImageVerticalFlip<RGB32_t>;
+	extern template class ImageVerticalFlip<RGB64_t>;
+	extern template class ImageVerticalFlip<RGBI16_t>;
+	extern template class ImageVerticalFlip<RGBI32_t>;
+	extern template class ImageVerticalFlip<RGBI64_t>;
+	extern template class ImageVerticalFlip<RGBF32_t>;
+	extern template class ImageVerticalFlip<RGBF64_t>;
+	extern template class ImageVerticalFlip<ARGB8_t>;
+	extern template class ImageVerticalFlip<ARGB16_t>;
+	extern template class ImageVerticalFlip<ARGB32_t>;
+	extern template class ImageVerticalFlip<ARGB64_t>;
+	extern template class ImageVerticalFlip<ARGBI16_t>;
+	extern template class ImageVerticalFlip<ARGBI32_t>;
+	extern template class ImageVerticalFlip<ARGBI64_t>;
+	extern template class ImageVerticalFlip<ARGBF32_t>;
+	extern template class ImageVerticalFlip<ARGBF64_t>;
+	extern template class ImageVerticalFlip<YUV8_t>;
+	extern template class ImageVerticalFlip<YUV16_t>;
+	extern template class ImageVerticalFlip<YUV32_t>;
+	extern template class ImageVerticalFlip<YUV64_t>;
+	extern template class ImageVerticalFlip<YUVI16_t>;
+	extern template class ImageVerticalFlip<YUVI32_t>;
+	extern template class ImageVerticalFlip<YUVI64_t>;
+	extern template class ImageVerticalFlip<YUVF32_t>;
+	extern template class ImageVerticalFlip<YUVF64_t>;
+	extern template class ImageVerticalFlip<AYUV8_t>;
+	extern template class ImageVerticalFlip<AYUV16_t>;
+	extern template class ImageVerticalFlip<AYUV32_t>;
+	extern template class ImageVerticalFlip<AYUV64_t>;
+	extern template class ImageVerticalFlip<AYUVI16_t>;
+	extern template class ImageVerticalFlip<AYUVI32_t>;
+	extern template class ImageVerticalFlip<AYUVI64_t>;
+	extern template class ImageVerticalFlip<AYUVF32_t>;
+	extern template class ImageVerticalFlip<AYUVF64_t>;
 }
 #endif // __stationaryorbit_graphics_core_deformation__
