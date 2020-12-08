@@ -42,9 +42,9 @@ namespace zawa_ch::StationaryOrbit
 		~RectangleSize() = default;
 	public: // member
 		///	水平軸の値を取得します。
-		constexpr int Width() const { return _w; }
+		constexpr const int& Width() const { return _w; }
 		///	垂直軸の値を取得します。
-		constexpr int Height() const { return _h; }
+		constexpr const int& Height() const { return _h; }
 		///	水平軸コンポーネントの値の範囲を示す @a Range を取得します。
 		constexpr Range<int> XRange() const { return Range(0, _w); }
 		///	垂直軸コンポーネントの値の範囲を示す @a Range を取得します。
@@ -82,9 +82,9 @@ namespace zawa_ch::StationaryOrbit
 		~RectangleSizeF() = default;
 	public: // member
 		///	水平軸コンポーネントを取得します。
-		constexpr float Width() const { return _w; }
+		constexpr const float& Width() const { return _w; }
 		///	垂直軸コンポーネントを取得します。
-		constexpr float Height() const { return _h; }
+		constexpr const float& Height() const { return _h; }
 		constexpr bool IsEmpty() const { return (_w==0)&&(_h==0); }
 
 		constexpr RectangleSizeF operator+(const RectangleSizeF& other) const { return RectangleSizeF(_w + other._w, _h + other._h); }
