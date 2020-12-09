@@ -22,7 +22,6 @@ set(AssemblyName stationaryorbit.graphics-core)
 set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/graphics-core)
 
 add_library(${AssemblyName} SHARED
-    ${Include_Dir}/bitmapconverter.hpp
     ${Include_Dir}/channelvalue.hpp
     ${Include_Dir}/cmycolor.hpp
     ${Include_Dir}/cmykcolor.hpp
