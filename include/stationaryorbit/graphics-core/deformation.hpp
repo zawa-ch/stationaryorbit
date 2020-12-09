@@ -27,6 +27,22 @@
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	template<class Tcolor>
+	class ImageAlign : public Image<Tcolor>
+	{
+	public:
+		typedef Tcolor ValueType;
+	private:
+		const Image<Tcolor>& _data;
+	public:
+		ImageAlign(const Image<Tcolor>& source) : _data(source) {}
+
+		[[nodiscard]] virtual const RectangleSize& Size() const noexcept { return _data.Size(); }
+		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return DisplayRectangle(DisplayPoint(0, 0), _data.Size()); }
+		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _data.At(_data.Area().Location() + index); }
+
+		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[_data.Area().Location() + index]; }
+	};
+	template<class Tcolor>
 	class ImageHorizonalFlip : public Image<Tcolor>
 	{
 	public:
@@ -60,6 +76,89 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[DisplayPoint(index.X(), -index.Y())]; }
 	};
+
+	extern template class ImageAlign<CMY8_t>;
+	extern template class ImageAlign<CMY16_t>;
+	extern template class ImageAlign<CMY32_t>;
+	extern template class ImageAlign<CMY64_t>;
+	extern template class ImageAlign<CMYI16_t>;
+	extern template class ImageAlign<CMYI32_t>;
+	extern template class ImageAlign<CMYI64_t>;
+	extern template class ImageAlign<CMYF32_t>;
+	extern template class ImageAlign<CMYF64_t>;
+	extern template class ImageAlign<ACMY8_t>;
+	extern template class ImageAlign<ACMY16_t>;
+	extern template class ImageAlign<ACMY32_t>;
+	extern template class ImageAlign<ACMY64_t>;
+	extern template class ImageAlign<ACMYI16_t>;
+	extern template class ImageAlign<ACMYI32_t>;
+	extern template class ImageAlign<ACMYI64_t>;
+	extern template class ImageAlign<ACMYF32_t>;
+	extern template class ImageAlign<ACMYF64_t>;
+	extern template class ImageAlign<CMYK8_t>;
+	extern template class ImageAlign<CMYK16_t>;
+	extern template class ImageAlign<CMYK32_t>;
+	extern template class ImageAlign<CMYK64_t>;
+	extern template class ImageAlign<CMYKI16_t>;
+	extern template class ImageAlign<CMYKI32_t>;
+	extern template class ImageAlign<CMYKI64_t>;
+	extern template class ImageAlign<CMYKF32_t>;
+	extern template class ImageAlign<CMYKF64_t>;
+	extern template class ImageAlign<ACMYK8_t>;
+	extern template class ImageAlign<ACMYK16_t>;
+	extern template class ImageAlign<ACMYK32_t>;
+	extern template class ImageAlign<ACMYK64_t>;
+	extern template class ImageAlign<ACMYKI16_t>;
+	extern template class ImageAlign<ACMYKI32_t>;
+	extern template class ImageAlign<ACMYKI64_t>;
+	extern template class ImageAlign<ACMYKF32_t>;
+	extern template class ImageAlign<ACMYKF64_t>;
+	extern template class ImageAlign<GrayScale1_t>;
+	extern template class ImageAlign<GrayScale8_t>;
+	extern template class ImageAlign<GrayScale16_t>;
+	extern template class ImageAlign<GrayScale32_t>;
+	extern template class ImageAlign<GrayScale64_t>;
+	extern template class ImageAlign<GrayScaleI16_t>;
+	extern template class ImageAlign<GrayScaleI32_t>;
+	extern template class ImageAlign<GrayScaleI64_t>;
+	extern template class ImageAlign<GrayScaleF32_t>;
+	extern template class ImageAlign<GrayScaleF64_t>;
+	extern template class ImageAlign<RGB8_t>;
+	extern template class ImageAlign<RGB16_t>;
+	extern template class ImageAlign<RGB32_t>;
+	extern template class ImageAlign<RGB64_t>;
+	extern template class ImageAlign<RGBI16_t>;
+	extern template class ImageAlign<RGBI32_t>;
+	extern template class ImageAlign<RGBI64_t>;
+	extern template class ImageAlign<RGBF32_t>;
+	extern template class ImageAlign<RGBF64_t>;
+	extern template class ImageAlign<ARGB8_t>;
+	extern template class ImageAlign<ARGB16_t>;
+	extern template class ImageAlign<ARGB32_t>;
+	extern template class ImageAlign<ARGB64_t>;
+	extern template class ImageAlign<ARGBI16_t>;
+	extern template class ImageAlign<ARGBI32_t>;
+	extern template class ImageAlign<ARGBI64_t>;
+	extern template class ImageAlign<ARGBF32_t>;
+	extern template class ImageAlign<ARGBF64_t>;
+	extern template class ImageAlign<YUV8_t>;
+	extern template class ImageAlign<YUV16_t>;
+	extern template class ImageAlign<YUV32_t>;
+	extern template class ImageAlign<YUV64_t>;
+	extern template class ImageAlign<YUVI16_t>;
+	extern template class ImageAlign<YUVI32_t>;
+	extern template class ImageAlign<YUVI64_t>;
+	extern template class ImageAlign<YUVF32_t>;
+	extern template class ImageAlign<YUVF64_t>;
+	extern template class ImageAlign<AYUV8_t>;
+	extern template class ImageAlign<AYUV16_t>;
+	extern template class ImageAlign<AYUV32_t>;
+	extern template class ImageAlign<AYUV64_t>;
+	extern template class ImageAlign<AYUVI16_t>;
+	extern template class ImageAlign<AYUVI32_t>;
+	extern template class ImageAlign<AYUVI64_t>;
+	extern template class ImageAlign<AYUVF32_t>;
+	extern template class ImageAlign<AYUVF64_t>;
 
 	extern template class ImageHorizonalFlip<CMY8_t>;
 	extern template class ImageHorizonalFlip<CMY16_t>;
