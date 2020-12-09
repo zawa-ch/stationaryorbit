@@ -25,7 +25,6 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/channelvalue.hpp
     ${Include_Dir}/cmycolor.hpp
     ${Include_Dir}/cmykcolor.hpp
-    ${Include_Dir}/colorspace.hpp
     ${Include_Dir}/grayscalecolor.hpp
     ${Include_Dir}/image.hpp
     ${Include_Dir}/rgbcolor.hpp
@@ -34,7 +33,6 @@ add_library(${AssemblyName} SHARED
     channelvalue.cpp
     cmycolor.cpp
     cmykcolor.cpp
-    colorspace.cpp
     colorconvert.cpp
     deformation.cpp
     fundamental.cpp
