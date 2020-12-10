@@ -1,4 +1,4 @@
-//	stationaryorbit/graphics-core.pixmap
+//	stationaryorbit/graphics-core.image
 //	Copyright 2020 zawa-ch.
 //	GPLv3 (or later) license
 //
@@ -17,4 +17,7 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include "graphics-core/deformation.hpp"
+#include "graphics-core/image.hpp"
+#include "graphics-core/pixarray.hpp"
 #include "graphics-core/pixmap.hpp"
