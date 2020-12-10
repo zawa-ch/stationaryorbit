@@ -43,6 +43,23 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[_data.Area().Location() + index]; }
 	};
 	template<class Tcolor>
+	class ImageShift : public Image<Tcolor>
+	{
+	public:
+		typedef Tcolor ValueType;
+	private:
+		const Image<Tcolor>& _data;
+		DisplayPoint _amount;
+	public:
+		ImageShift(const Image<Tcolor>& source, const DisplayPoint& amount) : _data(source), _amount(amount) {}
+
+		[[nodiscard]] virtual const RectangleSize& Size() const noexcept { return _data.Size(); }
+		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return _data.Area().Offset(_amount); }
+		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _data.At(index - _amount); }
+
+		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[index - _amount]; }
+	};
+	template<class Tcolor>
 	class ImageHorizonalFlip : public Image<Tcolor>
 	{
 	public:
@@ -159,6 +176,89 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	extern template class ImageAlign<AYUVI64_t>;
 	extern template class ImageAlign<AYUVF32_t>;
 	extern template class ImageAlign<AYUVF64_t>;
+
+	extern template class ImageShift<CMY8_t>;
+	extern template class ImageShift<CMY16_t>;
+	extern template class ImageShift<CMY32_t>;
+	extern template class ImageShift<CMY64_t>;
+	extern template class ImageShift<CMYI16_t>;
+	extern template class ImageShift<CMYI32_t>;
+	extern template class ImageShift<CMYI64_t>;
+	extern template class ImageShift<CMYF32_t>;
+	extern template class ImageShift<CMYF64_t>;
+	extern template class ImageShift<ACMY8_t>;
+	extern template class ImageShift<ACMY16_t>;
+	extern template class ImageShift<ACMY32_t>;
+	extern template class ImageShift<ACMY64_t>;
+	extern template class ImageShift<ACMYI16_t>;
+	extern template class ImageShift<ACMYI32_t>;
+	extern template class ImageShift<ACMYI64_t>;
+	extern template class ImageShift<ACMYF32_t>;
+	extern template class ImageShift<ACMYF64_t>;
+	extern template class ImageShift<CMYK8_t>;
+	extern template class ImageShift<CMYK16_t>;
+	extern template class ImageShift<CMYK32_t>;
+	extern template class ImageShift<CMYK64_t>;
+	extern template class ImageShift<CMYKI16_t>;
+	extern template class ImageShift<CMYKI32_t>;
+	extern template class ImageShift<CMYKI64_t>;
+	extern template class ImageShift<CMYKF32_t>;
+	extern template class ImageShift<CMYKF64_t>;
+	extern template class ImageShift<ACMYK8_t>;
+	extern template class ImageShift<ACMYK16_t>;
+	extern template class ImageShift<ACMYK32_t>;
+	extern template class ImageShift<ACMYK64_t>;
+	extern template class ImageShift<ACMYKI16_t>;
+	extern template class ImageShift<ACMYKI32_t>;
+	extern template class ImageShift<ACMYKI64_t>;
+	extern template class ImageShift<ACMYKF32_t>;
+	extern template class ImageShift<ACMYKF64_t>;
+	extern template class ImageShift<GrayScale1_t>;
+	extern template class ImageShift<GrayScale8_t>;
+	extern template class ImageShift<GrayScale16_t>;
+	extern template class ImageShift<GrayScale32_t>;
+	extern template class ImageShift<GrayScale64_t>;
+	extern template class ImageShift<GrayScaleI16_t>;
+	extern template class ImageShift<GrayScaleI32_t>;
+	extern template class ImageShift<GrayScaleI64_t>;
+	extern template class ImageShift<GrayScaleF32_t>;
+	extern template class ImageShift<GrayScaleF64_t>;
+	extern template class ImageShift<RGB8_t>;
+	extern template class ImageShift<RGB16_t>;
+	extern template class ImageShift<RGB32_t>;
+	extern template class ImageShift<RGB64_t>;
+	extern template class ImageShift<RGBI16_t>;
+	extern template class ImageShift<RGBI32_t>;
+	extern template class ImageShift<RGBI64_t>;
+	extern template class ImageShift<RGBF32_t>;
+	extern template class ImageShift<RGBF64_t>;
+	extern template class ImageShift<ARGB8_t>;
+	extern template class ImageShift<ARGB16_t>;
+	extern template class ImageShift<ARGB32_t>;
+	extern template class ImageShift<ARGB64_t>;
+	extern template class ImageShift<ARGBI16_t>;
+	extern template class ImageShift<ARGBI32_t>;
+	extern template class ImageShift<ARGBI64_t>;
+	extern template class ImageShift<ARGBF32_t>;
+	extern template class ImageShift<ARGBF64_t>;
+	extern template class ImageShift<YUV8_t>;
+	extern template class ImageShift<YUV16_t>;
+	extern template class ImageShift<YUV32_t>;
+	extern template class ImageShift<YUV64_t>;
+	extern template class ImageShift<YUVI16_t>;
+	extern template class ImageShift<YUVI32_t>;
+	extern template class ImageShift<YUVI64_t>;
+	extern template class ImageShift<YUVF32_t>;
+	extern template class ImageShift<YUVF64_t>;
+	extern template class ImageShift<AYUV8_t>;
+	extern template class ImageShift<AYUV16_t>;
+	extern template class ImageShift<AYUV32_t>;
+	extern template class ImageShift<AYUV64_t>;
+	extern template class ImageShift<AYUVI16_t>;
+	extern template class ImageShift<AYUVI32_t>;
+	extern template class ImageShift<AYUVI64_t>;
+	extern template class ImageShift<AYUVF32_t>;
+	extern template class ImageShift<AYUVF64_t>;
 
 	extern template class ImageHorizonalFlip<CMY8_t>;
 	extern template class ImageHorizonalFlip<CMY16_t>;
