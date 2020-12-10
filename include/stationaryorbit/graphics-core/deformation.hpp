@@ -60,6 +60,27 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[index - _amount]; }
 	};
 	template<class Tcolor>
+	class ImageScaling : public Image<Tcolor>
+	{
+	public:
+		typedef Tcolor ValueType;
+		typedef std::function<Tcolor(const Image<Tcolor>&, const DisplayPointF&)> InterpolationMethod;
+	private:
+		const Image<Tcolor>& _data;
+		InterpolationMethod _imethod;
+		RectangleSizeF _amount;
+		DisplayRectangle _newarea;
+	public:
+		ImageScaling(const Image<Tcolor>& source, const InterpolationMethod& imethod, const float& scale) : _data(source), _imethod(imethod), _amount(scale, scale), _newarea(DisplayRectangle::FromEdge(int(source.Area().Left() * scale), int(source.Area().Right() * scale), int(source.Area().Top() * scale), int(source.Area().Bottom() * scale))) {}
+		ImageScaling(const Image<Tcolor>& source, const InterpolationMethod& imethod, const float& xscale, const float& yscale) : _data(source), _imethod(imethod), _amount(xscale, yscale), _newarea(DisplayRectangle::FromEdge(int(source.Area().Left() * xscale), int(source.Area().Right() * xscale), int(source.Area().Top() * yscale), int(source.Area().Bottom() * yscale))) {}
+
+		[[nodiscard]] virtual const RectangleSize& Size() const noexcept { return _newarea.Size(); }
+		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return _newarea; }
+		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _imethod(_data, DisplayPointF(index.X() / _amount.Width(), index.Y() / _amount.Height())); }
+
+		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _imethod(_data, DisplayPointF(index.X() / _amount.Width(), index.Y() / _amount.Height())); }
+	};
+	template<class Tcolor>
 	class ImageHorizonalFlip : public Image<Tcolor>
 	{
 	public:
@@ -259,6 +280,89 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	extern template class ImageShift<AYUVI64_t>;
 	extern template class ImageShift<AYUVF32_t>;
 	extern template class ImageShift<AYUVF64_t>;
+
+	extern template class ImageScaling<CMY8_t>;
+	extern template class ImageScaling<CMY16_t>;
+	extern template class ImageScaling<CMY32_t>;
+	extern template class ImageScaling<CMY64_t>;
+	extern template class ImageScaling<CMYI16_t>;
+	extern template class ImageScaling<CMYI32_t>;
+	extern template class ImageScaling<CMYI64_t>;
+	extern template class ImageScaling<CMYF32_t>;
+	extern template class ImageScaling<CMYF64_t>;
+	extern template class ImageScaling<ACMY8_t>;
+	extern template class ImageScaling<ACMY16_t>;
+	extern template class ImageScaling<ACMY32_t>;
+	extern template class ImageScaling<ACMY64_t>;
+	extern template class ImageScaling<ACMYI16_t>;
+	extern template class ImageScaling<ACMYI32_t>;
+	extern template class ImageScaling<ACMYI64_t>;
+	extern template class ImageScaling<ACMYF32_t>;
+	extern template class ImageScaling<ACMYF64_t>;
+	extern template class ImageScaling<CMYK8_t>;
+	extern template class ImageScaling<CMYK16_t>;
+	extern template class ImageScaling<CMYK32_t>;
+	extern template class ImageScaling<CMYK64_t>;
+	extern template class ImageScaling<CMYKI16_t>;
+	extern template class ImageScaling<CMYKI32_t>;
+	extern template class ImageScaling<CMYKI64_t>;
+	extern template class ImageScaling<CMYKF32_t>;
+	extern template class ImageScaling<CMYKF64_t>;
+	extern template class ImageScaling<ACMYK8_t>;
+	extern template class ImageScaling<ACMYK16_t>;
+	extern template class ImageScaling<ACMYK32_t>;
+	extern template class ImageScaling<ACMYK64_t>;
+	extern template class ImageScaling<ACMYKI16_t>;
+	extern template class ImageScaling<ACMYKI32_t>;
+	extern template class ImageScaling<ACMYKI64_t>;
+	extern template class ImageScaling<ACMYKF32_t>;
+	extern template class ImageScaling<ACMYKF64_t>;
+	extern template class ImageScaling<GrayScale1_t>;
+	extern template class ImageScaling<GrayScale8_t>;
+	extern template class ImageScaling<GrayScale16_t>;
+	extern template class ImageScaling<GrayScale32_t>;
+	extern template class ImageScaling<GrayScale64_t>;
+	extern template class ImageScaling<GrayScaleI16_t>;
+	extern template class ImageScaling<GrayScaleI32_t>;
+	extern template class ImageScaling<GrayScaleI64_t>;
+	extern template class ImageScaling<GrayScaleF32_t>;
+	extern template class ImageScaling<GrayScaleF64_t>;
+	extern template class ImageScaling<RGB8_t>;
+	extern template class ImageScaling<RGB16_t>;
+	extern template class ImageScaling<RGB32_t>;
+	extern template class ImageScaling<RGB64_t>;
+	extern template class ImageScaling<RGBI16_t>;
+	extern template class ImageScaling<RGBI32_t>;
+	extern template class ImageScaling<RGBI64_t>;
+	extern template class ImageScaling<RGBF32_t>;
+	extern template class ImageScaling<RGBF64_t>;
+	extern template class ImageScaling<ARGB8_t>;
+	extern template class ImageScaling<ARGB16_t>;
+	extern template class ImageScaling<ARGB32_t>;
+	extern template class ImageScaling<ARGB64_t>;
+	extern template class ImageScaling<ARGBI16_t>;
+	extern template class ImageScaling<ARGBI32_t>;
+	extern template class ImageScaling<ARGBI64_t>;
+	extern template class ImageScaling<ARGBF32_t>;
+	extern template class ImageScaling<ARGBF64_t>;
+	extern template class ImageScaling<YUV8_t>;
+	extern template class ImageScaling<YUV16_t>;
+	extern template class ImageScaling<YUV32_t>;
+	extern template class ImageScaling<YUV64_t>;
+	extern template class ImageScaling<YUVI16_t>;
+	extern template class ImageScaling<YUVI32_t>;
+	extern template class ImageScaling<YUVI64_t>;
+	extern template class ImageScaling<YUVF32_t>;
+	extern template class ImageScaling<YUVF64_t>;
+	extern template class ImageScaling<AYUV8_t>;
+	extern template class ImageScaling<AYUV16_t>;
+	extern template class ImageScaling<AYUV32_t>;
+	extern template class ImageScaling<AYUV64_t>;
+	extern template class ImageScaling<AYUVI16_t>;
+	extern template class ImageScaling<AYUVI32_t>;
+	extern template class ImageScaling<AYUVI64_t>;
+	extern template class ImageScaling<AYUVF32_t>;
+	extern template class ImageScaling<AYUVF64_t>;
 
 	extern template class ImageHorizonalFlip<CMY8_t>;
 	extern template class ImageHorizonalFlip<CMY16_t>;
