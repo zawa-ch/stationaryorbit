@@ -17,21 +17,22 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 #include "stationaryorbit/graphics-core.color.hpp"
+#include "stationaryorbit/graphics-core.image.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 void Test_Core()
 {
-	auto fbitmap1 = Graphics::BitmapF32(10, 10, 1);
-	auto fbitmap2 = Graphics::BitmapConverter<float>::FripVertical(fbitmap1);
-	auto fbitmap3 = Graphics::BitmapConverter<float>::FripHorizonal(fbitmap2);
-	auto ibitmap = Graphics::Bitmap8(fbitmap1);
-	auto rgbbitmap = Graphics::RGBBitmapImage(10, 10);
-	auto graybitmap = rgbbitmap;
-	graybitmap.Monotone();
-	auto bbitmap1 = Graphics::BinaryBitmap(fbitmap1, (
-		[](const Graphics::BitmapF32::ConstRefType & value) -> bool { return (value[0] > 0.5)?true:false; }
-	));
-	auto bbitmap2 = rgbbitmap.Binalize(
-		[](const Graphics::RGBColor& color) -> bool { return ((color.R() > 0.5)&&(color.G() > 0.5)&&(color.B() > 0.5))?true:false; }
+	auto i1 = Graphics::RGBF32Pixmap_t(10, 10);
+	auto i1_hflip = Graphics::ImageHorizonalFlip(i1);
+	auto i1_vflip = Graphics::ImageVerticalFlip(i1);
+	auto i2 = Graphics::RGBF32Pixmap_t(i1_hflip, i1_hflip.Area());
+	auto i3 = Graphics::RGBF32Pixmap_t(i1_vflip, i1_vflip.Area());
+	auto i4 = Graphics::RGB8Pixmap_t(i1);
+	auto i5 = Graphics::GrayF32Pixmap_t::Convert<Graphics::RGBF32_t>(i1, [](const auto& i) { return Graphics::ColorConvert::LuminanceSrgb(i); });
+	auto i6 = Graphics::Mask1Pixmap_t::Convert<Graphics::RGBF32_t>(i1, 
+		[](const auto& i) {return Graphics::Opacity1_t(Proportion1_t(i.R() > 0.5)); }
+	);
+	auto i7 = Graphics::Mask1Pixmap_t::Convert<Graphics::RGBF32_t>(i1, 
+		[](const auto& i) {return Graphics::Opacity1_t(Proportion1_t((i.R() > 0.5)&&(i.G() > 0.5)&&(i.B() > 0.5))); }
 	);
 }
