@@ -89,7 +89,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		const Image<Tcolor>& _data;
 		DisplayPoint _orig;
 	public:
-		ImageHorizonalFlip(const Image<Tcolor>& source) : _data(source), _orig(-_data.Area().Right(), _data.Area().Top()) {}
+		ImageHorizonalFlip(const Image<Tcolor>& source) : _data(source), _orig(1-_data.Area().Right(), _data.Area().Top()) {}
 
 		[[nodiscard]] virtual const RectangleSize& Size() const noexcept { return _data.Size(); }
 		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return DisplayRectangle(_orig, _data.Size()); }
@@ -106,7 +106,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		const Image<Tcolor>& _data;
 		DisplayPoint _orig;
 	public:
-		ImageVerticalFlip(const Image<Tcolor>& source) : _data(source), _orig(_data.Area().Left(), -_data.Area().Bottom()) {}
+		ImageVerticalFlip(const Image<Tcolor>& source) : _data(source), _orig(_data.Area().Left(), 1-_data.Area().Bottom()) {}
 
 		[[nodiscard]] virtual const RectangleSize& Size() const noexcept { return _data.Size(); }
 		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return DisplayRectangle(_orig, _data.Size()); }
