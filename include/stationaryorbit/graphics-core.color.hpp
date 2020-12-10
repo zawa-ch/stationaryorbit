@@ -19,7 +19,11 @@
 
 #include "graphics-core/cmycolor.hpp"
 #include "graphics-core/cmykcolor.hpp"
+#include "graphics-core/colorconvert.hpp"
+#include "graphics-core/colortraits.hpp"
 #include "graphics-core/grayscalecolor.hpp"
+#include "graphics-core/opacity.hpp"
+#include "graphics-core/relativecolor.hpp"
 #include "graphics-core/rgbcolor.hpp"
 #include "graphics-core/xyzcolor.hpp"
 #include "graphics-core/yuvcolor.hpp"
