@@ -77,12 +77,12 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		Pixmap(const Image<fromTcolor>& source, const DisplayRectangle& area)
 			: Pixmap
 			(
-				[](const RectangleSize& size, const DisplayRectangle& area) -> RectangleSize
+				[](const DisplayRectangle& bound, const DisplayRectangle& area) -> RectangleSize
 				{
-					if ((area.Left() < 0)||(area.Top() < 0)||(size.Width() <= area.Right())||(size.Height() <= area.Bottom()))
+					if ((area.Left() < bound.Left())||(area.Top() < bound.Top())||(bound.Right() < area.Right())||(bound.Bottom() < area.Bottom()))
 					{ throw std::out_of_range("指定された領域は境界を超えています。"); }
 					else { return area.Size(); }
-				}(source.Size(), area)
+				}(source.Area(), area)
 			)
 		{
 			for(auto y: area.YRange().GetStdIterator()) for(auto x: area.XRange().GetStdIterator())
