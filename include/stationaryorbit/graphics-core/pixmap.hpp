@@ -62,9 +62,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		template<class fromTcolor, class fromAllocator>
 		explicit Pixmap(const Pixmap<fromTcolor, fromAllocator>& from) : _size(from.Size()), _data(solveItemcount(from.Size()))
 		{
-			auto di = Data().begin();
+			auto di = _data.begin();
 			auto si = from.Data().cbegin();
-			auto de = Data().end();
+			auto de = _data.end();
 			auto se = from.Data().cend();
 			while((di != de)&&(si != se))
 			{
@@ -121,9 +121,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] static Pixmap<Tcolor, Allocator> Convert(const Pixmap<fromTcolor, fromAllocator>& value, const std::function<Tcolor(const fromTcolor&)>& pred)
 		{
 			Pixmap<Tcolor, Allocator> result = Pixmap<Tcolor, Allocator>(value.Size());
-			auto di = result.Data().begin();
+			auto di = result._data.begin();
 			auto si = value.Data().cbegin();
-			auto de = result.Data().end();
+			auto de = result._data.end();
 			auto se = value.Data().cend();
 			while((di != de)&&(si != se))
 			{
