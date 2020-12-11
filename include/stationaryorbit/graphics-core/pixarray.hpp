@@ -83,9 +83,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] static PixArray<Tcolor, width, height> Convert(const PixArray<fromTcolor, width, height>& value, const std::function<Tcolor(const fromTcolor&)>& pred)
 		{
 			PixArray<Tcolor, width, height> result = PixArray<Tcolor, width, height>(value.Size());
-			auto di = result.Data().begin();
+			auto di = result._data.begin();
 			auto si = value.Data().cbegin();
-			auto de = result.Data().end();
+			auto de = result._data.end();
 			auto se = value.Data().cend();
 			while((di != de)&&(si != se))
 			{
