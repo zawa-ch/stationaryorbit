@@ -43,15 +43,16 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		Pixmap() = default;
 		explicit Pixmap(const RectangleSize& size) : _size(size), _data(solveItemcount(size)) {}
 		Pixmap(const int& width, const int& height) : Pixmap(RectangleSize(width, height)) {}
-		Pixmap(const Pixmap<Tcolor, Allocator>& value, const DisplayRectangle& area)
+		Pixmap(const Pixmap<Tcolor, Allocator>& source, const DisplayRectangle& area)
 			: Pixmap
 			(
-				[](const RectangleSize& size, const DisplayRectangle& area) -> RectangleSize
+				// areaで指定された領域がsourceの境界を超えていないか検査、境界を超えていなければareaの大きさ(RectangleSize)を返す
+				[](const DisplayRectangle& bound, const DisplayRectangle& area) -> RectangleSize
 				{
-					if ((area.Left() < 0)||(area.Top() < 0)||(size.Width() <= area.Right())||(size.Height() <= area.Bottom()))
+					if ((area.Left() < bound.Left())||(area.Top() < bound.Top())||(bound.Right() < area.Right())||(bound.Bottom() < area.Bottom()))
 					{ throw std::out_of_range("指定された領域は境界を超えています。"); }
 					else { return area.Size(); }
-				}(value.Size(), area)
+				}(source.Area(), area)
 			)
 		{
 			for(auto y: area.YRange().GetStdIterator()) for(auto x: area.XRange().GetStdIterator())
@@ -77,6 +78,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		Pixmap(const Image<fromTcolor>& source, const DisplayRectangle& area)
 			: Pixmap
 			(
+				// areaで指定された領域がsourceの境界を超えていないか検査、境界を超えていなければareaの大きさ(RectangleSize)を返す
 				[](const DisplayRectangle& bound, const DisplayRectangle& area) -> RectangleSize
 				{
 					if ((area.Left() < bound.Left())||(area.Top() < bound.Top())||(bound.Right() < area.Right())||(bound.Bottom() < area.Bottom()))
@@ -105,10 +107,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		template<class fromTcolor = Tcolor>
 		void Copy(const Image<fromTcolor>& source, const DisplayRectangle& area, const DisplayPoint& destination = DisplayPoint(Zero, Zero))
 		{
-			if ((0 < area.Left())||(0 < area.Top())||(area.Right() <= source.Size().Width())||(area.Bottom() <= source.Size().Height()))
+			if ((area.Left() < source.Area().Left())||(area.Top() < source.Area().Top())||(source.Area().Right() < area.Right())||(source.Area().Bottom() < area.Bottom()))
 			{ throw std::invalid_argument("コピー指定された領域はコピー元の境界を超えています。"); }
 			auto destarea = DisplayRectangle(destination, area.Size());
-			if ((0 < destarea.Left())||(0 < destarea.Top())||(destarea.Right() <= Size().Width())||(destarea.Bottom() <= Size().Height()))
+			if ((0 < destarea.Left())||(0 < destarea.Top())||(destarea.Right() < Size().Width())||(destarea.Bottom() < Size().Height()))
 			{ throw std::out_of_range("コピー指定された領域はコピー先の領域を超えています。"); }
 			for(auto y: area.Size().YRange().GetStdIterator()) for(auto x: area.Size().XRange().GetStdIterator())
 			{
