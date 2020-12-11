@@ -40,8 +40,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		template<class fromTcolor>
 		PixArray(const Image<fromTcolor>& source, const DisplayRectangle& area) : _data()
 		{
-			if ((area.Left() < 0)||(area.Top() < 0)||(source.Size().Width() <= area.Right())||(source.Size().Height() <= area.Bottom()))
-			{ throw std::out_of_range("指定された領域は境界を超えています。"); }
+			[](const DisplayRectangle& bound, const DisplayRectangle& area)
+			{
+				if ((area.Left() < bound.Left())||(area.Top() < bound.Top())||(bound.Right() < area.Right())||(bound.Bottom() < area.Bottom()))
+				{ throw std::out_of_range("指定された領域は境界を超えています。"); }
+			} (source.Area(), area);
 			for(auto y: area.YRange().GetStdIterator()) for(auto x: area.XRange().GetStdIterator())
 			{
 				(*this)[DisplayPoint(x-area.Left(), y-area.Top())] = ValueType(source[DisplayPoint(x, y)]);
@@ -64,10 +67,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		template<class fromTcolor = Tcolor>
 		void Copy(const Image<fromTcolor>& source, const DisplayRectangle& area, const DisplayPoint& destination = DisplayPoint(Zero, Zero))
 		{
-			if ((0 < area.Left())||(0 < area.Top())||(area.Right() <= source.Size().Width())||(area.Bottom() <= source.Size().Height()))
+			if ((area.Left() < source.Area().Left())||(area.Top() < source.Area().Top())||(source.Area().Right() < area.Right())||(source.Area().Bottom() < area.Bottom()))
 			{ throw std::invalid_argument("コピー指定された領域はコピー元の境界を超えています。"); }
 			auto destarea = DisplayRectangle(destination, area.Size());
-			if ((0 < destarea.Left())||(0 < destarea.Top())||(destarea.Right() <= Size().Width())||(destarea.Bottom() <= Size().Height()))
+			if ((0 < destarea.Left())||(0 < destarea.Top())||(destarea.Right() < Size().Width())||(destarea.Bottom() < Size().Height()))
 			{ throw std::out_of_range("コピー指定された領域はコピー先の領域を超えています。"); }
 			for(auto y: area.Size().YRange().GetStdIterator()) for(auto x: area.Size().XRange().GetStdIterator())
 			{
