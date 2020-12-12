@@ -57,7 +57,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		{
 			for(auto y: area.YRange().GetStdIterator()) for(auto x: area.XRange().GetStdIterator())
 			{
-				(*this)[DisplayPoint(x-area.Left(), y-area.Top())] = value[DisplayPoint(x, y)];
+				(*this)[DisplayPoint(x-area.Left(), y-area.Top())] = source[DisplayPoint(x, y)];
 			}
 		}
 		template<class fromTcolor, class fromAllocator>
