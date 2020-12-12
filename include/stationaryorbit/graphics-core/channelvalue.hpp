@@ -84,6 +84,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			else { return 0; }
 		}
 
+		[[nodiscard]] constexpr ChannelValue<Tp> operator+() const noexcept { return Promote(); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator-() const noexcept { return Invert(); }
 		[[nodiscard]] constexpr ChannelValue<Tp> operator+(const ChannelValue<Tp>& other) const noexcept { return Add(other); }
 		[[nodiscard]] constexpr ChannelValue<Tp> operator-(const ChannelValue<Tp>& other) const noexcept { return Subtract(other); }
 		[[nodiscard]] constexpr ChannelValue<Tp> operator*(const ChannelValue<Tp>& other) const noexcept { return Multiply(other); }
