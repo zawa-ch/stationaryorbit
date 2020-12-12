@@ -18,63 +18,61 @@
 //
 #ifndef __stationaryorbit_graphics_core_xyzcolor__
 #define __stationaryorbit_graphics_core_xyzcolor__
-#include <cstdint>
-#include "stationaryorbit/core.numeral.hpp"
+#include "channelvalue.hpp"
+#include "translucentcolor.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	///	CIE1931 XYZ色空間によって表される色。
-	template <class Tp = float>
+	template <class Tp>
 	struct XYZColor final
 	{
 	public: // types
 		///	この型の各チャネルの値の表現のために内部で使用されている型。
-		typedef Proportion<Tp> ChannelType;
+		typedef ChannelValue<Tp> ValueType;
 	private: // contains
-		ChannelType _x;
-		ChannelType _y;
-		ChannelType _z;
+		ValueType _x;
+		ValueType _y;
+		ValueType _z;
 	public: // construct
-		constexpr XYZColor() : _x(), _y(), _z() {}
-		constexpr XYZColor(const ChannelType& x, const ChannelType& y, const ChannelType& z) : _x(x), _y(y), _z(z) {}
+		constexpr XYZColor() = default;
+		constexpr XYZColor(const ValueType& x, const ValueType& y, const ValueType& z) : _x(x), _y(y), _z(z) {}
+		template <class fromT>
+		constexpr explicit XYZColor(const XYZColor<fromT>& from) : XYZColor(ValueType(from._x), ValueType(from._y), ValueType(from._z)) {}
+		constexpr XYZColor(const ZeroValue_t&) : XYZColor(Zero, Zero, Zero) {}
 	public: // member
 		///	この @a XYZColor のXコンポーネントを取得します。
-		constexpr const ChannelType& X() const { return _x; }
+		constexpr const ValueType& X() const { return _x; }
 		///	この @a XYZColor のYコンポーネントを取得します。
-		constexpr const ChannelType& Y() const { return _y; }
+		constexpr const ValueType& Y() const { return _y; }
 		///	この @a XYZColor のZコンポーネントを取得します。
-		constexpr const ChannelType& Z() const { return _z; }
+		constexpr const ValueType& Z() const { return _z; }
 		///	この @a XYZColor が正規化されているかを取得します。
 		constexpr bool IsNormalized() const { return (_x.IsNormalized())&&(_y.IsNormalized())&&(_z.IsNormalized()); }
-		///	この @a XYZColor が空であるかを取得します。
-		constexpr bool IsEmpty() const { return *this == Empty(); }
+		///	正規化した @a XYZColor を取得します。
+		constexpr XYZColor<Tp> Normalize() const { return XYZColor<Tp>(_x.Normalize(), _y.Normalize(), _z.Normalize()); }
 
+		constexpr XYZColor<Tp> operator+() const { return XYZColor<Tp>(_x.Promote(), _y.Promote(), _z.Promote()); }
+		constexpr XYZColor<Tp> operator-() const { return XYZColor<Tp>(_x.Invert(), _y.Invert(), _z.Invert()); }
 		constexpr XYZColor<Tp> operator+(const XYZColor<Tp>& other) const { return XYZColor<Tp>(_x + other._x, _y + other._y, _z + other._z); }
 		constexpr XYZColor<Tp> operator-(const XYZColor<Tp>& other) const { return XYZColor<Tp>(_x - other._x, _y - other._y, _z - other._z); }
 		constexpr XYZColor<Tp> operator*(const XYZColor<Tp>& other) const { return XYZColor<Tp>(_x * other._x, _y * other._y, _z * other._z); }
-		constexpr XYZColor<Tp> operator*(const ChannelType& other) const { return XYZColor<Tp>(_x * other, _y * other, _z * other); }
+		constexpr XYZColor<Tp> operator*(const ValueType& other) const { return XYZColor<Tp>(_x * other, _y * other, _z * other); }
 		constexpr XYZColor<Tp> operator/(const XYZColor<Tp>& other) const { return XYZColor<Tp>(_x / other._x, _y / other._y, _z / other._z); }
-		constexpr XYZColor<Tp> operator/(const ChannelType& other) const { return XYZColor<Tp>(_x / other, _y / other, _z / other); }
-		constexpr XYZColor<Tp> operator~() const { return XYZColor<Tp>(ChannelType::Max()-_x, ChannelType::Max()-_y, ChannelType::Max()-_z); }
+		constexpr XYZColor<Tp> operator/(const ValueType& other) const { return XYZColor<Tp>(_x / other, _y / other, _z / other); }
+		constexpr XYZColor<Tp> operator~() const { return XYZColor<Tp>(ValueType::Max()-_x, ValueType::Max()-_y, ValueType::Max()-_z); }
 		constexpr XYZColor<Tp> operator|(const XYZColor<Tp>& other) const { return XYZColor<Tp>(((other._x < _x)?(_x):(other._x)), ((other._y < _y)?(_y):(other._y)), ((other._z < _z)?(_z):(other._z))); }
 		constexpr XYZColor<Tp> operator&(const XYZColor<Tp>& other) const { return XYZColor<Tp>(((_x < other._x)?(_x):(other._x)), ((_y < other._y)?(_y):(other._y)), ((_z < other._z)?(_z):(other._z))); }
 		constexpr XYZColor<Tp> operator^(const XYZColor<Tp>& other) const { return (*this | other) & ~(*this & other); }
 		constexpr XYZColor<Tp>& operator+=(const XYZColor<Tp>& other) { return *this = *this + other; }
 		constexpr XYZColor<Tp>& operator-=(const XYZColor<Tp>& other) { return *this = *this - other; }
 		constexpr XYZColor<Tp>& operator*=(const XYZColor<Tp>& other) { return *this = *this * other; }
-		constexpr XYZColor<Tp>& operator*=(const ChannelType& other) { return *this = *this * other; }
+		constexpr XYZColor<Tp>& operator*=(const ValueType& other) { return *this = *this * other; }
 		constexpr XYZColor<Tp>& operator/=(const XYZColor<Tp>& other) { return *this = *this / other; }
-		constexpr XYZColor<Tp>& operator/=(const ChannelType& other) { return *this = *this / other; }
+		constexpr XYZColor<Tp>& operator/=(const ValueType& other) { return *this = *this / other; }
 		constexpr XYZColor<Tp>& operator|=(const XYZColor<Tp>& other) { return *this = *this | other; }
 		constexpr XYZColor<Tp>& operator&=(const XYZColor<Tp>& other) { return *this = *this & other; }
 		constexpr XYZColor<Tp>& operator^=(const XYZColor<Tp>& other) { return *this = *this ^ other; }
 
-		///	正規化した @a XYZColor を取得します。
-		constexpr XYZColor<Tp> Normalize() const { return XYZColor<Tp>(_x.Normalize(), _y.Normalize(), _z.Normalize()); }
-
-		template <class castT>
-		constexpr XYZColor<castT> CastTo() const { return XYZColor<castT>(_x.template CastTo<castT>(), _y.template CastTo<castT>(), _z.template CastTo<castT>()); }
-
-		///	指定されたオブジェクトがこのオブジェクトと等価であることをテストします。
 		constexpr bool Equals(const XYZColor<Tp>& other) const { return (_x == other._x)&&(_y == other._y)&&(_z == other._z); }
 		constexpr bool operator==(const XYZColor<Tp>& other) const { return Equals(other); }
 		constexpr bool operator!=(const XYZColor<Tp>& other) const { return !Equals(other); }
@@ -82,85 +80,42 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		constexpr static XYZColor<Tp> Empty() { return XYZColor<Tp>(); }
 	};
 
-	///	不透明度の要素を持つ @a XYZColor 。
-	template <class Tp = float>
-	struct AXYZColor final
-	{
-	public: // types
-		///	この型の各チャネルの値の表現のために内部で使用されている型。
-		typedef Proportion<Tp> ChannelType;
-	private: // contains
-		ChannelType _alpha;
-		XYZColor<Tp> _color;
-	public: // construct
-		constexpr AXYZColor() :_color(), _alpha() {}
-		constexpr explicit AXYZColor(const XYZColor<Tp>& color) :_color(color), _alpha(ChannelType::Max()) {}
-		constexpr AXYZColor(const ChannelType& x, const ChannelType& y, const ChannelType& z) : _color(x, y, z), _alpha(ChannelType::Max()) {}
-		constexpr AXYZColor(const XYZColor<Tp>& color, const ChannelType& alpha) :_color(color), _alpha(alpha) {}
-		constexpr AXYZColor(const ChannelType& x, const ChannelType& y, const ChannelType& z, const ChannelType& alpha) : _color(x, y, z), _alpha(alpha) {}
-		template <class fromT>
-		constexpr explicit AXYZColor(const AXYZColor<fromT>& from) : AXYZColor(from.template CastTo<Tp>()) {}
-	public: // member
-		constexpr const XYZColor<Tp>& Color() const { return _color; }
-		///	この @a AXYZColor の不透明度を取得します。
-		constexpr const ChannelType& Alpha() const { return _alpha; }
-		///	この @a AXYZColor のXコンポーネントを取得します。
-		constexpr const ChannelType& X() const { return _color.X(); }
-		///	この @a AXYZColor のYコンポーネントを取得します。
-		constexpr const ChannelType& Y() const { return _color.Y(); }
-		///	この @a AXYZColor のZコンポーネントを取得します。
-		constexpr const ChannelType& Z() const { return _color.Z(); }
-		///	この @a AXYZColor が正規化されているかを取得します。
-		constexpr bool IsNormalized() const { return (_color.IsNormalized())&&(_alpha.IsNormalized()); }
-		///	この @a AXYZColor が空であるかを取得します。
-		constexpr bool IsEmpty() const { return *this == Empty(); }
+	extern template struct XYZColor<Proportion8_t>;
+	extern template struct XYZColor<Proportion16_t>;
+	extern template struct XYZColor<Proportion32_t>;
+	extern template struct XYZColor<Proportion64_t>;
+	extern template struct XYZColor<FixedPoint16q15_t>;
+	extern template struct XYZColor<FixedPoint32q31_t>;
+	extern template struct XYZColor<FixedPoint64q63_t>;
+	extern template struct XYZColor<float>;
+	extern template struct XYZColor<double>;
+	extern template struct TranslucentColor<XYZColor<Proportion8_t>>;
+	extern template struct TranslucentColor<XYZColor<Proportion16_t>>;
+	extern template struct TranslucentColor<XYZColor<Proportion32_t>>;
+	extern template struct TranslucentColor<XYZColor<Proportion64_t>>;
+	extern template struct TranslucentColor<XYZColor<FixedPoint16q15_t>>;
+	extern template struct TranslucentColor<XYZColor<FixedPoint32q31_t>>;
+	extern template struct TranslucentColor<XYZColor<FixedPoint64q63_t>>;
+	extern template struct TranslucentColor<XYZColor<float>>;
+	extern template struct TranslucentColor<XYZColor<double>>;
 
-		constexpr AXYZColor<Tp> operator+(const AXYZColor<Tp>& other) const { return AXYZColor<Tp>(_color + (other._color * other._alpha), _alpha); }
-		constexpr AXYZColor<Tp> operator+(const XYZColor<Tp>& other) const { return AXYZColor<Tp>(_color + other, _alpha); }
-		constexpr AXYZColor<Tp> operator-(const AXYZColor<Tp>& other) const { return AXYZColor<Tp>(_color - (other._color * other._alpha), _alpha); }
-		constexpr AXYZColor<Tp> operator-(const XYZColor<Tp>& other) const { return AXYZColor<Tp>(_color - other, _alpha); }
-		constexpr AXYZColor<Tp> operator*(const AXYZColor<Tp>& other) const { return AXYZColor<Tp>(_color * (other._color * other._alpha), _alpha); }
-		constexpr AXYZColor<Tp> operator*(const XYZColor<Tp>& other) const { return AXYZColor<Tp>(_color * other, _alpha); }
-		constexpr AXYZColor<Tp> operator*(const ChannelType& other) const { return AXYZColor<Tp>(_color, _alpha * other); }
-		constexpr AXYZColor<Tp> operator/(const AXYZColor<Tp>& other) const { return AXYZColor<Tp>(_color / (other._color * other._alpha), _alpha); }
-		constexpr AXYZColor<Tp> operator/(const XYZColor<Tp>& other) const { return AXYZColor<Tp>(_color / other, _alpha); }
-		constexpr AXYZColor<Tp> operator/(const ChannelType& other) const { return AXYZColor<Tp>(_color, _alpha / other); }
-		constexpr AXYZColor<Tp> operator~() const { return AXYZColor<Tp>(~_color, _alpha); }
-		constexpr AXYZColor<Tp> operator|(const AXYZColor<Tp>& other) const { return AXYZColor<Tp>(_color | (other._color * other._alpha), _alpha); }
-		constexpr AXYZColor<Tp> operator|(const XYZColor<Tp>& other) const { return AXYZColor<Tp>(_color | other, _alpha); }
-		constexpr AXYZColor<Tp> operator&(const AXYZColor<Tp>& other) const { return AXYZColor<Tp>(_color & (other._color * other._alpha), _alpha); }
-		constexpr AXYZColor<Tp> operator&(const XYZColor<Tp>& other) const { return AXYZColor<Tp>(_color & other, _alpha); }
-		constexpr AXYZColor<Tp> operator^(const AXYZColor<Tp>& other) const { return AXYZColor<Tp>(_color ^ (other._color * other._alpha), _alpha); }
-		constexpr AXYZColor<Tp> operator^(const XYZColor<Tp>& other) const { return AXYZColor<Tp>(_color ^ other, _alpha); }
-		constexpr AXYZColor<Tp>& operator+=(const AXYZColor<Tp>& other) { return *this = *this + other; }
-		constexpr AXYZColor<Tp>& operator+=(const XYZColor<Tp>& other) { return *this = *this + other; }
-		constexpr AXYZColor<Tp>& operator-=(const AXYZColor<Tp>& other) { return *this = *this - other; }
-		constexpr AXYZColor<Tp>& operator-=(const XYZColor<Tp>& other) { return *this = *this - other; }
-		constexpr AXYZColor<Tp>& operator*=(const AXYZColor<Tp>& other) { return *this = *this * other; }
-		constexpr AXYZColor<Tp>& operator*=(const XYZColor<Tp>& other) { return *this = *this * other; }
-		constexpr AXYZColor<Tp>& operator*=(const ChannelType& other) { return *this = *this * other; }
-		constexpr AXYZColor<Tp>& operator/=(const AXYZColor<Tp>& other) { return *this = *this / other; }
-		constexpr AXYZColor<Tp>& operator/=(const XYZColor<Tp>& other) { return *this = *this / other; }
-		constexpr AXYZColor<Tp>& operator/=(const ChannelType& other) { return *this = *this / other; }
-		constexpr AXYZColor<Tp>& operator|=(const AXYZColor<Tp>& other) { return *this = *this | other; }
-		constexpr AXYZColor<Tp>& operator|=(const XYZColor<Tp>& other) { return *this = *this | other; }
-		constexpr AXYZColor<Tp>& operator&=(const AXYZColor<Tp>& other) { return *this = *this & other; }
-		constexpr AXYZColor<Tp>& operator&=(const XYZColor<Tp>& other) { return *this = *this & other; }
-		constexpr AXYZColor<Tp>& operator^=(const AXYZColor<Tp>& other) { return *this = *this ^ other; }
-		constexpr AXYZColor<Tp>& operator^=(const XYZColor<Tp>& other) { return *this = *this ^ other; }
-
-		///	正規化した @a AXYZColor を取得します。
-		constexpr AXYZColor<Tp> Normalize() const { return AXYZColor<Tp>(_color.Normalize(), _alpha.Normalize()); }
-
-		template <class castT>
-		constexpr AXYZColor<castT> CastTo() const { return AXYZColor<castT>(_color.template CastTo<castT>(), _alpha.template CastTo<castT>()); }
-
-		///	指定されたオブジェクトがこのオブジェクトと等価であることをテストします。
-		constexpr bool Equals(const AXYZColor<Tp>& other) const { return (_color == other._color)&&(_alpha == other._alpha); }
-		constexpr bool operator==(const AXYZColor<Tp>& other) const { return Equals(other); }
-		constexpr bool operator!=(const AXYZColor<Tp>& other) const { return !Equals(other); }
-
-		constexpr static AXYZColor<Tp> Empty() { return AXYZColor<Tp>(); }
-	};
+	typedef XYZColor<Proportion8_t> XYZ8_t;
+	typedef XYZColor<Proportion16_t> XYZ16_t;
+	typedef XYZColor<Proportion32_t> XYZ32_t;
+	typedef XYZColor<Proportion64_t> XYZ64_t;
+	typedef XYZColor<FixedPoint16q15_t> XYZI16_t;
+	typedef XYZColor<FixedPoint32q31_t> XYZI32_t;
+	typedef XYZColor<FixedPoint64q63_t> XYZI64_t;
+	typedef XYZColor<float> XYZF32_t;
+	typedef XYZColor<double> XYZF64_t;
+	typedef TranslucentColor<XYZColor<Proportion8_t>> AXYZ8_t;
+	typedef TranslucentColor<XYZColor<Proportion16_t>> AXYZ16_t;
+	typedef TranslucentColor<XYZColor<Proportion32_t>> AXYZ32_t;
+	typedef TranslucentColor<XYZColor<Proportion64_t>> AXYZ64_t;
+	typedef TranslucentColor<XYZColor<FixedPoint16q15_t>> AXYZI16_t;
+	typedef TranslucentColor<XYZColor<FixedPoint32q31_t>> AXYZI32_t;
+	typedef TranslucentColor<XYZColor<FixedPoint64q63_t>> AXYZI64_t;
+	typedef TranslucentColor<XYZColor<float>> AXYZF32_t;
+	typedef TranslucentColor<XYZColor<double>> AXYZF64_t;
 }
 #endif // __stationaryorbit_graphics_core_xyzcolor__

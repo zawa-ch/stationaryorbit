@@ -42,6 +42,7 @@ add_library(${AssemblyName} SHARED
     pixarray.cpp
     pixmap.cpp
     rgbcolor.cpp
+    xyzcolor.cpp
     yuvcolor.cpp
 )
 
