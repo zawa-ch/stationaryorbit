@@ -32,6 +32,7 @@ add_library(${AssemblyName} SHARED
     proportion.cpp
     real.cpp
     rotation.cpp
+    traits.cpp
     vector2d.cpp
 )
 
