@@ -80,7 +80,7 @@ void Test_Traits()
 	static_assert(Traits::IsStdLegacyOutputIterator<std::list<int>::iterator, int>, "std::listのイテレータはLegacyOutputIteratorを満たしますが、識別結果はfalseを返しました。");
 
 	if (BitWidth<uint32_t> == 32UL) { std::cout << "BitWidth<uint32_t> -> " << BitWidth<uint32_t> << "[bit(s)]" << std::endl; } else { throw std::exception(); }
-	if (BitWidth<int64_t> == 64UL) { std::cout << "BitWidth<int64_t> -> " << BitWidth<int64_t> << "[bit(s)]" << std::endl; } else { throw std::exception(); }
+	if (BitWidth<uint64_t> == 64UL) { std::cout << "BitWidth<uint64_t> -> " << BitWidth<uint64_t> << "[bit(s)]" << std::endl; } else { throw std::exception(); }
 	if (BitWidth<bool> == 1UL) { std::cout << "BitWidth<bool> -> " << BitWidth<bool> << "[bit(s)]" << std::endl; } else { throw std::exception(); }
 	std::cout << "sizeof(bool) -> " << sizeof(bool) << "[byte(s)]" << std::endl;
 	if (BitWidth<std::bitset<14>> == 14UL) { std::cout << "BitWidth<std::bitset<14>> -> " << BitWidth<std::bitset<14>> << "[bit(s)]" << std::endl; } else { throw std::exception(); }
