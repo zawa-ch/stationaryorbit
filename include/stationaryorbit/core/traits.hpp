@@ -403,13 +403,13 @@ namespace zawa_ch::StationaryOrbit
 		{};
 
 		template<class T>
-		struct IsBitSequence_t : std::conjunction< IsValueType_t<T>, HasBitOperation_t<T, int> > {};
+		struct IsBitSequence_t : std::conjunction< IsValueType_t<T>, HasBitOperation_t<T, int>, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
 
 		template<class T>
 		struct IsNumeralType_t : std::conjunction< IsValueType_t<T>, HasArithmeticOperation_t<T>, Comparable_t<T, T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
 
 		template<class T>
-		struct IsIntegerType_t : std::conjunction< IsNumeralType_t<T>, IsBitSequence_t<T>, HasModulation_t<T, T, T>, HasBitOperation_t<T, T>, IsBidirectionalOrder_t<T> > {};
+		struct IsIntegerType_t : std::conjunction< IsNumeralType_t<T>, HasModulation_t<T, T, T>, HasBitOperation_t<T, T>, IsBidirectionalOrder_t<T> > {};
 
 		template<class, class, class = std::void_t<>>
 		struct HasSaturateAddition_t : std::false_type {};
@@ -652,6 +652,8 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class U = T, class R = T> inline constexpr static bool HasMultiplicativeOperation = HasMultiplicativeOperation_t<T, U, R>::value;
 		///	基本的な算術演算を持つ型を識別します。
 		template<class T> inline constexpr static bool HasArithmeticOperation = HasArithmeticOperation_t<T>::value;
+		///	基本的なビット演算を持つ型を識別します。
+		template<class T, class U = T> inline constexpr static bool HasBitOperation = HasBitOperation_t<T, U>::value;
 		///	単方向の順序を持つ値型を識別します。
 		template<class T> inline constexpr static bool IsSequencialOrder = IsSequencialOrder_t<T>::value;
 		///	双方向の順序を持つ値型を識別します。
@@ -661,13 +663,14 @@ namespace zawa_ch::StationaryOrbit
 		///	値型を識別します。
 		template<class T> inline constexpr static bool IsValueType = IsValueType_t<T>::value;
 		///	ビット列型を識別します。
+		///	@note
+		///	@a IsBitSequence は @a IsValueType および @a HasBitOperation をともに満たす、signed*ではない*型に対して定数 @a true が返されます。
+		///	signedな型はビット演算の結果が未定義(または処理系定義)となる値域を含むためサポートされません。
 		template<class T> inline constexpr static bool IsBitSequence = IsBitSequence_t<T>::value;
 		///	算術型を識別します。
 		template<class T> inline constexpr static bool IsNumeralType = IsNumeralType_t<T>::value;
 		///	整数型を識別します。
 		template<class T> inline constexpr static bool IsIntegerType = IsIntegerType_t<T>::value;
-		///	基本的なビット演算を持つ型を識別します。
-		template<class T, class U = T> inline constexpr static bool HasBitOperation = HasBitOperation_t<T, U>::value;
 		///	計算結果が飽和する四則演算を持つ型を識別します。
 		template<class T, class U = T> inline constexpr static bool HasSaturateOperation = HasSaturateOperation_t<T, U>::value;
 		///	計算結果の値域チェックが行われる四則演算を持つ型を識別します。
