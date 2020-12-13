@@ -713,11 +713,10 @@ namespace zawa_ch::StationaryOrbit
 		}
 	};
 	///	指定された型の有効なビット幅を識別するための機能を提供します。
-	template<class T> struct BitWidth_t : std::integral_constant<size_t, 8U * sizeof(T)>
+	template<class T> struct BitWidth_t : std::integral_constant<size_t, BitCounter::Count<T>()>
 	{
-		static_assert(std::is_integral_v<T>, "ビット幅の計数は整数型、boolなどの固定幅のビットシーケンスでのみ有効です。");
+		static_assert(Traits::IsBitSequence<T>, "ビット幅の計数は整数型、boolなどの固定幅のビットシーケンスでのみ有効です。");
 	};
-	template<> struct BitWidth_t<bool> : std::integral_constant<size_t, 1U> {};
 	template<std::size_t N> struct BitWidth_t<std::bitset<N>> : std::integral_constant<size_t, N> {};
 	///	指定された型の有効なビット幅を識別します。
 	template<class T> inline constexpr size_t BitWidth = BitWidth_t<T>::value;
