@@ -689,6 +689,29 @@ namespace zawa_ch::StationaryOrbit
 		template<class It, class O> inline constexpr static bool IsStdLegacyOutputIterator = IsStdLegacyOutputIterator_t<It, O>::value;
 	};
 
+	class BitCounter final
+	{
+		BitCounter() = delete;
+		BitCounter(const BitCounter&) = delete;
+		BitCounter(BitCounter&&) = delete;
+		~BitCounter() = delete;
+	public:
+		template<class T, std::enable_if_t<Traits::IsBitSequence<T>, int> = 0>
+		static constexpr size_t Count()
+		{
+			static_assert(std::is_constructible_v<T, int>, "テンプレート型 T は (int) を引数に持つコンストラクタをサポートする必要があります。");
+			auto v = T(1);
+			const auto z = T(0);
+			size_t result = 0;
+			while(v != z)
+			{
+				++result;
+				if (v == T(v << 1)) { break; }
+				v = v << 1;
+			}
+			return result;
+		}
+	};
 	///	指定された型の有効なビット幅を識別するための機能を提供します。
 	template<class T> struct BitWidth_t : std::integral_constant<size_t, 8U * sizeof(T)>
 	{
