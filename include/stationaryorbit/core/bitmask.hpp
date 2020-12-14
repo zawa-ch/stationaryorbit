@@ -19,17 +19,13 @@
 #ifndef __stationaryorbit_core_bitmask__
 #define __stationaryorbit_core_bitmask__
 #include <limits>
-#include <type_traits>
-#include <vector>
-#include "stationaryorbit/exception.hpp"
-#include "range.hpp"
+#include "traits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
-
 	template<class T>
 	class BitMask final
 	{
-		static_assert(std::is_integral_v<T>, "実体化を行うためのテンプレート型は整数型である必要があります。");
+		static_assert(Traits::IsBitSequence<T>, "テンプレート型 T はビット列型である必要があります。");
 	public: // contains
 		T Mask;
 	public: // constructor
@@ -58,13 +54,13 @@ namespace zawa_ch::StationaryOrbit
 	public: // static
 		static constexpr std::size_t GetBeginIndex(const T& value, const T& start = 0)
 		{
-			const size_t length = sizeof(T) * 8;
+			const size_t length = BitWidth<T>;
 			for (std::size_t i = start; i < length; i++) { if ((value & (1 << i)) != 0) { return i; } }
 			return length;
 		}
 		static constexpr std::size_t GetEndIndex(const T& value, const T& start = std::numeric_limits<T>::max())
 		{
-			const size_t length = sizeof(T) * 8;
+			const size_t length = BitWidth<T>;
 			for (std::size_t i = ((start < length)?start:length); 0 < i; i--) { if ((value & (1 << (i - 1))) != 0) { return i; } }
 			return length;
 		}
