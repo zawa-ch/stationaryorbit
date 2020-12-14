@@ -61,7 +61,6 @@ static_assert(Traits::Comparable<intmax_t>, "intmax_t が Comparable 型特性�
 static_assert(Traits::Comparable<intptr_t>, "intptr_t が Comparable 型特性を満たしませんでした。");
 static_assert(Traits::Comparable<float>, "float が Comparable 型特性を満たしませんでした。");
 static_assert(Traits::Comparable<double>, "double が Comparable 型特性を満たしませんでした。");
-static_assert(Traits::Comparable<std::nullptr_t>, "std::nullptr_t が Comparable 型特性を満たしませんでした。");
 static_assert(Traits::Comparable<size_t>, "size_t が Comparable 型特性を満たしませんでした。");
 static_assert(Traits::Comparable<std::string>, "std::string が Comparable 型特性を満たしませんでした。");
 
