@@ -67,5 +67,9 @@ namespace zawa_ch::StationaryOrbit
 		static constexpr BitMask<T> Empty() { return BitMask<T>(0); }
 	};
 
+	extern template class BitMask<uint8_t>;
+	extern template class BitMask<uint16_t>;
+	extern template class BitMask<uint32_t>;
+	extern template class BitMask<uint64_t>;
 }
 #endif // __stationaryorbit_core_bitmask__
