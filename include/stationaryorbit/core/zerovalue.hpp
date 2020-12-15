@@ -23,7 +23,7 @@
 namespace zawa_ch::StationaryOrbit
 {
 	///	他の型に変換可能な零値を表します。
-	struct ZeroValue_t
+	struct ZeroValue_t final
 	{
 	public:
 		constexpr ZeroValue_t() = default;
