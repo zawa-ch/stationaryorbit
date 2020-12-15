@@ -230,9 +230,7 @@ namespace zawa_ch::StationaryOrbit
 		///	空の @a PointF を表します。
 		static constexpr PointF<quad> Empty() { return PointF<quad>{}; }
 	};
-
-	typedef Point<Quadrants::UpRight> GeometricPoint;
-	typedef PointF<Quadrants::UpRight> GeometricPointF;
-
+	typedef Point2D_base<int, Quadrants::UpRight> GeometricPoint;
+	typedef Point2D_base<float, Quadrants::UpRight> GeometricPointF;
 }
 #endif // __stationaryorbit_core_point__
