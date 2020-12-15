@@ -409,7 +409,7 @@ namespace zawa_ch::StationaryOrbit
 		struct IsNumeralType_t : std::conjunction< IsValueType_t<T>, HasArithmeticOperation_t<T>, Comparable_t<T, T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
 
 		template<class T>
-		struct IsIntegerType_t : std::conjunction< IsNumeralType_t<T>, HasModulation_t<T, T, T>, HasBitOperation_t<T, T>, IsBidirectionalOrder_t<T> > {};
+		struct IsIntegerType_t : std::conjunction< IsNumeralType_t<T>, HasModulation_t<T, T, T>, HasBitOperation_t<T, T>, IsLinearOrder_t<T, T> > {};
 
 		template<class, class, class = std::void_t<>>
 		struct HasSaturateAddition_t : std::false_type {};
