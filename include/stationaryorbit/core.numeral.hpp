@@ -18,7 +18,6 @@
 //
 
 #include "core/fixedpoint.hpp"
-#include "core/fractionaldec.hpp"
 #include "core/logic.hpp"
 #include "core/point.hpp"
 #include "core/proportion.hpp"
