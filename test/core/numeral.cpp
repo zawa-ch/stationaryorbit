@@ -77,19 +77,19 @@ void Test_Logic()
 void Test_Point()
 {
 	std::cout << "<--- Point --->" << std::endl;
-	auto p1 = Point<>(3, 4);
-	auto p2 = Point<>(2, 8);
-	if ((p1 + p2) != Point<>(5, 12)) { throw std::exception(); }
+	auto p1 = GeometricPoint(3, 4);
+	auto p2 = GeometricPoint(2, 8);
+	if ((p1 + p2) != GeometricPoint(5, 12)) { throw std::exception(); }
 	std::cout << "p1 + p2 = (" << (p1 + p2).X() << ", " << (p1 + p2).Y() << ")" << std::endl;
-	if ((p1 - p2) != Point<>(1, -4)) { throw std::exception(); }
+	if ((p1 - p2) != GeometricPoint(1, -4)) { throw std::exception(); }
 	std::cout << "p1 - p2 = (" << (p1 - p2).X() << ", " << (p1 - p2).Y() << ")" << std::endl;
-	auto p3 = Point<Quadrants::DownRight>(p1);
-	if (p3 != Point<Quadrants::DownRight>(3, -4)) { throw std::exception(); }
+	auto p3 = Point2D_base<int, Quadrants::DownRight>(p1);
+	if (p3 != Point2D_base<int, Quadrants::DownRight>(3, -4)) { throw std::exception(); }
 	auto fp1 = GeometricPointF(0.3, 1.8);
 	auto fp2 = GeometricPointF(-3.1, 2.0);
 	std::cout << "fp1 + fp2 = (" << (fp1 + fp2).X() << ", " << (fp1 + fp2).Y() << ")" << std::endl;
 	std::cout << "fp1 - fp2 = (" << (fp1 - fp2).X() << ", " << (fp1 - fp2).Y() << ")" << std::endl;
-	auto p4 = fp1.Round();
+	auto p4 = GeometricPoint(fp1.Round());
 	std::cout << "p4 = (" << p4.X() << ", " << p4.Y() << ")" << std::endl;
 }
 
