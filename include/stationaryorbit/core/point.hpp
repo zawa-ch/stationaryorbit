@@ -46,7 +46,7 @@ namespace zawa_ch::StationaryOrbit
 		int _x;
 		int _y;
 	public: // construct
-		constexpr Point() : _x(), _y() {}
+		constexpr Point() = default;
 		constexpr Point(const int& x, const int& y) : _x(x), _y(y) {}
 		template<Quadrants fromquad>
 		constexpr Point(const Point<fromquad>& from) : _x(QuadrantConvertHelper<fromquad, quad>::ConvertX(from.X())), _y(QuadrantConvertHelper<fromquad, quad>::ConvertY(from.Y())) {}
@@ -91,7 +91,7 @@ namespace zawa_ch::StationaryOrbit
 		float _x;
 		float _y;
 	public: // construct
-		constexpr PointF() : _x(), _y() {}
+		constexpr PointF() = default;
 		constexpr PointF(const float& x, const float& y) : _x(x), _y(y) {}
 		constexpr PointF(const Point<quad>& value) : _x(value.X()), _y(value.Y()) {}
 		template<Quadrants fromquad>
