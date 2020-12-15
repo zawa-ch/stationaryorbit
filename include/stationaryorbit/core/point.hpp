@@ -19,11 +19,14 @@
 #ifndef __stationaryorbit_core_point__
 #define __stationaryorbit_core_point__
 #include <cmath>
+#include "traits.hpp"
+#include "zerovalue.hpp"
 #include "rectanglesize.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	enum class Quadrants { UpRight, UpLeft, DownLeft, DownRight };
 	template<Quadrants from, Quadrants to> class QuadrantConvertHelper;
+	template<class T, Quadrants quad, class> struct Point2D_base;
 	template<Quadrants quad> struct Point;
 	template<Quadrants quad> struct PointF;
 
@@ -37,6 +40,88 @@ namespace zawa_ch::StationaryOrbit
 		static constexpr T ConvertX(const T& value) { if constexpr (InvertX) { return -value; } else { return value; } }
 		template<class T, std::enable_if_t< Traits::IsNumeralType<T>, int> = 0>
 		static constexpr T ConvertY(const T& value) { if constexpr (InvertY) { return -value; } else { return value; } }
+	};
+	///	二次元平面上におけるある一点を表します。
+	template<class T, Quadrants quad, class = std::void_t<>>
+	struct Point2D_base final
+	{
+		static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+		typedef T ValueType;
+	private:
+		ValueType _x;
+		ValueType _y;
+	public:
+		constexpr Point2D_base() = default;
+		constexpr Point2D_base(const ValueType& x, const ValueType& y) noexcept : _x(x), _y(y) {}
+		template<Quadrants fromquad>
+		constexpr Point2D_base(const Point2D_base<T, fromquad>& from) : _x(QuadrantConvertHelper<fromquad, quad>::ConvertX(from.X())), _y(QuadrantConvertHelper<fromquad, quad>::ConvertY(from.Y())) {}
+		template<class fromT, Quadrants fromquad, std::enable_if_t<std::is_convertible_v<fromT, T>, int> = 0>
+		constexpr Point2D_base(const Point2D_base<fromT, fromquad>& from) : _x(QuadrantConvertHelper<fromquad, quad>::ConvertX(T(from.X()))), _y(QuadrantConvertHelper<fromquad, quad>::ConvertY(T(from.Y()))) {}
+		template<class fromT, Quadrants fromquad, std::enable_if_t<std::conjunction_v<std::negation<std::is_convertible<fromT, T>>, std::is_constructible<T, fromT>>, int> = 0>
+		constexpr explicit Point2D_base(const Point2D_base<fromT, fromquad>& from) : _x(QuadrantConvertHelper<fromquad, quad>::ConvertX(T(from.X()))), _y(QuadrantConvertHelper<fromquad, quad>::ConvertY(T(from.Y()))) {}
+		constexpr Point2D_base(const ZeroValue_t&) : _x(Zero), _y(Zero) {}
+
+		[[nodiscard]] constexpr const ValueType& X() const { return _x; }
+		[[nodiscard]] constexpr const ValueType& Y() const { return _y; }
+
+		[[nodiscard]] constexpr Point2D_base<T, quad> operator+(const Point2D_base<T, quad>& other) const { return Point2D_base<T, quad>(_x + other._x, _y + other._y); }
+		[[nodiscard]] constexpr Point2D_base<T, quad> operator-(const Point2D_base<T, quad>& other) const { return Point2D_base<T, quad>(_x - other._x, _y - other._y); }
+		constexpr Point2D_base<T, quad>& operator+=(const Point2D_base<T, quad>& other) { return *this = *this + other; }
+		constexpr Point2D_base<T, quad>& operator-=(const Point2D_base<T, quad>& other) { return *this = *this - other; }
+
+		[[nodiscard]] constexpr bool Equals(const Point2D_base<T, quad>& value) const { return (_x == value._x)&&(_y == value._y); }
+		[[nodiscard]] constexpr bool operator==(const Point2D_base<T, quad>& value) const { return Equals(value); }
+		[[nodiscard]] constexpr bool operator!=(const Point2D_base<T, quad>& value) const { return !Equals(value); }
+
+		static constexpr Point2D_base<T, quad> Empty() { return Point2D_base<T, quad>{}; }
+	};
+	///	二次元平面上におけるある一点を表します。
+	///	@note
+	///	こちらは @a std::is_floting_point_v が @a true の場合の特殊化です。
+	template<class T, Quadrants quad>
+	struct Point2D_base<T, quad, std::void_t<std::enable_if_t<std::is_floating_point_v<T>>>> final
+	{
+		static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+		typedef T ValueType;
+	private:
+		ValueType _x;
+		ValueType _y;
+	public:
+		constexpr Point2D_base() = default;
+		constexpr Point2D_base(const ValueType& x, const ValueType& y) noexcept : _x(x), _y(y) {}
+		template<Quadrants fromquad>
+		constexpr Point2D_base(const Point2D_base<T, fromquad>& from) : _x(QuadrantConvertHelper<fromquad, quad>::ConvertX(from.X())), _y(QuadrantConvertHelper<fromquad, quad>::ConvertY(from.Y())) {}
+		template<class fromT, Quadrants fromquad, std::enable_if_t<std::is_convertible_v<fromT, T>, int> = 0>
+		constexpr Point2D_base(const Point2D_base<fromT, fromquad>& from) : _x(QuadrantConvertHelper<fromquad, quad>::ConvertX(T(from.X()))), _y(QuadrantConvertHelper<fromquad, quad>::ConvertY(T(from.Y()))) {}
+		template<class fromT, Quadrants fromquad, std::enable_if_t<std::conjunction_v<std::negation<std::is_convertible<fromT, T>>, std::is_constructible<T, fromT>>, int> = 0>
+		constexpr explicit Point2D_base(const Point2D_base<fromT, fromquad>& from) : _x(QuadrantConvertHelper<fromquad, quad>::ConvertX(T(from.X()))), _y(QuadrantConvertHelper<fromquad, quad>::ConvertY(T(from.Y()))) {}
+		constexpr Point2D_base(const ZeroValue_t&) : _x(Zero), _y(Zero) {}
+
+		[[nodiscard]] constexpr const ValueType& X() const { return _x; }
+		[[nodiscard]] constexpr const ValueType& Y() const { return _y; }
+
+		[[nodiscard]] constexpr Point2D_base<T, quad> operator+(const Point2D_base<T, quad>& other) const { return Point2D_base<T, quad>(_x + other._x, _y + other._y); }
+		[[nodiscard]] constexpr Point2D_base<T, quad> operator-(const Point2D_base<T, quad>& other) const { return Point2D_base<T, quad>(_x - other._x, _y - other._y); }
+		constexpr Point2D_base<T, quad>& operator+=(const Point2D_base<T, quad>& other) { return *this = *this + other; }
+		constexpr Point2D_base<T, quad>& operator-=(const Point2D_base<T, quad>& other) { return *this = *this - other; }
+
+		[[nodiscard]] constexpr bool Equals(const Point2D_base<T, quad>& value) const { return (_x == value._x)&&(_y == value._y); }
+		[[nodiscard]] constexpr bool operator==(const Point2D_base<T, quad>& value) const { return Equals(value); }
+		[[nodiscard]] constexpr bool operator!=(const Point2D_base<T, quad>& value) const { return !Equals(value); }
+
+		///	@a Point2D_base<T, quad> の小数部を抜き出します。
+		[[nodiscard]] Point2D_base<T, quad> Extract() const { return Point2D_base<T, quad>(_x - trunc(_x), _y - trunc(_y)); }
+		///	@a Point2D_base<T, quad> を切り捨て方向に丸めます。
+		template<class intT = T, std::enable_if_t<std::is_constructible_v<intT, T>, int > = 0>
+		[[nodiscard]] Point2D_base<intT, quad> Floor() const { return Point2D_base<intT, quad>(intT(floor(X())), intT(floor(Y()))); }
+		///	@a Point2D_base<T, quad> を切り上げ方向に丸めます。
+		template<class intT = T, std::enable_if_t<std::is_constructible_v<intT, T>, int > = 0>
+		[[nodiscard]] Point2D_base<intT, quad> Ceiling() const { return Point2D_base<intT, quad>(intT(ceil(X())), intT(ceil(Y()))); }
+		/// @a Point2D_base<T, quad> を最も近い整数に丸めます。
+		template<class intT = T, std::enable_if_t<std::is_constructible_v<intT, T>, int > = 0>
+		[[nodiscard]] Point2D_base<intT, quad> Round() const { return Point2D_base<intT, quad>(intT(round(X())), intT(round(Y()))); }
+
+		static constexpr Point2D_base<T, quad> Empty() { return Point2D_base<T, quad>{}; }
 	};
 	///	二次元平面上におけるある一点を表します。
 	template<Quadrants quad = Quadrants::UpRight>

@@ -30,6 +30,7 @@ add_library(${AssemblyName} SHARED
     bitmask.cpp
     fixedpoint.cpp
     multiplelong.cpp
+    point.cpp
     proportion.cpp
     real.cpp
     rotation.cpp
