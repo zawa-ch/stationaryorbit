@@ -31,26 +31,12 @@ namespace zawa_ch::StationaryOrbit
 	class QuadrantConvertHelper final
 	{
 	public:
-		static constexpr bool InvertX()
-		{
-			if constexpr (
-				(((from==Quadrants::UpRight)||(from==Quadrants::DownRight))&&((to==Quadrants::UpLeft)||(to==Quadrants::DownLeft)))
-				||(((from==Quadrants::UpLeft)||(from==Quadrants::DownLeft))&&((to==Quadrants::UpRight)||(to==Quadrants::DownRight)))
-			)
-			{ return true; }
-			else
-			{ return false; }
-		}
-		static constexpr bool InvertY()
-		{
-			if constexpr (
-				(((from==Quadrants::UpRight)||(from==Quadrants::UpLeft))&&((to==Quadrants::DownRight)||(to==Quadrants::DownLeft)))
-				||(((from==Quadrants::DownRight)||(from==Quadrants::DownLeft))&&((to==Quadrants::UpRight)||(to==Quadrants::UpLeft)))
-			)
-			{ return true; }
-			else
-			{ return false; }
-		}
+		static constexpr bool InvertX = (((from==Quadrants::UpRight)||(from==Quadrants::DownRight))&&((to==Quadrants::UpLeft)||(to==Quadrants::DownLeft))) || (((from==Quadrants::UpLeft)||(from==Quadrants::DownLeft))&&((to==Quadrants::UpRight)||(to==Quadrants::DownRight)));
+		static constexpr bool InvertY = (((from==Quadrants::UpRight)||(from==Quadrants::UpLeft))&&((to==Quadrants::DownRight)||(to==Quadrants::DownLeft))) || (((from==Quadrants::DownRight)||(from==Quadrants::DownLeft))&&((to==Quadrants::UpRight)||(to==Quadrants::UpLeft)));
+		template<class T, std::enable_if_t< Traits::IsNumeralType<T>, int> = 0>
+		static constexpr T ConvertX(const T& value) { if constexpr (InvertX) { return -value; } else { return value; } }
+		template<class T, std::enable_if_t< Traits::IsNumeralType<T>, int> = 0>
+		static constexpr T ConvertY(const T& value) { if constexpr (InvertY) { return -value; } else { return value; } }
 	};
 	///	二次元平面上におけるある一点を表します。
 	template<Quadrants quad = Quadrants::UpRight>
@@ -63,7 +49,7 @@ namespace zawa_ch::StationaryOrbit
 		constexpr Point() : _x(), _y() {}
 		constexpr Point(const int& x, const int& y) : _x(x), _y(y) {}
 		template<Quadrants fromquad>
-		constexpr Point(const Point<fromquad>& from) : _x((QuadrantConvertHelper<fromquad, quad>::InvertX())?(-from.X()):(from.X())), _y((QuadrantConvertHelper<fromquad, quad>::InvertY())?(-from.Y()):(from.Y())) {}
+		constexpr Point(const Point<fromquad>& from) : _x(QuadrantConvertHelper<fromquad, quad>::ConvertX(from.X())), _y(QuadrantConvertHelper<fromquad, quad>::ConvertY(from.Y())) {}
 		constexpr explicit Point(const RectangleSize& from) : _x(from.Width()), _y(from.Height()) {}
 	public: // copy/move/destruct
 		Point(const Point<quad>&) = default;
@@ -109,7 +95,7 @@ namespace zawa_ch::StationaryOrbit
 		constexpr PointF(const float& x, const float& y) : _x(x), _y(y) {}
 		constexpr PointF(const Point<quad>& value) : _x(value.X()), _y(value.Y()) {}
 		template<Quadrants fromquad>
-		constexpr PointF(const PointF<fromquad>& from) : _x((QuadrantConvertHelper<fromquad, quad>::InvertX())?(-from._x):(from._x)), _y((QuadrantConvertHelper<fromquad, quad>::InvertY())?(-from._y):(from._y)) {}
+		constexpr PointF(const PointF<fromquad>& from) : _x((QuadrantConvertHelper<fromquad, quad>::InvertX)?(-from._x):(from._x)), _y((QuadrantConvertHelper<fromquad, quad>::InvertY)?(-from._y):(from._y)) {}
 		constexpr explicit PointF(const RectangleSizeF& from) : _x(from.Width()), _y(from.Height()) {}
 	public: // copy/move/destruct
 		PointF(const PointF<quad>&) = default;
