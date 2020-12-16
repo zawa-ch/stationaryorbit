@@ -444,9 +444,9 @@ namespace zawa_ch::StationaryOrbit
 	};
 
 	///	幾何学的な座標軸上で表される @a Rectangle 。
-	typedef Rectangle<Quadrants::UpRight> GeometricRectangle;
+	typedef Rectangle2D<int, Quadrants::UpRight> GeometricRectangle;
 	///	幾何学的な座標軸上で表される @a RectangleF 。
-	typedef RectangleF<Quadrants::UpRight> GeometricRectangleF;
+	typedef Rectangle2D<float, Quadrants::UpRight> GeometricRectangleF;
 
 }
 #endif // __stationaryorbit_core_rectangle__
