@@ -33,6 +33,7 @@ add_library(${AssemblyName} SHARED
     point.cpp
     proportion.cpp
     real.cpp
+    rectangle.cpp
     rectanglesize.cpp
     rotation.cpp
     traits.cpp
