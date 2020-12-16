@@ -32,6 +32,7 @@ namespace zawa_ch::StationaryOrbit
 	struct Rect2DSize final
 	{
 		static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+	public:
 		typedef T ValueType;
 	private:
 		ValueType _w;
@@ -81,6 +82,7 @@ namespace zawa_ch::StationaryOrbit
 	struct Rect2DSize<T, std::enable_if_t<std::is_floating_point_v<T> > > final
 	{
 		static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+	public:
 		typedef T ValueType;
 	private:
 		ValueType _w;
