@@ -123,6 +123,48 @@ namespace zawa_ch::StationaryOrbit
 
 		[[nodiscard]] static constexpr Point2D_base<T, quad> Empty() { return Point2D_base<T, quad>{}; }
 	};
+
+	extern template struct Point2D_base<uint8_t, Quadrants::UpRight>;
+	extern template struct Point2D_base<uint8_t, Quadrants::UpLeft>;
+	extern template struct Point2D_base<uint8_t, Quadrants::DownLeft>;
+	extern template struct Point2D_base<uint8_t, Quadrants::DownRight>;
+	extern template struct Point2D_base<uint16_t, Quadrants::UpRight>;
+	extern template struct Point2D_base<uint16_t, Quadrants::UpLeft>;
+	extern template struct Point2D_base<uint16_t, Quadrants::DownLeft>;
+	extern template struct Point2D_base<uint16_t, Quadrants::DownRight>;
+	extern template struct Point2D_base<uint32_t, Quadrants::UpRight>;
+	extern template struct Point2D_base<uint32_t, Quadrants::UpLeft>;
+	extern template struct Point2D_base<uint32_t, Quadrants::DownLeft>;
+	extern template struct Point2D_base<uint32_t, Quadrants::DownRight>;
+	extern template struct Point2D_base<uint64_t, Quadrants::UpRight>;
+	extern template struct Point2D_base<uint64_t, Quadrants::UpLeft>;
+	extern template struct Point2D_base<uint64_t, Quadrants::DownLeft>;
+	extern template struct Point2D_base<uint64_t, Quadrants::DownRight>;
+	extern template struct Point2D_base<int8_t, Quadrants::UpRight>;
+	extern template struct Point2D_base<int8_t, Quadrants::UpLeft>;
+	extern template struct Point2D_base<int8_t, Quadrants::DownLeft>;
+	extern template struct Point2D_base<int8_t, Quadrants::DownRight>;
+	extern template struct Point2D_base<int16_t, Quadrants::UpRight>;
+	extern template struct Point2D_base<int16_t, Quadrants::UpLeft>;
+	extern template struct Point2D_base<int16_t, Quadrants::DownLeft>;
+	extern template struct Point2D_base<int16_t, Quadrants::DownRight>;
+	extern template struct Point2D_base<int32_t, Quadrants::UpRight>;
+	extern template struct Point2D_base<int32_t, Quadrants::UpLeft>;
+	extern template struct Point2D_base<int32_t, Quadrants::DownLeft>;
+	extern template struct Point2D_base<int32_t, Quadrants::DownRight>;
+	extern template struct Point2D_base<int64_t, Quadrants::UpRight>;
+	extern template struct Point2D_base<int64_t, Quadrants::UpLeft>;
+	extern template struct Point2D_base<int64_t, Quadrants::DownLeft>;
+	extern template struct Point2D_base<int64_t, Quadrants::DownRight>;
+	extern template struct Point2D_base<float, Quadrants::UpRight>;
+	extern template struct Point2D_base<float, Quadrants::UpLeft>;
+	extern template struct Point2D_base<float, Quadrants::DownLeft>;
+	extern template struct Point2D_base<float, Quadrants::DownRight>;
+	extern template struct Point2D_base<double, Quadrants::UpRight>;
+	extern template struct Point2D_base<double, Quadrants::UpLeft>;
+	extern template struct Point2D_base<double, Quadrants::DownLeft>;
+	extern template struct Point2D_base<double, Quadrants::DownRight>;
+
 	///	二次元平面上におけるある一点を表します。
 	template<Quadrants quad = Quadrants::UpRight>
 	struct Point final
