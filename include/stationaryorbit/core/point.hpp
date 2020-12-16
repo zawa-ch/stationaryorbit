@@ -73,7 +73,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr bool operator==(const Point2D_base<T, quad>& value) const { return Equals(value); }
 		[[nodiscard]] constexpr bool operator!=(const Point2D_base<T, quad>& value) const { return !Equals(value); }
 
-		static constexpr Point2D_base<T, quad> Empty() { return Point2D_base<T, quad>{}; }
+		[[nodiscard]] static constexpr Point2D_base<T, quad> Empty() { return Point2D_base<T, quad>{}; }
 	};
 	///	二次元平面上におけるある一点を表します。
 	///	@note
@@ -121,7 +121,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class intT = T, std::enable_if_t<std::is_constructible_v<intT, T>, int > = 0>
 		[[nodiscard]] Point2D_base<intT, quad> Round() const { return Point2D_base<intT, quad>(intT(round(X())), intT(round(Y()))); }
 
-		static constexpr Point2D_base<T, quad> Empty() { return Point2D_base<T, quad>{}; }
+		[[nodiscard]] static constexpr Point2D_base<T, quad> Empty() { return Point2D_base<T, quad>{}; }
 	};
 	///	二次元平面上におけるある一点を表します。
 	template<Quadrants quad = Quadrants::UpRight>
