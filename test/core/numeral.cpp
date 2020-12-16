@@ -83,8 +83,8 @@ void Test_Point()
 	std::cout << "p1 + p2 = (" << (p1 + p2).X() << ", " << (p1 + p2).Y() << ")" << std::endl;
 	if ((p1 - p2) != GeometricPoint(1, -4)) { throw std::exception(); }
 	std::cout << "p1 - p2 = (" << (p1 - p2).X() << ", " << (p1 - p2).Y() << ")" << std::endl;
-	auto p3 = Point2D_base<int, Quadrants::DownRight>(p1);
-	if (p3 != Point2D_base<int, Quadrants::DownRight>(3, -4)) { throw std::exception(); }
+	auto p3 = Point2D<int, Quadrants::DownRight>(p1);
+	if (p3 != Point2D<int, Quadrants::DownRight>(3, -4)) { throw std::exception(); }
 	auto fp1 = GeometricPointF(0.3, 1.8);
 	auto fp2 = GeometricPointF(-3.1, 2.0);
 	std::cout << "fp1 + fp2 = (" << (fp1 + fp2).X() << ", " << (fp1 + fp2).Y() << ")" << std::endl;
