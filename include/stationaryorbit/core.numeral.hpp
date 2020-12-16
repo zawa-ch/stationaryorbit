@@ -24,7 +24,7 @@
 #include "core/range.hpp"
 #include "core/real.hpp"
 #include "core/rectangle.hpp"
-#include "core/rectanglesize.hpp"
+#include "core/rectsize.hpp"
 #include "core/rotation.hpp"
 #include "core/vector2d.hpp"
 #include "core/zerovalue.hpp"

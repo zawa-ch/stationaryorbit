@@ -19,7 +19,7 @@
 #ifndef __stationaryorbit_core_rectangle__
 #define __stationaryorbit_core_rectangle__
 #include "range.hpp"
-#include "rectanglesize.hpp"
+#include "rectsize.hpp"
 #include "point.hpp"
 namespace zawa_ch::StationaryOrbit
 {

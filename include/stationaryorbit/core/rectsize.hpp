@@ -1,4 +1,4 @@
-//	stationaryorbit/core/rectanglesize
+//	stationaryorbit/core/rectsize
 //	Copyright 2020 zawa-ch.
 //	GPLv3 (or later) license
 //
@@ -16,8 +16,8 @@
 //	along with this program.
 //	If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef __stationaryorbit_core_size__
-#define __stationaryorbit_core_size__
+#ifndef __stationaryorbit_core_rectsize__
+#define __stationaryorbit_core_rectsize__
 #include <cmath>
 #include "traits.hpp"
 #include "zerovalue.hpp"
@@ -146,4 +146,4 @@ namespace zawa_ch::StationaryOrbit
 	extern template struct Rect2DSize<float>;
 	extern template struct Rect2DSize<double>;
 }
-#endif // __stationaryorbit_core_size__
+#endif // __stationaryorbit_core_rectsize__

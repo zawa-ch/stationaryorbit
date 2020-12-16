@@ -21,7 +21,7 @@
 #include <cmath>
 #include "traits.hpp"
 #include "zerovalue.hpp"
-#include "rectanglesize.hpp"
+#include "rectsize.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	enum class Quadrants { UpRight, UpLeft, DownLeft, DownRight };

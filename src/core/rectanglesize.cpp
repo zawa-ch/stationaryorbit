@@ -16,7 +16,7 @@
 //	along with this program.
 //	If not, see <http://www.gnu.org/licenses/>.
 //
-#include "stationaryorbit/core/rectanglesize.hpp"
+#include "stationaryorbit/core/rectsize.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 template struct
