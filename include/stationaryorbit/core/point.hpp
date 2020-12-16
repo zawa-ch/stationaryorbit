@@ -66,8 +66,20 @@ namespace zawa_ch::StationaryOrbit
 
 		[[nodiscard]] constexpr Point2D<T, quad> operator+(const Point2D<T, quad>& other) const { return Point2D<T, quad>(_x + other._x, _y + other._y); }
 		[[nodiscard]] constexpr Point2D<T, quad> operator-(const Point2D<T, quad>& other) const { return Point2D<T, quad>(_x - other._x, _y - other._y); }
+		[[nodiscard]] constexpr Point2D<T, quad> operator*(const ValueType& other) const { return Point2D<T, quad>(_x * other, _y * other); }
+		[[nodiscard]] constexpr Point2D<T, quad> operator/(const ValueType& other) const { return Point2D<T, quad>(_x / other, _y / other); }
+		[[nodiscard]] constexpr Point2D<T, quad> operator+(const Rect2DSize<T>& other) const { return Point2D<T, quad>(_x + other.Width(), _y + other.Height()); }
+		[[nodiscard]] constexpr Point2D<T, quad> operator-(const Rect2DSize<T>& other) const { return Point2D<T, quad>(_x - other.Width(), _y - other.Height()); }
+		[[nodiscard]] constexpr Point2D<T, quad> operator*(const Rect2DSize<T>& other) const { return Point2D<T, quad>(_x * other.Width(), _y * other.Height()); }
+		[[nodiscard]] constexpr Point2D<T, quad> operator/(const Rect2DSize<T>& other) const { return Point2D<T, quad>(_x / other.Width(), _y / other.Height()); }
 		constexpr Point2D<T, quad>& operator+=(const Point2D<T, quad>& other) { return *this = *this + other; }
 		constexpr Point2D<T, quad>& operator-=(const Point2D<T, quad>& other) { return *this = *this - other; }
+		constexpr Point2D<T, quad>& operator*=(const ValueType& other) { return *this = *this * other; }
+		constexpr Point2D<T, quad>& operator/=(const ValueType& other) { return *this = *this / other; }
+		constexpr Point2D<T, quad>& operator+=(const Rect2DSize<T>& other) { return *this = *this + other; }
+		constexpr Point2D<T, quad>& operator-=(const Rect2DSize<T>& other) { return *this = *this - other; }
+		constexpr Point2D<T, quad>& operator*=(const Rect2DSize<T>& other) { return *this = *this * other; }
+		constexpr Point2D<T, quad>& operator/=(const Rect2DSize<T>& other) { return *this = *this / other; }
 
 		[[nodiscard]] constexpr bool Equals(const Point2D<T, quad>& value) const { return (_x == value._x)&&(_y == value._y); }
 		[[nodiscard]] constexpr bool operator==(const Point2D<T, quad>& value) const { return Equals(value); }
@@ -102,8 +114,20 @@ namespace zawa_ch::StationaryOrbit
 
 		[[nodiscard]] constexpr Point2D<T, quad> operator+(const Point2D<T, quad>& other) const { return Point2D<T, quad>(_x + other._x, _y + other._y); }
 		[[nodiscard]] constexpr Point2D<T, quad> operator-(const Point2D<T, quad>& other) const { return Point2D<T, quad>(_x - other._x, _y - other._y); }
+		[[nodiscard]] constexpr Point2D<T, quad> operator*(const ValueType& other) const { return Point2D<T, quad>(_x * other, _y * other); }
+		[[nodiscard]] constexpr Point2D<T, quad> operator/(const ValueType& other) const { return Point2D<T, quad>(_x / other, _y / other); }
+		[[nodiscard]] constexpr Point2D<T, quad> operator+(const Rect2DSize<T>& other) const { return Point2D<T, quad>(_x + other.Width(), _y + other.Height()); }
+		[[nodiscard]] constexpr Point2D<T, quad> operator-(const Rect2DSize<T>& other) const { return Point2D<T, quad>(_x - other.Width(), _y - other.Height()); }
+		[[nodiscard]] constexpr Point2D<T, quad> operator*(const Rect2DSize<T>& other) const { return Point2D<T, quad>(_x * other.Width(), _y * other.Height()); }
+		[[nodiscard]] constexpr Point2D<T, quad> operator/(const Rect2DSize<T>& other) const { return Point2D<T, quad>(_x / other.Width(), _y / other.Height()); }
 		constexpr Point2D<T, quad>& operator+=(const Point2D<T, quad>& other) { return *this = *this + other; }
 		constexpr Point2D<T, quad>& operator-=(const Point2D<T, quad>& other) { return *this = *this - other; }
+		constexpr Point2D<T, quad>& operator*=(const ValueType& other) { return *this = *this * other; }
+		constexpr Point2D<T, quad>& operator/=(const ValueType& other) { return *this = *this / other; }
+		constexpr Point2D<T, quad>& operator+=(const Rect2DSize<T>& other) { return *this = *this + other; }
+		constexpr Point2D<T, quad>& operator-=(const Rect2DSize<T>& other) { return *this = *this - other; }
+		constexpr Point2D<T, quad>& operator*=(const Rect2DSize<T>& other) { return *this = *this * other; }
+		constexpr Point2D<T, quad>& operator/=(const Rect2DSize<T>& other) { return *this = *this / other; }
 
 		[[nodiscard]] constexpr bool Equals(const Point2D<T, quad>& value) const { return (_x == value._x)&&(_y == value._y); }
 		[[nodiscard]] constexpr bool operator==(const Point2D<T, quad>& value) const { return Equals(value); }
