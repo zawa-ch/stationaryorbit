@@ -155,6 +155,54 @@ namespace zawa_ch::StationaryOrbit
 		template<class T> inline constexpr static bool IsLinearOrderIterator = IsLinearOrderIterator_t<T>::value;
 	};
 
+	template<class T, std::enable_if_t<IteratorTraits::IsIterator<T>, int> = 0>
+	T& operator++(T& value) { (void)value.Next(); return value; }
+
+	template<class T, std::enable_if_t<IteratorTraits::IsIterator<T>, int> = 0>
+	T operator++(T& value, int) { auto result = value; (void)value.Next(); return result; }
+
+	template<class T, std::enable_if_t<IteratorTraits::IsIterator<T>, int> = 0>
+	const typename T::ValueType& operator*(const T& value) { return value.Current(); }
+
+	template<class T, std::enable_if_t<IteratorTraits::IsSequencialOrderIterator<T>, int> = 0>
+	bool operator==(const T& value, const T& other) { return value.Equals(other); }
+
+	template<class T, std::enable_if_t<IteratorTraits::IsSequencialOrderIterator<T>, int> = 0>
+	bool operator!=(const T& value, const T& other) { return !value.Equals(other); }
+
+	template<class T, std::enable_if_t<IteratorTraits::IsBidirectionalOrderIterator<T>, int> = 0>
+	T& operator--(T& value) { (void)value.Previous(); return value; }
+
+	template<class T, std::enable_if_t<IteratorTraits::IsBidirectionalOrderIterator<T>, int> = 0>
+	T operator--(T& value, int) { auto result = value; (void)value.Previous(); return result; }
+
+	template<class T, std::enable_if_t<IteratorTraits::IsLinearOrderIterator<T>, int> = 0>
+	T& operator+=(T& value, const IteratorTraits::IteratorDiff_t& diff) { (void)value.Next(diff); return value; }
+
+	template<class T, std::enable_if_t<IteratorTraits::IsLinearOrderIterator<T>, int> = 0>
+	T operator+(const T& value, const IteratorTraits::IteratorDiff_t& diff) { auto result = value; (void)result.Next(diff); return result; }
+
+	template<class T, std::enable_if_t<IteratorTraits::IsLinearOrderIterator<T>, int> = 0>
+	T& operator-=(T& value, const IteratorTraits::IteratorDiff_t& diff) { (void)value.Previous(diff); return value; }
+
+	template<class T, std::enable_if_t<IteratorTraits::IsLinearOrderIterator<T>, int> = 0>
+	T operator-(const T& value, const IteratorTraits::IteratorDiff_t& diff) { auto result = value; (void)result.Previous(diff); return result; }
+
+	template<class T, std::enable_if_t<IteratorTraits::IsLinearOrderIterator<T>, int> = 0>
+	IteratorTraits::IteratorDiff_t operator-(const T& value, const T& other) { return value.Distance(other); }
+
+	template<class T, std::enable_if_t<IteratorTraits::IsLinearOrderIterator<T>, int> = 0>
+	T operator<(const T& value, const T& other) { return value.Compare(other) < 0; }
+
+	template<class T, std::enable_if_t<IteratorTraits::IsLinearOrderIterator<T>, int> = 0>
+	T operator>(const T& value, const T& other) { return value.Compare(other) > 0; }
+
+	template<class T, std::enable_if_t<IteratorTraits::IsLinearOrderIterator<T>, int> = 0>
+	T operator<=(const T& value, const T& other) { return value.Compare(other) <= 0; }
+
+	template<class T, std::enable_if_t<IteratorTraits::IsLinearOrderIterator<T>, int> = 0>
+	T operator>=(const T& value, const T& other) { return value.Compare(other) >= 0; }
+
 	///	イテレータを使用した処理を行います。
 	class ItrProcesser
 	{
