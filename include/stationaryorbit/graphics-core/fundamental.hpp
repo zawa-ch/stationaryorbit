@@ -21,9 +21,11 @@
 #include "stationaryorbit/core.numeral.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
-    typedef Point<Quadrants::DownRight> DisplayPoint;
-    typedef PointF<Quadrants::DownRight> DisplayPointF;
-    typedef Rectangle<Quadrants::DownRight> DisplayRectangle;
-    typedef RectangleF<Quadrants::DownRight> DisplayRectangleF;
+	typedef Rect2DSize<intmax_t> DisplayRectSize;
+	typedef Rect2DSize<float> DisplayRectSizeF;
+	typedef Point2D<intmax_t, Quadrants::DownRight> DisplayPoint;
+	typedef Point2D<float, Quadrants::DownRight> DisplayPointF;
+	typedef Rectangle2D<intmax_t, Quadrants::DownRight> DisplayRectangle;
+	typedef Rectangle2D<float, Quadrants::DownRight> DisplayRectangleF;
 }
 #endif // __stationaryorbit_graphics_core_fundamental__
