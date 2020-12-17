@@ -406,7 +406,7 @@ namespace zawa_ch::StationaryOrbit
 		{};
 
 		template<class T>
-		struct IsBitSequence_t : std::conjunction< IsValueType_t<T>, HasBitOperation_t<T, int>, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
+		struct IsBitSequence_t : std::conjunction< IsValueType_t<T>, HasBitOperation_t<T, int>, HasBitSubstitution_t<T, int>, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
 
 		template<class T>
 		struct IsNumeralType_t : std::conjunction< IsValueType_t<T>, HasArithmeticOperation_t<T>, Comparable_t<T, T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
@@ -669,7 +669,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class T> inline constexpr static bool IsValueType = IsValueType_t<T>::value;
 		///	ビット列型を識別します。
 		///	@note
-		///	@a IsBitSequence は @a IsValueType および @a HasBitOperation をともに満たす、signed*ではない*型に対して定数 @a true が返されます。
+		///	@a IsBitSequence は @a IsValueType @a HasBitOperation および @a HasBitStitution をともに満たす、signed*ではない*型に対して定数 @a true が返されます。
 		///	signedな型はビット演算の結果が未定義(または処理系定義)となる値域を含むためサポートされません。
 		template<class T> inline constexpr static bool IsBitSequence = IsBitSequence_t<T>::value;
 		///	算術型を識別します。
