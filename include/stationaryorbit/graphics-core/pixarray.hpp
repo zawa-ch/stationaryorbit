@@ -29,7 +29,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static_assert(0 <= height, "高さは0以上である必要があります。");
 	private:
 		static constexpr size_t itemcount = width * height;
-		static constexpr RectangleSize _size = RectangleSize(width, height);
+		static constexpr DisplayRectSize _size = DisplayRectSize(width, height);
 	public:
 		typedef Tcolor ValueType;
 		typedef std::array<ValueType, itemcount> DataType;
@@ -55,8 +55,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		virtual ~PixArray() = default;
 
 		[[nodiscard]] const DataType& Data() const noexcept { return _data; }
-		[[nodiscard]] const RectangleSize& Size() const noexcept { return _size; }
-		[[nodiscard]] DisplayRectangle Area() const noexcept { return Rectangle(DisplayPoint(0, 0), _size); }
+		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _size; }
+		[[nodiscard]] DisplayRectangle Area() const noexcept { return DisplayRectangle(DisplayPoint(0, 0), _size); }
 
 		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return _data.at(solveindex(index)); }
 		[[nodiscard]] ValueType& At(const DisplayPoint& index) { return _data.at(solveindex(index)); }
@@ -75,7 +75,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			for(auto y: area.Size().YRange().GetStdIterator()) for(auto x: area.Size().XRange().GetStdIterator())
 			{
 				auto p = DisplayPoint(x, y);
-				(*this)[p + destination] = ValueType(source[p + area.Location()]);
+				(*this)[p + destination] = ValueType(source[p + area.Origin()]);
 			}
 		}
 
