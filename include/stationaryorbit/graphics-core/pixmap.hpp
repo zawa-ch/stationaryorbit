@@ -38,16 +38,16 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		typedef std::vector<ValueType, Allocator> DataType;
 	private:
 		DataType _data;
-		RectangleSize _size;
+		DisplayRectSize _size;
 	public:
 		Pixmap() = default;
-		explicit Pixmap(const RectangleSize& size) : _size(size), _data(solveItemcount(size)) {}
-		Pixmap(const int& width, const int& height) : Pixmap(RectangleSize(width, height)) {}
+		explicit Pixmap(const DisplayRectSize& size) : _size(size), _data(solveItemcount(size)) {}
+		Pixmap(const int& width, const int& height) : Pixmap(DisplayRectSize(width, height)) {}
 		Pixmap(const Pixmap<Tcolor, Allocator>& source, const DisplayRectangle& area)
 			: Pixmap
 			(
-				// areaで指定された領域がsourceの境界を超えていないか検査、境界を超えていなければareaの大きさ(RectangleSize)を返す
-				[](const DisplayRectangle& bound, const DisplayRectangle& area) -> RectangleSize
+				// areaで指定された領域がsourceの境界を超えていないか検査、境界を超えていなければareaの大きさ(DisplayRectSize)を返す
+				[](const DisplayRectangle& bound, const DisplayRectangle& area) -> DisplayRectSize
 				{
 					if ((area.Left() < bound.Left())||(area.Top() < bound.Top())||(bound.Right() < area.Right())||(bound.Bottom() < area.Bottom()))
 					{ throw std::out_of_range("指定された領域は境界を超えています。"); }
@@ -78,8 +78,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		Pixmap(const Image<fromTcolor>& source, const DisplayRectangle& area)
 			: Pixmap
 			(
-				// areaで指定された領域がsourceの境界を超えていないか検査、境界を超えていなければareaの大きさ(RectangleSize)を返す
-				[](const DisplayRectangle& bound, const DisplayRectangle& area) -> RectangleSize
+				// areaで指定された領域がsourceの境界を超えていないか検査、境界を超えていなければareaの大きさ(DisplayRectSize)を返す
+				[](const DisplayRectangle& bound, const DisplayRectangle& area) -> DisplayRectSize
 				{
 					if ((area.Left() < bound.Left())||(area.Top() < bound.Top())||(bound.Right() < area.Right())||(bound.Bottom() < area.Bottom()))
 					{ throw std::out_of_range("指定された領域は境界を超えています。"); }
@@ -95,8 +95,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		virtual ~Pixmap() = default;
 
 		[[nodiscard]] const DataType& Data() const noexcept { return _data; }
-		[[nodiscard]] const RectangleSize& Size() const noexcept { return _size; }
-		[[nodiscard]] DisplayRectangle Area() const noexcept { return Rectangle(DisplayPoint(0, 0), _size); }
+		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _size; }
+		[[nodiscard]] DisplayRectangle Area() const noexcept { return DisplayRectangle(DisplayPoint(0, 0), _size); }
 
 		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return _data.at(solveindex(index)); }
 		[[nodiscard]] ValueType& At(const DisplayPoint& index) { return _data.at(solveindex(index)); }
@@ -115,7 +115,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			for(auto y: area.Size().YRange().GetStdIterator()) for(auto x: area.Size().XRange().GetStdIterator())
 			{
 				auto p = DisplayPoint(x, y);
-				(*this)[p + destination] = ValueType(source[p + area.Location()]);
+				(*this)[p + destination] = ValueType(source[p + area.Origin()]);
 			}
 		}
 
@@ -143,7 +143,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			if ((_size.Width() <= point.X())||(_size.Height() <= point.Y())) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); }
 			return (point.Y() * _size.Width()) + point.X();
 		}
-		static size_t solveItemcount(const RectangleSize& size)
+		static size_t solveItemcount(const DisplayRectSize& size)
 		{
 			if ((size.Height() < 0)||(size.Width() < 0)) { throw std::invalid_argument("sizeの値が無効です。"); }
 			return size_t(size.Height()) * size_t(size.Width());
