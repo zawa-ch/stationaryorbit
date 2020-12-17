@@ -36,11 +36,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public:
 		ImageAlign(const Image<Tcolor>& source) : _data(source) {}
 
-		[[nodiscard]] virtual const RectangleSize& Size() const noexcept { return _data.Size(); }
+		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
 		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return DisplayRectangle(DisplayPoint(0, 0), _data.Size()); }
-		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _data.At(_data.Area().Location() + index); }
+		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _data.At(_data.Area().Origin() + index); }
 
-		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[_data.Area().Location() + index]; }
+		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[_data.Area().Origin() + index]; }
 	};
 	template<class Tcolor>
 	class ImageShift : public Image<Tcolor>
@@ -53,7 +53,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public:
 		ImageShift(const Image<Tcolor>& source, const DisplayPoint& amount) : _data(source), _amount(amount) {}
 
-		[[nodiscard]] virtual const RectangleSize& Size() const noexcept { return _data.Size(); }
+		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
 		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return _data.Area().Offset(_amount); }
 		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _data.At(index - _amount); }
 
@@ -68,13 +68,13 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	private:
 		const Image<Tcolor>& _data;
 		InterpolationMethod _imethod;
-		RectangleSizeF _amount;
+		DisplayRectSizeF _amount;
 		DisplayRectangle _newarea;
 	public:
 		ImageScaling(const Image<Tcolor>& source, const InterpolationMethod& imethod, const float& scale) : _data(source), _imethod(imethod), _amount(scale, scale), _newarea(DisplayRectangle::FromEdge(int(source.Area().Left() * scale), int(source.Area().Right() * scale), int(source.Area().Top() * scale), int(source.Area().Bottom() * scale))) {}
 		ImageScaling(const Image<Tcolor>& source, const InterpolationMethod& imethod, const float& xscale, const float& yscale) : _data(source), _imethod(imethod), _amount(xscale, yscale), _newarea(DisplayRectangle::FromEdge(int(source.Area().Left() * xscale), int(source.Area().Right() * xscale), int(source.Area().Top() * yscale), int(source.Area().Bottom() * yscale))) {}
 
-		[[nodiscard]] virtual const RectangleSize& Size() const noexcept { return _newarea.Size(); }
+		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _newarea.Size(); }
 		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return _newarea; }
 		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _imethod(_data, DisplayPointF(index.X() / _amount.Width(), index.Y() / _amount.Height())); }
 
@@ -91,7 +91,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public:
 		ImageHorizonalFlip(const Image<Tcolor>& source) : _data(source), _orig(1-_data.Area().Right(), _data.Area().Top()) {}
 
-		[[nodiscard]] virtual const RectangleSize& Size() const noexcept { return _data.Size(); }
+		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
 		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return DisplayRectangle(_orig, _data.Size()); }
 		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _data.At(DisplayPoint(-index.X(), index.Y())); }
 
@@ -108,7 +108,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public:
 		ImageVerticalFlip(const Image<Tcolor>& source) : _data(source), _orig(_data.Area().Left(), 1-_data.Area().Bottom()) {}
 
-		[[nodiscard]] virtual const RectangleSize& Size() const noexcept { return _data.Size(); }
+		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
 		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return DisplayRectangle(_orig, _data.Size()); }
 		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _data.At(DisplayPoint(index.X(), -index.Y())); }
 
