@@ -367,6 +367,9 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class U>
 		struct HasBitOperation_t : std::conjunction<HasArithmeticNot_t<T, T>, HasArithmeticOr_t<T, T, T>, HasArithmeticAnd_t<T, T, T>, HasArithmeticXor_t<T, T, T>, HasLShift_t<T, U, T>, HasRShift_t<T, U, T>> {};
 
+		template<class T, class U>
+		struct HasBitSubstitution_t : std::conjunction<HasArithmeticAndSubstitution_t<T, T, T&>, HasArithmeticOrSubstitution_t<T, T, T&>, HasArithmeticXorSubstitution_t<T, T, T&>, HasBitLshiftSubstitution_t<T, U, T&>, HasBitRshiftSubstitution_t<T, U, T&>> {};
+
 		template<class T>
 		struct IsSequencialOrder_t : std::conjunction<HasPreIncrement_t<T, T&>, HasPostIncrement_t<T, T>> {};
 
@@ -654,6 +657,8 @@ namespace zawa_ch::StationaryOrbit
 		template<class T> inline constexpr static bool HasArithmeticOperation = HasArithmeticOperation_t<T>::value;
 		///	基本的なビット演算を持つ型を識別します。
 		template<class T, class U = T> inline constexpr static bool HasBitOperation = HasBitOperation_t<T, U>::value;
+		///	基本的なビット代入演算を持つ型を識別します。
+		template<class T, class U = T> inline constexpr static bool HasBitSubstitution = HasBitSubstitution_t<T, U>::value;
 		///	単方向の順序を持つ値型を識別します。
 		template<class T> inline constexpr static bool IsSequencialOrder = IsSequencialOrder_t<T>::value;
 		///	双方向の順序を持つ値型を識別します。
