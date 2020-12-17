@@ -29,7 +29,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		virtual ~Image() = default;
 
-		[[nodiscard]] virtual const RectangleSize& Size() const noexcept = 0;
+		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept = 0;
 		[[nodiscard]] virtual DisplayRectangle Area() const noexcept = 0;
 		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const = 0;
 		[[nodiscard]] virtual ValueType At(const int& x, const int& y) const { return At(DisplayPoint(x, y)); }
