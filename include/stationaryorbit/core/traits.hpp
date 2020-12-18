@@ -471,10 +471,22 @@ namespace zawa_ch::StationaryOrbit
 		struct HasComma_t<T, U, R, std::void_t< decltype( std::declval<T&>() , std::declval<U&>() ) > >
 			: std::is_convertible< decltype( std::declval<T&>() , std::declval<U&>() ), R> {};
 
-		template<class, class, class = std::void_t<>>
-		struct IsAggregatable_t : std::false_type {};
-		template<class T, class Targ>
-		struct IsAggregatable_t<T, Targ, std::void_t< decltype( T{ std::declval<Targ>() } ) > > : std::true_type {};
+		struct do_IsAggrigation_impl
+		{
+			template<class T, class... Targs, typename = decltype( T{ ( std::declval<Targs&>() )... } )>
+			static std::true_type do_Aggrigation(int);
+			template<class T, class... Targs>
+			static std::false_type do_Aggrigation(...);
+		};
+
+		template<class T, class... Targs>
+		struct IsAggrigation_impl : public do_IsAggrigation_impl
+		{
+			typedef decltype(do_Aggrigation<T, Targs ...>(0)) type;
+		};
+
+		template<class T, class... Targs>
+		struct IsAggregatable_t : public IsAggrigation_impl<T, Targs ...>::type {};
 
 		template<class T, class U>
 		struct Equatable_t : std::conjunction< HasEqual_t<T, U, bool>, HasNotEqual_t<T, U, bool> > {};
@@ -774,7 +786,7 @@ namespace zawa_ch::StationaryOrbit
 		///	コンマ演算子,の実装を識別します。
 		template<class T, class U = T, class R = T> inline constexpr static bool HasComma = HasComma_t<T, U, R>::value;
 		///	指定された型の波括弧による初期化が可能な型を識別します。
-		template<class T, class Targ> inline constexpr static bool IsAggregatable = IsAggregatable_t<T, Targ>::value;
+		template<class T, class... Targs> inline constexpr static bool IsAggregatable = IsAggregatable_t<T, Targs...>::value;
 		///	指定された型のオブジェクトとの等価比較が可能な型を識別します。
 		template<class T, class U = T> inline constexpr static bool Equatable = Equatable_t<T, U>::value;
 		///	指定された型のオブジェクトとの大小比較が可能な型を識別します。
