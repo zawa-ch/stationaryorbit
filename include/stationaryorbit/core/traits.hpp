@@ -33,6 +33,131 @@ namespace zawa_ch::StationaryOrbit
 		Traits(Traits&&) = delete;
 		~Traits() = delete;
 
+		template<class T, class U, class R = decltype( std::declval<T&>() = std::declval<U&>() )> struct SubstitutionResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() += std::declval<U&>() )> struct SubstitutionAddResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() -= std::declval<U&>() )> struct SubstitutionSubtractResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() *= std::declval<U&>() )> struct SubstitutionMultipleResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() /= std::declval<U&>() )> struct SubstitutionDivideResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() %= std::declval<U&>() )> struct SubstitutionModulateResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() &= std::declval<U&>() )> struct SubstitutionArithmeticAndResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() |= std::declval<U&>() )> struct SubstitutionArithmeticOrResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() ^= std::declval<U&>() )> struct SubstitutionArithmeticXorResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() <<= std::declval<U&>() )> struct SubstitutionLShiftResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() >>= std::declval<U&>() )> struct SubstitutionRShiftResult_impl { typedef R type; };
+		template<class T, class R = decltype( ++std::declval<T&>() )> struct PreincrementResult_impl { typedef R type; };
+		template<class T, class R = decltype( --std::declval<T&>() )> struct PredecrementResult_impl { typedef R type; };
+		template<class T, class R = decltype( std::declval<T&>()++ )> struct PostincrementResult_impl { typedef R type; };
+		template<class T, class R = decltype( std::declval<T&>()-- )> struct PostdecrementResult_impl { typedef R type; };
+		template<class T, class R = decltype( +std::declval<T&>() )> struct PromotionResult_impl { typedef R type; };
+		template<class T, class R = decltype( -std::declval<T&>() )> struct InverseResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() + std::declval<U&>() )> struct AdditionResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() - std::declval<U&>() )> struct SubtractionResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() * std::declval<U&>() )> struct MultiplicationResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() / std::declval<U&>() )> struct DivisionResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() % std::declval<U&>() )> struct ModulationResult_impl { typedef R type; };
+		template<class T, class R = decltype( ~std::declval<T&>() )> struct ArithmeticNotResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() & std::declval<U&>() )> struct ArithmeticOrResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() | std::declval<U&>() )> struct ArithmeticAndResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() ^ std::declval<U&>() )> struct ArithmeticXorResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() << std::declval<U&>() )> struct LShiftResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() >> std::declval<U&>() )> struct RShiftResult_impl { typedef R type; };
+		template<class T, class R = decltype( !std::declval<T&>() )> struct LogicalNotResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() && std::declval<U&>() )> struct LogicalAndResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() || std::declval<U&>() )> struct LogicalOrResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() == std::declval<U&>() )> struct EqualResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() != std::declval<U&>() )> struct NotEqualResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() > std::declval<U&>() )> struct LargerCompareResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() < std::declval<U&>() )> struct SmallerCompareResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() >= std::declval<U&>() )> struct LeastCompareResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>() <= std::declval<U&>() )> struct MostCompareResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>()[ std::declval<U&>() ] )> struct SubscriptResult_impl { typedef R type; };
+		template<class T, class R = decltype( *std::declval<T&>() )> struct DereferenceResult_impl { typedef R type; };
+		template<class T, class R = decltype( &std::declval<T&>() )> struct ReferenceResult_impl { typedef R type; };
+		template<class T, class U, class R = decltype( std::declval<T&>(), std::declval<U&>() )> struct CommaResult_impl { typedef R type; };
+	public:
+		///	代入演算子 @a T::operator=(U) の結果を表す型。
+		template<class T, class U> using SubstitutionResult = typename SubstitutionResult_impl<T, U>::type;
+		///	代入演算子 @a T::operator+=(U) の結果を表す型。
+		template<class T, class U> using SubstitutionAddResult = typename SubstitutionAddResult_impl<T, U>::type;
+		///	代入演算子 @a T::operator-=(U) の結果を表す型。
+		template<class T, class U> using SubstitutionSubtractResult = typename SubstitutionSubtractResult_impl<T, U>::type;
+		///	代入演算子 @a T::operator*=(U) の結果を表す型。
+		template<class T, class U> using SubstitutionMultipleResult = typename SubstitutionMultipleResult_impl<T, U>::type;
+		///	代入演算子 @a T::operator/=(U) の結果を表す型。
+		template<class T, class U> using SubstitutionDivideResult = typename SubstitutionDivideResult_impl<T, U>::type;
+		///	代入演算子 @a T::operator%=(U) の結果を表す型。
+		template<class T, class U> using SubstitutionModulateResult = typename SubstitutionModulateResult_impl<T, U>::type;
+		///	代入演算子 @a T::operator&=(U) の結果を表す型。
+		template<class T, class U> using SubstitutionArithmeticAndResult = typename SubstitutionArithmeticAndResult_impl<T, U>::type;
+		///	代入演算子 @a T::operator|=(U) の結果を表す型。
+		template<class T, class U> using SubstitutionArithmeticOrResult = typename SubstitutionArithmeticOrResult_impl<T, U>::type;
+		///	代入演算子 @a T::operator^=(U) の結果を表す型。
+		template<class T, class U> using SubstitutionArithmeticXorResult = typename SubstitutionArithmeticXorResult_impl<T, U>::type;
+		///	代入演算子 @a T::operator<<=(U) の結果を表す型。
+		template<class T, class U> using SubstitutionLShiftResult = typename SubstitutionLShiftResult_impl<T, U>::type;
+		///	代入演算子 @a T::operator>>=(U) の結果を表す型。
+		template<class T, class U> using SubstitutionRShiftResult = typename SubstitutionRShiftResult_impl<T, U>::type;
+		///	前置インクリメント演算子 @a T::operator++() の結果を表す型。
+		template<class T> using PreincrementResult = typename PreincrementResult_impl<T>::type;
+		///	前置デクリメント演算子 @a T::operator--() の結果を表す型。
+		template<class T> using PredecrementResult = typename PredecrementResult_impl<T>::type;
+		///	後置インクリメント演算子 @a T::operator++(int) の結果を表す型。
+		template<class T> using PostincrementResult = typename PostincrementResult_impl<T>::type;
+		///	後置デクリメント演算子 @a T::operator--(int) の結果を表す型。
+		template<class T> using PostdecrementResult = typename PostdecrementResult_impl<T>::type;
+		///	算術演算子 @a T::operator+() の結果を表す型。
+		template<class T> using PromotionResult = typename PromotionResult_impl<T>::type;
+		///	算術演算子 @a T::operator-() の結果を表す型。
+		template<class T> using InverseResult = typename InverseResult_impl<T>::type;
+		///	算術演算子 @a T::operator+(U) の結果を表す型。
+		template<class T, class U> using AdditionResult = typename AdditionResult_impl<T, U>::type;
+		///	算術演算子 @a T::operator-(U) の結果を表す型。
+		template<class T, class U> using SubtractionResult = typename SubtractionResult_impl<T, U>::type;
+		///	算術演算子 @a T::operator*(U) の結果を表す型。
+		template<class T, class U> using MultiplicationResult = typename MultiplicationResult_impl<T, U>::type;
+		///	算術演算子 @a T::operator/(U) の結果を表す型。
+		template<class T, class U> using DivisionResult = typename DivisionResult_impl<T, U>::type;
+		///	算術演算子 @a T::operator%(U) の結果を表す型。
+		template<class T, class U> using ModulationResult = typename ModulationResult_impl<T, U>::type;
+		///	算術演算子 @a T::operator~() の結果を表す型。
+		template<class T> using ArithmeticNotResult = typename ArithmeticNotResult_impl<T>::type;
+		///	算術演算子 @a T::operator&(U) の結果を表す型。
+		template<class T, class U> using ArithmeticAndResult = typename ArithmeticAndResult_impl<T, U>::type;
+		///	算術演算子 @a T::operator|(U) の結果を表す型。
+		template<class T, class U> using ArithmeticOrResult = typename ArithmeticOrResult_impl<T, U>::type;
+		///	算術演算子 @a T::operator^(U) の結果を表す型。
+		template<class T, class U> using ArithmeticXorResult = typename ArithmeticXorResult_impl<T, U>::type;
+		///	算術演算子 @a T::operator<<(U) の結果を表す型。
+		template<class T, class U> using LShiftResult = typename LShiftResult_impl<T, U>::type;
+		///	算術演算子 @a T::operator>>(U) の結果を表す型。
+		template<class T, class U> using RShiftResult = typename RShiftResult_impl<T, U>::type;
+		///	論理演算子 @a T::operator!() の結果を表す型。
+		template<class T> using LogicalNotResult = typename LogicalNotResult_impl<T>::type;
+		///	論理演算子 @a T::operator&&(U) の結果を表す型。
+		template<class T, class U> using LogicalOrResult = typename LogicalOrResult_impl<T, U>::type;
+		///	論理演算子 @a T::operator||(U) の結果を表す型。
+		template<class T, class U> using LogicalAndResult = typename LogicalAndResult_impl<T, U>::type;
+		///	比較演算子 @a T::operator==(U) の結果を表す型。
+		template<class T, class U> using EqualResult = typename EqualResult_impl<T, U>::type;
+		///	比較演算子 @a T::operator!=(U) の結果を表す型。
+		template<class T, class U> using NotEqualResult = typename NotEqualResult_impl<T, U>::type;
+		///	比較演算子 @a T::operator>(U) の結果を表す型。
+		template<class T, class U> using LargerCompareResult = typename LargerCompareResult_impl<T, U>::type;
+		///	比較演算子 @a T::operator<(U) の結果を表す型。
+		template<class T, class U> using SmallerCompareResult = typename SmallerCompareResult_impl<T, U>::type;
+		///	比較演算子 @a T::operator>=(U) の結果を表す型。
+		template<class T, class U> using LeastCompareResult = typename LeastCompareResult_impl<T, U>::type;
+		///	比較演算子 @a T::operator<=(U) の結果を表す型。
+		template<class T, class U> using MostCompareResult = typename MostCompareResult_impl<T, U>::type;
+		///	比較演算子 @a T::operator[](U) の結果を表す型。
+		template<class T, class U> using SubscriptResult = typename SubscriptResult_impl<T, U>::type;
+		///	比較演算子 @a T::operator*() の結果を表す型。
+		template<class T> using DereferenceResult = typename DereferenceResult_impl<T>::type;
+		///	比較演算子 @a T::operator&() の結果を表す型。
+		template<class T> using ReferenceResult = typename ReferenceResult_impl<T>::type;
+		///	比較演算子 @a T::operator,(U) の結果を表す型。
+		template<class T, class U> using CommaResult = typename CommaResult_impl<T, U>::type;
+	private:
 		///	代入演算子=の実装を識別します。
 		template<class, class, class, class = std::void_t<>>
 		struct HasSubstitution_t : std::false_type {};
