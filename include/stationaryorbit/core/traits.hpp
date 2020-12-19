@@ -405,7 +405,90 @@ namespace zawa_ch::StationaryOrbit
 		///	比較演算子 @a T::operator,(U) の返却型が指定されたものに一致するかを識別するための実装。
 		template<class, class, class, class = std::void_t<>> struct CommaResultIsSame_impl_t : std::false_type {};
 		template<class T, class U, class R> struct CommaResultIsSame_impl_t<T, U, R, std::void_t< CommaResult<T, U> > > : std::is_same<CommaResult<T, U>, R> {};
-
+	public:
+		///	代入演算子 @a T::operator=(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionResultIsSame = SubstitutionResultIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator+=(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionAddResultIsSame = SubstitutionAddResultIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator-=(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionSubtractResultIsSame = SubstitutionSubtractResultIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator*=(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionMultipleResultIsSame = SubstitutionMultipleResultIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator/=(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionDivideResultIsSame = SubstitutionDivideResultIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator%=(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionModulateResultIsSame = SubstitutionModulateResultIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator&=(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionArithmeticAndResultIsSame = SubstitutionArithmeticAndResultIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator|=(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionArithmeticOrResultIsSame = SubstitutionArithmeticOrResultIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator^=(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionArithmeticXorResultIsSame = SubstitutionArithmeticXorResultIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator<<=(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionLShiftResultIsSame = SubstitutionLShiftResultIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator>>=(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionRShiftResultIsSame = SubstitutionRShiftResultIsSame_impl_t<T, U, R>::value;
+		///	前置インクリメント演算子 @a T::operator++() の返却型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool PreincrementResultIsSame = PreincrementResultIsSame_impl_t<T, R>::value;
+		///	前置デクリメント演算子 @a T::operator--() の返却型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool PredecrementResultIsSame = PredecrementResultIsSame_impl_t<T, R>::value;
+		///	後置インクリメント演算子 @a T::operator++(int) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool PostincrementResultIsSame = PostincrementResultIsSame_impl_t<T, R>::value;
+		///	後置デクリメント演算子 @a T::operator--(int) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool PostdecrementResultIsSame = PostdecrementResultIsSame_impl_t<T, R>::value;
+		///	算術演算子 @a T::operator+() の返却型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool PromotionResultIsSame = PromotionResultIsSame_impl_t<T, R>::value;
+		///	算術演算子 @a T::operator-() の返却型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool InverseResultIsSame = InverseResultIsSame_impl_t<T, R>::value;
+		///	算術演算子 @a T::operator+(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool AdditionResultIsSame = AdditionResultIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator-(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubtractionResultIsSame = SubtractionResultIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator*(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool MultiplicationResultIsSame = MultiplicationResultIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator/(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool DivisionResultIsSame = DivisionResultIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator%(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool ModulationResultIsSame = ModulationResultIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator~() の返却型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool ArithmeticNotResultIsSame = ArithmeticNotResultIsSame_impl_t<T, R>::value;
+		///	算術演算子 @a T::operator&(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool ArithmeticAndResultIsSame = ArithmeticAndResultIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator|(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool ArithmeticOrResultIsSame = ArithmeticOrResultIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator^(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool ArithmeticXorResultIsSame = ArithmeticXorResultIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator<<(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool LShiftResultIsSame = LShiftResultIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator>>(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool RShiftResultIsSame = RShiftResultIsSame_impl_t<T, U, R>::value;
+		///	論理演算子 @a T::operator!() の返却型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool LogicalNotResultIsSame = LogicalNotResultIsSame_impl_t<T, R>::value;
+		///	論理演算子 @a T::operator&&(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool LogicalOrResultIsSame = LogicalOrResultIsSame_impl_t<T, U, R>::value;
+		///	論理演算子 @a T::operator||(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool LogicalAndResultIsSame = LogicalAndResultIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator==(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool EqualResultIsSame = EqualResultIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator!=(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool NotEqualResultIsSame = NotEqualResultIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator>(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool LargerCompareResultIsSame = LargerCompareResultIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator<(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SmallerCompareResultIsSame = SmallerCompareResultIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator>=(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool LeastCompareResultIsSame = LeastCompareResultIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator<=(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool MostCompareResultIsSame = MostCompareResultIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator[](U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubscriptResultIsSame = SubscriptResultIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator*() の返却型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool DereferenceResultIsSame = DereferenceResultIsSame_impl_t<T, R>::value;
+		///	比較演算子 @a T::operator&() の返却型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool ReferenceResultIsSame = ReferenceResultIsSame_impl_t<T, R>::value;
+		///	比較演算子 @a T::operator,(U) の返却型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool CommaResultIsSame = CommaResultIsSame_impl_t<T, U, R>::value;
+	private:
 		///	代入演算子 @a T::operator=(U) の返却型が指定されたものに変換可能かを識別するための実装。
 		template<class, class, class, class = std::void_t<>> struct SubstitutionResultIsConvertible_impl_t : std::false_type {};
 		template<class T, class U, class R> struct SubstitutionResultIsConvertible_impl_t<T, U, R, std::void_t< SubstitutionResult<T, U> > > : std::is_convertible<SubstitutionResult<T, U>, R> {};
@@ -529,7 +612,90 @@ namespace zawa_ch::StationaryOrbit
 		///	比較演算子 @a T::operator,(U) の返却型が指定されたものに変換可能かを識別するための実装。
 		template<class, class, class, class = std::void_t<>> struct CommaResultIsConvertible_impl_t : std::false_type {};
 		template<class T, class U, class R> struct CommaResultIsConvertible_impl_t<T, U, R, std::void_t< CommaResult<T, U> > > : std::is_convertible<CommaResult<T, U>, R> {};
-
+	public:
+		///	代入演算子 @a T::operator=(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionResultIsConvertible = SubstitutionResultIsConvertible_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator+=(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionAddResultIsConvertible = SubstitutionAddResultIsConvertible_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator-=(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionSubtractResultIsConvertible = SubstitutionSubtractResultIsConvertible_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator*=(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionMultipleResultIsConvertible = SubstitutionMultipleResultIsConvertible_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator/=(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionDivideResultIsConvertible = SubstitutionDivideResultIsConvertible_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator%=(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionModulateResultIsConvertible = SubstitutionModulateResultIsConvertible_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator&=(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionArithmeticAndResultIsConvertible = SubstitutionArithmeticAndResultIsConvertible_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator|=(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionArithmeticOrResultIsConvertible = SubstitutionArithmeticOrResultIsConvertible_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator^=(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionArithmeticXorResultIsConvertible = SubstitutionArithmeticXorResultIsConvertible_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator<<=(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionLShiftResultIsConvertible = SubstitutionLShiftResultIsConvertible_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator>>=(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionRShiftResultIsConvertible = SubstitutionRShiftResultIsConvertible_impl_t<T, U, R>::value;
+		///	前置インクリメント演算子 @a T::operator++() の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class R> static constexpr bool PreincrementResultIsConvertible = PreincrementResultIsConvertible_impl_t<T, R>::value;
+		///	前置デクリメント演算子 @a T::operator--() の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class R> static constexpr bool PredecrementResultIsConvertible = PredecrementResultIsConvertible_impl_t<T, R>::value;
+		///	後置インクリメント演算子 @a T::operator++(int) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class R> static constexpr bool PostincrementResultIsConvertible = PostincrementResultIsConvertible_impl_t<T, R>::value;
+		///	後置デクリメント演算子 @a T::operator--(int) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class R> static constexpr bool PostdecrementResultIsConvertible = PostdecrementResultIsConvertible_impl_t<T, R>::value;
+		///	算術演算子 @a T::operator+() の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class R> static constexpr bool PromotionResultIsConvertible = PromotionResultIsConvertible_impl_t<T, R>::value;
+		///	算術演算子 @a T::operator-() の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class R> static constexpr bool InverseResultIsConvertible = InverseResultIsConvertible_impl_t<T, R>::value;
+		///	算術演算子 @a T::operator+(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool AdditionResultIsConvertible = AdditionResultIsConvertible_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator-(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool SubtractionResultIsConvertible = SubtractionResultIsConvertible_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator*(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool MultiplicationResultIsConvertible = MultiplicationResultIsConvertible_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator/(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool DivisionResultIsConvertible = DivisionResultIsConvertible_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator%(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool ModulationResultIsConvertible = ModulationResultIsConvertible_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator~() の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class R> static constexpr bool ArithmeticNotResultIsConvertible = ArithmeticNotResultIsConvertible_impl_t<T, R>::value;
+		///	算術演算子 @a T::operator&(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool ArithmeticAndResultIsConvertible = ArithmeticAndResultIsConvertible_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator|(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool ArithmeticOrResultIsConvertible = ArithmeticOrResultIsConvertible_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator^(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool ArithmeticXorResultIsConvertible = ArithmeticXorResultIsConvertible_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator<<(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool LShiftResultIsConvertible = LShiftResultIsConvertible_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator>>(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool RShiftResultIsConvertible = RShiftResultIsConvertible_impl_t<T, U, R>::value;
+		///	論理演算子 @a T::operator!() の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class R> static constexpr bool LogicalNotResultIsConvertible = LogicalNotResultIsConvertible_impl_t<T, R>::value;
+		///	論理演算子 @a T::operator&&(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool LogicalOrResultIsConvertible = LogicalOrResultIsConvertible_impl_t<T, U, R>::value;
+		///	論理演算子 @a T::operator||(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool LogicalAndResultIsConvertible = LogicalAndResultIsConvertible_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator==(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool EqualResultIsConvertible = EqualResultIsConvertible_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator!=(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool NotEqualResultIsConvertible = NotEqualResultIsConvertible_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator>(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool LargerCompareResultIsConvertible = LargerCompareResultIsConvertible_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator<(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool SmallerCompareResultIsConvertible = SmallerCompareResultIsConvertible_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator>=(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool LeastCompareResultIsConvertible = LeastCompareResultIsConvertible_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator<=(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool MostCompareResultIsConvertible = MostCompareResultIsConvertible_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator[](U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool SubscriptResultIsConvertible = SubscriptResultIsConvertible_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator*() の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class R> static constexpr bool DereferenceResultIsConvertible = DereferenceResultIsConvertible_impl_t<T, R>::value;
+		///	比較演算子 @a T::operator&() の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class R> static constexpr bool ReferenceResultIsConvertible = ReferenceResultIsConvertible_impl_t<T, R>::value;
+		///	比較演算子 @a T::operator,(U) の返却型が指定されたものに変換可能かを識別します。
+		template<class T, class U, class R> static constexpr bool CommaResultIsConvertible = CommaResultIsConvertible_impl_t<T, U, R>::value;
+	private:
 		///	代入演算子 @a T::operator=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
 		template<class, class, class, class = std::void_t<>> struct SubstitutionResultRemoveCVRefIsSame_impl_t : std::false_type {};
 		template<class T, class U, class R> struct SubstitutionResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< SubstitutionResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<SubstitutionResult<T, U>>>, R> {};
@@ -653,7 +819,90 @@ namespace zawa_ch::StationaryOrbit
 		///	比較演算子 @a T::operator,(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
 		template<class, class, class, class = std::void_t<>> struct CommaResultRemoveCVRefIsSame_impl_t : std::false_type {};
 		template<class T, class U, class R> struct CommaResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< CommaResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<CommaResult<T, U>>>, R> {};
-
+	public:
+		///	代入演算子 @a T::operator=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionResultRemoveCVRefIsSame = SubstitutionResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator+=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionAddResultRemoveCVRefIsSame = SubstitutionAddResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator-=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionSubtractResultRemoveCVRefIsSame = SubstitutionSubtractResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator*=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionMultipleResultRemoveCVRefIsSame = SubstitutionMultipleResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator/=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionDivideResultRemoveCVRefIsSame = SubstitutionDivideResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator%=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionModulateResultRemoveCVRefIsSame = SubstitutionModulateResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator&=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionArithmeticAndResultRemoveCVRefIsSame = SubstitutionArithmeticAndResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator|=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionArithmeticOrResultRemoveCVRefIsSame = SubstitutionArithmeticOrResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator^=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionArithmeticXorResultRemoveCVRefIsSame = SubstitutionArithmeticXorResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator<<=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionLShiftResultRemoveCVRefIsSame = SubstitutionLShiftResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	代入演算子 @a T::operator>>=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubstitutionRShiftResultRemoveCVRefIsSame = SubstitutionRShiftResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	前置インクリメント演算子 @a T::operator++() の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool PreincrementResultRemoveCVRefIsSame = PreincrementResultRemoveCVRefIsSame_impl_t<T, R>::value;
+		///	前置デクリメント演算子 @a T::operator--() の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool PredecrementResultRemoveCVRefIsSame = PredecrementResultRemoveCVRefIsSame_impl_t<T, R>::value;
+		///	後置インクリメント演算子 @a T::operator++(int) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool PostincrementResultRemoveCVRefIsSame = PostincrementResultRemoveCVRefIsSame_impl_t<T, R>::value;
+		///	後置デクリメント演算子 @a T::operator--(int) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool PostdecrementResultRemoveCVRefIsSame = PostdecrementResultRemoveCVRefIsSame_impl_t<T, R>::value;
+		///	算術演算子 @a T::operator+() の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool PromotionResultRemoveCVRefIsSame = PromotionResultRemoveCVRefIsSame_impl_t<T, R>::value;
+		///	算術演算子 @a T::operator-() の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool InverseResultRemoveCVRefIsSame = InverseResultRemoveCVRefIsSame_impl_t<T, R>::value;
+		///	算術演算子 @a T::operator+(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool AdditionResultRemoveCVRefIsSame = AdditionResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator-(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubtractionResultRemoveCVRefIsSame = SubtractionResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator*(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool MultiplicationResultRemoveCVRefIsSame = MultiplicationResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator/(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool DivisionResultRemoveCVRefIsSame = DivisionResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator%(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool ModulationResultRemoveCVRefIsSame = ModulationResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator~() の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool ArithmeticNotResultRemoveCVRefIsSame = ArithmeticNotResultRemoveCVRefIsSame_impl_t<T, R>::value;
+		///	算術演算子 @a T::operator&(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool ArithmeticAndResultRemoveCVRefIsSame = ArithmeticAndResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator|(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool ArithmeticOrResultRemoveCVRefIsSame = ArithmeticOrResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator^(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool ArithmeticXorResultRemoveCVRefIsSame = ArithmeticXorResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator<<(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool LShiftResultRemoveCVRefIsSame = LShiftResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	算術演算子 @a T::operator>>(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool RShiftResultRemoveCVRefIsSame = RShiftResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	論理演算子 @a T::operator!() の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool LogicalNotResultRemoveCVRefIsSame = LogicalNotResultRemoveCVRefIsSame_impl_t<T, R>::value;
+		///	論理演算子 @a T::operator&&(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool LogicalOrResultRemoveCVRefIsSame = LogicalOrResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	論理演算子 @a T::operator||(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool LogicalAndResultRemoveCVRefIsSame = LogicalAndResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator==(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool EqualResultRemoveCVRefIsSame = EqualResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator!=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool NotEqualResultRemoveCVRefIsSame = NotEqualResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator>(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool LargerCompareResultRemoveCVRefIsSame = LargerCompareResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator<(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SmallerCompareResultRemoveCVRefIsSame = SmallerCompareResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator>=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool LeastCompareResultRemoveCVRefIsSame = LeastCompareResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator<=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool MostCompareResultRemoveCVRefIsSame = MostCompareResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator[](U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool SubscriptResultRemoveCVRefIsSame = SubscriptResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+		///	比較演算子 @a T::operator*() の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool DereferenceResultRemoveCVRefIsSame = DereferenceResultRemoveCVRefIsSame_impl_t<T, R>::value;
+		///	比較演算子 @a T::operator&() の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class R> static constexpr bool ReferenceResultRemoveCVRefIsSame = ReferenceResultRemoveCVRefIsSame_impl_t<T, R>::value;
+		///	比較演算子 @a T::operator,(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別します。
+		template<class T, class U, class R> static constexpr bool CommaResultRemoveCVRefIsSame = CommaResultRemoveCVRefIsSame_impl_t<T, U, R>::value;
+	private:
 		///	代入演算子=の実装を識別します。
 		template<class, class, class, class = std::void_t<>>
 		struct HasSubstitution_t : std::false_type {};
