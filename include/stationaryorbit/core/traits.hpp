@@ -158,6 +158,502 @@ namespace zawa_ch::StationaryOrbit
 		///	比較演算子 @a T::operator,(U) の結果を表す型。
 		template<class T, class U> using CommaResult = typename CommaResult_impl<T, U>::type;
 	private:
+		///	代入演算子 @a T::operator=(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasSubstitution_impl_t : std::false_type {};
+		template<class T, class U> struct HasSubstitution_impl_t<T, U, std::void_t< SubstitutionResult<T, U> > > : std::true_type {};
+		///	代入演算子 @a T::operator+=(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasSubstitutionAdd_impl_t : std::false_type {};
+		template<class T, class U> struct HasSubstitutionAdd_impl_t<T, U, std::void_t< SubstitutionAddResult<T, U> > > : std::true_type {};
+		///	代入演算子 @a T::operator-=(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasSubstitutionSubtract_impl_t : std::false_type {};
+		template<class T, class U> struct HasSubstitutionSubtract_impl_t<T, U, std::void_t< SubstitutionSubtractResult<T, U> > > : std::true_type {};
+		///	代入演算子 @a T::operator*=(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasSubstitutionMultiple_impl_t : std::false_type {};
+		template<class T, class U> struct HasSubstitutionMultiple_impl_t<T, U, std::void_t< SubstitutionMultipleResult<T, U> > > : std::true_type {};
+		///	代入演算子 @a T::operator/=(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasSubstitutionDivide_impl_t : std::false_type {};
+		template<class T, class U> struct HasSubstitutionDivide_impl_t<T, U, std::void_t< SubstitutionDivideResult<T, U> > > : std::true_type {};
+		///	代入演算子 @a T::operator%=(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasSubstitutionModulate_impl_t : std::false_type {};
+		template<class T, class U> struct HasSubstitutionModulate_impl_t<T, U, std::void_t< SubstitutionModulateResult<T, U> > > : std::true_type {};
+		///	代入演算子 @a T::operator&=(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasSubstitutionArithmeticAnd_impl_t : std::false_type {};
+		template<class T, class U> struct HasSubstitutionArithmeticAnd_impl_t<T, U, std::void_t< SubstitutionArithmeticAndResult<T, U> > > : std::true_type {};
+		///	代入演算子 @a T::operator|=(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasSubstitutionArithmeticOr_impl_t : std::false_type {};
+		template<class T, class U> struct HasSubstitutionArithmeticOr_impl_t<T, U, std::void_t< SubstitutionArithmeticOrResult<T, U> > > : std::true_type {};
+		///	代入演算子 @a T::operator^=(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasSubstitutionArithmeticXor_impl_t : std::false_type {};
+		template<class T, class U> struct HasSubstitutionArithmeticXor_impl_t<T, U, std::void_t< SubstitutionArithmeticXorResult<T, U> > > : std::true_type {};
+		///	代入演算子 @a T::operator<<=(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasSubstitutionLShift_impl_t : std::false_type {};
+		template<class T, class U> struct HasSubstitutionLShift_impl_t<T, U, std::void_t< SubstitutionLShiftResult<T, U> > > : std::true_type {};
+		///	代入演算子 @a T::operator>>=(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasSubstitutionRShift_impl_t : std::false_type {};
+		template<class T, class U> struct HasSubstitutionRShift_impl_t<T, U, std::void_t< SubstitutionRShiftResult<T, U> > > : std::true_type {};
+		///	前置インクリメント演算子 @a T::operator++() の実装を識別するための実装。
+		template<class, class = std::void_t<>> struct HasPreincrement_impl_t : std::false_type {};
+		template<class T> struct HasPreincrement_impl_t<T, std::void_t< PreincrementResult<T> > > : std::true_type {};
+		///	前置デクリメント演算子 @a T::operator--() の実装を識別するための実装。
+		template<class, class = std::void_t<>> struct HasPredecrement_impl_t : std::false_type {};
+		template<class T> struct HasPredecrement_impl_t<T, std::void_t< PredecrementResult<T> > > : std::true_type {};
+		///	後置インクリメント演算子 @a T::operator++(int) の実装を識別するための実装。
+		template<class, class = std::void_t<>> struct HasPostincrement_impl_t : std::false_type {};
+		template<class T> struct HasPostincrement_impl_t<T, std::void_t< PostincrementResult<T> > > : std::true_type {};
+		///	後置デクリメント演算子 @a T::operator--(int) の実装を識別するための実装。
+		template<class, class = std::void_t<>> struct HasPostdecrement_impl_t : std::false_type {};
+		template<class T> struct HasPostdecrement_impl_t<T, std::void_t< PostdecrementResult<T> > > : std::true_type {};
+		///	算術演算子 @a T::operator+() の実装を識別するための実装。
+		template<class, class = std::void_t<>> struct HasPromotion_impl_t : std::false_type {};
+		template<class T> struct HasPromotion_impl_t<T, std::void_t< PromotionResult<T> > > : std::true_type {};
+		///	算術演算子 @a T::operator-() の実装を識別するための実装。
+		template<class, class = std::void_t<>> struct HasInverse_impl_t : std::false_type {};
+		template<class T> struct HasInverse_impl_t<T, std::void_t< InverseResult<T> > > : std::true_type {};
+		///	算術演算子 @a T::operator+(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasAddition_impl_t : std::false_type {};
+		template<class T, class U> struct HasAddition_impl_t<T, U, std::void_t< AdditionResult<T, U> > > : std::true_type {};
+		///	算術演算子 @a T::operator-(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasSubtraction_impl_t : std::false_type {};
+		template<class T, class U> struct HasSubtraction_impl_t<T, U, std::void_t< SubtractionResult<T, U> > > : std::true_type {};
+		///	算術演算子 @a T::operator*(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasMultiplication_impl_t : std::false_type {};
+		template<class T, class U> struct HasMultiplication_impl_t<T, U, std::void_t< MultiplicationResult<T, U> > > : std::true_type {};
+		///	算術演算子 @a T::operator/(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasDivision_impl_t : std::false_type {};
+		template<class T, class U> struct HasDivision_impl_t<T, U, std::void_t< DivisionResult<T, U> > > : std::true_type {};
+		///	算術演算子 @a T::operator%(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasModulation_impl_t : std::false_type {};
+		template<class T, class U> struct HasModulation_impl_t<T, U, std::void_t< ModulationResult<T, U> > > : std::true_type {};
+		///	算術演算子 @a T::operator~() の実装を識別するための実装。
+		template<class, class = std::void_t<>> struct HasArithmeticNot_impl_t : std::false_type {};
+		template<class T> struct HasArithmeticNot_impl_t<T, std::void_t< ArithmeticNotResult<T> > > : std::true_type {};
+		///	算術演算子 @a T::operator&(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasArithmeticAnd_impl_t : std::false_type {};
+		template<class T, class U> struct HasArithmeticAnd_impl_t<T, U, std::void_t< ArithmeticAndResult<T, U> > > : std::true_type {};
+		///	算術演算子 @a T::operator|(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasArithmeticOr_impl_t : std::false_type {};
+		template<class T, class U> struct HasArithmeticOr_impl_t<T, U, std::void_t< ArithmeticOrResult<T, U> > > : std::true_type {};
+		///	算術演算子 @a T::operator^(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasArithmeticXor_impl_t : std::false_type {};
+		template<class T, class U> struct HasArithmeticXor_impl_t<T, U, std::void_t< ArithmeticXorResult<T, U> > > : std::true_type {};
+		///	算術演算子 @a T::operator<<(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasLShift_impl_t : std::false_type {};
+		template<class T, class U> struct HasLShift_impl_t<T, U, std::void_t< LShiftResult<T, U> > > : std::true_type {};
+		///	算術演算子 @a T::operator>>(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasRShift_impl_t : std::false_type {};
+		template<class T, class U> struct HasRShift_impl_t<T, U, std::void_t< RShiftResult<T, U> > > : std::true_type {};
+		///	論理演算子 @a T::operator!() の実装を識別するための実装。
+		template<class, class = std::void_t<>> struct HasLogicalNot_impl_t : std::false_type {};
+		template<class T> struct HasLogicalNot_impl_t<T, std::void_t< LogicalNotResult<T> > > : std::true_type {};
+		///	論理演算子 @a T::operator&&(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasLogicalOr_impl_t : std::false_type {};
+		template<class T, class U> struct HasLogicalOr_impl_t<T, U, std::void_t< LogicalOrResult<T, U> > > : std::true_type {};
+		///	論理演算子 @a T::operator||(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasLogicalAnd_impl_t : std::false_type {};
+		template<class T, class U> struct HasLogicalAnd_impl_t<T, U, std::void_t< LogicalAndResult<T, U> > > : std::true_type {};
+		///	比較演算子 @a T::operator==(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasEqual_impl_t : std::false_type {};
+		template<class T, class U> struct HasEqual_impl_t<T, U, std::void_t< EqualResult<T, U> > > : std::true_type {};
+		///	比較演算子 @a T::operator!=(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasNotEqual_impl_t : std::false_type {};
+		template<class T, class U> struct HasNotEqual_impl_t<T, U, std::void_t< NotEqualResult<T, U> > > : std::true_type {};
+		///	比較演算子 @a T::operator>(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasLargerCompare_impl_t : std::false_type {};
+		template<class T, class U> struct HasLargerCompare_impl_t<T, U, std::void_t< LargerCompareResult<T, U> > > : std::true_type {};
+		///	比較演算子 @a T::operator<(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasSmallerCompare_impl_t : std::false_type {};
+		template<class T, class U> struct HasSmallerCompare_impl_t<T, U, std::void_t< SmallerCompareResult<T, U> > > : std::true_type {};
+		///	比較演算子 @a T::operator>=(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasLeastCompare_impl_t : std::false_type {};
+		template<class T, class U> struct HasLeastCompare_impl_t<T, U, std::void_t< LeastCompareResult<T, U> > > : std::true_type {};
+		///	比較演算子 @a T::operator<=(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasMostCompare_impl_t : std::false_type {};
+		template<class T, class U> struct HasMostCompare_impl_t<T, U, std::void_t< MostCompareResult<T, U> > > : std::true_type {};
+		///	比較演算子 @a T::operator[](U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasSubscript_impl_t : std::false_type {};
+		template<class T, class U> struct HasSubscript_impl_t<T, U, std::void_t< SubscriptResult<T, U> > > : std::true_type {};
+		///	比較演算子 @a T::operator*() の実装を識別するための実装。
+		template<class, class = std::void_t<>> struct HasDereference_impl_t : std::false_type {};
+		template<class T> struct HasDereference_impl_t<T, std::void_t< DereferenceResult<T> > > : std::true_type {};
+		///	比較演算子 @a T::operator&() の実装を識別するための実装。
+		template<class, class = std::void_t<>> struct HasReference_impl_t : std::false_type {};
+		template<class T> struct HasReference_impl_t<T, std::void_t< ReferenceResult<T> > > : std::true_type {};
+		///	比較演算子 @a T::operator,(U) の実装を識別するための実装。
+		template<class, class, class = std::void_t<>> struct HasComma_impl_t : std::false_type {};
+		template<class T, class U> struct HasComma_impl_t<T, U, std::void_t< CommaResult<T, U> > > : std::true_type {};
+
+		///	代入演算子 @a T::operator=(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionResultIsSame_impl_t<T, U, R, std::void_t< SubstitutionResult<T, U> > > : std::is_same<SubstitutionResult<T, U>, R> {};
+		///	代入演算子 @a T::operator+=(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionAddResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionAddResultIsSame_impl_t<T, U, R, std::void_t< SubstitutionAddResult<T, U> > > : std::is_same<SubstitutionAddResult<T, U>, R> {};
+		///	代入演算子 @a T::operator-=(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionSubtractResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionSubtractResultIsSame_impl_t<T, U, R, std::void_t< SubstitutionSubtractResult<T, U> > > : std::is_same<SubstitutionSubtractResult<T, U>, R> {};
+		///	代入演算子 @a T::operator*=(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionMultipleResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionMultipleResultIsSame_impl_t<T, U, R, std::void_t< SubstitutionMultipleResult<T, U> > > : std::is_same<SubstitutionMultipleResult<T, U>, R> {};
+		///	代入演算子 @a T::operator/=(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionDivideResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionDivideResultIsSame_impl_t<T, U, R, std::void_t< SubstitutionDivideResult<T, U> > > : std::is_same<SubstitutionDivideResult<T, U>, R> {};
+		///	代入演算子 @a T::operator%=(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionModulateResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionModulateResultIsSame_impl_t<T, U, R, std::void_t< SubstitutionModulateResult<T, U> > > : std::is_same<SubstitutionModulateResult<T, U>, R> {};
+		///	代入演算子 @a T::operator&=(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionArithmeticAndResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionArithmeticAndResultIsSame_impl_t<T, U, R, std::void_t< SubstitutionArithmeticAndResult<T, U> > > : std::is_same<SubstitutionArithmeticAndResult<T, U>, R> {};
+		///	代入演算子 @a T::operator|=(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionArithmeticOrResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionArithmeticOrResultIsSame_impl_t<T, U, R, std::void_t< SubstitutionArithmeticOrResult<T, U> > > : std::is_same<SubstitutionArithmeticOrResult<T, U>, R> {};
+		///	代入演算子 @a T::operator^=(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionArithmeticXorResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionArithmeticXorResultIsSame_impl_t<T, U, R, std::void_t< SubstitutionArithmeticXorResult<T, U> > > : std::is_same<SubstitutionArithmeticXorResult<T, U>, R> {};
+		///	代入演算子 @a T::operator<<=(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionLShiftResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionLShiftResultIsSame_impl_t<T, U, R, std::void_t< SubstitutionLShiftResult<T, U> > > : std::is_same<SubstitutionLShiftResult<T, U>, R> {};
+		///	代入演算子 @a T::operator>>=(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionRShiftResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionRShiftResultIsSame_impl_t<T, U, R, std::void_t< SubstitutionRShiftResult<T, U> > > : std::is_same<SubstitutionRShiftResult<T, U>, R> {};
+		///	前置インクリメント演算子 @a T::operator++() の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct PreincrementResultIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct PreincrementResultIsSame_impl_t<T, R, std::void_t< PreincrementResult<T> > > : std::is_same<PreincrementResult<T>, R> {};
+		///	前置デクリメント演算子 @a T::operator--() の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct PredecrementResultIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct PredecrementResultIsSame_impl_t<T, R, std::void_t< PredecrementResult<T> > > : std::is_same<PredecrementResult<T>, R> {};
+		///	後置インクリメント演算子 @a T::operator++(int) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct PostincrementResultIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct PostincrementResultIsSame_impl_t<T, R, std::void_t< PostincrementResult<T> > > : std::is_same<PostincrementResult<T>, R> {};
+		///	後置デクリメント演算子 @a T::operator--(int) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct PostdecrementResultIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct PostdecrementResultIsSame_impl_t<T, R, std::void_t< PostdecrementResult<T> > > : std::is_same<PostdecrementResult<T>, R> {};
+		///	算術演算子 @a T::operator+() の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct PromotionResultIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct PromotionResultIsSame_impl_t<T, R, std::void_t< PromotionResult<T> > > : std::is_same<PromotionResult<T>, R> {};
+		///	算術演算子 @a T::operator-() の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct InverseResultIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct InverseResultIsSame_impl_t<T, R, std::void_t< InverseResult<T> > > : std::is_same<InverseResult<T>, R> {};
+		///	算術演算子 @a T::operator+(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct AdditionResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct AdditionResultIsSame_impl_t<T, U, R, std::void_t< AdditionResult<T, U> > > : std::is_same<AdditionResult<T, U>, R> {};
+		///	算術演算子 @a T::operator-(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubtractionResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubtractionResultIsSame_impl_t<T, U, R, std::void_t< SubtractionResult<T, U> > > : std::is_same<SubtractionResult<T, U>, R> {};
+		///	算術演算子 @a T::operator*(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct MultiplicationResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct MultiplicationResultIsSame_impl_t<T, U, R, std::void_t< MultiplicationResult<T, U> > > : std::is_same<MultiplicationResult<T, U>, R> {};
+		///	算術演算子 @a T::operator/(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct DivisionResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct DivisionResultIsSame_impl_t<T, U, R, std::void_t< DivisionResult<T, U> > > : std::is_same<DivisionResult<T, U>, R> {};
+		///	算術演算子 @a T::operator%(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct ModulationResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct ModulationResultIsSame_impl_t<T, U, R, std::void_t< ModulationResult<T, U> > > : std::is_same<ModulationResult<T, U>, R> {};
+		///	算術演算子 @a T::operator~() の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct ArithmeticNotResultIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct ArithmeticNotResultIsSame_impl_t<T, R, std::void_t< ArithmeticNotResult<T> > > : std::is_same<ArithmeticNotResult<T>, R> {};
+		///	算術演算子 @a T::operator&(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct ArithmeticAndResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct ArithmeticAndResultIsSame_impl_t<T, U, R, std::void_t< ArithmeticAndResult<T, U> > > : std::is_same<ArithmeticAndResult<T, U>, R> {};
+		///	算術演算子 @a T::operator|(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct ArithmeticOrResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct ArithmeticOrResultIsSame_impl_t<T, U, R, std::void_t< ArithmeticOrResult<T, U> > > : std::is_same<ArithmeticOrResult<T, U>, R> {};
+		///	算術演算子 @a T::operator^(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct ArithmeticXorResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct ArithmeticXorResultIsSame_impl_t<T, U, R, std::void_t< ArithmeticXorResult<T, U> > > : std::is_same<ArithmeticXorResult<T, U>, R> {};
+		///	算術演算子 @a T::operator<<(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct LShiftResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct LShiftResultIsSame_impl_t<T, U, R, std::void_t< LShiftResult<T, U> > > : std::is_same<LShiftResult<T, U>, R> {};
+		///	算術演算子 @a T::operator>>(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct RShiftResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct RShiftResultIsSame_impl_t<T, U, R, std::void_t< RShiftResult<T, U> > > : std::is_same<RShiftResult<T, U>, R> {};
+		///	論理演算子 @a T::operator!() の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct LogicalNotResultIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct LogicalNotResultIsSame_impl_t<T, R, std::void_t< LogicalNotResult<T> > > : std::is_same<LogicalNotResult<T>, R> {};
+		///	論理演算子 @a T::operator&&(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct LogicalOrResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct LogicalOrResultIsSame_impl_t<T, U, R, std::void_t< LogicalOrResult<T, U> > > : std::is_same<LogicalOrResult<T, U>, R> {};
+		///	論理演算子 @a T::operator||(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct LogicalAndResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct LogicalAndResultIsSame_impl_t<T, U, R, std::void_t< LogicalAndResult<T, U> > > : std::is_same<LogicalAndResult<T, U>, R> {};
+		///	比較演算子 @a T::operator==(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct EqualResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct EqualResultIsSame_impl_t<T, U, R, std::void_t< EqualResult<T, U> > > : std::is_same<EqualResult<T, U>, R> {};
+		///	比較演算子 @a T::operator!=(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct NotEqualResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct NotEqualResultIsSame_impl_t<T, U, R, std::void_t< NotEqualResult<T, U> > > : std::is_same<NotEqualResult<T, U>, R> {};
+		///	比較演算子 @a T::operator>(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct LargerCompareResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct LargerCompareResultIsSame_impl_t<T, U, R, std::void_t< LargerCompareResult<T, U> > > : std::is_same<LargerCompareResult<T, U>, R> {};
+		///	比較演算子 @a T::operator<(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SmallerCompareResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SmallerCompareResultIsSame_impl_t<T, U, R, std::void_t< SmallerCompareResult<T, U> > > : std::is_same<SmallerCompareResult<T, U>, R> {};
+		///	比較演算子 @a T::operator>=(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct LeastCompareResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct LeastCompareResultIsSame_impl_t<T, U, R, std::void_t< LeastCompareResult<T, U> > > : std::is_same<LeastCompareResult<T, U>, R> {};
+		///	比較演算子 @a T::operator<=(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct MostCompareResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct MostCompareResultIsSame_impl_t<T, U, R, std::void_t< MostCompareResult<T, U> > > : std::is_same<MostCompareResult<T, U>, R> {};
+		///	比較演算子 @a T::operator[](U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubscriptResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubscriptResultIsSame_impl_t<T, U, R, std::void_t< SubscriptResult<T, U> > > : std::is_same<SubscriptResult<T, U>, R> {};
+		///	比較演算子 @a T::operator*() の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct DereferenceResultIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct DereferenceResultIsSame_impl_t<T, R, std::void_t< DereferenceResult<T> > > : std::is_same<DereferenceResult<T>, R> {};
+		///	比較演算子 @a T::operator&() の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct ReferenceResultIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct ReferenceResultIsSame_impl_t<T, R, std::void_t< ReferenceResult<T> > > : std::is_same<ReferenceResult<T>, R> {};
+		///	比較演算子 @a T::operator,(U) の返却型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct CommaResultIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct CommaResultIsSame_impl_t<T, U, R, std::void_t< CommaResult<T, U> > > : std::is_same<CommaResult<T, U>, R> {};
+
+		///	代入演算子 @a T::operator=(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionResultIsConvertible_impl_t<T, U, R, std::void_t< SubstitutionResult<T, U> > > : std::is_convertible<SubstitutionResult<T, U>, R> {};
+		///	代入演算子 @a T::operator+=(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionAddResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionAddResultIsConvertible_impl_t<T, U, R, std::void_t< SubstitutionAddResult<T, U> > > : std::is_convertible<SubstitutionAddResult<T, U>, R> {};
+		///	代入演算子 @a T::operator-=(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionSubtractResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionSubtractResultIsConvertible_impl_t<T, U, R, std::void_t< SubstitutionSubtractResult<T, U> > > : std::is_convertible<SubstitutionSubtractResult<T, U>, R> {};
+		///	代入演算子 @a T::operator*=(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionMultipleResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionMultipleResultIsConvertible_impl_t<T, U, R, std::void_t< SubstitutionMultipleResult<T, U> > > : std::is_convertible<SubstitutionMultipleResult<T, U>, R> {};
+		///	代入演算子 @a T::operator/=(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionDivideResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionDivideResultIsConvertible_impl_t<T, U, R, std::void_t< SubstitutionDivideResult<T, U> > > : std::is_convertible<SubstitutionDivideResult<T, U>, R> {};
+		///	代入演算子 @a T::operator%=(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionModulateResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionModulateResultIsConvertible_impl_t<T, U, R, std::void_t< SubstitutionModulateResult<T, U> > > : std::is_convertible<SubstitutionModulateResult<T, U>, R> {};
+		///	代入演算子 @a T::operator&=(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionArithmeticAndResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionArithmeticAndResultIsConvertible_impl_t<T, U, R, std::void_t< SubstitutionArithmeticAndResult<T, U> > > : std::is_convertible<SubstitutionArithmeticAndResult<T, U>, R> {};
+		///	代入演算子 @a T::operator|=(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionArithmeticOrResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionArithmeticOrResultIsConvertible_impl_t<T, U, R, std::void_t< SubstitutionArithmeticOrResult<T, U> > > : std::is_convertible<SubstitutionArithmeticOrResult<T, U>, R> {};
+		///	代入演算子 @a T::operator^=(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionArithmeticXorResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionArithmeticXorResultIsConvertible_impl_t<T, U, R, std::void_t< SubstitutionArithmeticXorResult<T, U> > > : std::is_convertible<SubstitutionArithmeticXorResult<T, U>, R> {};
+		///	代入演算子 @a T::operator<<=(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionLShiftResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionLShiftResultIsConvertible_impl_t<T, U, R, std::void_t< SubstitutionLShiftResult<T, U> > > : std::is_convertible<SubstitutionLShiftResult<T, U>, R> {};
+		///	代入演算子 @a T::operator>>=(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionRShiftResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionRShiftResultIsConvertible_impl_t<T, U, R, std::void_t< SubstitutionRShiftResult<T, U> > > : std::is_convertible<SubstitutionRShiftResult<T, U>, R> {};
+		///	前置インクリメント演算子 @a T::operator++() の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class = std::void_t<>> struct PreincrementResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class R> struct PreincrementResultIsConvertible_impl_t<T, R, std::void_t< PreincrementResult<T> > > : std::is_convertible<PreincrementResult<T>, R> {};
+		///	前置デクリメント演算子 @a T::operator--() の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class = std::void_t<>> struct PredecrementResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class R> struct PredecrementResultIsConvertible_impl_t<T, R, std::void_t< PredecrementResult<T> > > : std::is_convertible<PredecrementResult<T>, R> {};
+		///	後置インクリメント演算子 @a T::operator++(int) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class = std::void_t<>> struct PostincrementResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class R> struct PostincrementResultIsConvertible_impl_t<T, R, std::void_t< PostincrementResult<T> > > : std::is_convertible<PostincrementResult<T>, R> {};
+		///	後置デクリメント演算子 @a T::operator--(int) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class = std::void_t<>> struct PostdecrementResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class R> struct PostdecrementResultIsConvertible_impl_t<T, R, std::void_t< PostdecrementResult<T> > > : std::is_convertible<PostdecrementResult<T>, R> {};
+		///	算術演算子 @a T::operator+() の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class = std::void_t<>> struct PromotionResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class R> struct PromotionResultIsConvertible_impl_t<T, R, std::void_t< PromotionResult<T> > > : std::is_convertible<PromotionResult<T>, R> {};
+		///	算術演算子 @a T::operator-() の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class = std::void_t<>> struct InverseResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class R> struct InverseResultIsConvertible_impl_t<T, R, std::void_t< InverseResult<T> > > : std::is_convertible<InverseResult<T>, R> {};
+		///	算術演算子 @a T::operator+(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct AdditionResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct AdditionResultIsConvertible_impl_t<T, U, R, std::void_t< AdditionResult<T, U> > > : std::is_convertible<AdditionResult<T, U>, R> {};
+		///	算術演算子 @a T::operator-(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubtractionResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubtractionResultIsConvertible_impl_t<T, U, R, std::void_t< SubtractionResult<T, U> > > : std::is_convertible<SubtractionResult<T, U>, R> {};
+		///	算術演算子 @a T::operator*(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct MultiplicationResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct MultiplicationResultIsConvertible_impl_t<T, U, R, std::void_t< MultiplicationResult<T, U> > > : std::is_convertible<MultiplicationResult<T, U>, R> {};
+		///	算術演算子 @a T::operator/(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct DivisionResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct DivisionResultIsConvertible_impl_t<T, U, R, std::void_t< DivisionResult<T, U> > > : std::is_convertible<DivisionResult<T, U>, R> {};
+		///	算術演算子 @a T::operator%(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct ModulationResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct ModulationResultIsConvertible_impl_t<T, U, R, std::void_t< ModulationResult<T, U> > > : std::is_convertible<ModulationResult<T, U>, R> {};
+		///	算術演算子 @a T::operator~() の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class = std::void_t<>> struct ArithmeticNotResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class R> struct ArithmeticNotResultIsConvertible_impl_t<T, R, std::void_t< ArithmeticNotResult<T> > > : std::is_convertible<ArithmeticNotResult<T>, R> {};
+		///	算術演算子 @a T::operator&(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct ArithmeticAndResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct ArithmeticAndResultIsConvertible_impl_t<T, U, R, std::void_t< ArithmeticAndResult<T, U> > > : std::is_convertible<ArithmeticAndResult<T, U>, R> {};
+		///	算術演算子 @a T::operator|(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct ArithmeticOrResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct ArithmeticOrResultIsConvertible_impl_t<T, U, R, std::void_t< ArithmeticOrResult<T, U> > > : std::is_convertible<ArithmeticOrResult<T, U>, R> {};
+		///	算術演算子 @a T::operator^(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct ArithmeticXorResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct ArithmeticXorResultIsConvertible_impl_t<T, U, R, std::void_t< ArithmeticXorResult<T, U> > > : std::is_convertible<ArithmeticXorResult<T, U>, R> {};
+		///	算術演算子 @a T::operator<<(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct LShiftResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct LShiftResultIsConvertible_impl_t<T, U, R, std::void_t< LShiftResult<T, U> > > : std::is_convertible<LShiftResult<T, U>, R> {};
+		///	算術演算子 @a T::operator>>(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct RShiftResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct RShiftResultIsConvertible_impl_t<T, U, R, std::void_t< RShiftResult<T, U> > > : std::is_convertible<RShiftResult<T, U>, R> {};
+		///	論理演算子 @a T::operator!() の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class = std::void_t<>> struct LogicalNotResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class R> struct LogicalNotResultIsConvertible_impl_t<T, R, std::void_t< LogicalNotResult<T> > > : std::is_convertible<LogicalNotResult<T>, R> {};
+		///	論理演算子 @a T::operator&&(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct LogicalOrResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct LogicalOrResultIsConvertible_impl_t<T, U, R, std::void_t< LogicalOrResult<T, U> > > : std::is_convertible<LogicalOrResult<T, U>, R> {};
+		///	論理演算子 @a T::operator||(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct LogicalAndResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct LogicalAndResultIsConvertible_impl_t<T, U, R, std::void_t< LogicalAndResult<T, U> > > : std::is_convertible<LogicalAndResult<T, U>, R> {};
+		///	比較演算子 @a T::operator==(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct EqualResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct EqualResultIsConvertible_impl_t<T, U, R, std::void_t< EqualResult<T, U> > > : std::is_convertible<EqualResult<T, U>, R> {};
+		///	比較演算子 @a T::operator!=(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct NotEqualResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct NotEqualResultIsConvertible_impl_t<T, U, R, std::void_t< NotEqualResult<T, U> > > : std::is_convertible<NotEqualResult<T, U>, R> {};
+		///	比較演算子 @a T::operator>(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct LargerCompareResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct LargerCompareResultIsConvertible_impl_t<T, U, R, std::void_t< LargerCompareResult<T, U> > > : std::is_convertible<LargerCompareResult<T, U>, R> {};
+		///	比較演算子 @a T::operator<(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SmallerCompareResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SmallerCompareResultIsConvertible_impl_t<T, U, R, std::void_t< SmallerCompareResult<T, U> > > : std::is_convertible<SmallerCompareResult<T, U>, R> {};
+		///	比較演算子 @a T::operator>=(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct LeastCompareResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct LeastCompareResultIsConvertible_impl_t<T, U, R, std::void_t< LeastCompareResult<T, U> > > : std::is_convertible<LeastCompareResult<T, U>, R> {};
+		///	比較演算子 @a T::operator<=(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct MostCompareResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct MostCompareResultIsConvertible_impl_t<T, U, R, std::void_t< MostCompareResult<T, U> > > : std::is_convertible<MostCompareResult<T, U>, R> {};
+		///	比較演算子 @a T::operator[](U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubscriptResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubscriptResultIsConvertible_impl_t<T, U, R, std::void_t< SubscriptResult<T, U> > > : std::is_convertible<SubscriptResult<T, U>, R> {};
+		///	比較演算子 @a T::operator*() の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class = std::void_t<>> struct DereferenceResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class R> struct DereferenceResultIsConvertible_impl_t<T, R, std::void_t< DereferenceResult<T> > > : std::is_convertible<DereferenceResult<T>, R> {};
+		///	比較演算子 @a T::operator&() の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class = std::void_t<>> struct ReferenceResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class R> struct ReferenceResultIsConvertible_impl_t<T, R, std::void_t< ReferenceResult<T> > > : std::is_convertible<ReferenceResult<T>, R> {};
+		///	比較演算子 @a T::operator,(U) の返却型が指定されたものに変換可能かを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct CommaResultIsConvertible_impl_t : std::false_type {};
+		template<class T, class U, class R> struct CommaResultIsConvertible_impl_t<T, U, R, std::void_t< CommaResult<T, U> > > : std::is_convertible<CommaResult<T, U>, R> {};
+
+		///	代入演算子 @a T::operator=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< SubstitutionResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<SubstitutionResult<T, U>>>, R> {};
+		///	代入演算子 @a T::operator+=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionAddResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionAddResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< SubstitutionAddResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<SubstitutionAddResult<T, U>>>, R> {};
+		///	代入演算子 @a T::operator-=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionSubtractResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionSubtractResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< SubstitutionSubtractResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<SubstitutionSubtractResult<T, U>>>, R> {};
+		///	代入演算子 @a T::operator*=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionMultipleResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionMultipleResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< SubstitutionMultipleResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<SubstitutionMultipleResult<T, U>>>, R> {};
+		///	代入演算子 @a T::operator/=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionDivideResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionDivideResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< SubstitutionDivideResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<SubstitutionDivideResult<T, U>>>, R> {};
+		///	代入演算子 @a T::operator%=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionModulateResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionModulateResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< SubstitutionModulateResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<SubstitutionModulateResult<T, U>>>, R> {};
+		///	代入演算子 @a T::operator&=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionArithmeticAndResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionArithmeticAndResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< SubstitutionArithmeticAndResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<SubstitutionArithmeticAndResult<T, U>>>, R> {};
+		///	代入演算子 @a T::operator|=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionArithmeticOrResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionArithmeticOrResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< SubstitutionArithmeticOrResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<SubstitutionArithmeticOrResult<T, U>>>, R> {};
+		///	代入演算子 @a T::operator^=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionArithmeticXorResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionArithmeticXorResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< SubstitutionArithmeticXorResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<SubstitutionArithmeticXorResult<T, U>>>, R> {};
+		///	代入演算子 @a T::operator<<=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionLShiftResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionLShiftResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< SubstitutionLShiftResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<SubstitutionLShiftResult<T, U>>>, R> {};
+		///	代入演算子 @a T::operator>>=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubstitutionRShiftResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubstitutionRShiftResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< SubstitutionRShiftResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<SubstitutionRShiftResult<T, U>>>, R> {};
+		///	前置インクリメント演算子 @a T::operator++() の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct PreincrementResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct PreincrementResultRemoveCVRefIsSame_impl_t<T, R, std::void_t< PreincrementResult<T> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<PreincrementResult<T>>>, R> {};
+		///	前置デクリメント演算子 @a T::operator--() の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct PredecrementResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct PredecrementResultRemoveCVRefIsSame_impl_t<T, R, std::void_t< PredecrementResult<T> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<PredecrementResult<T>>>, R> {};
+		///	後置インクリメント演算子 @a T::operator++(int) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct PostincrementResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct PostincrementResultRemoveCVRefIsSame_impl_t<T, R, std::void_t< PostincrementResult<T> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<PostincrementResult<T>>>, R> {};
+		///	後置デクリメント演算子 @a T::operator--(int) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct PostdecrementResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct PostdecrementResultRemoveCVRefIsSame_impl_t<T, R, std::void_t< PostdecrementResult<T> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<PostdecrementResult<T>>>, R> {};
+		///	算術演算子 @a T::operator+() の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct PromotionResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct PromotionResultRemoveCVRefIsSame_impl_t<T, R, std::void_t< PromotionResult<T> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<PromotionResult<T>>>, R> {};
+		///	算術演算子 @a T::operator-() の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct InverseResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct InverseResultRemoveCVRefIsSame_impl_t<T, R, std::void_t< InverseResult<T> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<InverseResult<T>>>, R> {};
+		///	算術演算子 @a T::operator+(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct AdditionResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct AdditionResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< AdditionResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<AdditionResult<T, U>>>, R> {};
+		///	算術演算子 @a T::operator-(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubtractionResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubtractionResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< SubtractionResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<SubtractionResult<T, U>>>, R> {};
+		///	算術演算子 @a T::operator*(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct MultiplicationResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct MultiplicationResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< MultiplicationResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<MultiplicationResult<T, U>>>, R> {};
+		///	算術演算子 @a T::operator/(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct DivisionResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct DivisionResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< DivisionResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<DivisionResult<T, U>>>, R> {};
+		///	算術演算子 @a T::operator%(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct ModulationResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct ModulationResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< ModulationResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<ModulationResult<T, U>>>, R> {};
+		///	算術演算子 @a T::operator~() の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct ArithmeticNotResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct ArithmeticNotResultRemoveCVRefIsSame_impl_t<T, R, std::void_t< ArithmeticNotResult<T> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<ArithmeticNotResult<T>>>, R> {};
+		///	算術演算子 @a T::operator&(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct ArithmeticAndResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct ArithmeticAndResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< ArithmeticAndResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<ArithmeticAndResult<T, U>>>, R> {};
+		///	算術演算子 @a T::operator|(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct ArithmeticOrResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct ArithmeticOrResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< ArithmeticOrResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<ArithmeticOrResult<T, U>>>, R> {};
+		///	算術演算子 @a T::operator^(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct ArithmeticXorResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct ArithmeticXorResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< ArithmeticXorResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<ArithmeticXorResult<T, U>>>, R> {};
+		///	算術演算子 @a T::operator<<(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct LShiftResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct LShiftResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< LShiftResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<LShiftResult<T, U>>>, R> {};
+		///	算術演算子 @a T::operator>>(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct RShiftResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct RShiftResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< RShiftResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<RShiftResult<T, U>>>, R> {};
+		///	論理演算子 @a T::operator!() の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct LogicalNotResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct LogicalNotResultRemoveCVRefIsSame_impl_t<T, R, std::void_t< LogicalNotResult<T> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<LogicalNotResult<T>>>, R> {};
+		///	論理演算子 @a T::operator&&(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct LogicalOrResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct LogicalOrResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< LogicalOrResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<LogicalOrResult<T, U>>>, R> {};
+		///	論理演算子 @a T::operator||(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct LogicalAndResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct LogicalAndResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< LogicalAndResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<LogicalAndResult<T, U>>>, R> {};
+		///	比較演算子 @a T::operator==(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct EqualResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct EqualResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< EqualResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<EqualResult<T, U>>>, R> {};
+		///	比較演算子 @a T::operator!=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct NotEqualResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct NotEqualResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< NotEqualResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<NotEqualResult<T, U>>>, R> {};
+		///	比較演算子 @a T::operator>(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct LargerCompareResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct LargerCompareResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< LargerCompareResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<LargerCompareResult<T, U>>>, R> {};
+		///	比較演算子 @a T::operator<(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SmallerCompareResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SmallerCompareResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< SmallerCompareResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<SmallerCompareResult<T, U>>>, R> {};
+		///	比較演算子 @a T::operator>=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct LeastCompareResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct LeastCompareResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< LeastCompareResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<LeastCompareResult<T, U>>>, R> {};
+		///	比較演算子 @a T::operator<=(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct MostCompareResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct MostCompareResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< MostCompareResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<MostCompareResult<T, U>>>, R> {};
+		///	比較演算子 @a T::operator[](U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct SubscriptResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct SubscriptResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< SubscriptResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<SubscriptResult<T, U>>>, R> {};
+		///	比較演算子 @a T::operator*() の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct DereferenceResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct DereferenceResultRemoveCVRefIsSame_impl_t<T, R, std::void_t< DereferenceResult<T> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<DereferenceResult<T>>>, R> {};
+		///	比較演算子 @a T::operator&() の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class = std::void_t<>> struct ReferenceResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class R> struct ReferenceResultRemoveCVRefIsSame_impl_t<T, R, std::void_t< ReferenceResult<T> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<ReferenceResult<T>>>, R> {};
+		///	比較演算子 @a T::operator,(U) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
+		template<class, class, class, class = std::void_t<>> struct CommaResultRemoveCVRefIsSame_impl_t : std::false_type {};
+		template<class T, class U, class R> struct CommaResultRemoveCVRefIsSame_impl_t<T, U, R, std::void_t< CommaResult<T, U> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<CommaResult<T, U>>>, R> {};
+
 		///	代入演算子=の実装を識別します。
 		template<class, class, class, class = std::void_t<>>
 		struct HasSubstitution_t : std::false_type {};
