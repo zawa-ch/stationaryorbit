@@ -1241,17 +1241,20 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class U>
 		struct IsComparable_t : std::conjunction< LargerCompareResultIsConvertible_impl_t<T, U, bool>, SmallerCompareResultIsConvertible_impl_t<T, U, bool>, LeastCompareResultIsConvertible_impl_t<T, U, bool>, MostCompareResultIsConvertible_impl_t<T, U, bool> > {};
 
-		template<class T, class R>
-		struct HasUnaryOperation_t : std::conjunction<HasPromotion_t<T, R>, HasInverse_t<T, R>> {};
+		///	単項算術演算子を持つ型を識別するための実装。
+		template<class T>
+		struct HasUnaryOperation_t : std::conjunction<PromotionResultIsConvertible_impl_t<T, T>, InverseResultIsConvertible_impl_t<T, T>> {};
 
-		template<class T, class U, class R>
-		struct HasAdditiveOperation_t : std::conjunction<HasAddition_t<T, U, R>, HasSubtraction_t<T, U, R>> {};
+		///	加法演算子を持つ型を識別するための実装。
+		template<class T, class U>
+		struct HasAdditiveOperation_t : std::conjunction<AdditionResultIsConvertible_impl_t<T, U, T>, SubtractionResultIsConvertible_impl_t<T, U, T>> {};
 
-		template<class T, class U, class R>
-		struct HasMultiplicativeOperation_t : std::conjunction<HasMultiplication_t<T, U, R>, HasDivision_t<T, U, R>> {};
+		///	乗法演算子を持つ型を識別するための実装。
+		template<class T, class U>
+		struct HasMultiplicativeOperation_t : std::conjunction<MultiplicationResultIsConvertible_impl_t<T, U, T>, DivisionResultIsConvertible_impl_t<T, U, T>> {};
 
 		template<class T>
-		struct HasArithmeticOperation_t : std::conjunction<HasUnaryOperation_t<T, T>, HasAdditiveOperation_t<T, T, T>, HasMultiplicativeOperation_t<T, T, T>> {};
+		struct HasArithmeticOperation_t : std::conjunction<HasUnaryOperation_t<T>, HasAdditiveOperation_t<T, T>, HasMultiplicativeOperation_t<T, T>> {};
 
 		template<class T, class U>
 		struct HasBitOperation_t : std::conjunction<HasArithmeticNot_t<T, T>, HasArithmeticOr_t<T, T, T>, HasArithmeticAnd_t<T, T, T>, HasArithmeticXor_t<T, T, T>, HasLShift_t<T, U, T>, HasRShift_t<T, U, T>> {};
@@ -1266,7 +1269,7 @@ namespace zawa_ch::StationaryOrbit
 		struct IsBidirectionalOrder_t : std::conjunction<IsSequencialOrder_t<T>, HasPreDecrement_t<T, T&>, HasPostDecrement_t<T, T>> {};
 
 		template<class T, class N>
-		struct IsLinearOrder_t : std::conjunction<IsBidirectionalOrder_t<T>, HasAdditiveOperation_t<T, N, T>, HasAddSubstitution_t<T, N, T&>, HasSubtractSubstitution_t<T, N, T&>> {};
+		struct IsLinearOrder_t : std::conjunction<IsBidirectionalOrder_t<T>, HasAdditiveOperation_t<T, N>, HasAddSubstitution_t<T, N, T&>, HasSubtractSubstitution_t<T, N, T&>> {};
 
 		template<class T>
 		struct IsValueType_t :
@@ -1433,7 +1436,7 @@ namespace zawa_ch::StationaryOrbit
 				IsStdLegacyBidirectionalIterator_t<It>,
 				HasAddSubstitution_t<It, typename std::iterator_traits<It>::difference_type, It&>,
 				HasSubtractSubstitution_t<It, typename std::iterator_traits<It>::difference_type, It&>,
-				HasAdditiveOperation_t<It, typename std::iterator_traits<It>::difference_type, It>,
+				HasAdditiveOperation_t<It, typename std::iterator_traits<It>::difference_type>,
 				IsComparable_t<It, It>,
 				HasSubScript_t<It, typename std::iterator_traits<It>::difference_type, typename std::iterator_traits<It>::reference>
 			>
@@ -1543,11 +1546,11 @@ namespace zawa_ch::StationaryOrbit
 		///	@a IsEquatable は @a T::operator>(U)->bool , @a T::operator<(U)->bool , @a T::operator>=(U)->bool , @a T::operator<=(U)->bool を持つオブジェクト @a T に対して @a true に等しい定数が返されます。
 		template<class T, class U = T> inline constexpr static bool IsComparable = IsComparable_t<T, U>::value;
 		///	単項算術演算子を持つ型を識別します。
-		template<class T, class R = T> inline constexpr static bool HasUnaryOperation = HasUnaryOperation_t<T, R>::value;
+		template<class T> inline constexpr static bool HasUnaryOperation = HasUnaryOperation_t<T>::value;
 		///	加法演算子を持つ型を識別します。
-		template<class T, class U = T, class R = T> inline constexpr static bool HasAdditiveOperation = HasAdditiveOperation_t<T, U, R>::value;
+		template<class T, class U = T> inline constexpr static bool HasAdditiveOperation = HasAdditiveOperation_t<T, U>::value;
 		///	乗法演算子を持つ型を識別します。
-		template<class T, class U = T, class R = T> inline constexpr static bool HasMultiplicativeOperation = HasMultiplicativeOperation_t<T, U, R>::value;
+		template<class T, class U = T> inline constexpr static bool HasMultiplicativeOperation = HasMultiplicativeOperation_t<T, U>::value;
 		///	基本的な算術演算を持つ型を識別します。
 		template<class T> inline constexpr static bool HasArithmeticOperation = HasArithmeticOperation_t<T>::value;
 		///	基本的なビット演算を持つ型を識別します。
