@@ -25,7 +25,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T>
 	class BitMask final
 	{
-		static_assert(Traits::IsBitSequence<T>, "テンプレート型 T はビット列型である必要があります。");
+		static_assert(Traits::IsBitSequenceType<T>, "テンプレート型 T はビット列型である必要があります。");
 	public: // contains
 		T Mask;
 	public: // constructor

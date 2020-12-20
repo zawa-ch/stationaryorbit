@@ -194,12 +194,22 @@ namespace zawa_ch::StationaryOrbit
 		///	前置インクリメント演算子 @a T::operator++() の実装を識別するための実装。
 		template<class, class = std::void_t<>> struct HasPreincrement_impl_t : std::false_type {};
 		template<class T> struct HasPreincrement_impl_t<T, std::void_t< PreincrementResult<T> > > : std::true_type {};
+		#if 201703L <= __cplusplus
+		// Clang C++17でコンパイルするとbool::operator++()を実体化しようとしてエラーを吐くため
+		// boolによるインクリメントトレイトは強制的にfalseで実体化する
+		template<> struct HasPreincrement_impl_t<bool> : std::false_type {};
+		#endif
 		///	前置デクリメント演算子 @a T::operator--() の実装を識別するための実装。
 		template<class, class = std::void_t<>> struct HasPredecrement_impl_t : std::false_type {};
 		template<class T> struct HasPredecrement_impl_t<T, std::void_t< PredecrementResult<T> > > : std::true_type {};
 		///	後置インクリメント演算子 @a T::operator++(int) の実装を識別するための実装。
 		template<class, class = std::void_t<>> struct HasPostincrement_impl_t : std::false_type {};
 		template<class T> struct HasPostincrement_impl_t<T, std::void_t< PostincrementResult<T> > > : std::true_type {};
+		#if 201703L <= __cplusplus
+		// Clang C++17でコンパイルするとbool::operator++(int)を実体化しようとしてエラーを吐くため
+		// boolによるインクリメントトレイトは強制的にfalseで実体化する
+		template<> struct HasPostincrement_impl_t<bool> : std::false_type {};
+		#endif
 		///	後置デクリメント演算子 @a T::operator--(int) の実装を識別するための実装。
 		template<class, class = std::void_t<>> struct HasPostdecrement_impl_t : std::false_type {};
 		template<class T> struct HasPostdecrement_impl_t<T, std::void_t< PostdecrementResult<T> > > : std::true_type {};
@@ -318,12 +328,22 @@ namespace zawa_ch::StationaryOrbit
 		///	前置インクリメント演算子 @a T::operator++() の返却型が指定されたものに一致するかを識別するための実装。
 		template<class, class, class = std::void_t<>> struct PreincrementResultIsSame_impl_t : std::false_type {};
 		template<class T, class R> struct PreincrementResultIsSame_impl_t<T, R, std::void_t< PreincrementResult<T> > > : std::is_same<PreincrementResult<T>, R> {};
+		#if 201703L <= __cplusplus
+		// Clang C++17でコンパイルするとbool::operator++()を実体化しようとしてエラーを吐くため
+		// boolによるインクリメントトレイトは強制的にfalseで実体化する
+		template<class R> struct PreincrementResultIsSame_impl_t<bool, R> : std::false_type {};
+		#endif
 		///	前置デクリメント演算子 @a T::operator--() の返却型が指定されたものに一致するかを識別するための実装。
 		template<class, class, class = std::void_t<>> struct PredecrementResultIsSame_impl_t : std::false_type {};
 		template<class T, class R> struct PredecrementResultIsSame_impl_t<T, R, std::void_t< PredecrementResult<T> > > : std::is_same<PredecrementResult<T>, R> {};
 		///	後置インクリメント演算子 @a T::operator++(int) の返却型が指定されたものに一致するかを識別するための実装。
 		template<class, class, class = std::void_t<>> struct PostincrementResultIsSame_impl_t : std::false_type {};
 		template<class T, class R> struct PostincrementResultIsSame_impl_t<T, R, std::void_t< PostincrementResult<T> > > : std::is_same<PostincrementResult<T>, R> {};
+		#if 201703L <= __cplusplus
+		// Clang C++17でコンパイルするとbool::operator++(int)を実体化しようとしてエラーを吐くため
+		// boolによるインクリメントトレイトは強制的にfalseで実体化する
+		template<class R> struct PostincrementResultIsSame_impl_t<bool, R> : std::false_type {};
+		#endif
 		///	後置デクリメント演算子 @a T::operator--(int) の返却型が指定されたものに一致するかを識別するための実装。
 		template<class, class, class = std::void_t<>> struct PostdecrementResultIsSame_impl_t : std::false_type {};
 		template<class T, class R> struct PostdecrementResultIsSame_impl_t<T, R, std::void_t< PostdecrementResult<T> > > : std::is_same<PostdecrementResult<T>, R> {};
@@ -525,12 +545,22 @@ namespace zawa_ch::StationaryOrbit
 		///	前置インクリメント演算子 @a T::operator++() の返却型が指定されたものに変換可能かを識別するための実装。
 		template<class, class, class = std::void_t<>> struct PreincrementResultIsConvertible_impl_t : std::false_type {};
 		template<class T, class R> struct PreincrementResultIsConvertible_impl_t<T, R, std::void_t< PreincrementResult<T> > > : std::is_convertible<PreincrementResult<T>, R> {};
+		#if 201703L <= __cplusplus
+		// Clang C++17でコンパイルするとbool::operator++()を実体化しようとしてエラーを吐くため
+		// boolによるインクリメントトレイトは強制的にfalseで実体化する
+		template<class R> struct PreincrementResultIsConvertible_impl_t<bool, R> : std::false_type {};
+		#endif
 		///	前置デクリメント演算子 @a T::operator--() の返却型が指定されたものに変換可能かを識別するための実装。
 		template<class, class, class = std::void_t<>> struct PredecrementResultIsConvertible_impl_t : std::false_type {};
 		template<class T, class R> struct PredecrementResultIsConvertible_impl_t<T, R, std::void_t< PredecrementResult<T> > > : std::is_convertible<PredecrementResult<T>, R> {};
 		///	後置インクリメント演算子 @a T::operator++(int) の返却型が指定されたものに変換可能かを識別するための実装。
 		template<class, class, class = std::void_t<>> struct PostincrementResultIsConvertible_impl_t : std::false_type {};
 		template<class T, class R> struct PostincrementResultIsConvertible_impl_t<T, R, std::void_t< PostincrementResult<T> > > : std::is_convertible<PostincrementResult<T>, R> {};
+		#if 201703L <= __cplusplus
+		// Clang C++17でコンパイルするとbool::operator++(int)を実体化しようとしてエラーを吐くため
+		// boolによるインクリメントトレイトは強制的にfalseで実体化する
+		template<class R> struct PostincrementResultIsConvertible_impl_t<bool, R> : std::false_type {};
+		#endif
 		///	後置デクリメント演算子 @a T::operator--(int) の返却型が指定されたものに変換可能かを識別するための実装。
 		template<class, class, class = std::void_t<>> struct PostdecrementResultIsConvertible_impl_t : std::false_type {};
 		template<class T, class R> struct PostdecrementResultIsConvertible_impl_t<T, R, std::void_t< PostdecrementResult<T> > > : std::is_convertible<PostdecrementResult<T>, R> {};
@@ -732,12 +762,22 @@ namespace zawa_ch::StationaryOrbit
 		///	前置インクリメント演算子 @a T::operator++() の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
 		template<class, class, class = std::void_t<>> struct PreincrementResultRemoveCVRefIsSame_impl_t : std::false_type {};
 		template<class T, class R> struct PreincrementResultRemoveCVRefIsSame_impl_t<T, R, std::void_t< PreincrementResult<T> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<PreincrementResult<T>>>, R> {};
+		#if 201703L <= __cplusplus
+		// Clang C++17でコンパイルするとbool::operator++()を実体化しようとしてエラーを吐くため
+		// boolによるインクリメントトレイトは強制的にfalseで実体化する
+		template<class R> struct PreincrementResultRemoveCVRefIsSame_impl_t<bool, R> : std::false_type {};
+		#endif
 		///	前置デクリメント演算子 @a T::operator--() の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
 		template<class, class, class = std::void_t<>> struct PredecrementResultRemoveCVRefIsSame_impl_t : std::false_type {};
 		template<class T, class R> struct PredecrementResultRemoveCVRefIsSame_impl_t<T, R, std::void_t< PredecrementResult<T> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<PredecrementResult<T>>>, R> {};
 		///	後置インクリメント演算子 @a T::operator++(int) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
 		template<class, class, class = std::void_t<>> struct PostincrementResultRemoveCVRefIsSame_impl_t : std::false_type {};
 		template<class T, class R> struct PostincrementResultRemoveCVRefIsSame_impl_t<T, R, std::void_t< PostincrementResult<T> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<PostincrementResult<T>>>, R> {};
+		#if 201703L <= __cplusplus
+		// Clang C++17でコンパイルするとbool::operator++(int)を実体化しようとしてエラーを吐くため
+		// boolによるインクリメントトレイトは強制的にfalseで実体化する
+		template<class R> struct PostincrementResultRemoveCVRefIsSame_impl_t<bool, R> : std::false_type {};
+		#endif
 		///	後置デクリメント演算子 @a T::operator--(int) の返却値(CVRef除去)型が指定されたものに一致するかを識別するための実装。
 		template<class, class, class = std::void_t<>> struct PostdecrementResultRemoveCVRefIsSame_impl_t : std::false_type {};
 		template<class T, class R> struct PostdecrementResultRemoveCVRefIsSame_impl_t<T, R, std::void_t< PostdecrementResult<T> > > : std::is_same<std::remove_cv_t<std::remove_reference_t<PostdecrementResult<T>>>, R> {};
@@ -1236,44 +1276,28 @@ namespace zawa_ch::StationaryOrbit
 		///	指定された型のオブジェクトとの等価比較が可能な型を識別するための実装。
 		template<class T, class U>
 		struct IsEquatable_t : std::conjunction< EqualResultIsConvertible_impl_t<T, U, bool>, NotEqualResultIsConvertible_impl_t<T, U, bool> > {};
-
 		///	指定された型のオブジェクトとの大小比較が可能な型を識別するための実装。
 		template<class T, class U>
 		struct IsComparable_t : std::conjunction< LargerCompareResultIsConvertible_impl_t<T, U, bool>, SmallerCompareResultIsConvertible_impl_t<T, U, bool>, LeastCompareResultIsConvertible_impl_t<T, U, bool>, MostCompareResultIsConvertible_impl_t<T, U, bool> > {};
-
+	public:
+		///	指定された型のオブジェクトとの等価比較が可能な型を識別します。
+		template<class T, class U = T> inline constexpr static bool IsEquatable = IsEquatable_t<T, U>::value;
+		///	指定された型のオブジェクトとの大小比較が可能な型を識別します。
+		template<class T, class U = T> inline constexpr static bool IsComparable = IsComparable_t<T, U>::value;
+	private:
 		///	単項算術演算子を持つ型を識別するための実装。
 		template<class T>
-		struct HasUnaryOperation_t : std::conjunction<PromotionResultIsConvertible_impl_t<T, T>, InverseResultIsConvertible_impl_t<T, T>> {};
+		struct [[deprecated]] HasUnaryOperation_t : std::conjunction<PromotionResultIsConvertible_impl_t<T, T>, InverseResultIsConvertible_impl_t<T, T>> {};
 
 		///	加法演算子を持つ型を識別するための実装。
 		template<class T, class U>
-		struct HasAdditiveOperation_t : std::conjunction<AdditionResultIsConvertible_impl_t<T, U, T>, SubtractionResultIsConvertible_impl_t<T, U, T>> {};
+		struct [[deprecated]] HasAdditiveOperation_t : std::conjunction<AdditionResultIsConvertible_impl_t<T, U, T>, SubtractionResultIsConvertible_impl_t<T, U, T>> {};
 
 		///	乗法演算子を持つ型を識別するための実装。
 		template<class T, class U>
-		struct HasMultiplicativeOperation_t : std::conjunction<MultiplicationResultIsConvertible_impl_t<T, U, T>, DivisionResultIsConvertible_impl_t<T, U, T>> {};
+		struct [[deprecated]] HasMultiplicativeOperation_t : std::conjunction<MultiplicationResultIsConvertible_impl_t<T, U, T>, DivisionResultIsConvertible_impl_t<T, U, T>> {};
 
-		template<class T>
-		struct HasArithmeticOperation_t : std::conjunction<HasUnaryOperation_t<T>, HasAdditiveOperation_t<T, T>, HasMultiplicativeOperation_t<T, T>> {};
-
-		template<class T, class U>
-		struct HasBitOperation_t : std::conjunction<HasArithmeticNot_t<T, T>, HasArithmeticOr_t<T, T, T>, HasArithmeticAnd_t<T, T, T>, HasArithmeticXor_t<T, T, T>, HasLShift_t<T, U, T>, HasRShift_t<T, U, T>> {};
-
-		template<class T, class U>
-		struct HasBitSubstitution_t : std::conjunction<HasArithmeticAndSubstitution_t<T, T, T&>, HasArithmeticOrSubstitution_t<T, T, T&>, HasArithmeticXorSubstitution_t<T, T, T&>, HasBitLshiftSubstitution_t<T, U, T&>, HasBitRshiftSubstitution_t<T, U, T&>> {};
-
-		template<class T>
-		struct IsSequencialOrder_t : std::conjunction<HasPreIncrement_t<T, T&>, HasPostIncrement_t<T, T>> {};
-
-		template<class T>
-		struct IsBidirectionalOrder_t : std::conjunction<IsSequencialOrder_t<T>, HasPreDecrement_t<T, T&>, HasPostDecrement_t<T, T>> {};
-
-		template<class T, class N>
-		struct IsLinearOrder_t : std::conjunction<IsBidirectionalOrder_t<T>, HasAdditiveOperation_t<T, N>, HasAddSubstitution_t<T, N, T&>, HasSubtractSubstitution_t<T, N, T&>> {};
-
-		template<class T>
-		struct IsValueType_t :
-			std::conjunction
+		template<class T> struct IsValueType_t : std::conjunction
 			<
 				std::is_default_constructible<T>,
 				std::is_trivially_default_constructible<T>,
@@ -1296,16 +1320,137 @@ namespace zawa_ch::StationaryOrbit
 				IsEquatable_t<T, T>
 			>
 		{};
-
-		template<class T>
-		struct IsBitSequence_t : std::conjunction< IsValueType_t<T>, HasBitOperation_t<T, int>, HasBitSubstitution_t<T, int>, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
-
-		template<class T>
-		struct IsNumeralType_t : std::conjunction< IsValueType_t<T>, HasArithmeticOperation_t<T>, IsComparable_t<T, T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
-
-		template<class T>
-		struct IsIntegerType_t : std::conjunction< IsNumeralType_t<T>, HasModulation_t<T, T, T>, HasBitOperation_t<T, T>, IsLinearOrder_t<T, T> > {};
-
+	public:
+		///	値型を識別します。
+		template<class T> static constexpr bool IsValueType = IsValueType_t<T>::value;
+	private:
+		///	位置型が実装すべき演算子の実装を識別するための実装。
+		template<class, class, class = void> struct HasPointableTypeOperation_impl_t : std::false_type {};
+		template<class T, class U> struct HasPointableTypeOperation_impl_t<T, U, std::enable_if_t< IsValueType_t<U>::value >> : std::conjunction
+			<
+				SubstitutionAddResultIsSame_impl_t<T, U, T&>,
+				SubstitutionSubtractResultIsSame_impl_t<T, U, T&>,
+				AdditionResultIsSame_impl_t<T, U, T>,
+				SubtractionResultIsSame_impl_t<T, U, T>,
+				SubtractionResultIsSame_impl_t<T, T, U>,
+				IsEquatable_t<T, T>
+			>
+		{};
+		///	位置型を識別するための実装。
+		template<class T, class U> struct IsPointableType_t : std::conjunction< IsValueType_t<T>, HasPointableTypeOperation_impl_t<T, U> > {};
+	public:
+		///	位置型を識別します。
+		template<class T, class U> static constexpr bool IsPointableType = IsPointableType_t<T, U>::value;
+	private:
+		///	算術型が実装すべき演算子の実装を識別するための実装。
+		template<class, class = std::void_t<>> struct HasNumeralTypeOperation_impl_t : std::false_type {};
+		template<class T> struct HasNumeralTypeOperation_impl_t<T, std::void_t< PromotionResult<T> >> : std::conjunction
+			<
+				PromotionResultIsConvertible_impl_t<T, T>,
+				InverseResultIsSame_impl_t<T, PromotionResult<T>>,
+				AdditionResultIsSame_impl_t<T, T, PromotionResult<T>>,
+				SubtractionResultIsSame_impl_t<T, T, PromotionResult<T>>,
+				MultiplicationResultIsSame_impl_t<T, T, PromotionResult<T>>,
+				DivisionResultIsSame_impl_t<T, T, PromotionResult<T>>,
+				SubstitutionAddResultIsSame_impl_t<T, T, T&>,
+				SubstitutionSubtractResultIsSame_impl_t<T, T, T&>,
+				SubstitutionMultipleResultIsSame_impl_t<T, T, T&>,
+				SubstitutionDivideResultIsSame_impl_t<T, T, T&>,
+				IsEquatable_t<T, T>,
+				IsComparable_t<T, T>
+			>
+		{};
+		///	整数型が実装すべき演算子の実装を識別するための実装。
+		template<class, class = std::void_t<>> struct HasIntegralTypeOperation_impl_t : std::false_type {};
+		template<class T> struct HasIntegralTypeOperation_impl_t<T, std::void_t< PromotionResult<T> >> : std::conjunction
+			<
+				PreincrementResultIsSame_impl_t<T, T&>,
+				PredecrementResultIsSame_impl_t<T, T&>,
+				HasNumeralTypeOperation_impl_t<T>,
+				SubstitutionModulateResultIsSame_impl_t<T, T, T&>,
+				ModulationResultIsSame_impl_t<T, T, PromotionResult<T>>
+			>
+		{};
+		///	算術型を識別するための実装。
+		template<class T> struct IsNumeralType_t : std::conjunction< IsValueType_t<T>, HasNumeralTypeOperation_impl_t<T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
+		///	整数型を識別するための実装。
+		template<class T> struct IsIntegralType_impl_t : std::conjunction< IsNumeralType_t<T>, HasIntegralTypeOperation_impl_t<T> > {};
+	public:
+		///	基本的な算術演算を持つ型を識別します。
+		template<class T> static constexpr bool HasNumeralOperation = HasNumeralTypeOperation_impl_t<T>::value;
+		///	算術型を識別します。
+		template<class T> static constexpr bool IsNumeralType = IsNumeralType_t<T>::value;
+		///	整数型を識別します。
+		template<class T> static constexpr bool IsIntegralType = IsIntegralType_impl_t<T>::value;
+	private:
+		///	単方向順序型が実装すべき演算子の実装を識別するための実装。
+		template<class T> struct HasSequencialOrderTypeOperation_impl_t : std::conjunction
+			<
+				PreincrementResultIsSame_impl_t<T, T&>,
+				IsEquatable_t<T, T>
+			>
+		{};
+		///	双方向順序型が実装すべき演算子の実装を識別するための実装。
+		template<class T> struct HasBidirectionalOrderTypeOperation_impl_t : std::conjunction
+			<
+				HasSequencialOrderTypeOperation_impl_t<T>,
+				PredecrementResultIsSame_impl_t<T, T&>
+			>
+		{};
+		///	線形順序型が実装すべき演算子の実装を識別するための実装。
+		template<class, class, class = void> struct HasLinearOrderTypeOperation_impl_t : std::false_type {};
+		template<class T, class N> struct HasLinearOrderTypeOperation_impl_t<T, N, std::enable_if_t< IsIntegralType<N> >> : std::conjunction
+			<
+				HasBidirectionalOrderTypeOperation_impl_t<T>,
+				AdditionResultIsSame_impl_t<T, N, T>,
+				SubtractionResultIsSame_impl_t<T, N, T>,
+				SubstitutionAddResultIsSame_impl_t<T, N, T&>,
+				SubstitutionSubtractResultIsSame_impl_t<T, N, T&>,
+				IsComparable_t<T, T>
+			>
+		{};
+		///	単方向順序型を識別するための実装。
+		template<class T> struct IsSequencialOrderType_t : std::conjunction< HasSequencialOrderTypeOperation_impl_t<T> > {};
+		///	双方向順序型を識別するための実装。
+		template<class T> struct IsBidirectionalOrderType_t : std::conjunction< IsSequencialOrderType_t<T>, HasBidirectionalOrderTypeOperation_impl_t<T> > {};
+		///	線形順序型を識別するための実装。
+		template<class T, class N> struct IsLinearOrderType_t : std::conjunction< IsBidirectionalOrderType_t<T>, HasLinearOrderTypeOperation_impl_t<T, N> > {};
+	public:
+		///	単方向の順序を持つ値型を識別します。
+		template<class T> static constexpr bool IsSequencialOrderType = IsSequencialOrderType_t<T>::value;
+		///	双方向の順序を持つ値型を識別します。
+		template<class T> static constexpr bool IsBidirectionalOrderType = IsBidirectionalOrderType_t<T>::value;
+		///	線形の順序を持つ値型を識別します。
+		template<class T, class N = int> static constexpr bool IsLinearOrderType = IsLinearOrderType_t<T, N>::value;
+	private:
+		///	ビット列型が実装すべき演算子の実装を識別するための実装。
+		template<class, class, class = void> struct HasBitSequenceTypeOperation_impl_t : std::false_type {};
+		template<class T, class N> struct HasBitSequenceTypeOperation_impl_t<T, N, std::enable_if_t< IsIntegralType<N> >> : std::conjunction
+			<
+				ArithmeticNotResultIsConvertible_impl_t<T, T>,
+				ArithmeticAndResultIsConvertible_impl_t<T, T, T>,
+				ArithmeticOrResultIsConvertible_impl_t<T, T, T>,
+				ArithmeticXorResultIsConvertible_impl_t<T, T, T>,
+				LShiftResultIsConvertible_impl_t<T, N, T>,
+				RShiftResultIsConvertible_impl_t<T, N, T>,
+				SubstitutionArithmeticAndResultIsSame_impl_t<T, T, T&>,
+				SubstitutionArithmeticOrResultIsSame_impl_t<T, T, T&>,
+				SubstitutionArithmeticXorResultIsSame_impl_t<T, T, T&>,
+				SubstitutionLShiftResultIsSame_impl_t<T, N, T&>,
+				SubstitutionRShiftResultIsSame_impl_t<T, N, T&>,
+				IsEquatable_t<T, T>
+			>
+		{};
+		///	単方向順序型を識別するための実装。
+		template<class T, class N> struct IsBitSequenceType_t : std::conjunction< IsValueType_t<T>, HasBitSequenceTypeOperation_impl_t<T, N>, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
+	public:
+		///	基本的なビット演算を持つ型を識別します。
+		template<class T, class N = int> static constexpr bool HasBitSequenceOperation = HasBitSequenceTypeOperation_impl_t<T, N>::value;
+		///	ビット列型を識別します。
+		///	@note
+		///	signedな型はビット演算の結果が未定義(または処理系定義)となる値域を含むためサポートされません。
+		template<class T, class N = int> static constexpr bool IsBitSequenceType = IsBitSequenceType_t<T, N>::value;
+	private:
 		template<class, class, class = std::void_t<>>
 		struct HasSaturateAddition_t : std::false_type {};
 		template<class T, class U>
@@ -1537,43 +1682,6 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class U = T, class R = T> inline constexpr static bool HasComma = HasComma_t<T, U, R>::value;
 		///	指定された型の波括弧による初期化が可能な型を識別します。
 		template<class T, class... Targs> inline constexpr static bool IsAggregatable = IsAggregatable_t<T, Targs...>::value;
-		///	指定された型のオブジェクトとの等価比較が可能な型を識別します。
-		///	@note
-		///	@a IsEquatable は @a T::operator==(U)->bool , @a T::operator!=(U)->bool を持つオブジェクト @a T に対して @a true に等しい定数が返されます。
-		template<class T, class U = T> inline constexpr static bool IsEquatable = IsEquatable_t<T, U>::value;
-		///	指定された型のオブジェクトとの大小比較が可能な型を識別します。
-		///	@note
-		///	@a IsEquatable は @a T::operator>(U)->bool , @a T::operator<(U)->bool , @a T::operator>=(U)->bool , @a T::operator<=(U)->bool を持つオブジェクト @a T に対して @a true に等しい定数が返されます。
-		template<class T, class U = T> inline constexpr static bool IsComparable = IsComparable_t<T, U>::value;
-		///	単項算術演算子を持つ型を識別します。
-		template<class T> inline constexpr static bool HasUnaryOperation = HasUnaryOperation_t<T>::value;
-		///	加法演算子を持つ型を識別します。
-		template<class T, class U = T> inline constexpr static bool HasAdditiveOperation = HasAdditiveOperation_t<T, U>::value;
-		///	乗法演算子を持つ型を識別します。
-		template<class T, class U = T> inline constexpr static bool HasMultiplicativeOperation = HasMultiplicativeOperation_t<T, U>::value;
-		///	基本的な算術演算を持つ型を識別します。
-		template<class T> inline constexpr static bool HasArithmeticOperation = HasArithmeticOperation_t<T>::value;
-		///	基本的なビット演算を持つ型を識別します。
-		template<class T, class U = T> inline constexpr static bool HasBitOperation = HasBitOperation_t<T, U>::value;
-		///	基本的なビット代入演算を持つ型を識別します。
-		template<class T, class U = T> inline constexpr static bool HasBitSubstitution = HasBitSubstitution_t<T, U>::value;
-		///	単方向の順序を持つ値型を識別します。
-		template<class T> inline constexpr static bool IsSequencialOrder = IsSequencialOrder_t<T>::value;
-		///	双方向の順序を持つ値型を識別します。
-		template<class T> inline constexpr static bool IsBidirectionalOrder = IsBidirectionalOrder_t<T>::value;
-		///	線形の順序を持つ値型を識別します。
-		template<class T, class N = std::make_signed_t<size_t>> inline constexpr static bool IsLinearOrder = IsLinearOrder_t<T, N>::value;
-		///	値型を識別します。
-		template<class T> inline constexpr static bool IsValueType = IsValueType_t<T>::value;
-		///	ビット列型を識別します。
-		///	@note
-		///	@a IsBitSequence は @a IsValueType @a HasBitOperation および @a HasBitStitution をともに満たす、signed*ではない*型に対して定数 @a true が返されます。
-		///	signedな型はビット演算の結果が未定義(または処理系定義)となる値域を含むためサポートされません。
-		template<class T> inline constexpr static bool IsBitSequence = IsBitSequence_t<T>::value;
-		///	算術型を識別します。
-		template<class T> inline constexpr static bool IsNumeralType = IsNumeralType_t<T>::value;
-		///	整数型を識別します。
-		template<class T> inline constexpr static bool IsIntegerType = IsIntegerType_t<T>::value;
 		///	計算結果が飽和する四則演算を持つ型を識別します。
 		template<class T, class U = T> inline constexpr static bool HasSaturateOperation = HasSaturateOperation_t<T, U>::value;
 		///	計算結果の値域チェックが行われる四則演算を持つ型を識別します。
@@ -1599,7 +1707,7 @@ namespace zawa_ch::StationaryOrbit
 		BitCounter(BitCounter&&) = delete;
 		~BitCounter() = delete;
 	public:
-		template<class T, std::enable_if_t<Traits::IsBitSequence<T>, int> = 0>
+		template<class T, std::enable_if_t<Traits::IsBitSequenceType<T>, int> = 0>
 		static constexpr size_t Count()
 		{
 			static_assert(std::is_constructible_v<T, int>, "テンプレート型 T は (int) を引数に持つコンストラクタをサポートする必要があります。");
@@ -1618,7 +1726,7 @@ namespace zawa_ch::StationaryOrbit
 	///	指定された型の有効なビット幅を識別するための機能を提供します。
 	template<class T> struct BitWidth_t : std::integral_constant<size_t, BitCounter::Count<T>()>
 	{
-		static_assert(Traits::IsBitSequence<T>, "ビット幅の計数は整数型、boolなどの固定幅のビットシーケンスでのみ有効です。");
+		static_assert(Traits::IsBitSequenceType<T>, "ビット幅の計数は整数型、boolなどの固定幅のビットシーケンスでのみ有効です。");
 	};
 	template<std::size_t N> struct BitWidth_t<std::bitset<N>> : std::integral_constant<size_t, N> {};
 	///	指定された型の有効なビット幅を識別します。

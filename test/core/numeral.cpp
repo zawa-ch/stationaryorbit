@@ -48,7 +48,7 @@ void Test_Numeral()
 void Test_FixedPoint()
 {
 	std::cout << "<--- FixedPoint --->" << std::endl;
-	if (!Traits::HasArithmeticOperation<FixedPoint16q8_t>) { throw std::exception(); }
+	if (!Traits::IsNumeralType<FixedPoint16q8_t>) { throw std::exception(); }
 	auto f1 = FixedPoint16q8_t(16);
 	auto f2 = FixedPoint16q8_t(0.125);
 	if (double(f1) == 16) { std::cout << "f1 = " << double(f1) << std::endl; } else { throw std::exception(); }
@@ -98,9 +98,9 @@ void Test_Proportion()
 	std::cout << "<--- Proportion --->" << std::endl;
 
 	// 型トレイト
-	static_assert(Traits::HasArithmeticOperation<Proportion8_t>, "ProportionがTraitsHasArithmeticOperationの要件を満たしません。");
-	static_assert(!Traits::HasBitOperation<Proportion8_t>, "ProportionがTraitsHasBitOperationの要件を満たしました。");
-	static_assert(!Traits::IsIntegerType<Proportion8_t>, "ProportionがTraitsIsIntegerTypeの要件を満たしました。");
+	static_assert(Traits::IsNumeralType<Proportion8_t>, "ProportionがTraitsIsNumeralTypeの要件を満たしません。");
+	static_assert(!Traits::IsBitSequenceType<Proportion8_t>, "ProportionがTraitsIsBitSequenceTypeの要件を満たしました。");
+	static_assert(!Traits::IsIntegralType<Proportion8_t>, "ProportionがTraitsIsIntegerTypeの要件を満たしました。");
 	static_assert(Traits::IsComparable<Proportion8_t>, "ProportionがTraitsComparableの要件を満たしません。");
 	static_assert(Traits::IsEquatable<Proportion8_t>, "ProportionがTraitsEquatableの要件を満たしません。");
 	static_assert(Traits::HasSaturateOperation<Proportion8_t>, "ProportionがTraitsHasSaturateOperationの要件を満たしません。");
@@ -130,8 +130,8 @@ void Test_Range()
 	static_assert(IteratorTraits::IsIterator<Range<size_t>::IteratorType>, "Range<size_t>::IteratorTypeがIteratorTraits::IsIteratorの要件を満たしません。");
 	static_assert(IteratorTraits::IsSequencialOrderIterator<Range<size_t>::IteratorType>, "Range<size_t>::IteratorTypeがIteratorTraits::IsIteratorの要件を満たしません。");
 	static_assert(IteratorTraits::IsBidirectionalOrderIterator<Range<size_t>::IteratorType>, "Range<size_t>::IteratorTypeがIteratorTraits::IsBidirectionalOrderIteratorの要件を満たしません。");
-	static_assert(Traits::IsSequencialOrder<Range<size_t>::IteratorType>, "Range<size_t>::IteratorTypeがTraits::IsSequencialOrderの要件を満たしません。");
-	static_assert(Traits::IsBidirectionalOrder<Range<size_t>::IteratorType>, "Range<size_t>::IteratorTypeがTraits::IsBidirectionalOrderの要件を満たしません。");
+	static_assert(Traits::IsSequencialOrderType<Range<size_t>::IteratorType>, "Range<size_t>::IteratorTypeがTraits::IsSequencialOrderの要件を満たしません。");
+	static_assert(Traits::IsBidirectionalOrderType<Range<size_t>::IteratorType>, "Range<size_t>::IteratorTypeがTraits::IsBidirectionalOrderの要件を満たしません。");
 	// 範囲forを用いて0..9の数値を列挙する
 	for(auto i : Range(0, 10).GetStdIterator())
 	{
