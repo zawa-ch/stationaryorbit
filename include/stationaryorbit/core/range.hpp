@@ -39,7 +39,7 @@ namespace zawa_ch::StationaryOrbit
 	struct Range final
 	{
 		static_assert(Traits::HasArithmeticOperation<T>, "この型のテンプレート T は算術型のクラスである必要があります。");
-		static_assert(Traits::Comparable<T>, "この型のテンプレート T は比較可能である必要があります。");
+		static_assert(Traits::IsComparable<T>, "この型のテンプレート T は比較可能である必要があります。");
 
 	public: // type
 		///	値の表現に使用されている型。
@@ -119,7 +119,7 @@ namespace zawa_ch::StationaryOrbit
 	class RangeIterator
 	{
 		static_assert(Traits::HasArithmeticOperation<T>, "この型のテンプレート T は算術型のクラスである必要があります。");
-		static_assert(Traits::Comparable<T>, "この型のテンプレート T は比較可能である必要があります。");
+		static_assert(Traits::IsComparable<T>, "この型のテンプレート T は比較可能である必要があります。");
 		static_assert(Traits::IsBidirectionalOrder<T>, "この型のテンプレート T は双方向の順序を持つ値型である必要があります。");
 
 	public: // type

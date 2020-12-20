@@ -101,8 +101,8 @@ void Test_Proportion()
 	static_assert(Traits::HasArithmeticOperation<Proportion8_t>, "ProportionがTraitsHasArithmeticOperationの要件を満たしません。");
 	static_assert(!Traits::HasBitOperation<Proportion8_t>, "ProportionがTraitsHasBitOperationの要件を満たしました。");
 	static_assert(!Traits::IsIntegerType<Proportion8_t>, "ProportionがTraitsIsIntegerTypeの要件を満たしました。");
-	static_assert(Traits::Comparable<Proportion8_t>, "ProportionがTraitsComparableの要件を満たしません。");
-	static_assert(Traits::Equatable<Proportion8_t>, "ProportionがTraitsEquatableの要件を満たしません。");
+	static_assert(Traits::IsComparable<Proportion8_t>, "ProportionがTraitsComparableの要件を満たしません。");
+	static_assert(Traits::IsEquatable<Proportion8_t>, "ProportionがTraitsEquatableの要件を満たしません。");
 	static_assert(Traits::HasSaturateOperation<Proportion8_t>, "ProportionがTraitsHasSaturateOperationの要件を満たしません。");
 	static_assert(Traits::HasCheckedOperation<Proportion8_t>, "ProportionがTraitsHasCheckedOperationの要件を満たしません。");
 

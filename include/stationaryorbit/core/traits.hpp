@@ -1233,11 +1233,13 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class... Targs>
 		struct IsAggregatable_t : public IsAggrigation_impl<T, Targs ...>::type {};
 
+		///	指定された型のオブジェクトとの等価比較が可能な型を識別するための実装。
 		template<class T, class U>
-		struct Equatable_t : std::conjunction< HasEqual_t<T, U, bool>, HasNotEqual_t<T, U, bool> > {};
+		struct IsEquatable_t : std::conjunction< EqualResultIsConvertible_impl_t<T, U, bool>, NotEqualResultIsConvertible_impl_t<T, U, bool> > {};
 
+		///	指定された型のオブジェクトとの大小比較が可能な型を識別するための実装。
 		template<class T, class U>
-		struct Comparable_t : std::conjunction< HasComparamentLarger_t<T, U, bool>, HasComparamentSmaller_t<T, U, bool>, HasComparamentLeast_t<T, U, bool>, HasComparamentMost_t<T, U, bool> > {};
+		struct IsComparable_t : std::conjunction< LargerCompareResultIsConvertible_impl_t<T, U, bool>, SmallerCompareResultIsConvertible_impl_t<T, U, bool>, LeastCompareResultIsConvertible_impl_t<T, U, bool>, MostCompareResultIsConvertible_impl_t<T, U, bool> > {};
 
 		template<class T, class R>
 		struct HasUnaryOperation_t : std::conjunction<HasPromotion_t<T, R>, HasInverse_t<T, R>> {};
@@ -1288,7 +1290,7 @@ namespace zawa_ch::StationaryOrbit
 				std::is_move_assignable<T>,
 				std::is_nothrow_move_assignable<T>,
 				std::is_trivially_move_assignable<T>,
-				Equatable_t<T, T>
+				IsEquatable_t<T, T>
 			>
 		{};
 
@@ -1296,7 +1298,7 @@ namespace zawa_ch::StationaryOrbit
 		struct IsBitSequence_t : std::conjunction< IsValueType_t<T>, HasBitOperation_t<T, int>, HasBitSubstitution_t<T, int>, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
 
 		template<class T>
-		struct IsNumeralType_t : std::conjunction< IsValueType_t<T>, HasArithmeticOperation_t<T>, Comparable_t<T, T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
+		struct IsNumeralType_t : std::conjunction< IsValueType_t<T>, HasArithmeticOperation_t<T>, IsComparable_t<T, T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
 
 		template<class T>
 		struct IsIntegerType_t : std::conjunction< IsNumeralType_t<T>, HasModulation_t<T, T, T>, HasBitOperation_t<T, T>, IsLinearOrder_t<T, T> > {};
@@ -1390,7 +1392,7 @@ namespace zawa_ch::StationaryOrbit
 			: std::conjunction
 			<
 				IsStdLegacyIterator_t<It>,
-				Equatable_t<It, It>,
+				IsEquatable_t<It, It>,
 				HasDereference_t<It, typename std::iterator_traits<It>::value_type>,
 				HasPreIncrement_t<It, It&>,
 				std::is_convertible<decltype( *std::declval<It&>()++ ), typename std::iterator_traits<It>::value_type>
@@ -1432,7 +1434,7 @@ namespace zawa_ch::StationaryOrbit
 				HasAddSubstitution_t<It, typename std::iterator_traits<It>::difference_type, It&>,
 				HasSubtractSubstitution_t<It, typename std::iterator_traits<It>::difference_type, It&>,
 				HasAdditiveOperation_t<It, typename std::iterator_traits<It>::difference_type, It>,
-				Comparable_t<It, It>,
+				IsComparable_t<It, It>,
 				HasSubScript_t<It, typename std::iterator_traits<It>::difference_type, typename std::iterator_traits<It>::reference>
 			>
 		{};
@@ -1533,9 +1535,13 @@ namespace zawa_ch::StationaryOrbit
 		///	指定された型の波括弧による初期化が可能な型を識別します。
 		template<class T, class... Targs> inline constexpr static bool IsAggregatable = IsAggregatable_t<T, Targs...>::value;
 		///	指定された型のオブジェクトとの等価比較が可能な型を識別します。
-		template<class T, class U = T> inline constexpr static bool Equatable = Equatable_t<T, U>::value;
+		///	@note
+		///	@a IsEquatable は @a T::operator==(U)->bool , @a T::operator!=(U)->bool を持つオブジェクト @a T に対して @a true に等しい定数が返されます。
+		template<class T, class U = T> inline constexpr static bool IsEquatable = IsEquatable_t<T, U>::value;
 		///	指定された型のオブジェクトとの大小比較が可能な型を識別します。
-		template<class T, class U = T> inline constexpr static bool Comparable = Comparable_t<T, U>::value;
+		///	@note
+		///	@a IsEquatable は @a T::operator>(U)->bool , @a T::operator<(U)->bool , @a T::operator>=(U)->bool , @a T::operator<=(U)->bool を持つオブジェクト @a T に対して @a true に等しい定数が返されます。
+		template<class T, class U = T> inline constexpr static bool IsComparable = IsComparable_t<T, U>::value;
 		///	単項算術演算子を持つ型を識別します。
 		template<class T, class R = T> inline constexpr static bool HasUnaryOperation = HasUnaryOperation_t<T, R>::value;
 		///	加法演算子を持つ型を識別します。

@@ -29,8 +29,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	struct ChannelValue final
 	{
 		static_assert(Traits::IsValueType<Tp>, "テンプレート型 Tp は Traits::IsValueType の要件を満たす必要があります。");
-		static_assert(Traits::Equatable<Tp>, "テンプレート型 Tp は Traits::Equatable の要件を満たす必要があります。");
-		static_assert(Traits::Comparable<Tp>, "テンプレート型 Tp は Traits::Comparable の要件を満たす必要があります。");
+		static_assert(Traits::IsEquatable<Tp>, "テンプレート型 Tp は Traits::IsEquatable の要件を満たす必要があります。");
+		static_assert(Traits::IsComparable<Tp>, "テンプレート型 Tp は Traits::IsComparable の要件を満たす必要があります。");
 		static_assert(Traits::HasArithmeticOperation<Tp>, "テンプレート型 Tp は Traits::HasArithmeticOperation の要件を満たす必要があります。");
 		static_assert(Traits::HasSaturateOperation<Tp>, "テンプレート型 Tp は Traits::HasSaturateOperation の要件を満たす必要があります。");
 		static_assert(Traits::HasCheckedOperation<Tp>, "テンプレート型 Tp は Traits::HasCheckedOperation の要件を満たす必要があります。");
@@ -122,8 +122,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	template<class Tp>
 	struct ChannelValue<Tp, std::enable_if_t<std::is_floating_point_v<Tp>>>
 	{
-		static_assert(Traits::Equatable<Tp>, "テンプレート型 Tp は Traits::Equatable の要件を満たす必要があります。");
-		static_assert(Traits::Comparable<Tp>, "テンプレート型 Tp は Traits::Comparable の要件を満たす必要があります。");
+		static_assert(Traits::IsEquatable<Tp>, "テンプレート型 Tp は Traits::IsEquatable の要件を満たす必要があります。");
+		static_assert(Traits::IsComparable<Tp>, "テンプレート型 Tp は Traits::IsComparable の要件を満たす必要があります。");
 		static_assert(Traits::HasArithmeticOperation<Tp>, "テンプレート型 Tp は Traits::HasArithmeticOperation の要件を満たす必要があります。");
 	public:
 		///	この型の値の表現のために内部で使用されている型。
