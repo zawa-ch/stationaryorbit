@@ -194,22 +194,12 @@ namespace zawa_ch::StationaryOrbit
 		///	前置インクリメント演算子 @a T::operator++() の実装を識別するための実装。
 		template<class, class = std::void_t<>> struct HasPreincrement_impl_t : std::false_type {};
 		template<class T> struct HasPreincrement_impl_t<T, std::void_t< PreincrementResult<T> > > : std::true_type {};
-		#if 201703L <= __cplusplus
-		// Clang C++17でコンパイルするとbool::operator++()を実体化しようとしてエラーを吐くため
-		// boolによるインクリメントトレイトは強制的にfalseで実体化する
-		template<> struct HasPreincrement_impl_t<bool> : std::false_type {};
-		#endif
 		///	前置デクリメント演算子 @a T::operator--() の実装を識別するための実装。
 		template<class, class = std::void_t<>> struct HasPredecrement_impl_t : std::false_type {};
 		template<class T> struct HasPredecrement_impl_t<T, std::void_t< PredecrementResult<T> > > : std::true_type {};
 		///	後置インクリメント演算子 @a T::operator++(int) の実装を識別するための実装。
 		template<class, class = std::void_t<>> struct HasPostincrement_impl_t : std::false_type {};
 		template<class T> struct HasPostincrement_impl_t<T, std::void_t< PostincrementResult<T> > > : std::true_type {};
-		#if 201703L <= __cplusplus
-		// Clang C++17でコンパイルするとbool::operator++(int)を実体化しようとしてエラーを吐くため
-		// boolによるインクリメントトレイトは強制的にfalseで実体化する
-		template<> struct HasPostincrement_impl_t<bool> : std::false_type {};
-		#endif
 		///	後置デクリメント演算子 @a T::operator--(int) の実装を識別するための実装。
 		template<class, class = std::void_t<>> struct HasPostdecrement_impl_t : std::false_type {};
 		template<class T> struct HasPostdecrement_impl_t<T, std::void_t< PostdecrementResult<T> > > : std::true_type {};
@@ -1699,6 +1689,14 @@ namespace zawa_ch::StationaryOrbit
 		///	名前付き要件:LegacyOutputIteratorを満たす型を識別します。
 		template<class It, class O> inline constexpr static bool IsStdLegacyOutputIterator = IsStdLegacyOutputIterator_t<It, O>::value;
 	};
+	#if 201703L <= __cplusplus
+	// Clang C++17でコンパイルするとbool::operator++()を実体化しようとしてエラーを吐くため
+	// boolによるインクリメントトレイトは強制的にfalseで実体化する
+	template<> struct Traits::HasPreincrement_impl_t<bool> : std::false_type {};
+	// Clang C++17でコンパイルするとbool::operator++(int)を実体化しようとしてエラーを吐くため
+	// boolによるインクリメントトレイトは強制的にfalseで実体化する
+	template<> struct Traits::HasPostincrement_impl_t<bool> : std::false_type {};
+	#endif
 
 	class BitCounter final
 	{
