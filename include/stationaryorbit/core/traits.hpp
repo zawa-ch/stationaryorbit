@@ -281,7 +281,90 @@ namespace zawa_ch::StationaryOrbit
 		///	比較演算子 @a T::operator,(U) の実装を識別するための実装。
 		template<class, class, class = std::void_t<>> struct HasComma_impl_t : std::false_type {};
 		template<class T, class U> struct HasComma_impl_t<T, U, std::void_t< CommaResult<T, U> > > : std::true_type {};
-
+	public:
+		///	代入演算子 @a T::operator=(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasSubstitution = HasSubstitution_impl_t<T, U>::value;
+		///	代入演算子 @a T::operator+=(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasSubstitutionAdd = HasSubstitutionAdd_impl_t<T, U>::value;
+		///	代入演算子 @a T::operator-=(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasSubstitutionSubtract = HasSubstitutionSubtract_impl_t<T, U>::value;
+		///	代入演算子 @a T::operator*=(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasSubstitutionMultiple = HasSubstitutionMultiple_impl_t<T, U>::value;
+		///	代入演算子 @a T::operator/=(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasSubstitutionDivide = HasSubstitutionDivide_impl_t<T, U>::value;
+		///	代入演算子 @a T::operator%=(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasSubstitutionModulate = HasSubstitutionModulate_impl_t<T, U>::value;
+		///	代入演算子 @a T::operator&=(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasSubstitutionArithmeticAnd = HasSubstitutionArithmeticAnd_impl_t<T, U>::value;
+		///	代入演算子 @a T::operator|=(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasSubstitutionArithmeticOr = HasSubstitutionArithmeticOr_impl_t<T, U>::value;
+		///	代入演算子 @a T::operator^=(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasSubstitutionArithmeticXor = HasSubstitutionArithmeticXor_impl_t<T, U>::value;
+		///	代入演算子 @a T::operator<<=(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasSubstitutionLShift = HasSubstitutionLShift_impl_t<T, U>::value;
+		///	代入演算子 @a T::operator>>=(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasSubstitutionRShift = HasSubstitutionRShift_impl_t<T, U>::value;
+		///	前置インクリメント演算子 @a T::operator++() の実装を識別します。
+		template<class T> static constexpr bool HasPreincrement = HasPreincrement_impl_t<T>::value;
+		///	前置デクリメント演算子 @a T::operator--() の実装を識別します。
+		template<class T> static constexpr bool HasPredecrement = HasPredecrement_impl_t<T>::value;
+		///	後置インクリメント演算子 @a T::operator++(int) の実装を識別します。
+		template<class T> static constexpr bool HasPostincrement = HasPostincrement_impl_t<T>::value;
+		///	後置デクリメント演算子 @a T::operator--(int) の実装を識別します。
+		template<class T> static constexpr bool HasPostdecrement = HasPostdecrement_impl_t<T>::value;
+		///	算術演算子 @a T::operator+() の実装を識別します。
+		template<class T> static constexpr bool HasPromotion = HasPromotion_impl_t<T>::value;
+		///	算術演算子 @a T::operator-() の実装を識別します。
+		template<class T> static constexpr bool HasInverse = HasInverse_impl_t<T>::value;
+		///	算術演算子 @a T::operator+(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasAddition = HasAddition_impl_t<T, U>::value;
+		///	算術演算子 @a T::operator-(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasSubtraction = HasSubtraction_impl_t<T, U>::value;
+		///	算術演算子 @a T::operator*(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasMultiplication = HasMultiplication_impl_t<T, U>::value;
+		///	算術演算子 @a T::operator/(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasDivision = HasDivision_impl_t<T, U>::value;
+		///	算術演算子 @a T::operator%(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasModulation = HasModulation_impl_t<T, U>::value;
+		///	算術演算子 @a T::operator~() の実装を識別します。
+		template<class T> static constexpr bool HasArithmeticNot = HasArithmeticNot_impl_t<T>::value;
+		///	算術演算子 @a T::operator&(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasArithmeticAnd = HasArithmeticAnd_impl_t<T, U>::value;
+		///	算術演算子 @a T::operator|(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasArithmeticOr = HasArithmeticOr_impl_t<T, U>::value;
+		///	算術演算子 @a T::operator^(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasArithmeticXor = HasArithmeticXor_impl_t<T, U>::value;
+		///	算術演算子 @a T::operator<<(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasLShift = HasLShift_impl_t<T, U>::value;
+		///	算術演算子 @a T::operator>>(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasRShift = HasRShift_impl_t<T, U>::value;
+		///	論理演算子 @a T::operator!() の実装を識別します。
+		template<class T> static constexpr bool HasLogicalNot = HasLogicalNot_impl_t<T>::value;
+		///	論理演算子 @a T::operator&&(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasLogicalOr = HasLogicalOr_impl_t<T, U>::value;
+		///	論理演算子 @a T::operator||(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasLogicalAnd = HasLogicalAnd_impl_t<T, U>::value;
+		///	比較演算子 @a T::operator==(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasEqual = HasEqual_impl_t<T, U>::value;
+		///	比較演算子 @a T::operator!=(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasNotEqual = HasNotEqual_impl_t<T, U>::value;
+		///	比較演算子 @a T::operator>(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasLargerCompare = HasLargerCompare_impl_t<T, U>::value;
+		///	比較演算子 @a T::operator<(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasSmallerCompare = HasSmallerCompare_impl_t<T, U>::value;
+		///	比較演算子 @a T::operator>=(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasLeastCompare = HasLeastCompare_impl_t<T, U>::value;
+		///	比較演算子 @a T::operator<=(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasMostCompare = HasMostCompare_impl_t<T, U>::value;
+		///	比較演算子 @a T::operator[](U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasSubscript = HasSubscript_impl_t<T, U>::value;
+		///	比較演算子 @a T::operator*() の実装を識別します。
+		template<class T> static constexpr bool HasDereference = HasDereference_impl_t<T>::value;
+		///	比較演算子 @a T::operator&() の実装を識別します。
+		template<class T> static constexpr bool HasReference = HasReference_impl_t<T>::value;
+		///	比較演算子 @a T::operator,(U) の実装を識別します。
+		template<class T, class U> static constexpr bool HasComma = HasComma_impl_t<T, U>::value;
+	private:
 		///	代入演算子 @a T::operator=(U) の返却型が指定されたものに一致するかを識別するための実装。
 		template<class, class, class, class = std::void_t<>> struct SubstitutionResultIsSame_impl_t : std::false_type {};
 		template<class T, class U, class R> struct SubstitutionResultIsSame_impl_t<T, U, R, std::void_t< SubstitutionResult<T, U> > > : std::is_same<SubstitutionResult<T, U>, R> {};
@@ -1584,92 +1667,10 @@ namespace zawa_ch::StationaryOrbit
 			: std::conjunction< IsStdLegacyIterator_t<It>, HasPreIncrement_t<It, It&>, HasPostIncrement_t<It, It> > {};
 
 	public:
-		///	代入演算子=の実装を識別します。
-		template<class T, class U = T, class R = T&> inline constexpr static bool HasSubstitution = HasSubstitution_t<T, U, R>::value;
-		///	代入演算子+=の実装を識別します。
-		template<class T, class U = T, class R = T&> inline constexpr static bool HasAddSubstitution = HasAddSubstitution_t<T, U, R>::value;
-		///	代入演算子-=の実装を識別します。
-		template<class T, class U = T, class R = T&> inline constexpr static bool HasSubtractSubstitution = HasSubtractSubstitution_t<T, U, R>::value;
-		///	代入演算子*=の実装を識別します。
-		template<class T, class U = T, class R = T&> inline constexpr static bool HasMultipleSubstitution = HasMultipleSubstitution_t<T, U, R>::value;
-		///	代入演算子/=の実装を識別します。
-		template<class T, class U = T, class R = T&> inline constexpr static bool HasDivideSubstitution = HasDivideSubstitution_t<T, U, R>::value;
-		///	代入演算子%=の実装を識別します。
-		template<class T, class U = T, class R = T&> inline constexpr static bool HasModulateSubstitution = HasModulateSubstitution_t<T, U, R>::value;
-		///	代入演算子&=の実装を識別します。
-		template<class T, class U = T, class R = T&> inline constexpr static bool HasArithmeticAndSubstitution = HasArithmeticAndSubstitution_t<T, U, R>::value;
-		///	代入演算子|=の実装を識別します。
-		template<class T, class U = T, class R = T&> inline constexpr static bool HasArithmeticOrSubstitution = HasArithmeticOrSubstitution_t<T, U, R>::value;
-		///	代入演算子^=の実装を識別します。
-		template<class T, class U = T, class R = T&> inline constexpr static bool HasArithmeticXorSubstitution = HasArithmeticXorSubstitution_t<T, U, R>::value;
-		///	代入演算子<<=の実装を識別します。
-		template<class T, class U = T, class R = T&> inline constexpr static bool HasBitLshiftSubstitution = HasBitLshiftSubstitution_t<T, U, R>::value;
-		///	代入演算子>>=の実装を識別します。
-		template<class T, class U = T, class R = T&> inline constexpr static bool HasBitRshiftSubstitution = HasBitRshiftSubstitution_t<T, U, R>::value;
-		///	前置インクリメント演算子++の実装を識別します。
-		template<class T, class R = T&> inline constexpr static bool HasPreIncrement = HasPreIncrement_t<T, R>::value;
-		///	前置デクリメント演算子--の実装を識別します。
-		template<class T, class R = T&> inline constexpr static bool HasPreDecrement = HasPreDecrement_t<T, R>::value;
-		///	後置インクリメント演算子++の実装を識別します。
-		template<class T, class R = T> inline constexpr static bool HasPostIncrement = HasPostIncrement_t<T, R>::value;
-		///	後置デクリメント演算子--の実装を識別します。
-		template<class T, class R = T> inline constexpr static bool HasPostDecrement = HasPostDecrement_t<T, R>::value;
-		///	単項算術演算子+の実装を識別します。
-		template<class T, class R = T> inline constexpr static bool HasOperatorPromotion = HasPromotion_t<T, R>::value;
-		///	単項算術演算子-の実装を識別します。
-		template<class T, class R = T> inline constexpr static bool HasOperatorInverse = HasInverse_t<T, R>::value;
-		///	二項算術演算子+の実装を識別します。
-		template<class T, class U = T, class R = T> inline constexpr static bool HasOperatorAddition = HasAddition_t<T, U, R>::value;
-		///	二項算術演算子-の実装を識別します。
-		template<class T, class U = T, class R = T> inline constexpr static bool HasOperatorSubtraction = HasSubtraction_t<T, U, R>::value;
-		///	二項算術演算子*の実装を識別します。
-		template<class T, class U = T, class R = T> inline constexpr static bool HasOperatorMultiplication = HasMultiplication_t<T, U, R>::value;
-		///	二項算術演算子/の実装を識別します。
-		template<class T, class U = T, class R = T> inline constexpr static bool HasOperatorDivision = HasDivision_t<T, U, R>::value;
-		///	二項算術演算子%の実装を識別します。
-		template<class T, class U = T, class R = T> inline constexpr static bool HasOperatorModulation = HasModulation_t<T, U, R>::value;
-		///	二項算術演算子~の実装を識別します。
-		template<class T, class R = T> inline constexpr static bool HasOperatorArithmeticNot = HasArithmeticNot_t<T, R>::value;
-		///	二項算術演算子|の実装を識別します。
-		template<class T, class U = T, class R = T> inline constexpr static bool HasOperatorArithmeticOr = HasArithmeticOr_t<T, U, R>::value;
-		///	二項算術演算子&の実装を識別します。
-		template<class T, class U = T, class R = T> inline constexpr static bool HasOperatorArithmeticAnd = HasArithmeticAnd_t<T, U, R>::value;
-		///	二項算術演算子^の実装を識別します。
-		template<class T, class U = T, class R = T> inline constexpr static bool HasOperatorArithmeticXor = HasArithmeticXor_t<T, U, R>::value;
-		///	二項算術演算子<<の実装を識別します。
-		template<class T, class U = T, class R = T> inline constexpr static bool HasOperatorLShift = HasLShift_t<T, U, R>::value;
-		///	二項算術演算子>>の実装を識別します。
-		template<class T, class U = T, class R = T> inline constexpr static bool HasOperatorRShift = HasRShift_t<T, U, R>::value;
-		///	単項論理演算子!の実装を識別します。
-		template<class T, class R = T> inline constexpr static bool HasLogicalNot = HasLogicalNot_t<T, R>::value;
-		///	二項論理演算子&&の実装を識別します。
-		template<class T, class U = T, class R = T> inline constexpr static bool HasLogicalAnd = HasLogicalAnd_t<T, U, R>::value;
-		///	二項論理演算子||の実装を識別します。
-		template<class T, class U = T, class R = T> inline constexpr static bool HasLogicalOr = HasLogicalOr_t<T, U, R>::value;
-		///	比較演算子==の実装を識別します。
-		template<class T, class U = T, class R = bool> inline constexpr static bool HasOperatorEqual = HasEqual_t<T, U, R>::value;
-		///	比較演算子!=の実装を識別します。
-		template<class T, class U = T, class R = bool> inline constexpr static bool HasOperatorNotEqual = HasNotEqual_t<T, U, R>::value;
-		///	比較演算子>の実装を識別します。
-		template<class T, class U = T, class R = bool> inline constexpr static bool HasOperatorComparamentLarger = HasComparamentLarger_t<T, U, R>::value;
-		///	比較演算子<の実装を識別します。
-		template<class T, class U = T, class R = bool> inline constexpr static bool HasOperatorComparamentSmaller = HasComparamentSmaller_t<T, U, R>::value;
-		///	比較演算子>=の実装を識別します。
-		template<class T, class U = T, class R = bool> inline constexpr static bool HasOperatorComparamentLeast = HasComparamentLeast_t<T, U, R>::value;
-		///	比較演算子<=の実装を識別します。
-		template<class T, class U = T, class R = bool> inline constexpr static bool HasOperatorComparamentMost = HasComparamentMost_t<T, U, R>::value;
-		///	添字演算子[]の実装を識別します。
-		template<class T, class U, class R> inline constexpr static bool HasSubScript = HasSubScript_t<T, U, R>::value;
-		///	間接参照演算子*の実装を識別します。
-		template<class T, class R> inline constexpr static bool HasDereference = HasDereference_t<T, R>::value;
-		///	アドレス取得演算子&の実装を識別します。
-		template<class T, class R = T*> inline constexpr static bool HasReference = HasReference_t<T, R>::value;
 		///	アロー演算子->のオーバーロード実装を識別します。
 		template<class T, class R = T*> inline constexpr static bool HasArrow = HasArrowOverload_t<T, R>::value;
 		///	アロー間接参照演算子->*のオーバーロード実装を識別します。
 		template<class T, class R> inline constexpr static bool HasArrowDereference = HasArrowDereferenceOverload_t<T, R>::value;
-		///	コンマ演算子,の実装を識別します。
-		template<class T, class U = T, class R = T> inline constexpr static bool HasComma = HasComma_t<T, U, R>::value;
 		///	指定された型の波括弧による初期化が可能な型を識別します。
 		template<class T, class... Targs> inline constexpr static bool IsAggregatable = IsAggregatable_t<T, Targs...>::value;
 		///	計算結果が飽和する四則演算を持つ型を識別します。
