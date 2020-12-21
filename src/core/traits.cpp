@@ -166,8 +166,8 @@ static_assert(Traits::IsStdLegacyBidirectionalIterator<std::list<int>::iterator>
 static_assert(!Traits::IsStdLegacyRandomAccessIterator<std::list<int>::iterator>, "std::list のイテレータは LegacyRandomAccessIterator を満たしませんが、識別結果は true を返しました。");
 static_assert(Traits::IsStdLegacyOutputIterator<std::list<int>::iterator, int>, "std::list のイテレータは LegacyOutputIterator を満たしますが、識別結果は false を返しました。");
 
-static_assert(Traits::HasSubScript<std::array<uint8_t, 20>, size_t, uint8_t>, "std::array<uint8_t, 20> に operator[](size_t) -> uint8_t がありません");
-static_assert(Traits::HasDereference<int*, int>, "int* に operator*() -> int がありません");
+static_assert(Traits::SubscriptResultIsConvertible<std::array<uint8_t, 20>, size_t, uint8_t>, "std::array<uint8_t, 20> に operator[](size_t) -> uint8_t がありません");
+static_assert(Traits::DereferenceResultIsConvertible<int*, int>, "int* に operator*() -> int がありません");
 
 static_assert(BitWidth<bool> == 1UL, "bool のビット幅が 1 ではありません");
 static_assert(BitWidth<uint8_t> == 8UL, "uint8_t のビット幅が 8 ではありません");
