@@ -1022,14 +1022,18 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class R>
 		struct HasArrowOverload_t<T, R, std::void_t< decltype( std::declval<T&>().operator->() ) > >
 			: std::is_convertible< decltype( std::declval<T&>().operator->() ), R> {};
-
 		///	アロー間接参照演算子->*のオーバーロード実装を識別します。
 		template<class, class, class = std::void_t<>>
 		struct HasArrowDereferenceOverload_t : std::false_type {};
 		template<class T, class R>
 		struct HasArrowDereferenceOverload_t<T, R, std::void_t< decltype( std::declval<T&>().operator->*() ) > >
 			: std::is_convertible< decltype( std::declval<T&>().operator->*() ), R> {};
-
+	public:
+		///	アロー演算子->のオーバーロード実装を識別します。
+		template<class T, class R = T*> inline constexpr static bool HasArrow = HasArrowOverload_t<T, R>::value;
+		///	アロー間接参照演算子->*のオーバーロード実装を識別します。
+		template<class T, class R> inline constexpr static bool HasArrowDereference = HasArrowDereferenceOverload_t<T, R>::value;
+	private:
 		struct do_Aggregatable_impl
 		{
 			template<class T, class... Targs, typename = decltype( T{ ( std::declval<Targs&>() )... } )>
@@ -1044,7 +1048,10 @@ namespace zawa_ch::StationaryOrbit
 		};
 		template<class T, class... Targs>
 		struct IsAggregatable_t : public do_Aggregatable_t<T, Targs ...>::type {};
-
+	public:
+		///	指定された型の波括弧による初期化が可能な型を識別します。
+		template<class T, class... Targs> inline constexpr static bool IsAggregatable = IsAggregatable_t<T, Targs...>::value;
+	private:
 		///	指定された型のオブジェクトとの等価比較が可能な型を識別するための実装。
 		template<class T, class U>
 		struct IsEquatable_t : std::conjunction< EqualResultIsConvertible_t<T, U, bool>, NotEqualResultIsConvertible_t<T, U, bool> > {};
@@ -1434,12 +1441,6 @@ namespace zawa_ch::StationaryOrbit
 		{};
 
 	public:
-		///	アロー演算子->のオーバーロード実装を識別します。
-		template<class T, class R = T*> inline constexpr static bool HasArrow = HasArrowOverload_t<T, R>::value;
-		///	アロー間接参照演算子->*のオーバーロード実装を識別します。
-		template<class T, class R> inline constexpr static bool HasArrowDereference = HasArrowDereferenceOverload_t<T, R>::value;
-		///	指定された型の波括弧による初期化が可能な型を識別します。
-		template<class T, class... Targs> inline constexpr static bool IsAggregatable = IsAggregatable_t<T, Targs...>::value;
 		///	計算結果が飽和する四則演算を持つ型を識別します。
 		template<class T, class U = T> inline constexpr static bool HasSaturateOperation = HasSaturateOperation_t<T, U>::value;
 		///	計算結果の値域チェックが行われる四則演算を持つ型を識別します。
