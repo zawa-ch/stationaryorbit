@@ -16,6 +16,7 @@
 //	along with this program.
 //	If not, see <http://www.gnu.org/licenses/>.
 //
+#include "stationaryorbit/exception.hpp"
 #include "traits.hpp"
 #include "algorithms.hpp"
 #ifndef __stationaryorbit_core_arithmetic__
@@ -128,6 +129,77 @@ namespace zawa_ch::StationaryOrbit
 			auto evalf = std::numeric_limits<T>::lowest() * right;
 			return MultiplicationResult<T>{ left / right, ((left < std::min(evalc, evalf))||(std::max(evalc, evalf) < left))?(MultiplicationResultStatus::Overflow):(MultiplicationResultStatus::NoError) };
 		}
+		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		static constexpr T SaturateAdd(const T& left, const T& right)
+		{
+			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
+			auto result = Add(left, right);
+			switch(result.Status)
+			{
+				case AdditionResultStatus::NoError: { return T(result.Result); }
+				case AdditionResultStatus::PositiveOverflow: { return std::numeric_limits<T>::max(); }
+				case AdditionResultStatus::NegativeOverflow: { return std::numeric_limits<T>::lowest(); }
+				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
+			}
+		}
+		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		static constexpr T SaturateSubtract(const T& left, const T& right)
+		{
+			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
+			auto result = Subtract(left, right);
+			switch(result.Status)
+			{
+				case AdditionResultStatus::NoError: { return T(result.Result); }
+				case AdditionResultStatus::PositiveOverflow: { return std::numeric_limits<T>::max(); }
+				case AdditionResultStatus::NegativeOverflow: { return std::numeric_limits<T>::lowest(); }
+				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
+			}
+		}
+		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		static constexpr T SaturateMultiply(const T& left, const T& right)
+		{
+			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
+			auto result = Multiply(left, right);
+			switch(result.Status)
+			{
+				case MultiplicationResultStatus::NoError: { return T(result.Result); }
+				case MultiplicationResultStatus::Overflow:
+				{
+					if constexpr (std::numeric_limits<T>::is_signed)
+					{
+						if ( ( (left < T(0))||(right < T(0)) ) && !( (left < T(0))&&(right < T(0)) ) ) { return std::numeric_limits<T>::lowest(); }
+						else { return std::numeric_limits<T>::max(); }
+					}
+					else { return std::numeric_limits<T>::max(); }
+				}
+				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
+			}
+		}
+		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		static constexpr T SaturateDivide(const T& left, const T& right)
+		{
+			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
+			auto result = Divide(left, right);
+			switch(result.Status)
+			{
+				case MultiplicationResultStatus::NoError: { return T(result.Result); }
+				case MultiplicationResultStatus::Overflow:
+				{
+					if constexpr (std::numeric_limits<T>::is_signed)
+					{
+						if ( ( (left < T(0))||(right < T(0)) ) && !( (left < T(0))&&(right < T(0)) ) ) { return std::numeric_limits<T>::lowest(); }
+						else { return std::numeric_limits<T>::max(); }
+					}
+					else { return std::numeric_limits<T>::max(); }
+				}
+				case MultiplicationResultStatus::DivideByZero: { throw std::range_error("除数に0が指定されました。丸め先が定義されないため、丸めを行うことができません。"); }
+				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
+			}
+		}
 	};
 
 	extern template ArithmeticOperation::AdditionResult<bool> ArithmeticOperation::Add<bool>(const bool&, const bool&);
@@ -202,5 +274,77 @@ namespace zawa_ch::StationaryOrbit
 	extern template ArithmeticOperation::MultiplicationResult<long double> ArithmeticOperation::Divide<long double>(const long double&, const long double&);
 	extern template ArithmeticOperation::MultiplicationResult<char16_t> ArithmeticOperation::Divide<char16_t>(const char16_t&, const char16_t&);
 	extern template ArithmeticOperation::MultiplicationResult<char32_t> ArithmeticOperation::Divide<char32_t>(const char32_t&, const char32_t&);
+	extern template bool ArithmeticOperation::SaturateAdd<bool>(const bool&, const bool&);
+	extern template char ArithmeticOperation::SaturateAdd<char>(const char&, const char&);
+	extern template signed char ArithmeticOperation::SaturateAdd<signed char>(const signed char&, const signed char&);
+	extern template unsigned char ArithmeticOperation::SaturateAdd<unsigned char>(const unsigned char&, const unsigned char&);
+	extern template wchar_t ArithmeticOperation::SaturateAdd<wchar_t>(const wchar_t&, const wchar_t&);
+	extern template short ArithmeticOperation::SaturateAdd<short>(const short&, const short&);
+	extern template unsigned short ArithmeticOperation::SaturateAdd<unsigned short>(const unsigned short&, const unsigned short&);
+	extern template int ArithmeticOperation::SaturateAdd<int>(const int&, const int&);
+	extern template unsigned int ArithmeticOperation::SaturateAdd<unsigned int>(const unsigned int&, const unsigned int&);
+	extern template long ArithmeticOperation::SaturateAdd<long>(const long&, const long&);
+	extern template unsigned long ArithmeticOperation::SaturateAdd<unsigned long>(const unsigned long&, const unsigned long&);
+	extern template long long ArithmeticOperation::SaturateAdd<long long>(const long long&, const long long&);
+	extern template unsigned long long ArithmeticOperation::SaturateAdd<unsigned long long>(const unsigned long long&, const unsigned long long&);
+	extern template float ArithmeticOperation::SaturateAdd<float>(const float&, const float&);
+	extern template double ArithmeticOperation::SaturateAdd<double>(const double&, const double&);
+	extern template long double ArithmeticOperation::SaturateAdd<long double>(const long double&, const long double&);
+	extern template char16_t ArithmeticOperation::SaturateAdd<char16_t>(const char16_t&, const char16_t&);
+	extern template char32_t ArithmeticOperation::SaturateAdd<char32_t>(const char32_t&, const char32_t&);
+	extern template bool ArithmeticOperation::SaturateSubtract<bool>(const bool&, const bool&);
+	extern template char ArithmeticOperation::SaturateSubtract<char>(const char&, const char&);
+	extern template signed char ArithmeticOperation::SaturateSubtract<signed char>(const signed char&, const signed char&);
+	extern template unsigned char ArithmeticOperation::SaturateSubtract<unsigned char>(const unsigned char&, const unsigned char&);
+	extern template wchar_t ArithmeticOperation::SaturateSubtract<wchar_t>(const wchar_t&, const wchar_t&);
+	extern template short ArithmeticOperation::SaturateSubtract<short>(const short&, const short&);
+	extern template unsigned short ArithmeticOperation::SaturateSubtract<unsigned short>(const unsigned short&, const unsigned short&);
+	extern template int ArithmeticOperation::SaturateSubtract<int>(const int&, const int&);
+	extern template unsigned int ArithmeticOperation::SaturateSubtract<unsigned int>(const unsigned int&, const unsigned int&);
+	extern template long ArithmeticOperation::SaturateSubtract<long>(const long&, const long&);
+	extern template unsigned long ArithmeticOperation::SaturateSubtract<unsigned long>(const unsigned long&, const unsigned long&);
+	extern template long long ArithmeticOperation::SaturateSubtract<long long>(const long long&, const long long&);
+	extern template unsigned long long ArithmeticOperation::SaturateSubtract<unsigned long long>(const unsigned long long&, const unsigned long long&);
+	extern template float ArithmeticOperation::SaturateSubtract<float>(const float&, const float&);
+	extern template double ArithmeticOperation::SaturateSubtract<double>(const double&, const double&);
+	extern template long double ArithmeticOperation::SaturateSubtract<long double>(const long double&, const long double&);
+	extern template char16_t ArithmeticOperation::SaturateSubtract<char16_t>(const char16_t&, const char16_t&);
+	extern template char32_t ArithmeticOperation::SaturateSubtract<char32_t>(const char32_t&, const char32_t&);
+	extern template bool ArithmeticOperation::SaturateMultiply<bool>(const bool&, const bool&);
+	extern template char ArithmeticOperation::SaturateMultiply<char>(const char&, const char&);
+	extern template signed char ArithmeticOperation::SaturateMultiply<signed char>(const signed char&, const signed char&);
+	extern template unsigned char ArithmeticOperation::SaturateMultiply<unsigned char>(const unsigned char&, const unsigned char&);
+	extern template wchar_t ArithmeticOperation::SaturateMultiply<wchar_t>(const wchar_t&, const wchar_t&);
+	extern template short ArithmeticOperation::SaturateMultiply<short>(const short&, const short&);
+	extern template unsigned short ArithmeticOperation::SaturateMultiply<unsigned short>(const unsigned short&, const unsigned short&);
+	extern template int ArithmeticOperation::SaturateMultiply<int>(const int&, const int&);
+	extern template unsigned int ArithmeticOperation::SaturateMultiply<unsigned int>(const unsigned int&, const unsigned int&);
+	extern template long ArithmeticOperation::SaturateMultiply<long>(const long&, const long&);
+	extern template unsigned long ArithmeticOperation::SaturateMultiply<unsigned long>(const unsigned long&, const unsigned long&);
+	extern template long long ArithmeticOperation::SaturateMultiply<long long>(const long long&, const long long&);
+	extern template unsigned long long ArithmeticOperation::SaturateMultiply<unsigned long long>(const unsigned long long&, const unsigned long long&);
+	extern template float ArithmeticOperation::SaturateMultiply<float>(const float&, const float&);
+	extern template double ArithmeticOperation::SaturateMultiply<double>(const double&, const double&);
+	extern template long double ArithmeticOperation::SaturateMultiply<long double>(const long double&, const long double&);
+	extern template char16_t ArithmeticOperation::SaturateMultiply<char16_t>(const char16_t&, const char16_t&);
+	extern template char32_t ArithmeticOperation::SaturateMultiply<char32_t>(const char32_t&, const char32_t&);
+	extern template bool ArithmeticOperation::SaturateDivide<bool>(const bool&, const bool&);
+	extern template char ArithmeticOperation::SaturateDivide<char>(const char&, const char&);
+	extern template signed char ArithmeticOperation::SaturateDivide<signed char>(const signed char&, const signed char&);
+	extern template unsigned char ArithmeticOperation::SaturateDivide<unsigned char>(const unsigned char&, const unsigned char&);
+	extern template wchar_t ArithmeticOperation::SaturateDivide<wchar_t>(const wchar_t&, const wchar_t&);
+	extern template short ArithmeticOperation::SaturateDivide<short>(const short&, const short&);
+	extern template unsigned short ArithmeticOperation::SaturateDivide<unsigned short>(const unsigned short&, const unsigned short&);
+	extern template int ArithmeticOperation::SaturateDivide<int>(const int&, const int&);
+	extern template unsigned int ArithmeticOperation::SaturateDivide<unsigned int>(const unsigned int&, const unsigned int&);
+	extern template long ArithmeticOperation::SaturateDivide<long>(const long&, const long&);
+	extern template unsigned long ArithmeticOperation::SaturateDivide<unsigned long>(const unsigned long&, const unsigned long&);
+	extern template long long ArithmeticOperation::SaturateDivide<long long>(const long long&, const long long&);
+	extern template unsigned long long ArithmeticOperation::SaturateDivide<unsigned long long>(const unsigned long long&, const unsigned long long&);
+	extern template float ArithmeticOperation::SaturateDivide<float>(const float&, const float&);
+	extern template double ArithmeticOperation::SaturateDivide<double>(const double&, const double&);
+	extern template long double ArithmeticOperation::SaturateDivide<long double>(const long double&, const long double&);
+	extern template char16_t ArithmeticOperation::SaturateDivide<char16_t>(const char16_t&, const char16_t&);
+	extern template char32_t ArithmeticOperation::SaturateDivide<char32_t>(const char32_t&, const char32_t&);
 }
 #endif // __stationaryorbit_core_arithmetic__
