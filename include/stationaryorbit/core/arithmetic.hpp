@@ -34,7 +34,7 @@ namespace zawa_ch::StationaryOrbit
 		enum class MultiplicationResultStatus { NoError = 0, Overflow = 1, DivideByZero = -1 };
 		template<typename T, typename Tp = typename Traits::PromotionResult<T>> struct MultiplicationResult final { Tp Result; MultiplicationResultStatus Status; };
 
-		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		template<typename T>
 		static constexpr AdditionResult<T> Add(const T& left, const T& right) noexcept
 		{
 			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
@@ -51,7 +51,7 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return AdditionResult<T>{ left + right, AdditionResultStatus::NoError };
 		}
-		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		template<typename T>
 		static constexpr AdditionResult<T> Subtract(const T& left, const T& right) noexcept
 		{
 			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
@@ -68,7 +68,7 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return AdditionResult<T>{ left - right, AdditionResultStatus::NoError };
 		}
-		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		template<typename T>
 		static MultiplicationResult<T> Multiply(const T& left, const T& right) noexcept
 		{
 			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
@@ -107,7 +107,7 @@ namespace zawa_ch::StationaryOrbit
 			auto evalf = std::numeric_limits<T>::lowest() / right;
 			return MultiplicationResult<T>{ left * right, ((left < std::min(evalc, evalf))||(std::max(evalc, evalf) < left))?(MultiplicationResultStatus::Overflow):(MultiplicationResultStatus::NoError) };
 		}
-		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		template<typename T>
 		static MultiplicationResult<T> Divide(const T& left, const T& right) noexcept
 		{
 			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
@@ -115,7 +115,7 @@ namespace zawa_ch::StationaryOrbit
 			if (right == T(0))
 			{
 				if constexpr (std::numeric_limits<T>::is_iec559) { return MultiplicationResult<T>{ left / right , MultiplicationResultStatus::DivideByZero }; }
-				else { return MultiplicationResult<T>{ 0 , MultiplicationResultStatus::DivideByZero }; }
+				else { return MultiplicationResult<T>{ T(0) , MultiplicationResultStatus::DivideByZero }; }
 			}
 			if constexpr (std::numeric_limits<T>::is_signed)
 			{
@@ -129,7 +129,7 @@ namespace zawa_ch::StationaryOrbit
 			auto evalf = std::numeric_limits<T>::lowest() * right;
 			return MultiplicationResult<T>{ left / right, ((left < std::min(evalc, evalf))||(std::max(evalc, evalf) < left))?(MultiplicationResultStatus::Overflow):(MultiplicationResultStatus::NoError) };
 		}
-		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		template<typename T>
 		static constexpr T SaturateAdd(const T& left, const T& right)
 		{
 			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
@@ -143,7 +143,7 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
-		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		template<typename T>
 		static constexpr T SaturateSubtract(const T& left, const T& right)
 		{
 			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
@@ -157,7 +157,7 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
-		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		template<typename T>
 		static constexpr T SaturateMultiply(const T& left, const T& right)
 		{
 			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
@@ -179,7 +179,7 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
-		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		template<typename T>
 		static constexpr T SaturateDivide(const T& left, const T& right)
 		{
 			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
@@ -201,7 +201,7 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
-		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		template<typename T>
 		static constexpr T CheckedAdd(const T& left, const T& right)
 		{
 			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
@@ -216,7 +216,7 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
-		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		template<typename T>
 		static constexpr T CheckedSubtract(const T& left, const T& right)
 		{
 			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
@@ -231,7 +231,7 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
-		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		template<typename T>
 		static constexpr T CheckedMultiply(const T& left, const T& right)
 		{
 			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
@@ -246,7 +246,7 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
-		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		template<typename T>
 		static constexpr T CheckedDivide(const T& left, const T& right)
 		{
 			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
