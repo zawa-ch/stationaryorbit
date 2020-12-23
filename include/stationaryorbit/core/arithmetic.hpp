@@ -33,60 +33,60 @@ namespace zawa_ch::StationaryOrbit
 		enum class MultiplicationResultStatus { NoError = 0, Overflow = 1, DivideByZero = -1 };
 		template<typename T, typename Tp = typename Traits::PromotionResult<T>> struct MultiplicationResult final { Tp Result; MultiplicationResultStatus Status; };
 
-		template<typename T, std::enable_if_t<Traits::IsNumeralType<T>>>
+		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
 		static constexpr AdditionResult<T> Add(const T& left, const T& right) noexcept
 		{
-			static_assert(Traits::IsNumeralType<Tp>, "テンプレート引数型 Tp は算術型である必要があります。");
-			static_assert(std::is_constructible_v<Tp, int>, "テンプレート引数型 Tp は (int) を引数に取るコンストラクタを持つ必要があります。");
-			auto eval = std::numeric_limits<Tp>::max() - right;
+			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
+			auto eval = std::numeric_limits<T>::max() - right;
 			if (eval < left) { return AdditionResult<T>{ left + right, AdditionResultStatus::PositiveOverflow }; }
-			if constexpr (std::numeric_limits<Tp>::is_signed)
+			if constexpr (std::numeric_limits<T>::is_signed)
 			{
-				if (right < Tp(0))
+				if (right < T(0))
 				{
-					eval = std::numeric_limits<Tp>::lowest() - right;
+					eval = std::numeric_limits<T>::lowest() - right;
 					if (left < eval) { return AdditionResult<T>{ left + right, AdditionResultStatus::NegativeOverflow }; }
 				}
 			}
 			return AdditionResult<T>{ left + right, AdditionResultStatus::NoError };
 		}
-		template<typename T, std::enable_if_t<Traits::IsNumeralType<T>>>
+		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
 		static constexpr AdditionResult<T> Subtract(const T& left, const T& right) noexcept
 		{
-			static_assert(Traits::IsNumeralType<Tp>, "テンプレート引数型 Tp は算術型である必要があります。");
-			static_assert(std::is_constructible_v<Tp, int>, "テンプレート引数型 Tp は (int) を引数に取るコンストラクタを持つ必要があります。");
-			auto eval = std::numeric_limits<Tp>::lowest() + right;
+			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
+			auto eval = std::numeric_limits<T>::lowest() + right;
 			if (left < eval) { return AdditionResult<T>{ left - right, AdditionResultStatus::NegativeOverflow }; }
-			if constexpr (std::numeric_limits<Tp>::is_signed)
+			if constexpr (std::numeric_limits<T>::is_signed)
 			{
-				if (right < Tp(0))
+				if (right < T(0))
 				{
-					auto eval = std::numeric_limits<Tp>::max() + right;
+					auto eval = std::numeric_limits<T>::max() + right;
 					if (eval < left) { return AdditionResult<T>{ left - right, AdditionResultStatus::PositiveOverflow }; }
 				}
 			}
 			return AdditionResult<T>{ left - right, AdditionResultStatus::NoError };
 		}
-		template<typename T, std::enable_if_t<Traits::IsNumeralType<T>>>
+		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
 		static MultiplicationResult<T> Multiply(const T& left, const T& right) noexcept
 		{
-			static_assert(Traits::IsNumeralType<Tp>, "テンプレート引数型 Tp は算術型である必要があります。");
-			static_assert(std::is_constructible_v<Tp, int>, "テンプレート引数型 Tp は (int) を引数に取るコンストラクタを持つ必要があります。");
-			if constexpr (std::numeric_limits<Tp>::is_signed)
+			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
+			if constexpr (std::numeric_limits<T>::is_signed)
 			{
-				if ( ( (Tp(-1) < left)&&(left <= Tp(1)) )||( (Tp(-1) < right)&&(right <= Tp(1)) ) )
+				if ( ( (T(-1) < left)&&(left <= T(1)) )||( (T(-1) < right)&&(right <= T(1)) ) )
 				{
 					// 一方のオペランドの絶対値が1より小さい(あるいは1に等しい)場合、演算結果はオーバーフローすることはない
 					return MultiplicationResult<T>{ left * right, MultiplicationResultStatus::NoError };
 				}
-				if (right == Tp(-1))
+				if (right == T(-1))
 				{
-					if constexpr (std::numeric_limits<Tp>::lowest() + std::numeric_limits<Tp>::max() != Tp(0))
+					if constexpr (std::numeric_limits<T>::lowest() + std::numeric_limits<T>::max() != T(0))
 					{
-						if constexpr (std::numeric_limits<Tp>::lowest() + std::numeric_limits<Tp>::max() < Tp(0))
-						{ return MultiplicationResult<T>{ left * right, (left < -std::numeric_limits<Tp>::max())?(MultiplicationResultStatus::Overflow):(MultiplicationResultStatus::NoError) }; }
+						if constexpr (std::numeric_limits<T>::lowest() + std::numeric_limits<T>::max() < T(0))
+						{ return MultiplicationResult<T>{ left * right, (left < -std::numeric_limits<T>::max())?(MultiplicationResultStatus::Overflow):(MultiplicationResultStatus::NoError) }; }
 						else
-						{ return MultiplicationResult<T>{ left * right, (-std::numeric_limits<Tp>::lowest() < left)?(MultiplicationResultStatus::Overflow):(MultiplicationResultStatus::NoError) }; }
+						{ return MultiplicationResult<T>{ left * right, (-std::numeric_limits<T>::lowest() < left)?(MultiplicationResultStatus::Overflow):(MultiplicationResultStatus::NoError) }; }
 					}
 					else
 					{
@@ -96,36 +96,36 @@ namespace zawa_ch::StationaryOrbit
 			}
 			else
 			{
-				if ( (left <= Tp(1))||(right <= Tp(1)) )
+				if ( (left <= T(1))||(right <= T(1)) )
 				{
 					// 一方のオペランドが1より小さい(あるいは1に等しい)場合、演算結果はオーバーフローすることはない
 					return MultiplicationResult<T>{ left * right, MultiplicationResultStatus::NoError };
 				}
 			}
-			auto evalc = std::numeric_limits<Tp>::max() / right;
-			auto evalf = std::numeric_limits<Tp>::lowest() / right;
+			auto evalc = std::numeric_limits<T>::max() / right;
+			auto evalf = std::numeric_limits<T>::lowest() / right;
 			return MultiplicationResult<T>{ left * right, ((left < std::min(evalc, evalf))||(std::max(evalc, evalf) < left))?(MultiplicationResultStatus::Overflow):(MultiplicationResultStatus::NoError) };
 		}
-		template<typename T, std::enable_if_t<Traits::IsNumeralType<T>>>
-		static T Divide(const T& left, const T& right)
+		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		static MultiplicationResult<T> Divide(const T& left, const T& right) noexcept
 		{
-			static_assert(Traits::IsNumeralType<Tp>, "テンプレート引数型 Tp は算術型である必要があります。");
-			static_assert(std::is_constructible_v<Tp, int>, "テンプレート引数型 Tp は (int) を引数に取るコンストラクタを持つ必要があります。");
-			if (right == Tp(0))
+			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
+			if (right == T(0))
 			{
 				if constexpr (std::numeric_limits<T>::is_iec559) { return MultiplicationResult<T>{ left / right , MultiplicationResultStatus::DivideByZero }; }
 				else { return MultiplicationResult<T>{ 0 , MultiplicationResultStatus::DivideByZero }; }
 			}
-			if constexpr (std::numeric_limits<Tp>::is_signed)
+			if constexpr (std::numeric_limits<T>::is_signed)
 			{
-				if ((right < Tp(-1))||(Tp(1) <= right)) { return MultiplicationResult<T>{ left / right, MultiplicationResultStatus::NoError }; }
+				if ((right < T(-1))||(T(1) <= right)) { return MultiplicationResult<T>{ left / right, MultiplicationResultStatus::NoError }; }
 			}
 			else
 			{
-				if (Tp(1) <= right) { return MultiplicationResult<T>{ left / right, MultiplicationResultStatus::NoError }; }
+				if (T(1) <= right) { return MultiplicationResult<T>{ left / right, MultiplicationResultStatus::NoError }; }
 			}
-			auto evalc = std::numeric_limits<Tp>::max() * right;
-			auto evalf = std::numeric_limits<Tp>::lowest() * right;
+			auto evalc = std::numeric_limits<T>::max() * right;
+			auto evalf = std::numeric_limits<T>::lowest() * right;
 			return MultiplicationResult<T>{ left / right, ((left < std::min(evalc, evalf))||(std::max(evalc, evalf) < left))?(MultiplicationResultStatus::Overflow):(MultiplicationResultStatus::NoError) };
 		}
 	};
