@@ -175,6 +175,7 @@ namespace zawa_ch::StationaryOrbit
 					}
 					else { return std::numeric_limits<T>::max(); }
 				}
+				case MultiplicationResultStatus::DivideByZero: { throw std::range_error("除数に0が指定されました。丸め先が定義されないため、丸めを行うことができません。"); }
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
@@ -197,6 +198,66 @@ namespace zawa_ch::StationaryOrbit
 					else { return std::numeric_limits<T>::max(); }
 				}
 				case MultiplicationResultStatus::DivideByZero: { throw std::range_error("除数に0が指定されました。丸め先が定義されないため、丸めを行うことができません。"); }
+				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
+			}
+		}
+		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		static constexpr T CheckedAdd(const T& left, const T& right)
+		{
+			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
+			auto result = Add(left, right);
+			switch(result.Status)
+			{
+				case AdditionResultStatus::NoError: { return T(result.Result); }
+				case AdditionResultStatus::PositiveOverflow:
+				case AdditionResultStatus::NegativeOverflow:
+				{ throw std::range_error("計算結果がこの型で表せる値域を超えています。"); }
+				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
+			}
+		}
+		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		static constexpr T CheckedSubtract(const T& left, const T& right)
+		{
+			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
+			auto result = Subtract(left, right);
+			switch(result.Status)
+			{
+				case AdditionResultStatus::NoError: { return T(result.Result); }
+				case AdditionResultStatus::PositiveOverflow:
+				case AdditionResultStatus::NegativeOverflow:
+				{ throw std::range_error("計算結果がこの型で表せる値域を超えています。"); }
+				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
+			}
+		}
+		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		static constexpr T CheckedMultiply(const T& left, const T& right)
+		{
+			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
+			auto result = Multiply(left, right);
+			switch(result.Status)
+			{
+				case MultiplicationResultStatus::NoError: { return T(result.Result); }
+				case MultiplicationResultStatus::Overflow:
+				case MultiplicationResultStatus::DivideByZero:
+				{ throw std::range_error("計算結果がこの型で表せる値域を超えています。"); }
+				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
+			}
+		}
+		template<typename T, typename = std::enable_if_t<Traits::IsNumeralType<T>>>
+		static constexpr T CheckedDivide(const T& left, const T& right)
+		{
+			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
+			auto result = Divide(left, right);
+			switch(result.Status)
+			{
+				case MultiplicationResultStatus::NoError: { return T(result.Result); }
+				case MultiplicationResultStatus::Overflow:
+				case MultiplicationResultStatus::DivideByZero:
+				{ throw std::range_error("計算結果がこの型で表せる値域を超えています。"); }
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
@@ -346,5 +407,77 @@ namespace zawa_ch::StationaryOrbit
 	extern template long double ArithmeticOperation::SaturateDivide<long double>(const long double&, const long double&);
 	extern template char16_t ArithmeticOperation::SaturateDivide<char16_t>(const char16_t&, const char16_t&);
 	extern template char32_t ArithmeticOperation::SaturateDivide<char32_t>(const char32_t&, const char32_t&);
+	extern template bool ArithmeticOperation::CheckedAdd<bool>(const bool&, const bool&);
+	extern template char ArithmeticOperation::CheckedAdd<char>(const char&, const char&);
+	extern template signed char ArithmeticOperation::CheckedAdd<signed char>(const signed char&, const signed char&);
+	extern template unsigned char ArithmeticOperation::CheckedAdd<unsigned char>(const unsigned char&, const unsigned char&);
+	extern template wchar_t ArithmeticOperation::CheckedAdd<wchar_t>(const wchar_t&, const wchar_t&);
+	extern template short ArithmeticOperation::CheckedAdd<short>(const short&, const short&);
+	extern template unsigned short ArithmeticOperation::CheckedAdd<unsigned short>(const unsigned short&, const unsigned short&);
+	extern template int ArithmeticOperation::CheckedAdd<int>(const int&, const int&);
+	extern template unsigned int ArithmeticOperation::CheckedAdd<unsigned int>(const unsigned int&, const unsigned int&);
+	extern template long ArithmeticOperation::CheckedAdd<long>(const long&, const long&);
+	extern template unsigned long ArithmeticOperation::CheckedAdd<unsigned long>(const unsigned long&, const unsigned long&);
+	extern template long long ArithmeticOperation::CheckedAdd<long long>(const long long&, const long long&);
+	extern template unsigned long long ArithmeticOperation::CheckedAdd<unsigned long long>(const unsigned long long&, const unsigned long long&);
+	extern template float ArithmeticOperation::CheckedAdd<float>(const float&, const float&);
+	extern template double ArithmeticOperation::CheckedAdd<double>(const double&, const double&);
+	extern template long double ArithmeticOperation::CheckedAdd<long double>(const long double&, const long double&);
+	extern template char16_t ArithmeticOperation::CheckedAdd<char16_t>(const char16_t&, const char16_t&);
+	extern template char32_t ArithmeticOperation::CheckedAdd<char32_t>(const char32_t&, const char32_t&);
+	extern template bool ArithmeticOperation::CheckedSubtract<bool>(const bool&, const bool&);
+	extern template char ArithmeticOperation::CheckedSubtract<char>(const char&, const char&);
+	extern template signed char ArithmeticOperation::CheckedSubtract<signed char>(const signed char&, const signed char&);
+	extern template unsigned char ArithmeticOperation::CheckedSubtract<unsigned char>(const unsigned char&, const unsigned char&);
+	extern template wchar_t ArithmeticOperation::CheckedSubtract<wchar_t>(const wchar_t&, const wchar_t&);
+	extern template short ArithmeticOperation::CheckedSubtract<short>(const short&, const short&);
+	extern template unsigned short ArithmeticOperation::CheckedSubtract<unsigned short>(const unsigned short&, const unsigned short&);
+	extern template int ArithmeticOperation::CheckedSubtract<int>(const int&, const int&);
+	extern template unsigned int ArithmeticOperation::CheckedSubtract<unsigned int>(const unsigned int&, const unsigned int&);
+	extern template long ArithmeticOperation::CheckedSubtract<long>(const long&, const long&);
+	extern template unsigned long ArithmeticOperation::CheckedSubtract<unsigned long>(const unsigned long&, const unsigned long&);
+	extern template long long ArithmeticOperation::CheckedSubtract<long long>(const long long&, const long long&);
+	extern template unsigned long long ArithmeticOperation::CheckedSubtract<unsigned long long>(const unsigned long long&, const unsigned long long&);
+	extern template float ArithmeticOperation::CheckedSubtract<float>(const float&, const float&);
+	extern template double ArithmeticOperation::CheckedSubtract<double>(const double&, const double&);
+	extern template long double ArithmeticOperation::CheckedSubtract<long double>(const long double&, const long double&);
+	extern template char16_t ArithmeticOperation::CheckedSubtract<char16_t>(const char16_t&, const char16_t&);
+	extern template char32_t ArithmeticOperation::CheckedSubtract<char32_t>(const char32_t&, const char32_t&);
+	extern template bool ArithmeticOperation::CheckedMultiply<bool>(const bool&, const bool&);
+	extern template char ArithmeticOperation::CheckedMultiply<char>(const char&, const char&);
+	extern template signed char ArithmeticOperation::CheckedMultiply<signed char>(const signed char&, const signed char&);
+	extern template unsigned char ArithmeticOperation::CheckedMultiply<unsigned char>(const unsigned char&, const unsigned char&);
+	extern template wchar_t ArithmeticOperation::CheckedMultiply<wchar_t>(const wchar_t&, const wchar_t&);
+	extern template short ArithmeticOperation::CheckedMultiply<short>(const short&, const short&);
+	extern template unsigned short ArithmeticOperation::CheckedMultiply<unsigned short>(const unsigned short&, const unsigned short&);
+	extern template int ArithmeticOperation::CheckedMultiply<int>(const int&, const int&);
+	extern template unsigned int ArithmeticOperation::CheckedMultiply<unsigned int>(const unsigned int&, const unsigned int&);
+	extern template long ArithmeticOperation::CheckedMultiply<long>(const long&, const long&);
+	extern template unsigned long ArithmeticOperation::CheckedMultiply<unsigned long>(const unsigned long&, const unsigned long&);
+	extern template long long ArithmeticOperation::CheckedMultiply<long long>(const long long&, const long long&);
+	extern template unsigned long long ArithmeticOperation::CheckedMultiply<unsigned long long>(const unsigned long long&, const unsigned long long&);
+	extern template float ArithmeticOperation::CheckedMultiply<float>(const float&, const float&);
+	extern template double ArithmeticOperation::CheckedMultiply<double>(const double&, const double&);
+	extern template long double ArithmeticOperation::CheckedMultiply<long double>(const long double&, const long double&);
+	extern template char16_t ArithmeticOperation::CheckedMultiply<char16_t>(const char16_t&, const char16_t&);
+	extern template char32_t ArithmeticOperation::CheckedMultiply<char32_t>(const char32_t&, const char32_t&);
+	extern template bool ArithmeticOperation::CheckedDivide<bool>(const bool&, const bool&);
+	extern template char ArithmeticOperation::CheckedDivide<char>(const char&, const char&);
+	extern template signed char ArithmeticOperation::CheckedDivide<signed char>(const signed char&, const signed char&);
+	extern template unsigned char ArithmeticOperation::CheckedDivide<unsigned char>(const unsigned char&, const unsigned char&);
+	extern template wchar_t ArithmeticOperation::CheckedDivide<wchar_t>(const wchar_t&, const wchar_t&);
+	extern template short ArithmeticOperation::CheckedDivide<short>(const short&, const short&);
+	extern template unsigned short ArithmeticOperation::CheckedDivide<unsigned short>(const unsigned short&, const unsigned short&);
+	extern template int ArithmeticOperation::CheckedDivide<int>(const int&, const int&);
+	extern template unsigned int ArithmeticOperation::CheckedDivide<unsigned int>(const unsigned int&, const unsigned int&);
+	extern template long ArithmeticOperation::CheckedDivide<long>(const long&, const long&);
+	extern template unsigned long ArithmeticOperation::CheckedDivide<unsigned long>(const unsigned long&, const unsigned long&);
+	extern template long long ArithmeticOperation::CheckedDivide<long long>(const long long&, const long long&);
+	extern template unsigned long long ArithmeticOperation::CheckedDivide<unsigned long long>(const unsigned long long&, const unsigned long long&);
+	extern template float ArithmeticOperation::CheckedDivide<float>(const float&, const float&);
+	extern template double ArithmeticOperation::CheckedDivide<double>(const double&, const double&);
+	extern template long double ArithmeticOperation::CheckedDivide<long double>(const long double&, const long double&);
+	extern template char16_t ArithmeticOperation::CheckedDivide<char16_t>(const char16_t&, const char16_t&);
+	extern template char32_t ArithmeticOperation::CheckedDivide<char32_t>(const char32_t&, const char32_t&);
 }
 #endif // __stationaryorbit_core_arithmetic__
