@@ -23,6 +23,7 @@
 #include <type_traits>
 #include <stdexcept>
 #include "fundamental.hpp"
+#include "arithmetic.hpp"
 #include "algorithms.hpp"
 #include "range.hpp"
 #include "zerovalue.hpp"
@@ -81,85 +82,8 @@ namespace zawa_ch::StationaryOrbit
 		///	このオブジェクトが空であるかを評価します。
 		constexpr bool IsEmpty() const noexcept { return *this == Empty(); }
 
-		///	このオブジェクトを昇格します。
-		[[nodiscard]] constexpr Proportion<Tp> Promote() const noexcept { return DirectConstruct(+_value); }
-		///	このオブジェクトの反数を求めます。
-		[[nodiscard]] constexpr Proportion<Tp> Invert() const noexcept { return DirectConstruct(-_value); }
-		///	このオブジェクトと指定されたオブジェクトの和を求めます。
-		[[nodiscard]] constexpr Proportion<Tp> Add(const Proportion<Tp>& other) const noexcept { return Proportion(Tp(_value + other._value), UnitValue); }
-		///	このオブジェクトと指定されたオブジェクトの差を求めます。
-		[[nodiscard]] constexpr Proportion<Tp> Sub(const Proportion<Tp>& other) const noexcept { return Proportion(Tp(_value - other._value), UnitValue); }
-		///	このオブジェクトと指定されたオブジェクトの積を求めます。
-		[[nodiscard]] constexpr Proportion<Tp> Mul(const Proportion<Tp>& other) const noexcept { return Proportion(multiple_inner(_value, other._value), UnitValue); }
-		///	このオブジェクトと指定されたオブジェクトの商を求めます。
-		[[nodiscard]] constexpr Proportion<Tp> Div(const Proportion<Tp>& other) const noexcept { return Proportion(Algorithms::IntegralFraction(_value, other._value, std::numeric_limits<Tp>::max()).Value, UnitValue); }
-		///	このオブジェクトと指定されたオブジェクトの和を求めます。
-		///	計算結果がオーバーフローする場合、表現できる値域に丸めを行います。
-		[[nodiscard]] constexpr Proportion<Tp> SaturateAdd(const Proportion<Tp>& other) const noexcept
-		{
-			if ((Max()._value - other._value) <= _value) { return DirectConstruct(Tp(_value + other._value)); }
-			else { return Max(); }
-		}
-		///	このオブジェクトと指定されたオブジェクトの差を求めます。
-		///	計算結果がオーバーフローする場合、表現できる値域に丸めを行います。
-		[[nodiscard]] constexpr Proportion<Tp> SaturateSubtract(const Proportion<Tp>& other) const noexcept
-		{
-			if (other._value <= _value) { return DirectConstruct(Tp(_value - other._value)); }
-			else { return Min(); }
-		}
-		///	このオブジェクトと指定されたオブジェクトの積を求めます。
-		///	計算結果がオーバーフローする場合、表現できる値域に丸めを行います。
-		[[nodiscard]] constexpr Proportion<Tp> SaturateMultiply(const Proportion<Tp>& other) const noexcept
-		{
-			// note: この型で表せる値域のどの組み合わせでもオーバーフローは発生しない
-			return DirectConstruct(multiple_inner(_value, other._value));
-		}
-		///	このオブジェクトと指定されたオブジェクトの商を求めます。
-		///	計算結果がオーバーフローする場合、表現できる値域に丸めを行います。
-		[[nodiscard]] constexpr Proportion<Tp> SaturateDivide(const Proportion<Tp>& other) const noexcept
-		{
-			if (other._value < _value) { return Max(); }
-			return DirectConstruct(checkedFraction(_value, other._value).Value);
-		}
-		///	このオブジェクトと指定されたオブジェクトの和を求めます。
-		///	計算結果がオーバーフローする場合、例外をスローします。
-		///	@exception
-		///	std::overflow_error
-		///	計算結果がオーバーフローしました。
-		[[nodiscard]] constexpr Proportion<Tp> CheckedAdd(const Proportion<Tp>& other) const
-		{
-			if ((Max()._value - other._value) <= _value) { return DirectConstruct(Tp(_value + other._value)); }
-			else { throw std::overflow_error("計算結果はこの型で表せる範囲を超えています。"); }
-		}
-		///	このオブジェクトと指定されたオブジェクトの差を求めます。
-		///	計算結果がオーバーフローする場合、例外をスローします。
-		///	@exception
-		///	std::overflow_error
-		///	計算結果がオーバーフローしました。
-		[[nodiscard]] constexpr Proportion<Tp> CheckedSubtract(const Proportion<Tp>& other) const
-		{
-			if (other._value <= _value) { return DirectConstruct(Tp(_value - other._value)); }
-			else { throw std::overflow_error("計算結果はこの型で表せる範囲を超えています。"); }
-		}
-		///	このオブジェクトと指定されたオブジェクトの積を求めます。
-		///	計算結果がオーバーフローする場合、例外をスローします。
-		///	@exception
-		///	std::overflow_error
-		///	計算結果がオーバーフローしました。
-		[[nodiscard]] constexpr Proportion<Tp> CheckedMultiply(const Proportion<Tp>& other) const
-		{
-			// note: この型で表せる値域のどの組み合わせでもオーバーフローは発生しない
-			return DirectConstruct(multiple_inner(_value, other._value));
-		}
-		///	このオブジェクトと指定されたオブジェクトの商を求めます。
-		///	計算結果がオーバーフローする場合、例外をスローします。
-		///	@exception
-		///	std::overflow_error
-		///	計算結果がオーバーフローしました。
-		[[nodiscard]] constexpr Proportion<Tp> CheckedDivide(const Proportion<Tp>& other) const
-		{ return DirectConstruct(checkedFraction(_value, other._value).Value); }
 		///	この値の平方数を取得します。
-		[[nodiscard]] constexpr Proportion<Tp> Square() const noexcept { return Mul(*this); }
+		[[nodiscard]] constexpr Proportion<Tp> Square() const noexcept { return (*this) * (*this); }
 		///	この値の平方根を取得します。
 		[[nodiscard]] constexpr Proportion<Tp> Sqrt() const noexcept
 		{
@@ -182,12 +106,12 @@ namespace zawa_ch::StationaryOrbit
 			return Proportion<Tp>(result, UnitValue);
 		}
 
-		[[nodiscard]] constexpr Proportion<Tp> operator+() const noexcept { return Promote(); }
-		[[nodiscard]] constexpr Proportion<Tp> operator-() const noexcept { return Invert(); }
-		[[nodiscard]] constexpr Proportion<Tp> operator+(const Proportion<Tp>& other) const noexcept { return Add(other); }
-		[[nodiscard]] constexpr Proportion<Tp> operator-(const Proportion<Tp>& other) const noexcept { return Sub(other); }
-		[[nodiscard]] constexpr Proportion<Tp> operator*(const Proportion<Tp>& other) const noexcept { return Mul(other); }
-		[[nodiscard]] constexpr Proportion<Tp> operator/(const Proportion<Tp>& other) const noexcept { return Div(other); }
+		[[nodiscard]] constexpr Proportion<Tp> operator+() const noexcept { return DirectConstruct(+_value); }
+		[[nodiscard]] constexpr Proportion<Tp> operator-() const noexcept { return DirectConstruct(-_value); }
+		[[nodiscard]] constexpr Proportion<Tp> operator+(const Proportion<Tp>& other) const noexcept { return Proportion(Tp(_value + other._value), UnitValue); }
+		[[nodiscard]] constexpr Proportion<Tp> operator-(const Proportion<Tp>& other) const noexcept { return Proportion(Tp(_value - other._value), UnitValue); }
+		[[nodiscard]] constexpr Proportion<Tp> operator*(const Proportion<Tp>& other) const noexcept { return Proportion(multiple_inner(_value, other._value), UnitValue); }
+		[[nodiscard]] constexpr Proportion<Tp> operator/(const Proportion<Tp>& other) const noexcept { return Proportion(Algorithms::IntegralFraction(_value, other._value, std::numeric_limits<Tp>::max()).Value, UnitValue); }
 		constexpr Proportion<Tp>& operator+=(const Proportion<Tp>& other) noexcept { return *this = *this + other; }
 		constexpr Proportion<Tp>& operator-=(const Proportion<Tp>& other) noexcept { return *this = *this - other; }
 		constexpr Proportion<Tp>& operator*=(const Proportion<Tp>& other) noexcept { return *this = *this * other; }
@@ -384,6 +308,87 @@ namespace zawa_ch::StationaryOrbit
 	typedef Proportion<uint16_t> Proportion16_t;
 	typedef Proportion<uint32_t> Proportion32_t;
 	typedef Proportion<uint64_t> Proportion64_t;
+
+	extern template ArithmeticOperation::AdditionResult<Proportion1_t> ArithmeticOperation::Add<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template ArithmeticOperation::AdditionResult<Proportion1_t> ArithmeticOperation::Subtract<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template ArithmeticOperation::MultiplicationResult<Proportion1_t> ArithmeticOperation::Multiply<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template ArithmeticOperation::MultiplicationResult<Proportion1_t> ArithmeticOperation::Divide<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template Proportion1_t ArithmeticOperation::SaturateAdd<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template Proportion1_t ArithmeticOperation::SaturateSubtract<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template Proportion1_t ArithmeticOperation::SaturateMultiply<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template Proportion1_t ArithmeticOperation::SaturateDivide<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template Proportion1_t ArithmeticOperation::CheckedAdd<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template Proportion1_t ArithmeticOperation::CheckedSubtract<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template Proportion1_t ArithmeticOperation::CheckedMultiply<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template Proportion1_t ArithmeticOperation::CheckedDivide<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithAddition<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithSubtraction<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithMultiplication<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithDivision<Proportion1_t>(const Proportion1_t&, const Proportion1_t&);
+	extern template ArithmeticOperation::AdditionResult<Proportion8_t> ArithmeticOperation::Add<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template ArithmeticOperation::AdditionResult<Proportion8_t> ArithmeticOperation::Subtract<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template ArithmeticOperation::MultiplicationResult<Proportion8_t> ArithmeticOperation::Multiply<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template ArithmeticOperation::MultiplicationResult<Proportion8_t> ArithmeticOperation::Divide<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template Proportion8_t ArithmeticOperation::SaturateAdd<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template Proportion8_t ArithmeticOperation::SaturateSubtract<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template Proportion8_t ArithmeticOperation::SaturateMultiply<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template Proportion8_t ArithmeticOperation::SaturateDivide<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template Proportion8_t ArithmeticOperation::CheckedAdd<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template Proportion8_t ArithmeticOperation::CheckedSubtract<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template Proportion8_t ArithmeticOperation::CheckedMultiply<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template Proportion8_t ArithmeticOperation::CheckedDivide<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithAddition<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithSubtraction<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithMultiplication<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithDivision<Proportion8_t>(const Proportion8_t&, const Proportion8_t&);
+	extern template ArithmeticOperation::AdditionResult<Proportion16_t> ArithmeticOperation::Add<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template ArithmeticOperation::AdditionResult<Proportion16_t> ArithmeticOperation::Subtract<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template ArithmeticOperation::MultiplicationResult<Proportion16_t> ArithmeticOperation::Multiply<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template ArithmeticOperation::MultiplicationResult<Proportion16_t> ArithmeticOperation::Divide<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template Proportion16_t ArithmeticOperation::SaturateAdd<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template Proportion16_t ArithmeticOperation::SaturateSubtract<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template Proportion16_t ArithmeticOperation::SaturateMultiply<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template Proportion16_t ArithmeticOperation::SaturateDivide<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template Proportion16_t ArithmeticOperation::CheckedAdd<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template Proportion16_t ArithmeticOperation::CheckedSubtract<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template Proportion16_t ArithmeticOperation::CheckedMultiply<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template Proportion16_t ArithmeticOperation::CheckedDivide<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithAddition<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithSubtraction<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithMultiplication<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithDivision<Proportion16_t>(const Proportion16_t&, const Proportion16_t&);
+	extern template ArithmeticOperation::AdditionResult<Proportion32_t> ArithmeticOperation::Add<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template ArithmeticOperation::AdditionResult<Proportion32_t> ArithmeticOperation::Subtract<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template ArithmeticOperation::MultiplicationResult<Proportion32_t> ArithmeticOperation::Multiply<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template ArithmeticOperation::MultiplicationResult<Proportion32_t> ArithmeticOperation::Divide<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template Proportion32_t ArithmeticOperation::SaturateAdd<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template Proportion32_t ArithmeticOperation::SaturateSubtract<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template Proportion32_t ArithmeticOperation::SaturateMultiply<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template Proportion32_t ArithmeticOperation::SaturateDivide<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template Proportion32_t ArithmeticOperation::CheckedAdd<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template Proportion32_t ArithmeticOperation::CheckedSubtract<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template Proportion32_t ArithmeticOperation::CheckedMultiply<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template Proportion32_t ArithmeticOperation::CheckedDivide<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithAddition<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithSubtraction<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithMultiplication<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithDivision<Proportion32_t>(const Proportion32_t&, const Proportion32_t&);
+	extern template ArithmeticOperation::AdditionResult<Proportion64_t> ArithmeticOperation::Add<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
+	extern template ArithmeticOperation::AdditionResult<Proportion64_t> ArithmeticOperation::Subtract<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
+	extern template ArithmeticOperation::MultiplicationResult<Proportion64_t> ArithmeticOperation::Multiply<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
+	extern template ArithmeticOperation::MultiplicationResult<Proportion64_t> ArithmeticOperation::Divide<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
+	extern template Proportion64_t ArithmeticOperation::SaturateAdd<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
+	extern template Proportion64_t ArithmeticOperation::SaturateSubtract<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
+	extern template Proportion64_t ArithmeticOperation::SaturateMultiply<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
+	extern template Proportion64_t ArithmeticOperation::SaturateDivide<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
+	extern template Proportion64_t ArithmeticOperation::CheckedAdd<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
+	extern template Proportion64_t ArithmeticOperation::CheckedSubtract<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
+	extern template Proportion64_t ArithmeticOperation::CheckedMultiply<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
+	extern template Proportion64_t ArithmeticOperation::CheckedDivide<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithAddition<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithSubtraction<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithMultiplication<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithDivision<Proportion64_t>(const Proportion64_t&, const Proportion64_t&);
 }
 namespace std
 {
