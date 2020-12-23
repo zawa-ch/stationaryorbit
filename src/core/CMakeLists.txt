@@ -27,6 +27,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/stationaryorbit/core.numeral.hpp
     ${Include_Dir}/stationaryorbit/core.property.hpp
     algorithms.cpp
+    arithmetic.cpp
     bitmask.cpp
     fixedpoint.cpp
     multiplelong.cpp
