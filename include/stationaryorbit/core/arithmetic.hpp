@@ -29,9 +29,9 @@ namespace zawa_ch::StationaryOrbit
 		~ArithmeticOperation() = delete;
 	public:
 		enum class AdditionResultStatus { NoError = 0, PositiveOverflow = 1, NegativeOverflow = -1 };
-		template<typename T> struct AdditionResult final { T Result; AdditionResultStatus Status; };
+		template<typename T, typename Tp = typename Traits::PromotionResult<T>> struct AdditionResult final { Tp Result; AdditionResultStatus Status; };
 		enum class MultiplicationResultStatus { NoError = 0, Overflow = 1, DivideByZero = -1 };
-		template<typename T> struct MultiplicationResult final { T Result; MultiplicationResultStatus Status; };
+		template<typename T, typename Tp = typename Traits::PromotionResult<T>> struct MultiplicationResult final { Tp Result; MultiplicationResultStatus Status; };
 
 		template<typename T, std::enable_if_t<Traits::IsNumeralType<T>>>
 		static constexpr AdditionResult<T> Add(const T& left, const T& right) noexcept
