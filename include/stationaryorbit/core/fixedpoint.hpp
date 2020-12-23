@@ -22,6 +22,7 @@
 #include <cstdint>
 #include <cmath>
 #include <type_traits>
+#include "arithmetic.hpp"
 #include "fundamental.hpp"
 #include "range.hpp"
 #include "zerovalue.hpp"
@@ -77,11 +78,11 @@ namespace zawa_ch::StationaryOrbit
 		constexpr FixedPoint(FixedPoint<Tp, Ql>&&) = default;
 		~FixedPoint() = default;
 	public:
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Promote() const { return *this; }
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Invert() const { return DirectConstruct(-_value); }
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Add(const FixedPoint<Tp, Ql>& other) const { return DirectConstruct(_value + other._value); }
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Sub(const FixedPoint<Tp, Ql>& other) const { return DirectConstruct(_value - other._value); }
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Multiple(const FixedPoint<Tp, Ql>& other) const
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator+() const { return *this; }
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator-() const { return DirectConstruct(-_value); }
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator+(const FixedPoint<Tp, Ql>& other) const { return DirectConstruct(_value + other._value); }
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator-(const FixedPoint<Tp, Ql>& other) const { return DirectConstruct(_value - other._value); }
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator*(const FixedPoint<Tp, Ql>& other) const
 		{
 			const size_t width = sizeof(Tp) * 8U;
 			const size_t point = width - Ql;
@@ -99,7 +100,7 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return DirectConstruct(result);
 		}
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> Divide(const FixedPoint<Tp, Ql>& other) const
+		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator/(const FixedPoint<Tp, Ql>& other) const
 		{
 			auto result = Tp(_value / other._value);
 			auto remain = Tp(_value % other._value);
@@ -112,53 +113,6 @@ namespace zawa_ch::StationaryOrbit
 			// TODO: 端数処理が必要な場合ここに記述する(何も記述しなかった場合端数は切り捨てられる)
 			return DirectConstruct(result);
 		}
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> SaturateAdd(const FixedPoint<Tp, Ql>& other) const
-		{
-			if (_value < (Max()._value - other._value)) { return Add(other); }
-			else { return Max(); }
-		}
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> SaturateSubtract(const FixedPoint<Tp, Ql>& other) const
-		{
-			if ((Min()._value + other._value) < _value) { return Sub(other); }
-			else { return Min(); }
-		}
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> SaturateMultiply(const FixedPoint<Tp, Ql>& other) const
-		{
-			// TODO: 乗算のオーバーフロー検出処理の実装
-			return Multiple(other);
-		}
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> SaturateDivide(const FixedPoint<Tp, Ql>& other) const
-		{
-			// TODO: 除算のオーバーフロー検出処理の実装
-			return Divide(other);
-		}
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> CheckedAdd(const FixedPoint<Tp, Ql>& other) const
-		{
-			if (_value < (Max()._value - other._value)) { return Add(other); }
-			else { throw std::overflow_error("計算結果はこの型で表せる範囲を超えています。"); }
-		}
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> CheckedSubtract(const FixedPoint<Tp, Ql>& other) const
-		{
-			if ((Min()._value + other._value) < _value) { return Sub(other); }
-			else { throw std::overflow_error("計算結果はこの型で表せる範囲を超えています。"); }
-		}
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> CheckedMultiply(const FixedPoint<Tp, Ql>& other) const
-		{
-			// TODO: 乗算のオーバーフロー検出処理の実装
-			return Multiple(other);
-		}
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> CheckedDivide(const FixedPoint<Tp, Ql>& other) const
-		{
-			// TODO: 除算のオーバーフロー検出処理の実装
-			return Divide(other);
-		}
-
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator+() const { return Promote(); }
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator-() const { return Invert(); }
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator+(const FixedPoint<Tp, Ql>& other) const { return Add(other); }
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator-(const FixedPoint<Tp, Ql>& other) const { return Sub(other); }
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator*(const FixedPoint<Tp, Ql>& other) const { return Multiple(other); }
-		[[nodiscard]] constexpr FixedPoint<Tp, Ql> operator/(const FixedPoint<Tp, Ql>& other) const { return Divide(other); }
 		constexpr FixedPoint<Tp, Ql>& operator+=(const FixedPoint<Tp, Ql>& other) { return *this = *this + other; }
 		constexpr FixedPoint<Tp, Ql>& operator-=(const FixedPoint<Tp, Ql>& other) { return *this = *this - other; }
 		constexpr FixedPoint<Tp, Ql>& operator*=(const FixedPoint<Tp, Ql>& other) { return *this = *this * other; }
@@ -244,6 +198,119 @@ namespace zawa_ch::StationaryOrbit
 	typedef FixedPoint<uint32_t, 31> FixedPoint32q31_t;
 	typedef FixedPoint<uint64_t, 32> FixedPoint64q32_t;
 	typedef FixedPoint<uint64_t, 63> FixedPoint64q63_t;
+
+	extern template ArithmeticOperation::AdditionResult<FixedPoint8q7_t> ArithmeticOperation::Add<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template ArithmeticOperation::AdditionResult<FixedPoint16q8_t> ArithmeticOperation::Add<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template ArithmeticOperation::AdditionResult<FixedPoint16q15_t> ArithmeticOperation::Add<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template ArithmeticOperation::AdditionResult<FixedPoint32q16_t> ArithmeticOperation::Add<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template ArithmeticOperation::AdditionResult<FixedPoint32q31_t> ArithmeticOperation::Add<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template ArithmeticOperation::AdditionResult<FixedPoint64q32_t> ArithmeticOperation::Add<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template ArithmeticOperation::AdditionResult<FixedPoint64q63_t> ArithmeticOperation::Add<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
+	extern template ArithmeticOperation::AdditionResult<FixedPoint8q7_t> ArithmeticOperation::Subtract<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template ArithmeticOperation::AdditionResult<FixedPoint16q8_t> ArithmeticOperation::Subtract<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template ArithmeticOperation::AdditionResult<FixedPoint16q15_t> ArithmeticOperation::Subtract<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template ArithmeticOperation::AdditionResult<FixedPoint32q16_t> ArithmeticOperation::Subtract<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template ArithmeticOperation::AdditionResult<FixedPoint32q31_t> ArithmeticOperation::Subtract<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template ArithmeticOperation::AdditionResult<FixedPoint64q32_t> ArithmeticOperation::Subtract<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template ArithmeticOperation::AdditionResult<FixedPoint64q63_t> ArithmeticOperation::Subtract<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
+	extern template ArithmeticOperation::MultiplicationResult<FixedPoint8q7_t> ArithmeticOperation::Multiply<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template ArithmeticOperation::MultiplicationResult<FixedPoint16q8_t> ArithmeticOperation::Multiply<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template ArithmeticOperation::MultiplicationResult<FixedPoint16q15_t> ArithmeticOperation::Multiply<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template ArithmeticOperation::MultiplicationResult<FixedPoint32q16_t> ArithmeticOperation::Multiply<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template ArithmeticOperation::MultiplicationResult<FixedPoint32q31_t> ArithmeticOperation::Multiply<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template ArithmeticOperation::MultiplicationResult<FixedPoint64q32_t> ArithmeticOperation::Multiply<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template ArithmeticOperation::MultiplicationResult<FixedPoint64q63_t> ArithmeticOperation::Multiply<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
+	extern template ArithmeticOperation::MultiplicationResult<FixedPoint8q7_t> ArithmeticOperation::Divide<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template ArithmeticOperation::MultiplicationResult<FixedPoint16q8_t> ArithmeticOperation::Divide<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template ArithmeticOperation::MultiplicationResult<FixedPoint16q15_t> ArithmeticOperation::Divide<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template ArithmeticOperation::MultiplicationResult<FixedPoint32q16_t> ArithmeticOperation::Divide<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template ArithmeticOperation::MultiplicationResult<FixedPoint32q31_t> ArithmeticOperation::Divide<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template ArithmeticOperation::MultiplicationResult<FixedPoint64q32_t> ArithmeticOperation::Divide<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template ArithmeticOperation::MultiplicationResult<FixedPoint64q63_t> ArithmeticOperation::Divide<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
+	extern template FixedPoint8q7_t ArithmeticOperation::SaturateAdd<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template FixedPoint16q8_t ArithmeticOperation::SaturateAdd<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template FixedPoint16q15_t ArithmeticOperation::SaturateAdd<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template FixedPoint32q16_t ArithmeticOperation::SaturateAdd<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template FixedPoint32q31_t ArithmeticOperation::SaturateAdd<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template FixedPoint64q32_t ArithmeticOperation::SaturateAdd<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template FixedPoint64q63_t ArithmeticOperation::SaturateAdd<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
+	extern template FixedPoint8q7_t ArithmeticOperation::SaturateSubtract<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template FixedPoint16q8_t ArithmeticOperation::SaturateSubtract<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template FixedPoint16q15_t ArithmeticOperation::SaturateSubtract<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template FixedPoint32q16_t ArithmeticOperation::SaturateSubtract<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template FixedPoint32q31_t ArithmeticOperation::SaturateSubtract<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template FixedPoint64q32_t ArithmeticOperation::SaturateSubtract<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template FixedPoint64q63_t ArithmeticOperation::SaturateSubtract<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
+	extern template FixedPoint8q7_t ArithmeticOperation::SaturateMultiply<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template FixedPoint16q8_t ArithmeticOperation::SaturateMultiply<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template FixedPoint16q15_t ArithmeticOperation::SaturateMultiply<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template FixedPoint32q16_t ArithmeticOperation::SaturateMultiply<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template FixedPoint32q31_t ArithmeticOperation::SaturateMultiply<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template FixedPoint64q32_t ArithmeticOperation::SaturateMultiply<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template FixedPoint64q63_t ArithmeticOperation::SaturateMultiply<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
+	extern template FixedPoint8q7_t ArithmeticOperation::SaturateDivide<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template FixedPoint16q8_t ArithmeticOperation::SaturateDivide<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template FixedPoint16q15_t ArithmeticOperation::SaturateDivide<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template FixedPoint32q16_t ArithmeticOperation::SaturateDivide<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template FixedPoint32q31_t ArithmeticOperation::SaturateDivide<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template FixedPoint64q32_t ArithmeticOperation::SaturateDivide<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template FixedPoint64q63_t ArithmeticOperation::SaturateDivide<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
+	extern template FixedPoint8q7_t ArithmeticOperation::CheckedAdd<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template FixedPoint16q8_t ArithmeticOperation::CheckedAdd<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template FixedPoint16q15_t ArithmeticOperation::CheckedAdd<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template FixedPoint32q16_t ArithmeticOperation::CheckedAdd<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template FixedPoint32q31_t ArithmeticOperation::CheckedAdd<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template FixedPoint64q32_t ArithmeticOperation::CheckedAdd<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template FixedPoint64q63_t ArithmeticOperation::CheckedAdd<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
+	extern template FixedPoint8q7_t ArithmeticOperation::CheckedSubtract<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template FixedPoint16q8_t ArithmeticOperation::CheckedSubtract<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template FixedPoint16q15_t ArithmeticOperation::CheckedSubtract<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template FixedPoint32q16_t ArithmeticOperation::CheckedSubtract<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template FixedPoint32q31_t ArithmeticOperation::CheckedSubtract<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template FixedPoint64q32_t ArithmeticOperation::CheckedSubtract<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template FixedPoint64q63_t ArithmeticOperation::CheckedSubtract<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
+	extern template FixedPoint8q7_t ArithmeticOperation::CheckedMultiply<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template FixedPoint16q8_t ArithmeticOperation::CheckedMultiply<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template FixedPoint16q15_t ArithmeticOperation::CheckedMultiply<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template FixedPoint32q16_t ArithmeticOperation::CheckedMultiply<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template FixedPoint32q31_t ArithmeticOperation::CheckedMultiply<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template FixedPoint64q32_t ArithmeticOperation::CheckedMultiply<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template FixedPoint64q63_t ArithmeticOperation::CheckedMultiply<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
+	extern template FixedPoint8q7_t ArithmeticOperation::CheckedDivide<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template FixedPoint16q8_t ArithmeticOperation::CheckedDivide<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template FixedPoint16q15_t ArithmeticOperation::CheckedDivide<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template FixedPoint32q16_t ArithmeticOperation::CheckedDivide<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template FixedPoint32q31_t ArithmeticOperation::CheckedDivide<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template FixedPoint64q32_t ArithmeticOperation::CheckedDivide<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template FixedPoint64q63_t ArithmeticOperation::CheckedDivide<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithAddition<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithAddition<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithAddition<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithAddition<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithAddition<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithAddition<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithAddition<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithSubtraction<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithSubtraction<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithSubtraction<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithSubtraction<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithSubtraction<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithSubtraction<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithSubtraction<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithMultiplication<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithMultiplication<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithMultiplication<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithMultiplication<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithMultiplication<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithMultiplication<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithMultiplication<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithDivision<FixedPoint8q7_t>(const FixedPoint8q7_t&, const FixedPoint8q7_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithDivision<FixedPoint16q8_t>(const FixedPoint16q8_t&, const FixedPoint16q8_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithDivision<FixedPoint16q15_t>(const FixedPoint16q15_t&, const FixedPoint16q15_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithDivision<FixedPoint32q16_t>(const FixedPoint32q16_t&, const FixedPoint32q16_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithDivision<FixedPoint32q31_t>(const FixedPoint32q31_t&, const FixedPoint32q31_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithDivision<FixedPoint64q32_t>(const FixedPoint64q32_t&, const FixedPoint64q32_t&);
+	extern template bool ArithmeticOperation::MayOverflowWithDivision<FixedPoint64q63_t>(const FixedPoint64q63_t&, const FixedPoint64q63_t&);
 }
 namespace std
 {
