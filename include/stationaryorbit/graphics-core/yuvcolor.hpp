@@ -54,14 +54,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	正規化した @a YUVColor を取得します。
 		constexpr YUVColor<Tp> Normalize() const { return YUVColor<Tp>(_value.Normalize()); }
 
-		[[nodiscard]] constexpr YUVColor<Tp> Promote() const noexcept { return YUVColor<Tp>(_value.Promote()); }
-		[[nodiscard]] constexpr YUVColor<Tp> Invert() const noexcept { return YUVColor<Tp>(_value.Invert()); }
-		[[nodiscard]] constexpr YUVColor<Tp> Add(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.Add(other._value)); }
-		[[nodiscard]] constexpr YUVColor<Tp> Subtract(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.Subtract(other._value)); }
-		[[nodiscard]] constexpr YUVColor<Tp> Multiply(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.Multiply(other._value)); }
-		[[nodiscard]] constexpr YUVColor<Tp> Multiply(const ValueType& other) const noexcept { return YUVColor<Tp>(_value.Multiply(other)); }
-		[[nodiscard]] constexpr YUVColor<Tp> Divide(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.Divide(other._value)); }
-		[[nodiscard]] constexpr YUVColor<Tp> Divide(const ValueType& other) const noexcept { return YUVColor<Tp>(_value.Divide(other)); }
 		[[nodiscard]] constexpr YUVColor<Tp> SaturateAdd(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.SaturateAdd(other._value)); }
 		[[nodiscard]] constexpr YUVColor<Tp> SaturateSubtract(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.SaturateSubtract(other._value)); }
 		[[nodiscard]] constexpr YUVColor<Tp> SaturateMultiply(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.SaturateMultiply(other._value)); }
@@ -74,23 +66,19 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr YUVColor<Tp> CheckedMultiply(const ValueType& other) const { return YUVColor<Tp>(_value.CheckedMultiply(other)); }
 		[[nodiscard]] constexpr YUVColor<Tp> CheckedDivide(const YUVColor<Tp>& other) const { return YUVColor<Tp>(_value.CheckedDivide(other._value)); }
 		[[nodiscard]] constexpr YUVColor<Tp> CheckedDivide(const ValueType& other) const { return YUVColor<Tp>(_value.CheckedDivide(other)); }
-		[[nodiscard]] constexpr YUVColor<Tp> And(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.And(other._value)); }
-		[[nodiscard]] constexpr YUVColor<Tp> Or(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.Or(other._value)); }
-		[[nodiscard]] constexpr YUVColor<Tp> Not() const noexcept { return YUVColor<Tp>(_value.Not()); }
-		[[nodiscard]] constexpr YUVColor<Tp> Xor(const YUVColor<Tp>& other) const noexcept { return YUVColor<Tp>(_value.Xor(other._value)); }
 
-		constexpr YUVColor<Tp> operator+() const { return Promote(); }
-		constexpr YUVColor<Tp> operator-() const { return Invert(); }
-		constexpr YUVColor<Tp> operator+(const YUVColor<Tp>& other) const { return Add(other); }
-		constexpr YUVColor<Tp> operator-(const YUVColor<Tp>& other) const { return Subtract(other); }
-		constexpr YUVColor<Tp> operator*(const YUVColor<Tp>& other) const { return Multiply(other); }
-		constexpr YUVColor<Tp> operator*(const ValueType& other) const { return Multiply(other); }
-		constexpr YUVColor<Tp> operator/(const YUVColor<Tp>& other) const { return Divide(other); }
-		constexpr YUVColor<Tp> operator/(const ValueType& other) const { return Divide(other); }
-		constexpr YUVColor<Tp> operator~() const { return Not(); }
-		constexpr YUVColor<Tp> operator|(const YUVColor<Tp>& other) const { return Or(other); }
-		constexpr YUVColor<Tp> operator&(const YUVColor<Tp>& other) const { return And(other); }
-		constexpr YUVColor<Tp> operator^(const YUVColor<Tp>& other) const { return Xor(other); }
+		constexpr YUVColor<Tp> operator+() const { return YUVColor<Tp>(+_value); }
+		constexpr YUVColor<Tp> operator-() const { return YUVColor<Tp>(-_value); }
+		constexpr YUVColor<Tp> operator+(const YUVColor<Tp>& other) const { return YUVColor<Tp>(_value + other._value); }
+		constexpr YUVColor<Tp> operator-(const YUVColor<Tp>& other) const { return YUVColor<Tp>(_value - other._value); }
+		constexpr YUVColor<Tp> operator*(const YUVColor<Tp>& other) const { return YUVColor<Tp>(_value * other._value); }
+		constexpr YUVColor<Tp> operator*(const ValueType& other) const { return YUVColor<Tp>(_value * other); }
+		constexpr YUVColor<Tp> operator/(const YUVColor<Tp>& other) const { return YUVColor<Tp>(_value / other._value); }
+		constexpr YUVColor<Tp> operator/(const ValueType& other) const { return YUVColor<Tp>(_value / other); }
+		constexpr YUVColor<Tp> operator~() const { return YUVColor<Tp>(~_value); }
+		constexpr YUVColor<Tp> operator&(const YUVColor<Tp>& other) const { return YUVColor<Tp>(_value & other._value); }
+		constexpr YUVColor<Tp> operator|(const YUVColor<Tp>& other) const { return YUVColor<Tp>(_value | other._value); }
+		constexpr YUVColor<Tp> operator^(const YUVColor<Tp>& other) const { return YUVColor<Tp>(_value ^ other._value); }
 		constexpr YUVColor<Tp>& operator+=(const YUVColor<Tp>& other) { return *this = *this + other; }
 		constexpr YUVColor<Tp>& operator-=(const YUVColor<Tp>& other) { return *this = *this - other; }
 		constexpr YUVColor<Tp>& operator*=(const YUVColor<Tp>& other) { return *this = *this * other; }
