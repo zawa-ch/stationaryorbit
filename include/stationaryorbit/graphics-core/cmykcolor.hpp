@@ -56,14 +56,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	正規化した @a CMYKColor を取得します。
 		constexpr CMYKColor<Tp> Normalize() const { return CMYKColor<Tp>(_value.Normalize()); }
 
-		[[nodiscard]] constexpr CMYKColor<Tp> Promote() const noexcept { return CMYKColor<Tp>(_value.Promote()); }
-		[[nodiscard]] constexpr CMYKColor<Tp> Invert() const noexcept { return CMYKColor<Tp>(_value.Invert()); }
-		[[nodiscard]] constexpr CMYKColor<Tp> Add(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.Add(other._value)); }
-		[[nodiscard]] constexpr CMYKColor<Tp> Subtract(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.Subtract(other._value)); }
-		[[nodiscard]] constexpr CMYKColor<Tp> Multiply(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.Multiply(other._value)); }
-		[[nodiscard]] constexpr CMYKColor<Tp> Multiply(const ValueType& other) const noexcept { return CMYKColor<Tp>(_value.Multiply(other)); }
-		[[nodiscard]] constexpr CMYKColor<Tp> Divide(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.Divide(other._value)); }
-		[[nodiscard]] constexpr CMYKColor<Tp> Divide(const ValueType& other) const noexcept { return CMYKColor<Tp>(_value.Divide(other)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> SaturateAdd(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.SaturateAdd(other._value)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> SaturateSubtract(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.SaturateSubtract(other._value)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> SaturateMultiply(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.SaturateMultiply(other._value)); }
@@ -76,23 +68,19 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr CMYKColor<Tp> CheckedMultiply(const ValueType& other) const { return CMYKColor<Tp>(_value.CheckedMultiply(other)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> CheckedDivide(const CMYKColor<Tp>& other) const { return CMYKColor<Tp>(_value.CheckedDivide(other._value)); }
 		[[nodiscard]] constexpr CMYKColor<Tp> CheckedDivide(const ValueType& other) const { return CMYKColor<Tp>(_value.CheckedDivide(other)); }
-		[[nodiscard]] constexpr CMYKColor<Tp> And(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.And(other._value)); }
-		[[nodiscard]] constexpr CMYKColor<Tp> Or(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.Or(other._value)); }
-		[[nodiscard]] constexpr CMYKColor<Tp> Not() const noexcept { return CMYKColor<Tp>(_value.Not()); }
-		[[nodiscard]] constexpr CMYKColor<Tp> Xor(const CMYKColor<Tp>& other) const noexcept { return CMYKColor<Tp>(_value.Xor(other._value)); }
 
-		constexpr CMYKColor<Tp> operator+() const { return Promote(); }
-		constexpr CMYKColor<Tp> operator-() const { return Invert(); }
-		constexpr CMYKColor<Tp> operator+(const CMYKColor<Tp>& other) const { return Add(other); }
-		constexpr CMYKColor<Tp> operator-(const CMYKColor<Tp>& other) const { return Subtract(other); }
-		constexpr CMYKColor<Tp> operator*(const CMYKColor<Tp>& other) const { return Multiply(other); }
-		constexpr CMYKColor<Tp> operator*(const ValueType& other) const { return Multiply(other); }
-		constexpr CMYKColor<Tp> operator/(const CMYKColor<Tp>& other) const { return Divide(other); }
-		constexpr CMYKColor<Tp> operator/(const ValueType& other) const { return Divide(other); }
-		constexpr CMYKColor<Tp> operator~() const { return Not(); }
-		constexpr CMYKColor<Tp> operator|(const CMYKColor<Tp>& other) const { return Or(other); }
-		constexpr CMYKColor<Tp> operator&(const CMYKColor<Tp>& other) const { return And(other); }
-		constexpr CMYKColor<Tp> operator^(const CMYKColor<Tp>& other) const { return Xor(other); }
+		constexpr CMYKColor<Tp> operator+() const { return CMYKColor<Tp>(+_value); }
+		constexpr CMYKColor<Tp> operator-() const { return CMYKColor<Tp>(-_value); }
+		constexpr CMYKColor<Tp> operator+(const CMYKColor<Tp>& other) const { return CMYKColor<Tp>(_value + other._value); }
+		constexpr CMYKColor<Tp> operator-(const CMYKColor<Tp>& other) const { return CMYKColor<Tp>(_value - other._value); }
+		constexpr CMYKColor<Tp> operator*(const CMYKColor<Tp>& other) const { return CMYKColor<Tp>(_value * other._value); }
+		constexpr CMYKColor<Tp> operator*(const ValueType& other) const { return CMYKColor<Tp>(_value * other); }
+		constexpr CMYKColor<Tp> operator/(const CMYKColor<Tp>& other) const { return CMYKColor<Tp>(_value / other._value); }
+		constexpr CMYKColor<Tp> operator/(const ValueType& other) const { return CMYKColor<Tp>(_value / other); }
+		constexpr CMYKColor<Tp> operator~() const { return CMYKColor<Tp>(~_value); }
+		constexpr CMYKColor<Tp> operator&(const CMYKColor<Tp>& other) const { return CMYKColor<Tp>(_value & other._value); }
+		constexpr CMYKColor<Tp> operator|(const CMYKColor<Tp>& other) const { return CMYKColor<Tp>(_value | other._value); }
+		constexpr CMYKColor<Tp> operator^(const CMYKColor<Tp>& other) const { return CMYKColor<Tp>(_value ^ other._value); }
 		constexpr CMYKColor<Tp>& operator+=(const CMYKColor<Tp>& other) { return *this = *this + other; }
 		constexpr CMYKColor<Tp>& operator-=(const CMYKColor<Tp>& other) { return *this = *this - other; }
 		constexpr CMYKColor<Tp>& operator*=(const CMYKColor<Tp>& other) { return *this = *this * other; }
