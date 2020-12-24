@@ -28,12 +28,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	template<class Tp, class = void>
 	struct ChannelValue final
 	{
-		static_assert(Traits::IsValueType<Tp>, "テンプレート型 Tp は Traits::IsValueType の要件を満たす必要があります。");
-		static_assert(Traits::IsEquatable<Tp>, "テンプレート型 Tp は Traits::IsEquatable の要件を満たす必要があります。");
-		static_assert(Traits::IsComparable<Tp>, "テンプレート型 Tp は Traits::IsComparable の要件を満たす必要があります。");
-		static_assert(Traits::HasArithmeticOperation<Tp>, "テンプレート型 Tp は Traits::HasArithmeticOperation の要件を満たす必要があります。");
-		static_assert(Traits::HasSaturateOperation<Tp>, "テンプレート型 Tp は Traits::HasSaturateOperation の要件を満たす必要があります。");
-		static_assert(Traits::HasCheckedOperation<Tp>, "テンプレート型 Tp は Traits::HasCheckedOperation の要件を満たす必要があります。");
+		static_assert(Traits::IsNumericalType<Tp>, "テンプレート型 Tp は Traits::IsNumericalType の要件を満たす必要があります。");
+		static_assert(std::is_constructible_v<Tp, int>, "テンプレート引数型 Tp は (int) を引数に取るコンストラクタを持つ必要があります。");
 	public:
 		///	この型の値の表現のために内部で使用されている型。
 		typedef Tp ValueType;
@@ -45,6 +41,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public:
 		constexpr ChannelValue() noexcept = default;
 		constexpr ChannelValue(const ValueType& value) noexcept : _value(value) {}
+		constexpr explicit ChannelValue(const int& value) noexcept : ChannelValue(ValueType(value)) {}
 		template<class fromT>
 		constexpr explicit ChannelValue(const ChannelValue<fromT>& from) : _value(static_cast<ValueType>(from.Data())) {}
 		constexpr ChannelValue(const ZeroValue_t&) noexcept : _value(Zero) {}
@@ -122,9 +119,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	template<class Tp>
 	struct ChannelValue<Tp, std::enable_if_t<std::is_floating_point_v<Tp>>>
 	{
-		static_assert(Traits::IsEquatable<Tp>, "テンプレート型 Tp は Traits::IsEquatable の要件を満たす必要があります。");
-		static_assert(Traits::IsComparable<Tp>, "テンプレート型 Tp は Traits::IsComparable の要件を満たす必要があります。");
-		static_assert(Traits::HasArithmeticOperation<Tp>, "テンプレート型 Tp は Traits::HasArithmeticOperation の要件を満たす必要があります。");
+		static_assert(Traits::IsNumericalType<Tp>, "テンプレート型 Tp は Traits::IsNumericalType の要件を満たす必要があります。");
 	public:
 		///	この型の値の表現のために内部で使用されている型。
 		typedef Tp ValueType;
