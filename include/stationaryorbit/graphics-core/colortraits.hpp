@@ -49,13 +49,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			: std::conjunction
 			<
 				IsColorTypeBase_t<T>,
-				std::bool_constant<Traits::HasArithmeticOperation<T>>,
-				std::bool_constant<Traits::HasSaturateOperation<T>>,
-				std::bool_constant<Traits::HasCheckedOperation<T>>,
-				std::bool_constant<Traits::HasOperatorArithmeticNot<T>>,
-				std::bool_constant<Traits::HasOperatorArithmeticOr<T>>,
-				std::bool_constant<Traits::HasOperatorArithmeticAnd<T>>,
-				std::bool_constant<Traits::HasOperatorArithmeticXor<T>>,
+				std::bool_constant<Traits::IsArithmeticType<T>>,
 				std::true_type
 			>
 		{};
