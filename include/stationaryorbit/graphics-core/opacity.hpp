@@ -39,40 +39,32 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr bool IsNormalized() const noexcept { return _value.IsNormalized(); }
 		[[nodiscard]] constexpr Opacity<Tp> Normalize() const noexcept { return Opacity<Tp>(_value.Normalize()); }
 
-		[[nodiscard]] constexpr Opacity<Tp> Add(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.Add(other._value)); }
-		[[nodiscard]] constexpr Opacity<Tp> Subtract(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.Subtract(other._value)); }
-		[[nodiscard]] constexpr Opacity<Tp> Multiply(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.Multiply(other._value)); }
-		[[nodiscard]] constexpr Opacity<Tp> Divide(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.Divide(other._value)); }
-		[[nodiscard]] constexpr Opacity<Tp> SaturateAdd(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.SaturateAdd(other._value)); }
-		[[nodiscard]] constexpr Opacity<Tp> SaturateSubtract(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.SaturateSubtract(other._value)); }
-		[[nodiscard]] constexpr Opacity<Tp> SaturateMultiply(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.SaturateMultiply(other._value)); }
-		[[nodiscard]] constexpr Opacity<Tp> SaturateDivide(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.SaturateDivide(other._value)); }
-		[[nodiscard]] constexpr Opacity<Tp> CheckedAdd(const Opacity<Tp>& other) const { return  Opacity<Tp>(_value.CheckedAdd(other._value)); }
-		[[nodiscard]] constexpr Opacity<Tp> CheckedSubtract(const Opacity<Tp>& other) const { return  Opacity<Tp>(_value.CheckedSubtract(other._value)); }
-		[[nodiscard]] constexpr Opacity<Tp> CheckedMultiply(const Opacity<Tp>& other) const { return  Opacity<Tp>(_value.CheckedMultiply(other._value)); }
-		[[nodiscard]] constexpr Opacity<Tp> CheckedDivide(const Opacity<Tp>& other) const { return  Opacity<Tp>(_value.CheckedDivide(other._value)); }
-		[[nodiscard]] constexpr Opacity<Tp> And(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.And(other._value)); }
-		[[nodiscard]] constexpr Opacity<Tp> Or(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.Or(other._value)); }
-		[[nodiscard]] constexpr Opacity<Tp> Not() const noexcept { return  Opacity<Tp>(_value.Not()); }
-		[[nodiscard]] constexpr Opacity<Tp> Xor(const Opacity<Tp>& other) const noexcept { return  Opacity<Tp>(_value.Xor(other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> SaturateAdd(const Opacity<Tp>& other) const noexcept { return Opacity<Tp>(ArithmeticOperation::SaturateAdd(_value, other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> SaturateSubtract(const Opacity<Tp>& other) const noexcept { return Opacity<Tp>(ArithmeticOperation::SaturateSubtract(_value, other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> SaturateMultiply(const Opacity<Tp>& other) const noexcept { return Opacity<Tp>(ArithmeticOperation::SaturateMultiply(_value, other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> SaturateDivide(const Opacity<Tp>& other) const noexcept { return Opacity<Tp>(ArithmeticOperation::SaturateDivide(_value, other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> CheckedAdd(const Opacity<Tp>& other) const { return Opacity<Tp>(ArithmeticOperation::CheckedAdd(_value, other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> CheckedSubtract(const Opacity<Tp>& other) const { return Opacity<Tp>(ArithmeticOperation::CheckedSubtract(_value, other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> CheckedMultiply(const Opacity<Tp>& other) const { return Opacity<Tp>(ArithmeticOperation::CheckedMultiply(_value, other._value)); }
+		[[nodiscard]] constexpr Opacity<Tp> CheckedDivide(const Opacity<Tp>& other) const { return Opacity<Tp>(ArithmeticOperation::CheckedDivide(_value, other._value)); }
 		[[nodiscard]] constexpr bool Equals(const Opacity<Tp>& other) const noexcept { return _value.Equals(other._value); }
 		[[nodiscard]] constexpr bool Compare(const Opacity<Tp>& other) const noexcept { return _value.Compare(other._value); }
 
-		[[nodiscard]] constexpr Opacity<Tp> operator+(const Opacity<Tp>& other) const noexcept { return Add(other); }
-		[[nodiscard]] constexpr Opacity<Tp> operator-(const Opacity<Tp>& other) const noexcept { return Subtract(other); }
-		[[nodiscard]] constexpr Opacity<Tp> operator*(const Opacity<Tp>& other) const noexcept { return Multiply(other); }
-		[[nodiscard]] constexpr Opacity<Tp> operator/(const Opacity<Tp>& other) const noexcept { return Divide(other); }
-		[[nodiscard]] constexpr Opacity<Tp> operator|(const Opacity<Tp>& other) const noexcept { return Or(other); }
-		[[nodiscard]] constexpr Opacity<Tp> operator&(const Opacity<Tp>& other) const noexcept { return And(other); }
-		[[nodiscard]] constexpr Opacity<Tp> operator~() const noexcept { return Not(); }
-		[[nodiscard]] constexpr Opacity<Tp> operator^(const Opacity<Tp>& other) const noexcept { return Xor(other); }
-		constexpr Opacity<Tp>& operator+=(const Opacity<Tp>& other) noexcept { return *this = Add(other); }
-		constexpr Opacity<Tp>& operator-=(const Opacity<Tp>& other) noexcept { return *this = Subtract(other); }
-		constexpr Opacity<Tp>& operator*=(const Opacity<Tp>& other) noexcept { return *this = Multiply(other); }
-		constexpr Opacity<Tp>& operator/=(const Opacity<Tp>& other) noexcept { return *this = Divide(other); }
-		constexpr Opacity<Tp>& operator|=(const Opacity<Tp>& other) noexcept { return *this = Or(other); }
-		constexpr Opacity<Tp>& operator&=(const Opacity<Tp>& other) noexcept { return *this = And(other); }
-		constexpr Opacity<Tp>& operator^=(const Opacity<Tp>& other) noexcept { return *this = Xor(other); }
+		[[nodiscard]] constexpr Opacity<Tp> operator+(const Opacity<Tp>& other) const noexcept { return Opacity<Tp>(_value + other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> operator-(const Opacity<Tp>& other) const noexcept { return Opacity<Tp>(_value - other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> operator*(const Opacity<Tp>& other) const noexcept { return Opacity<Tp>(_value * other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> operator/(const Opacity<Tp>& other) const noexcept { return Opacity<Tp>(_value / other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> operator~() const noexcept { return Opacity<Tp>(~_value); }
+		[[nodiscard]] constexpr Opacity<Tp> operator&(const Opacity<Tp>& other) const noexcept { return Opacity<Tp>(_value & other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> operator|(const Opacity<Tp>& other) const noexcept { return Opacity<Tp>(_value | other._value); }
+		[[nodiscard]] constexpr Opacity<Tp> operator^(const Opacity<Tp>& other) const noexcept { return Opacity<Tp>(_value ^ other._value); }
+		constexpr Opacity<Tp>& operator+=(const Opacity<Tp>& other) noexcept { return *this = (*this) + (other); }
+		constexpr Opacity<Tp>& operator-=(const Opacity<Tp>& other) noexcept { return *this = (*this) - (other); }
+		constexpr Opacity<Tp>& operator*=(const Opacity<Tp>& other) noexcept { return *this = (*this) * (other); }
+		constexpr Opacity<Tp>& operator/=(const Opacity<Tp>& other) noexcept { return *this = (*this) / (other); }
+		constexpr Opacity<Tp>& operator&=(const Opacity<Tp>& other) noexcept { return *this = (*this) & (other); }
+		constexpr Opacity<Tp>& operator|=(const Opacity<Tp>& other) noexcept { return *this = (*this) | (other); }
+		constexpr Opacity<Tp>& operator^=(const Opacity<Tp>& other) noexcept { return *this = (*this) ^ (other); }
 		[[nodiscard]] constexpr bool operator==(const Opacity<Tp>& other) const noexcept { return Equals(other); }
 		[[nodiscard]] constexpr bool operator!=(const Opacity<Tp>& other) const noexcept { return !Equals(other); }
 		[[nodiscard]] constexpr bool operator<(const Opacity<Tp>& other) const noexcept { return Compare(other) < 0; }
