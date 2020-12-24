@@ -1109,9 +1109,9 @@ namespace zawa_ch::StationaryOrbit
 		///	位置型を識別します。
 		template<class T, class U> static constexpr bool IsPointableType = IsPointableType_t<T, U>::value;
 	private:
-		///	算術型が実装すべき演算子の実装を識別するための実装。
-		template<class, class = std::void_t<>> struct HasNumeralTypeOperation_t : std::false_type {};
-		template<class T> struct HasNumeralTypeOperation_t<T, std::void_t< PromotionResult<T> >> : std::conjunction
+		///	数値型が実装すべき演算子の実装を識別するための実装。
+		template<class, class = std::void_t<>> struct HasNumericalTypeOperation_t : std::false_type {};
+		template<class T> struct HasNumericalTypeOperation_t<T, std::void_t< PromotionResult<T> >> : std::conjunction
 			<
 				PromotionResultIsConvertible_t<T, T>,
 				InverseResultIsSame_t<T, PromotionResult<T>>,
@@ -1133,20 +1133,20 @@ namespace zawa_ch::StationaryOrbit
 			<
 				PreincrementResultIsSame_t<T, T&>,
 				PredecrementResultIsSame_t<T, T&>,
-				HasNumeralTypeOperation_t<T>,
+				HasNumericalTypeOperation_t<T>,
 				SubstitutionModulateResultIsSame_t<T, T, T&>,
 				ModulationResultIsSame_t<T, T, PromotionResult<T>>
 			>
 		{};
-		///	算術型を識別するための実装。
-		template<class T> struct IsNumeralType_t : std::conjunction< IsValueType_t<T>, HasNumeralTypeOperation_t<T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
+		///	数値型を識別するための実装。
+		template<class T> struct IsNumericalType_t : std::conjunction< IsValueType_t<T>, HasNumericalTypeOperation_t<T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
 		///	整数型を識別するための実装。
-		template<class T> struct IsIntegralType_t : std::conjunction< IsNumeralType_t<T>, HasIntegralTypeOperation_t<T> > {};
+		template<class T> struct IsIntegralType_t : std::conjunction< IsNumericalType_t<T>, HasIntegralTypeOperation_t<T> > {};
 	public:
 		///	基本的な算術演算を持つ型を識別します。
-		template<class T> static constexpr bool HasNumeralOperation = HasNumeralTypeOperation_t<T>::value;
+		template<class T> static constexpr bool HasNumericalOperation = HasNumericalTypeOperation_t<T>::value;
 		///	算術型を識別します。
-		template<class T> static constexpr bool IsNumeralType = IsNumeralType_t<T>::value;
+		template<class T> static constexpr bool IsNumericalType = IsNumericalType_t<T>::value;
 		///	整数型を識別します。
 		template<class T> static constexpr bool IsIntegralType = IsIntegralType_t<T>::value;
 	private:
