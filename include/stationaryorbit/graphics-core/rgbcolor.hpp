@@ -54,14 +54,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	正規化した @a RGBColor を取得します。
 		constexpr RGBColor<Tp> Normalize() const { return RGBColor<Tp>(_value.Normalize()); }
 
-		[[nodiscard]] constexpr RGBColor<Tp> Promote() const noexcept { return RGBColor<Tp>(_value.Promote()); }
-		[[nodiscard]] constexpr RGBColor<Tp> Invert() const noexcept { return RGBColor<Tp>(_value.Invert()); }
-		[[nodiscard]] constexpr RGBColor<Tp> Add(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Add(other._value)); }
-		[[nodiscard]] constexpr RGBColor<Tp> Subtract(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Subtract(other._value)); }
-		[[nodiscard]] constexpr RGBColor<Tp> Multiply(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Multiply(other._value)); }
-		[[nodiscard]] constexpr RGBColor<Tp> Multiply(const ValueType& other) const noexcept { return RGBColor<Tp>(_value.Multiply(other)); }
-		[[nodiscard]] constexpr RGBColor<Tp> Divide(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Divide(other._value)); }
-		[[nodiscard]] constexpr RGBColor<Tp> Divide(const ValueType& other) const noexcept { return RGBColor<Tp>(_value.Divide(other)); }
 		[[nodiscard]] constexpr RGBColor<Tp> SaturateAdd(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.SaturateAdd(other._value)); }
 		[[nodiscard]] constexpr RGBColor<Tp> SaturateSubtract(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.SaturateSubtract(other._value)); }
 		[[nodiscard]] constexpr RGBColor<Tp> SaturateMultiply(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.SaturateMultiply(other._value)); }
@@ -74,23 +66,19 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr RGBColor<Tp> CheckedMultiply(const ValueType& other) const { return RGBColor<Tp>(_value.CheckedMultiply(other)); }
 		[[nodiscard]] constexpr RGBColor<Tp> CheckedDivide(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value.CheckedDivide(other._value)); }
 		[[nodiscard]] constexpr RGBColor<Tp> CheckedDivide(const ValueType& other) const { return RGBColor<Tp>(_value.CheckedDivide(other)); }
-		[[nodiscard]] constexpr RGBColor<Tp> And(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.And(other._value)); }
-		[[nodiscard]] constexpr RGBColor<Tp> Or(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Or(other._value)); }
-		[[nodiscard]] constexpr RGBColor<Tp> Not() const noexcept { return RGBColor<Tp>(_value.Not()); }
-		[[nodiscard]] constexpr RGBColor<Tp> Xor(const RGBColor<Tp>& other) const noexcept { return RGBColor<Tp>(_value.Xor(other._value)); }
 
-		constexpr RGBColor<Tp> operator+() const { return Promote(); }
-		constexpr RGBColor<Tp> operator-() const { return Invert(); }
-		constexpr RGBColor<Tp> operator+(const RGBColor<Tp>& other) const { return Add(other); }
-		constexpr RGBColor<Tp> operator-(const RGBColor<Tp>& other) const { return Subtract(other); }
-		constexpr RGBColor<Tp> operator*(const RGBColor<Tp>& other) const { return Multiply(other); }
-		constexpr RGBColor<Tp> operator*(const ValueType& other) const { return Multiply(other); }
-		constexpr RGBColor<Tp> operator/(const RGBColor<Tp>& other) const { return Divide(other); }
-		constexpr RGBColor<Tp> operator/(const ValueType& other) const { return Divide(other); }
-		constexpr RGBColor<Tp> operator~() const { return Not(); }
-		constexpr RGBColor<Tp> operator|(const RGBColor<Tp>& other) const { return Or(other); }
-		constexpr RGBColor<Tp> operator&(const RGBColor<Tp>& other) const { return And(other); }
-		constexpr RGBColor<Tp> operator^(const RGBColor<Tp>& other) const { return Xor(other); }
+		constexpr RGBColor<Tp> operator+() const { return RGBColor<Tp>(+_value); }
+		constexpr RGBColor<Tp> operator-() const { return RGBColor<Tp>(-_value); }
+		constexpr RGBColor<Tp> operator+(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value + other._value); }
+		constexpr RGBColor<Tp> operator-(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value - other._value); }
+		constexpr RGBColor<Tp> operator*(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value * other._value); }
+		constexpr RGBColor<Tp> operator*(const ValueType& other) const { return RGBColor<Tp>(_value * other); }
+		constexpr RGBColor<Tp> operator/(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value / other._value); }
+		constexpr RGBColor<Tp> operator/(const ValueType& other) const { return RGBColor<Tp>(_value / other); }
+		constexpr RGBColor<Tp> operator~() const { return RGBColor<Tp>(~_value); }
+		constexpr RGBColor<Tp> operator&(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value & other._value); }
+		constexpr RGBColor<Tp> operator|(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value | other._value); }
+		constexpr RGBColor<Tp> operator^(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value ^ other._value); }
 		constexpr RGBColor<Tp>& operator+=(const RGBColor<Tp>& other) { return *this = *this + other; }
 		constexpr RGBColor<Tp>& operator-=(const RGBColor<Tp>& other) { return *this = *this - other; }
 		constexpr RGBColor<Tp>& operator*=(const RGBColor<Tp>& other) { return *this = *this * other; }
