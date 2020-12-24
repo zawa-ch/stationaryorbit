@@ -74,13 +74,13 @@ zawa_ch::StationaryOrbit::FixedPoint<uint64_t, 63>;
 //   - bool T::operator <=(T)を持つ
 //   - bool T::operator >=(T)を持つ
 // - std::numeric_limits<T>::is_specializedがtrueである
-static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::FixedPoint8q7_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::FixedPoint16q8_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::FixedPoint16q15_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::FixedPoint32q16_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::FixedPoint32q31_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::FixedPoint64q32_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::FixedPoint64q63_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumericalType<zawa_ch::StationaryOrbit::FixedPoint8q7_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumericalType<zawa_ch::StationaryOrbit::FixedPoint16q8_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumericalType<zawa_ch::StationaryOrbit::FixedPoint16q15_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumericalType<zawa_ch::StationaryOrbit::FixedPoint32q16_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumericalType<zawa_ch::StationaryOrbit::FixedPoint32q31_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumericalType<zawa_ch::StationaryOrbit::FixedPoint64q32_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumericalType<zawa_ch::StationaryOrbit::FixedPoint64q63_t>);
 // (int)からのコンストラクタを持つ
 static_assert(std::is_constructible_v<zawa_ch::StationaryOrbit::FixedPoint8q7_t, int>);
 static_assert(std::is_constructible_v<zawa_ch::StationaryOrbit::FixedPoint16q8_t, int>);

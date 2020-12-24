@@ -48,7 +48,7 @@ void Test_Numeral()
 void Test_FixedPoint()
 {
 	std::cout << "<--- FixedPoint --->" << std::endl;
-	if (!Traits::IsNumeralType<FixedPoint16q8_t>) { throw std::exception(); }
+	if (!Traits::IsNumericalType<FixedPoint16q8_t>) { throw std::exception(); }
 	auto f1 = FixedPoint16q8_t(16);
 	auto f2 = FixedPoint16q8_t(0.125);
 	if (double(f1) == 16) { std::cout << "f1 = " << double(f1) << std::endl; } else { throw std::exception(); }
@@ -98,7 +98,7 @@ void Test_Proportion()
 	std::cout << "<--- Proportion --->" << std::endl;
 
 	// 型トレイト
-	static_assert(Traits::IsNumeralType<Proportion8_t>, "ProportionがTraitsIsNumeralTypeの要件を満たしません。");
+	static_assert(Traits::IsNumericalType<Proportion8_t>, "ProportionがTraitsIsNumeralTypeの要件を満たしません。");
 	static_assert(!Traits::IsBitSequenceType<Proportion8_t>, "ProportionがTraitsIsBitSequenceTypeの要件を満たしました。");
 	static_assert(!Traits::IsIntegralType<Proportion8_t>, "ProportionがTraitsIsIntegerTypeの要件を満たしました。");
 	static_assert(Traits::IsComparable<Proportion8_t>, "ProportionがTraitsComparableの要件を満たしません。");

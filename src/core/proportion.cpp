@@ -70,11 +70,11 @@ zawa_ch::StationaryOrbit::Proportion<uint64_t>;
 //   - bool T::operator <=(T)を持つ
 //   - bool T::operator >=(T)を持つ
 // - std::numeric_limits<T>::is_specializedがtrueである
-static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::Proportion1_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::Proportion8_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::Proportion16_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::Proportion32_t>);
-static_assert(zawa_ch::StationaryOrbit::Traits::IsNumeralType<zawa_ch::StationaryOrbit::Proportion64_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumericalType<zawa_ch::StationaryOrbit::Proportion1_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumericalType<zawa_ch::StationaryOrbit::Proportion8_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumericalType<zawa_ch::StationaryOrbit::Proportion16_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumericalType<zawa_ch::StationaryOrbit::Proportion32_t>);
+static_assert(zawa_ch::StationaryOrbit::Traits::IsNumericalType<zawa_ch::StationaryOrbit::Proportion64_t>);
 // (int)からのコンストラクタを持つ
 static_assert(std::is_constructible_v<zawa_ch::StationaryOrbit::Proportion1_t, int>);
 static_assert(std::is_constructible_v<zawa_ch::StationaryOrbit::Proportion8_t, int>);
