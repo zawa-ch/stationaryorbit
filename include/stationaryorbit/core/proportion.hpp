@@ -399,7 +399,7 @@ namespace std
 		static constexpr bool is_specialized = true;
 		static constexpr bool is_signed = false;
 		static constexpr bool is_integer = false;
-		static constexpr bool is_exact = false;
+		static constexpr bool is_exact = true;
 		static constexpr bool has_infinity = false;
 		static constexpr bool has_quiet_NaN = false;
 		static constexpr bool has_signaling_NaN = false;
