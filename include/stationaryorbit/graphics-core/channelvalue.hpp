@@ -55,24 +55,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	正規化されたオブジェクトを取得します。
 		[[nodiscard]] constexpr ChannelValue<Tp> Normalize() const noexcept { return (Min()._value <= _value)?((_value <= Max()._value)?_value:Max()._value):(Min()._value); }
 
-		[[nodiscard]] constexpr ChannelValue<Tp> Promote() const noexcept { return ChannelValue<Tp>(+_value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> Invert() const noexcept { return ChannelValue<Tp>(-_value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> Add(const ChannelValue<Tp>& other) const noexcept { return _value + other._value; }
-		[[nodiscard]] constexpr ChannelValue<Tp> Subtract(const ChannelValue<Tp>& other) const noexcept { return _value - other._value; }
-		[[nodiscard]] constexpr ChannelValue<Tp> Multiply(const ChannelValue<Tp>& other) const noexcept { return _value * other._value; }
-		[[nodiscard]] constexpr ChannelValue<Tp> Divide(const ChannelValue<Tp>& other) const noexcept { return _value / other._value; }
-		[[nodiscard]] constexpr ChannelValue<Tp> SaturateAdd(const ChannelValue<Tp>& other) const noexcept { return _value.SaturateAdd(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> SaturateSubtract(const ChannelValue<Tp>& other) const noexcept { return _value.SaturateSubtract(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> SaturateMultiply(const ChannelValue<Tp>& other) const noexcept { return _value.SaturateMultiply(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> SaturateDivide(const ChannelValue<Tp>& other) const noexcept { return _value.SaturateDivide(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> CheckedAdd(const ChannelValue<Tp>& other) const { return _value.CheckedAdd(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> CheckedSubtract(const ChannelValue<Tp>& other) const { return _value.CheckedSubtract(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> CheckedMultiply(const ChannelValue<Tp>& other) const { return _value.CheckedMultiply(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> CheckedDivide(const ChannelValue<Tp>& other) const { return _value.CheckedDivide(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> And(const ChannelValue<Tp>& other) const noexcept { return std::min({ _value, other._value }); }
-		[[nodiscard]] constexpr ChannelValue<Tp> Or(const ChannelValue<Tp>& other) const noexcept { return std::max({ _value, other._value }); }
-		[[nodiscard]] constexpr ChannelValue<Tp> Not() const noexcept { return Max()._value - _value; }
-		[[nodiscard]] constexpr ChannelValue<Tp> Xor(const ChannelValue<Tp>& other) const noexcept { return Or(other).And(And(other).Not()) ; }
 		[[nodiscard]] constexpr bool Equals(const ChannelValue<Tp>& other) const noexcept { return _value == other._value; }
 		[[nodiscard]] constexpr int Compare(const ChannelValue<Tp>& other) const noexcept
 		{
@@ -81,23 +63,23 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			else { return 0; }
 		}
 
-		[[nodiscard]] constexpr ChannelValue<Tp> operator+() const noexcept { return Promote(); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator-() const noexcept { return Invert(); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator+(const ChannelValue<Tp>& other) const noexcept { return Add(other); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator-(const ChannelValue<Tp>& other) const noexcept { return Subtract(other); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator*(const ChannelValue<Tp>& other) const noexcept { return Multiply(other); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator/(const ChannelValue<Tp>& other) const noexcept { return Divide(other); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator|(const ChannelValue<Tp>& other) const noexcept { return Or(other); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator&(const ChannelValue<Tp>& other) const noexcept { return And(other); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator~() const noexcept { return Not(); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator^(const ChannelValue<Tp>& other) const noexcept { return Xor(other); }
-		constexpr ChannelValue<Tp>& operator+=(const ChannelValue<Tp>& other) noexcept { return *this = Add(other); }
-		constexpr ChannelValue<Tp>& operator-=(const ChannelValue<Tp>& other) noexcept { return *this = Subtract(other); }
-		constexpr ChannelValue<Tp>& operator*=(const ChannelValue<Tp>& other) noexcept { return *this = Multiply(other); }
-		constexpr ChannelValue<Tp>& operator/=(const ChannelValue<Tp>& other) noexcept { return *this = Divide(other); }
-		constexpr ChannelValue<Tp>& operator|=(const ChannelValue<Tp>& other) noexcept { return *this = Or(other); }
-		constexpr ChannelValue<Tp>& operator&=(const ChannelValue<Tp>& other) noexcept { return *this = And(other); }
-		constexpr ChannelValue<Tp>& operator^=(const ChannelValue<Tp>& other) noexcept { return *this = Xor(other); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator+() const noexcept { return ChannelValue<Tp>(+_value); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator-() const noexcept { return ChannelValue<Tp>(-_value); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator+(const ChannelValue<Tp>& other) const noexcept { return ArithmeticOperation::SaturateAdd(_value, other._value); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator-(const ChannelValue<Tp>& other) const noexcept { return ArithmeticOperation::SaturateSubtract(_value, other._value); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator*(const ChannelValue<Tp>& other) const noexcept { return ArithmeticOperation::SaturateMultiply(_value, other._value); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator/(const ChannelValue<Tp>& other) const noexcept { return ArithmeticOperation::SaturateDivide(_value, other._value); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator&(const ChannelValue<Tp>& other) const noexcept { return std::min({ _value, other._value }); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator|(const ChannelValue<Tp>& other) const noexcept { return std::max({ _value, other._value }); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator~() const noexcept { return Max()._value - _value; }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator^(const ChannelValue<Tp>& other) const noexcept { return ((*this)|(other))&(~(((*this)&(other)))); }
+		constexpr ChannelValue<Tp>& operator+=(const ChannelValue<Tp>& other) noexcept { return *this = (*this) + (other); }
+		constexpr ChannelValue<Tp>& operator-=(const ChannelValue<Tp>& other) noexcept { return *this = (*this) - (other); }
+		constexpr ChannelValue<Tp>& operator*=(const ChannelValue<Tp>& other) noexcept { return *this = (*this) * (other); }
+		constexpr ChannelValue<Tp>& operator/=(const ChannelValue<Tp>& other) noexcept { return *this = (*this) / (other); }
+		constexpr ChannelValue<Tp>& operator&=(const ChannelValue<Tp>& other) noexcept { return *this = (*this) & (other); }
+		constexpr ChannelValue<Tp>& operator|=(const ChannelValue<Tp>& other) noexcept { return *this = (*this) | (other); }
+		constexpr ChannelValue<Tp>& operator^=(const ChannelValue<Tp>& other) noexcept { return *this = (*this) ^ (other); }
 		[[nodiscard]] constexpr bool operator==(const ChannelValue<Tp>& other) const noexcept { return Equals(other); }
 		[[nodiscard]] constexpr bool operator!=(const ChannelValue<Tp>& other) const noexcept { return !Equals(other); }
 		[[nodiscard]] constexpr bool operator<(const ChannelValue<Tp>& other) const noexcept { return Compare(other) < 0; }
@@ -144,24 +126,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	正規化されたオブジェクトを取得します。
 		[[nodiscard]] constexpr ChannelValue<Tp> Normalize() const noexcept { return (Min()._value <= _value)?((_value <= Max()._value)?_value:Max()._value):(Min()._value); }
 
-		[[nodiscard]] constexpr ChannelValue<Tp> Promote() const noexcept { return ChannelValue<Tp>(+_value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> Invert() const noexcept { return ChannelValue<Tp>(-_value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> Add(const ChannelValue<Tp>& other) const noexcept { return _value + other._value; }
-		[[nodiscard]] constexpr ChannelValue<Tp> Subtract(const ChannelValue<Tp>& other) const noexcept { return _value - other._value; }
-		[[nodiscard]] constexpr ChannelValue<Tp> Multiply(const ChannelValue<Tp>& other) const noexcept { return _value * other._value; }
-		[[nodiscard]] constexpr ChannelValue<Tp> Divide(const ChannelValue<Tp>& other) const noexcept { return _value / other._value; }
-		[[nodiscard]] constexpr ChannelValue<Tp> SaturateAdd(const ChannelValue<Tp>& other) const noexcept { return Add(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> SaturateSubtract(const ChannelValue<Tp>& other) const noexcept { return Subtract(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> SaturateMultiply(const ChannelValue<Tp>& other) const noexcept { return Multiply(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> SaturateDivide(const ChannelValue<Tp>& other) const noexcept { return Divide(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> CheckedAdd(const ChannelValue<Tp>& other) const { return Add(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> CheckedSubtract(const ChannelValue<Tp>& other) const { return Subtract(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> CheckedMultiply(const ChannelValue<Tp>& other) const { return Multiply(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> CheckedDivide(const ChannelValue<Tp>& other) const { return Divide(other._value); }
-		[[nodiscard]] constexpr ChannelValue<Tp> And(const ChannelValue<Tp>& other) const noexcept { return std::min({ _value, other._value }); }
-		[[nodiscard]] constexpr ChannelValue<Tp> Or(const ChannelValue<Tp>& other) const noexcept { return std::max({ _value, other._value }); }
-		[[nodiscard]] constexpr ChannelValue<Tp> Not() const noexcept { return Max()._value - _value; }
-		[[nodiscard]] constexpr ChannelValue<Tp> Xor(const ChannelValue<Tp>& other) const noexcept { return Or(other).And(And(other).Not()) ; }
 		[[nodiscard]] constexpr bool Equals(const ChannelValue<Tp>& other) const noexcept { return _value == other._value; }
 		[[nodiscard]] constexpr int Compare(const ChannelValue<Tp>& other) const noexcept
 		{
@@ -170,21 +134,23 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			else { return 0; }
 		}
 
-		[[nodiscard]] constexpr ChannelValue<Tp> operator+(const ChannelValue<Tp>& other) const noexcept { return Add(other); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator-(const ChannelValue<Tp>& other) const noexcept { return Subtract(other); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator*(const ChannelValue<Tp>& other) const noexcept { return Multiply(other); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator/(const ChannelValue<Tp>& other) const noexcept { return Divide(other); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator|(const ChannelValue<Tp>& other) const noexcept { return Or(other); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator&(const ChannelValue<Tp>& other) const noexcept { return And(other); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator~() const noexcept { return Not(); }
-		[[nodiscard]] constexpr ChannelValue<Tp> operator^(const ChannelValue<Tp>& other) const noexcept { return Xor(other); }
-		constexpr ChannelValue<Tp>& operator+=(const ChannelValue<Tp>& other) noexcept { return *this = Add(other); }
-		constexpr ChannelValue<Tp>& operator-=(const ChannelValue<Tp>& other) noexcept { return *this = Subtract(other); }
-		constexpr ChannelValue<Tp>& operator*=(const ChannelValue<Tp>& other) noexcept { return *this = Multiply(other); }
-		constexpr ChannelValue<Tp>& operator/=(const ChannelValue<Tp>& other) noexcept { return *this = Divide(other); }
-		constexpr ChannelValue<Tp>& operator|=(const ChannelValue<Tp>& other) noexcept { return *this = Or(other); }
-		constexpr ChannelValue<Tp>& operator&=(const ChannelValue<Tp>& other) noexcept { return *this = And(other); }
-		constexpr ChannelValue<Tp>& operator^=(const ChannelValue<Tp>& other) noexcept { return *this = Xor(other); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator+() const noexcept { return ChannelValue<Tp>(+_value); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator-() const noexcept { return ChannelValue<Tp>(-_value); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator+(const ChannelValue<Tp>& other) const noexcept { return ArithmeticOperation::SaturateAdd(_value, other._value); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator-(const ChannelValue<Tp>& other) const noexcept { return ArithmeticOperation::SaturateSubtract(_value, other._value); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator*(const ChannelValue<Tp>& other) const noexcept { return ArithmeticOperation::SaturateMultiply(_value, other._value); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator/(const ChannelValue<Tp>& other) const noexcept { return ArithmeticOperation::SaturateDivide(_value, other._value); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator&(const ChannelValue<Tp>& other) const noexcept { return std::min({ _value, other._value }); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator|(const ChannelValue<Tp>& other) const noexcept { return std::max({ _value, other._value }); }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator~() const noexcept { return Max()._value - _value; }
+		[[nodiscard]] constexpr ChannelValue<Tp> operator^(const ChannelValue<Tp>& other) const noexcept { return ((*this)|(other))&(~(((*this)&(other)))); }
+		constexpr ChannelValue<Tp>& operator+=(const ChannelValue<Tp>& other) noexcept { return *this = (*this) + (other); }
+		constexpr ChannelValue<Tp>& operator-=(const ChannelValue<Tp>& other) noexcept { return *this = (*this) - (other); }
+		constexpr ChannelValue<Tp>& operator*=(const ChannelValue<Tp>& other) noexcept { return *this = (*this) * (other); }
+		constexpr ChannelValue<Tp>& operator/=(const ChannelValue<Tp>& other) noexcept { return *this = (*this) / (other); }
+		constexpr ChannelValue<Tp>& operator&=(const ChannelValue<Tp>& other) noexcept { return *this = (*this) & (other); }
+		constexpr ChannelValue<Tp>& operator|=(const ChannelValue<Tp>& other) noexcept { return *this = (*this) | (other); }
+		constexpr ChannelValue<Tp>& operator^=(const ChannelValue<Tp>& other) noexcept { return *this = (*this) ^ (other); }
 		[[nodiscard]] constexpr bool operator==(const ChannelValue<Tp>& other) const noexcept { return Equals(other); }
 		[[nodiscard]] constexpr bool operator!=(const ChannelValue<Tp>& other) const noexcept { return !Equals(other); }
 		[[nodiscard]] constexpr bool operator<(const ChannelValue<Tp>& other) const noexcept { return Compare(other) < 0; }
@@ -229,5 +195,41 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	typedef ChannelValue<float> ChannelF32_t;
 	/// 内部に @a double 型のデータを持つ @a ChannelValue です。
 	typedef ChannelValue<double> ChannelF64_t;
+}
+namespace std
+{
+	template<class Tp>
+	class numeric_limits<zawa_ch::StationaryOrbit::Graphics::ChannelValue<Tp>> : public numeric_limits<void>
+	{
+	public:
+		static constexpr bool is_specialized = true;
+		static constexpr bool is_signed = false;
+		static constexpr bool is_integer = false;
+		static constexpr bool is_exact = true;
+		static constexpr bool has_infinity = false;
+		static constexpr bool has_quiet_NaN = false;
+		static constexpr bool has_signaling_NaN = false;
+		static constexpr float_denorm_style has_denorm = denorm_absent;
+		static constexpr bool has_denorm_loss = false;
+		static constexpr float_round_style round_style = round_toward_zero;
+		static constexpr bool is_iec559 = false;
+		static constexpr bool is_bounded = true;
+		static constexpr bool is_modulo = false;
+		static constexpr int digits = numeric_limits<Tp>::digits;
+		static constexpr int digits10 = numeric_limits<Tp>::digits10;
+		static constexpr int max_digits10 = numeric_limits<Tp>::max_digits10;
+		static constexpr int radix = 2;
+		static constexpr int min_exponent = 0;
+		static constexpr int min_exponent10 = 0;
+		static constexpr int max_exponent = 0;
+		static constexpr int max_exponent10 = 0;
+		static constexpr bool traps = true;
+		static constexpr bool tinyness_before = true;
+		static constexpr zawa_ch::StationaryOrbit::Graphics::ChannelValue<Tp> min() noexcept { return zawa_ch::StationaryOrbit::Graphics::ChannelValue<Tp>::Min(); }
+		static constexpr zawa_ch::StationaryOrbit::Graphics::ChannelValue<Tp> lowest() noexcept { return zawa_ch::StationaryOrbit::Graphics::ChannelValue<Tp>::Min(); }
+		static constexpr zawa_ch::StationaryOrbit::Graphics::ChannelValue<Tp> max() noexcept { return zawa_ch::StationaryOrbit::Graphics::ChannelValue<Tp>::Max(); }
+		static constexpr zawa_ch::StationaryOrbit::Graphics::ChannelValue<Tp> epsilon() noexcept { return zawa_ch::StationaryOrbit::Graphics::ChannelValue<Tp>(numeric_limits<Tp>::epsiron()); }
+		static constexpr zawa_ch::StationaryOrbit::Graphics::ChannelValue<Tp> round_error() noexcept { return zawa_ch::StationaryOrbit::Graphics::ChannelValue<Tp>(numeric_limits<Tp>::round_error()); }
+	};
 }
 #endif // __stationaryorbit_graphics_core_channelvalue__
