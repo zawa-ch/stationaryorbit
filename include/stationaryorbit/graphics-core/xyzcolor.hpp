@@ -51,8 +51,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	正規化した @a XYZColor を取得します。
 		constexpr XYZColor<Tp> Normalize() const { return XYZColor<Tp>(_x.Normalize(), _y.Normalize(), _z.Normalize()); }
 
-		constexpr XYZColor<Tp> operator+() const { return XYZColor<Tp>(_x.Promote(), _y.Promote(), _z.Promote()); }
-		constexpr XYZColor<Tp> operator-() const { return XYZColor<Tp>(_x.Invert(), _y.Invert(), _z.Invert()); }
+		constexpr XYZColor<Tp> operator+() const { return XYZColor<Tp>(+_x, +_y, +_z); }
+		constexpr XYZColor<Tp> operator-() const { return XYZColor<Tp>(-_x, -_y, -_z); }
 		constexpr XYZColor<Tp> operator+(const XYZColor<Tp>& other) const { return XYZColor<Tp>(_x + other._x, _y + other._y, _z + other._z); }
 		constexpr XYZColor<Tp> operator-(const XYZColor<Tp>& other) const { return XYZColor<Tp>(_x - other._x, _y - other._y, _z - other._z); }
 		constexpr XYZColor<Tp> operator*(const XYZColor<Tp>& other) const { return XYZColor<Tp>(_x * other._x, _y * other._y, _z * other._z); }
