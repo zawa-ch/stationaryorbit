@@ -49,14 +49,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	正規化した @a GrayScaleColor を取得します。
 		constexpr GrayScaleColor<Tp> Normalize() const { return GrayScaleColor<Tp>(_value.Normalize()); }
 
-		[[nodiscard]] constexpr GrayScaleColor<Tp> Promote() const noexcept { return GrayScaleColor<Tp>(_value.Promote()); }
-		[[nodiscard]] constexpr GrayScaleColor<Tp> Invert() const noexcept { return GrayScaleColor<Tp>(_value.Invert()); }
-		[[nodiscard]] constexpr GrayScaleColor<Tp> Add(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Add(other._value)); }
-		[[nodiscard]] constexpr GrayScaleColor<Tp> Subtract(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Subtract(other._value)); }
-		[[nodiscard]] constexpr GrayScaleColor<Tp> Multiply(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Multiply(other._value)); }
-		[[nodiscard]] constexpr GrayScaleColor<Tp> Multiply(const ValueType& other) const noexcept { return GrayScaleColor<Tp>(_value.Multiply(other.Data())); }
-		[[nodiscard]] constexpr GrayScaleColor<Tp> Divide(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Divide(other._value)); }
-		[[nodiscard]] constexpr GrayScaleColor<Tp> Divide(const ValueType& other) const noexcept { return GrayScaleColor<Tp>(_value.Divide(other.Data())); }
 		[[nodiscard]] constexpr GrayScaleColor<Tp> SaturateAdd(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.SaturateAdd(other._value)); }
 		[[nodiscard]] constexpr GrayScaleColor<Tp> SaturateSubtract(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.SaturateSubtract(other._value)); }
 		[[nodiscard]] constexpr GrayScaleColor<Tp> SaturateMultiply(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.SaturateMultiply(other._value)); }
@@ -69,23 +61,19 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr GrayScaleColor<Tp> CheckedMultiply(const ValueType& other) const { return GrayScaleColor<Tp>(_value.CheckedMultiply(other.Data())); }
 		[[nodiscard]] constexpr GrayScaleColor<Tp> CheckedDivide(const GrayScaleColor<Tp>& other) const { return GrayScaleColor<Tp>(_value.CheckedDivide(other._value)); }
 		[[nodiscard]] constexpr GrayScaleColor<Tp> CheckedDivide(const ValueType& other) const { return GrayScaleColor<Tp>(_value.CheckedDivide(other.Data())); }
-		[[nodiscard]] constexpr GrayScaleColor<Tp> And(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.And(other._value)); }
-		[[nodiscard]] constexpr GrayScaleColor<Tp> Or(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Or(other._value)); }
-		[[nodiscard]] constexpr GrayScaleColor<Tp> Not() const noexcept { return GrayScaleColor<Tp>(_value.Not()); }
-		[[nodiscard]] constexpr GrayScaleColor<Tp> Xor(const GrayScaleColor<Tp>& other) const noexcept { return GrayScaleColor<Tp>(_value.Xor(other._value)); }
 
-		constexpr GrayScaleColor<Tp> operator+() const { return Promote(); }
-		constexpr GrayScaleColor<Tp> operator-() const { return Invert(); }
-		constexpr GrayScaleColor<Tp> operator+(const GrayScaleColor<Tp>& other) const { return Add(other); }
-		constexpr GrayScaleColor<Tp> operator-(const GrayScaleColor<Tp>& other) const { return Subtract(other); }
-		constexpr GrayScaleColor<Tp> operator*(const GrayScaleColor<Tp>& other) const { return Multiply(other); }
-		constexpr GrayScaleColor<Tp> operator*(const ValueType& other) const { return Multiply(other); }
-		constexpr GrayScaleColor<Tp> operator/(const GrayScaleColor<Tp>& other) const { return Divide(other); }
-		constexpr GrayScaleColor<Tp> operator/(const ValueType& other) const { return Divide(other); }
-		constexpr GrayScaleColor<Tp> operator~() const { return Not(); }
-		constexpr GrayScaleColor<Tp> operator|(const GrayScaleColor<Tp>& other) const { return Or(other); }
-		constexpr GrayScaleColor<Tp> operator&(const GrayScaleColor<Tp>& other) const { return And(other); }
-		constexpr GrayScaleColor<Tp> operator^(const GrayScaleColor<Tp>& other) const { return Xor(other); }
+		constexpr GrayScaleColor<Tp> operator+() const { return GrayScaleColor<Tp>(+_value); }
+		constexpr GrayScaleColor<Tp> operator-() const { return GrayScaleColor<Tp>(-_value); }
+		constexpr GrayScaleColor<Tp> operator+(const GrayScaleColor<Tp>& other) const { return GrayScaleColor<Tp>(_value + other._value); }
+		constexpr GrayScaleColor<Tp> operator-(const GrayScaleColor<Tp>& other) const { return GrayScaleColor<Tp>(_value - other._value); }
+		constexpr GrayScaleColor<Tp> operator*(const GrayScaleColor<Tp>& other) const { return GrayScaleColor<Tp>(_value * other._value); }
+		constexpr GrayScaleColor<Tp> operator*(const ValueType& other) const { return GrayScaleColor<Tp>(_value * other); }
+		constexpr GrayScaleColor<Tp> operator/(const GrayScaleColor<Tp>& other) const { return GrayScaleColor<Tp>(_value / other._value); }
+		constexpr GrayScaleColor<Tp> operator/(const ValueType& other) const { return GrayScaleColor<Tp>(_value / other); }
+		constexpr GrayScaleColor<Tp> operator~() const { return GrayScaleColor<Tp>(~_value); }
+		constexpr GrayScaleColor<Tp> operator&(const GrayScaleColor<Tp>& other) const { return GrayScaleColor<Tp>(_value & other._value); }
+		constexpr GrayScaleColor<Tp> operator|(const GrayScaleColor<Tp>& other) const { return GrayScaleColor<Tp>(_value | other._value); }
+		constexpr GrayScaleColor<Tp> operator^(const GrayScaleColor<Tp>& other) const { return GrayScaleColor<Tp>(_value ^ other._value); }
 		constexpr GrayScaleColor<Tp>& operator+=(const GrayScaleColor<Tp>& other) { return *this = *this + other; }
 		constexpr GrayScaleColor<Tp>& operator-=(const GrayScaleColor<Tp>& other) { return *this = *this - other; }
 		constexpr GrayScaleColor<Tp>& operator*=(const GrayScaleColor<Tp>& other) { return *this = *this * other; }
