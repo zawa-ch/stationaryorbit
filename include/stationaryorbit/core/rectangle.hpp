@@ -27,7 +27,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T, Quadrants quad, class = void>
 	struct Rectangle2D final
 	{
-		static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+		static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 	public:
 		typedef T ValueType;
 		typedef Point2D<T, quad> PointType;
@@ -115,7 +115,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T, Quadrants quad>
 	struct Rectangle2D<T, quad, std::enable_if_t<std::is_floating_point_v<T>>> final
 	{
-		static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+		static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 	public:
 		typedef T ValueType;
 		typedef Point2D<T, quad> PointType;

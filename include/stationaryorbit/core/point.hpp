@@ -36,16 +36,16 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		static constexpr bool InvertX = (((from==Quadrants::UpRight)||(from==Quadrants::DownRight))&&((to==Quadrants::UpLeft)||(to==Quadrants::DownLeft))) || (((from==Quadrants::UpLeft)||(from==Quadrants::DownLeft))&&((to==Quadrants::UpRight)||(to==Quadrants::DownRight)));
 		static constexpr bool InvertY = (((from==Quadrants::UpRight)||(from==Quadrants::UpLeft))&&((to==Quadrants::DownRight)||(to==Quadrants::DownLeft))) || (((from==Quadrants::DownRight)||(from==Quadrants::DownLeft))&&((to==Quadrants::UpRight)||(to==Quadrants::UpLeft)));
-		template<class T, std::enable_if_t< Traits::IsNumeralType<T>, int> = 0>
+		template<class T, std::enable_if_t< Traits::IsNumericalType<T>, int> = 0>
 		static constexpr T ConvertX(const T& value) { if constexpr (InvertX) { return -value; } else { return value; } }
-		template<class T, std::enable_if_t< Traits::IsNumeralType<T>, int> = 0>
+		template<class T, std::enable_if_t< Traits::IsNumericalType<T>, int> = 0>
 		static constexpr T ConvertY(const T& value) { if constexpr (InvertY) { return -value; } else { return value; } }
 	};
 	///	二次元平面上におけるある一点を表します。
 	template<class T, Quadrants quad, class = std::void_t<>>
 	struct Point2D final
 	{
-		static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+		static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 		typedef T ValueType;
 	private:
 		ValueType _x;
@@ -93,7 +93,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T, Quadrants quad>
 	struct Point2D<T, quad, std::void_t<std::enable_if_t<std::is_floating_point_v<T>>>> final
 	{
-		static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+		static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 		typedef T ValueType;
 	private:
 		ValueType _x;

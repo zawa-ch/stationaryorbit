@@ -37,7 +37,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename T>
 		static constexpr AdditionResult<T> Add(const T& left, const T& right) noexcept
 		{
-			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
 			auto eval = std::numeric_limits<T>::max() - right;
 			if (eval < left) { return AdditionResult<T>{ left + right, AdditionResultStatus::PositiveOverflow }; }
@@ -54,7 +54,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename T>
 		static constexpr AdditionResult<T> Subtract(const T& left, const T& right) noexcept
 		{
-			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
 			auto eval = std::numeric_limits<T>::lowest() + right;
 			if (left < eval) { return AdditionResult<T>{ left - right, AdditionResultStatus::NegativeOverflow }; }
@@ -71,7 +71,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename T>
 		static MultiplicationResult<T> Multiply(const T& left, const T& right) noexcept
 		{
-			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
 			if constexpr (std::numeric_limits<T>::is_signed)
 			{
@@ -110,7 +110,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename T>
 		static MultiplicationResult<T> Divide(const T& left, const T& right) noexcept
 		{
-			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
 			if (right == T(0))
 			{
@@ -132,7 +132,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename T>
 		static constexpr T SaturateAdd(const T& left, const T& right)
 		{
-			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
 			auto result = Add(left, right);
 			switch(result.Status)
@@ -146,7 +146,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename T>
 		static constexpr T SaturateSubtract(const T& left, const T& right)
 		{
-			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
 			auto result = Subtract(left, right);
 			switch(result.Status)
@@ -160,7 +160,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename T>
 		static constexpr T SaturateMultiply(const T& left, const T& right)
 		{
-			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
 			auto result = Multiply(left, right);
 			switch(result.Status)
@@ -182,7 +182,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename T>
 		static constexpr T SaturateDivide(const T& left, const T& right)
 		{
-			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
 			auto result = Divide(left, right);
 			switch(result.Status)
@@ -204,7 +204,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename T>
 		static constexpr T CheckedAdd(const T& left, const T& right)
 		{
-			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
 			auto result = Add(left, right);
 			switch(result.Status)
@@ -219,7 +219,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename T>
 		static constexpr T CheckedSubtract(const T& left, const T& right)
 		{
-			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
 			auto result = Subtract(left, right);
 			switch(result.Status)
@@ -234,7 +234,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename T>
 		static constexpr T CheckedMultiply(const T& left, const T& right)
 		{
-			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
 			auto result = Multiply(left, right);
 			switch(result.Status)
@@ -249,7 +249,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename T>
 		static constexpr T CheckedDivide(const T& left, const T& right)
 		{
-			static_assert(Traits::IsNumeralType<T>, "テンプレート引数型 T は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
 			auto result = Divide(left, right);
 			switch(result.Status)
@@ -264,7 +264,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class Tp>
 		static constexpr bool MayOverflowWithAddition(const Tp& left, const Tp& right) noexcept
 		{
-			static_assert(Traits::IsNumeralType<Tp>, "テンプレート引数型 Tp は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<Tp>, "テンプレート引数型 Tp は数値型である必要があります。");
 			static_assert(std::is_constructible_v<Tp, int>, "テンプレート引数型 Tp は (int) を引数に取るコンストラクタを持つ必要があります。");
 			if constexpr (std::true_type::value)
 			{
@@ -290,7 +290,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class Tp>
 		static constexpr bool MayOverflowWithSubtraction(const Tp& left, const Tp& right) noexcept
 		{
-			static_assert(Traits::IsNumeralType<Tp>, "テンプレート引数型 Tp は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<Tp>, "テンプレート引数型 Tp は数値型である必要があります。");
 			static_assert(std::is_constructible_v<Tp, int>, "テンプレート引数型 Tp は (int) を引数に取るコンストラクタを持つ必要があります。");
 			if constexpr (std::true_type::value)
 			{
@@ -316,7 +316,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class Tp>
 		static constexpr bool MayOverflowWithMultiplication(const Tp& left, const Tp& right) noexcept
 		{
-			static_assert(Traits::IsNumeralType<Tp>, "テンプレート引数型 Tp は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<Tp>, "テンプレート引数型 Tp は数値型である必要があります。");
 			static_assert(std::is_constructible_v<Tp, int>, "テンプレート引数型 Tp は (int) を引数に取るコンストラクタを持つ必要があります。");
 			if constexpr (std::numeric_limits<Tp>::is_signed)
 			{
@@ -355,7 +355,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class Tp>
 		static constexpr bool MayOverflowWithDivision(const Tp& left, const Tp& right) noexcept
 		{
-			static_assert(Traits::IsNumeralType<Tp>, "テンプレート引数型 Tp は算術型である必要があります。");
+			static_assert(Traits::IsNumericalType<Tp>, "テンプレート引数型 Tp は数値型である必要があります。");
 			static_assert(std::is_constructible_v<Tp, int>, "テンプレート引数型 Tp は (int) を引数に取るコンストラクタを持つ必要があります。");
 			if (right == Tp(0))
 			{
