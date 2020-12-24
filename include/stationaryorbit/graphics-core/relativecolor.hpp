@@ -48,30 +48,18 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		}
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Normalize() const noexcept { return Apply([](const auto& item)->ValueType { return item.Normalize(); }); }
 
-		[[nodiscard]] constexpr RelativeColor<Tp, N> Promote() const noexcept { return Apply([](const auto& item)->ValueType { return item.Promote(); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> Invert() const noexcept { return Apply([](const auto& item)->ValueType { return item.Invert(); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> Add(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.Add(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> Subtract(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.Subtract(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> Multiply(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.Multiply(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> Multiply(const ValueType& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.Multiply(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> Divide(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.Divide(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> Divide(const ValueType& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.Divide(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateAdd(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.SaturateAdd(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateSubtract(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.SaturateSubtract(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateMultiply(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.SaturateMultiply(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateMultiply(const ValueType& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.SaturateMultiply(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateDivide(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.SaturateDivide(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateDivide(const ValueType& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.SaturateDivide(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedAdd(const RelativeColor<Tp, N>& other) const { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.CheckedAdd(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedSubtract(const RelativeColor<Tp, N>& other) const { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.CheckedSubtract(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedMultiply(const RelativeColor<Tp, N>& other) const { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.CheckedMultiply(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedMultiply(const ValueType& other) const { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.CheckedMultiply(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedDivide(const RelativeColor<Tp, N>& other) const { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.CheckedDivide(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedDivide(const ValueType& other) const { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.CheckedDivide(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> And(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.And(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> Or(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.Or(value); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> Not() const noexcept { return Apply([](const auto& item)->ValueType { return item.Not(); }); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> Xor(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item.Xor(value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateAdd(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return ArithmeticOperation::SaturateAdd(item, value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateSubtract(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return ArithmeticOperation::SaturateSubtract(item, value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateMultiply(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return ArithmeticOperation::SaturateMultiply(item, value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateMultiply(const ValueType& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return ArithmeticOperation::SaturateMultiply(item, value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateDivide(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return ArithmeticOperation::SaturateDivide(item, value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateDivide(const ValueType& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return ArithmeticOperation::SaturateDivide(item, value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedAdd(const RelativeColor<Tp, N>& other) const { return Merge(other, [](const auto& item, const auto& value)->ValueType { return ArithmeticOperation::CheckedAdd(item, value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedSubtract(const RelativeColor<Tp, N>& other) const { return Merge(other, [](const auto& item, const auto& value)->ValueType { return ArithmeticOperation::CheckedSubtract(item, value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedMultiply(const RelativeColor<Tp, N>& other) const { return Merge(other, [](const auto& item, const auto& value)->ValueType { return ArithmeticOperation::CheckedMultiply(item, value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedMultiply(const ValueType& other) const { return Merge(other, [](const auto& item, const auto& value)->ValueType { return ArithmeticOperation::CheckedMultiply(item, value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedDivide(const RelativeColor<Tp, N>& other) const { return Merge(other, [](const auto& item, const auto& value)->ValueType { return ArithmeticOperation::CheckedDivide(item, value); }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> CheckedDivide(const ValueType& other) const { return Merge(other, [](const auto& item, const auto& value)->ValueType { return ArithmeticOperation::CheckedDivide(item, value); }); }
 		[[nodiscard]] constexpr bool Equals(const RelativeColor<Tp, N>& other) const noexcept
 		{
 			auto ti = _value.cbegin();
@@ -87,27 +75,27 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			return true;
 		}
 
-		[[nodiscard]] constexpr RelativeColor<Tp, N> operator+() const noexcept { return Promote(); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> operator-() const noexcept { return Invert(); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> operator+(const RelativeColor<Tp, N>& other) const noexcept { return Add(other); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> operator-(const RelativeColor<Tp, N>& other) const noexcept { return Subtract(other); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> operator*(const RelativeColor<Tp, N>& other) const noexcept { return Multiply(other); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> operator*(const ValueType& other) const noexcept { return Multiply(other); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> operator/(const RelativeColor<Tp, N>& other) const noexcept { return Divide(other); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> operator/(const ValueType& other) const noexcept { return Divide(other); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> operator|(const RelativeColor<Tp, N>& other) const noexcept { return Or(other); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> operator&(const RelativeColor<Tp, N>& other) const noexcept { return And(other); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> operator~() const noexcept { return Not(); }
-		[[nodiscard]] constexpr RelativeColor<Tp, N> operator^(const RelativeColor<Tp, N>& other) const noexcept { return Xor(other); }
-		constexpr RelativeColor<Tp, N>& operator+=(const RelativeColor<Tp, N>& other) noexcept { return *this = Add(other); }
-		constexpr RelativeColor<Tp, N>& operator-=(const RelativeColor<Tp, N>& other) noexcept { return *this = Subtract(other); }
-		constexpr RelativeColor<Tp, N>& operator*=(const RelativeColor<Tp, N>& other) noexcept { return *this = Multiply(other); }
-		constexpr RelativeColor<Tp, N>& operator*=(const ValueType& other) noexcept { return *this = Multiply(other); }
-		constexpr RelativeColor<Tp, N>& operator/=(const RelativeColor<Tp, N>& other) noexcept { return *this = Divide(other); }
-		constexpr RelativeColor<Tp, N>& operator/=(const ValueType& other) noexcept { return *this = Divide(other); }
-		constexpr RelativeColor<Tp, N>& operator|=(const RelativeColor<Tp, N>& other) noexcept { return *this = Or(other); }
-		constexpr RelativeColor<Tp, N>& operator&=(const RelativeColor<Tp, N>& other) noexcept { return *this = And(other); }
-		constexpr RelativeColor<Tp, N>& operator^=(const RelativeColor<Tp, N>& other) noexcept { return *this = Xor(other); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator+() const noexcept { return Apply([](const auto& item)->ValueType { return +item; }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator-() const noexcept { return Apply([](const auto& item)->ValueType { return -item; }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator+(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item + value; }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator-(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item - value; }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator*(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item * value; }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator*(const ValueType& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item * value; }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator/(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item / value; }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator/(const ValueType& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item / value; }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator&(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item & value; }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator|(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item | value; }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator~() const noexcept { return Apply([](const auto& item)->ValueType { return ~item; }); }
+		[[nodiscard]] constexpr RelativeColor<Tp, N> operator^(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return item ^ value; }); }
+		constexpr RelativeColor<Tp, N>& operator+=(const RelativeColor<Tp, N>& other) noexcept { return *this = (*this) + (other); }
+		constexpr RelativeColor<Tp, N>& operator-=(const RelativeColor<Tp, N>& other) noexcept { return *this = (*this) - (other); }
+		constexpr RelativeColor<Tp, N>& operator*=(const RelativeColor<Tp, N>& other) noexcept { return *this = (*this) * (other); }
+		constexpr RelativeColor<Tp, N>& operator*=(const ValueType& other) noexcept { return *this = (*this) * (other); }
+		constexpr RelativeColor<Tp, N>& operator/=(const RelativeColor<Tp, N>& other) noexcept { return *this = (*this) / (other); }
+		constexpr RelativeColor<Tp, N>& operator/=(const ValueType& other) noexcept { return *this = (*this) / (other); }
+		constexpr RelativeColor<Tp, N>& operator&=(const RelativeColor<Tp, N>& other) noexcept { return *this = (*this) & (other); }
+		constexpr RelativeColor<Tp, N>& operator|=(const RelativeColor<Tp, N>& other) noexcept { return *this = (*this) | (other); }
+		constexpr RelativeColor<Tp, N>& operator^=(const RelativeColor<Tp, N>& other) noexcept { return *this = (*this) ^ (other); }
 		[[nodiscard]] constexpr bool operator==(const RelativeColor<Tp, N>& other) const noexcept { return Equals(other); }
 		[[nodiscard]] constexpr bool operator!=(const RelativeColor<Tp, N>& other) const noexcept { return !Equals(other); }
 
