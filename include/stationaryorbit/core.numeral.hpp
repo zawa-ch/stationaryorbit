@@ -17,6 +17,8 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include "core/algorithms.hpp"
+#include "core/arithmetic.hpp"
 #include "core/fixedpoint.hpp"
 #include "core/logic.hpp"
 #include "core/point.hpp"
