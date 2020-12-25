@@ -1219,7 +1219,7 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 		///	単方向順序型を識別するための実装。
-		template<class T, class N> struct IsBitSequenceType_t : std::conjunction< IsValueType_t<T>, HasBitSequenceTypeOperation_t<T, N>, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
+		template<class T, class N> struct IsBitSequenceType_t : std::conjunction< IsValueType_t<T>, HasBitSequenceTypeOperation_t<T, N>, std::disjunction< std::is_constructible<T, uint8_t>, IsAggregatable_t<T, uint8_t> >, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
 	public:
 		///	基本的なビット演算を持つ型を識別します。
 		template<class T, class N = int> static constexpr bool HasBitSequenceOperation = HasBitSequenceTypeOperation_t<T, N>::value;
