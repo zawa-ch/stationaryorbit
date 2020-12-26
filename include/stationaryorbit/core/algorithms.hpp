@@ -65,6 +65,45 @@ namespace zawa_ch::StationaryOrbit
 				}
 			}
 		}
+		static constexpr bool And(const bool& left, const bool& right)
+		{
+			return left & right;
+		}
+		static constexpr bool And(const std::initializer_list<bool>& list)
+		{
+			bool result = true;
+			for(auto i: list)
+			{
+				result = And(result, i);
+			}
+			return result;
+		}
+		static constexpr bool Or(const bool& left, const bool& right)
+		{
+			return left | right;
+		}
+		static constexpr bool Or(const std::initializer_list<bool>& list)
+		{
+			bool result = false;
+			for(auto i: list)
+			{
+				result = Or(result, i);
+			}
+			return result;
+		}
+		static constexpr bool Xor(const bool& left, const bool& right)
+		{
+			return (left | right) & !(left & right);
+		}
+		static constexpr bool Xor(const std::initializer_list<bool>& list)
+		{
+			bool result = false;
+			for(auto i: list)
+			{
+				result = Xor(result, i);
+			}
+			return result;
+		}
 	};
 
 	extern template DivisionResult<bool> Algorithms::IntegralFraction<bool>(const bool& numerator, const bool& denominator, const bool& scale);
