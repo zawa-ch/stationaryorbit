@@ -35,19 +35,20 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		Integer() = default;
 		constexpr Integer(const ValueType& value) noexcept : _data(value) {}
-		template<std::enable_if_t<std::is_convertible_v<ValueType, uintmax_t> || Traits::IsAggregatable<ValueType, uintmax_t> || std::is_constructible_v<ValueType, uintmax_t>>>
-		constexpr explicit Integer(const uintmax_t& value)
-			: 
+		template<class fromT, typename = std::void_t< std::enable_if_t< std::is_convertible_v<ValueType, fromT> || Traits::IsAggregatable<ValueType, fromT> || std::is_constructible_v<ValueType, fromT> > > >
+		constexpr Integer(const fromT& value) :
 			_data
 			(
-				[](const uintmax_t& value)->ValueType
+				[](const fromT& value)->ValueType
 				{
-					if constexpr (std::is_convertible_v<ValueType, uintmax_t>) { return value; }
-					if constexpr (Traits::IsAggregatable<ValueType, uintmax_t>) { return ValueType{ value }; }
-					if constexpr (std::is_constructible_v<ValueType, uintmax_t>) { return ValueType(value); }
+					if constexpr (std::is_convertible_v<ValueType, fromT>) { return value; }
+					if constexpr (Traits::IsAggregatable<ValueType, fromT>) { return ValueType{ value }; }
+					if constexpr (std::is_constructible_v<ValueType, fromT>) { return ValueType(value); }
 				}(value)
 			)
 		{}
+	private:
+	public:
 
 		[[nodiscard]] constexpr const ValueType& Data() const noexcept { return _data; }
 
@@ -55,7 +56,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr Integer<T> operator&(const Integer<T>& other) const { return Integer(_data & other._data); }
 		[[nodiscard]] constexpr Integer<T> operator|(const Integer<T>& other) const { return Integer(_data | other._data); }
 		[[nodiscard]] constexpr Integer<T> operator^(const Integer<T>& other) const { return Integer(_data ^ other._data); }
-		template<class rightT, std::enable_if_t<std::is_integral_v<rightT>>>
+		template<class rightT, std::enable_if_t<std::is_integral_v<rightT>, int> = 0>
 		[[nodiscard]] constexpr Integer<T> operator>>(const rightT& other) const { return Integer(_data >> other); }
 		template<class rightT, std::enable_if_t<std::is_integral_v<rightT>>>
 		[[nodiscard]] constexpr Integer<T> operator<<(const rightT& other) const { return Integer(_data << other); }
@@ -64,7 +65,7 @@ namespace zawa_ch::StationaryOrbit
 		constexpr Integer<T>& operator^=(const Integer<T>& other) { _data ^= other._data; return *this; }
 		template<class rightT, std::enable_if_t<std::is_integral_v<rightT>>>
 		constexpr Integer<T>& operator>>=(const rightT& other) { _data >>= other; return *this; }
-		template<class rightT, std::enable_if_t<std::is_integral_v<rightT>>>
+		template<class rightT, std::enable_if_t<std::is_integral_v<rightT>, int> = 0>
 		constexpr Integer<T>& operator<<=(const rightT& other) { _data <<= other; return *this; }
 		[[nodiscard]] constexpr bool operator==(const Integer<T>& other) const { return _data == other._data; }
 		[[nodiscard]] constexpr bool operator!=(const Integer<T>& other) const { return _data != other._data; }
@@ -81,7 +82,7 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr Integer<T> operator+(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasAddition<T>) { return Integer<T>(_data + other._data); }
+			if constexpr (Traits::HasAddition<T, T>) { return Integer<T>(_data + other._data); }
 			else
 			{
 				auto result = Integer<T>();
@@ -90,7 +91,7 @@ namespace zawa_ch::StationaryOrbit
 				{
 					bool a = getbit(i);
 					bool b = other.getbit(i);
-					result.setbit(i, Xor(a, b, c));
+					result.setbit(i, Algorithms::Xor({a, b, c}));
 					c = (a & b) | (b & c) | (c & a);
 				}
 				return result;
@@ -98,7 +99,7 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr Integer<T> operator-(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasAddition<T>) { return Integer<T>(_data - other._data); }
+			if constexpr (Traits::HasAddition<T, T>) { return Integer<T>(_data - other._data); }
 			else
 			{
 				auto result = Integer<T>();
@@ -107,7 +108,7 @@ namespace zawa_ch::StationaryOrbit
 				{
 					bool a = getbit(i);
 					bool b = !other.getbit(i);
-					result.setbit(i, Xor(a, b, c));
+					result.setbit(i, Algorithms::Xor({a, b, c}));
 					c = (a & b) | (b & c) | (c & a);
 				}
 				return result;
@@ -115,7 +116,7 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr Integer<T> operator*(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasMultiplication<T>) { return Integer<T>(_data * other._data); }
+			if constexpr (Traits::HasMultiplication<T, T>) { return Integer<T>(_data * other._data); }
 			else
 			{
 				auto result = Integer<T>();
@@ -129,17 +130,14 @@ namespace zawa_ch::StationaryOrbit
 				return result;
 			}
 		}
-		constexpr Integer<T>& operator+=(const Integer<T>& other) { *this = *this + other; return *this; }
-		constexpr Integer<T>& operator-=(const Integer<T>& other) { *this = *this - other; return *this; }
-		constexpr Integer<T>& operator*=(const Integer<T>& other) { *this = *this * other; return *this; }
 		[[nodiscard]] constexpr Integer<T> operator/(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasDivision<T>) { return Integer<T>(_data / other._data); }
+			if constexpr (Traits::HasDivision<T, T>) { return Integer<T>(_data / other._data); }
 			else { return divide_impl(other).Value; }
 		}
 		[[nodiscard]] constexpr Integer<T> operator%(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasModulation<T>) { return Integer<T>(_data % other._data); }
+			if constexpr (Traits::HasModulation<T, T>) { return Integer<T>(_data % other._data); }
 			else { return divide_impl(other).Mod; }
 		}
 
@@ -154,35 +152,33 @@ namespace zawa_ch::StationaryOrbit
 			if constexpr (Traits::HasPreincrement<T>) { return ++_data; }
 			else
 			{
-				auto result = Integer<T>();
 				bool c = true;
 				for (auto i: Range<size_t>(0, BitWidth<T>).GetStdIterator())
 				{
 					bool a = getbit(i);
-					result.setbit(i, Xor(a, c));
+					setbit(i, Algorithms::Xor(a, c));
 					c = (c & a);
 				}
-				return result;
+				return *this;
 			}
 		}
-		[[nodiscard]] constexpr Integer<T>& operator++(int) { auto result = *this; ++(*this); return result; }
+		[[nodiscard]] constexpr Integer<T> operator++(int) { auto result = *this; ++(*this); return result; }
 		constexpr Integer<T>& operator--()
 		{
 			if constexpr (Traits::HasPreincrement<T>) { return --_data; }
 			else
 			{
-				auto result = Integer<T>();
 				bool c = true;
 				for (auto i: Range<size_t>(0, BitWidth<T>).GetStdIterator())
 				{
 					bool a = getbit(i);
-					result.setbit(i, true, Xor(a, c));
+					setbit(i, Algorithms::Xor({a, true, c}));
 					c = (a | c);
 				}
-				return result;
+				return *this;
 			}
 		}
-		[[nodiscard]] constexpr Integer<T>& operator--(int) { auto result = *this; --(*this); return result; }
+		[[nodiscard]] constexpr Integer<T> operator--(int) { auto result = *this; --(*this); return result; }
 
 		[[nodiscard]] constexpr int Compare(const Integer<T>& other) const
 		{
@@ -209,22 +205,22 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr bool operator<(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasSmallerCompare<T>) { return _data < other._data; }
+			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data < other._data; }
 			else { Compare(other) < 0; }
 		}
 		[[nodiscard]] constexpr bool operator<=(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasSmallerCompare<T>) { return _data <= other._data; }
+			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data <= other._data; }
 			else { Compare(other) <= 0; }
 		}
 		[[nodiscard]] constexpr bool operator>(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasSmallerCompare<T>) { return _data > other._data; }
+			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data > other._data; }
 			else { Compare(other) > 0; }
 		}
 		[[nodiscard]] constexpr bool operator>=(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasSmallerCompare<T>) { return _data >= other._data; }
+			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data >= other._data; }
 			else { Compare(other) >= 0; }
 		}
 	private:
@@ -250,14 +246,17 @@ namespace zawa_ch::StationaryOrbit
 			Integer<T> surplus = *this;
 			for (auto i: Range<size_t>(0, BitWidth<T>).GetStdReverseIterator())
 			{
-				Integer<T> div = other << i;
+				Integer<T> div = other._data << i;
 				if (div <= surplus)
 				{
-					result |= Integer<T>(1) << i;
+					result._data |= value_construct(1) << i;
 					surplus -= div;
 				}
 			}
+			return DivisionResult<Integer<T>>{ result, surplus };
 		}
 	};
+
+	extern template struct Integer<std::byte>;
 }
 #endif // __stationaryorbit_core_integer__

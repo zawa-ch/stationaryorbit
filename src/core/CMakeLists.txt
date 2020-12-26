@@ -30,6 +30,7 @@ add_library(${AssemblyName} SHARED
     arithmetic.cpp
     bitmask.cpp
     fixedpoint.cpp
+    integer.cpp
     multiplelong.cpp
     point.cpp
     proportion.cpp
