@@ -1487,9 +1487,24 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, std::enable_if_t<Traits::IsBitSequenceType<T>, int> = 0>
 		static constexpr size_t Count()
 		{
-			static_assert(std::is_constructible_v<T, int>, "テンプレート型 T は (int) を引数に持つコンストラクタをサポートする必要があります。");
-			auto v = T(1);
-			const auto z = T(0);
+			static_assert(std::is_convertible_v<T, uint8_t> || Traits::IsAggregatable<T, uint8_t> || std::is_constructible_v<T, uint8_t>, "テンプレート型 T は (uint8_t) を引数に持つコンストラクタ,集成体初期化またはuint8_tからの暗黙の変換をサポートする必要があります。");
+			T v = T();
+			T z = T();
+			if constexpr (std::is_convertible_v<T, uint8_t>)
+			{
+				v = 1;
+				z = 0;
+			}
+			if constexpr ((!std::is_convertible_v<T, uint8_t>) && Traits::IsAggregatable<T, uint8_t>)
+			{
+				v = T{ 1 };
+				z = T{ 0 };
+			}
+			if constexpr ((!std::is_convertible_v<T, uint8_t>) && !(Traits::IsAggregatable<T, uint8_t>) && std::is_constructible_v<T, uint8_t>)
+			{
+				v = T(1);
+				z = T(0);
+			}
 			size_t result = 0;
 			while(v != z)
 			{
