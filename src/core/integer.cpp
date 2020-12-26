@@ -20,3 +20,7 @@
 using namespace zawa_ch::StationaryOrbit;
 
 template struct zawa_ch::StationaryOrbit::Integer<std::byte>;
+template struct zawa_ch::StationaryOrbit::Integer<uint8_t>;
+template struct zawa_ch::StationaryOrbit::Integer<uint16_t>;
+template struct zawa_ch::StationaryOrbit::Integer<uint32_t>;
+template struct zawa_ch::StationaryOrbit::Integer<uint64_t>;

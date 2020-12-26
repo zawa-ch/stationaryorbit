@@ -149,7 +149,7 @@ namespace zawa_ch::StationaryOrbit
 
 		constexpr Integer<T>& operator++()
 		{
-			if constexpr (Traits::HasPreincrement<T>) { return ++_data; }
+			if constexpr (Traits::HasPreincrement<T>) { (void)++_data; return *this; }
 			else
 			{
 				bool c = true;
@@ -165,7 +165,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr Integer<T> operator++(int) { auto result = *this; ++(*this); return result; }
 		constexpr Integer<T>& operator--()
 		{
-			if constexpr (Traits::HasPreincrement<T>) { return --_data; }
+			if constexpr (Traits::HasPreincrement<T>) { (void)--_data; return *this; }
 			else
 			{
 				bool c = true;
@@ -258,5 +258,9 @@ namespace zawa_ch::StationaryOrbit
 	};
 
 	extern template struct Integer<std::byte>;
+	extern template struct Integer<uint8_t>;
+	extern template struct Integer<uint16_t>;
+	extern template struct Integer<uint32_t>;
+	extern template struct Integer<uint64_t>;
 }
 #endif // __stationaryorbit_core_integer__
