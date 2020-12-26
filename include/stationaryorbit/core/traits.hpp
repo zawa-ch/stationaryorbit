@@ -1228,52 +1228,6 @@ namespace zawa_ch::StationaryOrbit
 		///	signedな型はビット演算の結果が未定義(または処理系定義)となる値域を含むためサポートされません。
 		template<class T, class N = int> static constexpr bool IsBitSequenceType = IsBitSequenceType_t<T, N>::value;
 	private:
-		template<class, class, class = std::void_t<>>
-		struct HasSaturateAddition_t : std::false_type {};
-		template<class T, class U>
-		struct HasSaturateAddition_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateAdd(std::declval<U&>()) ) > > : std::true_type {};
-
-		template<class, class, class = std::void_t<>>
-		struct HasSaturateSubtraction_t : std::false_type {};
-		template<class T, class U>
-		struct HasSaturateSubtraction_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateSubtract(std::declval<U&>()) ) > > : std::true_type {};
-
-		template<class, class, class = std::void_t<>>
-		struct HasSaturateMultiplication_t : std::false_type {};
-		template<class T, class U>
-		struct HasSaturateMultiplication_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateMultiply(std::declval<U&>()) ) > > : std::true_type {};
-
-		template<class, class, class = std::void_t<>>
-		struct HasSaturateDivision_t : std::false_type {};
-		template<class T, class U>
-		struct HasSaturateDivision_t<T, U, std::void_t< decltype( std::declval<T&>().SaturateDivide(std::declval<U&>()) ) > > : std::true_type {};
-
-		template<class T, class U>
-		struct HasSaturateOperation_t : std::conjunction<HasSaturateAddition_t<T, U>, HasSaturateSubtraction_t<T, U>, HasSaturateMultiplication_t<T, U>, HasSaturateDivision_t<T, U>> {};
-
-		template<class, class, class = std::void_t<>>
-		struct HasCheckedAddition_t : std::false_type {};
-		template<class T, class U>
-		struct HasCheckedAddition_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedAdd(std::declval<U&>()) ) > > : std::true_type {};
-
-		template<class, class, class = std::void_t<>>
-		struct HasCheckedSubtraction_t : std::false_type {};
-		template<class T, class U>
-		struct HasCheckedSubtraction_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedSubtract(std::declval<U&>()) ) > > : std::true_type {};
-
-		template<class, class, class = std::void_t<>>
-		struct HasCheckedMultiplication_t : std::false_type {};
-		template<class T, class U>
-		struct HasCheckedMultiplication_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedMultiply(std::declval<U&>()) ) > > : std::true_type {};
-
-		template<class, class, class = std::void_t<>>
-		struct HasCheckedDivision_t : std::false_type {};
-		template<class T, class U>
-		struct HasCheckedDivision_t<T, U, std::void_t< decltype( std::declval<T&>().CheckedDivide(std::declval<U&>()) ) > > : std::true_type {};
-
-		template<class T, class U>
-		struct HasCheckedOperation_t : std::conjunction<HasCheckedAddition_t<T, U>, HasCheckedSubtraction_t<T, U>, HasCheckedMultiplication_t<T, U>, HasCheckedDivision_t<T, U>> {};
-
 		struct do_StdLegacyIterator_impl
 		{
 			template<class It, typename = typename std::iterator_traits<It>::value_type> static std::true_type test_has_value_type(int);
@@ -1449,12 +1403,7 @@ namespace zawa_ch::StationaryOrbit
 				typename do_StdLegacyRandomAccessIterator_t<It>::difference_type_subscript_is_convertible_reference
 			>
 		{};
-
 	public:
-		///	計算結果が飽和する四則演算を持つ型を識別します。
-		template<class T, class U = T> inline constexpr static bool HasSaturateOperation = HasSaturateOperation_t<T, U>::value;
-		///	計算結果の値域チェックが行われる四則演算を持つ型を識別します。
-		template<class T, class U = T> inline constexpr static bool HasCheckedOperation = HasCheckedOperation_t<T, U>::value;
 		///	名前付き要件:LegacyIteratorを満たす型を識別します。
 		template<class It> inline constexpr static bool IsStdLegacyIterator = IsStdLegacyIterator_t<It>::value;
 		///	名前付き要件:LegacyInputIteratorを満たす型を識別します。
