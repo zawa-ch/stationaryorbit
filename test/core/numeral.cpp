@@ -103,8 +103,6 @@ void Test_Proportion()
 	static_assert(!Traits::IsIntegralType<Proportion8_t>, "ProportionがTraitsIsIntegerTypeの要件を満たしました。");
 	static_assert(Traits::IsComparable<Proportion8_t>, "ProportionがTraitsComparableの要件を満たしません。");
 	static_assert(Traits::IsEquatable<Proportion8_t>, "ProportionがTraitsEquatableの要件を満たしません。");
-	static_assert(Traits::HasSaturateOperation<Proportion8_t>, "ProportionがTraitsHasSaturateOperationの要件を満たしません。");
-	static_assert(Traits::HasCheckedOperation<Proportion8_t>, "ProportionがTraitsHasCheckedOperationの要件を満たしません。");
 
 	auto p1 = Proportion8_t(0.5);
 	auto p2 = Proportion8_t(0.25);
