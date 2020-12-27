@@ -16,7 +16,7 @@
 //	along with this program.
 //	If not, see <http://www.gnu.org/licenses/>.
 //
-#include "stationaryorbit/exception/nullreference.hpp"
+#include "stationaryorbit/core/nullreference.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 NullReferenceException::NullReferenceException(const std::string& what_arg) noexcept

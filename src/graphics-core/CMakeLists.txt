@@ -49,7 +49,6 @@ add_library(${AssemblyName} SHARED
 set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 17)
 
 target_link_libraries(${AssemblyName}
-    stationaryorbit.exception
     stationaryorbit.core
 )
 

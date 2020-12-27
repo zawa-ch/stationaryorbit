@@ -1,4 +1,4 @@
-//	stationaryorbit.exception:/invalidoperation
+//	stationaryorbit/core.exception
 //	Copyright 2020 zawa-ch.
 //	GPLv3 (or later) license
 //
@@ -16,13 +16,7 @@
 //	along with this program.
 //	If not, see <http://www.gnu.org/licenses/>.
 //
-#include "stationaryorbit/exception/invalidoperation.hpp"
-using namespace zawa_ch::StationaryOrbit;
 
-InvalidOperationException::InvalidOperationException(const std::string& what_arg) noexcept
-	: std::logic_error(what_arg)
-{}
-
-InvalidOperationException::InvalidOperationException(const char* what_arg) noexcept
-	: std::logic_error(what_arg)
-{}
+#include "core/invalidoperation.hpp"
+#include "core/notimplemented.hpp"
+#include "core/nullreference.hpp"

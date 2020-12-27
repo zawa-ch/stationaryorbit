@@ -31,7 +31,9 @@ add_library(${AssemblyName} SHARED
     bitmask.cpp
     fixedpoint.cpp
     integer.cpp
+    invalidoperation.cpp
     multiplelong.cpp
+    nullreference.cpp
     point.cpp
     proportion.cpp
     real.cpp
@@ -43,7 +45,3 @@ add_library(${AssemblyName} SHARED
 )
 
 set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 17)
-
-target_link_libraries(${AssemblyName}
-    stationaryorbit.exception
-)
