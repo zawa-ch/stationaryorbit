@@ -20,6 +20,7 @@
 #include "core/algorithms.hpp"
 #include "core/arithmetic.hpp"
 #include "core/fixedpoint.hpp"
+#include "core/integer.hpp"
 #include "core/logic.hpp"
 #include "core/point.hpp"
 #include "core/proportion.hpp"
