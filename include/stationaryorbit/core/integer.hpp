@@ -122,7 +122,7 @@ namespace zawa_ch::StationaryOrbit
 				auto result = Integer<T>();
 				for (auto i: Range<size_t>(0, BitWidth<T>).GetStdIterator())
 				{
-					if (getbit(i))
+					if (other.getbit(i))
 					{
 						result = result + (_data << i);
 					}
@@ -242,9 +242,14 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr DivisionResult<Integer<T>> divide_impl(const Integer<T>& other) const
 		{
+			size_t w = 0;
+			for (auto i: Range<size_t>(0, BitWidth<T>).GetStdIterator())
+			{
+				if (other.getbit(i)) { w = i; }
+			}
 			auto result = Integer<T>();
 			Integer<T> surplus = *this;
-			for (auto i: Range<size_t>(0, BitWidth<T>).GetStdReverseIterator())
+			for (auto i: Range<size_t, true, true>(0, w).GetStdReverseIterator())
 			{
 				Integer<T> div = other._data << i;
 				if (div <= surplus)

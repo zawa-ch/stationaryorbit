@@ -23,6 +23,7 @@
 using namespace zawa_ch::StationaryOrbit;
 
 void Test_FixedPoint();
+void Test_Integer();
 void Test_Logic();
 void Test_Point();
 void Test_Proportion();
@@ -35,6 +36,7 @@ void Test_ZeroValue();
 void Test_Numeral()
 {
 	Test_FixedPoint();
+	Test_Integer();
 	Test_Logic();
 	Test_Point();
 	Test_Proportion();
@@ -72,6 +74,18 @@ void Test_Logic()
 	if (!bool(Logic::Indefinited() && Logic::False())) { std::cout << "I & F -> F" << std::endl; } else { throw std::exception(); }
 	if ((!Logic::Indefinited()) == Logic::Indefinited()) { std::cout << "!I -> I" << std::endl; } else { throw std::exception(); }
 	if (Logic::Undefined() != Logic::Undefined()) { std::cout << "U != U" << std::endl; } else { throw std::exception(); }
+}
+
+void Test_Integer()
+{
+	std::cout << "<--- Integer --->" << std::endl;
+	auto v1 = Integer<std::byte>(uint8_t(12));
+	auto v2 = Integer<std::byte>(uint8_t(5));
+	if ((v1 + v2) != Integer<std::byte>(uint8_t(12 + 5))) { throw std::exception(); }
+	if ((v1 - v2) != Integer<std::byte>(uint8_t(12 - 5))) { throw std::exception(); }
+	if ((v1 * v2) != Integer<std::byte>(uint8_t(12 * 5))) { throw std::exception(); }
+	if ((v1 / v2) != Integer<std::byte>(uint8_t(12 / 5))) { throw std::exception(); }
+	if ((v1 % v2) != Integer<std::byte>(uint8_t(12 % 5))) { throw std::exception(); }
 }
 
 void Test_Point()
