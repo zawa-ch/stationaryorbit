@@ -21,7 +21,7 @@
 #include <cstdint>
 #include <type_traits>
 #include <array>
-#include "stationaryorbit/exception.hpp"
+#include "invalidoperation.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	すべてのスカラー型のエンディアンを表します。

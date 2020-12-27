@@ -18,7 +18,7 @@
 //
 #ifndef __stationaryorbit_mathematics_taylorseries__
 #define __stationaryorbit_mathematics_taylorseries__
-#include "stationaryorbit/exception.hpp"
+#include "stationaryorbit/core.exception.hpp"
 #include "mathematicfunction.hpp"
 namespace zawa_ch::StationaryOrbit::Mathematics
 {

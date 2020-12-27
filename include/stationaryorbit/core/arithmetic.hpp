@@ -16,7 +16,7 @@
 //	along with this program.
 //	If not, see <http://www.gnu.org/licenses/>.
 //
-#include "stationaryorbit/exception.hpp"
+#include "invalidoperation.hpp"
 #include "traits.hpp"
 #include "algorithms.hpp"
 #ifndef __stationaryorbit_core_arithmetic__

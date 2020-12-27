@@ -19,7 +19,7 @@
 #ifndef __stationaryorbit_mathematics_polynomialfunction__
 #define __stationaryorbit_mathematics_polynomialfunction__
 #include <vector>
-#include "stationaryorbit/exception.hpp"
+#include "stationaryorbit/core.exception.hpp"
 #include "mathematicfunction.hpp"
 namespace zawa_ch::StationaryOrbit::Mathematics
 {

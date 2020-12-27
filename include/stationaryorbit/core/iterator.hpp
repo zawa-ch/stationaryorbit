@@ -22,7 +22,7 @@
 #include <utility>
 #include <functional>
 #include <optional>
-#include "stationaryorbit/exception.hpp"
+#include "invalidoperation.hpp"
 #include "traits.hpp"
 namespace zawa_ch::StationaryOrbit
 {

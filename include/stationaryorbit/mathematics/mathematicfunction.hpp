@@ -19,7 +19,6 @@
 #ifndef __stationaryorbit_mathematics_mathematicfunction__
 #define __stationaryorbit_mathematics_mathematicfunction__
 #include <functional>
-#include "stationaryorbit/exception.hpp"
 namespace zawa_ch::StationaryOrbit::Mathematics
 {
 

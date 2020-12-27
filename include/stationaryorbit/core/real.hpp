@@ -21,7 +21,7 @@
 #include <cstdint>
 #include <vector>
 #include <string>
-#include "stationaryorbit/exception.hpp"
+#include "invalidoperation.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 

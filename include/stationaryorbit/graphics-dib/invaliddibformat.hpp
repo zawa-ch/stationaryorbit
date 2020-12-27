@@ -18,7 +18,7 @@
 //
 #ifndef __stationaryorbit_graphics_dib_invaliddibformatexception_
 #define __stationaryorbit_graphics_dib_invaliddibformatexception_
-#include "stationaryorbit/exception.hpp"
+#include "stationaryorbit/core.exception.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
 
