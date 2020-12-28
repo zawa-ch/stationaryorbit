@@ -41,26 +41,34 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		PNG,
 		ALPHABITFIELDS,
 	};
-	struct RGBTriple_t
+	enum class DIBColorSpaceMode
+	{
+		Header = 0,
+		sRGB = 0x73524742,
+		Win = 0x57696e20,
+		Link = 0x4c494e4b,
+		Embeded = 0x4d424544
+	};
+	struct RGBTriple_t final
 	{
 		ChannelValue<Proportion8_t> Red;
 		ChannelValue<Proportion8_t> Green;
 		ChannelValue<Proportion8_t> Blue;
 	};
-	struct RGBQuad_t
+	struct RGBQuad_t final
 	{
 		ChannelValue<Proportion8_t> Red;
 		ChannelValue<Proportion8_t> Green;
 		ChannelValue<Proportion8_t> Blue;
 		ChannelValue<Proportion8_t> Reserved;
 	};
-	struct CIEXYZ_t
+	struct CIEXYZ_t final
 	{
 		ChannelValue<FixedPoint32q16_t> X;
 		ChannelValue<FixedPoint32q16_t> Y;
 		ChannelValue<FixedPoint32q16_t> Z;
 	};
-	struct CIEXYZTriple_t
+	struct CIEXYZTriple_t final
 	{
 		CIEXYZ_t Red;
 		CIEXYZ_t Green;
@@ -73,12 +81,38 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		BitMask<uint32_t> BlueMask;
 		std::optional<BitMask<uint32_t>> AlphaMask;
 	};
-	struct DIBColorSpace
+	struct DIBV4ColorSpace final
 	{
+		///< 色空間 [0(ヘッダ内で定義)]
+		DIBColorSpaceMode ColorSpace;
+		///< CIEXYZTRIPLE構造体 色空間が0の場合のみ有効
 		CIEXYZTriple_t Matrix;
+		///< 赤成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
 		FixedPoint32q16_t GammaR;
+		///< 緑成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
 		FixedPoint32q16_t GammaG;
+		///< 青成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
 		FixedPoint32q16_t GammaB;
+	};
+	struct DIBV5ColorSpace final
+	{
+		///< 色空間 [0(ヘッダ内で定義), 0x73524742('sRGB'), 0x57696e20('Win '), 0x4c494e4b('LINK'), 0x4d424544('MBED')]
+		DIBColorSpaceMode ColorSpace;
+		///< CIEXYZTRIPLE構造体 色空間が0の場合のみ有効
+		CIEXYZTriple_t Matrix;
+		///< 赤成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
+		FixedPoint32q16_t GammaR;
+		///< 緑成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
+		FixedPoint32q16_t GammaG;
+		///< 青成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
+		FixedPoint32q16_t GammaB;
+		///< レンダリングの意図
+		uint32_t RenderingIntent;
+		///< プロファイルデータのオフセット 情報ヘッダの先頭アドレスからプロファイルデータの先頭アドレスまでのオフセット。単位はバイト
+		uint32_t ProfileOffset;
+		///< プロファイルデータのサイズ 単位はバイト
+		uint32_t ProfileSize;
+		uint32_t _Reserved_64;
 	};
 	#pragma pack(1)
 	struct CoreHeader
@@ -123,24 +157,24 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	#pragma pack(1)
 	struct RGBColorMask
 	{
-		///< 赤成分のカラーマスク
+		///	赤成分のカラーマスク
 		uint32_t ColorMaskR;
-		///< 緑成分のカラーマスク
+		///	緑成分のカラーマスク
 		uint32_t ColorMaskG;
-		///< 青成分のカラーマスク
+		///	青成分のカラーマスク
 		uint32_t ColorMaskB;
 	};
 	#pragma pack()
 	#pragma pack(1)
 	struct RGBAColorMask
 	{
-		///< 赤成分のカラーマスク
+		///	赤成分のカラーマスク
 		uint32_t ColorMaskR;
-		///< 緑成分のカラーマスク
+		///	緑成分のカラーマスク
 		uint32_t ColorMaskG;
-		///< 青成分のカラーマスク
+		///	青成分のカラーマスク
 		uint32_t ColorMaskB;
-		///< α成分のカラーマスク
+		///	α成分のカラーマスク
 		uint32_t ColorMaskA;
 	};
 	#pragma pack()
@@ -148,73 +182,60 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	struct V4Header
 	{
 		static const constexpr uint32_t Size = 108;
-		///< ビットマップの横幅
+		///	ビットマップの横幅
 		int32_t ImageWidth;
-		///< ビットマップの縦幅
+		///	ビットマップの縦幅
 		int32_t ImageHeight;
-		///< プレーン数
+		///	プレーン数
 		uint16_t PlaneCount;
-		///< 1ピクセルあたりのビット数
+		///	1ピクセルあたりのビット数
 		BitDepth BitCount;
-		///< 圧縮形式
+		///	圧縮形式
 		CompressionMethod ComplessionMethod;
-		///< 画像データサイズ (単位はバイト)
+		///	画像データサイズ (単位はバイト)
 		uint32_t ImageSize;
-		///< 水平方向の解像度 (単位はピクセル/m)
+		///	水平方向の解像度 (単位はピクセル/m)
 		uint32_t ResolutionHolizonal;
-		///< 垂直方向の解像度 (単位はピクセル/m)
+		///	垂直方向の解像度 (単位はピクセル/m)
 		uint32_t ResolutionVertical;
-		///< 使用する色数 ビットマップで実際に使用するカラーパレット内のカラーインデックスの数。
+		///	使用する色数 ビットマップで実際に使用するカラーパレット内のカラーインデックスの数。
 		uint32_t IndexedColorCount;
-		///< 重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
+		///	重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
 		uint32_t ImportantColorCount;
-		///< 赤成分のカラーマスク
-		uint32_t ColorMaskR;
-		///< 緑成分のカラーマスク
-		uint32_t ColorMaskG;
-		///< 青成分のカラーマスク
-		uint32_t ColorMaskB;
-		///< α成分のカラーマスク
-		uint32_t ColorMaskA;
-		///< 色空間 [0(ヘッダ内で定義)]
-		uint32_t ColorSpace;
-		///< CIEXYZTRIPLE構造体 色空間が0の場合のみ有効
-		CIEXYZTriple_t CieXyzTriple;
-		///< 赤成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
-		uint32_t GammaR;
-		///< 緑成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
-		uint32_t GammaG;
-		///< 青成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
-		uint32_t GammaB;
+		///	カラーマスク
+		RGBAColorMask ColorMask;
+		///	色空間
+		DIBV4ColorSpace ColorSpace;
 	};
 	#pragma pack()
 	#pragma pack(1)
 	struct V5Header
 	{
 		static const constexpr uint32_t Size = 124;
-		int32_t ImageWidth;	///< ビットマップの横幅
-		int32_t ImageHeight;	///< ビットマップの縦幅
-		uint16_t PlaneCount;	///< プレーン数
-		BitDepth BitCount;	///< 1ピクセルあたりのビット数
-		CompressionMethod ComplessionMethod;	///< 圧縮形式
-		uint32_t ImageSize;	///< 画像データサイズ (単位はバイト)
-		uint32_t ResolutionHolizonal;	///< 水平方向の解像度 (単位はピクセル/m)
-		uint32_t ResolutionVertical;	///< 垂直方向の解像度 (単位はピクセル/m)
-		uint32_t IndexedColorCount;	///< 使用する色数 ビットマップで実際に使用するカラーパレット内のカラーインデックスの数。
-		uint32_t ImportantColorCount;	///< 重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
-		uint32_t ColorMaskR;	///< 赤成分のカラーマスク
-		uint32_t ColorMaskG;	///< 緑成分のカラーマスク
-		uint32_t ColorMaskB;	///< 青成分のカラーマスク
-		uint32_t ColorMaskA;	///< α成分のカラーマスク
-		uint32_t ColorSpace;	///< 色空間 [0(ヘッダ内で定義), 0x73524742('sRGB'), 0x57696e20('Win '), 0x4c494e4b('LINK'), 0x4d424544('MBED')]
-		CIEXYZTriple_t CieXyzTriple;	///< CIEXYZTRIPLE構造体 色空間が0の場合のみ有効
-		uint32_t GammaR;	///< 赤成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
-		uint32_t GammaG;	///< 緑成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
-		uint32_t GammaB;	///< 青成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
-		uint32_t RenderingIntent;	///< レンダリングの意図
-		uint32_t ColorProfileOffset;	///< プロファイルデータのオフセット 情報ヘッダの先頭アドレスからプロファイルデータの先頭アドレスまでのオフセット。単位はバイト
-		uint32_t ColorProfileSize;	///< プロファイルデータのサイズ 単位はバイト
-		uint32_t Reserved;
+		///	ビットマップの横幅
+		int32_t ImageWidth;
+		///	ビットマップの縦幅
+		int32_t ImageHeight;
+		///	プレーン数
+		uint16_t PlaneCount;
+		///	1ピクセルあたりのビット数
+		BitDepth BitCount;
+		///	圧縮形式
+		CompressionMethod ComplessionMethod;
+		///	画像データサイズ (単位はバイト)
+		uint32_t ImageSize;
+		///	水平方向の解像度 (単位はピクセル/m)
+		uint32_t ResolutionHolizonal;
+		///	垂直方向の解像度 (単位はピクセル/m)
+		uint32_t ResolutionVertical;
+		///	使用する色数 ビットマップで実際に使用するカラーパレット内のカラーインデックスの数。
+		uint32_t IndexedColorCount;
+		///	重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
+		uint32_t ImportantColorCount;
+		///	カラーマスク
+		RGBAColorMask ColorMask;
+		///	色空間
+		DIBV5ColorSpace ColorSpace;
 	};
 	#pragma pack()
 }
