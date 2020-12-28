@@ -35,7 +35,7 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		Integer() = default;
 		constexpr Integer(const ValueType& value) noexcept : _data(value) {}
-		template<class fromT, typename = std::void_t< std::enable_if_t< std::is_convertible_v<ValueType, fromT> || Traits::IsAggregatable<ValueType, fromT> || std::is_constructible_v<ValueType, fromT> > > >
+		template<class fromT, typename = std::enable_if_t< std::is_convertible_v<ValueType, fromT> || Traits::IsAggregatable<ValueType, fromT> || std::is_constructible_v<ValueType, fromT> > >
 		constexpr Integer(const fromT& value) :
 			_data
 			(
@@ -51,6 +51,7 @@ namespace zawa_ch::StationaryOrbit
 	public:
 
 		[[nodiscard]] constexpr const ValueType& Data() const noexcept { return _data; }
+		[[nodiscard]] constexpr explicit operator ValueType() const { return _data; }
 
 		[[nodiscard]] constexpr Integer<T> operator~() const { return Integer(~_data); }
 		[[nodiscard]] constexpr Integer<T> operator&(const Integer<T>& other) const { return Integer(_data & other._data); }
