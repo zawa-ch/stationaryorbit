@@ -17,9 +17,5 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "graphics-dib/ciexyz.hpp"
-#include "graphics-dib/colormask.hpp"
-#include "graphics-dib/dibheaders.hpp"
 #include "graphics-dib/fileheader.hpp"
-#include "graphics-dib/rgbquad.hpp"
-#include "graphics-dib/rgbtriple.hpp"
+#include "graphics-dib/structures.hpp"
