@@ -34,7 +34,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	private:
 		DataType _value;
 	public:
-		constexpr RelativeColor() = default;
+		RelativeColor() = default;
 		constexpr explicit RelativeColor(const DataType& list) : _value(list) {}
 		template<class fromT>
 		constexpr explicit RelativeColor(const RelativeColor<fromT, N>& from) : _value(convert(from.Data())) {}
@@ -101,7 +101,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Apply(const std::function<ValueType(const ValueType&)>& pred) const
 		{
-			RelativeColor<Tp, N> result;
+			auto result = RelativeColor<Tp, N>();
 			auto si = _value.cbegin();
 			auto di = result._value.begin();
 			auto se = _value.cend();
@@ -116,7 +116,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		}
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Merge(const RelativeColor<Tp, N>& other, const std::function<ValueType(const ValueType&, const ValueType&)>& pred) const
 		{
-			RelativeColor<Tp, N> result;
+			auto result = RelativeColor<Tp, N>();
 			auto s1i = _value.cbegin();
 			auto s2i = other._value.cbegin();
 			auto di = result._value.begin();
@@ -134,7 +134,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		}
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Merge(const ValueType& value, const std::function<ValueType(const ValueType&, const ValueType&)>& pred) const
 		{
-			RelativeColor<Tp, N> result;
+			auto result = RelativeColor<Tp, N>();
 			auto si = _value.cbegin();
 			auto di = result._value.begin();
 			auto se = _value.cend();
@@ -150,7 +150,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		[[nodiscard]] static constexpr RelativeColor<Tp, N> Expand(const ValueType& value)
 		{
-			RelativeColor<Tp, N> result;
+			auto result = RelativeColor<Tp, N>();
 			for(auto& item: result._value)
 			{
 				item = value;
@@ -161,7 +161,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		template<class fromT>
 		static constexpr std::array<ValueType, N> convert(const std::array<fromT, N>& valuelist)
 		{
-			std::array<ValueType, N> result;
+			auto result = std::array<ValueType, N>();
 			auto si = valuelist.cbegin();
 			auto di = result.begin();
 			auto se = valuelist.cend();
