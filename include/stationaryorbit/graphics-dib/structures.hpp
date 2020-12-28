@@ -18,29 +18,29 @@
 //
 #ifndef __stationaryorbit_graphics_dib_structures__
 #define __stationaryorbit_graphics_dib_structures__
-#include <cstdint>
 #include <optional>
 #include "stationaryorbit/core.bitoperation.hpp"
+#include "stationaryorbit/graphics-core.color.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
 	struct RGBTriple_t
 	{
-		uint8_t Red;
-		uint8_t Green;
-		uint8_t Blue;
+		ChannelValue<Proportion8_t> Red;
+		ChannelValue<Proportion8_t> Green;
+		ChannelValue<Proportion8_t> Blue;
 	};
 	struct RGBQuad_t
 	{
-		uint8_t Red;
-		uint8_t Green;
-		uint8_t Blue;
-		uint8_t Reserved;
+		ChannelValue<Proportion8_t> Red;
+		ChannelValue<Proportion8_t> Green;
+		ChannelValue<Proportion8_t> Blue;
+		ChannelValue<Proportion8_t> Reserved;
 	};
 	struct CIEXYZ_t
 	{
-		uint32_t X;
-		uint32_t Y;
-		uint32_t Z;
+		ChannelValue<FixedPoint32q16_t> X;
+		ChannelValue<FixedPoint32q16_t> Y;
+		ChannelValue<FixedPoint32q16_t> Z;
 	};
 	struct CIEXYZTriple_t
 	{
@@ -58,9 +58,9 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	struct DIBColorSpace
 	{
 		CIEXYZTriple_t Matrix;
-		uint32_t GammaR;
-		uint32_t GammaG;
-		uint32_t GammaB;
+		FixedPoint32q16_t GammaR;
+		FixedPoint32q16_t GammaG;
+		FixedPoint32q16_t GammaB;
 	};
 }
 #endif // __stationaryorbit_graphics_dib_structures__
