@@ -18,4 +18,3 @@
 //
 
 #include "graphics-dib/fileheader.hpp"
-#include "graphics-dib/structures.hpp"

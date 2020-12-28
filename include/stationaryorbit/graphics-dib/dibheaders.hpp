@@ -19,7 +19,6 @@
 #ifndef __stationaryorbit_graphics_dib_wbmpheaders__
 #define __stationaryorbit_graphics_dib_wbmpheaders__
 #include <cstdint>
-#include "ciexyz.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
 	enum class BitDepth : uint16_t
@@ -42,72 +41,151 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		PNG,
 		ALPHABITFIELDS,
 	};
+	struct RGBTriple_t
+	{
+		ChannelValue<Proportion8_t> Red;
+		ChannelValue<Proportion8_t> Green;
+		ChannelValue<Proportion8_t> Blue;
+	};
+	struct RGBQuad_t
+	{
+		ChannelValue<Proportion8_t> Red;
+		ChannelValue<Proportion8_t> Green;
+		ChannelValue<Proportion8_t> Blue;
+		ChannelValue<Proportion8_t> Reserved;
+	};
+	struct CIEXYZ_t
+	{
+		ChannelValue<FixedPoint32q16_t> X;
+		ChannelValue<FixedPoint32q16_t> Y;
+		ChannelValue<FixedPoint32q16_t> Z;
+	};
+	struct CIEXYZTriple_t
+	{
+		CIEXYZ_t Red;
+		CIEXYZ_t Green;
+		CIEXYZ_t Blue;
+	};
+	struct ColorMask final
+	{
+		BitMask<uint32_t> RedMask;
+		BitMask<uint32_t> GreenMask;
+		BitMask<uint32_t> BlueMask;
+		std::optional<BitMask<uint32_t>> AlphaMask;
+	};
+	struct DIBColorSpace
+	{
+		CIEXYZTriple_t Matrix;
+		FixedPoint32q16_t GammaR;
+		FixedPoint32q16_t GammaG;
+		FixedPoint32q16_t GammaB;
+	};
 	#pragma pack(1)
 	struct CoreHeader
 	{
 		static const constexpr uint32_t Size = 12;
-		uint16_t ImageWidth;	///< ビットマップの横幅
-		uint16_t ImageHeight;	///< ビットマップの縦幅
-		uint16_t PlaneCount;	///< プレーン数
-		BitDepth BitCount;	///< 1ピクセルあたりのビット数
+		///	ビットマップの横幅
+		uint16_t ImageWidth;
+		///	ビットマップの縦幅
+		uint16_t ImageHeight;
+		///	プレーン数
+		uint16_t PlaneCount;
+		///	1ピクセルあたりのビット数
+		BitDepth BitCount;
 	};
 	#pragma pack()
 	#pragma pack(1)
 	struct InfoHeader
 	{
 		static const constexpr uint32_t Size = 40;
-		int32_t ImageWidth;	///< ビットマップの横幅
-		int32_t ImageHeight;	///< ビットマップの縦幅
-		uint16_t PlaneCount;	///< プレーン数
-		BitDepth BitCount;	///< 1ピクセルあたりのビット数
-		CompressionMethod ComplessionMethod;	///< 圧縮形式
-		uint32_t ImageSize;	///< 画像データサイズ (単位はバイト)
-		uint32_t ResolutionHolizonal;	///< 水平方向の解像度 (単位はピクセル/m)
-		uint32_t ResolutionVertical;	///< 垂直方向の解像度 (単位はピクセル/m)
-		uint32_t IndexedColorCount;	///< 使用する色数 ビットマップで実際に使用するカラーパレット内のカラーインデックスの数。
-		uint32_t ImportantColorCount;	///< 重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
+		///	ビットマップの横幅
+		int32_t ImageWidth;
+		///	ビットマップの縦幅
+		int32_t ImageHeight;
+		///	プレーン数
+		uint16_t PlaneCount;
+		///	1ピクセルあたりのビット数
+		BitDepth BitCount;
+		///	圧縮形式
+		CompressionMethod ComplessionMethod;
+		///	画像データサイズ (単位はバイト)
+		uint32_t ImageSize;
+		///	水平方向の解像度 (単位はピクセル/m)
+		uint32_t ResolutionHolizonal;
+		///	垂直方向の解像度 (単位はピクセル/m)
+		uint32_t ResolutionVertical;
+		///	使用する色数 ビットマップで実際に使用するカラーパレット内のカラーインデックスの数。
+		uint32_t IndexedColorCount;
+		///	重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
+		uint32_t ImportantColorCount;
 	};
 	#pragma pack()
 	#pragma pack(1)
 	struct RGBColorMask
 	{
-		uint32_t ColorMaskR;	///< 赤成分のカラーマスク
-		uint32_t ColorMaskG;	///< 緑成分のカラーマスク
-		uint32_t ColorMaskB;	///< 青成分のカラーマスク
+		///< 赤成分のカラーマスク
+		uint32_t ColorMaskR;
+		///< 緑成分のカラーマスク
+		uint32_t ColorMaskG;
+		///< 青成分のカラーマスク
+		uint32_t ColorMaskB;
 	};
 	#pragma pack()
 	#pragma pack(1)
 	struct RGBAColorMask
 	{
-		uint32_t ColorMaskR;	///< 赤成分のカラーマスク
-		uint32_t ColorMaskG;	///< 緑成分のカラーマスク
-		uint32_t ColorMaskB;	///< 青成分のカラーマスク
-		uint32_t ColorMaskA;	///< α成分のカラーマスク
+		///< 赤成分のカラーマスク
+		uint32_t ColorMaskR;
+		///< 緑成分のカラーマスク
+		uint32_t ColorMaskG;
+		///< 青成分のカラーマスク
+		uint32_t ColorMaskB;
+		///< α成分のカラーマスク
+		uint32_t ColorMaskA;
 	};
 	#pragma pack()
 	#pragma pack(1)
 	struct V4Header
 	{
 		static const constexpr uint32_t Size = 108;
-		int32_t ImageWidth;	///< ビットマップの横幅
-		int32_t ImageHeight;	///< ビットマップの縦幅
-		uint16_t PlaneCount;	///< プレーン数
-		BitDepth BitCount;	///< 1ピクセルあたりのビット数
-		CompressionMethod ComplessionMethod;	///< 圧縮形式
-		uint32_t ImageSize;	///< 画像データサイズ (単位はバイト)
-		uint32_t ResolutionHolizonal;	///< 水平方向の解像度 (単位はピクセル/m)
-		uint32_t ResolutionVertical;	///< 垂直方向の解像度 (単位はピクセル/m)
-		uint32_t IndexedColorCount;	///< 使用する色数 ビットマップで実際に使用するカラーパレット内のカラーインデックスの数。
-		uint32_t ImportantColorCount;	///< 重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
-		uint32_t ColorMaskR;	///< 赤成分のカラーマスク
-		uint32_t ColorMaskG;	///< 緑成分のカラーマスク
-		uint32_t ColorMaskB;	///< 青成分のカラーマスク
-		uint32_t ColorMaskA;	///< α成分のカラーマスク
-		uint32_t ColorSpace;	///< 色空間 [0(ヘッダ内で定義)]
-		CIEXYZTriple_t CieXyzTriple;	///< CIEXYZTRIPLE構造体 色空間が0の場合のみ有効
-		uint32_t GammaR;	///< 赤成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
-		uint32_t GammaG;	///< 緑成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
-		uint32_t GammaB;	///< 青成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
+		///< ビットマップの横幅
+		int32_t ImageWidth;
+		///< ビットマップの縦幅
+		int32_t ImageHeight;
+		///< プレーン数
+		uint16_t PlaneCount;
+		///< 1ピクセルあたりのビット数
+		BitDepth BitCount;
+		///< 圧縮形式
+		CompressionMethod ComplessionMethod;
+		///< 画像データサイズ (単位はバイト)
+		uint32_t ImageSize;
+		///< 水平方向の解像度 (単位はピクセル/m)
+		uint32_t ResolutionHolizonal;
+		///< 垂直方向の解像度 (単位はピクセル/m)
+		uint32_t ResolutionVertical;
+		///< 使用する色数 ビットマップで実際に使用するカラーパレット内のカラーインデックスの数。
+		uint32_t IndexedColorCount;
+		///< 重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
+		uint32_t ImportantColorCount;
+		///< 赤成分のカラーマスク
+		uint32_t ColorMaskR;
+		///< 緑成分のカラーマスク
+		uint32_t ColorMaskG;
+		///< 青成分のカラーマスク
+		uint32_t ColorMaskB;
+		///< α成分のカラーマスク
+		uint32_t ColorMaskA;
+		///< 色空間 [0(ヘッダ内で定義)]
+		uint32_t ColorSpace;
+		///< CIEXYZTRIPLE構造体 色空間が0の場合のみ有効
+		CIEXYZTriple_t CieXyzTriple;
+		///< 赤成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
+		uint32_t GammaR;
+		///< 緑成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
+		uint32_t GammaG;
+		///< 青成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
+		uint32_t GammaB;
 	};
 	#pragma pack()
 	#pragma pack(1)
