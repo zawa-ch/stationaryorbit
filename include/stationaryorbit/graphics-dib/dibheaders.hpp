@@ -19,6 +19,8 @@
 #ifndef __stationaryorbit_graphics_dib_wbmpheaders__
 #define __stationaryorbit_graphics_dib_wbmpheaders__
 #include <cstdint>
+#include "stationaryorbit/core.bitoperation.hpp"
+#include "stationaryorbit/graphics-core.color.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
 	enum class BitDepth : uint16_t
@@ -54,6 +56,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		ChannelValue<Proportion8_t> Red;
 		ChannelValue<Proportion8_t> Green;
 		ChannelValue<Proportion8_t> Blue;
+
+		[[nodiscard]] constexpr operator RGB8_t() const { return RGB8_t(Red, Green, Blue); }
 	};
 	struct RGBQuad_t final
 	{
@@ -61,12 +65,16 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		ChannelValue<Proportion8_t> Green;
 		ChannelValue<Proportion8_t> Blue;
 		ChannelValue<Proportion8_t> Reserved;
+
+		[[nodiscard]] constexpr operator RGB8_t() const { return RGB8_t(Red, Green, Blue); }
 	};
 	struct CIEXYZ_t final
 	{
 		ChannelValue<FixedPoint32q16_t> X;
 		ChannelValue<FixedPoint32q16_t> Y;
 		ChannelValue<FixedPoint32q16_t> Z;
+
+		[[nodiscard]] constexpr operator XYZColor<FixedPoint32q16_t>() const { return XYZColor<FixedPoint32q16_t>(X, Y, Z); }
 	};
 	struct CIEXYZTriple_t final
 	{
