@@ -59,6 +59,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 
 		[[nodiscard]] constexpr operator RGB8_t() const { return RGB8_t(Red, Green, Blue); }
 	};
+	static_assert(sizeof(RGBTriple_t) == 3 ,"sizeof(RGBTriple_t) が 3 ではありません。");
 	struct RGBQuad_t final
 	{
 		ChannelValue<Proportion8_t> Red;
@@ -66,22 +67,26 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		ChannelValue<Proportion8_t> Blue;
 		ChannelValue<Proportion8_t> Reserved;
 
-		[[nodiscard]] constexpr operator RGB8_t() const { return RGB8_t(Red, Green, Blue); }
+		[[nodiscard]] constexpr explicit operator RGB8_t() const { return RGB8_t(Red, Green, Blue); }
 	};
+	static_assert(sizeof(RGBQuad_t) == 4 ,"sizeof(RGBQuad_t) が 4 ではありません。");
 	struct CIEXYZ_t final
 	{
 		ChannelValue<FixedPoint32q16_t> X;
 		ChannelValue<FixedPoint32q16_t> Y;
 		ChannelValue<FixedPoint32q16_t> Z;
 
-		[[nodiscard]] constexpr operator XYZColor<FixedPoint32q16_t>() const { return XYZColor<FixedPoint32q16_t>(X, Y, Z); }
+		[[nodiscard]] constexpr explicit operator XYZColor<FixedPoint32q16_t>() const { return XYZColor<FixedPoint32q16_t>(X, Y, Z); }
 	};
+	static_assert(sizeof(CIEXYZ_t) == 12 ,"sizeof(CIEXYZ_t) が 12 ではありません。");
 	struct CIEXYZTriple_t final
 	{
 		CIEXYZ_t Red;
 		CIEXYZ_t Green;
 		CIEXYZ_t Blue;
 	};
+	static_assert(sizeof(CIEXYZTriple_t) == 36 ,"sizeof(CIEXYZTriple_t) が 36 ではありません。");
+	#pragma pack(1)
 	struct ColorMask final
 	{
 		BitMask<uint32_t> RedMask;
@@ -89,6 +94,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		BitMask<uint32_t> BlueMask;
 		std::optional<BitMask<uint32_t>> AlphaMask;
 	};
+	#pragma pack()
 	struct DIBV4ColorSpace final
 	{
 		///< 色空間 [0(ヘッダ内で定義)]
@@ -102,6 +108,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///< 青成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
 		FixedPoint32q16_t GammaB;
 	};
+	static_assert(sizeof(DIBV4ColorSpace) == 52 ,"sizeof(DIBV4ColorSpace) が 52 ではありません。");
 	struct DIBV5ColorSpace final
 	{
 		///< 色空間 [0(ヘッダ内で定義), 0x73524742('sRGB'), 0x57696e20('Win '), 0x4c494e4b('LINK'), 0x4d424544('MBED')]
@@ -122,6 +129,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		uint32_t ProfileSize;
 		uint32_t _Reserved_64;
 	};
+	static_assert(sizeof(DIBV5ColorSpace) == 68 ,"sizeof(DIBV5ColorSpace) が 68 ではありません。");
 	#pragma pack(1)
 	struct CoreHeader
 	{
@@ -136,6 +144,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		BitDepth BitCount;
 	};
 	#pragma pack()
+	static_assert(sizeof(CoreHeader) == 8 ,"sizeof(CoreHeader) が 8 ではありません。");
 	#pragma pack(1)
 	struct InfoHeader
 	{
@@ -162,6 +171,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		uint32_t ImportantColorCount;
 	};
 	#pragma pack()
+	static_assert(sizeof(InfoHeader) == 36 ,"sizeof(InfoHeader) が 36 ではありません。");
 	#pragma pack(1)
 	struct RGBColorMask
 	{
@@ -171,6 +181,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		uint32_t ColorMaskG;
 		///	青成分のカラーマスク
 		uint32_t ColorMaskB;
+
+		[[nodiscard]] constexpr operator ColorMask() { return ColorMask{ BitMask<uint32_t>(ColorMaskR), BitMask<uint32_t>(ColorMaskG), BitMask<uint32_t>(ColorMaskB), std::nullopt }; }
 	};
 	#pragma pack()
 	#pragma pack(1)
@@ -184,6 +196,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		uint32_t ColorMaskB;
 		///	α成分のカラーマスク
 		uint32_t ColorMaskA;
+
+		[[nodiscard]] constexpr operator ColorMask() { return ColorMask{ BitMask<uint32_t>(ColorMaskR), BitMask<uint32_t>(ColorMaskG), BitMask<uint32_t>(ColorMaskB), BitMask<uint32_t>(ColorMaskA) }; }
 	};
 	#pragma pack()
 	#pragma pack(1)
