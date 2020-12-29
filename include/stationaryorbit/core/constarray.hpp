@@ -38,5 +38,19 @@ namespace zawa_ch::StationaryOrbit
 			typedef ConstArray<T, Values..., ConcatValues...> type;
 		};
 	};
+
+	///	コンパイル時に値が決定する数列を式と初期値から生成します。
+	template<class T, T Expr(T), T Init, size_t N>
+	class ConstProgression : ConstProgression<T, Expr, Init, N - 1>::template Concat<Expr(ConstProgression<T, Expr, Init, N - 1>::last)>::type
+	{
+	public:
+		T last = Expr(ConstProgression<T, Expr, Init, N - 1>::last);
+	};
+	template<class T, T Expr(T), T Init>
+	class ConstProgression<T, Expr, Init, 0> : ConstArray<T, Init>
+	{
+	public:
+		T last = Init;
+	};
 }
 #endif // __stationaryorbit_core_constarray__
