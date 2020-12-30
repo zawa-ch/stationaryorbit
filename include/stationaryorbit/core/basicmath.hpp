@@ -47,7 +47,7 @@ namespace zawa_ch::StationaryOrbit
 				}
 				b = result;	///< 前回値(X[N])保持
 				// a / X[N] の導出
-				auto delta = Algorithms::IntegralFraction(value, b, std::numeric_limits<Tp>::max()).Value;
+				auto delta = value / b;
 				// X[N] / 2
 				result /= 2;
 				// 剰余分の計算
