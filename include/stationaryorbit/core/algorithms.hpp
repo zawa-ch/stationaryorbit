@@ -20,6 +20,7 @@
 #define __stationaryorbit__core_algorithms__
 #include <stdexcept>
 #include "traits.hpp"
+#include "basicmath.hpp"
 #include "range.hpp"
 #include "multiplelong.hpp"
 namespace zawa_ch::StationaryOrbit
@@ -40,7 +41,7 @@ namespace zawa_ch::StationaryOrbit
 		///	std::invalid_argument
 		///	0で除算することはできません。
 		template<class Tp>
-		static constexpr DivisionResult<Tp> IntegralFraction(const Tp& numerator, const Tp& denominator, const Tp& scale)
+		[[nodiscard]] static constexpr DivisionResult<Tp> IntegralFraction(const Tp& numerator, const Tp& denominator, const Tp& scale)
 		{
 			static_assert(std::is_same_v<Tp, bool> || Traits::IsIntegralType<Tp>, "テンプレート型 Tp は整数型またはboolである必要があります。");
 
@@ -65,11 +66,11 @@ namespace zawa_ch::StationaryOrbit
 				}
 			}
 		}
-		static constexpr bool And(const bool& left, const bool& right)
+		[[nodiscard]] static constexpr bool And(const bool& left, const bool& right)
 		{
 			return left & right;
 		}
-		static constexpr bool And(const std::initializer_list<bool>& list)
+		[[nodiscard]] static constexpr bool And(const std::initializer_list<bool>& list)
 		{
 			bool result = true;
 			for(auto i: list)
@@ -78,11 +79,11 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return result;
 		}
-		static constexpr bool Or(const bool& left, const bool& right)
+		[[nodiscard]] static constexpr bool Or(const bool& left, const bool& right)
 		{
 			return left | right;
 		}
-		static constexpr bool Or(const std::initializer_list<bool>& list)
+		[[nodiscard]] static constexpr bool Or(const std::initializer_list<bool>& list)
 		{
 			bool result = false;
 			for(auto i: list)
@@ -91,11 +92,11 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return result;
 		}
-		static constexpr bool Xor(const bool& left, const bool& right)
+		[[nodiscard]] static constexpr bool Xor(const bool& left, const bool& right)
 		{
 			return (left | right) & !(left & right);
 		}
-		static constexpr bool Xor(const std::initializer_list<bool>& list)
+		[[nodiscard]] static constexpr bool Xor(const std::initializer_list<bool>& list)
 		{
 			bool result = false;
 			for(auto i: list)
@@ -103,6 +104,21 @@ namespace zawa_ch::StationaryOrbit
 				result = Xor(result, i);
 			}
 			return result;
+		}
+		template<class T>
+		[[nodiscard]] static constexpr T HalfAngleSinFormula(const T& cos)
+		{
+			return BasicMathematics::Sqrt((T(1) - cos) / 2);
+		}
+		template<class T>
+		[[nodiscard]] static constexpr T HalfAngleCosFormula(const T& cos)
+		{
+			return BasicMathematics::Sqrt((T(1) + cos) / 2);
+		}
+		template<class T>
+		[[nodiscard]] static constexpr T HalfAngleTanFormula(const T& sin, const T& cos)
+		{
+			return (1 - cos) / sin;
 		}
 	};
 
