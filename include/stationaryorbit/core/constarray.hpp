@@ -30,6 +30,8 @@ namespace zawa_ch::StationaryOrbit
 		ConstArray(ConstArray&&) = delete;
 		~ConstArray() = delete;
 	public:
+		typedef T type[sizeof...(Values)];
+
 		static constexpr T values[] = { Values ... };
 
 		template<T ... ConcatValues>
