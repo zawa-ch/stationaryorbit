@@ -19,6 +19,7 @@
 #ifndef __stationaryorbit_core_basicmath__
 #define __stationaryorbit_core_basicmath__
 #include <cmath>
+#include "fundamental.hpp"
 #include "traits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
@@ -30,11 +31,17 @@ namespace zawa_ch::StationaryOrbit
 		BasicMathematics(BasicMathematics&&) = delete;
 		~BasicMathematics() = delete;
 	public:
+		template<class T>
+		[[nodiscard]] static constexpr std::enable_if_t<Traits::IsNumericalType<T>, T> Abstract(const T& value) noexcept
+		{
+			return ( value < T(0) )?(-value):(value);
+		}
+		template<class T, class = decltype( std::abs( std::declval<T&>() ))>
+		[[nodiscard]] static constexpr T Abstract(const T& value) noexcept { return std::abs(value); }
 		///	この値の平方根を取得します。
 		template<class T>
-		[[nodiscard]] static constexpr T Sqrt(const T& value) noexcept
+		[[nodiscard]] static constexpr std::enable_if_t<Traits::IsNumericalType<T>, T> Sqrt(const T& value) noexcept
 		{
-			static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 			auto result = value;
 			auto b = value;
 			do	// X[n+1] = (X[N] + a / X[N]) / 2
@@ -59,6 +66,14 @@ namespace zawa_ch::StationaryOrbit
 		}
 		template<class T, class = decltype( std::sqrt( std::declval<T&>() ))>
 		[[nodiscard]] static constexpr T Sqrt(const T& value) noexcept { return std::sqrt(value); }
+		template<class T>
+		[[nodiscard]] static constexpr std::enable_if_t<Traits::IsNumericalType<T>, T> Mod(const T& left, const T& right)
+		{
+			// TODO: フォールバック実装の実装
+			throw NotImplementedException();
+		}
+		template<class T, class = decltype( std::fmod( std::declval<T&>(), std::declval<T&>() ))>
+		[[nodiscard]] static constexpr T Mod(const T& value) noexcept { return std::fmod(value); }
 	};
 }
 #endif // __stationaryorbit_core_basicmath__
