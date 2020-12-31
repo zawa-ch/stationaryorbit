@@ -41,6 +41,22 @@ namespace zawa_ch::StationaryOrbit
 		};
 	};
 
+	template<class T, T Expr(T), T Init>
+	class ConstExprIterator
+	{
+	public:
+		typedef T ValueType;
+	private:
+		T _value;
+	public:
+		constexpr ConstExprIterator() : _value(Init) {}
+
+		[[nodiscard]] bool Equals(const ConstExprIterator& other) const noexcept { return _value == other._value; }
+		[[nodiscard]] bool Next() noexcept { _value = Expr(_value); return true; }
+		[[nodiscard]] bool HasValue() const noexcept { return true; }
+		[[nodiscard]] const ValueType& Current() const noexcept { return _value; }
+	};
+
 	///	コンパイル時に値が決定する数列を式と初期値から生成します。
 	template<class T, T Expr(T), T Init, size_t N>
 	class ConstProgression : ConstProgression<T, Expr, Init, N - 1>::template Concat<Expr(ConstProgression<T, Expr, Init, N - 1>::last)>::type
