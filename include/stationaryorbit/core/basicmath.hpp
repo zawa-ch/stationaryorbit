@@ -19,6 +19,7 @@
 #ifndef __stationaryorbit_core_basicmath__
 #define __stationaryorbit_core_basicmath__
 #include <cmath>
+#include "notimplemented.hpp"
 #include "fundamental.hpp"
 #include "traits.hpp"
 namespace zawa_ch::StationaryOrbit
