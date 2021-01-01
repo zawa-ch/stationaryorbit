@@ -224,6 +224,10 @@ namespace zawa_ch::StationaryOrbit
 			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data >= other._data; }
 			else { Compare(other) >= 0; }
 		}
+
+		[[nodiscard]] static constexpr Integer<T> Max() { return Integer<T>(~value_construct(0)); }
+		[[nodiscard]] static constexpr Integer<T> Min() { return Integer<T>(value_construct(0)); }
+		[[nodiscard]] static constexpr Integer<T> Epsilon() { return Integer<T>(value_construct(1)); }
 	private:
 		[[nodiscard]] static constexpr ValueType value_construct(const uint8_t& value)
 		{
@@ -268,5 +272,41 @@ namespace zawa_ch::StationaryOrbit
 	extern template struct Integer<uint16_t>;
 	extern template struct Integer<uint32_t>;
 	extern template struct Integer<uint64_t>;
+}
+namespace std
+{
+	template<class T>
+	class numeric_limits<zawa_ch::StationaryOrbit::Integer<T>> : public numeric_limits<void>
+	{
+	public:
+		static constexpr bool is_specialized = true;
+		static constexpr bool is_signed = false;
+		static constexpr bool is_integer = true;
+		static constexpr bool is_exact = true;
+		static constexpr bool has_infinity = false;
+		static constexpr bool has_quiet_NaN = false;
+		static constexpr bool has_signaling_NaN = false;
+		static constexpr float_denorm_style has_denorm = denorm_absent;
+		static constexpr bool has_denorm_loss = false;
+		static constexpr float_round_style round_style = round_toward_zero;
+		static constexpr bool is_iec559 = false;
+		static constexpr bool is_bounded = true;
+		static constexpr bool is_modulo = true;
+		static constexpr int digits = zawa_ch::StationaryOrbit::BitWidth<T>;
+		static constexpr int digits10 = int(digits * 0.30102999566398119521373889472449);
+		static constexpr int max_digits10 = 0;
+		static constexpr int radix = 2;
+		static constexpr int min_exponent = 0;
+		static constexpr int min_exponent10 = 0;
+		static constexpr int max_exponent = 0;
+		static constexpr int max_exponent10 = 0;
+		static constexpr bool traps = true;
+		static constexpr bool tinyness_before = true;
+		static constexpr zawa_ch::StationaryOrbit::Integer<T> min() noexcept { return zawa_ch::StationaryOrbit::Integer<T>::Min(); }
+		static constexpr zawa_ch::StationaryOrbit::Integer<T> lowest() noexcept { return zawa_ch::StationaryOrbit::Integer<T>::Min(); }
+		static constexpr zawa_ch::StationaryOrbit::Integer<T> max() noexcept { return zawa_ch::StationaryOrbit::Integer<T>::Max(); }
+		static constexpr zawa_ch::StationaryOrbit::Integer<T> epsilon() noexcept { return zawa_ch::StationaryOrbit::Integer<T>::Epsilon(); }
+		static constexpr zawa_ch::StationaryOrbit::Integer<T> round_error() noexcept { return zawa_ch::StationaryOrbit::Integer<T>::Epsilon(); }
+	};
 }
 #endif // __stationaryorbit_core_integer__
