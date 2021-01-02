@@ -28,6 +28,7 @@ namespace zawa_ch::StationaryOrbit
 	struct Integer final
 	{
 		static_assert(Traits::IsBitSequenceType<T>, "テンプレート引数型 T はビット列である必要があります。");
+		template<class> friend class Integer;
 	public:
 		typedef T ValueType;
 	private:
@@ -35,7 +36,7 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		Integer() = default;
 		constexpr Integer(const ValueType& value) noexcept : _data(value) {}
-		template<class fromT, typename = std::enable_if_t< std::is_convertible_v<ValueType, fromT> || Traits::IsAggregatable<ValueType, fromT> || std::is_constructible_v<ValueType, fromT> > >
+		template<class fromT, typename = std::enable_if_t< std::is_convertible_v<ValueType, fromT> || Traits::IsAggregatable<ValueType, fromT> > >
 		constexpr Integer(const fromT& value) :
 			_data
 			(
@@ -43,13 +44,15 @@ namespace zawa_ch::StationaryOrbit
 				{
 					if constexpr (std::is_convertible_v<ValueType, fromT>) { return value; }
 					if constexpr (Traits::IsAggregatable<ValueType, fromT>) { return ValueType{ value }; }
-					if constexpr (std::is_constructible_v<ValueType, fromT>) { return ValueType(value); }
 				}(value)
 			)
 		{}
-	private:
+		template<class fromT>
+		constexpr explicit Integer(const Integer<fromT>& from) : Integer()
+		{
+			for (auto i: Range<size_t>(0, std::min(BitWidth<fromT>, BitWidth<T>)).GetStdIterator()) { setbit(i, from.getbit(i)); }
+		}
 	public:
-
 		[[nodiscard]] constexpr const ValueType& Data() const noexcept { return _data; }
 		[[nodiscard]] constexpr explicit operator ValueType() const { return _data; }
 
