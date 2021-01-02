@@ -36,8 +36,8 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		Integer() = default;
 		constexpr Integer(const ValueType& value) noexcept : _data(value) {}
-		template<class fromT, typename = std::enable_if_t< std::is_convertible_v<ValueType, fromT> || Traits::IsAggregatable<ValueType, fromT> > >
-		constexpr Integer(const fromT& value) :
+		template<class fromT>
+		constexpr Integer(const std::enable_if_t< std::is_convertible_v<ValueType, fromT> || Traits::IsAggregatable<ValueType, fromT>, fromT>& value) :
 			_data
 			(
 				[](const fromT& value)->ValueType
@@ -47,6 +47,19 @@ namespace zawa_ch::StationaryOrbit
 				}(value)
 			)
 		{}
+		template<class fromT>
+		constexpr explicit Integer(const std::enable_if_t< !(std::is_convertible_v<ValueType, fromT> || Traits::IsAggregatable<ValueType, fromT>) && std::is_constructible_v<ValueType, fromT>, fromT>& value) : _data( ValueType(value) ) {}
+		template<class fromT>
+		constexpr explicit Integer(const std::enable_if_t< !(std::is_convertible_v<ValueType, fromT> || Traits::IsAggregatable<ValueType, fromT> || std::is_constructible_v<ValueType, fromT>) && Traits::IsIntegralType<fromT> && !std::numeric_limits<fromT>::is_signed, fromT>& value) : Integer()
+		{
+			auto v = value;
+			for (auto i: Range<size_t>(0, BitWidth<T>).GetStdIterator())
+			{
+				setbit(i, (v % 2) != 0);
+				v /= 2;
+				if (v == fromT(0)) { break; }
+			}
+		}
 		template<class fromT>
 		constexpr explicit Integer(const Integer<fromT>& from) : Integer()
 		{
