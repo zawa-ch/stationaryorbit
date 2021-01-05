@@ -157,10 +157,7 @@ namespace zawa_ch::StationaryOrbit
 				auto result = Integer<T>();
 				for (auto i: Range<size_t>(0, BitWidth<T>).GetStdIterator())
 				{
-					if (other.getbit(i))
-					{
-						result = result + Integer<T>(_data << i);
-					}
+					if (getbit(i)) { result = result + (other << i); }
 				}
 				return result;
 			}
@@ -241,22 +238,22 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr bool operator<(const Integer<T>& other) const
 		{
 			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data < other._data; }
-			else { Compare(other) < 0; }
+			else { return Compare(other) < 0; }
 		}
 		[[nodiscard]] constexpr bool operator<=(const Integer<T>& other) const
 		{
 			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data <= other._data; }
-			else { Compare(other) <= 0; }
+			else { return Compare(other) <= 0; }
 		}
 		[[nodiscard]] constexpr bool operator>(const Integer<T>& other) const
 		{
 			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data > other._data; }
-			else { Compare(other) > 0; }
+			else { return Compare(other) > 0; }
 		}
 		[[nodiscard]] constexpr bool operator>=(const Integer<T>& other) const
 		{
 			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data >= other._data; }
-			else { Compare(other) >= 0; }
+			else { return Compare(other) >= 0; }
 		}
 
 		[[nodiscard]] static constexpr Integer<T> Max() { return Integer<T>(T(~value_construct<uint8_t>(0))); }
@@ -399,17 +396,13 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr SignedInteger<T> operator*(const SignedInteger<T>& other) const
 		{
-			auto iv = ((*this) < Zero)?(-(*this)):(*this);
-			auto ov = (other < Zero)?(-other):(other);
 			auto result = SignedInteger<T>();
+			auto ov = other ^ (Epsilon() << (BitWidth<T> - 1));
 			for (auto i: Range<size_t>(0, BitWidth<T> - 1).GetStdIterator())
 			{
-				if (other.getbit(i))
-				{
-					result += result + SignedInteger<T>(T(iv._data << i));
-				}
+				if (getbit(i)) { result = result + (ov << i); }
 			}
-			return (other < Zero)?(-result):(result);
+			return result;
 		}
 		[[nodiscard]] constexpr SignedInteger<T> operator/(const SignedInteger<T>& other) const
 		{
@@ -482,23 +475,19 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr bool operator<(const SignedInteger<T>& other) const
 		{
-			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data < other._data; }
-			else { Compare(other) < 0; }
+			return Compare(other) < 0;
 		}
 		[[nodiscard]] constexpr bool operator<=(const SignedInteger<T>& other) const
 		{
-			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data <= other._data; }
-			else { Compare(other) <= 0; }
+			return Compare(other) <= 0;
 		}
 		[[nodiscard]] constexpr bool operator>(const SignedInteger<T>& other) const
 		{
-			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data > other._data; }
-			else { Compare(other) > 0; }
+			return Compare(other) > 0;
 		}
 		[[nodiscard]] constexpr bool operator>=(const SignedInteger<T>& other) const
 		{
-			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data >= other._data; }
-			else { Compare(other) >= 0; }
+			return Compare(other) >= 0;
 		}
 
 		[[nodiscard]] static constexpr SignedInteger<T> Max() { return ~Min(); }
