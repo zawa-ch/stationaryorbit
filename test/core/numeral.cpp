@@ -86,6 +86,16 @@ void Test_Integer()
 	if ((v1 * v2) != Integer<std::byte>(uint8_t(12 * 5))) { throw std::exception(); }
 	if ((v1 / v2) != Integer<std::byte>(uint8_t(12 / 5))) { throw std::exception(); }
 	if ((v1 % v2) != Integer<std::byte>(uint8_t(12 % 5))) { throw std::exception(); }
+	auto v3 = SignedInteger<std::byte>(uint8_t(12));
+	auto v4 = SignedInteger<std::byte>(uint8_t(5));
+	if ((v3 + v4) != SignedInteger<std::byte>(int8_t(12 + 5))) { throw std::exception(); }
+	if ((v3 - v4) != SignedInteger<std::byte>(int8_t(12 - 5))) { throw std::exception(); }
+	if ((v4 - v3) != SignedInteger<std::byte>(int8_t(5 - 12))) { throw std::exception(); }
+	if ((v3 * v4) != SignedInteger<std::byte>(int8_t(12 * 5))) { throw std::exception(); }
+	if ((v3 * -v4) != SignedInteger<std::byte>(int8_t(12 * -5))) { throw std::exception(); }
+	if ((v3 / v4) != SignedInteger<std::byte>(int8_t(12 / 5))) { throw std::exception(); }
+	if ((-v3 / v4) != SignedInteger<std::byte>(int8_t(-12 / 5))) { throw std::exception(); }
+	if ((v3 % v4) != SignedInteger<std::byte>(int8_t(12 % 5))) { throw std::exception(); }
 }
 
 void Test_Point()
