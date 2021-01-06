@@ -29,6 +29,7 @@ add_library(${AssemblyName} SHARED
     algorithms.cpp
     arithmetic.cpp
     bitmask.cpp
+    endians.cpp
     fixedpoint.cpp
     integer.cpp
     invalidoperation.cpp

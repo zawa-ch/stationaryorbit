@@ -19,9 +19,9 @@
 #ifndef __stationaryorbit_core_endians__
 #define __stationaryorbit_core_endians__
 #include <cstdint>
-#include <type_traits>
 #include <array>
 #include "invalidoperation.hpp"
+#include "traits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	すべてのスカラー型のエンディアンを表します。
@@ -42,9 +42,9 @@ namespace zawa_ch::StationaryOrbit
 	{
 	public:
 		template<class T>
-		static constexpr T Convert(const T& value)
+		[[nodiscard]] static constexpr T Convert(const T& value)
 		{
-			static_assert(std::is_literal_type_v<T>, "テンプレート引数 T はリテラル型である必要があります。");
+			static_assert(Traits::IsValueType<T>, "テンプレート引数 T は値型である必要があります。");
 			if constexpr (from == dest) { return value; }
 			if constexpr ((from != dest)&&((from == Endians::little)||(from == Endians::big))&&((dest == Endians::little)||(dest == Endians::big)))
 			{
@@ -59,70 +59,41 @@ namespace zawa_ch::StationaryOrbit
 	typedef EndianConverter<Endians::native, Endians::little> LittleEndian;
 	typedef EndianConverter<Endians::native, Endians::big> BigEndian;
 
-	///	特定のバイトオーダーで格納されることが保証されているスカラー型を表します。
+	///	スカラー型を特定のバイトオーダーで格納します。
 	template<class Tp, Endians order = Endians::native>
 	struct EndianValueType final
 	{
-		static_assert(std::is_literal_type_v<Tp>, "テンプレート引数 Tp はリテラル型である必要があります。");
+		static_assert(Traits::IsValueType<Tp>, "テンプレート引数 Tp は値型である必要があります。");
 	public:
 		typedef Tp ValueType;
 		static constexpr Endians Endian = order;
 	private:
-		Tp _value;
+		ValueType _value;
 	public:
-		constexpr EndianValueType() : _value() {}
-		constexpr EndianValueType(const Tp& value) : _value(EndianConverter<Endians::native, order>::Convert(value)) {}
+		EndianValueType() = default;
+		constexpr EndianValueType(const ValueType& value) : _value(EndianConverter<Endians::native, order>::Convert(value)) {}
 		template<Endians from>
 		constexpr EndianValueType(const EndianValueType<Tp, from>& value) : _value(EndianConverter<from, order>::Convert(value._value)) {}
-		constexpr operator Tp() const { return EndianConverter<Endians::native, order>::Convert(_value); }
-		constexpr EndianValueType<Tp, order> operator++(int _) const { return EndianValueType(Tp(_value)++); }
-		constexpr EndianValueType<Tp, order>& operator++() { return *this = (*this)++; }
-		constexpr EndianValueType<Tp, order> operator--(int _) const { return EndianValueType(Tp(_value)--); }
-		constexpr EndianValueType<Tp, order>& operator--() { return *this = (*this)--; }
-		constexpr EndianValueType<Tp, order> operator+(const EndianValueType<Tp>& other) const { return EndianValueType(Tp(_value) + Tp(other._value)); }
-		constexpr EndianValueType<Tp, order> operator+(const Tp& other) const { return EndianValueType(Tp(_value) + other); }
-		constexpr EndianValueType<Tp, order>& operator+=(const EndianValueType<Tp, order>& other) { *this = *this + other; }
-		constexpr EndianValueType<Tp, order>& operator+=(const Tp& other) { *this = *this + other; }
-		constexpr EndianValueType<Tp, order> operator-(const EndianValueType<Tp, order>& other) const { return EndianValueType(Tp(_value) - Tp(other._value)); }
-		constexpr EndianValueType<Tp, order> operator-(const Tp& other) const { return EndianValueType(Tp(_value) - other); }
-		constexpr EndianValueType<Tp, order>& operator-=(const EndianValueType<Tp, order>& other) { *this = *this - other; }
-		constexpr EndianValueType<Tp, order>& operator-=(const Tp& other) { *this = *this - other; }
-		constexpr EndianValueType<Tp, order> operator*(const EndianValueType<Tp, order>& other) const { return EndianValueType(Tp(_value) * Tp(other._value)); }
-		constexpr EndianValueType<Tp, order> operator*(const Tp& other) const { return EndianValueType(Tp(_value) * other); }
-		constexpr EndianValueType<Tp, order>& operator*=(const EndianValueType<Tp, order>& other) { *this = *this * other; }
-		constexpr EndianValueType<Tp, order>& operator*=(const Tp& other) { *this = *this * other; }
-		constexpr EndianValueType<Tp, order> operator/(const EndianValueType<Tp, order>& other) const { return EndianValueType(Tp(_value) / Tp(other._value)); }
-		constexpr EndianValueType<Tp, order> operator/(const Tp& other) const { return EndianValueType(Tp(_value) / other); }
-		constexpr EndianValueType<Tp, order>& operator/=(const EndianValueType<Tp, order>& other) { *this = *this / other; }
-		constexpr EndianValueType<Tp, order>& operator/=(const Tp& other) { *this = *this / other; }
-		constexpr EndianValueType<Tp, order> operator%(const EndianValueType<Tp, order>& other) const { return EndianValueType(Tp(_value) % Tp(other._value)); }
-		constexpr EndianValueType<Tp, order> operator%(const Tp& other) const { return EndianValueType(Tp(_value) % other); }
-		constexpr EndianValueType<Tp, order>& operator%=(const EndianValueType<Tp, order>& other) { *this = *this % other; }
-		constexpr EndianValueType<Tp, order>& operator%=(const Tp& other) { *this = *this % other; }
-		constexpr EndianValueType<Tp, order> operator~() const { return EndianValueType(~Tp(_value)); }
-		constexpr EndianValueType<Tp, order> operator|(const EndianValueType<Tp, order>& other) const { return EndianValueType(Tp(_value) | Tp(other._value)); }
-		constexpr EndianValueType<Tp, order> operator|(const Tp& other) const { return EndianValueType(Tp(_value) | other); }
-		constexpr EndianValueType<Tp, order>& operator|=(const EndianValueType<Tp, order>& other) { *this = *this | other; }
-		constexpr EndianValueType<Tp, order>& operator|=(const Tp& other) { *this = *this | other; }
-		constexpr EndianValueType<Tp, order> operator&(const EndianValueType<Tp, order>& other) const { return EndianValueType(Tp(_value) & Tp(other._value)); }
-		constexpr EndianValueType<Tp, order> operator&(const Tp& other) const { return EndianValueType(Tp(_value) & other); }
-		constexpr EndianValueType<Tp, order>& operator&=(const EndianValueType<Tp, order>& other) { *this = *this & other; }
-		constexpr EndianValueType<Tp, order>& operator&=(const Tp& other) { *this = *this & other; }
-		constexpr EndianValueType<Tp, order> operator^(const EndianValueType<Tp, order>& other) const { return EndianValueType(Tp(_value) ^ Tp(other._value)); }
-		constexpr EndianValueType<Tp, order> operator^(const Tp& other) const { return EndianValueType(Tp(_value) ^ other); }
-		constexpr EndianValueType<Tp, order>& operator^=(const EndianValueType<Tp, order>& other) { *this = *this ^ other; }
-		constexpr EndianValueType<Tp, order>& operator^=(const Tp& other) { *this = *this ^ other; }
-		constexpr EndianValueType<Tp, order> operator>>(const int& other) const { return EndianValueType(Tp(_value) >> other); }
-		constexpr EndianValueType<Tp, order>& operator>>=(const int& other) { *this = *this >> other; }
-		constexpr EndianValueType<Tp, order> operator<<(const int& other) const { return EndianValueType(Tp(_value) << other); }
-		constexpr EndianValueType<Tp, order>& operator<<=(const int& other) { *this = *this << other; }
-		constexpr bool operator==(const EndianValueType<Tp, order>& other) const { return _value == other._value; }
-		constexpr bool operator!=(const EndianValueType<Tp, order>& other) const { return _value != other._value; }
-		constexpr bool operator>(const EndianValueType<Tp, order>& other) const { return Tp(_value) > Tp(other._value); }
-		constexpr bool operator<(const EndianValueType<Tp, order>& other) const { return Tp(_value) < Tp(other._value); }
-		constexpr bool operator>=(const EndianValueType<Tp, order>& other) const { return Tp(_value) >= Tp(other._value); }
-		constexpr bool operator<=(const EndianValueType<Tp, order>& other) const { return Tp(_value) <= Tp(other._value); }
+
+		[[nodiscard]] constexpr ValueType Value() const { return EndianConverter<Endians::native, order>::Convert(_value); }
+		[[nodiscard]] constexpr const ValueType& Data() const { return _value; }
+
+		[[nodiscard]] constexpr operator ValueType() const { return EndianConverter<Endians::native, order>::Convert(_value); }
 	};
+
+	extern template struct EndianValueType<uint8_t, Endians::big>;
+	extern template struct EndianValueType<uint16_t, Endians::big>;
+	extern template struct EndianValueType<uint32_t, Endians::big>;
+	extern template struct EndianValueType<uint64_t, Endians::big>;
+	extern template struct EndianValueType<float, Endians::big>;
+	extern template struct EndianValueType<double, Endians::big>;
+	extern template struct EndianValueType<uint8_t, Endians::little>;
+	extern template struct EndianValueType<uint16_t, Endians::little>;
+	extern template struct EndianValueType<uint32_t, Endians::little>;
+	extern template struct EndianValueType<uint64_t, Endians::little>;
+	extern template struct EndianValueType<float, Endians::little>;
+	extern template struct EndianValueType<double, Endians::little>;
+
 	typedef EndianValueType<uint8_t, Endians::big> uint8be_t;
 	typedef EndianValueType<uint16_t, Endians::big> uint16be_t;
 	typedef EndianValueType<uint32_t, Endians::big> uint32be_t;
