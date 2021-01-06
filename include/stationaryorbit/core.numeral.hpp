@@ -25,7 +25,6 @@
 #include "core/point.hpp"
 #include "core/proportion.hpp"
 #include "core/range.hpp"
-#include "core/real.hpp"
 #include "core/rectangle.hpp"
 #include "core/rectsize.hpp"
 #include "core/rotation.hpp"
