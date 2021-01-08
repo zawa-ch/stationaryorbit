@@ -33,6 +33,7 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/rgbtriple.hpp
     dibbitmap.cpp
     dibcolorspace.cpp
+    dibpixeldata.cpp
     fileheader.cpp
     invaliddibformat.cpp
 )

@@ -59,12 +59,13 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 			return result;
 		}
 	};
-	static_assert(sizeof(DIBPixelData<BitDepth::Bit1>) == 1, "");
-	static_assert(sizeof(DIBPixelData<BitDepth::Bit4>) == 1, "");
-	static_assert(sizeof(DIBPixelData<BitDepth::Bit8>) == 1, "");
-	static_assert(sizeof(DIBPixelData<BitDepth::Bit16>) == 2, "");
-	static_assert(sizeof(DIBPixelData<BitDepth::Bit24>) == 3, "");
-	static_assert(sizeof(DIBPixelData<BitDepth::Bit32>) == 4, "");
+
+	extern template struct DIBPixelData<BitDepth::Bit1>;
+	extern template struct DIBPixelData<BitDepth::Bit4>;
+	extern template struct DIBPixelData<BitDepth::Bit8>;
+	extern template struct DIBPixelData<BitDepth::Bit16>;
+	extern template struct DIBPixelData<BitDepth::Bit24>;
+	extern template struct DIBPixelData<BitDepth::Bit32>;
 
 	class DIBPixelPerser
 	{
