@@ -53,18 +53,18 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	};
 	struct RGBTriple_t final
 	{
-		ChannelValue<Proportion8_t> Red;
-		ChannelValue<Proportion8_t> Green;
 		ChannelValue<Proportion8_t> Blue;
+		ChannelValue<Proportion8_t> Green;
+		ChannelValue<Proportion8_t> Red;
 
 		[[nodiscard]] constexpr operator RGB8_t() const { return RGB8_t(Red, Green, Blue); }
 	};
 	static_assert(sizeof(RGBTriple_t) == 3 ,"sizeof(RGBTriple_t) が 3 ではありません。");
 	struct RGBQuad_t final
 	{
-		ChannelValue<Proportion8_t> Red;
-		ChannelValue<Proportion8_t> Green;
 		ChannelValue<Proportion8_t> Blue;
+		ChannelValue<Proportion8_t> Green;
+		ChannelValue<Proportion8_t> Red;
 		ChannelValue<Proportion8_t> Reserved;
 
 		[[nodiscard]] constexpr explicit operator RGB8_t() const { return RGB8_t(Red, Green, Blue); }
