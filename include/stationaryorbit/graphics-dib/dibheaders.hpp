@@ -130,6 +130,29 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		uint32_t _Reserved_64;
 	};
 	static_assert(sizeof(DIBV5ColorSpace) == 68 ,"sizeof(DIBV5ColorSpace) が 68 ではありません。");
+	struct FileHeader final
+	{
+	public:
+
+		uint8_t FileType[2];	///< ファイルタイプ。常に'BM'(0x42, 0x4d)を示します。
+		int32_t FileSize;	///< ファイルの合計サイズ。
+		int16_t Reserved6;
+		int16_t Reserved8;
+		int32_t Offset;	///< ファイルヘッダの先頭アドレスからビットマップデータの先頭アドレスまでのオフセット。
+
+	    /// ファイルタイプの識別子。'BM'(0x42, 0x4d)を示します。
+		static const constexpr uint8_t FileType_Signature[2] = { 'B', 'M' };
+
+		///	BitmapFileHeader構造体の内容を確認し、正しいフォーマットであることをチェックします
+		bool CheckFileHeader() const
+		{
+			for (size_t i = 0; i < (sizeof(FileType_Signature) / sizeof(uint8_t)); i++)
+			{
+				if (FileType_Signature[i] != FileType[i]) return false;
+			}
+			return true;
+		}
+	};
 	#pragma pack(1)
 	struct CoreHeader
 	{
