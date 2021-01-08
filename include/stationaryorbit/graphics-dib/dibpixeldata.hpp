@@ -1,4 +1,4 @@
-//	stationaryorbit/graphics-dib/dibcolor
+//	stationaryorbit/graphics-dib/dibpixeldata
 //	Copyright 2020 zawa-ch.
 //	GPLv3 (or later) license
 //
@@ -16,8 +16,8 @@
 //	along with this program.
 //	If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef __stationaryorbit_graphics_dib_dibcolor__
-#define __stationaryorbit_graphics_dib_dibcolor__
+#ifndef __stationaryorbit_graphics_dib_dibpixeldata__
+#define __stationaryorbit_graphics_dib_dibpixeldata__
 #include "stationaryorbit/core.bitoperation.hpp"
 #include "stationaryorbit/graphics-core.color.hpp"
 #include "dibheaders.hpp"
@@ -105,4 +105,4 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		}
 	};
 }
-#endif // __stationaryorbit_graphics_dib_dibcolor__
+#endif // __stationaryorbit_graphics_dib_dibpixeldata__
