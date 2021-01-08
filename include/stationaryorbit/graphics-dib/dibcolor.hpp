@@ -31,7 +31,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		static constexpr size_t data_length = (size_t(Depth) / BitWidth<uint8_t>) + ((size_t(Depth) % BitWidth<uint8_t> != 0)?(1):(0));
 	public:
 		typedef std::array<uint8_t, data_length> ValueType;
-		typedef EndianValueType<ValueType, Endians::big> DataType;
+		typedef EndianValueType<ValueType, Endians::little> DataType;
 	private:
 		DataType _data;
 	public:
