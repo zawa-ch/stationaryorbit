@@ -86,7 +86,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		CIEXYZ_t Blue;
 	};
 	static_assert(sizeof(CIEXYZTriple_t) == 36 ,"sizeof(CIEXYZTriple_t) が 36 ではありません。");
-	#pragma pack(1)
 	struct ColorMask final
 	{
 		BitMask<uint32_t> RedMask;
@@ -94,7 +93,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		BitMask<uint32_t> BlueMask;
 		std::optional<BitMask<uint32_t>> AlphaMask;
 	};
-	#pragma pack()
 	struct DIBV4ColorSpace final
 	{
 		///< 色空間 [0(ヘッダ内で定義)]
@@ -176,7 +174,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 			return true;
 		}
 	};
-	#pragma pack(1)
 	struct CoreHeader
 	{
 		static const constexpr uint32_t Size = 12;
@@ -189,9 +186,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	1ピクセルあたりのビット数
 		BitDepth BitCount;
 	};
-	#pragma pack()
 	static_assert(sizeof(CoreHeader) == 8 ,"sizeof(CoreHeader) が 8 ではありません。");
-	#pragma pack(1)
 	struct InfoHeader
 	{
 		static const constexpr uint32_t Size = 40;
@@ -216,9 +211,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
 		uint32_t ImportantColorCount;
 	};
-	#pragma pack()
 	static_assert(sizeof(InfoHeader) == 36 ,"sizeof(InfoHeader) が 36 ではありません。");
-	#pragma pack(1)
 	struct RGBColorMask
 	{
 		///	赤成分のカラーマスク
@@ -230,8 +223,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 
 		[[nodiscard]] constexpr operator ColorMask() { return ColorMask{ BitMask<uint32_t>(ColorMaskR), BitMask<uint32_t>(ColorMaskG), BitMask<uint32_t>(ColorMaskB), std::nullopt }; }
 	};
-	#pragma pack()
-	#pragma pack(1)
 	struct RGBAColorMask
 	{
 		///	赤成分のカラーマスク
@@ -245,8 +236,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 
 		[[nodiscard]] constexpr operator ColorMask() { return ColorMask{ BitMask<uint32_t>(ColorMaskR), BitMask<uint32_t>(ColorMaskG), BitMask<uint32_t>(ColorMaskB), BitMask<uint32_t>(ColorMaskA) }; }
 	};
-	#pragma pack()
-	#pragma pack(1)
 	struct V4Header
 	{
 		static const constexpr uint32_t Size = 108;
@@ -275,8 +264,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	色空間
 		DIBV4ColorSpace ColorSpace;
 	};
-	#pragma pack()
-	#pragma pack(1)
 	struct V5Header
 	{
 		static const constexpr uint32_t Size = 124;
@@ -305,6 +292,5 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	色空間
 		DIBV5ColorSpace ColorSpace;
 	};
-	#pragma pack()
 }
 #endif // __stationaryorbit_graphics_dib_wbmpheaders__
