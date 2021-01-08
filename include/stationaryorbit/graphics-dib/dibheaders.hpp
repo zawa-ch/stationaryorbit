@@ -133,23 +133,46 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	struct FileHeader final
 	{
 	public:
-
-		uint8_t FileType[2];	///< ファイルタイプ。常に'BM'(0x42, 0x4d)を示します。
-		int32_t FileSize;	///< ファイルの合計サイズ。
+		///	ファイルタイプ。常に'BM'(0x42, 0x4d)を示します。
+		uint8_t FileType[2];
+		uint16_t FileSize_L;
+		uint16_t FileSize_H;
 		int16_t Reserved6;
 		int16_t Reserved8;
-		int32_t Offset;	///< ファイルヘッダの先頭アドレスからビットマップデータの先頭アドレスまでのオフセット。
+		uint16_t Offset_L;
+		uint16_t Offset_H;
 
-	    /// ファイルタイプの識別子。'BM'(0x42, 0x4d)を示します。
-		static const constexpr uint8_t FileType_Signature[2] = { 'B', 'M' };
+		///	ファイルタイプの識別子。'BM'(0x42, 0x4d)を示します。
+		static constexpr uint8_t FileType_Signature[2] = { 'B', 'M' };
 
-		///	BitmapFileHeader構造体の内容を確認し、正しいフォーマットであることをチェックします
-		bool CheckFileHeader() const
+		///	ファイルサイズを取得します。
+		[[nodiscard]] constexpr int32_t FileSize() const
 		{
-			for (size_t i = 0; i < (sizeof(FileType_Signature) / sizeof(uint8_t)); i++)
-			{
-				if (FileType_Signature[i] != FileType[i]) return false;
-			}
+			auto result = int32_t();
+			for (auto i: Range<size_t>(0, sizeof(int32_t)/sizeof(uint16_t)).GetStdIterator()) { ((uint16_t*)&result)[i] = (&FileSize_L)[i]; }
+			return result;
+		}
+		///	ファイルサイズを設定します。
+		[[nodiscard]] constexpr void FileSize(int32_t value)
+		{
+			for (auto i: Range<size_t>(0, sizeof(int32_t)/sizeof(uint16_t)).GetStdIterator()) { (&FileSize_L)[i] = ((uint16_t*)&value)[i]; }
+		}
+		///	ファイルヘッダの先頭アドレスからビットマップデータの先頭アドレスまでのオフセットを取得します。
+		[[nodiscard]] constexpr int32_t Offset() const
+		{
+			auto result = int32_t();
+			for (auto i: Range<size_t>(0, sizeof(int32_t)/sizeof(uint16_t)).GetStdIterator()) { ((uint16_t*)&result)[i] = (&Offset_L)[i]; }
+			return result;
+		}
+		///	ファイルヘッダの先頭アドレスからビットマップデータの先頭アドレスまでのオフセットを設定します。
+		[[nodiscard]] constexpr void Offset(int32_t value)
+		{
+			for (auto i: Range<size_t>(0, sizeof(int32_t)/sizeof(uint16_t)).GetStdIterator()) { (&Offset_L)[i] = ((uint16_t*)&value)[i]; }
+		}
+		///	BitmapFileHeader構造体の内容を確認し、正しいフォーマットであることをチェックします
+		[[nodiscard]] constexpr bool CheckFileHeader() const
+		{
+			for (size_t i = 0; i < (sizeof(FileType_Signature) / sizeof(uint8_t)); i++) { if (FileType_Signature[i] != FileType[i]) return false; }
 			return true;
 		}
 	};
