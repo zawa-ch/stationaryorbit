@@ -59,7 +59,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 
 		[[nodiscard]] constexpr operator RGB8_t() const { return RGB8_t(Red, Green, Blue); }
 	};
-	static_assert(sizeof(RGBTriple_t) == 3 ,"sizeof(RGBTriple_t) が 3 ではありません。");
 	struct RGBQuad_t final
 	{
 		ChannelValue<Proportion8_t> Blue;
@@ -69,7 +68,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 
 		[[nodiscard]] constexpr explicit operator RGB8_t() const { return RGB8_t(Red, Green, Blue); }
 	};
-	static_assert(sizeof(RGBQuad_t) == 4 ,"sizeof(RGBQuad_t) が 4 ではありません。");
 	struct CIEXYZ_t final
 	{
 		ChannelValue<FixedPoint32q16_t> X;
@@ -78,14 +76,12 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 
 		[[nodiscard]] constexpr explicit operator XYZColor<FixedPoint32q16_t>() const { return XYZColor<FixedPoint32q16_t>(X, Y, Z); }
 	};
-	static_assert(sizeof(CIEXYZ_t) == 12 ,"sizeof(CIEXYZ_t) が 12 ではありません。");
 	struct CIEXYZTriple_t final
 	{
 		CIEXYZ_t Red;
 		CIEXYZ_t Green;
 		CIEXYZ_t Blue;
 	};
-	static_assert(sizeof(CIEXYZTriple_t) == 36 ,"sizeof(CIEXYZTriple_t) が 36 ではありません。");
 	struct ColorMask final
 	{
 		BitMask<uint32_t> RedMask;
@@ -106,7 +102,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///< 青成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
 		FixedPoint32q16_t GammaB;
 	};
-	static_assert(sizeof(DIBV4ColorSpace) == 52 ,"sizeof(DIBV4ColorSpace) が 52 ではありません。");
 	struct DIBV5ColorSpace final
 	{
 		///< 色空間 [0(ヘッダ内で定義), 0x73524742('sRGB'), 0x57696e20('Win '), 0x4c494e4b('LINK'), 0x4d424544('MBED')]
@@ -127,7 +122,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		uint32_t ProfileSize;
 		uint32_t _Reserved_64;
 	};
-	static_assert(sizeof(DIBV5ColorSpace) == 68 ,"sizeof(DIBV5ColorSpace) が 68 ではありません。");
 	struct FileHeader final
 	{
 	public:
@@ -186,7 +180,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	1ピクセルあたりのビット数
 		BitDepth BitCount;
 	};
-	static_assert(sizeof(CoreHeader) == 8 ,"sizeof(CoreHeader) が 8 ではありません。");
 	struct InfoHeader
 	{
 		static const constexpr uint32_t Size = 40;
@@ -211,7 +204,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
 		uint32_t ImportantColorCount;
 	};
-	static_assert(sizeof(InfoHeader) == 36 ,"sizeof(InfoHeader) が 36 ではありません。");
 	struct RGBColorMask
 	{
 		///	赤成分のカラーマスク
