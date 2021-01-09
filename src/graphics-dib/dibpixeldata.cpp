@@ -20,21 +20,21 @@
 using namespace zawa_ch::StationaryOrbit::Graphics::DIB;
 
 template struct
-zawa_ch::StationaryOrbit::Graphics::DIB::DIBPixelData<zawa_ch::StationaryOrbit::Graphics::DIB::BitDepth::Bit1>;
+zawa_ch::StationaryOrbit::Graphics::DIB::DIBPixelData<zawa_ch::StationaryOrbit::Graphics::DIB::DIBBitDepth::Bit1>;
 template struct
-zawa_ch::StationaryOrbit::Graphics::DIB::DIBPixelData<zawa_ch::StationaryOrbit::Graphics::DIB::BitDepth::Bit4>;
+zawa_ch::StationaryOrbit::Graphics::DIB::DIBPixelData<zawa_ch::StationaryOrbit::Graphics::DIB::DIBBitDepth::Bit4>;
 template struct
-zawa_ch::StationaryOrbit::Graphics::DIB::DIBPixelData<zawa_ch::StationaryOrbit::Graphics::DIB::BitDepth::Bit8>;
+zawa_ch::StationaryOrbit::Graphics::DIB::DIBPixelData<zawa_ch::StationaryOrbit::Graphics::DIB::DIBBitDepth::Bit8>;
 template struct
-zawa_ch::StationaryOrbit::Graphics::DIB::DIBPixelData<zawa_ch::StationaryOrbit::Graphics::DIB::BitDepth::Bit16>;
+zawa_ch::StationaryOrbit::Graphics::DIB::DIBPixelData<zawa_ch::StationaryOrbit::Graphics::DIB::DIBBitDepth::Bit16>;
 template struct
-zawa_ch::StationaryOrbit::Graphics::DIB::DIBPixelData<zawa_ch::StationaryOrbit::Graphics::DIB::BitDepth::Bit24>;
+zawa_ch::StationaryOrbit::Graphics::DIB::DIBPixelData<zawa_ch::StationaryOrbit::Graphics::DIB::DIBBitDepth::Bit24>;
 template struct
-zawa_ch::StationaryOrbit::Graphics::DIB::DIBPixelData<zawa_ch::StationaryOrbit::Graphics::DIB::BitDepth::Bit32>;
+zawa_ch::StationaryOrbit::Graphics::DIB::DIBPixelData<zawa_ch::StationaryOrbit::Graphics::DIB::DIBBitDepth::Bit32>;
 
-static_assert(sizeof(DIBPixelData<BitDepth::Bit1>) == 1, "sizeof(DIBPixelData<BitDepth::Bit1>) が 1 ではありません。");
-static_assert(sizeof(DIBPixelData<BitDepth::Bit4>) == 1, "sizeof(DIBPixelData<BitDepth::Bit4>) が 1 ではありません。");
-static_assert(sizeof(DIBPixelData<BitDepth::Bit8>) == 1, "sizeof(DIBPixelData<BitDepth::Bit8>) が 1 ではありません。");
-static_assert(sizeof(DIBPixelData<BitDepth::Bit16>) == 2, "sizeof(DIBPixelData<BitDepth::Bit16>) が 2 ではありません。");
-static_assert(sizeof(DIBPixelData<BitDepth::Bit24>) == 3, "sizeof(DIBPixelData<BitDepth::Bit24>) が 3 ではありません。");
-static_assert(sizeof(DIBPixelData<BitDepth::Bit32>) == 4, "sizeof(DIBPixelData<BitDepth::Bit32>) が 4 ではありません。");
+static_assert(sizeof(DIBPixelData<DIBBitDepth::Bit1>) == 1, "sizeof(DIBPixelData<DIBBitDepth::Bit1>) が 1 ではありません。");
+static_assert(sizeof(DIBPixelData<DIBBitDepth::Bit4>) == 1, "sizeof(DIBPixelData<DIBBitDepth::Bit4>) が 1 ではありません。");
+static_assert(sizeof(DIBPixelData<DIBBitDepth::Bit8>) == 1, "sizeof(DIBPixelData<DIBBitDepth::Bit8>) が 1 ではありません。");
+static_assert(sizeof(DIBPixelData<DIBBitDepth::Bit16>) == 2, "sizeof(DIBPixelData<DIBBitDepth::Bit16>) が 2 ではありません。");
+static_assert(sizeof(DIBPixelData<DIBBitDepth::Bit24>) == 3, "sizeof(DIBPixelData<DIBBitDepth::Bit24>) が 3 ではありません。");
+static_assert(sizeof(DIBPixelData<DIBBitDepth::Bit32>) == 4, "sizeof(DIBPixelData<DIBBitDepth::Bit32>) が 4 ではありません。");

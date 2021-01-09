@@ -24,7 +24,7 @@
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
 	///	Windowsビットマップ画像のピクセルデータを表します。
-	template<BitDepth Depth>
+	template<DIBBitDepth Depth>
 	struct DIBPixelData final
 	{
 	private:
@@ -60,12 +60,12 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		}
 	};
 
-	extern template struct DIBPixelData<BitDepth::Bit1>;
-	extern template struct DIBPixelData<BitDepth::Bit4>;
-	extern template struct DIBPixelData<BitDepth::Bit8>;
-	extern template struct DIBPixelData<BitDepth::Bit16>;
-	extern template struct DIBPixelData<BitDepth::Bit24>;
-	extern template struct DIBPixelData<BitDepth::Bit32>;
+	extern template struct DIBPixelData<DIBBitDepth::Bit1>;
+	extern template struct DIBPixelData<DIBBitDepth::Bit4>;
+	extern template struct DIBPixelData<DIBBitDepth::Bit8>;
+	extern template struct DIBPixelData<DIBBitDepth::Bit16>;
+	extern template struct DIBPixelData<DIBBitDepth::Bit24>;
+	extern template struct DIBPixelData<DIBBitDepth::Bit32>;
 
 	class DIBPixelPerser
 	{
@@ -74,10 +74,10 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		DIBPixelPerser(DIBPixelPerser&&) = delete;
 		~DIBPixelPerser() = delete;
 	public:
-		[[nodiscard]] static constexpr GrayScale8_t ToGrayScale(const DIBPixelData<BitDepth::Bit1>& data) { return GrayScale8_t(Proportion8_t(uint32_t(data) & 0x01, 1)); }
-		[[nodiscard]] static constexpr GrayScale8_t ToGrayScale(const DIBPixelData<BitDepth::Bit4>& data) { return GrayScale8_t(Proportion8_t(uint32_t(data) & 0x0F, 15)); }
-		[[nodiscard]] static constexpr GrayScale8_t ToGrayScale(const DIBPixelData<BitDepth::Bit8>& data) { return GrayScale8_t(Proportion8_t(uint32_t(data) & 0xFF, 255)); }
-		[[nodiscard]] static constexpr RGB8_t ToRGB(const DIBPixelData<BitDepth::Bit16>& data)
+		[[nodiscard]] static constexpr GrayScale8_t ToGrayScale(const DIBPixelData<DIBBitDepth::Bit1>& data) { return GrayScale8_t(Proportion8_t(uint32_t(data) & 0x01, 1)); }
+		[[nodiscard]] static constexpr GrayScale8_t ToGrayScale(const DIBPixelData<DIBBitDepth::Bit4>& data) { return GrayScale8_t(Proportion8_t(uint32_t(data) & 0x0F, 15)); }
+		[[nodiscard]] static constexpr GrayScale8_t ToGrayScale(const DIBPixelData<DIBBitDepth::Bit8>& data) { return GrayScale8_t(Proportion8_t(uint32_t(data) & 0xFF, 255)); }
+		[[nodiscard]] static constexpr RGB8_t ToRGB(const DIBPixelData<DIBBitDepth::Bit16>& data)
 		{
 			return RGB8_t
 			(
@@ -86,7 +86,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 				Proportion8_t(uint32_t(data) & 0x1F, 0x1F)
 			);
 		}
-		[[nodiscard]] static constexpr RGB8_t ToRGB(const DIBPixelData<BitDepth::Bit24>& data)
+		[[nodiscard]] static constexpr RGB8_t ToRGB(const DIBPixelData<DIBBitDepth::Bit24>& data)
 		{
 			return RGB8_t
 			(
@@ -95,7 +95,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 				Proportion8_t(uint32_t(data) & 0xFF, 0xFF)
 			);
 		}
-		[[nodiscard]] static constexpr RGB8_t ToRGB(const DIBPixelData<BitDepth::Bit32>& data)
+		[[nodiscard]] static constexpr RGB8_t ToRGB(const DIBPixelData<DIBBitDepth::Bit32>& data)
 		{
 			return RGB8_t
 			(

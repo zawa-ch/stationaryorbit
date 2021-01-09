@@ -23,7 +23,7 @@
 #include "stationaryorbit/graphics-core.color.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
-	enum class BitDepth : uint16_t
+	enum class DIBBitDepth : uint16_t
 	{
 		Null = 0,
 		Bit1 = 1,
@@ -33,7 +33,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		Bit24 = 24,
 		Bit32 = 32,
 	};
-	enum class CompressionMethod : uint32_t
+	enum class BMPCompressionMethod : uint32_t
 	{
 		RGB,
 		RLE8,
@@ -82,7 +82,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		CIEXYZ_t Green;
 		CIEXYZ_t Blue;
 	};
-	struct ColorMask final
+	struct DIBColorMask final
 	{
 		BitMask<uint32_t> RedMask;
 		BitMask<uint32_t> GreenMask;
@@ -122,7 +122,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		uint32_t ProfileSize;
 		uint32_t _Reserved_64;
 	};
-	struct FileHeader final
+	struct DIBFileHeader final
 	{
 	public:
 		///	ファイルタイプ。常に'BM'(0x42, 0x4d)を示します。
@@ -168,7 +168,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 			return true;
 		}
 	};
-	struct CoreHeader
+	struct DIBCoreHeader
 	{
 		static const constexpr uint32_t Size = 12;
 		///	ビットマップの横幅
@@ -178,9 +178,9 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	プレーン数
 		uint16_t PlaneCount;
 		///	1ピクセルあたりのビット数
-		BitDepth BitCount;
+		DIBBitDepth BitCount;
 	};
-	struct InfoHeader
+	struct DIBInfoHeader
 	{
 		static const constexpr uint32_t Size = 40;
 		///	ビットマップの横幅
@@ -190,9 +190,9 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	プレーン数
 		uint16_t PlaneCount;
 		///	1ピクセルあたりのビット数
-		BitDepth BitCount;
+		DIBBitDepth BitCount;
 		///	圧縮形式
-		CompressionMethod ComplessionMethod;
+		BMPCompressionMethod ComplessionMethod;
 		///	画像データサイズ (単位はバイト)
 		uint32_t ImageSize;
 		///	水平方向の解像度 (単位はピクセル/m)
@@ -204,7 +204,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
 		uint32_t ImportantColorCount;
 	};
-	struct RGBColorMask
+	struct DIBRGBColorMask
 	{
 		///	赤成分のカラーマスク
 		uint32_t ColorMaskR;
@@ -213,9 +213,9 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	青成分のカラーマスク
 		uint32_t ColorMaskB;
 
-		[[nodiscard]] constexpr operator ColorMask() { return ColorMask{ BitMask<uint32_t>(ColorMaskR), BitMask<uint32_t>(ColorMaskG), BitMask<uint32_t>(ColorMaskB), std::nullopt }; }
+		[[nodiscard]] constexpr operator DIBColorMask() { return DIBColorMask{ BitMask<uint32_t>(ColorMaskR), BitMask<uint32_t>(ColorMaskG), BitMask<uint32_t>(ColorMaskB), std::nullopt }; }
 	};
-	struct RGBAColorMask
+	struct DIBRGBAColorMask
 	{
 		///	赤成分のカラーマスク
 		uint32_t ColorMaskR;
@@ -226,9 +226,9 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	α成分のカラーマスク
 		uint32_t ColorMaskA;
 
-		[[nodiscard]] constexpr operator ColorMask() { return ColorMask{ BitMask<uint32_t>(ColorMaskR), BitMask<uint32_t>(ColorMaskG), BitMask<uint32_t>(ColorMaskB), BitMask<uint32_t>(ColorMaskA) }; }
+		[[nodiscard]] constexpr operator DIBColorMask() { return DIBColorMask{ BitMask<uint32_t>(ColorMaskR), BitMask<uint32_t>(ColorMaskG), BitMask<uint32_t>(ColorMaskB), BitMask<uint32_t>(ColorMaskA) }; }
 	};
-	struct V4Header
+	struct DIBV4Header
 	{
 		static const constexpr uint32_t Size = 108;
 		///	ビットマップの横幅
@@ -238,9 +238,9 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	プレーン数
 		uint16_t PlaneCount;
 		///	1ピクセルあたりのビット数
-		BitDepth BitCount;
+		DIBBitDepth BitCount;
 		///	圧縮形式
-		CompressionMethod ComplessionMethod;
+		BMPCompressionMethod ComplessionMethod;
 		///	画像データサイズ (単位はバイト)
 		uint32_t ImageSize;
 		///	水平方向の解像度 (単位はピクセル/m)
@@ -252,11 +252,11 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
 		uint32_t ImportantColorCount;
 		///	カラーマスク
-		RGBAColorMask ColorMask;
+		DIBRGBAColorMask ColorMask;
 		///	色空間
 		DIBV4ColorSpace ColorSpace;
 	};
-	struct V5Header
+	struct DIBV5Header
 	{
 		static const constexpr uint32_t Size = 124;
 		///	ビットマップの横幅
@@ -266,9 +266,9 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	プレーン数
 		uint16_t PlaneCount;
 		///	1ピクセルあたりのビット数
-		BitDepth BitCount;
+		DIBBitDepth BitCount;
 		///	圧縮形式
-		CompressionMethod ComplessionMethod;
+		BMPCompressionMethod ComplessionMethod;
 		///	画像データサイズ (単位はバイト)
 		uint32_t ImageSize;
 		///	水平方向の解像度 (単位はピクセル/m)
@@ -280,7 +280,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
 		uint32_t ImportantColorCount;
 		///	カラーマスク
-		RGBAColorMask ColorMask;
+		DIBRGBAColorMask ColorMask;
 		///	色空間
 		DIBV5ColorSpace ColorSpace;
 	};
