@@ -27,7 +27,7 @@ namespace zawa_ch::StationaryOrbit::Mathematics
 	{
 	private:
 
-		FractionalDec _value;
+		Proportion64_t _value;
 
 	public:
 
@@ -35,10 +35,10 @@ namespace zawa_ch::StationaryOrbit::Mathematics
 		FuzzyBool(bool value);
 		explicit FuzzyBool(const uintmax_t& num, const uintmax_t& den);
 		explicit FuzzyBool(const double& value);
-		explicit FuzzyBool(const FractionalDec& value);
+		explicit FuzzyBool(const Proportion64_t& value);
 
 		///	指定された値でこのオブジェクトの二値化を行います。
-		bool Binalization(const FractionalDec& value) const;
+		bool Binalization(const Proportion64_t& value) const;
 
 		FuzzyBool Not() const;
 		FuzzyBool operator!() const { return Not(); }
