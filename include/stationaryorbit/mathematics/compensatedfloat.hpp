@@ -18,7 +18,7 @@
 //
 #ifndef __stationaryorbit_mathematics_compensatedfloat__
 #define __stationaryorbit_mathematics_compensatedfloat__
-#include <type_traits>
+#include "stationaryorbit/core.traits.hpp"
 namespace zawa_ch::StationaryOrbit::Mathematics
 {
 	/// 計算時に誤差の補償が行われる数値を表します。
