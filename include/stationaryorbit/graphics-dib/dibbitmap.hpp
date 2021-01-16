@@ -18,13 +18,47 @@
 //
 #ifndef __stationaryorbit_graphics_dib_dibbitmap__
 #define __stationaryorbit_graphics_dib_dibbitmap__
-#include <iostream>
-#include "stationaryorbit/graphics-core.bitmap.hpp"
+#include <fstream>
+#include "dibpixeldata.hpp"
 #include "dibheaders.hpp"
-#include "rgbtriple.hpp"
 #include "invaliddibformat.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
+	class DIBFileLoader
+	{
+	protected:
+		std::fstream stream;
+		DIBFileHeader fhead;
+		int32_t headersize;
+	public:
+		DIBFileLoader(std::fstream&& stream) : stream(stream)
+		{
+			if (stream.bad()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			stream.read((char*)&fhead, sizeof(DIBFileHeader));
+			if (stream.fail())
+			{
+				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("ファイルヘッダの読み取り中にストリーム終端に到達しました。"); }
+				stream.clear();
+				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
+			}
+			if (!fhead.CheckFileHeader()) { throw InvalidDIBFormatException("ファイルヘッダのマジックナンバーを認識できませんでした。"); }
+			stream.read((char*)&headersize, sizeof(int32_t));
+			if (stream.fail())
+			{
+				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("ヘッダサイズの読み取り中にストリーム終端に到達しました。"); }
+				stream.clear();
+				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
+			}
+		}
+		DIBFileLoader(const char* filename) : DIBFileLoader(std::move(std::fstream(filename, std::ios_base::binary))) {}
+		DIBFileLoader(const DIBFileLoader&) = delete;
+		DIBFileLoader(DIBFileLoader&&) = default;
+		virtual ~DIBFileLoader() = default;
+
+		[[nodiscard]] const std::fstream& Stream() const { return stream; }
+		[[nodiscard]] const DIBFileHeader& FileHead() const { return fhead; }
+		[[nodiscard]] const int32_t& HeaderSize() const { return headersize; }
+	};
 	class DIBBitmap
 		: public BitmapBase<uint8_t>
 	{
