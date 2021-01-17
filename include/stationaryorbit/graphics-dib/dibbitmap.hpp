@@ -59,6 +59,94 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		[[nodiscard]] const DIBFileHeader& FileHead() const { return fhead; }
 		[[nodiscard]] const int32_t& HeaderSize() const { return headersize; }
 	};
+	class DIBCoreBitmapFileLoader final : public DIBFileLoader
+	{
+	private:
+		using DIBFileLoader::stream;
+		DIBCoreHeader ihead;
+	public:
+		DIBCoreBitmapFileLoader(DIBFileLoader&& parent) : DIBFileLoader(parent)
+		{
+			if (!stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			stream.seekg(sizeof(DIBFileHeader) + sizeof(int32_t));
+			if (stream.fail()) { throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			stream.read((char*)&ihead, sizeof(DIBCoreHeader));
+			if (stream.fail())
+			{
+				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("ヘッダの読み取り中にストリーム終端に到達しました。"); }
+				stream.clear();
+				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
+			}
+		}
+
+		[[nodiscard]] const DIBCoreHeader& InfoHead() const { return ihead; }
+	};
+	class DIBInfoBitmapFileLoader final : public DIBFileLoader
+	{
+	private:
+		using DIBFileLoader::stream;
+		DIBInfoHeader ihead;
+	public:
+		DIBInfoBitmapFileLoader(DIBFileLoader&& parent) : DIBFileLoader(parent)
+		{
+			if (!stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			stream.seekg(sizeof(DIBFileHeader) + sizeof(int32_t));
+			if (stream.fail()) { throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			stream.read((char*)&ihead, sizeof(DIBInfoHeader));
+			if (stream.fail())
+			{
+				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("ヘッダの読み取り中にストリーム終端に到達しました。"); }
+				stream.clear();
+				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
+			}
+		}
+
+		[[nodiscard]] const DIBInfoHeader& InfoHead() const { return ihead; }
+	};
+	class DIBV4BitmapFileLoader final : public DIBFileLoader
+	{
+	private:
+		using DIBFileLoader::stream;
+		DIBV4Header ihead;
+	public:
+		DIBV4BitmapFileLoader(DIBFileLoader&& parent) : DIBFileLoader(parent)
+		{
+			if (!stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			stream.seekg(sizeof(DIBFileHeader) + sizeof(int32_t));
+			if (stream.fail()) { throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			stream.read((char*)&ihead, sizeof(DIBV4Header));
+			if (stream.fail())
+			{
+				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("ヘッダの読み取り中にストリーム終端に到達しました。"); }
+				stream.clear();
+				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
+			}
+		}
+
+		[[nodiscard]] const DIBV4Header& InfoHead() const { return ihead; }
+	};
+	class DIBV5BitmapFileLoader final : public DIBFileLoader
+	{
+	private:
+		using DIBFileLoader::stream;
+		DIBV5Header ihead;
+	public:
+		DIBV5BitmapFileLoader(DIBFileLoader&& parent) : DIBFileLoader(parent)
+		{
+			if (!stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			stream.seekg(sizeof(DIBFileHeader) + sizeof(int32_t));
+			if (stream.fail()) { throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			stream.read((char*)&ihead, sizeof(DIBV5Header));
+			if (stream.fail())
+			{
+				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("ヘッダの読み取り中にストリーム終端に到達しました。"); }
+				stream.clear();
+				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
+			}
+		}
+
+		[[nodiscard]] const DIBV5Header& InfoHead() const { return ihead; }
+	};
 	class DIBBitmap
 		: public BitmapBase<uint8_t>
 	{
