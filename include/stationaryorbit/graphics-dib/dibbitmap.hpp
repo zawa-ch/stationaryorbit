@@ -18,7 +18,10 @@
 //
 #ifndef __stationaryorbit_graphics_dib_dibbitmap__
 #define __stationaryorbit_graphics_dib_dibbitmap__
+#include <vector>
+#include <variant>
 #include <fstream>
+#include "stationaryorbit/graphics-core.image.hpp"
 #include "dibpixeldata.hpp"
 #include "dibheaders.hpp"
 #include "invaliddibformat.hpp"
@@ -33,7 +36,9 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	public:
 		DIBFileLoader(std::fstream&& stream) : stream(stream)
 		{
-			if (stream.bad()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			if (!stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			stream.seekg(0);
+			if (stream.fail()) { stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
 			stream.read((char*)&fhead, sizeof(DIBFileHeader));
 			if (stream.fail())
 			{
@@ -55,39 +60,93 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		DIBFileLoader(DIBFileLoader&&) = default;
 		virtual ~DIBFileLoader() = default;
 
-		[[nodiscard]] const std::fstream& Stream() const { return stream; }
+		[[nodiscard]] std::fstream& Stream() { return stream; }
 		[[nodiscard]] const DIBFileHeader& FileHead() const { return fhead; }
 		[[nodiscard]] const int32_t& HeaderSize() const { return headersize; }
 	};
-	class DIBCoreBitmapFileLoader final : public DIBFileLoader
+	class DIBCoreBitmapFileLoader
 	{
+	public:
+		typedef std::variant<DIBPixelData<DIBBitDepth::Bit1>, DIBPixelData<DIBBitDepth::Bit4>, DIBPixelData<DIBBitDepth::Bit8>, DIBPixelData<DIBBitDepth::Bit24>> ValueType;
 	private:
-		using DIBFileLoader::stream;
+		DIBFileLoader loader;
 		DIBCoreHeader ihead;
 	public:
-		DIBCoreBitmapFileLoader(DIBFileLoader&& parent) : DIBFileLoader(parent)
+		DIBCoreBitmapFileLoader(DIBFileLoader&& loader) : loader(loader)
 		{
-			if (!stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
-			stream.seekg(sizeof(DIBFileHeader) + sizeof(int32_t));
-			if (stream.fail()) { throw std::fstream::failure("ストリームのシークに失敗しました。"); }
-			stream.read((char*)&ihead, sizeof(DIBCoreHeader));
-			if (stream.fail())
+			if (loader.HeaderSize() < DIBCoreHeader::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはCoreHeaderでサポートされる最小の長さよりも短いです。"); }
+			if (!loader.stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			loader.stream.seekg(sizeof(DIBFileHeader) + sizeof(int32_t));
+			if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			loader.stream.read((char*)&ihead, sizeof(DIBCoreHeader));
+			if (loader.stream.fail())
 			{
-				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("ヘッダの読み取り中にストリーム終端に到達しました。"); }
-				stream.clear();
+				if (loader.stream.eof()) { loader.stream.clear(); throw InvalidDIBFormatException("ヘッダの読み取り中にストリーム終端に到達しました。"); }
+				loader.stream.clear();
 				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
 			}
 		}
 
 		[[nodiscard]] const DIBCoreHeader& InfoHead() const { return ihead; }
-	};
-	class DIBInfoBitmapFileLoader final : public DIBFileLoader
-	{
+
+		[[nodiscard]] ValueType Get(const DisplayPoint& index)
+		{
+			if (!loader.stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			loader.stream.seekg(sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index));
+			if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			switch(ihead.BitCount)
+			{
+				case DIBBitDepth::Bit1:
+				{
+					DIBPixelData<DIBBitDepth::Bit1> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit4:
+				{
+					DIBPixelData<DIBBitDepth::Bit4> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit8:
+				{
+					DIBPixelData<DIBBitDepth::Bit8> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit24:
+				{
+					DIBPixelData<DIBBitDepth::Bit24> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				default: { throw InvalidDIBFormatException("BitCountの内容が無効です。"); }
+			}
+		}
+
 	private:
-		using DIBFileLoader::stream;
+		[[nodiscard]] size_t ResolvePos(const DisplayPoint& pos)
+		{
+			if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw InvalidOperationException("posに指定されている座標が無効です。"); }
+			if ( (ihead.ImageWidth <= pos.X())||(ihead.ImageHeight <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
+			size_t pxl = ((ihead.BitCount)/sizeof(uint8_t)) + (((ihead.BitCount)%sizeof(uint8_t)) != 0)?1:0;
+			size_t w = pxl * ihead.ImageWidth + ((((pxl * ihead.ImageWidth) % 4) != 0)?(4-((pxl * ihead.ImageWidth)%4)):0);
+			return (w * pos.Y()) + (pxl * pos.X());
+		}
+	};
+	class DIBInfoBitmapFileLoader
+	{
+	public:
+		typedef std::variant<DIBPixelData<DIBBitDepth::Bit1>, DIBPixelData<DIBBitDepth::Bit4>, DIBPixelData<DIBBitDepth::Bit8>, DIBPixelData<DIBBitDepth::Bit16>, DIBPixelData<DIBBitDepth::Bit24>, DIBPixelData<DIBBitDepth::Bit32>> ValueType;
+	private:
+		DIBFileLoader loader;
 		DIBInfoHeader ihead;
 	public:
-		DIBInfoBitmapFileLoader(DIBFileLoader&& parent) : DIBFileLoader(parent)
+		DIBInfoBitmapFileLoader(DIBFileLoader&& loader) : loader(loader)
 		{
 			if (!stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
 			stream.seekg(sizeof(DIBFileHeader) + sizeof(int32_t));
@@ -102,14 +161,69 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		}
 
 		[[nodiscard]] const DIBInfoHeader& InfoHead() const { return ihead; }
+
+		[[nodiscard]] ValueType Get(const DisplayPoint& index)
+		{
+			if (!loader.stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			loader.stream.seekg(sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index));
+			if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			switch(ihead.BitCount)
+			{
+				case DIBBitDepth::Bit1:
+				{
+					DIBPixelData<DIBBitDepth::Bit1> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit4:
+				{
+					DIBPixelData<DIBBitDepth::Bit4> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit8:
+				{
+					DIBPixelData<DIBBitDepth::Bit8> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit16:
+				{
+					DIBPixelData<DIBBitDepth::Bit16> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit24:
+				{
+					DIBPixelData<DIBBitDepth::Bit24> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit32:
+				{
+					DIBPixelData<DIBBitDepth::Bit32> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				default: { throw InvalidDIBFormatException("BitCountの内容が無効です。"); }
+			}
+		}
 	};
-	class DIBV4BitmapFileLoader final : public DIBFileLoader
+	class DIBV4BitmapFileLoader
 	{
+	public:
+		typedef std::variant<DIBPixelData<DIBBitDepth::Bit1>, DIBPixelData<DIBBitDepth::Bit4>, DIBPixelData<DIBBitDepth::Bit8>, DIBPixelData<DIBBitDepth::Bit16>, DIBPixelData<DIBBitDepth::Bit24>, DIBPixelData<DIBBitDepth::Bit32>> ValueType;
 	private:
-		using DIBFileLoader::stream;
+		DIBFileLoader loader;
 		DIBV4Header ihead;
 	public:
-		DIBV4BitmapFileLoader(DIBFileLoader&& parent) : DIBFileLoader(parent)
+		DIBV4BitmapFileLoader(DIBFileLoader&& loader) : loader(loader)
 		{
 			if (!stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
 			stream.seekg(sizeof(DIBFileHeader) + sizeof(int32_t));
@@ -124,14 +238,69 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		}
 
 		[[nodiscard]] const DIBV4Header& InfoHead() const { return ihead; }
+
+		[[nodiscard]] ValueType Get(const DisplayPoint& index)
+		{
+			if (!loader.stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			loader.stream.seekg(sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index));
+			if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			switch(ihead.BitCount)
+			{
+				case DIBBitDepth::Bit1:
+				{
+					DIBPixelData<DIBBitDepth::Bit1> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit4:
+				{
+					DIBPixelData<DIBBitDepth::Bit4> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit8:
+				{
+					DIBPixelData<DIBBitDepth::Bit8> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit16:
+				{
+					DIBPixelData<DIBBitDepth::Bit16> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit24:
+				{
+					DIBPixelData<DIBBitDepth::Bit24> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit32:
+				{
+					DIBPixelData<DIBBitDepth::Bit32> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				default: { throw InvalidDIBFormatException("BitCountの内容が無効です。"); }
+			}
+		}
 	};
-	class DIBV5BitmapFileLoader final : public DIBFileLoader
+	class DIBV5BitmapFileLoader
 	{
+	public:
+		typedef std::variant<DIBPixelData<DIBBitDepth::Bit1>, DIBPixelData<DIBBitDepth::Bit4>, DIBPixelData<DIBBitDepth::Bit8>, DIBPixelData<DIBBitDepth::Bit16>, DIBPixelData<DIBBitDepth::Bit24>, DIBPixelData<DIBBitDepth::Bit32>> ValueType;
 	private:
-		using DIBFileLoader::stream;
+		DIBFileLoader loader;
 		DIBV5Header ihead;
 	public:
-		DIBV5BitmapFileLoader(DIBFileLoader&& parent) : DIBFileLoader(parent)
+		DIBV5BitmapFileLoader(DIBFileLoader&& loader) : loader(loader)
 		{
 			if (!stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
 			stream.seekg(sizeof(DIBFileHeader) + sizeof(int32_t));
@@ -146,6 +315,59 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		}
 
 		[[nodiscard]] const DIBV5Header& InfoHead() const { return ihead; }
+
+		[[nodiscard]] ValueType Get(const DisplayPoint& index)
+		{
+			if (!loader.stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			loader.stream.seekg(sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index));
+			if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			switch(ihead.BitCount)
+			{
+				case DIBBitDepth::Bit1:
+				{
+					DIBPixelData<DIBBitDepth::Bit1> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit4:
+				{
+					DIBPixelData<DIBBitDepth::Bit4> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit8:
+				{
+					DIBPixelData<DIBBitDepth::Bit8> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit16:
+				{
+					DIBPixelData<DIBBitDepth::Bit16> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit24:
+				{
+					DIBPixelData<DIBBitDepth::Bit24> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				case DIBBitDepth::Bit32:
+				{
+					DIBPixelData<DIBBitDepth::Bit32> result;
+					loader.Stream().read((char*)&result, sizeof(result));
+					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					return ValueType(result);
+				}
+				default: { throw InvalidDIBFormatException("BitCountの内容が無効です。"); }
+			}
+		}
 	};
 	class DIBBitmap
 		: public BitmapBase<uint8_t>
