@@ -63,11 +63,31 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		[[nodiscard]] std::fstream& Stream() { return stream; }
 		[[nodiscard]] const DIBFileHeader& FileHead() const { return fhead; }
 		[[nodiscard]] const int32_t& HeaderSize() const { return headersize; }
+
+		template<class T>
+		std::istream& ReadStream(T* dest, const size_t& length = 1U)
+		{
+			auto result = stream.read((char*)dest, sizeof(T) * length);
+			if (stream.fail())
+			{
+				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("ヘッダの読み取り中にストリーム終端に到達しました。"); }
+				stream.clear();
+				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
+			}
+			return result;
+		}
+		std::istream& SeekStream(const size_t& index)
+		{
+			auto result = stream.seekg(index);
+			if (stream.fail()) { stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			return result;
+		}
 	};
 	class DIBCoreBitmapFileLoader
 	{
 	public:
 		typedef std::variant<DIBPixelData<DIBBitDepth::Bit1>, DIBPixelData<DIBBitDepth::Bit4>, DIBPixelData<DIBBitDepth::Bit8>, DIBPixelData<DIBBitDepth::Bit24>> ValueType;
+		typedef std::variant<DIBPixelData<std::vector<DIBBitDepth::Bit1>>, DIBPixelData<std::vector<DIBBitDepth::Bit4>>, DIBPixelData<std::vector<DIBBitDepth::Bit8>>, DIBPixelData<std::vector<DIBBitDepth::Bit24>>> ValueVectorType;
 	private:
 		DIBFileLoader loader;
 		DIBCoreHeader ihead;
@@ -75,56 +95,82 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		DIBCoreBitmapFileLoader(DIBFileLoader&& loader) : loader(loader)
 		{
 			if (loader.HeaderSize() < DIBCoreHeader::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはCoreHeaderでサポートされる最小の長さよりも短いです。"); }
-			if (!loader.stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
-			loader.stream.seekg(sizeof(DIBFileHeader) + sizeof(int32_t));
-			if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
-			loader.stream.read((char*)&ihead, sizeof(DIBCoreHeader));
-			if (loader.stream.fail())
-			{
-				if (loader.stream.eof()) { loader.stream.clear(); throw InvalidDIBFormatException("ヘッダの読み取り中にストリーム終端に到達しました。"); }
-				loader.stream.clear();
-				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
-			}
+			if (!loader.Stream().good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			loader.SeekStream(sizeof(DIBFileHeader) + sizeof(int32_t));
+			loader.ReadStream(&ihead);
 		}
 
 		[[nodiscard]] const DIBCoreHeader& InfoHead() const { return ihead; }
 
 		[[nodiscard]] ValueType Get(const DisplayPoint& index)
 		{
-			if (!loader.stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
-			loader.stream.seekg(sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index));
-			if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			if (!loader.Stream().good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			loader.SeekStream(sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index));
 			switch(ihead.BitCount)
 			{
 				case DIBBitDepth::Bit1:
 				{
-					DIBPixelData<DIBBitDepth::Bit1> result;
-					loader.Stream().read((char*)&result, sizeof(result));
-					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					auto result = DIBPixelData<DIBBitDepth::Bit1>();
+					loader.ReadStream(&result);
 					return ValueType(result);
 				}
 				case DIBBitDepth::Bit4:
 				{
-					DIBPixelData<DIBBitDepth::Bit4> result;
-					loader.Stream().read((char*)&result, sizeof(result));
-					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					auto result = DIBPixelData<DIBBitDepth::Bit4>();
+					loader.ReadStream(&result);
 					return ValueType(result);
 				}
 				case DIBBitDepth::Bit8:
 				{
-					DIBPixelData<DIBBitDepth::Bit8> result;
-					loader.Stream().read((char*)&result, sizeof(result));
-					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					auto result = DIBPixelData<DIBBitDepth::Bit8>();
+					loader.ReadStream(&result);
 					return ValueType(result);
 				}
 				case DIBBitDepth::Bit24:
 				{
-					DIBPixelData<DIBBitDepth::Bit24> result;
-					loader.Stream().read((char*)&result, sizeof(result));
-					if (loader.stream.fail()) { loader.stream.clear(); throw std::fstream::failure("データの読み取りに失敗しました。"); }
+					auto result = DIBPixelData<DIBBitDepth::Bit24>();
+					loader.ReadStream(&result);
 					return ValueType(result);
 				}
-				default: { throw InvalidDIBFormatException("BitCountの内容が無効です。"); }
+				default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
+			}
+		}
+		[[nodiscard]] ValueVectorType Get(const DisplayPoint& index, const size_t& length)
+		{
+			if (!loader.Stream().good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			if (ihead.ImageWidth <= (index.X() + length)) { throw std::out_of_range("画像の幅を超える領域を指定することはできません。"); }
+			loader.SeekStream(sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index));
+			switch(ihead.BitCount)
+			{
+				case DIBBitDepth::Bit1:
+				{
+					auto result = std::vector<DIBPixelData<DIBBitDepth::Bit1>>();
+					result.reserve(length);
+					loader.ReadStream(result.data(), length);
+					return ValueVectorType(result);
+				}
+				case DIBBitDepth::Bit4:
+				{
+					auto result = std::vector<DIBPixelData<DIBBitDepth::Bit4>>();
+					result.reserve(length);
+					loader.ReadStream(result.data(), length);
+					return ValueVectorType(result);
+				}
+				case DIBBitDepth::Bit8:
+				{
+					auto result = std::vector<DIBPixelData<DIBBitDepth::Bit8>>();
+					result.reserve(length);
+					loader.ReadStream(result.data(), length);
+					return ValueVectorType(result);
+				}
+				case DIBBitDepth::Bit24:
+				{
+					auto result = std::vector<DIBPixelData<DIBBitDepth::Bit24>>();
+					result.reserve(length);
+					loader.ReadStream(result.data(), length);
+					return ValueVectorType(result);
+				}
+				default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
 			}
 		}
 
