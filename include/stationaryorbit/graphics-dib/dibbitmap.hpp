@@ -27,6 +27,7 @@
 #include "invaliddibformat.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
+	///	Windows bitmap 画像ファイルを読み込むための基本ロジックを提供します。
 	class DIBFileLoader
 	{
 	protected:
@@ -34,53 +35,96 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		DIBFileHeader fhead;
 		int32_t headersize;
 	public:
+		///	@a DIBFileLoader をデフォルト構築します。
+		DIBFileLoader() = default;
+		///	ストリームを使用して @a DIBFileLoader を初期化します。
+		///	@param	stream
+		///	読み込みに使用する @a std::fstream 。
+		///	ストリームはこのオブジェクトで「消費」されるため、右辺値参照である必要があります。
 		DIBFileLoader(std::fstream&& stream) : stream(stream)
 		{
-			if (!stream.good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
-			stream.seekg(0);
-			if (stream.fail()) { stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
-			stream.read((char*)&fhead, sizeof(DIBFileHeader));
-			if (stream.fail())
+			if (stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			auto sentry = std::fstream::sentry(stream, true);
+			if (!sentry) { throw std::fstream::failure("ストリームの準備に失敗しました。"); }
+			if (stream.seekg(0).fail()) { stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			if (stream.read((char*)&fhead, sizeof(DIBFileHeader)).fail())
 			{
 				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("ファイルヘッダの読み取り中にストリーム終端に到達しました。"); }
 				stream.clear();
 				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
 			}
 			if (!fhead.CheckFileHeader()) { throw InvalidDIBFormatException("ファイルヘッダのマジックナンバーを認識できませんでした。"); }
-			stream.read((char*)&headersize, sizeof(int32_t));
-			if (stream.fail())
+			if (stream.read((char*)&headersize, sizeof(int32_t)).fail())
 			{
 				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("ヘッダサイズの読み取り中にストリーム終端に到達しました。"); }
 				stream.clear();
 				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
 			}
 		}
-		DIBFileLoader(const char* filename) : DIBFileLoader(std::move(std::fstream(filename, std::ios_base::binary))) {}
+		///	指定したファイル名の @a std::fstream を構築し、 @a DIBFileLoader を初期化します。
+		///	@param	filename
+		///	開くファイルの名前。 @a std::fstream::fstream(const @a char*, @a std::ios_base::openmode) の呼び出しに使用されます。
+		///	@param	mode
+		///	ファイルを開くモード。 @a std::fstream::fstream(const @a char*, @a std::ios_base::openmode) の呼び出しに使用されます。
+		DIBFileLoader(const char* filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary) : DIBFileLoader(std::move(std::fstream(filename, mode))) {}
+		///	指定したファイル名の @a std::fstream を構築し、 @a DIBFileLoader を初期化します。
+		///	@param	filename
+		///	開くファイルの名前。 @a std::fstream::fstream(const @a std::string&, @a std::ios_base::openmode) の呼び出しに使用されます。
+		///	@param	mode
+		///	ファイルを開くモード。 @a std::fstream::fstream(const @a char*, @a std::ios_base::openmode) の呼び出しに使用されます。
+		DIBFileLoader(const std::string& filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary) : DIBFileLoader(std::move(std::fstream(filename, mode))) {}
 		DIBFileLoader(const DIBFileLoader&) = delete;
 		DIBFileLoader(DIBFileLoader&&) = default;
 		virtual ~DIBFileLoader() = default;
 
-		[[nodiscard]] std::fstream& Stream() { return stream; }
+		[[nodiscard]] const std::fstream& Stream() const { return stream; }
 		[[nodiscard]] const DIBFileHeader& FileHead() const { return fhead; }
 		[[nodiscard]] const int32_t& HeaderSize() const { return headersize; }
 
+		///	現在のストリームの位置からデータを取得します。
+		///	@param	T
+		///	読み込むデータの型。
+		///	@param	dest
+		///	読み込んだデータの格納先。
+		///	@a sizeof(T)*length の長さの領域が確保されている必要があります。
+		///	@param	length
+		///	読み込むデータの個数。
 		template<class T>
-		std::istream& ReadStream(T* dest, const size_t& length = 1U)
+		const std::istream& Read(T* dest, const size_t& length = 1U)
 		{
-			auto result = stream.read((char*)dest, sizeof(T) * length);
-			if (stream.fail())
+			if (stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			auto sentry = std::fstream::sentry(stream, true);
+			if (!sentry) { throw std::fstream::failure("ストリームの準備に失敗しました。"); }
+			if (stream.read((char*)dest, sizeof(T) * length).fail())
 			{
-				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("ヘッダの読み取り中にストリーム終端に到達しました。"); }
-				stream.clear();
+				if (result.eof()) { result.clear(); throw InvalidDIBFormatException("データの読み取り中にストリーム終端に到達しました。"); }
+				result.clear();
 				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
 			}
-			return result;
+			return stream;
 		}
-		std::istream& SeekStream(const size_t& index)
+		///	ストリームの指定された位置からデータを取得します。
+		///	@param	T
+		///	読み込むデータの型。
+		///	@param	dest
+		///	読み込んだデータの格納先。
+		///	@a sizeof(T)*length の長さの領域が確保されている必要があります。
+		///	@param	length
+		///	読み込むデータの個数。
+		template<class T>
+		const std::istream& ReadFrom(T* dest, const size_t& index, const size_t& length = 1U)
 		{
-			auto result = stream.seekg(index);
-			if (stream.fail()) { stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
-			return result;
+			if (stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			auto sentry = std::fstream::sentry(stream, true);
+			if (!sentry) { throw std::fstream::failure("ストリームの準備に失敗しました。"); }
+			if (stream.seekg(index).fail()) { result.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			if (stream.read((char*)dest, sizeof(T) * length).fail())
+			{
+				if (result.eof()) { result.clear(); throw InvalidDIBFormatException("データの読み取り中にストリーム終端に到達しました。"); }
+				result.clear();
+				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
+			}
+			return stream;
 		}
 	};
 	class DIBCoreBitmapFileLoader
