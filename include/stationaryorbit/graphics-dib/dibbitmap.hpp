@@ -41,6 +41,13 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	@param	stream
 		///	読み込みに使用する @a std::fstream 。
 		///	ストリームはこのオブジェクトで「消費」されるため、右辺値参照である必要があります。
+		///	@exception
+		///	@a zawa_ch::StationaryOrbit::InvalidOperationException
+		///	ストリームが使用可能ではない状態でメソッドが呼び出されました。
+		///	@a std::fstream::failure
+		///	ストリームへの操作に失敗ました。
+		///	@a zawa_ch::StationaryOrbit::Graphics::DIB::InvalidDIBFormatException
+		///	ビットマップ読み取りに必要なデータの取得中にストリーム終端に到達しました。
 		DIBFileLoader(std::fstream&& stream) : stream(std::exchange(this->stream, stream))
 		{
 			if (this->stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
@@ -66,19 +73,28 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	開くファイルの名前。 @a std::fstream::fstream(const @a char*, @a std::ios_base::openmode) の呼び出しに使用されます。
 		///	@param	mode
 		///	ファイルを開くモード。 @a std::fstream::fstream(const @a char*, @a std::ios_base::openmode) の呼び出しに使用されます。
+		///	@exception
+		///	このコンストラクタは @a DIBFileLoader::DDIBFileLoader(std::fstream&&) を間接的に呼び出します。
+		///	そのため、 @a zawa_ch::StationaryOrbit::InvalidOperationException , @a std::fstream::failure , @a zawa_ch::StationaryOrbit::Graphics::DIB::InvalidDIBFormatException が投げられる可能性があります。
 		DIBFileLoader(const char* filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary) : DIBFileLoader(std::move(std::fstream(filename, mode))) {}
 		///	指定したファイル名の @a std::fstream を構築し、 @a DIBFileLoader を初期化します。
 		///	@param	filename
 		///	開くファイルの名前。 @a std::fstream::fstream(const @a std::string&, @a std::ios_base::openmode) の呼び出しに使用されます。
 		///	@param	mode
 		///	ファイルを開くモード。 @a std::fstream::fstream(const @a char*, @a std::ios_base::openmode) の呼び出しに使用されます。
+		///	@exception
+		///	このコンストラクタは @a DIBFileLoader::DDIBFileLoader(std::fstream&&) を間接的に呼び出します。
+		///	そのため、 @a zawa_ch::StationaryOrbit::InvalidOperationException , @a std::fstream::failure , @a zawa_ch::StationaryOrbit::Graphics::DIB::InvalidDIBFormatException が投げられる可能性があります。
 		DIBFileLoader(const std::string& filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary) : DIBFileLoader(std::move(std::fstream(filename, mode))) {}
 		DIBFileLoader(const DIBFileLoader&) = delete;
 		DIBFileLoader(DIBFileLoader&&) = default;
 		virtual ~DIBFileLoader() = default;
 
+		///	このオブジェクトに関連付けられているストリームを取得します。
 		[[nodiscard]] const std::fstream& Stream() const { return stream; }
+		///	このオブジェクトの読み込まれたファイルヘッダを取得します。
 		[[nodiscard]] const DIBFileHeader& FileHead() const { return fhead; }
+		///	このオブジェクトの読み込まれた情報ヘッダのサイズを取得します。
 		[[nodiscard]] const int32_t& HeaderSize() const { return headersize; }
 
 		///	現在のストリームの位置からデータを取得します。
@@ -127,92 +143,104 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 			return stream;
 		}
 	};
+	///	@a DIBFileLoader を使用してCoreHeaderを持つWindows bitmap 画像を読み込みます。
 	class DIBCoreBitmapFileLoader
 	{
 	public:
-		typedef std::variant<DIBPixelData<DIBBitDepth::Bit1>, DIBPixelData<DIBBitDepth::Bit4>, DIBPixelData<DIBBitDepth::Bit8>, DIBPixelData<DIBBitDepth::Bit24>> ValueType;
-		typedef std::variant<DIBPixelData<std::vector<DIBBitDepth::Bit1>>, DIBPixelData<std::vector<DIBBitDepth::Bit4>>, DIBPixelData<std::vector<DIBBitDepth::Bit8>>, DIBPixelData<std::vector<DIBBitDepth::Bit24>>> ValueVectorType;
+		///	この画像の1ピクセルのデータを表す @a std::variant 。
+		typedef std::variant<DIBPixelData<DIBBitDepth::Bit1>, DIBPixelData<DIBBitDepth::Bit4>, DIBPixelData<DIBBitDepth::Bit8>, DIBPixelData<DIBBitDepth::Bit24>> PixelData;
+		///	この画像のピクセルの配列を表す @a std::variant 。
+		typedef std::variant<std::vector<DIBPixelData<DIBBitDepth::Bit1>>, std::vector<DIBPixelData<DIBBitDepth::Bit4>>, std::vector<DIBPixelData<DIBBitDepth::Bit8>>, std::vector<DIBPixelData<DIBBitDepth::Bit24>>> PixelVector;
 	private:
 		DIBFileLoader loader;
 		DIBCoreHeader ihead;
 	public:
-		DIBCoreBitmapFileLoader(DIBFileLoader&& loader) : loader(loader)
+		///	@a DIBFileLoader を使用して @a DIBCoreBitmapFileLoader を初期化します。
+		///	@param	loader
+		///	読み込みに使用する @a DIBFileLoader 。
+		///	このオブジェクトで「消費」されるため、右辺値参照である必要があります。
+		DIBCoreBitmapFileLoader(DIBFileLoader&& loader) : loader(std::exchange(this->loader, loader))
 		{
 			if (loader.HeaderSize() < DIBCoreHeader::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはCoreHeaderでサポートされる最小の長さよりも短いです。"); }
-			if (!loader.Stream().good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
-			loader.SeekStream(sizeof(DIBFileHeader) + sizeof(int32_t));
-			loader.ReadStream(&ihead);
+			loader.ReadFrom(&ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
 		}
 
+		///	このオブジェクトの情報ヘッダを取得します。
 		[[nodiscard]] const DIBCoreHeader& InfoHead() const { return ihead; }
 
-		[[nodiscard]] ValueType Get(const DisplayPoint& index)
+		///	指定された座標のデータを取得します。
+		///	@param	index
+		///	取得する画像上の座標。
+		[[nodiscard]] PixelData Get(const DisplayPoint& index)
 		{
-			if (!loader.Stream().good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
-			loader.SeekStream(sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index));
+			size_t pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
 			switch(ihead.BitCount)
 			{
 				case DIBBitDepth::Bit1:
 				{
 					auto result = DIBPixelData<DIBBitDepth::Bit1>();
-					loader.ReadStream(&result);
-					return ValueType(result);
+					loader.ReadFrom(&result, pos);
+					return PixelData(result);
 				}
 				case DIBBitDepth::Bit4:
 				{
 					auto result = DIBPixelData<DIBBitDepth::Bit4>();
-					loader.ReadStream(&result);
-					return ValueType(result);
+					loader.ReadFrom(&result, pos);
+					return PixelData(result);
 				}
 				case DIBBitDepth::Bit8:
 				{
 					auto result = DIBPixelData<DIBBitDepth::Bit8>();
-					loader.ReadStream(&result);
-					return ValueType(result);
+					loader.ReadFrom(&result, pos);
+					return PixelData(result);
 				}
 				case DIBBitDepth::Bit24:
 				{
 					auto result = DIBPixelData<DIBBitDepth::Bit24>();
-					loader.ReadStream(&result);
-					return ValueType(result);
+					loader.ReadFrom(&result, pos);
+					return PixelData(result);
 				}
 				default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
 			}
 		}
-		[[nodiscard]] ValueVectorType Get(const DisplayPoint& index, const size_t& length)
+		///	指定された座標から連続するデータを取得します。
+		///	@param	index
+		///	取得する画像上の座標。
+		///	@param	length
+		///	取得するデータの長さ。
+		[[nodiscard]] PixelVector Get(const DisplayPoint& index, const size_t& length)
 		{
-			if (!loader.Stream().good()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
 			if (ihead.ImageWidth <= (index.X() + length)) { throw std::out_of_range("画像の幅を超える領域を指定することはできません。"); }
-			loader.SeekStream(sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index));
+			size_t pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
 			switch(ihead.BitCount)
 			{
 				case DIBBitDepth::Bit1:
 				{
 					auto result = std::vector<DIBPixelData<DIBBitDepth::Bit1>>();
 					result.reserve(length);
-					loader.ReadStream(result.data(), length);
-					return ValueVectorType(result);
+					loader.ReadFrom(result.data(), pos, length);
+					return PixelVector(result);
 				}
 				case DIBBitDepth::Bit4:
 				{
 					auto result = std::vector<DIBPixelData<DIBBitDepth::Bit4>>();
 					result.reserve(length);
-					loader.ReadStream(result.data(), length);
-					return ValueVectorType(result);
+					loader.ReadFrom(result.data(), pos, length);
+					return PixelVector(result);
 				}
 				case DIBBitDepth::Bit8:
 				{
 					auto result = std::vector<DIBPixelData<DIBBitDepth::Bit8>>();
 					result.reserve(length);
-					loader.ReadStream(result.data(), length);
-					return ValueVectorType(result);
+					loader.ReadFrom(result.data(), pos, length);
+					return PixelVector(result);
 				}
 				case DIBBitDepth::Bit24:
 				{
 					auto result = std::vector<DIBPixelData<DIBBitDepth::Bit24>>();
 					result.reserve(length);
-					loader.ReadStream(result.data(), length);
-					return ValueVectorType(result);
+					loader.ReadFrom(result.data(), pos, length);
+					return PixelVector(result);
 				}
 				default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
 			}
@@ -223,7 +251,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		{
 			if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw InvalidOperationException("posに指定されている座標が無効です。"); }
 			if ( (ihead.ImageWidth <= pos.X())||(ihead.ImageHeight <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
-			size_t pxl = ((ihead.BitCount)/sizeof(uint8_t)) + (((ihead.BitCount)%sizeof(uint8_t)) != 0)?1:0;
+			size_t pxl = (uint16_t(ihead.BitCount)/sizeof(uint8_t)) + ((uint16_t(ihead.BitCount)%sizeof(uint8_t)) != 0)?1:0;
 			size_t w = pxl * ihead.ImageWidth + ((((pxl * ihead.ImageWidth) % 4) != 0)?(4-((pxl * ihead.ImageWidth)%4)):0);
 			return (w * pos.Y()) + (pxl * pos.X());
 		}
