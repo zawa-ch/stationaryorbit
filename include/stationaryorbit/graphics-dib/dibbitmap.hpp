@@ -41,23 +41,23 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	@param	stream
 		///	読み込みに使用する @a std::fstream 。
 		///	ストリームはこのオブジェクトで「消費」されるため、右辺値参照である必要があります。
-		DIBFileLoader(std::fstream&& stream) : stream(stream)
+		DIBFileLoader(std::fstream&& stream) : stream(std::exchange(this->stream, stream))
 		{
-			if (stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
-			auto sentry = std::fstream::sentry(stream, true);
+			if (this->stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			auto sentry = std::fstream::sentry(this->stream, true);
 			if (!sentry) { throw std::fstream::failure("ストリームの準備に失敗しました。"); }
-			if (stream.seekg(0).fail()) { stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
-			if (stream.read((char*)&fhead, sizeof(DIBFileHeader)).fail())
+			if (this->stream.seekg(0).fail()) { this->stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			if (this->stream.read((char*)&fhead, sizeof(DIBFileHeader)).fail())
 			{
-				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("ファイルヘッダの読み取り中にストリーム終端に到達しました。"); }
-				stream.clear();
+				if (this->stream.eof()) { this->stream.clear(); throw InvalidDIBFormatException("ファイルヘッダの読み取り中にストリーム終端に到達しました。"); }
+				this->stream.clear();
 				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
 			}
 			if (!fhead.CheckFileHeader()) { throw InvalidDIBFormatException("ファイルヘッダのマジックナンバーを認識できませんでした。"); }
-			if (stream.read((char*)&headersize, sizeof(int32_t)).fail())
+			if (this->stream.read((char*)&headersize, sizeof(int32_t)).fail())
 			{
-				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("ヘッダサイズの読み取り中にストリーム終端に到達しました。"); }
-				stream.clear();
+				if (this->stream.eof()) { this->stream.clear(); throw InvalidDIBFormatException("ヘッダサイズの読み取り中にストリーム終端に到達しました。"); }
+				this->stream.clear();
 				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
 			}
 		}
