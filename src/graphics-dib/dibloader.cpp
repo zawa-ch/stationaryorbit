@@ -22,7 +22,7 @@ using namespace zawa_ch::StationaryOrbit::Graphics::DIB;
 
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
-	class DIBLoadHelper
+	class DIBLoaderHelper
 	{
 	public:
 		///	現在のストリームの位置からデータを取得します。
@@ -97,38 +97,38 @@ DIBFileLoader::DIBFileLoader(std::fstream&& stream)
 DIBFileLoader::DIBFileLoader(const char* filename, std::ios_base::openmode mode) : DIBFileLoader(std::move(std::fstream(filename, mode))) {}
 DIBFileLoader::DIBFileLoader(const std::string& filename, std::ios_base::openmode mode) : DIBFileLoader(std::move(std::fstream(filename, mode))) {}
 
-DIBCoreBitmapFileLoader::DIBCoreBitmapFileLoader(DIBFileLoader&& loader) : loader(std::move(loader))
+DIBCoreBitmapFileLoader::DIBCoreBitmapFileLoader(DIBLoader&& loader) : loader(std::make_unique<DIBLoader>(std::move(loader)))
 {
 	if (loader.HeaderSize() < DIBCoreHeader::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはCoreHeaderでサポートされる最小の長さよりも短いです。"); }
-	DIBLoadHelper::ReadFrom(loader.Stream(), &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
+	DIBLoaderHelper::ReadFrom(loader.Stream(), &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
 }
 DIBCoreBitmapFileLoader::PixelData DIBCoreBitmapFileLoader::Get(const DisplayPoint& index)
 {
-	size_t pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	size_t pos = sizeof(DIBFileHeader) + loader->FileHead().Offset() + ResolvePos(index);
 	switch(ihead.BitCount)
 	{
 		case DIBBitDepth::Bit1:
 		{
 			auto result = DIBPixelData<DIBBitDepth::Bit1>();
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit4:
 		{
 			auto result = DIBPixelData<DIBBitDepth::Bit4>();
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit8:
 		{
 			auto result = DIBPixelData<DIBBitDepth::Bit8>();
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit24:
 		{
 			auto result = DIBPixelData<DIBBitDepth::Bit24>();
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
@@ -137,35 +137,35 @@ DIBCoreBitmapFileLoader::PixelData DIBCoreBitmapFileLoader::Get(const DisplayPoi
 DIBCoreBitmapFileLoader::PixelVector DIBCoreBitmapFileLoader::Get(const DisplayPoint& index, const size_t& length)
 {
 	if (ihead.ImageWidth <= (index.X() + length)) { throw std::out_of_range("画像の幅を超える領域を指定することはできません。"); }
-	size_t pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	size_t pos = sizeof(DIBFileHeader) + loader->FileHead().Offset() + ResolvePos(index);
 	switch(ihead.BitCount)
 	{
 		case DIBBitDepth::Bit1:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit1>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit4:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit4>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit8:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit8>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit24:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit24>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
@@ -180,70 +180,70 @@ size_t DIBCoreBitmapFileLoader::ResolvePos(const DisplayPoint& pos) const
 	return (w * pos.Y()) + (pxl * pos.X());
 }
 
-DIBInfoBitmapFileLoader::DIBInfoBitmapFileLoader(DIBFileLoader&& loader) : loader(std::move(loader))
+DIBInfoBitmapFileLoader::DIBInfoBitmapFileLoader(DIBLoader&& loader) : loader(std::make_unique<DIBLoader>(std::move(loader)))
 {
 	if (loader.HeaderSize() < DIBInfoHeader::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはInfoHeaderでサポートされる最小の長さよりも短いです。"); }
-	DIBLoadHelper::ReadFrom(loader.Stream(), &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
+	DIBLoaderHelper::ReadFrom(loader.Stream(), &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
 	if (ihead.ComplessionMethod == BMPCompressionMethod::BITFIELDS)
 	{
 		auto colormaskdata = DIBRGBColorMask();
-		DIBLoadHelper::Read(loader.Stream(), &colormaskdata);
+		DIBLoaderHelper::Read(loader.Stream(), &colormaskdata);
 		colormask = DIBColorMask(colormaskdata);
 	}
 	else if (ihead.ComplessionMethod == BMPCompressionMethod::ALPHABITFIELDS)
 	{
 		auto colormaskdata = DIBRGBAColorMask();
-		DIBLoadHelper::Read(loader.Stream(), &colormaskdata);
+		DIBLoaderHelper::Read(loader.Stream(), &colormaskdata);
 		colormask = DIBColorMask(colormaskdata);
 	}
 	if (ihead.IndexedColorCount != 0)
 	{
 		auto lpal = std::vector<RGBTriple_t>();
 		lpal.reserve(ihead.IndexedColorCount);
-		DIBLoadHelper::ReadFrom(loader.Stream(), &lpal, sizeof(DIBFileHeader) + sizeof(DIBInfoHeader), ihead.IndexedColorCount);
+		DIBLoaderHelper::ReadFrom(loader.Stream(), &lpal, sizeof(DIBFileHeader) + sizeof(DIBInfoHeader), ihead.IndexedColorCount);
 		palette.reserve(ihead.IndexedColorCount);
 		for(auto i: lpal) { palette.push_back(RGB8_t(i)); }
 	}
 }
 DIBInfoBitmapFileLoader::PixelData DIBInfoBitmapFileLoader::Get(const DisplayPoint& index)
 {
-	auto pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	auto pos = sizeof(DIBFileHeader) + loader->FileHead().Offset() + ResolvePos(index);
 	switch(ihead.BitCount)
 	{
 		case DIBBitDepth::Bit1:
 		{
 			DIBPixelData<DIBBitDepth::Bit1> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit4:
 		{
 			DIBPixelData<DIBBitDepth::Bit4> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit8:
 		{
 			DIBPixelData<DIBBitDepth::Bit8> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit16:
 		{
 			DIBPixelData<DIBBitDepth::Bit16> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit24:
 		{
 			DIBPixelData<DIBBitDepth::Bit24> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit32:
 		{
 			DIBPixelData<DIBBitDepth::Bit32> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		default: { throw InvalidDIBFormatException("BitCountの内容が無効です。"); }
@@ -252,49 +252,49 @@ DIBInfoBitmapFileLoader::PixelData DIBInfoBitmapFileLoader::Get(const DisplayPoi
 DIBInfoBitmapFileLoader::PixelVector DIBInfoBitmapFileLoader::Get(const DisplayPoint& index, const size_t& length)
 {
 	if (ihead.ImageWidth <= (index.X() + length)) { throw std::out_of_range("画像の幅を超える領域を指定することはできません。"); }
-	auto pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	auto pos = sizeof(DIBFileHeader) + loader->FileHead().Offset() + ResolvePos(index);
 	switch(ihead.BitCount)
 	{
 		case DIBBitDepth::Bit1:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit1>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit4:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit4>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit8:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit8>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit16:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit16>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit24:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit24>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit32:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit32>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
@@ -309,58 +309,58 @@ size_t DIBInfoBitmapFileLoader::ResolvePos(const DisplayPoint& pos) const
 	return (w * pos.Y()) + (pxl * pos.X());
 }
 
-DIBV4BitmapFileLoader::DIBV4BitmapFileLoader(DIBFileLoader&& loader) : loader(std::move(loader))
+DIBV4BitmapFileLoader::DIBV4BitmapFileLoader(DIBLoader&& loader) : loader(std::make_unique<DIBLoader>(std::move(loader)))
 {
 	if (loader.HeaderSize() < DIBV4Header::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはV4Headerでサポートされる最小の長さよりも短いです。"); }
-	DIBLoadHelper::ReadFrom(loader.Stream(), &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
+	DIBLoaderHelper::ReadFrom(loader.Stream(), &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
 	if (ihead.IndexedColorCount != 0)
 	{
 		auto lpal = std::vector<RGBTriple_t>();
 		lpal.reserve(ihead.IndexedColorCount);
-		DIBLoadHelper::ReadFrom(loader.Stream(), &lpal, sizeof(DIBFileHeader) + sizeof(DIBInfoHeader), ihead.IndexedColorCount);
+		DIBLoaderHelper::ReadFrom(loader.Stream(), &lpal, sizeof(DIBFileHeader) + sizeof(DIBInfoHeader), ihead.IndexedColorCount);
 		palette.reserve(ihead.IndexedColorCount);
 		for(auto i: lpal) { palette.push_back(RGB8_t(i)); }
 	}
 }
 DIBV4BitmapFileLoader::PixelData DIBV4BitmapFileLoader::Get(const DisplayPoint& index)
 {
-	auto pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	auto pos = sizeof(DIBFileHeader) + loader->FileHead().Offset() + ResolvePos(index);
 	switch(ihead.BitCount)
 	{
 		case DIBBitDepth::Bit1:
 		{
 			DIBPixelData<DIBBitDepth::Bit1> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(),&result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(),&result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit4:
 		{
 			DIBPixelData<DIBBitDepth::Bit4> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(),&result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(),&result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit8:
 		{
 			DIBPixelData<DIBBitDepth::Bit8> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(),&result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(),&result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit16:
 		{
 			DIBPixelData<DIBBitDepth::Bit16> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(),&result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(),&result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit24:
 		{
 			DIBPixelData<DIBBitDepth::Bit24> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(),&result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(),&result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit32:
 		{
 			DIBPixelData<DIBBitDepth::Bit32> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(),&result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(),&result, pos);
 			return PixelData(result);
 		}
 		default: { throw InvalidDIBFormatException("BitCountの内容が無効です。"); }
@@ -369,49 +369,49 @@ DIBV4BitmapFileLoader::PixelData DIBV4BitmapFileLoader::Get(const DisplayPoint& 
 DIBV4BitmapFileLoader::PixelVector DIBV4BitmapFileLoader::Get(const DisplayPoint& index, const size_t& length)
 {
 	if (ihead.ImageWidth <= (index.X() + length)) { throw std::out_of_range("画像の幅を超える領域を指定することはできません。"); }
-	auto pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	auto pos = sizeof(DIBFileHeader) + loader->FileHead().Offset() + ResolvePos(index);
 	switch(ihead.BitCount)
 	{
 		case DIBBitDepth::Bit1:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit1>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(),result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(),result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit4:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit4>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(),result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(),result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit8:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit8>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(),result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(),result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit16:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit16>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(),result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(),result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit24:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit24>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(),result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(),result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit32:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit32>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(),result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(),result.data(), pos, length);
 			return PixelVector(result);
 		}
 		default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
@@ -426,58 +426,58 @@ size_t DIBV4BitmapFileLoader::ResolvePos(const DisplayPoint& pos) const
 	return (w * pos.Y()) + (pxl * pos.X());
 }
 
-DIBV5BitmapFileLoader::DIBV5BitmapFileLoader(DIBFileLoader&& loader) : loader(std::move(loader))
+DIBV5BitmapFileLoader::DIBV5BitmapFileLoader(DIBLoader&& loader) : loader(std::make_unique<DIBLoader>(std::move(loader)))
 {
 	if (loader.HeaderSize() < DIBV4Header::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはV4Headerでサポートされる最小の長さよりも短いです。"); }
-	DIBLoadHelper::ReadFrom(loader.Stream(), &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
+	DIBLoaderHelper::ReadFrom(loader.Stream(), &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
 	if (ihead.IndexedColorCount != 0)
 	{
 		auto lpal = std::vector<RGBTriple_t>();
 		lpal.reserve(ihead.IndexedColorCount);
-		DIBLoadHelper::ReadFrom(loader.Stream(), &lpal, sizeof(DIBFileHeader) + sizeof(DIBInfoHeader), ihead.IndexedColorCount);
+		DIBLoaderHelper::ReadFrom(loader.Stream(), &lpal, sizeof(DIBFileHeader) + sizeof(DIBInfoHeader), ihead.IndexedColorCount);
 		palette.reserve(ihead.IndexedColorCount);
 		for(auto i: lpal) { palette.push_back(RGB8_t(i)); }
 	}
 }
 DIBV5BitmapFileLoader::PixelData DIBV5BitmapFileLoader::Get(const DisplayPoint& index)
 {
-	auto pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	auto pos = sizeof(DIBFileHeader) + loader->FileHead().Offset() + ResolvePos(index);
 	switch(ihead.BitCount)
 	{
 		case DIBBitDepth::Bit1:
 		{
 			DIBPixelData<DIBBitDepth::Bit1> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit4:
 		{
 			DIBPixelData<DIBBitDepth::Bit4> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit8:
 		{
 			DIBPixelData<DIBBitDepth::Bit8> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit16:
 		{
 			DIBPixelData<DIBBitDepth::Bit16> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit24:
 		{
 			DIBPixelData<DIBBitDepth::Bit24> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		case DIBBitDepth::Bit32:
 		{
 			DIBPixelData<DIBBitDepth::Bit32> result;
-			DIBLoadHelper::ReadFrom(loader.Stream(), &result, pos);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), &result, pos);
 			return PixelData(result);
 		}
 		default: { throw InvalidDIBFormatException("BitCountの内容が無効です。"); }
@@ -486,49 +486,49 @@ DIBV5BitmapFileLoader::PixelData DIBV5BitmapFileLoader::Get(const DisplayPoint& 
 DIBV5BitmapFileLoader::PixelVector DIBV5BitmapFileLoader::Get(const DisplayPoint& index, const size_t& length)
 {
 	if (ihead.ImageWidth <= (index.X() + length)) { throw std::out_of_range("画像の幅を超える領域を指定することはできません。"); }
-	auto pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	auto pos = sizeof(DIBFileHeader) + loader->FileHead().Offset() + ResolvePos(index);
 	switch(ihead.BitCount)
 	{
 		case DIBBitDepth::Bit1:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit1>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit4:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit4>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit8:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit8>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit16:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit16>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit24:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit24>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		case DIBBitDepth::Bit32:
 		{
 			auto result = std::vector<DIBPixelData<DIBBitDepth::Bit32>>();
 			result.reserve(length);
-			DIBLoadHelper::ReadFrom(loader.Stream(), result.data(), pos, length);
+			DIBLoaderHelper::ReadFrom(loader->Stream(), result.data(), pos, length);
 			return PixelVector(result);
 		}
 		default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }

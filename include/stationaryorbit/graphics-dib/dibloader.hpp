@@ -18,6 +18,7 @@
 //
 #ifndef __stationaryorbit_graphics_dib_dibloader__
 #define __stationaryorbit_graphics_dib_dibloader__
+#include <memory>
 #include <vector>
 #include <variant>
 #include <fstream>
@@ -27,6 +28,7 @@
 #include "invaliddibformat.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
+	///	Windows bitmap 画像ファイルを読み込むための基本ロジックを実装します。
 	class DIBLoader
 	{
 	public:
@@ -91,7 +93,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	このオブジェクトの読み込まれた情報ヘッダのサイズを取得します。
 		[[nodiscard]] const int32_t& HeaderSize() const { return headersize; }
 	};
-	///	@a DIBFileLoader を使用してCoreHeaderを持つWindows bitmap 画像を読み込みます。
+	///	@a DIBLoader を使用してCoreHeaderを持つWindows bitmap 画像を読み込みます。
 	class DIBCoreBitmapFileLoader
 	{
 	public:
@@ -100,14 +102,14 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	この画像のピクセルの配列を表す @a std::variant 。
 		typedef std::variant<std::vector<DIBPixelData<DIBBitDepth::Bit1>>, std::vector<DIBPixelData<DIBBitDepth::Bit4>>, std::vector<DIBPixelData<DIBBitDepth::Bit8>>, std::vector<DIBPixelData<DIBBitDepth::Bit24>>> PixelVector;
 	private:
-		DIBFileLoader loader;
+		std::unique_ptr<DIBLoader> loader;
 		DIBCoreHeader ihead;
 	public:
 		///	@a DIBFileLoader を使用して @a DIBCoreBitmapFileLoader を初期化します。
 		///	@param	loader
 		///	読み込みに使用する @a DIBFileLoader 。
 		///	このオブジェクトで「消費」されるため、右辺値参照である必要があります。
-		DIBCoreBitmapFileLoader(DIBFileLoader&& loader);
+		DIBCoreBitmapFileLoader(DIBLoader&& loader);
 
 		///	このオブジェクトの情報ヘッダを取得します。
 		[[nodiscard]] const DIBCoreHeader& InfoHead() const { return ihead; }
@@ -126,7 +128,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	private:
 		[[nodiscard]] size_t ResolvePos(const DisplayPoint& pos) const;
 	};
-	///	@a DIBFileLoader を使用してInfoHeaderを持つWindows bitmap 画像を読み込みます。
+	///	@a DIBLoader を使用してInfoHeaderを持つWindows bitmap 画像を読み込みます。
 	class DIBInfoBitmapFileLoader
 	{
 	public:
@@ -135,16 +137,16 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	この画像のピクセルの配列を表す @a std::variant 。
 		typedef std::variant<std::vector<DIBPixelData<DIBBitDepth::Bit1>>, std::vector<DIBPixelData<DIBBitDepth::Bit4>>, std::vector<DIBPixelData<DIBBitDepth::Bit8>>, std::vector<DIBPixelData<DIBBitDepth::Bit16>>, std::vector<DIBPixelData<DIBBitDepth::Bit24>>, std::vector<DIBPixelData<DIBBitDepth::Bit32>>> PixelVector;
 	private:
-		DIBFileLoader loader;
+		std::unique_ptr<DIBLoader> loader;
 		DIBInfoHeader ihead;
 		DIBColorMask colormask;
 		std::vector<RGB8_t> palette;
 	public:
-		///	@a DIBFileLoader を使用して @a DIBInfoBitmapFileLoader を初期化します。
+		///	@a DIBLoader を使用して @a DIBInfoBitmapFileLoader を初期化します。
 		///	@param	loader
-		///	読み込みに使用する @a DIBFileLoader 。
+		///	読み込みに使用する @a DIBLoader 。
 		///	このオブジェクトで「消費」されるため、右辺値参照である必要があります。
-		DIBInfoBitmapFileLoader(DIBFileLoader&& loader);
+		DIBInfoBitmapFileLoader(DIBLoader&& loader);
 
 		///	このオブジェクトの情報ヘッダを取得します。
 		[[nodiscard]] const DIBInfoHeader& InfoHead() const { return ihead; }
@@ -163,7 +165,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	private:
 		[[nodiscard]] size_t ResolvePos(const DisplayPoint& pos) const;
 	};
-	///	@a DIBFileLoader を使用してV4Headerを持つWindows bitmap 画像を読み込みます。
+	///	@a DIBLoader を使用してV4Headerを持つWindows bitmap 画像を読み込みます。
 	class DIBV4BitmapFileLoader
 	{
 	public:
@@ -172,15 +174,15 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	この画像のピクセルの配列を表す @a std::variant 。
 		typedef std::variant<std::vector<DIBPixelData<DIBBitDepth::Bit1>>, std::vector<DIBPixelData<DIBBitDepth::Bit4>>, std::vector<DIBPixelData<DIBBitDepth::Bit8>>, std::vector<DIBPixelData<DIBBitDepth::Bit16>>, std::vector<DIBPixelData<DIBBitDepth::Bit24>>, std::vector<DIBPixelData<DIBBitDepth::Bit32>>> PixelVector;
 	private:
-		DIBFileLoader loader;
+		std::unique_ptr<DIBLoader> loader;
 		DIBV4Header ihead;
 		std::vector<RGB8_t> palette;
 	public:
-		///	@a DIBFileLoader を使用して @a DIBV4BitmapFileLoader を初期化します。
+		///	@a DIBLoader を使用して @a DIBV4BitmapFileLoader を初期化します。
 		///	@param	loader
-		///	読み込みに使用する @a DIBFileLoader 。
+		///	読み込みに使用する @a DIBLoader 。
 		///	このオブジェクトで「消費」されるため、右辺値参照である必要があります。
-		DIBV4BitmapFileLoader(DIBFileLoader&& loader);
+		DIBV4BitmapFileLoader(DIBLoader&& loader);
 
 		///	このオブジェクトの情報ヘッダを取得します。
 		[[nodiscard]] const DIBV4Header& InfoHead() const { return ihead; }
@@ -199,7 +201,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	private:
 		[[nodiscard]] size_t ResolvePos(const DisplayPoint& pos) const;
 	};
-	///	@a DIBFileLoader を使用してV5Headerを持つWindows bitmap 画像を読み込みます。
+	///	@a DIBLoader を使用してV5Headerを持つWindows bitmap 画像を読み込みます。
 	class DIBV5BitmapFileLoader
 	{
 	public:
@@ -208,11 +210,11 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	この画像のピクセルの配列を表す @a std::variant 。
 		typedef std::variant<std::vector<DIBPixelData<DIBBitDepth::Bit1>>, std::vector<DIBPixelData<DIBBitDepth::Bit4>>, std::vector<DIBPixelData<DIBBitDepth::Bit8>>, std::vector<DIBPixelData<DIBBitDepth::Bit16>>, std::vector<DIBPixelData<DIBBitDepth::Bit24>>, std::vector<DIBPixelData<DIBBitDepth::Bit32>>> PixelVector;
 	private:
-		DIBFileLoader loader;
+		std::unique_ptr<DIBLoader> loader;
 		DIBV5Header ihead;
 		std::vector<RGB8_t> palette;
 	public:
-		DIBV5BitmapFileLoader(DIBFileLoader&& loader);
+		DIBV5BitmapFileLoader(DIBLoader&& loader);
 
 		///	このオブジェクトの情報ヘッダを取得します。
 		[[nodiscard]] const DIBV5Header& InfoHead() const { return ihead; }
