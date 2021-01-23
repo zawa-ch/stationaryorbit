@@ -27,12 +27,14 @@ add_library(${AssemblyName} SHARED
     ${Include_Dir}/dibbitmap.hpp
     ${Include_Dir}/dibcolorspace.hpp
     ${Include_Dir}/dibheaders.hpp
+    ${Include_Dir}/dibloader.hpp
     ${Include_Dir}/invaliddibformat.hpp
     ${Include_Dir}/rgbquad.hpp
     ${Include_Dir}/rgbtriple.hpp
     dibbitmap.cpp
     dibcolorspace.cpp
     dibheaders.cpp
+    dibloader.cpp
     dibpixeldata.cpp
     invaliddibformat.cpp
 )
