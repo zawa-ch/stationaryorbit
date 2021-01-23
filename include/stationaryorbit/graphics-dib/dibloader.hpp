@@ -27,10 +27,23 @@
 #include "invaliddibformat.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
-	///	Windows bitmap 画像ファイルを読み込むための基本ロジックを提供します。
-	class DIBFileLoader
+	class DIBLoader
 	{
-	protected:
+	public:
+		DIBLoader() = default;
+		virtual ~DIBLoader() = default;
+
+		///	このオブジェクトに関連付けられているストリームを取得します。
+		[[nodiscard]] virtual std::iostream& Stream() = 0;
+		///	このオブジェクトの読み込まれたファイルヘッダを取得します。
+		[[nodiscard]] virtual const DIBFileHeader& FileHead() const = 0;
+		///	このオブジェクトの読み込まれた情報ヘッダのサイズを取得します。
+		[[nodiscard]] virtual const int32_t& HeaderSize() const = 0;
+	};
+	///	Windows bitmap 画像ファイルを読み込むための基本ロジックを提供します。
+	class DIBFileLoader : public DIBLoader
+	{
+	private:
 		std::fstream stream;
 		DIBFileHeader fhead;
 		int32_t headersize;
@@ -72,57 +85,11 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		virtual ~DIBFileLoader() = default;
 
 		///	このオブジェクトに関連付けられているストリームを取得します。
-		[[nodiscard]] const std::fstream& Stream() const { return stream; }
+		[[nodiscard]] std::iostream& Stream() { return stream; }
 		///	このオブジェクトの読み込まれたファイルヘッダを取得します。
 		[[nodiscard]] const DIBFileHeader& FileHead() const { return fhead; }
 		///	このオブジェクトの読み込まれた情報ヘッダのサイズを取得します。
 		[[nodiscard]] const int32_t& HeaderSize() const { return headersize; }
-
-		///	現在のストリームの位置からデータを取得します。
-		///	@param	T
-		///	読み込むデータの型。
-		///	@param	dest
-		///	読み込んだデータの格納先。
-		///	@a sizeof(T)*length の長さの領域が確保されている必要があります。
-		///	@param	length
-		///	読み込むデータの個数。
-		template<class T>
-		const std::istream& Read(T* dest, const size_t& length = 1U)
-		{
-			if (stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
-			auto sentry = std::istream::sentry(stream, true);
-			if (!sentry) { throw std::fstream::failure("ストリームの準備に失敗しました。"); }
-			if (stream.read((char*)dest, sizeof(T) * length).fail())
-			{
-				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("データの読み取り中にストリーム終端に到達しました。"); }
-				stream.clear();
-				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
-			}
-			return stream;
-		}
-		///	ストリームの指定された位置からデータを取得します。
-		///	@param	T
-		///	読み込むデータの型。
-		///	@param	dest
-		///	読み込んだデータの格納先。
-		///	@a sizeof(T)*length の長さの領域が確保されている必要があります。
-		///	@param	length
-		///	読み込むデータの個数。
-		template<class T>
-		const std::istream& ReadFrom(T* dest, const size_t& index, const size_t& length = 1U)
-		{
-			if (stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
-			auto sentry = std::istream::sentry(stream, true);
-			if (!sentry) { throw std::fstream::failure("ストリームの準備に失敗しました。"); }
-			if (stream.seekg(index).fail()) { stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
-			if (stream.read((char*)dest, sizeof(T) * length).fail())
-			{
-				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("データの読み取り中にストリーム終端に到達しました。"); }
-				stream.clear();
-				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
-			}
-			return stream;
-		}
 	};
 	///	@a DIBFileLoader を使用してCoreHeaderを持つWindows bitmap 画像を読み込みます。
 	class DIBCoreBitmapFileLoader
