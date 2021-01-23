@@ -156,7 +156,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 			return result;
 		}
 		///	ファイルサイズを設定します。
-		[[nodiscard]] constexpr void FileSize(int32_t value)
+		constexpr void FileSize(int32_t value)
 		{
 			for (auto i: Range<size_t>(0, sizeof(int32_t)/sizeof(uint16_t)).GetStdIterator()) { (&FileSize_L)[i] = ((uint16_t*)&value)[i]; }
 		}
@@ -168,7 +168,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 			return result;
 		}
 		///	ファイルヘッダの先頭アドレスからビットマップデータの先頭アドレスまでのオフセットを設定します。
-		[[nodiscard]] constexpr void Offset(int32_t value)
+		constexpr void Offset(int32_t value)
 		{
 			for (auto i: Range<size_t>(0, sizeof(int32_t)/sizeof(uint16_t)).GetStdIterator()) { (&Offset_L)[i] = ((uint16_t*)&value)[i]; }
 		}

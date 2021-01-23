@@ -90,12 +90,12 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		const std::istream& Read(T* dest, const size_t& length = 1U)
 		{
 			if (stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
-			auto sentry = std::fstream::sentry(stream, true);
+			auto sentry = std::istream::sentry(stream, true);
 			if (!sentry) { throw std::fstream::failure("ストリームの準備に失敗しました。"); }
 			if (stream.read((char*)dest, sizeof(T) * length).fail())
 			{
-				if (result.eof()) { result.clear(); throw InvalidDIBFormatException("データの読み取り中にストリーム終端に到達しました。"); }
-				result.clear();
+				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("データの読み取り中にストリーム終端に到達しました。"); }
+				stream.clear();
 				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
 			}
 			return stream;
@@ -112,13 +112,13 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		const std::istream& ReadFrom(T* dest, const size_t& index, const size_t& length = 1U)
 		{
 			if (stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
-			auto sentry = std::fstream::sentry(stream, true);
+			auto sentry = std::istream::sentry(stream, true);
 			if (!sentry) { throw std::fstream::failure("ストリームの準備に失敗しました。"); }
-			if (stream.seekg(index).fail()) { result.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			if (stream.seekg(index).fail()) { stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
 			if (stream.read((char*)dest, sizeof(T) * length).fail())
 			{
-				if (result.eof()) { result.clear(); throw InvalidDIBFormatException("データの読み取り中にストリーム終端に到達しました。"); }
-				result.clear();
+				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("データの読み取り中にストリーム終端に到達しました。"); }
+				stream.clear();
 				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
 			}
 			return stream;

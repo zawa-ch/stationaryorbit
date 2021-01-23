@@ -21,10 +21,10 @@ using namespace zawa_ch::StationaryOrbit;
 using namespace zawa_ch::StationaryOrbit::Graphics::DIB;
 
 DIBFileLoader::DIBFileLoader(std::fstream&& stream)
-	: stream(std::exchange(this->stream, stream))
+	: stream(std::move(stream))
 {
 	if (this->stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
-	auto sentry = std::fstream::sentry(this->stream, true);
+	auto sentry = std::istream::sentry(this->stream, true);
 	if (!sentry) { throw std::fstream::failure("ストリームの準備に失敗しました。"); }
 	if (this->stream.seekg(0).fail()) { this->stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
 	if (this->stream.read((char*)&fhead, sizeof(DIBFileHeader)).fail())
@@ -44,7 +44,7 @@ DIBFileLoader::DIBFileLoader(std::fstream&& stream)
 DIBFileLoader::DIBFileLoader(const char* filename, std::ios_base::openmode mode) : DIBFileLoader(std::move(std::fstream(filename, mode))) {}
 DIBFileLoader::DIBFileLoader(const std::string& filename, std::ios_base::openmode mode) : DIBFileLoader(std::move(std::fstream(filename, mode))) {}
 
-DIBCoreBitmapFileLoader::DIBCoreBitmapFileLoader(DIBFileLoader&& loader) : loader(std::exchange(this->loader, loader))
+DIBCoreBitmapFileLoader::DIBCoreBitmapFileLoader(DIBFileLoader&& loader) : loader(std::move(loader))
 {
 	if (loader.HeaderSize() < DIBCoreHeader::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはCoreHeaderでサポートされる最小の長さよりも短いです。"); }
 	loader.ReadFrom(&ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
@@ -122,12 +122,12 @@ size_t DIBCoreBitmapFileLoader::ResolvePos(const DisplayPoint& pos) const
 {
 	if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw InvalidOperationException("posに指定されている座標が無効です。"); }
 	if ( (ihead.ImageWidth <= pos.X())||(ihead.ImageHeight <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
-	size_t pxl = (uint16_t(ihead.BitCount)/sizeof(uint8_t)) + ((uint16_t(ihead.BitCount)%sizeof(uint8_t)) != 0)?1:0;
+	size_t pxl = (uint16_t(ihead.BitCount)/sizeof(uint8_t)) + (((uint16_t(ihead.BitCount)%sizeof(uint8_t)) != 0)?1:0);
 	size_t w = pxl * ihead.ImageWidth + ((((pxl * ihead.ImageWidth) % 4) != 0)?(4-((pxl * ihead.ImageWidth)%4)):0);
 	return (w * pos.Y()) + (pxl * pos.X());
 }
 
-DIBInfoBitmapFileLoader::DIBInfoBitmapFileLoader(DIBFileLoader&& loader) : loader(std::exchange(this->loader, loader))
+DIBInfoBitmapFileLoader::DIBInfoBitmapFileLoader(DIBFileLoader&& loader) : loader(std::move(loader))
 {
 	if (loader.HeaderSize() < DIBInfoHeader::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはInfoHeaderでサポートされる最小の長さよりも短いです。"); }
 	loader.ReadFrom(&ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
@@ -251,12 +251,12 @@ size_t DIBInfoBitmapFileLoader::ResolvePos(const DisplayPoint& pos) const
 {
 	if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw InvalidOperationException("posに指定されている座標が無効です。"); }
 	if ( (ihead.ImageWidth <= pos.X())||(ihead.ImageHeight <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
-	size_t pxl = (uint16_t(ihead.BitCount)/sizeof(uint8_t)) + ((uint16_t(ihead.BitCount)%sizeof(uint8_t)) != 0)?1:0;
+	size_t pxl = (uint16_t(ihead.BitCount)/sizeof(uint8_t)) + (((uint16_t(ihead.BitCount)%sizeof(uint8_t)) != 0)?1:0);
 	size_t w = pxl * ihead.ImageWidth + ((((pxl * ihead.ImageWidth) % 4) != 0)?(4-((pxl * ihead.ImageWidth)%4)):0);
 	return (w * pos.Y()) + (pxl * pos.X());
 }
 
-DIBV4BitmapFileLoader::DIBV4BitmapFileLoader(DIBFileLoader&& loader) : loader(std::exchange(this->loader, loader))
+DIBV4BitmapFileLoader::DIBV4BitmapFileLoader(DIBFileLoader&& loader) : loader(std::move(loader))
 {
 	if (loader.HeaderSize() < DIBV4Header::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはV4Headerでサポートされる最小の長さよりも短いです。"); }
 	loader.ReadFrom(&ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
@@ -368,12 +368,12 @@ size_t DIBV4BitmapFileLoader::ResolvePos(const DisplayPoint& pos) const
 {
 	if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw InvalidOperationException("posに指定されている座標が無効です。"); }
 	if ( (ihead.ImageWidth <= pos.X())||(ihead.ImageHeight <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
-	size_t pxl = (uint16_t(ihead.BitCount)/sizeof(uint8_t)) + ((uint16_t(ihead.BitCount)%sizeof(uint8_t)) != 0)?1:0;
+	size_t pxl = (uint16_t(ihead.BitCount)/sizeof(uint8_t)) + (((uint16_t(ihead.BitCount)%sizeof(uint8_t)) != 0)?1:0);
 	size_t w = pxl * ihead.ImageWidth + ((((pxl * ihead.ImageWidth) % 4) != 0)?(4-((pxl * ihead.ImageWidth)%4)):0);
 	return (w * pos.Y()) + (pxl * pos.X());
 }
 
-DIBV5BitmapFileLoader::DIBV5BitmapFileLoader(DIBFileLoader&& loader) : loader(std::exchange(this->loader, loader))
+DIBV5BitmapFileLoader::DIBV5BitmapFileLoader(DIBFileLoader&& loader) : loader(std::move(loader))
 {
 	if (loader.HeaderSize() < DIBV4Header::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはV4Headerでサポートされる最小の長さよりも短いです。"); }
 	loader.ReadFrom(&ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
@@ -485,7 +485,7 @@ size_t DIBV5BitmapFileLoader::ResolvePos(const DisplayPoint& pos) const
 {
 	if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw InvalidOperationException("posに指定されている座標が無効です。"); }
 	if ( (ihead.ImageWidth <= pos.X())||(ihead.ImageHeight <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
-	size_t pxl = (uint16_t(ihead.BitCount)/sizeof(uint8_t)) + ((uint16_t(ihead.BitCount)%sizeof(uint8_t)) != 0)?1:0;
+	size_t pxl = (uint16_t(ihead.BitCount)/sizeof(uint8_t)) + (((uint16_t(ihead.BitCount)%sizeof(uint8_t)) != 0)?1:0);
 	size_t w = pxl * ihead.ImageWidth + ((((pxl * ihead.ImageWidth) % 4) != 0)?(4-((pxl * ihead.ImageWidth)%4)):0);
 	return (w * pos.Y()) + (pxl * pos.X());
 }
