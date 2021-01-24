@@ -18,7 +18,6 @@
 //
 #ifndef __stationaryorbit_graphics_dib_dibloader__
 #define __stationaryorbit_graphics_dib_dibloader__
-#include <memory>
 #include <vector>
 #include <variant>
 #include <fstream>
@@ -46,6 +45,24 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 
 		///	ストリームからヘッダの再読込を行います。
 		virtual void Reload() = 0;
+		///	データの読み込みを行います。
+		///	@param	dest
+		///	読み込んだデータの格納先。
+		///	@a size の長さの領域が確保されている必要があります。
+		///	@param	pos
+		///	読み込むデータの位置。
+		///	@param	size
+		///	読み込むデータの個数。
+		virtual void Read(char* dest, size_t pos, size_t length = 1U) = 0;
+		///	データの書き込みを行います。
+		///	@param	source
+		///	書き込むデータの格納先。
+		///	@a size の長さの領域が確保されている必要があります。
+		///	@param	pos
+		///	書き込むデータの位置。
+		///	@param	size
+		///	書き込むデータの個数。
+		virtual void Write(const char* source, size_t pos, size_t length = 1U) = 0;
 	};
 	///	Windows bitmap 画像ファイルを読み込むための基本ロジックを提供します。
 	class DIBFileLoader : public DIBLoader
@@ -89,6 +106,56 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 
 		///	ストリームからヘッダの再読込を行います。
 		void Reload();
+		///	データの読み込みを行います。
+		///	@param	dest
+		///	読み込んだデータの格納先。
+		///	@a size の長さの領域が確保されている必要があります。
+		///	@param	pos
+		///	読み込むデータの位置。
+		///	@param	size
+		///	読み込むデータの個数。
+		void Read(char* dest, size_t pos, size_t length = 1U);
+		///	データの書き込みを行います。
+		///	@param	source
+		///	書き込むデータの格納先。
+		///	@a size の長さの領域が確保されている必要があります。
+		///	@param	pos
+		///	書き込むデータの位置。
+		///	@param	size
+		///	書き込むデータの個数。
+		void Write(const char* source, size_t pos, size_t length = 1U);
+	};
+	class DIBLoaderHelper final
+	{
+		DIBLoaderHelper() = delete;
+		DIBLoaderHelper(const DIBLoaderHelper&) = delete;
+		DIBLoaderHelper(DIBLoaderHelper&&) = delete;
+		~DIBLoaderHelper() = delete;
+	public:
+		///	@a DIBLoader から指定された型のデータを取得します。
+		///	@param	T
+		///	読み込むデータの型。
+		///	@param	dest
+		///	読み込んだデータの格納先。
+		///	@a sizeof(T)*size の長さの領域が確保されている必要があります。
+		///	@param	pos
+		///	読み込むデータの位置。
+		///	@param	size
+		///	読み込むデータの個数。
+		template<class T>
+		static void Read(DIBLoader& loader, T* dest, const size_t& pos, const size_t& size = 1U) { loader.Read((char*)dest, pos, sizeof(T) * size); }
+		///	@a DIBLoader に指定された型のデータを書き込みます。
+		///	@param	T
+		///	書き込むデータの型。
+		///	@param	source
+		///	書き込むデータの格納先。
+		///	@a sizeof(T)*size の長さの領域が確保されている必要があります。
+		///	@param	pos
+		///	書き込むデータの位置。
+		///	@param	size
+		///	書き込むデータの個数。
+		template<class T>
+		static void Write(DIBLoader& loader, const T* source, const size_t& pos, const size_t& size = 1U) { loader.Write((const char*)source, pos, sizeof(T) * size); }
 	};
 	///	@a DIBLoader を使用してCoreHeaderを持つWindows bitmap 画像を読み込みます。
 	class DIBCoreBitmapFileLoader
@@ -99,7 +166,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	この画像のピクセルの配列を表す @a std::variant 。
 		typedef std::variant<std::vector<DIBPixelData<DIBBitDepth::Bit1>>, std::vector<DIBPixelData<DIBBitDepth::Bit4>>, std::vector<DIBPixelData<DIBBitDepth::Bit8>>, std::vector<DIBPixelData<DIBBitDepth::Bit24>>> PixelVector;
 	private:
-		std::unique_ptr<DIBLoader> loader;
+		DIBLoader&& loader;
 		DIBCoreHeader ihead;
 	public:
 		///	@a DIBFileLoader を使用して @a DIBCoreBitmapFileLoader を初期化します。
@@ -134,7 +201,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	この画像のピクセルの配列を表す @a std::variant 。
 		typedef std::variant<std::vector<DIBPixelData<DIBBitDepth::Bit1>>, std::vector<DIBPixelData<DIBBitDepth::Bit4>>, std::vector<DIBPixelData<DIBBitDepth::Bit8>>, std::vector<DIBPixelData<DIBBitDepth::Bit16>>, std::vector<DIBPixelData<DIBBitDepth::Bit24>>, std::vector<DIBPixelData<DIBBitDepth::Bit32>>> PixelVector;
 	private:
-		std::unique_ptr<DIBLoader> loader;
+		DIBLoader&& loader;
 		DIBInfoHeader ihead;
 		DIBColorMask colormask;
 		std::vector<RGB8_t> palette;
@@ -171,7 +238,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	この画像のピクセルの配列を表す @a std::variant 。
 		typedef std::variant<std::vector<DIBPixelData<DIBBitDepth::Bit1>>, std::vector<DIBPixelData<DIBBitDepth::Bit4>>, std::vector<DIBPixelData<DIBBitDepth::Bit8>>, std::vector<DIBPixelData<DIBBitDepth::Bit16>>, std::vector<DIBPixelData<DIBBitDepth::Bit24>>, std::vector<DIBPixelData<DIBBitDepth::Bit32>>> PixelVector;
 	private:
-		std::unique_ptr<DIBLoader> loader;
+		DIBLoader&& loader;
 		DIBV4Header ihead;
 		std::vector<RGB8_t> palette;
 	public:
@@ -207,7 +274,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	この画像のピクセルの配列を表す @a std::variant 。
 		typedef std::variant<std::vector<DIBPixelData<DIBBitDepth::Bit1>>, std::vector<DIBPixelData<DIBBitDepth::Bit4>>, std::vector<DIBPixelData<DIBBitDepth::Bit8>>, std::vector<DIBPixelData<DIBBitDepth::Bit16>>, std::vector<DIBPixelData<DIBBitDepth::Bit24>>, std::vector<DIBPixelData<DIBBitDepth::Bit32>>> PixelVector;
 	private:
-		std::unique_ptr<DIBLoader> loader;
+		DIBLoader&& loader;
 		DIBV5Header ihead;
 		std::vector<RGB8_t> palette;
 	public:
