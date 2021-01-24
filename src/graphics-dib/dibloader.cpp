@@ -38,12 +38,12 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		{
 			if (stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
 			auto sentry = std::istream::sentry(stream, true);
-			if (!sentry) { throw std::fstream::failure("ストリームの準備に失敗しました。"); }
+			if (!sentry) { throw std::ios_base::failure("ストリームの準備に失敗しました。"); }
 			if (stream.read((char*)dest, sizeof(T) * length).fail())
 			{
 				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("データの読み取り中にストリーム終端に到達しました。"); }
 				stream.clear();
-				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
+				throw std::ios_base::failure("ストリームの読み取りに失敗しました。");
 			}
 			return stream;
 		}
@@ -60,42 +60,72 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		{
 			if (stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
 			auto sentry = std::istream::sentry(stream, true);
-			if (!sentry) { throw std::fstream::failure("ストリームの準備に失敗しました。"); }
-			if (stream.seekg(index).fail()) { stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+			if (!sentry) { throw std::ios_base::failure("ストリームの準備に失敗しました。"); }
+			if (stream.seekg(index).fail()) { stream.clear(); throw std::ios_base::failure("ストリームのシークに失敗しました。"); }
 			if (stream.read((char*)dest, sizeof(T) * length).fail())
 			{
 				if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("データの読み取り中にストリーム終端に到達しました。"); }
 				stream.clear();
-				throw std::fstream::failure("ストリームの読み取りに失敗しました。");
+				throw std::ios_base::failure("ストリームの読み取りに失敗しました。");
 			}
+			return stream;
+		}
+		///	ストリームの指定された位置にデータを書き込みます。
+		///	@param	T
+		///	書き込むデータの型。
+		///	@param	dest
+		///	書き込むデータの格納先。
+		///	@a sizeof(T)*length の長さの領域が確保されている必要があります。
+		///	@param	length
+		///	書き込むデータの個数。
+		template<class T>
+		static std::ostream& Write(std::ostream& stream, const T* dest, const size_t& length = 1U)
+		{
+			if (stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			auto sentry = std::ostream::sentry(stream, true);
+			if (!sentry) { throw std::ios_base::failure("ストリームの準備に失敗しました。"); }
+			if (stream.write((const char*)dest, sizeof(T) * length).fail()) { stream.clear(); throw std::ios_base::failure("ストリームの書き込みに失敗しました。"); }
+			return stream;
+		}
+		///	ストリームの現在の位置にデータを書き込みます。
+		///	@param	T
+		///	書き込むデータの型。
+		///	@param	dest
+		///	書き込むデータの格納先。
+		///	@a sizeof(T)*length の長さの領域が確保されている必要があります。
+		///	@param	length
+		///	書き込むデータの個数。
+		template<class T>
+		static std::ostream& WriteTo(std::ostream& stream, const T* dest, const size_t& index, const size_t& length = 1U)
+		{
+			if (stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+			auto sentry = std::ostream::sentry(stream, true);
+			if (!sentry) { throw std::ios_base::failure("ストリームの準備に失敗しました。"); }
+			if (stream.seekp(index).fail()) { stream.clear(); throw std::ios_base::failure("ストリームのシークに失敗しました。"); }
+			if (stream.write((const char*)dest, sizeof(T) * length).fail()) { stream.clear(); throw std::ios_base::failure("ストリームの書き込みに失敗しました。"); }
 			return stream;
 		}
 	};
 }
 
-DIBFileLoader::DIBFileLoader(std::fstream&& stream)
-	: stream(std::move(stream))
-{
-	if (this->stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
-	auto sentry = std::istream::sentry(this->stream, true);
-	if (!sentry) { throw std::fstream::failure("ストリームの準備に失敗しました。"); }
-	if (this->stream.seekg(0).fail()) { this->stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
-	if (this->stream.read((char*)&fhead, sizeof(DIBFileHeader)).fail())
-	{
-		if (this->stream.eof()) { this->stream.clear(); throw InvalidDIBFormatException("ファイルヘッダの読み取り中にストリーム終端に到達しました。"); }
-		this->stream.clear();
-		throw std::fstream::failure("ストリームの読み取りに失敗しました。");
-	}
-	if (!fhead.CheckFileHeader()) { throw InvalidDIBFormatException("ファイルヘッダのマジックナンバーを認識できませんでした。"); }
-	if (this->stream.read((char*)&headersize, sizeof(int32_t)).fail())
-	{
-		if (this->stream.eof()) { this->stream.clear(); throw InvalidDIBFormatException("ヘッダサイズの読み取り中にストリーム終端に到達しました。"); }
-		this->stream.clear();
-		throw std::fstream::failure("ストリームの読み取りに失敗しました。");
-	}
-}
+DIBFileLoader::DIBFileLoader() : stream(), fhead(), headersize() {}
+DIBFileLoader::DIBFileLoader(std::fstream&& stream) : stream(std::move(stream)), fhead(), headersize() { Reload(); }
 DIBFileLoader::DIBFileLoader(const char* filename, std::ios_base::openmode mode) : DIBFileLoader(std::move(std::fstream(filename, mode))) {}
 DIBFileLoader::DIBFileLoader(const std::string& filename, std::ios_base::openmode mode) : DIBFileLoader(std::move(std::fstream(filename, mode))) {}
+bool DIBFileLoader::IsEnable() const { return fhead.CheckFileHeader(); }
+void DIBFileLoader::Reload()
+{
+	//	ストリームの状態を確認、利用できない場合は処理を終了
+	if (stream.fail()) { return; }
+	//	読み取り準備
+	auto sentry = std::istream::sentry(stream, true);
+	if (!sentry) { return; }
+	//	ファイル先頭へシーク、できなければ std::fstream::failure をスロー
+	if (stream.seekg(0).fail()) { stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
+	//	ファイルヘッダ・情報ヘッダサイズを読み取り
+	if (stream.read((char*)&fhead, sizeof(DIBFileHeader)).fail()) { return; }
+	if (stream.read((char*)&headersize, sizeof(int32_t)).fail()) { return; }
+}
 
 DIBCoreBitmapFileLoader::DIBCoreBitmapFileLoader(DIBLoader&& loader) : loader(std::make_unique<DIBLoader>(std::move(loader)))
 {

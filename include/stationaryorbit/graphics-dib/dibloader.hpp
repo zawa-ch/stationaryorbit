@@ -28,19 +28,24 @@
 #include "invaliddibformat.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
-	///	Windows bitmap 画像ファイルを読み込むための基本ロジックを実装します。
+	///	ストリームから Windows bitmap 画像を読み込むための基本ロジックを実装します。
 	class DIBLoader
 	{
 	public:
 		DIBLoader() = default;
 		virtual ~DIBLoader() = default;
 
+		///	このオブジェクトが Windos bitmap 画像としての読み込みが可能な状態であるかを取得します。
+		[[nodiscard]] virtual bool IsEnable() const = 0;
 		///	このオブジェクトに関連付けられているストリームを取得します。
 		[[nodiscard]] virtual std::iostream& Stream() = 0;
 		///	このオブジェクトの読み込まれたファイルヘッダを取得します。
 		[[nodiscard]] virtual const DIBFileHeader& FileHead() const = 0;
 		///	このオブジェクトの読み込まれた情報ヘッダのサイズを取得します。
 		[[nodiscard]] virtual const int32_t& HeaderSize() const = 0;
+
+		///	ストリームからヘッダの再読込を行います。
+		virtual void Reload() = 0;
 	};
 	///	Windows bitmap 画像ファイルを読み込むための基本ロジックを提供します。
 	class DIBFileLoader : public DIBLoader
@@ -51,47 +56,39 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		int32_t headersize;
 	public:
 		///	@a DIBFileLoader をデフォルト構築します。
-		DIBFileLoader() = default;
+		DIBFileLoader();
 		///	ストリームを使用して @a DIBFileLoader を初期化します。
 		///	@param	stream
 		///	読み込みに使用する @a std::fstream 。
 		///	ストリームはこのオブジェクトで「消費」されるため、右辺値参照である必要があります。
-		///	@exception
-		///	@a zawa_ch::StationaryOrbit::InvalidOperationException
-		///	ストリームが使用可能ではない状態でメソッドが呼び出されました。
-		///	@a std::fstream::failure
-		///	ストリームへの操作に失敗ました。
-		///	@a zawa_ch::StationaryOrbit::Graphics::DIB::InvalidDIBFormatException
-		///	ビットマップ読み取りに必要なデータの取得中にストリーム終端に到達しました。
 		DIBFileLoader(std::fstream&& stream);
 		///	指定したファイル名の @a std::fstream を構築し、 @a DIBFileLoader を初期化します。
 		///	@param	filename
 		///	開くファイルの名前。 @a std::fstream::fstream(const @a char*, @a std::ios_base::openmode) の呼び出しに使用されます。
 		///	@param	mode
 		///	ファイルを開くモード。 @a std::fstream::fstream(const @a char*, @a std::ios_base::openmode) の呼び出しに使用されます。
-		///	@exception
-		///	このコンストラクタは @a DIBFileLoader::DDIBFileLoader(std::fstream&&) を間接的に呼び出します。
-		///	そのため、 @a zawa_ch::StationaryOrbit::InvalidOperationException , @a std::fstream::failure , @a zawa_ch::StationaryOrbit::Graphics::DIB::InvalidDIBFormatException が投げられる可能性があります。
 		DIBFileLoader(const char* filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary);
 		///	指定したファイル名の @a std::fstream を構築し、 @a DIBFileLoader を初期化します。
 		///	@param	filename
 		///	開くファイルの名前。 @a std::fstream::fstream(const @a std::string&, @a std::ios_base::openmode) の呼び出しに使用されます。
 		///	@param	mode
 		///	ファイルを開くモード。 @a std::fstream::fstream(const @a char*, @a std::ios_base::openmode) の呼び出しに使用されます。
-		///	@exception
-		///	このコンストラクタは @a DIBFileLoader::DDIBFileLoader(std::fstream&&) を間接的に呼び出します。
-		///	そのため、 @a zawa_ch::StationaryOrbit::InvalidOperationException , @a std::fstream::failure , @a zawa_ch::StationaryOrbit::Graphics::DIB::InvalidDIBFormatException が投げられる可能性があります。
 		DIBFileLoader(const std::string& filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary);
 		DIBFileLoader(const DIBFileLoader&) = delete;
 		DIBFileLoader(DIBFileLoader&&) = default;
 		virtual ~DIBFileLoader() = default;
 
+		///	このオブジェクトが Windos bitmap 画像としての読み込みが可能な状態であるかを取得します。
+		[[nodiscard]] bool IsEnable() const;
 		///	このオブジェクトに関連付けられているストリームを取得します。
 		[[nodiscard]] std::iostream& Stream() { return stream; }
 		///	このオブジェクトの読み込まれたファイルヘッダを取得します。
 		[[nodiscard]] const DIBFileHeader& FileHead() const { return fhead; }
 		///	このオブジェクトの読み込まれた情報ヘッダのサイズを取得します。
 		[[nodiscard]] const int32_t& HeaderSize() const { return headersize; }
+
+		///	ストリームからヘッダの再読込を行います。
+		void Reload();
 	};
 	///	@a DIBLoader を使用してCoreHeaderを持つWindows bitmap 画像を読み込みます。
 	class DIBCoreBitmapFileLoader
