@@ -181,13 +181,61 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	指定された座標のデータを取得します。
 		///	@param	index
 		///	取得する画像上の座標。
-		[[nodiscard]] PixelData Get(const DisplayPoint& index);
+		[[nodiscard]] PixelData GetData(const DisplayPoint& index);
 		///	指定された座標から連続するデータを取得します。
 		///	@param	index
 		///	取得する画像上の座標。
 		///	@param	length
 		///	取得するデータの長さ。
-		[[nodiscard]] PixelVector Get(const DisplayPoint& index, const size_t& length);
+		[[nodiscard]] PixelVector GetData(const DisplayPoint& index, const size_t& length);
+		///	指定された座標のデータを設定します。
+		///	@param	index
+		///	取得する画像上の座標。
+		///	@param	data
+		///	設定するデータ。
+		void SetData(const DisplayPoint& index, const DIBPixelData<DIBBitDepth::Bit1>& data);
+		///	指定された座標のデータを設定します。
+		///	@param	index
+		///	取得する画像上の座標。
+		///	@param	data
+		///	設定するデータ。
+		void SetData(const DisplayPoint& index, const DIBPixelData<DIBBitDepth::Bit4>& data);
+		///	指定された座標のデータを設定します。
+		///	@param	index
+		///	取得する画像上の座標。
+		///	@param	data
+		///	設定するデータ。
+		void SetData(const DisplayPoint& index, const DIBPixelData<DIBBitDepth::Bit8>& data);
+		///	指定された座標のデータを設定します。
+		///	@param	index
+		///	取得する画像上の座標。
+		///	@param	data
+		///	設定するデータ。
+		void SetData(const DisplayPoint& index, const DIBPixelData<DIBBitDepth::Bit24>& data);
+		///	指定された座標のデータを設定します。
+		///	@param	index
+		///	取得する画像上の座標。
+		///	@param	data
+		///	設定するデータ。
+		void SetData(const DisplayPoint& index, const std::vector<DIBPixelData<DIBBitDepth::Bit1>>& data);
+		///	指定された座標のデータを設定します。
+		///	@param	index
+		///	取得する画像上の座標。
+		///	@param	data
+		///	設定するデータ。
+		void SetData(const DisplayPoint& index, const std::vector<DIBPixelData<DIBBitDepth::Bit4>>& data);
+		///	指定された座標のデータを設定します。
+		///	@param	index
+		///	取得する画像上の座標。
+		///	@param	data
+		///	設定するデータ。
+		void SetData(const DisplayPoint& index, const std::vector<DIBPixelData<DIBBitDepth::Bit8>>& data);
+		///	指定された座標のデータを設定します。
+		///	@param	index
+		///	取得する画像上の座標。
+		///	@param	data
+		///	設定するデータ。
+		void SetData(const DisplayPoint& index, const std::vector<DIBPixelData<DIBBitDepth::Bit24>>& data);
 
 	private:
 		[[nodiscard]] size_t ResolvePos(const DisplayPoint& pos) const;

@@ -28,19 +28,19 @@ bool DIBFileLoader::IsEnable() const { return fhead.CheckFileHeader(); }
 void DIBFileLoader::Reload()
 {
 	//	ストリームの状態を確認、利用できない場合は処理を終了
-	if (stream.fail()) { return; }
+	if (stream.bad()) { return; }
 	//	読み取り準備
 	auto sentry = std::istream::sentry(stream, true);
 	if (!sentry) { return; }
 	//	ファイル先頭へシーク、できなければ std::fstream::failure をスロー
 	if (stream.seekg(0).fail()) { stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
 	//	ファイルヘッダ・情報ヘッダサイズを読み取り
-	if (stream.read((char*)&fhead, sizeof(DIBFileHeader)).fail()) { return; }
-	if (stream.read((char*)&headersize, sizeof(int32_t)).fail()) { return; }
+	if (stream.read((char*)&fhead, sizeof(DIBFileHeader)).fail()) { stream.clear(); return; }
+	if (stream.read((char*)&headersize, sizeof(int32_t)).fail()) { stream.clear(); return; }
 }
 void DIBFileLoader::Read(char* dest, size_t pos, size_t length)
 {
-	if (stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+	if (stream.bad()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
 	auto sentry = std::istream::sentry(stream, true);
 	if (!sentry) { throw std::ios_base::failure("ストリームの準備に失敗しました。"); }
 	if (stream.seekg(pos).fail()) { stream.clear(); throw std::ios_base::failure("ストリームのシークに失敗しました。"); }
@@ -53,7 +53,7 @@ void DIBFileLoader::Read(char* dest, size_t pos, size_t length)
 }
 void DIBFileLoader::Write(const char* source, size_t pos, size_t length)
 {
-	if (stream.fail()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
+	if (stream.bad()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
 	auto sentry = std::ostream::sentry(stream);
 	if (!sentry) { throw std::ios_base::failure("ストリームの準備に失敗しました。"); }
 	if (stream.seekp(pos).fail()) { stream.clear(); throw std::ios_base::failure("ストリームのシークに失敗しました。"); }
@@ -62,10 +62,11 @@ void DIBFileLoader::Write(const char* source, size_t pos, size_t length)
 
 DIBCoreBitmapFileLoader::DIBCoreBitmapFileLoader(DIBLoader&& loader) : loader(std::forward<DIBLoader>(loader))
 {
-	if (loader.HeaderSize() < DIBCoreHeader::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはCoreHeaderでサポートされる最小の長さよりも短いです。"); }
-	DIBLoaderHelper::Read(loader, &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
+	if (this->loader.IsEnable()) { throw InvalidOperationException("無効な状態のloaderが渡されました。"); }
+	if (this->loader.HeaderSize() < DIBCoreHeader::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはCoreHeaderでサポートされる最小の長さよりも短いです。"); }
+	DIBLoaderHelper::Read(this->loader, &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
 }
-DIBCoreBitmapFileLoader::PixelData DIBCoreBitmapFileLoader::Get(const DisplayPoint& index)
+DIBCoreBitmapFileLoader::PixelData DIBCoreBitmapFileLoader::GetData(const DisplayPoint& index)
 {
 	size_t pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
 	switch(ihead.BitCount)
@@ -97,7 +98,7 @@ DIBCoreBitmapFileLoader::PixelData DIBCoreBitmapFileLoader::Get(const DisplayPoi
 		default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
 	}
 }
-DIBCoreBitmapFileLoader::PixelVector DIBCoreBitmapFileLoader::Get(const DisplayPoint& index, const size_t& length)
+DIBCoreBitmapFileLoader::PixelVector DIBCoreBitmapFileLoader::GetData(const DisplayPoint& index, const size_t& length)
 {
 	if (ihead.ImageWidth <= (index.X() + length)) { throw std::out_of_range("画像の幅を超える領域を指定することはできません。"); }
 	size_t pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
@@ -134,36 +135,89 @@ DIBCoreBitmapFileLoader::PixelVector DIBCoreBitmapFileLoader::Get(const DisplayP
 		default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
 	}
 }
+void DIBCoreBitmapFileLoader::SetData(const DisplayPoint& index, const DIBPixelData<DIBBitDepth::Bit1>& data)
+{
+	size_t pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	if (ihead.BitCount != DIBBitDepth::Bit1) { throw InvalidOperationException("現在のBitCountではこの型で書き込みを行うことはできません。"); }
+	DIBLoaderHelper::Write(loader, &data, pos);
+}
+void DIBCoreBitmapFileLoader::SetData(const DisplayPoint& index, const DIBPixelData<DIBBitDepth::Bit4>& data)
+{
+	size_t pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	if (ihead.BitCount != DIBBitDepth::Bit4) { throw InvalidOperationException("現在のBitCountではこの型で書き込みを行うことはできません。"); }
+	DIBLoaderHelper::Write(loader, &data, pos);
+}
+void DIBCoreBitmapFileLoader::SetData(const DisplayPoint& index, const DIBPixelData<DIBBitDepth::Bit8>& data)
+{
+	size_t pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	if (ihead.BitCount != DIBBitDepth::Bit8) { throw InvalidOperationException("現在のBitCountではこの型で書き込みを行うことはできません。"); }
+	DIBLoaderHelper::Write(loader, &data, pos);
+}
+void DIBCoreBitmapFileLoader::SetData(const DisplayPoint& index, const DIBPixelData<DIBBitDepth::Bit24>& data)
+{
+	size_t pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	if (ihead.BitCount != DIBBitDepth::Bit24) { throw InvalidOperationException("現在のBitCountではこの型で書き込みを行うことはできません。"); }
+	DIBLoaderHelper::Write(loader, &data, pos);
+}
+void DIBCoreBitmapFileLoader::SetData(const DisplayPoint& index, const std::vector<DIBPixelData<DIBBitDepth::Bit1>>& data)
+{
+	if (ihead.ImageWidth <= (index.X() + data.size())) { throw std::out_of_range("画像の幅を超える領域を指定することはできません。"); }
+	size_t pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	if (ihead.BitCount != DIBBitDepth::Bit1) { throw InvalidOperationException("現在のBitCountではこの型で書き込みを行うことはできません。"); }
+	DIBLoaderHelper::Write(loader, data.data(), pos);
+}
+void DIBCoreBitmapFileLoader::SetData(const DisplayPoint& index, const std::vector<DIBPixelData<DIBBitDepth::Bit4>>& data)
+{
+	if (ihead.ImageWidth <= (index.X() + data.size())) { throw std::out_of_range("画像の幅を超える領域を指定することはできません。"); }
+	size_t pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	if (ihead.BitCount != DIBBitDepth::Bit4) { throw InvalidOperationException("現在のBitCountではこの型で書き込みを行うことはできません。"); }
+	DIBLoaderHelper::Write(loader, data.data(), pos);
+}
+void DIBCoreBitmapFileLoader::SetData(const DisplayPoint& index, const std::vector<DIBPixelData<DIBBitDepth::Bit8>>& data)
+{
+	if (ihead.ImageWidth <= (index.X() + data.size())) { throw std::out_of_range("画像の幅を超える領域を指定することはできません。"); }
+	size_t pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	if (ihead.BitCount != DIBBitDepth::Bit8) { throw InvalidOperationException("現在のBitCountではこの型で書き込みを行うことはできません。"); }
+	DIBLoaderHelper::Write(loader, data.data(), pos);
+}
+void DIBCoreBitmapFileLoader::SetData(const DisplayPoint& index, const std::vector<DIBPixelData<DIBBitDepth::Bit24>>& data)
+{
+	if (ihead.ImageWidth <= (index.X() + data.size())) { throw std::out_of_range("画像の幅を超える領域を指定することはできません。"); }
+	size_t pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
+	if (ihead.BitCount != DIBBitDepth::Bit24) { throw InvalidOperationException("現在のBitCountではこの型で書き込みを行うことはできません。"); }
+	DIBLoaderHelper::Write(loader, data.data(), pos);
+}
 size_t DIBCoreBitmapFileLoader::ResolvePos(const DisplayPoint& pos) const
 {
 	if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw InvalidOperationException("posに指定されている座標が無効です。"); }
 	if ( (ihead.ImageWidth <= pos.X())||(ihead.ImageHeight <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
 	size_t pxl = (uint16_t(ihead.BitCount)/sizeof(uint8_t)) + (((uint16_t(ihead.BitCount)%sizeof(uint8_t)) != 0)?1:0);
 	size_t w = pxl * ihead.ImageWidth + ((((pxl * ihead.ImageWidth) % 4) != 0)?(4-((pxl * ihead.ImageWidth)%4)):0);
-	return (w * pos.Y()) + (pxl * pos.X());
+	return (w * (ihead.ImageHeight - pos.Y())) + (pxl * pos.X());
 }
 
 DIBInfoBitmapFileLoader::DIBInfoBitmapFileLoader(DIBLoader&& loader) : loader(std::forward<DIBLoader>(loader))
 {
-	if (loader.HeaderSize() < DIBInfoHeader::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはInfoHeaderでサポートされる最小の長さよりも短いです。"); }
-	DIBLoaderHelper::Read(loader, &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
+	if (this->loader.IsEnable()) { throw InvalidOperationException("無効な状態のloaderが渡されました。"); }
+	if (this->loader.HeaderSize() < DIBInfoHeader::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはInfoHeaderでサポートされる最小の長さよりも短いです。"); }
+	DIBLoaderHelper::Read(this->loader, &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
 	if (ihead.ComplessionMethod == BMPCompressionMethod::BITFIELDS)
 	{
 		auto colormaskdata = DIBRGBColorMask();
-		DIBLoaderHelper::Read(loader, &colormaskdata, sizeof(DIBFileHeader) + DIBInfoHeader::Size);
+		DIBLoaderHelper::Read(this->loader, &colormaskdata, sizeof(DIBFileHeader) + DIBInfoHeader::Size);
 		colormask = DIBColorMask(colormaskdata);
 	}
 	else if (ihead.ComplessionMethod == BMPCompressionMethod::ALPHABITFIELDS)
 	{
 		auto colormaskdata = DIBRGBAColorMask();
-		DIBLoaderHelper::Read(loader, &colormaskdata, sizeof(DIBFileHeader) + DIBInfoHeader::Size);
+		DIBLoaderHelper::Read(this->loader, &colormaskdata, sizeof(DIBFileHeader) + DIBInfoHeader::Size);
 		colormask = DIBColorMask(colormaskdata);
 	}
 	if (ihead.IndexedColorCount != 0)
 	{
 		auto lpal = std::vector<RGBTriple_t>();
 		lpal.reserve(ihead.IndexedColorCount);
-		DIBLoaderHelper::Read(loader, &lpal, sizeof(DIBFileHeader) + sizeof(DIBInfoHeader), ihead.IndexedColorCount);
+		DIBLoaderHelper::Read(this->loader, &lpal, sizeof(DIBFileHeader) + sizeof(DIBInfoHeader), ihead.IndexedColorCount);
 		palette.reserve(ihead.IndexedColorCount);
 		for(auto i: lpal) { palette.push_back(RGB8_t(i)); }
 	}
