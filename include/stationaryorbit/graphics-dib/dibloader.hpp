@@ -165,6 +165,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		typedef std::variant<DIBPixelData<DIBBitDepth::Bit1>, DIBPixelData<DIBBitDepth::Bit4>, DIBPixelData<DIBBitDepth::Bit8>, DIBPixelData<DIBBitDepth::Bit24>> PixelData;
 		///	この画像のピクセルの配列を表す @a std::variant 。
 		typedef std::variant<std::vector<DIBPixelData<DIBBitDepth::Bit1>>, std::vector<DIBPixelData<DIBBitDepth::Bit4>>, std::vector<DIBPixelData<DIBBitDepth::Bit8>>, std::vector<DIBPixelData<DIBBitDepth::Bit24>>> PixelVector;
+		typedef RGB8_t ValueType;
 	private:
 		DIBLoader&& loader;
 		DIBCoreHeader ihead;
@@ -178,64 +179,96 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	このオブジェクトの情報ヘッダを取得します。
 		[[nodiscard]] const DIBCoreHeader& InfoHead() const { return ihead; }
 
-		///	指定された座標のデータを取得します。
-		///	@param	index
+		///	指定された座標の色を取得します。
+		///	@param	pos
 		///	取得する画像上の座標。
-		[[nodiscard]] PixelData GetData(const DisplayPoint& index);
+		[[nodiscard]] ValueType Get(const DisplayPoint& pos);
+		///	指定した座標に色を設定します。
+		///	@param	pos
+		///	設定する画像上の座標。
+		///	@param	value
+		///	設定する色。
+		///	@note
+		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
+
+		///	指定された座標のデータを取得します。
+		///	@param	pos
+		///	取得する画像上の座標。
+		///	@note
+		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
+		[[nodiscard]] PixelData GetData(const DisplayPoint& pos);
 		///	指定された座標から連続するデータを取得します。
-		///	@param	index
+		///	@param	pos
 		///	取得する画像上の座標。
 		///	@param	length
 		///	取得するデータの長さ。
-		[[nodiscard]] PixelVector GetData(const DisplayPoint& index, const size_t& length);
+		///	@note
+		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
+		[[nodiscard]] PixelVector GetData(const DisplayPoint& pos, const size_t& length);
 		///	指定された座標のデータを設定します。
-		///	@param	index
-		///	取得する画像上の座標。
+		///	@param	pos
+		///	設定する画像上の座標。
 		///	@param	data
 		///	設定するデータ。
-		void SetData(const DisplayPoint& index, const DIBPixelData<DIBBitDepth::Bit1>& data);
+		///	@note
+		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
+		void SetData(const DisplayPoint& pos, const DIBPixelData<DIBBitDepth::Bit1>& data);
 		///	指定された座標のデータを設定します。
-		///	@param	index
-		///	取得する画像上の座標。
+		///	@param	pos
+		///	設定する画像上の座標。
 		///	@param	data
 		///	設定するデータ。
-		void SetData(const DisplayPoint& index, const DIBPixelData<DIBBitDepth::Bit4>& data);
+		///	@note
+		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
+		void SetData(const DisplayPoint& pos, const DIBPixelData<DIBBitDepth::Bit4>& data);
 		///	指定された座標のデータを設定します。
-		///	@param	index
-		///	取得する画像上の座標。
+		///	@param	pos
+		///	設定する画像上の座標。
 		///	@param	data
 		///	設定するデータ。
-		void SetData(const DisplayPoint& index, const DIBPixelData<DIBBitDepth::Bit8>& data);
+		///	@note
+		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
+		void SetData(const DisplayPoint& pos, const DIBPixelData<DIBBitDepth::Bit8>& data);
 		///	指定された座標のデータを設定します。
-		///	@param	index
-		///	取得する画像上の座標。
+		///	@param	pos
+		///	設定する画像上の座標。
 		///	@param	data
 		///	設定するデータ。
-		void SetData(const DisplayPoint& index, const DIBPixelData<DIBBitDepth::Bit24>& data);
+		///	@note
+		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
+		void SetData(const DisplayPoint& pos, const DIBPixelData<DIBBitDepth::Bit24>& data);
 		///	指定された座標のデータを設定します。
-		///	@param	index
-		///	取得する画像上の座標。
+		///	@param	pos
+		///	設定する画像上の座標。
 		///	@param	data
 		///	設定するデータ。
-		void SetData(const DisplayPoint& index, const std::vector<DIBPixelData<DIBBitDepth::Bit1>>& data);
+		///	@note
+		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
+		void SetData(const DisplayPoint& pos, const std::vector<DIBPixelData<DIBBitDepth::Bit1>>& data);
 		///	指定された座標のデータを設定します。
-		///	@param	index
-		///	取得する画像上の座標。
+		///	@param	pos
+		///	設定する画像上の座標。
 		///	@param	data
 		///	設定するデータ。
-		void SetData(const DisplayPoint& index, const std::vector<DIBPixelData<DIBBitDepth::Bit4>>& data);
+		///	@note
+		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
+		void SetData(const DisplayPoint& pos, const std::vector<DIBPixelData<DIBBitDepth::Bit4>>& data);
 		///	指定された座標のデータを設定します。
-		///	@param	index
-		///	取得する画像上の座標。
+		///	@param	pos
+		///	設定する画像上の座標。
 		///	@param	data
 		///	設定するデータ。
-		void SetData(const DisplayPoint& index, const std::vector<DIBPixelData<DIBBitDepth::Bit8>>& data);
+		///	@note
+		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
+		void SetData(const DisplayPoint& pos, const std::vector<DIBPixelData<DIBBitDepth::Bit8>>& data);
 		///	指定された座標のデータを設定します。
-		///	@param	index
-		///	取得する画像上の座標。
+		///	@param	pos
+		///	設定する画像上の座標。
 		///	@param	data
 		///	設定するデータ。
-		void SetData(const DisplayPoint& index, const std::vector<DIBPixelData<DIBBitDepth::Bit24>>& data);
+		///	@note
+		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
+		void SetData(const DisplayPoint& pos, const std::vector<DIBPixelData<DIBBitDepth::Bit24>>& data);
 
 	private:
 		[[nodiscard]] size_t ResolvePos(const DisplayPoint& pos) const;
