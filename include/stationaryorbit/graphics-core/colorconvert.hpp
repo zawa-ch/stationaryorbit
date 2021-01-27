@@ -31,21 +31,35 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		~ColorConvert() = delete;
 	public:
 		template<class Tp>
-		static constexpr GrayScaleColor<Tp> LuminanceSrgb(const RGBColor<Tp>& color)
+		static constexpr GrayScaleColor<Tp> ToLuminanceFromSrgb(const RGBColor<Tp>& color)
 		{
 			static_assert(std::is_constructible_v<Tp, float>, "テンプレート型 Tp は(float)を引数に取るコンストラクタを持つ必要があります。");
 			return GrayScaleColor<Tp>(color.R() * Tp(0.2989f) + color.G() * Tp(0.5866f) + color.B() * Tp(0.1144f));
 		}
+		template<class Tp>
+		static constexpr RGBColor<Tp> ToRgbFromLuminance(const GrayScaleColor<Tp>& color)
+		{
+			return RGBColor<Tp>(RGBColor<Tp>::DataType::Expand(color.Luminance()));
+		}
 	};
 
-	extern template GrayScale8_t ColorConvert::LuminanceSrgb(const RGB8_t& color);
-	extern template GrayScale16_t ColorConvert::LuminanceSrgb(const RGB16_t& color);
-	extern template GrayScale32_t ColorConvert::LuminanceSrgb(const RGB32_t& color);
-	extern template GrayScale64_t ColorConvert::LuminanceSrgb(const RGB64_t& color);
-	extern template GrayScaleI16_t ColorConvert::LuminanceSrgb(const RGBI16_t& color);
-	extern template GrayScaleI32_t ColorConvert::LuminanceSrgb(const RGBI32_t& color);
-	extern template GrayScaleI64_t ColorConvert::LuminanceSrgb(const RGBI64_t& color);
-	extern template GrayScaleF32_t ColorConvert::LuminanceSrgb(const RGBF32_t& color);
-	extern template GrayScaleF64_t ColorConvert::LuminanceSrgb(const RGBF64_t& color);
+	extern template GrayScale8_t ColorConvert::ToLuminanceFromSrgb(const RGB8_t& color);
+	extern template GrayScale16_t ColorConvert::ToLuminanceFromSrgb(const RGB16_t& color);
+	extern template GrayScale32_t ColorConvert::ToLuminanceFromSrgb(const RGB32_t& color);
+	extern template GrayScale64_t ColorConvert::ToLuminanceFromSrgb(const RGB64_t& color);
+	extern template GrayScaleI16_t ColorConvert::ToLuminanceFromSrgb(const RGBI16_t& color);
+	extern template GrayScaleI32_t ColorConvert::ToLuminanceFromSrgb(const RGBI32_t& color);
+	extern template GrayScaleI64_t ColorConvert::ToLuminanceFromSrgb(const RGBI64_t& color);
+	extern template GrayScaleF32_t ColorConvert::ToLuminanceFromSrgb(const RGBF32_t& color);
+	extern template GrayScaleF64_t ColorConvert::ToLuminanceFromSrgb(const RGBF64_t& color);
+	extern template RGB8_t ColorConvert::ToRgbFromLuminance(const GrayScale8_t& color);
+	extern template RGB16_t ColorConvert::ToRgbFromLuminance(const GrayScale16_t& color);
+	extern template RGB32_t ColorConvert::ToRgbFromLuminance(const GrayScale32_t& color);
+	extern template RGB64_t ColorConvert::ToRgbFromLuminance(const GrayScale64_t& color);
+	extern template RGBI16_t ColorConvert::ToRgbFromLuminance(const GrayScaleI16_t& color);
+	extern template RGBI32_t ColorConvert::ToRgbFromLuminance(const GrayScaleI32_t& color);
+	extern template RGBI64_t ColorConvert::ToRgbFromLuminance(const GrayScaleI64_t& color);
+	extern template RGBF32_t ColorConvert::ToRgbFromLuminance(const GrayScaleF32_t& color);
+	extern template RGBF64_t ColorConvert::ToRgbFromLuminance(const GrayScaleF64_t& color);
 }
 #endif // __stationaryorbit_graphics_core_colorconvert__

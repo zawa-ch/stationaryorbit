@@ -18,12 +18,21 @@
 //
 #include "stationaryorbit/graphics-core/colorconvert.hpp"
 
-template zawa_ch::StationaryOrbit::Graphics::GrayScale8_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::LuminanceSrgb(const RGB8_t& color);
-template zawa_ch::StationaryOrbit::Graphics::GrayScale16_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::LuminanceSrgb(const RGB16_t& color);
-template zawa_ch::StationaryOrbit::Graphics::GrayScale32_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::LuminanceSrgb(const RGB32_t& color);
-template zawa_ch::StationaryOrbit::Graphics::GrayScale64_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::LuminanceSrgb(const RGB64_t& color);
-template zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::LuminanceSrgb(const RGBI16_t& color);
-template zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::LuminanceSrgb(const RGBI32_t& color);
-template zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::LuminanceSrgb(const RGBI64_t& color);
-template zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::LuminanceSrgb(const RGBF32_t& color);
-template zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::LuminanceSrgb(const RGBF64_t& color);
+template zawa_ch::StationaryOrbit::Graphics::GrayScale8_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToLuminanceFromSrgb(const RGB8_t& color);
+template zawa_ch::StationaryOrbit::Graphics::GrayScale16_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToLuminanceFromSrgb(const RGB16_t& color);
+template zawa_ch::StationaryOrbit::Graphics::GrayScale32_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToLuminanceFromSrgb(const RGB32_t& color);
+template zawa_ch::StationaryOrbit::Graphics::GrayScale64_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToLuminanceFromSrgb(const RGB64_t& color);
+template zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToLuminanceFromSrgb(const RGBI16_t& color);
+template zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToLuminanceFromSrgb(const RGBI32_t& color);
+template zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToLuminanceFromSrgb(const RGBI64_t& color);
+template zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToLuminanceFromSrgb(const RGBF32_t& color);
+template zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToLuminanceFromSrgb(const RGBF64_t& color);
+template zawa_ch::StationaryOrbit::Graphics::RGB8_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToRgbFromLuminance(const GrayScale8_t& color);
+template zawa_ch::StationaryOrbit::Graphics::RGB16_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToRgbFromLuminance(const GrayScale16_t& color);
+template zawa_ch::StationaryOrbit::Graphics::RGB32_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToRgbFromLuminance(const GrayScale32_t& color);
+template zawa_ch::StationaryOrbit::Graphics::RGB64_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToRgbFromLuminance(const GrayScale64_t& color);
+template zawa_ch::StationaryOrbit::Graphics::RGBI16_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToRgbFromLuminance(const GrayScaleI16_t& color);
+template zawa_ch::StationaryOrbit::Graphics::RGBI32_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToRgbFromLuminance(const GrayScaleI32_t& color);
+template zawa_ch::StationaryOrbit::Graphics::RGBI64_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToRgbFromLuminance(const GrayScaleI64_t& color);
+template zawa_ch::StationaryOrbit::Graphics::RGBF32_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToRgbFromLuminance(const GrayScaleF32_t& color);
+template zawa_ch::StationaryOrbit::Graphics::RGBF64_t zawa_ch::StationaryOrbit::Graphics::ColorConvert::ToRgbFromLuminance(const GrayScaleF64_t& color);

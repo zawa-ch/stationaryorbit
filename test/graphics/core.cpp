@@ -28,7 +28,7 @@ void Test_Core()
 	auto i2 = Graphics::RGBF32Pixmap_t(i1_hflip, i1_hflip.Area());
 	auto i3 = Graphics::RGBF32Pixmap_t(i1_vflip, i1_vflip.Area());
 	auto i4 = Graphics::RGB8Pixmap_t(i1);
-	auto i5 = Graphics::GrayF32Pixmap_t::Convert<Graphics::RGBF32_t>(i1, [](const auto& i) { return Graphics::ColorConvert::LuminanceSrgb(i); });
+	auto i5 = Graphics::GrayF32Pixmap_t::Convert<Graphics::RGBF32_t>(i1, [](const auto& i) { return Graphics::ColorConvert::ToLuminanceFromSrgb(i); });
 	auto i6 = Graphics::Mask1Pixmap_t::Convert<Graphics::RGBF32_t>(i1, 
 		[](const auto& i) {return Graphics::Opacity1_t(Proportion1_t(i.R() > 0.5)); }
 	);
