@@ -78,6 +78,17 @@ DIBCoreBitmapFileLoader::DIBCoreBitmapFileLoader(DIBLoader&& loader) : loader(st
 		default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
 	}
 }
+void DIBCoreBitmapFileLoader::Set(const DisplayPoint& pos, const ValueType& value)
+{
+	switch(ihead.BitCount)
+	{
+		case DIBBitDepth::Bit1: { SetData(pos, DIBPixelPerser::ToPixel1(ColorConvert::ToLuminanceFromSrgb(value))); return; }
+		case DIBBitDepth::Bit4: { SetData(pos, DIBPixelPerser::ToPixel4(ColorConvert::ToLuminanceFromSrgb(value))); return; }
+		case DIBBitDepth::Bit8: { SetData(pos, DIBPixelPerser::ToPixel8(ColorConvert::ToLuminanceFromSrgb(value))); return; }
+		case DIBBitDepth::Bit24: { SetData(pos, DIBPixelPerser::ToPixel24(value)); }
+		default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
+	}
+}
 DIBCoreBitmapFileLoader::PixelData DIBCoreBitmapFileLoader::GetData(const DisplayPoint& pos)
 {
 	size_t index = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(pos);

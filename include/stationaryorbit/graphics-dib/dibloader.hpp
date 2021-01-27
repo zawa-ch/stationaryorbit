@@ -190,6 +190,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	設定する色。
 		///	@note
 		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
+		void Set(const DisplayPoint& pos, const ValueType& value);
 
 		///	指定された座標のデータを取得します。
 		///	@param	pos
