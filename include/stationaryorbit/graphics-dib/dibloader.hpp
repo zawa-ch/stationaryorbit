@@ -157,6 +157,71 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		template<class T>
 		static void Write(DIBLoader& loader, const T* source, const size_t& pos, const size_t& size = 1U) { loader.Write((const char*)source, pos, sizeof(T) * size); }
 	};
+	class DIBCoreBitmapDecoder
+	{
+	public:
+		typedef std::variant<DIBPixelData<DIBBitDepth::Bit1>, DIBPixelData<DIBBitDepth::Bit4>, DIBPixelData<DIBBitDepth::Bit8>, DIBPixelData<DIBBitDepth::Bit24>> ValueType;
+	private:
+		///	デコード時に読み込みを行う @a DIBLoader への参照。
+		DIBLoader& loader;
+		///	読み込み先のデータのオフセット。
+		size_t offset;
+		///	画像の大きさ。
+		Rect2DSize<int64_t> size;
+		///	全体の要素数。
+		int64_t length;
+		///	現在の読み込み位置。
+		int64_t current;
+		///	現在の値。
+		ValueType current_value;
+		///	各ピクセルのデータ長。
+		DIBBitDepth bitdepth;
+	public:
+		DIBCoreBitmapDecoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const Rect2DSize<int64_t>& size);
+		virtual ~DIBCoreBitmapDecoder() = default;
+
+		///	現在の位置を次に進めます。
+		bool Next();
+		///	現在の位置を指定された数だけ次に進めます。
+		bool Next(const IteratorTraits::IteratorDiff_t& count);
+		///	現在の位置を前に戻します。
+		bool Previous();
+		///	現在の位置を指定された数だけ前に戻します。
+		bool Previous(const IteratorTraits::IteratorDiff_t& count);
+		///	画像の任意の位置にジャンプします。
+		void JumpTo(const DisplayPoint& pos);
+		///	現在の位置を初期位置に戻します。
+		void Reset();
+		///	現在の位置を初期位置に戻します。
+		void Reset(const IteratorOrigin& origin);
+		///	現在の位置が値を持っているかを取得します。
+		[[nodiscard]] bool HasValue() const;
+		///	現在の位置が最初の要素よりも前にいるかを取得します。
+		[[nodiscard]] bool IsBeforeBegin() const;
+		///	現在の位置が最後の要素よりも後にいるかを取得します。
+		[[nodiscard]] bool IsAfterEnd() const;
+		///	現在の位置を画像上での位置で取得します。
+		[[nodiscard]] DisplayPoint CurrentPos() const;
+		///	現在の位置にあるオブジェクトを取得します。
+		[[nodiscard]] ValueType Current() const;
+		///	現在の位置にオブジェクトを書き込みます。
+		void Write(const DIBPixelData<DIBBitDepth::Bit1>& value);
+		///	現在の位置にオブジェクトを書き込みます。
+		void Write(const DIBPixelData<DIBBitDepth::Bit4>& value);
+		///	現在の位置にオブジェクトを書き込みます。
+		void Write(const DIBPixelData<DIBBitDepth::Bit8>& value);
+		///	現在の位置にオブジェクトを書き込みます。
+		void Write(const DIBPixelData<DIBBitDepth::Bit24>& value);
+		///	指定されたオブジェクトとの距離を取得します。
+		[[nodiscard]] IteratorTraits::IteratorDiff_t Distance(const DIBCoreBitmapDecoder& other) const;
+		[[nodiscard]] bool Equals(const DIBCoreBitmapDecoder& other) const;
+		[[nodiscard]] int Compare(const DIBCoreBitmapDecoder& other) const;
+	private:
+		[[nodiscard]] ValueType Get(const DisplayPoint& pos);
+		[[nodiscard]] size_t ResolveIndex(const DisplayPoint& pos) const;
+		[[nodiscard]] DisplayPoint ResolvePos(size_t index) const;
+		[[nodiscard]] size_t ResolveOffset(const DisplayPoint& pos) const;
+	};
 	///	@a DIBLoader を使用してCoreHeaderを持つWindows bitmap 画像を読み込みます。
 	class DIBCoreBitmapFileLoader
 	{
@@ -178,101 +243,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 
 		///	このオブジェクトの情報ヘッダを取得します。
 		[[nodiscard]] const DIBCoreHeader& InfoHead() const { return ihead; }
-
-		///	指定された座標の色を取得します。
-		///	@param	pos
-		///	取得する画像上の座標。
-		[[nodiscard]] ValueType Get(const DisplayPoint& pos);
-		///	指定した座標に色を設定します。
-		///	@param	pos
-		///	設定する画像上の座標。
-		///	@param	value
-		///	設定する色。
-		///	@note
-		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
-		void Set(const DisplayPoint& pos, const ValueType& value);
-
-		///	指定された座標のデータを取得します。
-		///	@param	pos
-		///	取得する画像上の座標。
-		///	@note
-		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
-		[[nodiscard]] PixelData GetData(const DisplayPoint& pos);
-		///	指定された座標から連続するデータを取得します。
-		///	@param	pos
-		///	取得する画像上の座標。
-		///	@param	length
-		///	取得するデータの長さ。
-		///	@note
-		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
-		[[nodiscard]] PixelVector GetData(const DisplayPoint& pos, const size_t& length);
-		///	指定された座標のデータを設定します。
-		///	@param	pos
-		///	設定する画像上の座標。
-		///	@param	data
-		///	設定するデータ。
-		///	@note
-		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
-		void SetData(const DisplayPoint& pos, const DIBPixelData<DIBBitDepth::Bit1>& data);
-		///	指定された座標のデータを設定します。
-		///	@param	pos
-		///	設定する画像上の座標。
-		///	@param	data
-		///	設定するデータ。
-		///	@note
-		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
-		void SetData(const DisplayPoint& pos, const DIBPixelData<DIBBitDepth::Bit4>& data);
-		///	指定された座標のデータを設定します。
-		///	@param	pos
-		///	設定する画像上の座標。
-		///	@param	data
-		///	設定するデータ。
-		///	@note
-		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
-		void SetData(const DisplayPoint& pos, const DIBPixelData<DIBBitDepth::Bit8>& data);
-		///	指定された座標のデータを設定します。
-		///	@param	pos
-		///	設定する画像上の座標。
-		///	@param	data
-		///	設定するデータ。
-		///	@note
-		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
-		void SetData(const DisplayPoint& pos, const DIBPixelData<DIBBitDepth::Bit24>& data);
-		///	指定された座標のデータを設定します。
-		///	@param	pos
-		///	設定する画像上の座標。
-		///	@param	data
-		///	設定するデータ。
-		///	@note
-		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
-		void SetData(const DisplayPoint& pos, const std::vector<DIBPixelData<DIBBitDepth::Bit1>>& data);
-		///	指定された座標のデータを設定します。
-		///	@param	pos
-		///	設定する画像上の座標。
-		///	@param	data
-		///	設定するデータ。
-		///	@note
-		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
-		void SetData(const DisplayPoint& pos, const std::vector<DIBPixelData<DIBBitDepth::Bit4>>& data);
-		///	指定された座標のデータを設定します。
-		///	@param	pos
-		///	設定する画像上の座標。
-		///	@param	data
-		///	設定するデータ。
-		///	@note
-		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
-		void SetData(const DisplayPoint& pos, const std::vector<DIBPixelData<DIBBitDepth::Bit8>>& data);
-		///	指定された座標のデータを設定します。
-		///	@param	pos
-		///	設定する画像上の座標。
-		///	@param	data
-		///	設定するデータ。
-		///	@note
-		///	このメソッドは各ピクセルのデータがストレージ上に線形に配置される形式で記述されたデータでのみ有効です。
-		void SetData(const DisplayPoint& pos, const std::vector<DIBPixelData<DIBBitDepth::Bit24>>& data);
-
-	private:
-		[[nodiscard]] size_t ResolvePos(const DisplayPoint& pos) const;
 	};
 	///	@a DIBLoader を使用してInfoHeaderを持つWindows bitmap 画像を読み込みます。
 	class DIBInfoBitmapFileLoader
