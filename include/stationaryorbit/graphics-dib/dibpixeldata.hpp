@@ -104,6 +104,12 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 				Proportion8_t(uint32_t(data) & 0xFF, 0xFF)
 			);
 		}
+		[[nodiscard]] static constexpr DIBPixelData<DIBBitDepth::Bit1> ToPixel1(const GrayScale8_t& color) { return DIBPixelData<DIBBitDepth::Bit1>( (color.Luminance().Data().Data() & 0x80) >> 7 ); }
+		[[nodiscard]] static constexpr DIBPixelData<DIBBitDepth::Bit4> ToPixel4(const GrayScale8_t& color) { return DIBPixelData<DIBBitDepth::Bit4>( (color.Luminance().Data().Data() & 0xF0) >> 4 ); }
+		[[nodiscard]] static constexpr DIBPixelData<DIBBitDepth::Bit8> ToPixel8(const GrayScale8_t& color) { return DIBPixelData<DIBBitDepth::Bit8>( color.Luminance().Data().Data() ); }
+		[[nodiscard]] static constexpr DIBPixelData<DIBBitDepth::Bit16> ToPixel16(const RGB8_t& color) { return DIBPixelData<DIBBitDepth::Bit16>( ((color.R().Data().Data() & 0xF8) << 7) | ((color.G().Data().Data() & 0xF8) << 2) | ((color.B().Data().Data() & 0xF8) >> 3) ); }
+		[[nodiscard]] static constexpr DIBPixelData<DIBBitDepth::Bit24> ToPixel24(const RGB8_t& color) { return DIBPixelData<DIBBitDepth::Bit24>( (color.R().Data().Data() << 16) | (color.G().Data().Data() << 8) | (color.B().Data().Data()) ); }
+		[[nodiscard]] static constexpr DIBPixelData<DIBBitDepth::Bit32> ToPixel32(const RGB8_t& color) { return DIBPixelData<DIBBitDepth::Bit32>( (color.R().Data().Data() << 16) | (color.G().Data().Data() << 8) | (color.B().Data().Data()) ); }
 	};
 }
 #endif // __stationaryorbit_graphics_dib_dibpixeldata__
