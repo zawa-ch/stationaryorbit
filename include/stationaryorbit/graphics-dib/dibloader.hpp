@@ -234,6 +234,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	private:
 		DIBLoader&& loader;
 		DIBCoreHeader ihead;
+		std::vector<RGB8_t> palette;
 	public:
 		///	@a DIBFileLoader を使用して @a DIBCoreBitmapFileLoader を初期化します。
 		///	@param	loader

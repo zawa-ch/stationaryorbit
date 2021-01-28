@@ -195,6 +195,22 @@ DIBCoreBitmapFileLoader::DIBCoreBitmapFileLoader(DIBLoader&& loader) : loader(st
 	if (this->loader.IsEnable()) { throw InvalidOperationException("無効な状態のloaderが渡されました。"); }
 	if (this->loader.HeaderSize() < DIBCoreHeader::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはCoreHeaderでサポートされる最小の長さよりも短いです。"); }
 	DIBLoaderHelper::Read(this->loader, &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
+	size_t palettesize = 0;
+	switch(ihead.BitCount)
+	{
+		case DIBBitDepth::Bit1: { palettesize = 2; break; }
+		case DIBBitDepth::Bit4: { palettesize = 16; break; }
+		case DIBBitDepth::Bit8: { palettesize = 256; break; }
+		case DIBBitDepth::Bit24: { palettesize = 0; break; }
+		default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
+	}
+	if (palettesize != 0)
+	{
+		auto p = std::vector<RGBTriple_t>();
+		p.reserve(palettesize);
+		DIBLoaderHelper::Read(this->loader, p.data(), sizeof(DIBFileHeader) + DIBCoreHeader::Size, palettesize);
+		for (auto i: p) { palette.push_back(RGB8_t(i)); }
+	}
 }
 
 DIBInfoBitmapFileLoader::DIBInfoBitmapFileLoader(DIBLoader&& loader) : loader(std::forward<DIBLoader>(loader))
