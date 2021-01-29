@@ -125,6 +125,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	書き込むデータの個数。
 		void Write(const char* source, size_t pos, size_t length = 1U);
 	};
+	///	@a DIBLoader を使用したデータ入出力の拡張を行うヘルパークラスです。
 	class DIBLoaderHelper final
 	{
 		DIBLoaderHelper() = delete;
