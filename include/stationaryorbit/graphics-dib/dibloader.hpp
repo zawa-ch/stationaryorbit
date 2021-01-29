@@ -167,7 +167,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	読み込み先のデータのオフセット。
 		size_t offset;
 		///	画像の大きさ。
-		Rect2DSize<int64_t> size;
+		DisplayRectSize size;
 		///	全体の要素数。
 		int64_t length;
 		///	現在の読み込み位置。
@@ -177,7 +177,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	各ピクセルのデータ長。
 		DIBBitDepth bitdepth;
 	public:
-		DIBCoreBitmapDecoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const Rect2DSize<int64_t>& size);
+		DIBCoreBitmapDecoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size);
 		virtual ~DIBCoreBitmapDecoder() = default;
 
 		///	現在の位置を次に進めます。
@@ -226,11 +226,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	class DIBCoreBitmapFileLoader
 	{
 	public:
-		///	この画像の1ピクセルのデータを表す @a std::variant 。
-		typedef std::variant<DIBPixelData<DIBBitDepth::Bit1>, DIBPixelData<DIBBitDepth::Bit4>, DIBPixelData<DIBBitDepth::Bit8>, DIBPixelData<DIBBitDepth::Bit24>> PixelData;
-		///	この画像のピクセルの配列を表す @a std::variant 。
-		typedef std::variant<std::vector<DIBPixelData<DIBBitDepth::Bit1>>, std::vector<DIBPixelData<DIBBitDepth::Bit4>>, std::vector<DIBPixelData<DIBBitDepth::Bit8>>, std::vector<DIBPixelData<DIBBitDepth::Bit24>>> PixelVector;
 		typedef RGB8_t ValueType;
+		typedef RGB8Pixmap_t Pixmap;
 	private:
 		DIBLoader&& loader;
 		DIBCoreHeader ihead;
@@ -244,6 +241,20 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 
 		///	このオブジェクトの情報ヘッダを取得します。
 		[[nodiscard]] const DIBCoreHeader& InfoHead() const { return ihead; }
+
+		[[nodiscard]] ValueType GetPixel(const DisplayPoint& pos);
+		[[nodiscard]] std::vector<ValueType> GetPixel(const DisplayPoint& pos, size_t count);
+		void SetPixel(const DisplayPoint& pos, const ValueType& value);
+		void SetPixel(const DisplayPoint& pos, const std::vector<ValueType>& value);
+		[[nodiscard]] uint32_t GetPixelRaw(const DisplayPoint& pos);
+		[[nodiscard]] std::vector<uint32_t> GetPixelRaw(const DisplayPoint& pos, size_t count);
+		void SetPixelRaw(const DisplayPoint& pos, const uint32_t& value);
+		void SetPixelRaw(const DisplayPoint& pos, const std::vector<uint32_t>& value);
+
+		void CopyTo(WritableImage<ValueType>& dest);
+		void CopyTo(WritableImage<ValueType>& dest, const DisplayRectangle& area, const DisplayPoint& destorigin = DisplayPoint(0, 0));
+		Pixmap ToPixmap();
+		Pixmap ToPixmap(const DisplayRectangle& area);
 	};
 	///	@a DIBLoader を使用してInfoHeaderを持つWindows bitmap 画像を読み込みます。
 	class DIBInfoBitmapFileLoader

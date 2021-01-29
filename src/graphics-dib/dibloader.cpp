@@ -60,7 +60,7 @@ void DIBFileLoader::Write(const char* source, size_t pos, size_t length)
 	if (stream.write(source, length).fail()) { stream.clear(); throw std::ios_base::failure("ストリームの書き込みに失敗しました。"); }
 }
 
-DIBCoreBitmapDecoder::DIBCoreBitmapDecoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const Rect2DSize<int64_t>& size)
+DIBCoreBitmapDecoder::DIBCoreBitmapDecoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size)
 	: loader(loader), offset(offset), bitdepth(bitdepth), size(size), length(size.Width() * size.Height())
 {
 	Reset();
@@ -71,6 +71,7 @@ bool DIBCoreBitmapDecoder::Next()
 	++current;
 	if (IsAfterEnd()) { current = length; return false; }
 	current_value = Get(ResolvePos(current));
+	return true;
 }
 bool DIBCoreBitmapDecoder::Next(const IteratorTraits::IteratorDiff_t& count)
 {
@@ -78,6 +79,7 @@ bool DIBCoreBitmapDecoder::Next(const IteratorTraits::IteratorDiff_t& count)
 	current += count;
 	if (IsAfterEnd()) { current = length; return false; }
 	current_value = Get(ResolvePos(current));
+	return true;
 }
 bool DIBCoreBitmapDecoder::Previous()
 {
@@ -85,6 +87,7 @@ bool DIBCoreBitmapDecoder::Previous()
 	--current;
 	if (IsBeforeBegin()) { current = -1; return false; }
 	current_value = Get(ResolvePos(current));
+	return true;
 }
 bool DIBCoreBitmapDecoder::Previous(const IteratorTraits::IteratorDiff_t& count)
 {
@@ -92,6 +95,7 @@ bool DIBCoreBitmapDecoder::Previous(const IteratorTraits::IteratorDiff_t& count)
 	current -= count;
 	if (IsBeforeBegin()) { current = -1; return false; }
 	current_value = Get(ResolvePos(current));
+	return true;
 }
 void DIBCoreBitmapDecoder::JumpTo(const DisplayPoint& pos)
 {
@@ -120,24 +124,28 @@ void DIBCoreBitmapDecoder::Write(const DIBPixelData<DIBBitDepth::Bit1>& value)
 	if (bitdepth != DIBBitDepth::Bit1) { throw InvalidOperationException("現在のBitCountではこの型で書き込みを行うことはできません。"); }
 	size_t tgt = offset + ResolveOffset(ResolvePos(current));
 	DIBLoaderHelper::Write(loader, &value, tgt);
+	current_value = value;
 }
 void DIBCoreBitmapDecoder::Write(const DIBPixelData<DIBBitDepth::Bit4>& value)
 {
 	if (bitdepth != DIBBitDepth::Bit4) { throw InvalidOperationException("現在のBitCountではこの型で書き込みを行うことはできません。"); }
 	size_t tgt = offset + ResolveOffset(ResolvePos(current));
 	DIBLoaderHelper::Write(loader, &value, tgt);
+	current_value = value;
 }
 void DIBCoreBitmapDecoder::Write(const DIBPixelData<DIBBitDepth::Bit8>& value)
 {
 	if (bitdepth != DIBBitDepth::Bit8) { throw InvalidOperationException("現在のBitCountではこの型で書き込みを行うことはできません。"); }
 	size_t tgt = offset + ResolveOffset(ResolvePos(current));
 	DIBLoaderHelper::Write(loader, &value, tgt);
+	current_value = value;
 }
 void DIBCoreBitmapDecoder::Write(const DIBPixelData<DIBBitDepth::Bit24>& value)
 {
 	if (bitdepth != DIBBitDepth::Bit24) { throw InvalidOperationException("現在のBitCountではこの型で書き込みを行うことはできません。"); }
 	size_t tgt = offset + ResolveOffset(ResolvePos(current));
 	DIBLoaderHelper::Write(loader, &value, tgt);
+	current_value = value;
 }
 IteratorTraits::IteratorDiff_t DIBCoreBitmapDecoder::Distance(const DIBCoreBitmapDecoder& other) const { return current - other.current; }
 bool DIBCoreBitmapDecoder::Equals(const DIBCoreBitmapDecoder& other) const { return current == other.current; }
@@ -211,6 +219,217 @@ DIBCoreBitmapFileLoader::DIBCoreBitmapFileLoader(DIBLoader&& loader) : loader(st
 		DIBLoaderHelper::Read(this->loader, p.data(), sizeof(DIBFileHeader) + DIBCoreHeader::Size, palettesize);
 		for (auto i: p) { palette.push_back(RGB8_t(i)); }
 	}
+}
+DIBCoreBitmapFileLoader::ValueType DIBCoreBitmapFileLoader::GetPixel(const DisplayPoint& pos)
+{
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	decoder.JumpTo(pos);
+	auto data = decoder.Current();
+	switch(ihead.BitCount)
+	{
+		case DIBBitDepth::Bit1:
+		case DIBBitDepth::Bit4:
+		case DIBBitDepth::Bit8:
+		{
+			return palette[std::visit([](auto i)->uint32_t { return uint32_t(i); }, data)];
+		}
+		case DIBBitDepth::Bit24:
+		{
+			return DIBPixelPerser::ToRGB(std::get<DIBPixelData<DIBBitDepth::Bit24>>(data));
+		}
+		default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
+	}
+}
+std::vector<DIBCoreBitmapFileLoader::ValueType> DIBCoreBitmapFileLoader::GetPixel(const DisplayPoint& pos, size_t count)
+{
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	decoder.JumpTo(pos);
+	auto result = std::vector<DIBCoreBitmapFileLoader::ValueType>();
+	result.reserve(count);
+	for (auto _: Range<size_t>(0, count).GetStdIterator())
+	{
+		auto data = decoder.Current();
+		switch(ihead.BitCount)
+		{
+			case DIBBitDepth::Bit1:
+			case DIBBitDepth::Bit4:
+			case DIBBitDepth::Bit8:
+			{
+				result.push_back(palette[std::visit([](auto i)->uint32_t { return uint32_t(i); }, data)]);
+				break;
+			}
+			case DIBBitDepth::Bit24:
+			{
+				result.push_back(DIBPixelPerser::ToRGB(std::get<DIBPixelData<DIBBitDepth::Bit24>>(data)));
+				break;
+			}
+			default: { throw InvalidOperationException("情報ヘッダのBitCountの内容が無効です。"); }
+		}
+	}
+	return result;
+}
+void DIBCoreBitmapFileLoader::SetPixel(const DisplayPoint& pos, const ValueType& value)
+{
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	decoder.JumpTo(pos);
+	switch(ihead.BitCount)
+	{
+		case DIBBitDepth::Bit1:
+		case DIBBitDepth::Bit4:
+		case DIBBitDepth::Bit8:
+		//	TODO: Implement
+		{ throw NotImplementedException(); }
+		case DIBBitDepth::Bit24: { decoder.Write(DIBPixelPerser::ToPixel24(value)); break; }
+		default: { throw InvalidOperationException("情報ヘッダのBitCountの内容が無効です。"); }
+	}
+}
+void DIBCoreBitmapFileLoader::SetPixel(const DisplayPoint& pos, const std::vector<ValueType>& value)
+{
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	decoder.JumpTo(pos);
+	for(auto i: value)
+	{
+		switch(ihead.BitCount)
+		{
+			case DIBBitDepth::Bit1:
+			case DIBBitDepth::Bit4:
+			case DIBBitDepth::Bit8:
+			//	TODO: Implement
+			{ throw NotImplementedException(); }
+			case DIBBitDepth::Bit24: { decoder.Write(DIBPixelPerser::ToPixel24(i)); break; }
+			default: { throw InvalidOperationException("情報ヘッダのBitCountの内容が無効です。"); }
+		}
+	}
+}
+uint32_t DIBCoreBitmapFileLoader::GetPixelRaw(const DisplayPoint& pos)
+{
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	decoder.JumpTo(pos);
+	auto data = decoder.Current();
+	switch(ihead.BitCount)
+	{
+		case DIBBitDepth::Bit1:
+		case DIBBitDepth::Bit4:
+		case DIBBitDepth::Bit8:
+		case DIBBitDepth::Bit24:
+		{
+			return std::visit([](auto i)->uint32_t { return uint32_t(i); }, data);
+		}
+		default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
+	}
+}
+std::vector<uint32_t> DIBCoreBitmapFileLoader::GetPixelRaw(const DisplayPoint& pos, size_t count)
+{
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	decoder.JumpTo(pos);
+	auto result = std::vector<uint32_t>();
+	result.reserve(count);
+	for (auto _: Range<size_t>(0, count).GetStdIterator())
+	{
+		auto data = decoder.Current();
+		switch(ihead.BitCount)
+		{
+			case DIBBitDepth::Bit1:
+			case DIBBitDepth::Bit4:
+			case DIBBitDepth::Bit8:
+			case DIBBitDepth::Bit24:
+			{
+				result.push_back(std::visit([](auto i)->uint32_t { return uint32_t(i); }, data));
+				break;
+			}
+			default: { throw InvalidOperationException("情報ヘッダのBitCountの内容が無効です。"); }
+		}
+	}
+	return result;
+}
+void DIBCoreBitmapFileLoader::SetPixelRaw(const DisplayPoint& pos, const uint32_t& value)
+{
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	decoder.JumpTo(pos);
+	switch(ihead.BitCount)
+	{
+		case DIBBitDepth::Bit1: { decoder.Write(DIBPixelData<DIBBitDepth::Bit1>(value)); break; }
+		case DIBBitDepth::Bit4: { decoder.Write(DIBPixelData<DIBBitDepth::Bit4>(value)); break; }
+		case DIBBitDepth::Bit8: { decoder.Write(DIBPixelData<DIBBitDepth::Bit8>(value)); break; }
+		case DIBBitDepth::Bit24: { decoder.Write(DIBPixelData<DIBBitDepth::Bit24>(value)); break; }
+		default: { throw InvalidOperationException("情報ヘッダのBitCountの内容が無効です。"); }
+	}
+}
+void DIBCoreBitmapFileLoader::SetPixelRaw(const DisplayPoint& pos, const std::vector<uint32_t>& value)
+{
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	decoder.JumpTo(pos);
+	for(auto i: value)
+	{
+		switch(ihead.BitCount)
+		{
+			case DIBBitDepth::Bit1: { decoder.Write(DIBPixelData<DIBBitDepth::Bit1>(i)); break; }
+			case DIBBitDepth::Bit4: { decoder.Write(DIBPixelData<DIBBitDepth::Bit4>(i)); break; }
+			case DIBBitDepth::Bit8: { decoder.Write(DIBPixelData<DIBBitDepth::Bit8>(i)); break; }
+			case DIBBitDepth::Bit24: { decoder.Write(DIBPixelData<DIBBitDepth::Bit24>(i)); break; }
+			default: { throw InvalidOperationException("情報ヘッダのBitCountの内容が無効です。"); }
+		}
+	}
+}
+void DIBCoreBitmapFileLoader::CopyTo(WritableImage<RGB8_t>& dest)
+{
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	for (decoder.Reset(); decoder.HasValue(); decoder.Next())
+	{
+		switch(ihead.BitCount)
+		{
+			case DIBBitDepth::Bit1:
+			case DIBBitDepth::Bit4:
+			case DIBBitDepth::Bit8:
+			{
+				dest.At(decoder.CurrentPos()) = palette[std::visit([](auto i)->uint32_t { return uint32_t(i); }, decoder.Current())];
+				break;
+			}
+			case DIBBitDepth::Bit24:
+			{
+				dest.At(decoder.CurrentPos()) =  DIBPixelPerser::ToRGB(std::get<DIBPixelData<DIBBitDepth::Bit24>>(decoder.Current()));
+				break;
+			}
+			default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
+		}
+	}
+}
+void DIBCoreBitmapFileLoader::CopyTo(WritableImage<RGB8_t>& dest, const DisplayRectangle& area, const DisplayPoint& destorigin)
+{
+	if ((area.Left() < 0)||(area.Top() < 0)||(ihead.ImageWidth < area.Right())||(ihead.ImageHeight < area.Bottom())) { throw std::out_of_range("areaで指定された領域がビットマップの画像領域を超えています。"); }
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	for (decoder.JumpTo(DisplayPoint(area.Left(), area.Bottom())); decoder.HasValue(); decoder.Next())
+	{
+		if (area.Contains(decoder.CurrentPos())) { decoder.Next(ihead.ImageWidth - area.Width()); }
+		switch(ihead.BitCount)
+		{
+			case DIBBitDepth::Bit1:
+			case DIBBitDepth::Bit4:
+			case DIBBitDepth::Bit8:
+			{
+				dest.At(decoder.CurrentPos() - area.Origin() + destorigin) = palette[std::visit([](auto i)->uint32_t { return uint32_t(i); }, decoder.Current())];
+				break;
+			}
+			case DIBBitDepth::Bit24:
+			{
+				dest.At(decoder.CurrentPos() - area.Origin() + destorigin) =  DIBPixelPerser::ToRGB(std::get<DIBPixelData<DIBBitDepth::Bit24>>(decoder.Current()));
+				break;
+			}
+			default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
+		}
+	}
+}
+DIBCoreBitmapFileLoader::Pixmap DIBCoreBitmapFileLoader::ToPixmap()
+{
+	auto result = Pixmap(DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	CopyTo(result);
+	return result;
+}
+DIBCoreBitmapFileLoader::Pixmap DIBCoreBitmapFileLoader::ToPixmap(const DisplayRectangle& area)
+{
+	auto result = Pixmap(area.Size());
+	CopyTo(result, area);
+	return result;
 }
 
 DIBInfoBitmapFileLoader::DIBInfoBitmapFileLoader(DIBLoader&& loader) : loader(std::forward<DIBLoader>(loader))
