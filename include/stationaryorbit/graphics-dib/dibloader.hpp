@@ -158,43 +158,6 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		template<class T>
 		static void Write(DIBLoader& loader, const T* source, const size_t& pos, const size_t& size = 1U) { loader.Write((const char*)source, pos, sizeof(T) * size); }
 	};
-	///	@a DIBLoader を使用してInfoHeaderを持つWindows bitmap 画像を読み込みます。
-	class DIBInfoBitmapFileLoader
-	{
-	public:
-		///	この画像の1ピクセルのデータを表す @a std::variant 。
-		typedef std::variant<DIBPixelData<DIBBitDepth::Bit1>, DIBPixelData<DIBBitDepth::Bit4>, DIBPixelData<DIBBitDepth::Bit8>, DIBPixelData<DIBBitDepth::Bit16>, DIBPixelData<DIBBitDepth::Bit24>, DIBPixelData<DIBBitDepth::Bit32>> PixelData;
-		///	この画像のピクセルの配列を表す @a std::variant 。
-		typedef std::variant<std::vector<DIBPixelData<DIBBitDepth::Bit1>>, std::vector<DIBPixelData<DIBBitDepth::Bit4>>, std::vector<DIBPixelData<DIBBitDepth::Bit8>>, std::vector<DIBPixelData<DIBBitDepth::Bit16>>, std::vector<DIBPixelData<DIBBitDepth::Bit24>>, std::vector<DIBPixelData<DIBBitDepth::Bit32>>> PixelVector;
-	private:
-		DIBLoader&& loader;
-		DIBInfoHeader ihead;
-		DIBColorMask colormask;
-		std::vector<RGB8_t> palette;
-	public:
-		///	@a DIBLoader を使用して @a DIBInfoBitmapFileLoader を初期化します。
-		///	@param	loader
-		///	読み込みに使用する @a DIBLoader 。
-		///	このオブジェクトで「消費」されるため、右辺値参照である必要があります。
-		DIBInfoBitmapFileLoader(DIBLoader&& loader);
-
-		///	このオブジェクトの情報ヘッダを取得します。
-		[[nodiscard]] const DIBInfoHeader& InfoHead() const { return ihead; }
-
-		///	指定された座標のデータを取得します。
-		///	@param	index
-		///	取得する画像上の座標。
-		[[nodiscard]] PixelData Get(const DisplayPoint& index);
-		///	指定された座標から連続するデータを取得します。
-		///	@param	index
-		///	取得する画像上の座標。
-		///	@param	length
-		///	取得するデータの長さ。
-		[[nodiscard]] PixelVector Get(const DisplayPoint& index, const size_t& length);
-
-	private:
-		[[nodiscard]] size_t ResolvePos(const DisplayPoint& pos) const;
-	};
 	///	@a DIBLoader を使用してV4Headerを持つWindows bitmap 画像を読み込みます。
 	class DIBV4BitmapFileLoader
 	{
