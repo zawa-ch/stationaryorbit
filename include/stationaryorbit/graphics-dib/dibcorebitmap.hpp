@@ -71,13 +71,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	現在の位置にあるオブジェクトを取得します。
 		[[nodiscard]] ValueType Current() const;
 		///	現在の位置にオブジェクトを書き込みます。
-		void Write(const DIBPixelData<DIBBitDepth::Bit1>& value);
-		///	現在の位置にオブジェクトを書き込みます。
-		void Write(const DIBPixelData<DIBBitDepth::Bit4>& value);
-		///	現在の位置にオブジェクトを書き込みます。
-		void Write(const DIBPixelData<DIBBitDepth::Bit8>& value);
-		///	現在の位置にオブジェクトを書き込みます。
-		void Write(const DIBPixelData<DIBBitDepth::Bit24>& value);
+		void Write(const ValueType& value);
 		///	指定されたオブジェクトとの距離を取得します。
 		[[nodiscard]] IteratorTraits::IteratorDiff_t Distance(const DIBCoreBitmapDecoder& other) const;
 		[[nodiscard]] bool Equals(const DIBCoreBitmapDecoder& other) const;
@@ -92,6 +86,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	class DIBCoreBitmap
 	{
 	public:
+		typedef uint32_t RawDataType;
 		typedef RGB8_t ValueType;
 		typedef RGB8Pixmap_t Pixmap;
 	private:
@@ -133,25 +128,25 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	画像の指定された位置にある1ピクセルの生データを取得します。
 		///	@param	pos
 		///	取得する画像上の座標位置。
-		[[nodiscard]] uint32_t GetPixelRaw(const DisplayPoint& pos);
+		[[nodiscard]] RawDataType GetPixelRaw(const DisplayPoint& pos);
 		///	画像の指定された位置から連続したピクセルの生データを取得します。
 		///	@param	pos
 		///	取得する画像上の座標位置。
 		///	@param	count
 		///	取得する要素数。
-		[[nodiscard]] std::vector<uint32_t> GetPixelRaw(const DisplayPoint& pos, size_t count);
+		[[nodiscard]] std::vector<RawDataType> GetPixelRaw(const DisplayPoint& pos, size_t count);
 		///	画像の指定された位置にある1ピクセルの生データを設定します。
 		///	@param	pos
 		///	設定する画像上の座標位置。
 		///	@param	value
 		///	設定する値。
-		void SetPixelRaw(const DisplayPoint& pos, const uint32_t& value);
+		void SetPixelRaw(const DisplayPoint& pos, const RawDataType& value);
 		///	画像の指定された位置から連続したピクセルの生データを設定します。
 		///	@param	pos
 		///	取得する画像上の座標位置。
 		///	@param	value
 		///	設定する値の配列。
-		void SetPixelRaw(const DisplayPoint& pos, const std::vector<uint32_t>& value);
+		void SetPixelRaw(const DisplayPoint& pos, const std::vector<RawDataType>& value);
 
 		///	画像を @a WritableImage にコピーします。
 		///	@param	dest
@@ -166,11 +161,16 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	コピー先の貼り付け基準位置。
 		void CopyTo(WritableImage<ValueType>& dest, const DisplayRectangle& area, const DisplayPoint& destorigin = DisplayPoint(0, 0));
 		///	画像を @a Pixmap として出力します。
-		Pixmap ToPixmap();
+		[[nodiscard]] Pixmap ToPixmap();
 		///	画像の指定された領域を @a Pixmap として出力します。
 		///	@param	area
 		///	画像の切り抜き範囲。
-		Pixmap ToPixmap(const DisplayRectangle& area);
+		[[nodiscard]] Pixmap ToPixmap(const DisplayRectangle& area);
+	private:
+		[[nodiscard]] ValueType ConvertToRGB(const DIBCoreBitmapDecoder::ValueType& data) const;
+		[[nodiscard]] RawDataType ConvertToRawData(const DIBCoreBitmapDecoder::ValueType& data) const;
+		[[nodiscard]] DIBCoreBitmapDecoder::ValueType ConvertToDecoderValue(const ValueType& value) const;
+		[[nodiscard]] DIBCoreBitmapDecoder::ValueType ConvertToDecoderValue(const RawDataType& value) const;
 	};
 }
 #endif // __stationaryorbit_graphics_dib_dibcorebitmap__
