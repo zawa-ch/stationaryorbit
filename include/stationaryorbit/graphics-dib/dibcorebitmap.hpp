@@ -19,6 +19,8 @@
 #ifndef __stationaryorbit_graphics_dib_dibcorebitmap__
 #define __stationaryorbit_graphics_dib_dibcorebitmap__
 #include <vector>
+#include <optional>
+#include <functional>
 #include <variant>
 #include "dibloader.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
@@ -99,9 +101,12 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	読み込みに使用する @a DIBFileLoader 。
 		///	このオブジェクトで「消費」されるため、右辺値参照である必要があります。
 		DIBCoreBitmap(DIBLoader&& loader);
+		virtual ~DIBCoreBitmap() = default;
 
 		///	このオブジェクトの情報ヘッダを取得します。
 		[[nodiscard]] const DIBCoreHeader& InfoHead() const { return ihead; }
+		///	このオブジェクトの色パレットを取得します。
+		[[nodiscard]] std::optional<std::reference_wrapper<const std::vector<RGB8_t>>> Palette() const;
 
 		///	画像の指定された位置にある1ピクセルの色を取得します。
 		///	@param	pos

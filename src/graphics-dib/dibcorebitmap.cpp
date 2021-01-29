@@ -185,6 +185,19 @@ DIBCoreBitmap::DIBCoreBitmap(DIBLoader&& loader) : loader(std::forward<DIBLoader
 		for (auto i: p) { palette.push_back(RGB8_t(i)); }
 	}
 }
+std::optional<std::reference_wrapper<const std::vector<Graphics::RGB8_t>>> DIBCoreBitmap::Palette() const
+{
+	switch(ihead.BitCount)
+	{
+		case DIBBitDepth::Bit1:
+		case DIBBitDepth::Bit4:
+		case DIBBitDepth::Bit8:
+		{ return palette; }
+		case DIBBitDepth::Bit24:
+		{ return std::nullopt; }
+		default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
+	}
+}
 DIBCoreBitmap::ValueType DIBCoreBitmap::GetPixel(const DisplayPoint& pos)
 {
 	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
