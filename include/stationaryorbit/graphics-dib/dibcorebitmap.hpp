@@ -84,6 +84,42 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		[[nodiscard]] DisplayPoint ResolvePos(size_t index) const;
 		[[nodiscard]] size_t ResolveOffset(const DisplayPoint& pos) const;
 	};
+	class DIBCoreBitmapEncoder
+	{
+	public:
+		typedef std::variant<DIBPixelData<DIBBitDepth::Bit1>, DIBPixelData<DIBBitDepth::Bit4>, DIBPixelData<DIBBitDepth::Bit8>, DIBPixelData<DIBBitDepth::Bit24>> ValueType;
+	private:
+		///	書き込みを行う @a DIBLoader への参照。
+		DIBLoader& loader;
+		///	書き込み先のデータのオフセット。
+		size_t offset;
+		///	画像の大きさ。
+		DisplayRectSize size;
+		///	全体の要素数。
+		int64_t length;
+		///	現在の書き込み位置。
+		int64_t current;
+		///	各ピクセルのデータ長。
+		DIBBitDepth bitdepth;
+	public:
+		DIBCoreBitmapEncoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size);
+		virtual ~DIBCoreBitmapEncoder() = default;
+
+		///	現在の位置にオブジェクトを書き込み、現在の位置を次に進めます。
+		void Write(const ValueType& value);
+		///	現在の位置を初期位置に戻します。
+		void Reset();
+		///	現在の位置が値を持っているかを取得します。
+		[[nodiscard]] bool HasValue() const;
+		///	現在の位置を画像上での位置で取得します。
+		[[nodiscard]] DisplayPoint CurrentPos() const;
+		[[nodiscard]] bool Equals(const DIBCoreBitmapEncoder& other) const;
+		[[nodiscard]] int Compare(const DIBCoreBitmapEncoder& other) const;
+	private:
+		[[nodiscard]] size_t ResolveIndex(const DisplayPoint& pos) const;
+		[[nodiscard]] DisplayPoint ResolvePos(size_t index) const;
+		[[nodiscard]] size_t ResolveOffset(const DisplayPoint& pos) const;
+	};
 	///	@a DIBLoader を使用してCoreHeaderを持つWindows bitmap 画像を読み込みます。
 	class DIBCoreBitmap
 	{
