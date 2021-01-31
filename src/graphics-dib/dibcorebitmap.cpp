@@ -161,10 +161,7 @@ void DIBCoreBitmapEncoder::Write(const ValueType& value)
 	{
 		size_t ci = size.Width() * ((uint16_t(bitdepth) + 7) / 8);
 		size_t stride = (((size.Width() * uint16_t(bitdepth)) + 31) % 32) / 8;
-		for (auto i: Range<size_t>(ci, stride).GetStdIterator())
-		{
-			DIBLoaderHelper::Write(loader, char(), offset + i);
-		}
+		for (auto i: Range<size_t>(ci, stride).GetStdIterator()) { DIBLoaderHelper::Write(loader, char(), offset + i); }
 	}
 	++current;
 }
