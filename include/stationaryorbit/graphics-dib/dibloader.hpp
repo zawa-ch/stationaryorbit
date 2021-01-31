@@ -145,6 +145,17 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	読み込むデータの個数。
 		template<class T>
 		static void Read(DIBLoader& loader, T* dest, const size_t& pos, const size_t& size = 1U) { loader.Read((char*)dest, pos, sizeof(T) * size); }
+		///	@a DIBLoader から指定された型のデータを取得します。
+		///	@param	T
+		///	読み込むデータの型。
+		///	@param	dest
+		///	読み込んだデータの格納先。
+		///	@param	pos
+		///	読み込むデータの位置。
+		///	@param	size
+		///	読み込むデータの個数。
+		template<class T>
+		static void Read(DIBLoader& loader, T& dest, const size_t& pos) { loader.Read((char*)&dest, pos, sizeof(T)); }
 		///	@a DIBLoader に指定された型のデータを書き込みます。
 		///	@param	T
 		///	書き込むデータの型。
@@ -157,6 +168,17 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	書き込むデータの個数。
 		template<class T>
 		static void Write(DIBLoader& loader, const T* source, const size_t& pos, const size_t& size = 1U) { loader.Write((const char*)source, pos, sizeof(T) * size); }
+		///	@a DIBLoader に指定された型のデータを書き込みます。
+		///	@param	T
+		///	書き込むデータの型。
+		///	@param	source
+		///	書き込むデータの格納先。
+		///	@param	pos
+		///	書き込むデータの位置。
+		///	@param	size
+		///	書き込むデータの個数。
+		template<class T>
+		static void Write(DIBLoader& loader, const T& source, const size_t& pos) { loader.Write((const char*)&source, pos, sizeof(T)); }
 	};
 	///	@a DIBLoader を使用してV4Headerを持つWindows bitmap 画像を読み込みます。
 	class DIBV4BitmapFileLoader
