@@ -138,6 +138,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	読み込みに使用する @a DIBLoader 。
 		///	このオブジェクトで「消費」されるため、右辺値参照である必要があります。
 		DIBInfoBitmap(DIBLoader&& loader);
+		DIBInfoBitmap(const DIBInfoBitmap&) = delete;
+		DIBInfoBitmap(DIBInfoBitmap&&) = default;
 		virtual ~DIBInfoBitmap() = default;
 
 		///	このオブジェクトの情報ヘッダを取得します。
@@ -211,10 +213,10 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	画像の切り抜き範囲。
 		[[nodiscard]] Pixmap ToPixmap(const DisplayRectangle& area);
 
-		[[nodiscard]] static DIBInfoBitmap Generate(DIBLoader&& loader, const DIBInfoHeader& header);
-		[[nodiscard]] static DIBInfoBitmap Generate(DIBLoader&& loader, const DIBInfoHeader& header, const Image<RGB8_t>& image);
-		[[nodiscard]] static DIBInfoBitmap Generate(DIBLoader&& loader, const DIBInfoHeader& header, const std::vector<RGB8_t> palette);
-		[[nodiscard]] static DIBInfoBitmap Generate(DIBLoader&& loader, const DIBInfoHeader& header, const std::vector<RGB8_t> palette, const Image<RGB8_t>& image);
+		[[nodiscard]] static std::optional<DIBInfoBitmap> Generate(DIBLoader&& loader, const DIBInfoHeader& header);
+		static std::optional<DIBInfoBitmap> Generate(DIBLoader&& loader, const DIBInfoHeader& header, const Image<RGB8_t>& image);
+		[[nodiscard]] static std::optional<DIBInfoBitmap> Generate(DIBLoader&& loader, const DIBInfoHeader& header, const std::vector<RGB8_t> palette);
+		static std::optional<DIBInfoBitmap> Generate(DIBLoader&& loader, const DIBInfoHeader& header, const std::vector<RGB8_t> palette, const Image<RGB8_t>& image);
 	private:
 		[[nodiscard]] ValueType ConvertToRGB(const DIBBitmapRGBDecoder::ValueType& data) const;
 		[[nodiscard]] RawDataType ConvertToRawData(const DIBBitmapRGBDecoder::ValueType& data) const;
