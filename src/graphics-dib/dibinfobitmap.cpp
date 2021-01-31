@@ -84,42 +84,12 @@ void DIBBitmapRGBDecoder::Write(const ValueType& value)
 	size_t tgt = offset + ResolveOffset(ResolvePos(current));
 	switch(bitdepth)
 	{
-		case DIBBitDepth::Bit1:
-		{
-			auto w = std::get<DIBPixelData<DIBBitDepth::Bit1>>(value);
-			DIBLoaderHelper::Write(loader, &w, tgt);
-			break;
-		}
-		case DIBBitDepth::Bit4:
-		{
-			auto w = std::get<DIBPixelData<DIBBitDepth::Bit4>>(value);
-			DIBLoaderHelper::Write(loader, &w, tgt);
-			break;
-		}
-		case DIBBitDepth::Bit8:
-		{
-			auto w = std::get<DIBPixelData<DIBBitDepth::Bit8>>(value);
-			DIBLoaderHelper::Write(loader, &w, tgt);
-			break;
-		}
-		case DIBBitDepth::Bit16:
-		{
-			auto w = std::get<DIBPixelData<DIBBitDepth::Bit24>>(value);
-			DIBLoaderHelper::Write(loader, &w, tgt);
-			break;
-		}
-		case DIBBitDepth::Bit24:
-		{
-			auto w = std::get<DIBPixelData<DIBBitDepth::Bit24>>(value);
-			DIBLoaderHelper::Write(loader, &w, tgt);
-			break;
-		}
-		case DIBBitDepth::Bit32:
-		{
-			auto w = std::get<DIBPixelData<DIBBitDepth::Bit32>>(value);
-			DIBLoaderHelper::Write(loader, &w, tgt);
-			break;
-		}
+		case DIBBitDepth::Bit1: { DIBLoaderHelper::Write(loader, std::get<DIBPixelData<DIBBitDepth::Bit1>>(value), tgt); break; }
+		case DIBBitDepth::Bit4: { DIBLoaderHelper::Write(loader, std::get<DIBPixelData<DIBBitDepth::Bit4>>(value), tgt); break; }
+		case DIBBitDepth::Bit8: { DIBLoaderHelper::Write(loader, std::get<DIBPixelData<DIBBitDepth::Bit8>>(value), tgt); break; }
+		case DIBBitDepth::Bit16: { DIBLoaderHelper::Write(loader, std::get<DIBPixelData<DIBBitDepth::Bit24>>(value), tgt); break; }
+		case DIBBitDepth::Bit24: { DIBLoaderHelper::Write(loader, std::get<DIBPixelData<DIBBitDepth::Bit24>>(value), tgt); break; }
+		case DIBBitDepth::Bit32: { DIBLoaderHelper::Write(loader, std::get<DIBPixelData<DIBBitDepth::Bit32>>(value), tgt); break; }
 		default: { throw InvalidOperationException("情報ヘッダのBitCountの内容が無効です。"); }
 	}
 	current_value = value;
@@ -140,37 +110,37 @@ DIBBitmapRGBDecoder::ValueType DIBBitmapRGBDecoder::Get(const DisplayPoint& pos)
 		case DIBBitDepth::Bit1:
 		{
 			auto result = DIBPixelData<DIBBitDepth::Bit1>();
-			DIBLoaderHelper::Read(loader, &result, tgt);
+			DIBLoaderHelper::Read(loader, result, tgt);
 			return ValueType(result);
 		}
 		case DIBBitDepth::Bit4:
 		{
 			auto result = DIBPixelData<DIBBitDepth::Bit4>();
-			DIBLoaderHelper::Read(loader, &result, tgt);
+			DIBLoaderHelper::Read(loader, result, tgt);
 			return ValueType(result);
 		}
 		case DIBBitDepth::Bit8:
 		{
 			auto result = DIBPixelData<DIBBitDepth::Bit8>();
-			DIBLoaderHelper::Read(loader, &result, tgt);
+			DIBLoaderHelper::Read(loader, result, tgt);
 			return ValueType(result);
 		}
 		case DIBBitDepth::Bit16:
 		{
 			auto result = DIBPixelData<DIBBitDepth::Bit16>();
-			DIBLoaderHelper::Read(loader, &result, tgt);
+			DIBLoaderHelper::Read(loader, result, tgt);
 			return ValueType(result);
 		}
 		case DIBBitDepth::Bit24:
 		{
 			auto result = DIBPixelData<DIBBitDepth::Bit24>();
-			DIBLoaderHelper::Read(loader, &result, tgt);
+			DIBLoaderHelper::Read(loader, result, tgt);
 			return ValueType(result);
 		}
 		case DIBBitDepth::Bit32:
 		{
 			auto result = DIBPixelData<DIBBitDepth::Bit32>();
-			DIBLoaderHelper::Read(loader, &result, tgt);
+			DIBLoaderHelper::Read(loader, result, tgt);
 			return ValueType(result);
 		}
 		default: { throw InvalidOperationException("情報ヘッダのBitCountの内容が無効です。"); }
@@ -240,13 +210,13 @@ DIBInfoBitmap::DIBInfoBitmap(DIBLoader&& loader) : loader(std::forward<DIBLoader
 	if (ihead.ComplessionMethod == BMPCompressionMethod::BITFIELDS)
 	{
 		auto colormaskdata = DIBRGBColorMask();
-		DIBLoaderHelper::Read(this->loader, &colormaskdata, sizeof(DIBFileHeader) + DIBInfoHeader::Size);
+		DIBLoaderHelper::Read(this->loader, colormaskdata, sizeof(DIBFileHeader) + DIBInfoHeader::Size);
 		colormask = DIBColorMask(colormaskdata);
 	}
 	else if (ihead.ComplessionMethod == BMPCompressionMethod::ALPHABITFIELDS)
 	{
 		auto colormaskdata = DIBRGBAColorMask();
-		DIBLoaderHelper::Read(this->loader, &colormaskdata, sizeof(DIBFileHeader) + DIBInfoHeader::Size);
+		DIBLoaderHelper::Read(this->loader, colormaskdata, sizeof(DIBFileHeader) + DIBInfoHeader::Size);
 		colormask = DIBColorMask(colormaskdata);
 	}
 	if ((ihead.ComplessionMethod == BMPCompressionMethod::RGB)&&(uint16_t(ihead.BitCount) <= uint16_t(DIBBitDepth::Bit8)))
@@ -254,7 +224,7 @@ DIBInfoBitmap::DIBInfoBitmap(DIBLoader&& loader) : loader(std::forward<DIBLoader
 		size_t palsize = ihead.IndexedColorCount;
 		if (palsize == 0) { palsize = 1 << uint16_t(ihead.BitCount); }
 		auto lpal = std::vector<RGBQuad_t>(palsize);
-		DIBLoaderHelper::Read(this->loader, &lpal, sizeof(DIBFileHeader) + sizeof(DIBInfoHeader), palsize);
+		DIBLoaderHelper::Read(this->loader, lpal.data(), sizeof(DIBFileHeader) + sizeof(DIBInfoHeader), palsize);
 		palette.reserve(palsize);
 		for(auto i: lpal) { palette.push_back(RGB8_t(i)); }
 	}
