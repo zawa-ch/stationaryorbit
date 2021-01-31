@@ -76,6 +76,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		ChannelValue<Proportion8_t> Green;
 		ChannelValue<Proportion8_t> Red;
 
+		RGBTriple_t() = default;
+		constexpr explicit RGBTriple_t(const RGB8_t& color) : Blue(color.B()), Green(color.G()), Red(color.R()) {}
 		[[nodiscard]] constexpr operator RGB8_t() const { return RGB8_t(Red, Green, Blue); }
 	};
 	///	4バイトで表されるRGB色情報。
@@ -86,6 +88,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		ChannelValue<Proportion8_t> Red;
 		ChannelValue<Proportion8_t> Reserved;
 
+		RGBQuad_t() = default;
+		constexpr explicit RGBQuad_t(const RGB8_t& color) : Blue(color.B()), Green(color.G()), Red(color.R()), Reserved() {}
 		[[nodiscard]] constexpr explicit operator RGB8_t() const { return RGB8_t(Red, Green, Blue); }
 	};
 	struct CIEXYZ_t final

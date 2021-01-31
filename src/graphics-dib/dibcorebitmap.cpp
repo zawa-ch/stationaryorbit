@@ -324,7 +324,7 @@ DIBCoreBitmap DIBCoreBitmap::Generate(DIBLoader&& loader, const DIBCoreHeader& h
 	DIBLoaderHelper::Write(loader, header, sizeof(DIBFileHeader) + sizeof(uint32_t));
 	for (auto i: Range<size_t>(0, palsize).GetStdIterator())
 	{
-		if (palette.size() < i) { DIBLoaderHelper::Write(loader, &palette[i], sizeof(DIBFileHeader) + DIBCoreHeader::Size + (sizeof(RGBTriple_t) * i)); }
+		if (palette.size() < i) { DIBLoaderHelper::Write(loader, RGBTriple_t(palette[i]), sizeof(DIBFileHeader) + DIBCoreHeader::Size + (sizeof(RGBTriple_t) * i)); }
 		else { DIBLoaderHelper::Write(loader, RGBTriple_t(), sizeof(DIBFileHeader) + DIBCoreHeader::Size + (sizeof(RGBTriple_t) * i)); }
 	}
 	auto encoder = DIBCoreBitmapEncoder(loader, fhead.Offset(), header.BitCount, DisplayRectSize(header.ImageWidth, header.ImageHeight));
@@ -359,7 +359,7 @@ DIBCoreBitmap DIBCoreBitmap::Generate(DIBLoader&& loader, const DIBCoreHeader& h
 	DIBLoaderHelper::Write(loader, header, sizeof(DIBFileHeader) + sizeof(uint32_t));
 	for (auto i: Range<size_t>(0, palsize).GetStdIterator())
 	{
-		if (palette.size() < i) { DIBLoaderHelper::Write(loader, &palette[i], sizeof(DIBFileHeader) + DIBCoreHeader::Size + (sizeof(RGBTriple_t) * i)); }
+		if (palette.size() < i) { DIBLoaderHelper::Write(loader, RGBTriple_t(palette[i]), sizeof(DIBFileHeader) + DIBCoreHeader::Size + (sizeof(RGBTriple_t) * i)); }
 		else { DIBLoaderHelper::Write(loader, RGBTriple_t(), sizeof(DIBFileHeader) + DIBCoreHeader::Size + (sizeof(RGBTriple_t) * i)); }
 	}
 	auto encoder = DIBCoreBitmapEncoder(loader, fhead.Offset(), header.BitCount, DisplayRectSize(header.ImageWidth, header.ImageHeight));
