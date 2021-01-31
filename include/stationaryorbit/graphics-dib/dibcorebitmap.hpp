@@ -207,6 +207,11 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	@param	area
 		///	画像の切り抜き範囲。
 		[[nodiscard]] Pixmap ToPixmap(const DisplayRectangle& area);
+
+		[[nodiscard]] static DIBCoreBitmap Generate(DIBLoader&& loader, const DIBCoreHeader& header);
+		[[nodiscard]] static DIBCoreBitmap Generate(DIBLoader&& loader, const DIBCoreHeader& header, const Image<RGB8_t>& image);
+		[[nodiscard]] static DIBCoreBitmap Generate(DIBLoader&& loader, const DIBCoreHeader& header, const std::vector<RGB8_t> palette);
+		[[nodiscard]] static DIBCoreBitmap Generate(DIBLoader&& loader, const DIBCoreHeader& header, const std::vector<RGB8_t> palette, const Image<RGB8_t>& image);
 	private:
 		[[nodiscard]] ValueType ConvertToRGB(const DIBCoreBitmapDecoder::ValueType& data) const;
 		[[nodiscard]] RawDataType ConvertToRawData(const DIBCoreBitmapDecoder::ValueType& data) const;
