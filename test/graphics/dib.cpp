@@ -24,7 +24,8 @@
 using namespace zawa_ch::StationaryOrbit;
 using namespace zawa_ch::StationaryOrbit::Graphics;
 
-DIB::DIBBitmap bitmap;
+RGB8Pixmap_t image;
+DIB::DIBInfoHeader ihead;
 
 void Read();
 void Write();
@@ -89,22 +90,29 @@ void Read()
 {
 	///	読み込みを行うWindowsビットマップファイル。
 	const char* ifile = "input.bmp";
-	// ファイルを開く(ファイルオープンに失敗した場合は例外をスローする)
-	std::fstream istream = std::fstream(ifile, std::ios_base::openmode::_S_in | std::ios_base::openmode::_S_bin);
-	if (!istream.good()) throw std::logic_error("can't read file.");
+	// ファイルを開く
+	auto loader = DIB::DIBFileLoader(ifile, std::ios_base::in | std::ios_base::binary);
 	// ビットマップをロードする
-	bitmap = DIB::DIBBitmap::FromStream(istream);
-	// この段階で物理メモリにビットマップが格納されるためストリームは閉じても問題ない
-	istream.close();
+	switch(loader.HeaderSize())
+	{
+		case 40:
+		{
+			auto bitmap = DIB::DIBInfoBitmap(std::move(loader));
+			ihead = bitmap.InfoHead();
+			image = bitmap.ToPixmap();
+			break;
+		}
+		default: { throw std::runtime_error("Can't read file."); }
+	}
 }
 
 void Write()
 {
 	const char* ofile = "output.bmp";
-	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
-	if (!ostream.good()) throw std::logic_error("can't write file.");
-	bitmap.WriteTo(ostream);
-	ostream.close();
+	// ファイルを開く
+	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
+	// ビットマップを書き込む
+	DIB::DIBInfoBitmap::Generate(std::move(loader), ihead, image);
 }
 
 void Write16()
