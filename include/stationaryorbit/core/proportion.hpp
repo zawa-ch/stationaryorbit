@@ -63,6 +63,7 @@ namespace zawa_ch::StationaryOrbit
 			(
 				[](const auto& n, const auto& d) -> ValueType
 				{
+					if (d == std::numeric_limits<Tp>::max()) { return n; }
 					auto v = checkedFraction(n, d);
 					return v.Value + (((d/2) <= v.Mod)?(1):(0));
 				} (numerator, denominator)
