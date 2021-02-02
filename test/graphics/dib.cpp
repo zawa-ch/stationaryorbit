@@ -118,34 +118,37 @@ void Write()
 void Write16()
 {
 	const char* ofile = "output16.bmp";
-	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
-	if (!ostream.good()) throw std::logic_error("can't write file.");
-	bitmap.WriteTo(ostream, DIB::BitDepth::Bit16);
-	ostream.close();
+	// ヘッダの準備
+	auto whead = ihead;
+	whead.BitCount = DIB::DIBBitDepth::Bit16;
+	// ファイルを開く
+	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
+	// ビットマップを書き込む
+	DIB::DIBInfoBitmap::Generate(std::move(loader), whead, image);
 }
 
 void FripV()
 {
 	const char* ofile = "output_fripv.bmp";
-	auto out = DIB::DIBBitmap::ReinterpretFrom(BitmapConverter<uint8_t>::FripVertical(bitmap));
-	out.HorizonalResolution() = bitmap.HorizonalResolution();
-	out.VerticalResolution() = bitmap.VerticalResolution();
-	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
-	if (!ostream.good()) throw std::logic_error("can't write file.");
-	out.WriteTo(ostream);
-	ostream.close();
+	// 画像を上下フリップ
+	auto flipedimage = ImageVerticalFlip(image);
+	auto alignedimage = ImageAlign(flipedimage);
+	// ファイルを開く
+	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
+	// ビットマップを書き込む
+	DIB::DIBInfoBitmap::Generate(std::move(loader), ihead, alignedimage);
 }
 
 void FripH()
 {
 	const char* ofile = "output_friph.bmp";
-	auto out = DIB::DIBBitmap::ReinterpretFrom(BitmapConverter<uint8_t>::FripHorizonal(bitmap));
-	out.HorizonalResolution() = bitmap.HorizonalResolution();
-	out.VerticalResolution() = bitmap.VerticalResolution();
-	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
-	if (!ostream.good()) throw std::logic_error("can't write file.");
-	out.WriteTo(ostream);
-	ostream.close();
+	// 画像を左右フリップ
+	auto flipedimage = ImageHorizonalFlip(image);
+	auto alignedimage = ImageAlign(flipedimage);
+	// ファイルを開く
+	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
+	// ビットマップを書き込む
+	DIB::DIBInfoBitmap::Generate(std::move(loader), ihead, alignedimage);
 }
 
 void Crop()
