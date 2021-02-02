@@ -43,9 +43,9 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	このオブジェクトの読み込まれた情報ヘッダのサイズを取得します。
 		[[nodiscard]] virtual const int32_t& HeaderSize() const = 0;
 
-		///	ストリームからヘッダの再読込を行います。
-		virtual void Reload() = 0;
-		///	データの読み込みを行います。
+		///	ストリームおよび内部の状態を紐付けられたストレージと同期します。
+		virtual void Sync() noexcept = 0;
+		///	ストリームの指定した位置からデータの読み込みを行います。
 		///	@param	dest
 		///	読み込んだデータの格納先。
 		///	@a size の長さの領域が確保されている必要があります。
@@ -53,8 +53,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	読み込むデータの位置。
 		///	@param	size
 		///	読み込むデータの個数。
-		virtual void Read(char* dest, size_t pos, size_t length = 1U) = 0;
-		///	データの書き込みを行います。
+		virtual void Read(char* dest, size_t pos, size_t size = 1U) = 0;
+		///	ストリームの指定した位置からデータの書き込みを行います。
 		///	@param	source
 		///	書き込むデータの格納先。
 		///	@a size の長さの領域が確保されている必要があります。
@@ -62,7 +62,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	書き込むデータの位置。
 		///	@param	size
 		///	書き込むデータの個数。
-		virtual void Write(const char* source, size_t pos, size_t length = 1U) = 0;
+		virtual void Write(const char* source, size_t pos, size_t size = 1U) = 0;
 	};
 	///	Windows bitmap 画像ファイルを読み込むための基本ロジックを提供します。
 	class DIBFileLoader : public DIBLoader
@@ -104,8 +104,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	このオブジェクトの読み込まれた情報ヘッダのサイズを取得します。
 		[[nodiscard]] const int32_t& HeaderSize() const { return headersize; }
 
-		///	ストリームからヘッダの再読込を行います。
-		void Reload();
+		///	ストリームおよび内部の状態を紐付けられたストレージと同期します。
+		void Sync() noexcept;
 		///	データの読み込みを行います。
 		///	@param	dest
 		///	読み込んだデータの格納先。
@@ -124,6 +124,10 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	@param	size
 		///	書き込むデータの個数。
 		void Write(const char* source, size_t pos, size_t length = 1U);
+
+	private:
+		void LoadHead() noexcept;
+		void Flush() noexcept;
 	};
 	///	@a DIBLoader を使用したデータ入出力の拡張を行うヘルパークラスです。
 	class DIBLoaderHelper final

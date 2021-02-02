@@ -21,29 +21,22 @@ using namespace zawa_ch::StationaryOrbit;
 using namespace zawa_ch::StationaryOrbit::Graphics::DIB;
 
 DIBFileLoader::DIBFileLoader() : stream(), fhead(), headersize() {}
-DIBFileLoader::DIBFileLoader(std::fstream&& stream) : stream(std::move(stream)), fhead(), headersize() { Reload(); }
+DIBFileLoader::DIBFileLoader(std::fstream&& stream) : stream(std::move(stream)), fhead(), headersize() { LoadHead(); }
 DIBFileLoader::DIBFileLoader(const char* filename, std::ios_base::openmode mode) : DIBFileLoader(std::move(std::fstream(filename, mode))) {}
 DIBFileLoader::DIBFileLoader(const std::string& filename, std::ios_base::openmode mode) : DIBFileLoader(std::move(std::fstream(filename, mode))) {}
 bool DIBFileLoader::IsEnable() const { return fhead.CheckFileHeader(); }
-void DIBFileLoader::Reload()
+void DIBFileLoader::Sync() noexcept
 {
-	//	ストリームの状態を確認、利用できない場合は処理を終了
-	if (stream.bad()) { return; }
-	//	読み取り準備
-	auto sentry = std::istream::sentry(stream, true);
-	if (!sentry) { return; }
-	//	ファイル先頭へシーク、できなければ std::fstream::failure をスロー
-	if (stream.seekg(0).fail()) { stream.clear(); throw std::fstream::failure("ストリームのシークに失敗しました。"); }
-	//	ファイルヘッダ・情報ヘッダサイズを読み取り
-	if (stream.read((char*)&fhead, sizeof(DIBFileHeader)).fail()) { stream.clear(); return; }
-	if (stream.read((char*)&headersize, sizeof(int32_t)).fail()) { stream.clear(); return; }
+	Flush();
+	LoadHead();
 }
 void DIBFileLoader::Read(char* dest, size_t pos, size_t length)
 {
 	if (stream.bad()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
-	auto sentry = std::istream::sentry(stream, true);
-	if (!sentry) { throw std::ios_base::failure("ストリームの準備に失敗しました。"); }
-	if (stream.seekg(pos).fail()) { stream.clear(); throw std::ios_base::failure("ストリームのシークに失敗しました。"); }
+	if (stream.tellg() != pos)
+	{
+		if (stream.seekg(pos).fail()) { stream.clear(); throw std::ios_base::failure("ストリームのシークに失敗しました。"); }
+	}
 	if (stream.read(dest, length).fail())
 	{
 		if (stream.eof()) { stream.clear(); throw InvalidDIBFormatException("データの読み取り中にストリーム終端に到達しました。"); }
@@ -54,10 +47,31 @@ void DIBFileLoader::Read(char* dest, size_t pos, size_t length)
 void DIBFileLoader::Write(const char* source, size_t pos, size_t length)
 {
 	if (stream.bad()) { throw InvalidOperationException("ストリームの状態が無効です。"); }
-	auto sentry = std::ostream::sentry(stream);
-	if (!sentry) { throw std::ios_base::failure("ストリームの準備に失敗しました。"); }
-	if (stream.seekp(pos).fail()) { stream.clear(); throw std::ios_base::failure("ストリームのシークに失敗しました。"); }
+	if (stream.tellp() != pos)
+	{
+		if (stream.seekp(pos).fail()) { stream.clear(); throw std::ios_base::failure("ストリームのシークに失敗しました。"); }
+	}
 	if (stream.write(source, length).fail()) { stream.clear(); throw std::ios_base::failure("ストリームの書き込みに失敗しました。"); }
+}
+void DIBFileLoader::LoadHead() noexcept
+{
+	if (stream.bad()) { return; }
+	//	読み取り準備
+	auto sentry = std::istream::sentry(stream, true);
+	if (!sentry) { return; }
+	//	ファイル先頭へシーク
+	if (stream.seekg(0).fail()) { return; }
+	//	ファイルヘッダ・情報ヘッダサイズを読み取り
+	if (stream.read((char*)&fhead, sizeof(DIBFileHeader)).fail()) { stream.clear(); return; }
+	if (stream.read((char*)&headersize, sizeof(int32_t)).fail()) { stream.clear(); return; }
+	stream.clear();
+}
+void DIBFileLoader::Flush() noexcept
+{
+	if (stream.bad()) { return; }
+	//	出力操作用sentryを構築、その場で破棄する
+	(void)std::ostream::sentry(stream);
+	stream.clear();
 }
 
 DIBV4BitmapFileLoader::DIBV4BitmapFileLoader(DIBLoader&& loader) : loader(std::forward<DIBLoader>(loader))
