@@ -22,17 +22,10 @@ set(AssemblyName stationaryorbit.graphics-dib)
 set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/graphics-dib)
 
 add_library(${AssemblyName} SHARED
-    ${Include_Dir}/ciexyz.hpp
-    ${Include_Dir}/colormask.hpp
     ${Include_Dir}/dibbitmap.hpp
-    ${Include_Dir}/dibcolorspace.hpp
     ${Include_Dir}/dibheaders.hpp
     ${Include_Dir}/dibloader.hpp
     ${Include_Dir}/invaliddibformat.hpp
-    ${Include_Dir}/rgbquad.hpp
-    ${Include_Dir}/rgbtriple.hpp
-    dibbitmap.cpp
-    dibcolorspace.cpp
     dibcorebitmap.cpp
     dibheaders.cpp
     dibinfobitmap.cpp

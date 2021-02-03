@@ -17,6 +17,6 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "graphics-dib/dibbitmap.hpp"
+#include "graphics-dib/dibcorebitmap.hpp"
 #include "graphics-dib/dibheaders.hpp"
-
+#include "graphics-dib/dibinfobitmap.hpp"

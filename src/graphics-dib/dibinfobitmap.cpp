@@ -501,7 +501,7 @@ std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const D
 	{
 		case BMPCompressionMethod::RGB:
 		{
-			size_t stride = (((header.ImageWidth * uint16_t(header.BitCount)) + 31) % 32) / 8;
+			size_t stride = (((header.ImageWidth * uint16_t(header.BitCount)) + 31) / 32) * 4;
 			size_t palsize;
 			switch(header.BitCount)
 			{
