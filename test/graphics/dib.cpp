@@ -121,6 +121,7 @@ void Write16()
 	// ヘッダの準備
 	auto whead = ihead;
 	whead.BitCount = DIB::DIBBitDepth::Bit16;
+	whead.ImageSize = (((uint16_t(whead.BitCount) * whead.ImageWidth) + 31) / 32 * 4) * whead.ImageHeight;
 	// ファイルを開く
 	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
 	// ビットマップを書き込む
@@ -154,54 +155,63 @@ void FripH()
 void Crop()
 {
 	const char* ofile = "output_crop.bmp";
-	auto rec = DisplayRectangle(100, 100, bitmap.Width() - 200, bitmap.Height() - 200);
-	auto out = DIB::DIBBitmap::ReinterpretFrom(BitmapConverter<uint8_t>::Crop(bitmap, rec));
-	out.HorizonalResolution() = bitmap.HorizonalResolution();
-	out.VerticalResolution() = bitmap.VerticalResolution();
-	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
-	if (!ostream.good()) throw std::logic_error("can't write file.");
-	out.WriteTo(ostream);
-	ostream.close();
+	auto rec = DisplayRectangle(100, 100, image.Size().Width() - 200, image.Size().Height() - 200);
+	// 画像を切り抜き
+	auto shiftimage = ImageShift(image, DisplayPoint(-rec.Left(), -rec.Top()));
+	// ヘッダの準備
+	auto whead = ihead;
+	whead.ImageWidth = rec.Width();
+	whead.ImageHeight = rec.Height();
+	whead.ImageSize = (((uint16_t(whead.BitCount) * whead.ImageWidth) + 31) / 32 * 4) * whead.ImageHeight;
+	// ファイルを開く
+	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
+	// ビットマップを書き込む
+	DIB::DIBInfoBitmap::Generate(std::move(loader), whead, shiftimage);
 }
 
 void Resize1()
 {
 	const char* ofile = "output_resize1.bmp";
 	const float resizefactor = 0.5f;
-	auto newsize = RectangleSizeF(bitmap.Width() * resizefactor, bitmap.Height() * resizefactor);
-	auto out = DIB::DIBBitmap::ReinterpretFrom(BitmapConverter<uint8_t>::Resize(bitmap, RectangleSize(newsize), BitmapConverter<uint8_t>::Bilinear));
-	out.HorizonalResolution() = bitmap.HorizonalResolution();
-	out.VerticalResolution() = bitmap.VerticalResolution();
-	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
-	if (!ostream.good()) throw std::logic_error("can't write file.");
-	out.WriteTo(ostream);
-	ostream.close();
+	auto newsize = DisplayRectSizeF(image.Size().Width() * resizefactor, image.Size().Height() * resizefactor);
+	// 画像をリサイズ
+	auto resizedimage = ImageScaling<RGB8_t>(image, ImageInterpolation::NearestNeighbor<RGB8_t>, resizefactor);
+	// ヘッダの準備
+	auto whead = ihead;
+	whead.ImageWidth = newsize.Width();
+	whead.ImageHeight = newsize.Height();
+	whead.ImageSize = (((uint16_t(whead.BitCount) * whead.ImageWidth) + 31) / 32 * 4) * whead.ImageHeight;
+	// ファイルを開く
+	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
+	// ビットマップを書き込む
+	DIB::DIBInfoBitmap::Generate(std::move(loader), whead, resizedimage);
 }
 
 void Resize2()
 {
 	const char* ofile = "output_resize2.bmp";
 	const float resizefactor = 2.0f;
-	auto newsize = RectangleSizeF(bitmap.Width() * resizefactor, bitmap.Height() * resizefactor);
-	auto out = DIB::DIBBitmap::ReinterpretFrom(BitmapConverter<uint8_t>::Resize(bitmap, RectangleSize(newsize), BitmapConverter<uint8_t>::Bilinear));
-	out.HorizonalResolution() = bitmap.HorizonalResolution();
-	out.VerticalResolution() = bitmap.VerticalResolution();
-	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
-	if (!ostream.good()) throw std::logic_error("can't write file.");
-	out.WriteTo(ostream);
-	ostream.close();
+	auto newsize = DisplayRectSizeF(image.Size().Width() * resizefactor, image.Size().Height() * resizefactor);
+	// 画像をリサイズ
+	auto resizedimage = ImageScaling<RGB8_t>(image, ImageInterpolation::Bilinear<RGB8_t>, resizefactor);
+	// ヘッダの準備
+	auto whead = ihead;
+	whead.ImageWidth = newsize.Width();
+	whead.ImageHeight = newsize.Height();
+	whead.ImageSize = (((uint16_t(whead.BitCount) * whead.ImageWidth) + 31) / 32 * 4) * whead.ImageHeight;
+	// ファイルを開く
+	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
+	// ビットマップを書き込む
+	DIB::DIBInfoBitmap::Generate(std::move(loader), whead, resizedimage);
 }
 
 void Mono()
 {
 	const char* ofile = "output_mono.bmp";
-	auto rgbbmp = ARGBBitmapImageBase<uint8_t>(bitmap);
-	rgbbmp.Monotone();
-	auto out = DIB::DIBBitmap(rgbbmp);
-	out.HorizonalResolution() = bitmap.HorizonalResolution();
-	out.VerticalResolution() = bitmap.VerticalResolution();
-	std::fstream ostream = std::fstream(ofile, std::ios_base::openmode::_S_out | std::ios_base::openmode::_S_bin);
-	if (!ostream.good()) throw std::logic_error("can't write file.");
-	out.WriteTo(ostream);
-	ostream.close();
+	// 画像をモノトーン化
+	auto monoimage = RGB8Pixmap_t::Convert<RGB8_t>(image, [](const RGB8_t from)-> RGB8_t { return ColorConvert::ToRgbFromLuminance(ColorConvert::ToLuminanceFromSrgb(from)); });
+	// ファイルを開く
+	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
+	// ビットマップを書き込む
+	DIB::DIBInfoBitmap::Generate(std::move(loader), ihead, monoimage);
 }

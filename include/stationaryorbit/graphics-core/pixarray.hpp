@@ -40,11 +40,10 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		template<class fromTcolor>
 		PixArray(const Image<fromTcolor>& source, const DisplayRectangle& area) : _data()
 		{
-			[](const DisplayRectangle& bound, const DisplayRectangle& area)
+			[](const DisplayRectangle& area)
 			{
-				if ((area.Left() < bound.Left())||(area.Top() < bound.Top())||(bound.Right() < area.Right())||(bound.Bottom() < area.Bottom()))
-				{ throw std::out_of_range("指定された領域は境界を超えています。"); }
-			} (source.Area(), area);
+				if ((width < area.Width()) || (height < area.Height())) { throw std::invalid_argument("指定された領域の大きさはこの型が格納できる範囲を超えています。"); }
+			} (area);
 			for(auto y: area.YRange().GetStdIterator()) for(auto x: area.XRange().GetStdIterator())
 			{
 				(*this)[DisplayPoint(x-area.Left(), y-area.Top())] = ValueType(source[DisplayPoint(x, y)]);
