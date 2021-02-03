@@ -106,6 +106,10 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		int64_t current;
 		///	各ピクセルのデータ長。
 		DIBBitDepth bitdepth;
+		///	1ピクセルのデータ長(バイト単位)。
+		const size_t pixellength;
+		///	ストライド(1水平軸ラインのデータ長)。
+		const size_t stridelength;
 	public:
 		DIBBitmapRGBEncoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size);
 		virtual ~DIBBitmapRGBEncoder() = default;
@@ -120,6 +124,10 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		[[nodiscard]] DisplayPoint CurrentPos() const;
 		[[nodiscard]] bool Equals(const DIBBitmapRGBEncoder& other) const;
 		[[nodiscard]] int Compare(const DIBBitmapRGBEncoder& other) const;
+
+		[[nodiscard]] static size_t GetPxLength(DIBBitDepth bitdepth);
+		[[nodiscard]] static size_t GetStrideLength(DIBBitDepth bitdepth, const DisplayRectSize& size);
+		[[nodiscard]] static size_t GetImageLength(DIBBitDepth bitdepth, const DisplayRectSize& size);
 	private:
 		[[nodiscard]] size_t ResolveIndex(const DisplayPoint& pos) const;
 		[[nodiscard]] DisplayPoint ResolvePos(size_t index) const;

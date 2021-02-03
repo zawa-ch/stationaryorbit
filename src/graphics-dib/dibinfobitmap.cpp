@@ -21,7 +21,7 @@ using namespace zawa_ch::StationaryOrbit;
 using namespace zawa_ch::StationaryOrbit::Graphics::DIB;
 
 DIBBitmapRGBDecoder::DIBBitmapRGBDecoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size)
-	: loader(loader), offset(offset), bitdepth(bitdepth), size(size), length(size.Width() * size.Height()), pixellength((uint16_t(bitdepth) + 7) / 8), stridelength((((pixellength * size.Width()) + 3) / 4) * 4)
+	: loader(loader), offset(offset), bitdepth(bitdepth), size(size), length(size.Width() * size.Height()), pixellength(DIBBitmapRGBEncoder::GetPxLength(bitdepth)), stridelength(DIBBitmapRGBEncoder::GetStrideLength(bitdepth, size))
 {
 	Reset();
 }
@@ -161,7 +161,7 @@ size_t DIBBitmapRGBDecoder::ResolveOffset(size_t index) const
 }
 
 DIBBitmapRGBEncoder::DIBBitmapRGBEncoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size)
-	: loader(loader), offset(offset), bitdepth(bitdepth), size(size), length(size.Width() * size.Height()), current(0)
+	: loader(loader), offset(offset), bitdepth(bitdepth), size(size), length(size.Width() * size.Height()), current(0), pixellength(GetPxLength(bitdepth)), stridelength(GetStrideLength(bitdepth, size))
 {}
 void DIBBitmapRGBEncoder::Write(const ValueType& value)
 {
@@ -178,9 +178,8 @@ void DIBBitmapRGBEncoder::Write(const ValueType& value)
 	}
 	if (CurrentPos().X() == (size.Width() - 1))
 	{
-		size_t ci = size.Width() * ((uint16_t(bitdepth) + 7) / 8);
-		size_t stride = (((size.Width() * uint16_t(bitdepth)) + 31) % 32) / 8;
-		for (auto i: Range<size_t>(ci, stride).GetStdIterator()) { DIBLoaderHelper::Write(loader, char(), offset + i); }
+		size_t ci = size.Width() * pixellength;
+		for (auto i: Range<size_t>(ci, stridelength).GetStdIterator()) { DIBLoaderHelper::Write(loader, char(), offset + i); }
 	}
 	++current;
 }
@@ -200,10 +199,11 @@ size_t DIBBitmapRGBEncoder::ResolveOffset(const DisplayPoint& pos) const
 {
 	if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw std::invalid_argument("posに指定されている座標が無効です。"); }
 	if ( (size.Width() <= pos.X())||(size.Height() <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
-	size_t pxl = (uint16_t(bitdepth) + 7) / 8;
-	size_t stride = (((pxl * size.Width()) + 3) / 4) * 4;
-	return (stride * (size.Height() - 1 - pos.Y())) + (pxl * pos.X());
+	return (stridelength * (size.Height() - 1 - pos.Y())) + (pixellength * pos.X());
 }
+size_t DIBBitmapRGBEncoder::GetPxLength(DIBBitDepth bitdepth) { return (uint16_t(bitdepth) + 7) / 8; }
+size_t DIBBitmapRGBEncoder::GetStrideLength(DIBBitDepth bitdepth, const DisplayRectSize& size) { return (((GetPxLength(bitdepth) * size.Width()) + 3) / 4) * 4; }
+size_t DIBBitmapRGBEncoder::GetImageLength(DIBBitDepth bitdepth, const DisplayRectSize& size) { return GetStrideLength(bitdepth, size) * size.Height(); }
 
 DIBInfoBitmap::DIBInfoBitmap(DIBLoader&& loader) : loader(std::forward<DIBLoader>(loader))
 {
@@ -501,7 +501,6 @@ std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const D
 	{
 		case BMPCompressionMethod::RGB:
 		{
-			size_t stride = (((header.ImageWidth * uint16_t(header.BitCount)) + 31) / 32) * 4;
 			size_t palsize;
 			switch(header.BitCount)
 			{
@@ -521,7 +520,7 @@ std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const D
 				default: { throw std::invalid_argument("BitCountの内容が無効です。"); }
 			}
 			fhead.Offset(int32_t(sizeof(DIBFileHeader) + DIBInfoHeader::Size) + (sizeof(RGBQuad_t) * palsize));
-			fhead.FileSize(int32_t(sizeof(DIBFileHeader) + DIBInfoHeader::Size + (sizeof(RGBQuad_t) * palsize) + (stride * header.ImageHeight)));
+			fhead.FileSize(int32_t(sizeof(DIBFileHeader) + DIBInfoHeader::Size + (sizeof(RGBQuad_t) * palsize) + (DIBBitmapRGBEncoder::GetStrideLength(header.BitCount, DisplayRectSize(header.ImageWidth, header.ImageHeight)) * header.ImageHeight)));
 			DIBLoaderHelper::Write(loader, fhead, 0);
 			DIBLoaderHelper::Write(loader, DIBInfoHeader::Size, sizeof(DIBFileHeader));
 			DIBLoaderHelper::Write(loader, header, sizeof(DIBFileHeader) + sizeof(uint32_t));
@@ -569,7 +568,6 @@ std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const D
 	{
 		case BMPCompressionMethod::RGB:
 		{
-			size_t stride = (((header.ImageWidth * uint16_t(header.BitCount)) + 31) % 32) / 8;
 			size_t palsize;
 			switch(header.BitCount)
 			{
@@ -590,7 +588,7 @@ std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const D
 				default: { throw std::invalid_argument("BitCountの内容が無効です。"); }
 			}
 			fhead.Offset(int32_t(sizeof(DIBFileHeader) + DIBInfoHeader::Size) + (sizeof(RGBQuad_t) * palsize));
-			fhead.FileSize(int32_t(sizeof(DIBFileHeader) + DIBInfoHeader::Size + (sizeof(RGBQuad_t) * palsize) + (stride * header.ImageHeight)));
+			fhead.FileSize(int32_t(sizeof(DIBFileHeader) + DIBInfoHeader::Size + (sizeof(RGBQuad_t) * palsize) + (DIBBitmapRGBEncoder::GetStrideLength(header.BitCount, DisplayRectSize(header.ImageWidth, header.ImageHeight)) * header.ImageHeight)));
 			DIBLoaderHelper::Write(loader, fhead, 0);
 			DIBLoaderHelper::Write(loader, DIBInfoHeader::Size, sizeof(DIBFileHeader));
 			DIBLoaderHelper::Write(loader, header, sizeof(DIBFileHeader) + sizeof(uint32_t));
