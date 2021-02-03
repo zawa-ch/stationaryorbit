@@ -38,6 +38,7 @@ add_library(${AssemblyName} SHARED
     deformation.cpp
     fundamental.cpp
     grayscalecolor.cpp
+    imageclamp.cpp
     interpolation.cpp
     opacity.cpp
     pixarray.cpp

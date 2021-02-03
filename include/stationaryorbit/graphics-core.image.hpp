@@ -19,5 +19,7 @@
 
 #include "graphics-core/deformation.hpp"
 #include "graphics-core/image.hpp"
+#include "graphics-core/imageclamp.hpp"
+#include "graphics-core/interpolation.hpp"
 #include "graphics-core/pixarray.hpp"
 #include "graphics-core/pixmap.hpp"
