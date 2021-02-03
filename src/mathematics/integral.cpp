@@ -45,7 +45,7 @@ double MidpointIntegral::Calc(const double& value, size_t div) const
 	{
 		result += _func.Calc(_irange.GetFloor() + (((length * i) + (length * (i + 1)) / div / 2)));
 	}
-	return result.getValue();
+	return result.Value();
 }
 
 TrapeziumIntegral::TrapeziumIntegral(const IMathematicFunction<double>& function, const Range<double, true, true>& integrationrange)
@@ -72,7 +72,7 @@ double TrapeziumIntegral::Calc(const double& value, size_t div) const
 	{
 		result += (_func.Calc(length * i) + _func.Calc(length * (i + 1))) * length / div / 2;
 	}
-	return result.getValue();
+	return result.Value();
 }
 
 SimpsonIntegral::SimpsonIntegral(const IMathematicFunction<double>& function, const Range<double, true, true>& integrationrange)

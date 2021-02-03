@@ -21,6 +21,7 @@
 #include <array>
 #include "stationaryorbit/core.exception.hpp"
 #include "stationaryorbit/core.numeral.hpp"
+#include "compensatedfloat.hpp"
 #include "mathematicfunction.hpp"
 namespace zawa_ch::StationaryOrbit::Mathematics
 {

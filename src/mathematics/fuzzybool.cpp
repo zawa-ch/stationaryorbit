@@ -31,15 +31,15 @@ FuzzyBool::FuzzyBool(const double& value)
     : _value(value)
 {}
 
-FuzzyBool::FuzzyBool(const FractionalDec& value)
+FuzzyBool::FuzzyBool(const Proportion64_t& value)
     : _value(value)
 {}
 
-bool FuzzyBool::Binalization(const FractionalDec& value) const
+bool FuzzyBool::Binalization(const Proportion64_t& value) const
 { return value <= _value; }
 
 FuzzyBool FuzzyBool::Not() const
-{ return FuzzyBool(FractionalDec::Max() - _value); }
+{ return FuzzyBool(Proportion64_t::Max() - _value); }
 
 FuzzyBool FuzzyBool::Or(const FuzzyBool& value) const
 { return FuzzyBool((value._value<_value)?_value:value._value); }
@@ -57,7 +57,7 @@ FuzzyBool FuzzyBool::LimitAdd(const FuzzyBool& value) const
 { return FuzzyBool(_value + value._value); }
 
 FuzzyBool FuzzyBool::LimitProduct(const FuzzyBool& value) const
-{ return FuzzyBool(_value - (FractionalDec::Max() - value._value)); }
+{ return FuzzyBool(_value - (Proportion64_t::Max() - value._value)); }
 
 FuzzyBool FuzzyBool::True()
 { return FuzzyBool(true); }
