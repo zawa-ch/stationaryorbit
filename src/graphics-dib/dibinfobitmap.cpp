@@ -491,75 +491,7 @@ DIBInfoBitmap::Pixmap DIBInfoBitmap::ToPixmap(const DisplayRectangle& area)
 	CopyTo(result, area);
 	return result;
 }
-std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const DIBInfoHeader& header) { return Generate(std::forward<DIBLoader>(loader), header, std::vector<RGB8_t>()); }
 std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const DIBInfoHeader& header, const Image<RGB8_t>& image) { return Generate(std::forward<DIBLoader>(loader), header, std::vector<RGB8_t>(), image); }
-std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const DIBInfoHeader& header, const std::vector<RGB8_t> palette)
-{
-	auto fhead = DIBFileHeader();
-	std::copy(&(fhead.FileType_Signature[0]), &(fhead.FileType_Signature[2]), &(fhead.FileType[0]));
-	switch(header.ComplessionMethod)
-	{
-		case BMPCompressionMethod::RGB:
-		{
-			size_t palsize;
-			switch(header.BitCount)
-			{
-				case DIBBitDepth::Bit1:
-				case DIBBitDepth::Bit4:
-				case DIBBitDepth::Bit8:
-				{
-					palsize = header.IndexedColorCount;
-					if (palsize == 0) { palsize = 1 << uint16_t(header.BitCount); }
-					if ((1 << uint16_t(header.BitCount)) < palsize) { throw std::invalid_argument("biClrUsedの値が指定されたbiBitCountでサポートされている値を超えています。"); }
-					break;
-				}
-				case DIBBitDepth::Bit16:
-				case DIBBitDepth::Bit24:
-				case DIBBitDepth::Bit32:
-				{ palsize = 0; break; }
-				default: { throw std::invalid_argument("BitCountの内容が無効です。"); }
-			}
-			fhead.Offset(int32_t(sizeof(DIBFileHeader) + DIBInfoHeader::Size) + (sizeof(RGBQuad_t) * palsize));
-			fhead.FileSize(int32_t(sizeof(DIBFileHeader) + DIBInfoHeader::Size + (sizeof(RGBQuad_t) * palsize) + (DIBBitmapRGBEncoder::GetStrideLength(header.BitCount, DisplayRectSize(header.ImageWidth, header.ImageHeight)) * header.ImageHeight)));
-			DIBLoaderHelper::Write(loader, fhead, 0);
-			DIBLoaderHelper::Write(loader, DIBInfoHeader::Size, sizeof(DIBFileHeader));
-			DIBLoaderHelper::Write(loader, header, sizeof(DIBFileHeader) + sizeof(uint32_t));
-			for (auto i: Range<size_t>(0, palsize).GetStdIterator())
-			{
-				if (palette.size() < i) { DIBLoaderHelper::Write(loader, RGBQuad_t(palette[i]), sizeof(DIBFileHeader) + DIBInfoHeader::Size + (sizeof(RGBQuad_t) * i)); }
-				else { DIBLoaderHelper::Write(loader, RGBQuad_t(), sizeof(DIBFileHeader) + DIBInfoHeader::Size + (sizeof(RGBQuad_t) * i)); }
-			}
-			auto encoder = DIBBitmapRGBEncoder(loader, fhead.Offset(), header.BitCount, DisplayRectSize(header.ImageWidth, header.ImageHeight));
-			switch(header.BitCount)
-			{
-				case DIBBitDepth::Bit1: { while (encoder.HasValue()) { encoder.Write(DIBPixelData<DIBBitDepth::Bit1>()); } break; }
-				case DIBBitDepth::Bit4: { while (encoder.HasValue()) { encoder.Write(DIBPixelData<DIBBitDepth::Bit4>()); } break; }
-				case DIBBitDepth::Bit8: { while (encoder.HasValue()) { encoder.Write(DIBPixelData<DIBBitDepth::Bit8>()); } break; }
-				case DIBBitDepth::Bit16: { while (encoder.HasValue()) { encoder.Write(DIBPixelData<DIBBitDepth::Bit16>()); } break; }
-				case DIBBitDepth::Bit24: { while (encoder.HasValue()) { encoder.Write(DIBPixelData<DIBBitDepth::Bit24>()); } break; }
-				case DIBBitDepth::Bit32: { while (encoder.HasValue()) { encoder.Write(DIBPixelData<DIBBitDepth::Bit32>()); } break; }
-				default: { throw std::invalid_argument("BitCountの内容が無効です。"); }
-			}
-			try
-			{
-				loader.Sync();
-				return DIBInfoBitmap(std::forward<DIBLoader>(loader));
-			}
-			catch (std::exception e)
-			{
-				return std::nullopt;
-			}
-		}
-		case BMPCompressionMethod::RLE8:
-		case BMPCompressionMethod::RLE4:
-		case BMPCompressionMethod::BITFIELDS:
-		case BMPCompressionMethod::JPEG:
-		case BMPCompressionMethod::PNG:
-		case BMPCompressionMethod::ALPHABITFIELDS:
-		{ throw NotImplementedException(); }
-		default: { throw std::invalid_argument("CompressionMethodの内容が無効です。"); }
-	}
-}
 std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const DIBInfoHeader& header, const std::vector<RGB8_t> palette, const Image<RGB8_t>& image)
 {
 	auto fhead = DIBFileHeader();
