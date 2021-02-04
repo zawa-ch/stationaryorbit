@@ -335,7 +335,7 @@ std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const D
 				default: { throw std::invalid_argument("BitCountの内容が無効です。"); }
 			}
 			fhead.Offset(int32_t(sizeof(DIBFileHeader) + DIBInfoHeader::Size) + (sizeof(RGBQuad_t) * palsize));
-			fhead.FileSize(int32_t(sizeof(DIBFileHeader) + DIBInfoHeader::Size + (sizeof(RGBQuad_t) * palsize) + (DIBBitmapRGBEncoder::GetStrideLength(header.BitCount, DisplayRectSize(header.Width, header.Height)) * header.Height)));
+			fhead.FileSize(int32_t(sizeof(DIBFileHeader) + DIBInfoHeader::Size + (sizeof(RGBQuad_t) * palsize) + (DIBRGBEncoder::GetStrideLength(header.BitCount, DisplayRectSize(header.Width, header.Height)) * header.Height)));
 			DIBLoaderHelper::Write(loader, fhead, 0);
 			DIBLoaderHelper::Write(loader, DIBInfoHeader::Size, sizeof(DIBFileHeader));
 			DIBLoaderHelper::Write(loader, header, sizeof(DIBFileHeader) + sizeof(uint32_t));
@@ -344,7 +344,7 @@ std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const D
 				if (palette.size() < i) { DIBLoaderHelper::Write(loader, RGBQuad_t(palette[i]), sizeof(DIBFileHeader) + DIBInfoHeader::Size + (sizeof(RGBQuad_t) * i)); }
 				else { DIBLoaderHelper::Write(loader, RGBQuad_t(), sizeof(DIBFileHeader) + DIBInfoHeader::Size + (sizeof(RGBQuad_t) * i)); }
 			}
-			auto encoder = DIBBitmapRGBEncoder(loader, fhead.Offset(), header.BitCount, DisplayRectSize(header.Width, header.Height));
+			auto encoder = DIBRGBEncoder(loader, fhead.Offset(), header.BitCount, DisplayRectSize(header.Width, header.Height));
 			switch(header.BitCount)
 			{
 				case DIBBitDepth::Bit1: { while (encoder.HasValue()) { encoder.Write(DIBPixelData<DIBBitDepth::Bit1>()); } break; }

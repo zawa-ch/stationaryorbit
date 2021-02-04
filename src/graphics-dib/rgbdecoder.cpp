@@ -21,7 +21,7 @@ using namespace zawa_ch::StationaryOrbit;
 using namespace zawa_ch::StationaryOrbit::Graphics::DIB;
 
 DIBRGBDecoder::DIBRGBDecoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size)
-	: loader(loader), offset(offset), bitdepth(bitdepth), size(size), length(size.Width() * size.Height()), pixellength(DIBBitmapRGBEncoder::GetPxLength(bitdepth)), stridelength(DIBBitmapRGBEncoder::GetStrideLength(bitdepth, size))
+	: loader(loader), offset(offset), bitdepth(bitdepth), size(size), length(size.Width() * size.Height()), pixellength(DIBRGBEncoder::GetPxLength(bitdepth)), stridelength(DIBRGBEncoder::GetStrideLength(bitdepth, size))
 {
 	Reset();
 }
@@ -160,10 +160,10 @@ size_t DIBRGBDecoder::ResolveOffset(size_t index) const
 	return (stridelength * (index / size.Width())) + (pixellength * (index % size.Width()));
 }
 
-DIBBitmapRGBEncoder::DIBBitmapRGBEncoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size)
+DIBRGBEncoder::DIBRGBEncoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size)
 	: loader(loader), offset(offset), bitdepth(bitdepth), size(size), length(size.Width() * size.Height()), current(0), pixellength(GetPxLength(bitdepth)), stridelength(GetStrideLength(bitdepth, size))
 {}
-void DIBBitmapRGBEncoder::Write(const ValueType& value)
+void DIBRGBEncoder::Write(const ValueType& value)
 {
 	size_t tgt = offset + ResolveOffset(ResolvePos(current));
 	switch(bitdepth)
@@ -183,24 +183,24 @@ void DIBBitmapRGBEncoder::Write(const ValueType& value)
 	}
 	++current;
 }
-void DIBBitmapRGBEncoder::Reset() { current = 0; }
-bool DIBBitmapRGBEncoder::HasValue() const { return (0 <= current)&&(current < length); }
-Graphics::DisplayPoint DIBBitmapRGBEncoder::CurrentPos() const { return ResolvePos(current); }
-bool DIBBitmapRGBEncoder::Equals(const DIBBitmapRGBEncoder& other) const { return current == other.current; }
-int DIBBitmapRGBEncoder::Compare(const DIBBitmapRGBEncoder& other) const 
+void DIBRGBEncoder::Reset() { current = 0; }
+bool DIBRGBEncoder::HasValue() const { return (0 <= current)&&(current < length); }
+Graphics::DisplayPoint DIBRGBEncoder::CurrentPos() const { return ResolvePos(current); }
+bool DIBRGBEncoder::Equals(const DIBRGBEncoder& other) const { return current == other.current; }
+int DIBRGBEncoder::Compare(const DIBRGBEncoder& other) const 
 {
 	if (current == other.current) { return 0; }
 	else if (other.current < current) { return 1; }
 	else { return -1; }
 }
-size_t DIBBitmapRGBEncoder::ResolveIndex(const DisplayPoint& pos) const { return ((size.Height() - 1 - pos.Y()) * size.Width()) + pos.X(); }
-Graphics::DisplayPoint DIBBitmapRGBEncoder::ResolvePos(size_t index) const { return DisplayPoint(index % size.Width(), size.Height() - 1 - (index / size.Width())); }
-size_t DIBBitmapRGBEncoder::ResolveOffset(const DisplayPoint& pos) const
+size_t DIBRGBEncoder::ResolveIndex(const DisplayPoint& pos) const { return ((size.Height() - 1 - pos.Y()) * size.Width()) + pos.X(); }
+Graphics::DisplayPoint DIBRGBEncoder::ResolvePos(size_t index) const { return DisplayPoint(index % size.Width(), size.Height() - 1 - (index / size.Width())); }
+size_t DIBRGBEncoder::ResolveOffset(const DisplayPoint& pos) const
 {
 	if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw std::invalid_argument("posに指定されている座標が無効です。"); }
 	if ( (size.Width() <= pos.X())||(size.Height() <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
 	return (stridelength * (size.Height() - 1 - pos.Y())) + (pixellength * pos.X());
 }
-size_t DIBBitmapRGBEncoder::GetPxLength(DIBBitDepth bitdepth) { return (uint16_t(bitdepth) + 7) / 8; }
-size_t DIBBitmapRGBEncoder::GetStrideLength(DIBBitDepth bitdepth, const DisplayRectSize& size) { return (((GetPxLength(bitdepth) * size.Width()) + 3) / 4) * 4; }
-size_t DIBBitmapRGBEncoder::GetImageLength(DIBBitDepth bitdepth, const DisplayRectSize& size) { return GetStrideLength(bitdepth, size) * size.Height(); }
+size_t DIBRGBEncoder::GetPxLength(DIBBitDepth bitdepth) { return (uint16_t(bitdepth) + 7) / 8; }
+size_t DIBRGBEncoder::GetStrideLength(DIBBitDepth bitdepth, const DisplayRectSize& size) { return (((GetPxLength(bitdepth) * size.Width()) + 3) / 4) * 4; }
+size_t DIBRGBEncoder::GetImageLength(DIBBitDepth bitdepth, const DisplayRectSize& size) { return GetStrideLength(bitdepth, size) * size.Height(); }

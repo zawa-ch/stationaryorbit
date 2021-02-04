@@ -90,7 +90,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		[[nodiscard]] size_t ResolveOffset(size_t index) const;
 	};
 	///	Windows bitmap 画像のデータを無圧縮RGBデータとして書き込みます。
-	class DIBBitmapRGBEncoder
+	class DIBRGBEncoder
 	{
 	public:
 		/// データの受け渡しに用いる型。
@@ -113,8 +113,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	ストライド(1水平軸ラインのデータ長)。
 		const size_t stridelength;
 	public:
-		DIBBitmapRGBEncoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size);
-		virtual ~DIBBitmapRGBEncoder() = default;
+		DIBRGBEncoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size);
+		virtual ~DIBRGBEncoder() = default;
 
 		///	現在の位置にオブジェクトを書き込み、現在の位置を次に進めます。
 		void Write(const ValueType& value);
@@ -124,8 +124,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		[[nodiscard]] bool HasValue() const;
 		///	現在の位置を画像上での位置で取得します。
 		[[nodiscard]] DisplayPoint CurrentPos() const;
-		[[nodiscard]] bool Equals(const DIBBitmapRGBEncoder& other) const;
-		[[nodiscard]] int Compare(const DIBBitmapRGBEncoder& other) const;
+		[[nodiscard]] bool Equals(const DIBRGBEncoder& other) const;
+		[[nodiscard]] int Compare(const DIBRGBEncoder& other) const;
 
 		[[nodiscard]] static size_t GetPxLength(DIBBitDepth bitdepth);
 		[[nodiscard]] static size_t GetStrideLength(DIBBitDepth bitdepth, const DisplayRectSize& size);
