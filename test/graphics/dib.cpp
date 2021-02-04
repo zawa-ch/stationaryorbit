@@ -126,8 +126,9 @@ void Write16()
 	const char* ofile = "output16.bmp";
 	// ヘッダの準備
 	auto whead = ihead;
+	whead.Compression = DIB::DIBCompressionMethod::RGB;
 	whead.BitCount = DIB::DIBBitDepth::Bit16;
-	whead.SizeImage = (((uint16_t(whead.BitCount) * whead.Width) + 31) / 32 * 4) * whead.Height;
+	whead.SizeImage = DIB::DIBRGBEncoder::GetImageLength(whead.BitCount, DisplayRectSize(whead.Width, whead.Height));
 	// ファイルを開く
 	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
 	// ビットマップを書き込む
