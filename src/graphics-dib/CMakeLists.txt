@@ -22,7 +22,6 @@ set(AssemblyName stationaryorbit.graphics-dib)
 set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/graphics-dib)
 
 add_library(${AssemblyName} SHARED
-    ${Include_Dir}/dibbitmap.hpp
     ${Include_Dir}/dibheaders.hpp
     ${Include_Dir}/dibloader.hpp
     ${Include_Dir}/invaliddibformat.hpp
@@ -32,6 +31,7 @@ add_library(${AssemblyName} SHARED
     dibloader.cpp
     dibpixeldata.cpp
     invaliddibformat.cpp
+    rgbdecoder.cpp
 )
 
 set_property(TARGET ${AssemblyName} PROPERTY CXX_STANDARD 17)
