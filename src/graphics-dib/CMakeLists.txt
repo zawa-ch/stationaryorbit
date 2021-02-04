@@ -30,6 +30,7 @@ add_library(${AssemblyName} SHARED
     dibinfobitmap.cpp
     dibloader.cpp
     dibpixeldata.cpp
+    dibv4bitmap.cpp
     invaliddibformat.cpp
     rgbdecoder.cpp
 )
