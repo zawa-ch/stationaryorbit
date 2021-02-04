@@ -25,21 +25,21 @@ DIBInfoBitmap::DIBInfoBitmap(DIBLoader&& loader) : loader(std::forward<DIBLoader
 	if (!this->loader.IsEnable()) { throw InvalidOperationException("無効な状態のloaderが渡されました。"); }
 	if (this->loader.HeaderSize() < DIBInfoHeader::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはInfoHeaderでサポートされる最小の長さよりも短いです。"); }
 	DIBLoaderHelper::Read(this->loader, &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
-	if (ihead.ComplessionMethod == BMPCompressionMethod::BITFIELDS)
+	if (ihead.Compression == DIBCompressionMethod::BITFIELDS)
 	{
 		auto colormaskdata = DIBRGBColorMask();
 		DIBLoaderHelper::Read(this->loader, colormaskdata, sizeof(DIBFileHeader) + DIBInfoHeader::Size);
 		colormask = DIBColorMask(colormaskdata);
 	}
-	else if (ihead.ComplessionMethod == BMPCompressionMethod::ALPHABITFIELDS)
+	else if (ihead.Compression == DIBCompressionMethod::ALPHABITFIELDS)
 	{
 		auto colormaskdata = DIBRGBAColorMask();
 		DIBLoaderHelper::Read(this->loader, colormaskdata, sizeof(DIBFileHeader) + DIBInfoHeader::Size);
 		colormask = DIBColorMask(colormaskdata);
 	}
-	if ((ihead.ComplessionMethod == BMPCompressionMethod::RGB)&&(uint16_t(ihead.BitCount) <= uint16_t(DIBBitDepth::Bit8)))
+	if ((ihead.Compression == DIBCompressionMethod::RGB)&&(uint16_t(ihead.BitCount) <= uint16_t(DIBBitDepth::Bit8)))
 	{
-		size_t palsize = ihead.IndexedColorCount;
+		size_t palsize = ihead.ClrUsed;
 		if (palsize == 0) { palsize = 1 << uint16_t(ihead.BitCount); }
 		auto lpal = std::vector<RGBQuad_t>(palsize);
 		DIBLoaderHelper::Read(this->loader, lpal.data(), sizeof(DIBFileHeader) + sizeof(DIBInfoHeader), palsize);
@@ -49,42 +49,42 @@ DIBInfoBitmap::DIBInfoBitmap(DIBLoader&& loader) : loader(std::forward<DIBLoader
 }
 std::optional<std::reference_wrapper<const DIBColorMask>> DIBInfoBitmap::ColorMask() const
 {
-	switch(ihead.ComplessionMethod)
+	switch(ihead.Compression)
 	{
-		case BMPCompressionMethod::BITFIELDS:
-		case BMPCompressionMethod::ALPHABITFIELDS:
+		case DIBCompressionMethod::BITFIELDS:
+		case DIBCompressionMethod::ALPHABITFIELDS:
 		{ return colormask; }
-		case BMPCompressionMethod::RGB:
-		case BMPCompressionMethod::RLE4:
-		case BMPCompressionMethod::RLE8:
-		case BMPCompressionMethod::JPEG:
-		case BMPCompressionMethod::PNG:
+		case DIBCompressionMethod::RGB:
+		case DIBCompressionMethod::RLE4:
+		case DIBCompressionMethod::RLE8:
+		case DIBCompressionMethod::JPEG:
+		case DIBCompressionMethod::PNG:
 		{ return std::nullopt; }
 		default: { throw InvalidOperationException("情報ヘッダのComplessionMethodの内容が無効です。"); }
 	}
 }
 std::optional<std::reference_wrapper<const std::vector<Graphics::RGB8_t>>> DIBInfoBitmap::Palette() const
 {
-	if (ihead.IndexedColorCount != 0) { return palette; }
+	if (ihead.ClrUsed != 0) { return palette; }
 	else { return std::nullopt; }
 }
 DIBInfoBitmap::ValueType DIBInfoBitmap::GetPixel(const DisplayPoint& pos)
 {
-	switch(ihead.ComplessionMethod)
+	switch(ihead.Compression)
 	{
-		case BMPCompressionMethod::RGB:
+		case DIBCompressionMethod::RGB:
 		{
-			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 			decoder.JumpTo(pos);
 			return ConvertToRGB(decoder.Current());
 			break;
 		}
-		case BMPCompressionMethod::RLE4:
-		case BMPCompressionMethod::RLE8:
-		case BMPCompressionMethod::BITFIELDS:
-		case BMPCompressionMethod::JPEG:
-		case BMPCompressionMethod::PNG:
-		case BMPCompressionMethod::ALPHABITFIELDS:
+		case DIBCompressionMethod::RLE4:
+		case DIBCompressionMethod::RLE8:
+		case DIBCompressionMethod::BITFIELDS:
+		case DIBCompressionMethod::JPEG:
+		case DIBCompressionMethod::PNG:
+		case DIBCompressionMethod::ALPHABITFIELDS:
 		//	TODO: Implement
 		{ throw NotImplementedException(); }
 		default: { throw InvalidOperationException("情報ヘッダのComplessionMethodの内容が無効です。"); }
@@ -92,23 +92,23 @@ DIBInfoBitmap::ValueType DIBInfoBitmap::GetPixel(const DisplayPoint& pos)
 }
 std::vector<DIBInfoBitmap::ValueType> DIBInfoBitmap::GetPixel(const DisplayPoint& pos, size_t count)
 {
-	switch(ihead.ComplessionMethod)
+	switch(ihead.Compression)
 	{
-		case BMPCompressionMethod::RGB:
+		case DIBCompressionMethod::RGB:
 		{
-			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 			decoder.JumpTo(pos);
 			auto result = std::vector<DIBInfoBitmap::ValueType>();
 			result.reserve(count);
 			for (auto _: Range<size_t>(0, count).GetStdIterator()) { result.push_back(ConvertToRGB(decoder.Current())); }
 			return result;
 		}
-		case BMPCompressionMethod::RLE4:
-		case BMPCompressionMethod::RLE8:
-		case BMPCompressionMethod::BITFIELDS:
-		case BMPCompressionMethod::JPEG:
-		case BMPCompressionMethod::PNG:
-		case BMPCompressionMethod::ALPHABITFIELDS:
+		case DIBCompressionMethod::RLE4:
+		case DIBCompressionMethod::RLE8:
+		case DIBCompressionMethod::BITFIELDS:
+		case DIBCompressionMethod::JPEG:
+		case DIBCompressionMethod::PNG:
+		case DIBCompressionMethod::ALPHABITFIELDS:
 		//	TODO: Implement
 		{ throw NotImplementedException(); }
 		default: { throw InvalidOperationException("情報ヘッダのComplessionMethodの内容が無効です。"); }
@@ -116,23 +116,23 @@ std::vector<DIBInfoBitmap::ValueType> DIBInfoBitmap::GetPixel(const DisplayPoint
 }
 void DIBInfoBitmap::SetPixel(const DisplayPoint& pos, const ValueType& value)
 {
-	switch(ihead.ComplessionMethod)
+	switch(ihead.Compression)
 	{
-		case BMPCompressionMethod::RGB:
+		case DIBCompressionMethod::RGB:
 		{
-			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 			decoder.JumpTo(pos);
 			decoder.Write(ConvertToRGBDecoderValue(value));
 			break;
 		}
-		case BMPCompressionMethod::RLE4: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
-		case BMPCompressionMethod::RLE8: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
-		case BMPCompressionMethod::BITFIELDS:
+		case DIBCompressionMethod::RLE4: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::RLE8: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::BITFIELDS:
 		//	TODO: Implement
 		{ throw NotImplementedException(); }
-		case BMPCompressionMethod::JPEG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
-		case BMPCompressionMethod::PNG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
-		case BMPCompressionMethod::ALPHABITFIELDS:
+		case DIBCompressionMethod::JPEG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::PNG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::ALPHABITFIELDS:
 		//	TODO: Implement
 		{ throw NotImplementedException(); }
 		default: { throw InvalidOperationException("情報ヘッダのComplessionMethodの内容が無効です。"); }
@@ -140,23 +140,23 @@ void DIBInfoBitmap::SetPixel(const DisplayPoint& pos, const ValueType& value)
 }
 void DIBInfoBitmap::SetPixel(const DisplayPoint& pos, const std::vector<ValueType>& value)
 {
-	switch(ihead.ComplessionMethod)
+	switch(ihead.Compression)
 	{
-		case BMPCompressionMethod::RGB:
+		case DIBCompressionMethod::RGB:
 		{
-			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 			decoder.JumpTo(pos);
 			for(auto i: value) { decoder.Write(ConvertToRGBDecoderValue(i)); }
 			break;
 		}
-		case BMPCompressionMethod::RLE4: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
-		case BMPCompressionMethod::RLE8: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
-		case BMPCompressionMethod::BITFIELDS:
+		case DIBCompressionMethod::RLE4: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::RLE8: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::BITFIELDS:
 		//	TODO: Implement
 		{ throw NotImplementedException(); }
-		case BMPCompressionMethod::JPEG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
-		case BMPCompressionMethod::PNG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
-		case BMPCompressionMethod::ALPHABITFIELDS:
+		case DIBCompressionMethod::JPEG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::PNG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::ALPHABITFIELDS:
 		//	TODO: Implement
 		{ throw NotImplementedException(); }
 		default: { throw InvalidOperationException("情報ヘッダのComplessionMethodの内容が無効です。"); }
@@ -164,20 +164,20 @@ void DIBInfoBitmap::SetPixel(const DisplayPoint& pos, const std::vector<ValueTyp
 }
 DIBInfoBitmap::RawDataType DIBInfoBitmap::GetPixelRaw(const DisplayPoint& pos)
 {
-	switch(ihead.ComplessionMethod)
+	switch(ihead.Compression)
 	{
-		case BMPCompressionMethod::RGB:
-		case BMPCompressionMethod::BITFIELDS:
-		case BMPCompressionMethod::ALPHABITFIELDS:
+		case DIBCompressionMethod::RGB:
+		case DIBCompressionMethod::BITFIELDS:
+		case DIBCompressionMethod::ALPHABITFIELDS:
 		{
-			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 			decoder.JumpTo(pos);
 			return ConvertToRawData(decoder.Current());
 		}
-		case BMPCompressionMethod::RLE4:
-		case BMPCompressionMethod::RLE8:
-		case BMPCompressionMethod::JPEG:
-		case BMPCompressionMethod::PNG:
+		case DIBCompressionMethod::RLE4:
+		case DIBCompressionMethod::RLE8:
+		case DIBCompressionMethod::JPEG:
+		case DIBCompressionMethod::PNG:
 		//	TODO: Implement
 		{ throw NotImplementedException(); }
 		default: { throw InvalidOperationException("情報ヘッダのComplessionMethodの内容が無効です。"); }
@@ -185,23 +185,23 @@ DIBInfoBitmap::RawDataType DIBInfoBitmap::GetPixelRaw(const DisplayPoint& pos)
 }
 std::vector<DIBInfoBitmap::RawDataType> DIBInfoBitmap::GetPixelRaw(const DisplayPoint& pos, size_t count)
 {
-	switch(ihead.ComplessionMethod)
+	switch(ihead.Compression)
 	{
-		case BMPCompressionMethod::RGB:
-		case BMPCompressionMethod::BITFIELDS:
-		case BMPCompressionMethod::ALPHABITFIELDS:
+		case DIBCompressionMethod::RGB:
+		case DIBCompressionMethod::BITFIELDS:
+		case DIBCompressionMethod::ALPHABITFIELDS:
 		{
-			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 			decoder.JumpTo(pos);
 			auto result = std::vector<RawDataType>();
 			result.reserve(count);
 			for (auto _: Range<size_t>(0, count).GetStdIterator()) { result.push_back(ConvertToRawData(decoder.Current())); }
 			return result;
 		}
-		case BMPCompressionMethod::RLE4:
-		case BMPCompressionMethod::RLE8:
-		case BMPCompressionMethod::JPEG:
-		case BMPCompressionMethod::PNG:
+		case DIBCompressionMethod::RLE4:
+		case DIBCompressionMethod::RLE8:
+		case DIBCompressionMethod::JPEG:
+		case DIBCompressionMethod::PNG:
 		//	TODO: Implement
 		{ throw NotImplementedException(); }
 		default: { throw InvalidOperationException("情報ヘッダのComplessionMethodの内容が無効です。"); }
@@ -209,60 +209,60 @@ std::vector<DIBInfoBitmap::RawDataType> DIBInfoBitmap::GetPixelRaw(const Display
 }
 void DIBInfoBitmap::SetPixelRaw(const DisplayPoint& pos, const RawDataType& value)
 {
-	switch(ihead.ComplessionMethod)
+	switch(ihead.Compression)
 	{
-		case BMPCompressionMethod::RGB:
-		case BMPCompressionMethod::BITFIELDS:
-		case BMPCompressionMethod::ALPHABITFIELDS:
+		case DIBCompressionMethod::RGB:
+		case DIBCompressionMethod::BITFIELDS:
+		case DIBCompressionMethod::ALPHABITFIELDS:
 		{
-			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 			decoder.JumpTo(pos);
 			decoder.Write(ConvertToRGBDecoderValue(value));
 			break;
 		}
-		case BMPCompressionMethod::RLE4: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
-		case BMPCompressionMethod::RLE8: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
-		case BMPCompressionMethod::JPEG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
-		case BMPCompressionMethod::PNG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::RLE4: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::RLE8: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::JPEG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::PNG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
 		default: { throw InvalidOperationException("情報ヘッダのComplessionMethodの内容が無効です。"); }
 	}
 }
 void DIBInfoBitmap::SetPixelRaw(const DisplayPoint& pos, const std::vector<RawDataType>& value)
 {
-	switch(ihead.ComplessionMethod)
+	switch(ihead.Compression)
 	{
-		case BMPCompressionMethod::RGB:
-		case BMPCompressionMethod::BITFIELDS:
-		case BMPCompressionMethod::ALPHABITFIELDS:
+		case DIBCompressionMethod::RGB:
+		case DIBCompressionMethod::BITFIELDS:
+		case DIBCompressionMethod::ALPHABITFIELDS:
 		{
-			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 			decoder.JumpTo(pos);
 			for(auto i: value) { decoder.Write(ConvertToRGBDecoderValue(i)); }
 			break;
 		}
-		case BMPCompressionMethod::RLE4: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
-		case BMPCompressionMethod::RLE8: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
-		case BMPCompressionMethod::JPEG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
-		case BMPCompressionMethod::PNG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::RLE4: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::RLE8: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::JPEG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
+		case DIBCompressionMethod::PNG: { throw InvalidOperationException("現在のComplessionMethodでの書き込みはサポートされていません。"); }
 		default: { throw InvalidOperationException("情報ヘッダのComplessionMethodの内容が無効です。"); }
 	}
 }
 void DIBInfoBitmap::CopyTo(WritableImage<RGB8_t>& dest)
 {
-	switch(ihead.ComplessionMethod)
+	switch(ihead.Compression)
 	{
-		case BMPCompressionMethod::RGB:
+		case DIBCompressionMethod::RGB:
 		{
-			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 			for (decoder.Reset(); decoder.HasValue(); decoder.Next()) { dest.At(decoder.CurrentPos()) = ConvertToRGB(decoder.Current()); }
 			break;
 		}
-		case BMPCompressionMethod::RLE4:
-		case BMPCompressionMethod::RLE8:
-		case BMPCompressionMethod::BITFIELDS:
-		case BMPCompressionMethod::JPEG:
-		case BMPCompressionMethod::PNG:
-		case BMPCompressionMethod::ALPHABITFIELDS:
+		case DIBCompressionMethod::RLE4:
+		case DIBCompressionMethod::RLE8:
+		case DIBCompressionMethod::BITFIELDS:
+		case DIBCompressionMethod::JPEG:
+		case DIBCompressionMethod::PNG:
+		case DIBCompressionMethod::ALPHABITFIELDS:
 		//	TODO: Implement
 		{ throw NotImplementedException(); }
 		default: { throw InvalidOperationException("情報ヘッダのComplessionMethodの内容が無効です。"); }
@@ -270,25 +270,25 @@ void DIBInfoBitmap::CopyTo(WritableImage<RGB8_t>& dest)
 }
 void DIBInfoBitmap::CopyTo(WritableImage<RGB8_t>& dest, const DisplayRectangle& area, const DisplayPoint& destorigin)
 {
-	if ((area.Left() < 0)||(area.Top() < 0)||(ihead.ImageWidth < area.Right())||(ihead.ImageHeight < area.Bottom())) { throw std::out_of_range("areaで指定された領域がビットマップの画像領域を超えています。"); }
-	switch(ihead.ComplessionMethod)
+	if ((area.Left() < 0)||(area.Top() < 0)||(ihead.Width < area.Right())||(ihead.Height < area.Bottom())) { throw std::out_of_range("areaで指定された領域がビットマップの画像領域を超えています。"); }
+	switch(ihead.Compression)
 	{
-		case BMPCompressionMethod::RGB:
+		case DIBCompressionMethod::RGB:
 		{
-			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 			for (decoder.JumpTo(DisplayPoint(area.Left(), area.Bottom())); decoder.HasValue(); decoder.Next())
 			{
-				if (area.Contains(decoder.CurrentPos())) { decoder.Next(ihead.ImageWidth - area.Width() - 1); continue; }
+				if (area.Contains(decoder.CurrentPos())) { decoder.Next(ihead.Width - area.Width() - 1); continue; }
 				dest.At(decoder.CurrentPos() - area.Origin() + destorigin) = ConvertToRGB(decoder.Current());
 			}
 			break;
 		}
-		case BMPCompressionMethod::RLE4:
-		case BMPCompressionMethod::RLE8:
-		case BMPCompressionMethod::BITFIELDS:
-		case BMPCompressionMethod::JPEG:
-		case BMPCompressionMethod::PNG:
-		case BMPCompressionMethod::ALPHABITFIELDS:
+		case DIBCompressionMethod::RLE4:
+		case DIBCompressionMethod::RLE8:
+		case DIBCompressionMethod::BITFIELDS:
+		case DIBCompressionMethod::JPEG:
+		case DIBCompressionMethod::PNG:
+		case DIBCompressionMethod::ALPHABITFIELDS:
 		//	TODO: Implement
 		{ throw NotImplementedException(); }
 		default: { throw InvalidOperationException("情報ヘッダのComplessionMethodの内容が無効です。"); }
@@ -296,7 +296,7 @@ void DIBInfoBitmap::CopyTo(WritableImage<RGB8_t>& dest, const DisplayRectangle& 
 }
 DIBInfoBitmap::Pixmap DIBInfoBitmap::ToPixmap()
 {
-	auto result = Pixmap(DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	auto result = Pixmap(DisplayRectSize(ihead.Width, ihead.Height));
 	CopyTo(result);
 	return result;
 }
@@ -311,9 +311,9 @@ std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const D
 {
 	auto fhead = DIBFileHeader();
 	std::copy(&(fhead.FileType_Signature[0]), &(fhead.FileType_Signature[2]), &(fhead.FileType[0]));
-	switch(header.ComplessionMethod)
+	switch(header.Compression)
 	{
-		case BMPCompressionMethod::RGB:
+		case DIBCompressionMethod::RGB:
 		{
 			size_t palsize;
 			switch(header.BitCount)
@@ -323,7 +323,7 @@ std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const D
 				case DIBBitDepth::Bit8:
 				{
 					throw NotImplementedException();
-					palsize = header.IndexedColorCount;
+					palsize = header.ClrUsed;
 					if (palsize == 0) { palsize = 1 << uint16_t(header.BitCount); }
 					if ((1 << uint16_t(header.BitCount)) < palsize) { throw std::invalid_argument("biClrUsedの値が指定されたbiBitCountでサポートされている値を超えています。"); }
 					break;
@@ -335,7 +335,7 @@ std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const D
 				default: { throw std::invalid_argument("BitCountの内容が無効です。"); }
 			}
 			fhead.Offset(int32_t(sizeof(DIBFileHeader) + DIBInfoHeader::Size) + (sizeof(RGBQuad_t) * palsize));
-			fhead.FileSize(int32_t(sizeof(DIBFileHeader) + DIBInfoHeader::Size + (sizeof(RGBQuad_t) * palsize) + (DIBBitmapRGBEncoder::GetStrideLength(header.BitCount, DisplayRectSize(header.ImageWidth, header.ImageHeight)) * header.ImageHeight)));
+			fhead.FileSize(int32_t(sizeof(DIBFileHeader) + DIBInfoHeader::Size + (sizeof(RGBQuad_t) * palsize) + (DIBBitmapRGBEncoder::GetStrideLength(header.BitCount, DisplayRectSize(header.Width, header.Height)) * header.Height)));
 			DIBLoaderHelper::Write(loader, fhead, 0);
 			DIBLoaderHelper::Write(loader, DIBInfoHeader::Size, sizeof(DIBFileHeader));
 			DIBLoaderHelper::Write(loader, header, sizeof(DIBFileHeader) + sizeof(uint32_t));
@@ -344,7 +344,7 @@ std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const D
 				if (palette.size() < i) { DIBLoaderHelper::Write(loader, RGBQuad_t(palette[i]), sizeof(DIBFileHeader) + DIBInfoHeader::Size + (sizeof(RGBQuad_t) * i)); }
 				else { DIBLoaderHelper::Write(loader, RGBQuad_t(), sizeof(DIBFileHeader) + DIBInfoHeader::Size + (sizeof(RGBQuad_t) * i)); }
 			}
-			auto encoder = DIBBitmapRGBEncoder(loader, fhead.Offset(), header.BitCount, DisplayRectSize(header.ImageWidth, header.ImageHeight));
+			auto encoder = DIBBitmapRGBEncoder(loader, fhead.Offset(), header.BitCount, DisplayRectSize(header.Width, header.Height));
 			switch(header.BitCount)
 			{
 				case DIBBitDepth::Bit1: { while (encoder.HasValue()) { encoder.Write(DIBPixelData<DIBBitDepth::Bit1>()); } break; }
@@ -365,21 +365,21 @@ std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const D
 				return std::nullopt;
 			}
 		}
-		case BMPCompressionMethod::RLE8:
-		case BMPCompressionMethod::RLE4:
-		case BMPCompressionMethod::BITFIELDS:
-		case BMPCompressionMethod::JPEG:
-		case BMPCompressionMethod::PNG:
-		case BMPCompressionMethod::ALPHABITFIELDS:
+		case DIBCompressionMethod::RLE8:
+		case DIBCompressionMethod::RLE4:
+		case DIBCompressionMethod::BITFIELDS:
+		case DIBCompressionMethod::JPEG:
+		case DIBCompressionMethod::PNG:
+		case DIBCompressionMethod::ALPHABITFIELDS:
 		{ throw NotImplementedException(); }
 		default: { throw std::invalid_argument("CompressionMethodの内容が無効です。"); }
 	}
 }
 DIBInfoBitmap::ValueType DIBInfoBitmap::ConvertToRGB(const DIBRGBDecoder::ValueType& data) const
 {
-	switch(ihead.ComplessionMethod)
+	switch(ihead.Compression)
 	{
-		case BMPCompressionMethod::RGB:
+		case DIBCompressionMethod::RGB:
 			switch(ihead.BitCount)
 			{
 				case DIBBitDepth::Bit1:
@@ -394,14 +394,14 @@ DIBInfoBitmap::ValueType DIBInfoBitmap::ConvertToRGB(const DIBRGBDecoder::ValueT
 				default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
 			}
 			break;
-		case BMPCompressionMethod::BITFIELDS:
-		case BMPCompressionMethod::ALPHABITFIELDS:
+		case DIBCompressionMethod::BITFIELDS:
+		case DIBCompressionMethod::ALPHABITFIELDS:
 		//	TODO: Implement
 		{ throw NotImplementedException(); }
-		case BMPCompressionMethod::RLE8:
-		case BMPCompressionMethod::RLE4:
-		case BMPCompressionMethod::JPEG:
-		case BMPCompressionMethod::PNG:
+		case DIBCompressionMethod::RLE8:
+		case DIBCompressionMethod::RLE4:
+		case DIBCompressionMethod::JPEG:
+		case DIBCompressionMethod::PNG:
 		default: { throw InvalidOperationException("情報ヘッダのComressionMethodの内容が無効です。"); }
 	}
 }
@@ -423,9 +423,9 @@ DIBInfoBitmap::RawDataType DIBInfoBitmap::ConvertToRawData(const DIBRGBDecoder::
 }
 DIBRGBDecoder::ValueType DIBInfoBitmap::ConvertToRGBDecoderValue(const ValueType& value) const
 {
-	switch(ihead.ComplessionMethod)
+	switch(ihead.Compression)
 	{
-		case BMPCompressionMethod::RGB:
+		case DIBCompressionMethod::RGB:
 			switch(ihead.BitCount)
 			{
 				case DIBBitDepth::Bit1:
@@ -439,14 +439,14 @@ DIBRGBDecoder::ValueType DIBInfoBitmap::ConvertToRGBDecoderValue(const ValueType
 				default: { throw InvalidOperationException("情報ヘッダのBitCountの内容が無効です。"); }
 			}
 			break;
-		case BMPCompressionMethod::BITFIELDS:
-		case BMPCompressionMethod::ALPHABITFIELDS:
+		case DIBCompressionMethod::BITFIELDS:
+		case DIBCompressionMethod::ALPHABITFIELDS:
 		//	TODO: Implement
 		{ throw NotImplementedException(); }
-		case BMPCompressionMethod::RLE8:
-		case BMPCompressionMethod::RLE4:
-		case BMPCompressionMethod::JPEG:
-		case BMPCompressionMethod::PNG:
+		case DIBCompressionMethod::RLE8:
+		case DIBCompressionMethod::RLE4:
+		case DIBCompressionMethod::JPEG:
+		case DIBCompressionMethod::PNG:
 		default: { throw InvalidOperationException("情報ヘッダのComressionMethodの内容が無効です。"); }
 	}
 }

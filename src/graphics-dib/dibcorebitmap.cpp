@@ -226,13 +226,13 @@ std::optional<std::reference_wrapper<const std::vector<Graphics::RGB8_t>>> DIBCo
 }
 DIBCoreBitmap::ValueType DIBCoreBitmap::GetPixel(const DisplayPoint& pos)
 {
-	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 	decoder.JumpTo(pos);
 	return ConvertToRGB(decoder.Current());
 }
 std::vector<DIBCoreBitmap::ValueType> DIBCoreBitmap::GetPixel(const DisplayPoint& pos, size_t count)
 {
-	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 	decoder.JumpTo(pos);
 	auto result = std::vector<DIBCoreBitmap::ValueType>();
 	result.reserve(count);
@@ -241,25 +241,25 @@ std::vector<DIBCoreBitmap::ValueType> DIBCoreBitmap::GetPixel(const DisplayPoint
 }
 void DIBCoreBitmap::SetPixel(const DisplayPoint& pos, const ValueType& value)
 {
-	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 	decoder.JumpTo(pos);
 	decoder.Write(ConvertToDecoderValue(value));
 }
 void DIBCoreBitmap::SetPixel(const DisplayPoint& pos, const std::vector<ValueType>& value)
 {
-	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 	decoder.JumpTo(pos);
 	for(auto i: value) { decoder.Write(ConvertToDecoderValue(i)); }
 }
 DIBCoreBitmap::RawDataType DIBCoreBitmap::GetPixelRaw(const DisplayPoint& pos)
 {
-	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 	decoder.JumpTo(pos);
 	return ConvertToRawData(decoder.Current());
 }
 std::vector<DIBCoreBitmap::RawDataType> DIBCoreBitmap::GetPixelRaw(const DisplayPoint& pos, size_t count)
 {
-	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 	decoder.JumpTo(pos);
 	auto result = std::vector<RawDataType>();
 	result.reserve(count);
@@ -268,34 +268,34 @@ std::vector<DIBCoreBitmap::RawDataType> DIBCoreBitmap::GetPixelRaw(const Display
 }
 void DIBCoreBitmap::SetPixelRaw(const DisplayPoint& pos, const RawDataType& value)
 {
-	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 	decoder.JumpTo(pos);
 	decoder.Write(ConvertToDecoderValue(value));
 }
 void DIBCoreBitmap::SetPixelRaw(const DisplayPoint& pos, const std::vector<RawDataType>& value)
 {
-	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 	decoder.JumpTo(pos);
 	for(auto i: value) { decoder.Write(ConvertToDecoderValue(i)); }
 }
 void DIBCoreBitmap::CopyTo(WritableImage<RGB8_t>& dest)
 {
-	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 	for (decoder.Reset(); decoder.HasValue(); decoder.Next()) { dest.At(decoder.CurrentPos()) = ConvertToRGB(decoder.Current()); }
 }
 void DIBCoreBitmap::CopyTo(WritableImage<RGB8_t>& dest, const DisplayRectangle& area, const DisplayPoint& destorigin)
 {
-	if ((area.Left() < 0)||(area.Top() < 0)||(ihead.ImageWidth < area.Right())||(ihead.ImageHeight < area.Bottom())) { throw std::out_of_range("areaで指定された領域がビットマップの画像領域を超えています。"); }
-	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	if ((area.Left() < 0)||(area.Top() < 0)||(ihead.Width < area.Right())||(ihead.Height < area.Bottom())) { throw std::out_of_range("areaで指定された領域がビットマップの画像領域を超えています。"); }
+	auto decoder = DIBCoreBitmapDecoder(loader, sizeof(DIBFileHeader) + loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.Width, ihead.Height));
 	for (decoder.JumpTo(DisplayPoint(area.Left(), area.Bottom())); decoder.HasValue(); decoder.Next())
 	{
-		if (area.Contains(decoder.CurrentPos())) { decoder.Next(ihead.ImageWidth - area.Width() - 1); continue; }
+		if (area.Contains(decoder.CurrentPos())) { decoder.Next(ihead.Width - area.Width() - 1); continue; }
 		dest.At(decoder.CurrentPos() - area.Origin() + destorigin) = ConvertToRGB(decoder.Current());
 	}
 }
 DIBCoreBitmap::Pixmap DIBCoreBitmap::ToPixmap()
 {
-	auto result = Pixmap(DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+	auto result = Pixmap(DisplayRectSize(ihead.Width, ihead.Height));
 	CopyTo(result);
 	return result;
 }
@@ -320,7 +320,7 @@ std::optional<DIBCoreBitmap> DIBCoreBitmap::Generate(DIBLoader&& loader, const D
 		default: { throw std::invalid_argument("BitCountの内容が無効です。"); }
 	}
 	fhead.Offset(int32_t(sizeof(DIBFileHeader) + DIBCoreHeader::Size) + (sizeof(RGBTriple_t) * palsize));
-	fhead.FileSize(int32_t(sizeof(DIBFileHeader) + DIBCoreHeader::Size + (sizeof(RGBTriple_t) * palsize) + DIBCoreBitmapEncoder::GetImageLength(header.BitCount, DisplayRectSize(header.ImageWidth, header.ImageHeight))));
+	fhead.FileSize(int32_t(sizeof(DIBFileHeader) + DIBCoreHeader::Size + (sizeof(RGBTriple_t) * palsize) + DIBCoreBitmapEncoder::GetImageLength(header.BitCount, DisplayRectSize(header.Width, header.Height))));
 	DIBLoaderHelper::Write(loader, fhead, 0);
 	DIBLoaderHelper::Write(loader, DIBCoreHeader::Size, sizeof(DIBFileHeader));
 	DIBLoaderHelper::Write(loader, header, sizeof(DIBFileHeader) + sizeof(uint32_t));
@@ -329,7 +329,7 @@ std::optional<DIBCoreBitmap> DIBCoreBitmap::Generate(DIBLoader&& loader, const D
 		if (palette.size() < i) { DIBLoaderHelper::Write(loader, RGBTriple_t(palette[i]), sizeof(DIBFileHeader) + DIBCoreHeader::Size + (sizeof(RGBTriple_t) * i)); }
 		else { DIBLoaderHelper::Write(loader, RGBTriple_t(), sizeof(DIBFileHeader) + DIBCoreHeader::Size + (sizeof(RGBTriple_t) * i)); }
 	}
-	auto encoder = DIBCoreBitmapEncoder(loader, fhead.Offset(), header.BitCount, DisplayRectSize(header.ImageWidth, header.ImageHeight));
+	auto encoder = DIBCoreBitmapEncoder(loader, fhead.Offset(), header.BitCount, DisplayRectSize(header.Width, header.Height));
 	switch(header.BitCount)
 	{
 		case DIBBitDepth::Bit1: { while (encoder.HasValue()) { encoder.Write(DIBPixelData<DIBBitDepth::Bit1>()); } break; }

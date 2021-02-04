@@ -37,7 +37,7 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		Bit32 = 32,
 	};
 	///	Windows Bitmap 形式で使用される圧縮形式。
-	enum class BMPCompressionMethod : uint32_t
+	enum class DIBCompressionMethod : uint32_t
 	{
 		///	無圧縮RGB。
 		RGB,
@@ -116,26 +116,26 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	struct DIBRGBColorMask final
 	{
 		///	赤成分のカラーマスク
-		uint32_t ColorMaskR;
+		uint32_t RedMask;
 		///	緑成分のカラーマスク
-		uint32_t ColorMaskG;
+		uint32_t GreenMask;
 		///	青成分のカラーマスク
-		uint32_t ColorMaskB;
+		uint32_t BlueMask;
 
-		[[nodiscard]] constexpr operator DIBColorMask() { return DIBColorMask{ BitMask<uint32_t>(ColorMaskR), BitMask<uint32_t>(ColorMaskG), BitMask<uint32_t>(ColorMaskB), std::nullopt }; }
+		[[nodiscard]] constexpr operator DIBColorMask() { return DIBColorMask{ BitMask<uint32_t>(RedMask), BitMask<uint32_t>(GreenMask), BitMask<uint32_t>(BlueMask), std::nullopt }; }
 	};
 	struct DIBRGBAColorMask final
 	{
 		///	赤成分のカラーマスク
-		uint32_t ColorMaskR;
+		uint32_t RedMask;
 		///	緑成分のカラーマスク
-		uint32_t ColorMaskG;
+		uint32_t GreenMask;
 		///	青成分のカラーマスク
-		uint32_t ColorMaskB;
+		uint32_t BlueMask;
 		///	α成分のカラーマスク
-		uint32_t ColorMaskA;
+		uint32_t AlphaMask;
 
-		[[nodiscard]] constexpr operator DIBColorMask() { return DIBColorMask{ BitMask<uint32_t>(ColorMaskR), BitMask<uint32_t>(ColorMaskG), BitMask<uint32_t>(ColorMaskB), BitMask<uint32_t>(ColorMaskA) }; }
+		[[nodiscard]] constexpr operator DIBColorMask() { return DIBColorMask{ BitMask<uint32_t>(RedMask), BitMask<uint32_t>(GreenMask), BitMask<uint32_t>(BlueMask), BitMask<uint32_t>(AlphaMask) }; }
 	};
 	struct DIBFileHeader final
 	{
@@ -187,11 +187,11 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	{
 		static const constexpr uint32_t Size = 12;
 		///	ビットマップの横幅
-		uint16_t ImageWidth;
+		uint16_t Width;
 		///	ビットマップの縦幅
-		uint16_t ImageHeight;
+		uint16_t Height;
 		///	プレーン数
-		uint16_t PlaneCount;
+		uint16_t Planes;
 		///	1ピクセルあたりのビット数
 		DIBBitDepth BitCount;
 	};
@@ -199,62 +199,62 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	{
 		static const constexpr uint32_t Size = 40;
 		///	ビットマップの横幅
-		int32_t ImageWidth;
+		int32_t Width;
 		///	ビットマップの縦幅
-		int32_t ImageHeight;
+		int32_t Height;
 		///	プレーン数
-		uint16_t PlaneCount;
+		uint16_t Planes;
 		///	1ピクセルあたりのビット数
 		DIBBitDepth BitCount;
 		///	圧縮形式
-		BMPCompressionMethod ComplessionMethod;
+		DIBCompressionMethod Compression;
 		///	画像データサイズ (単位はバイト)
-		uint32_t ImageSize;
+		uint32_t SizeImage;
 		///	水平方向の解像度 (単位はピクセル/m)
-		uint32_t ResolutionHolizonal;
+		uint32_t XPelsPerMeter;
 		///	垂直方向の解像度 (単位はピクセル/m)
-		uint32_t ResolutionVertical;
+		uint32_t YPelsPerMeter;
 		///	使用する色数 ビットマップで実際に使用するカラーパレット内のカラーインデックスの数。
-		uint32_t IndexedColorCount;
+		uint32_t ClrUsed;
 		///	重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
-		uint32_t ImportantColorCount;
+		uint32_t ClrImportant;
 	};
 	struct DIBV4ColorSpace final
 	{
 		///	色空間 [0(ヘッダ内で定義)]
-		DIBColorSpaceMode ColorSpace;
+		DIBColorSpaceMode CSType;
 		///	CIEXYZTRIPLE構造体 色空間が0の場合のみ有効
-		CIEXYZTriple_t Matrix;
+		CIEXYZTriple_t Endpoints;
 		///	赤成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
-		FixedPoint32q16_t GammaR;
+		FixedPoint32q16_t GammaRed;
 		///	緑成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
-		FixedPoint32q16_t GammaG;
+		FixedPoint32q16_t GammaGreen;
 		///	青成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
-		FixedPoint32q16_t GammaB;
+		FixedPoint32q16_t GammaBlue;
 	};
 	struct DIBV4Header final
 	{
 		static const constexpr uint32_t Size = 108;
 		///	ビットマップの横幅
-		int32_t ImageWidth;
+		int32_t Width;
 		///	ビットマップの縦幅
-		int32_t ImageHeight;
+		int32_t Height;
 		///	プレーン数
-		uint16_t PlaneCount;
+		uint16_t Planes;
 		///	1ピクセルあたりのビット数
 		DIBBitDepth BitCount;
 		///	圧縮形式
-		BMPCompressionMethod ComplessionMethod;
+		DIBCompressionMethod Compression;
 		///	画像データサイズ (単位はバイト)
-		uint32_t ImageSize;
+		uint32_t SizeImage;
 		///	水平方向の解像度 (単位はピクセル/m)
-		uint32_t ResolutionHolizonal;
+		uint32_t XPelsPerMeter;
 		///	垂直方向の解像度 (単位はピクセル/m)
-		uint32_t ResolutionVertical;
+		uint32_t YPelsPerMeter;
 		///	使用する色数 ビットマップで実際に使用するカラーパレット内のカラーインデックスの数。
-		uint32_t IndexedColorCount;
+		uint32_t ClrUsed;
 		///	重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
-		uint32_t ImportantColorCount;
+		uint32_t ClrImportant;
 		///	カラーマスク
 		DIBRGBAColorMask ColorMask;
 		///	色空間
@@ -263,19 +263,19 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	struct DIBV5ColorSpace final
 	{
 		///	色空間 [0(ヘッダ内で定義), 0x73524742('sRGB'), 0x57696e20('Win '), 0x4c494e4b('LINK'), 0x4d424544('MBED')]
-		DIBColorSpaceMode ColorSpace;
+		DIBColorSpaceMode CSType;
 		///	CIEXYZTRIPLE構造体 色空間が0の場合のみ有効
-		CIEXYZTriple_t Matrix;
+		CIEXYZTriple_t Endpoints;
 		///	赤成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
-		FixedPoint32q16_t GammaR;
+		FixedPoint32q16_t GammaRed;
 		///	緑成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
-		FixedPoint32q16_t GammaG;
+		FixedPoint32q16_t GammaGreen;
 		///	青成分のガンマ値 色空間が0の場合のみ有効 16.16の固定小数点数
-		FixedPoint32q16_t GammaB;
+		FixedPoint32q16_t GammaBlue;
 		///	レンダリングの意図
-		uint32_t RenderingIntent;
+		uint32_t Intent;
 		///	プロファイルデータのオフセット 情報ヘッダの先頭アドレスからプロファイルデータの先頭アドレスまでのオフセット。単位はバイト
-		uint32_t ProfileOffset;
+		uint32_t ProfileData;
 		///	プロファイルデータのサイズ 単位はバイト
 		uint32_t ProfileSize;
 		uint32_t _Reserved_64;
@@ -284,25 +284,25 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 	{
 		static const constexpr uint32_t Size = 124;
 		///	ビットマップの横幅
-		int32_t ImageWidth;
+		int32_t Width;
 		///	ビットマップの縦幅
-		int32_t ImageHeight;
+		int32_t Height;
 		///	プレーン数
-		uint16_t PlaneCount;
+		uint16_t Planes;
 		///	1ピクセルあたりのビット数
 		DIBBitDepth BitCount;
 		///	圧縮形式
-		BMPCompressionMethod ComplessionMethod;
+		DIBCompressionMethod Compression;
 		///	画像データサイズ (単位はバイト)
-		uint32_t ImageSize;
+		uint32_t SizeImage;
 		///	水平方向の解像度 (単位はピクセル/m)
-		uint32_t ResolutionHolizonal;
+		uint32_t XPelsPerMeter;
 		///	垂直方向の解像度 (単位はピクセル/m)
-		uint32_t ResolutionVertical;
+		uint32_t YPelsPerMeter;
 		///	使用する色数 ビットマップで実際に使用するカラーパレット内のカラーインデックスの数。
-		uint32_t IndexedColorCount;
+		uint32_t ClrUsed;
 		///	重要な色数 ビットマップを表示するために必要なカラーインデックスの数。
-		uint32_t ImportantColorCount;
+		uint32_t ClrImportant;
 		///	カラーマスク
 		DIBRGBAColorMask ColorMask;
 		///	色空間

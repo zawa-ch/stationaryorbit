@@ -78,12 +78,12 @@ DIBV4BitmapFileLoader::DIBV4BitmapFileLoader(DIBLoader&& loader) : loader(std::f
 {
 	if (loader.HeaderSize() < DIBV4Header::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはV4Headerでサポートされる最小の長さよりも短いです。"); }
 	DIBLoaderHelper::Read(loader, &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
-	if (ihead.IndexedColorCount != 0)
+	if (ihead.ClrUsed != 0)
 	{
 		auto lpal = std::vector<RGBTriple_t>();
-		lpal.reserve(ihead.IndexedColorCount);
-		DIBLoaderHelper::Read(loader, &lpal, sizeof(DIBFileHeader) + sizeof(DIBInfoHeader), ihead.IndexedColorCount);
-		palette.reserve(ihead.IndexedColorCount);
+		lpal.reserve(ihead.ClrUsed);
+		DIBLoaderHelper::Read(loader, &lpal, sizeof(DIBFileHeader) + sizeof(DIBInfoHeader), ihead.ClrUsed);
+		palette.reserve(ihead.ClrUsed);
 		for(auto i: lpal) { palette.push_back(RGB8_t(i)); }
 	}
 }
@@ -133,7 +133,7 @@ DIBV4BitmapFileLoader::PixelData DIBV4BitmapFileLoader::Get(const DisplayPoint& 
 }
 DIBV4BitmapFileLoader::PixelVector DIBV4BitmapFileLoader::Get(const DisplayPoint& index, const size_t& length)
 {
-	if (ihead.ImageWidth <= (index.X() + length)) { throw std::out_of_range("画像の幅を超える領域を指定することはできません。"); }
+	if (ihead.Width <= (index.X() + length)) { throw std::out_of_range("画像の幅を超える領域を指定することはできません。"); }
 	auto pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
 	switch(ihead.BitCount)
 	{
@@ -185,9 +185,9 @@ DIBV4BitmapFileLoader::PixelVector DIBV4BitmapFileLoader::Get(const DisplayPoint
 size_t DIBV4BitmapFileLoader::ResolvePos(const DisplayPoint& pos) const
 {
 	if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw InvalidOperationException("posに指定されている座標が無効です。"); }
-	if ( (ihead.ImageWidth <= pos.X())||(ihead.ImageHeight <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
+	if ( (ihead.Width <= pos.X())||(ihead.Height <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
 	size_t pxl = (uint16_t(ihead.BitCount)/sizeof(uint8_t)) + (((uint16_t(ihead.BitCount)%sizeof(uint8_t)) != 0)?1:0);
-	size_t w = pxl * ihead.ImageWidth + ((((pxl * ihead.ImageWidth) % 4) != 0)?(4-((pxl * ihead.ImageWidth)%4)):0);
+	size_t w = pxl * ihead.Width + ((((pxl * ihead.Width) % 4) != 0)?(4-((pxl * ihead.Width)%4)):0);
 	return (w * pos.Y()) + (pxl * pos.X());
 }
 
@@ -195,12 +195,12 @@ DIBV5BitmapFileLoader::DIBV5BitmapFileLoader(DIBLoader&& loader) : loader(std::f
 {
 	if (loader.HeaderSize() < DIBV4Header::Size) { throw InvalidDIBFormatException("情報ヘッダの長さはV4Headerでサポートされる最小の長さよりも短いです。"); }
 	DIBLoaderHelper::Read(loader, &ihead, sizeof(DIBFileHeader) + sizeof(int32_t));
-	if (ihead.IndexedColorCount != 0)
+	if (ihead.ClrUsed != 0)
 	{
 		auto lpal = std::vector<RGBTriple_t>();
-		lpal.reserve(ihead.IndexedColorCount);
-		DIBLoaderHelper::Read(loader, &lpal, sizeof(DIBFileHeader) + sizeof(DIBInfoHeader), ihead.IndexedColorCount);
-		palette.reserve(ihead.IndexedColorCount);
+		lpal.reserve(ihead.ClrUsed);
+		DIBLoaderHelper::Read(loader, &lpal, sizeof(DIBFileHeader) + sizeof(DIBInfoHeader), ihead.ClrUsed);
+		palette.reserve(ihead.ClrUsed);
 		for(auto i: lpal) { palette.push_back(RGB8_t(i)); }
 	}
 }
@@ -250,7 +250,7 @@ DIBV5BitmapFileLoader::PixelData DIBV5BitmapFileLoader::Get(const DisplayPoint& 
 }
 DIBV5BitmapFileLoader::PixelVector DIBV5BitmapFileLoader::Get(const DisplayPoint& index, const size_t& length)
 {
-	if (ihead.ImageWidth <= (index.X() + length)) { throw std::out_of_range("画像の幅を超える領域を指定することはできません。"); }
+	if (ihead.Width <= (index.X() + length)) { throw std::out_of_range("画像の幅を超える領域を指定することはできません。"); }
 	auto pos = sizeof(DIBFileHeader) + loader.FileHead().Offset() + ResolvePos(index);
 	switch(ihead.BitCount)
 	{
@@ -302,8 +302,8 @@ DIBV5BitmapFileLoader::PixelVector DIBV5BitmapFileLoader::Get(const DisplayPoint
 size_t DIBV5BitmapFileLoader::ResolvePos(const DisplayPoint& pos) const
 {
 	if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw InvalidOperationException("posに指定されている座標が無効です。"); }
-	if ( (ihead.ImageWidth <= pos.X())||(ihead.ImageHeight <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
+	if ( (ihead.Width <= pos.X())||(ihead.Height <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
 	size_t pxl = (uint16_t(ihead.BitCount)/sizeof(uint8_t)) + (((uint16_t(ihead.BitCount)%sizeof(uint8_t)) != 0)?1:0);
-	size_t w = pxl * ihead.ImageWidth + ((((pxl * ihead.ImageWidth) % 4) != 0)?(4-((pxl * ihead.ImageWidth)%4)):0);
+	size_t w = pxl * ihead.Width + ((((pxl * ihead.Width) % 4) != 0)?(4-((pxl * ihead.Width)%4)):0);
 	return (w * pos.Y()) + (pxl * pos.X());
 }

@@ -127,7 +127,7 @@ void Write16()
 	// ヘッダの準備
 	auto whead = ihead;
 	whead.BitCount = DIB::DIBBitDepth::Bit16;
-	whead.ImageSize = (((uint16_t(whead.BitCount) * whead.ImageWidth) + 31) / 32 * 4) * whead.ImageHeight;
+	whead.SizeImage = (((uint16_t(whead.BitCount) * whead.Width) + 31) / 32 * 4) * whead.Height;
 	// ファイルを開く
 	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
 	// ビットマップを書き込む
@@ -140,9 +140,9 @@ void WriteCoreProfile()
 	// ヘッダの準備
 	auto whead = DIB::DIBCoreHeader();
 	whead.BitCount = ihead.BitCount;
-	whead.ImageHeight = ihead.ImageHeight;
-	whead.ImageWidth = ihead.ImageWidth;
-	whead.PlaneCount = 1;
+	whead.Height = ihead.Height;
+	whead.Width = ihead.Width;
+	whead.Planes = 1;
 	// ファイルを開く
 	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
 	// ビットマップを書き込む
@@ -181,9 +181,9 @@ void Crop()
 	auto shiftimage = ImageShift(image, DisplayPoint(-rec.Left(), -rec.Top()));
 	// ヘッダの準備
 	auto whead = ihead;
-	whead.ImageWidth = rec.Width();
-	whead.ImageHeight = rec.Height();
-	whead.ImageSize = (((uint16_t(whead.BitCount) * whead.ImageWidth) + 31) / 32 * 4) * whead.ImageHeight;
+	whead.Width = rec.Width();
+	whead.Height = rec.Height();
+	whead.SizeImage = (((uint16_t(whead.BitCount) * whead.Width) + 31) / 32 * 4) * whead.Height;
 	// ファイルを開く
 	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
 	// ビットマップを書き込む
@@ -199,9 +199,9 @@ void Resize1()
 	auto resizedimage = ImageScaling<RGB8_t>(image, ImageInterpolation::NearestNeighbor<RGB8_t>, resizefactor);
 	// ヘッダの準備
 	auto whead = ihead;
-	whead.ImageWidth = newsize.Width();
-	whead.ImageHeight = newsize.Height();
-	whead.ImageSize = (((uint16_t(whead.BitCount) * whead.ImageWidth) + 31) / 32 * 4) * whead.ImageHeight;
+	whead.Width = newsize.Width();
+	whead.Height = newsize.Height();
+	whead.SizeImage = (((uint16_t(whead.BitCount) * whead.Width) + 31) / 32 * 4) * whead.Height;
 	// ファイルを開く
 	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
 	// ビットマップを書き込む
@@ -217,9 +217,9 @@ void Resize2()
 	auto resizedimage = ImageScaling<RGB8_t>(image, ImageInterpolation::Bilinear<RGB8_t>, resizefactor);
 	// ヘッダの準備
 	auto whead = ihead;
-	whead.ImageWidth = newsize.Width();
-	whead.ImageHeight = newsize.Height();
-	whead.ImageSize = (((uint16_t(whead.BitCount) * whead.ImageWidth) + 31) / 32 * 4) * whead.ImageHeight;
+	whead.Width = newsize.Width();
+	whead.Height = newsize.Height();
+	whead.SizeImage = (((uint16_t(whead.BitCount) * whead.Width) + 31) / 32 * 4) * whead.Height;
 	// ファイルを開く
 	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
 	// ビットマップを書き込む
