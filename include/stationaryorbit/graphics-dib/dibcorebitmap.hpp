@@ -44,6 +44,10 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		ValueType current_value;
 		///	各ピクセルのデータ長。
 		DIBBitDepth bitdepth;
+		///	1ピクセルのデータ長(バイト単位)。
+		const size_t pixellength;
+		///	ストライド(1水平軸ラインのデータ長)。
+		const size_t stridelength;
 	public:
 		DIBCoreBitmapDecoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size);
 		virtual ~DIBCoreBitmapDecoder() = default;
@@ -79,10 +83,11 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		[[nodiscard]] bool Equals(const DIBCoreBitmapDecoder& other) const;
 		[[nodiscard]] int Compare(const DIBCoreBitmapDecoder& other) const;
 	private:
-		[[nodiscard]] ValueType Get(const DisplayPoint& pos);
+		[[nodiscard]] ValueType Get(size_t index);
 		[[nodiscard]] size_t ResolveIndex(const DisplayPoint& pos) const;
 		[[nodiscard]] DisplayPoint ResolvePos(size_t index) const;
 		[[nodiscard]] size_t ResolveOffset(const DisplayPoint& pos) const;
+		[[nodiscard]] size_t ResolveOffset(size_t index) const;
 	};
 	class DIBCoreBitmapEncoder
 	{
@@ -101,6 +106,10 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		int64_t current;
 		///	各ピクセルのデータ長。
 		DIBBitDepth bitdepth;
+		///	1ピクセルのデータ長(バイト単位)。
+		const size_t pixellength;
+		///	ストライド(1水平軸ラインのデータ長)。
+		const size_t stridelength;
 	public:
 		DIBCoreBitmapEncoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size);
 		virtual ~DIBCoreBitmapEncoder() = default;
@@ -115,6 +124,10 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		[[nodiscard]] DisplayPoint CurrentPos() const;
 		[[nodiscard]] bool Equals(const DIBCoreBitmapEncoder& other) const;
 		[[nodiscard]] int Compare(const DIBCoreBitmapEncoder& other) const;
+
+		[[nodiscard]] static size_t GetPxLength(DIBBitDepth bitdepth);
+		[[nodiscard]] static size_t GetStrideLength(DIBBitDepth bitdepth, const DisplayRectSize& size);
+		[[nodiscard]] static size_t GetImageLength(DIBBitDepth bitdepth, const DisplayRectSize& size);
 	private:
 		[[nodiscard]] size_t ResolveIndex(const DisplayPoint& pos) const;
 		[[nodiscard]] DisplayPoint ResolvePos(size_t index) const;
@@ -137,6 +150,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	読み込みに使用する @a DIBFileLoader 。
 		///	このオブジェクトで「消費」されるため、右辺値参照である必要があります。
 		DIBCoreBitmap(DIBLoader&& loader);
+		DIBCoreBitmap(const DIBCoreBitmap&) = delete;
+		DIBCoreBitmap(DIBCoreBitmap&&) = default;
 		virtual ~DIBCoreBitmap() = default;
 
 		///	このオブジェクトの情報ヘッダを取得します。
@@ -208,10 +223,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	画像の切り抜き範囲。
 		[[nodiscard]] Pixmap ToPixmap(const DisplayRectangle& area);
 
-		[[nodiscard]] static DIBCoreBitmap Generate(DIBLoader&& loader, const DIBCoreHeader& header);
-		[[nodiscard]] static DIBCoreBitmap Generate(DIBLoader&& loader, const DIBCoreHeader& header, const Image<RGB8_t>& image);
-		[[nodiscard]] static DIBCoreBitmap Generate(DIBLoader&& loader, const DIBCoreHeader& header, const std::vector<RGB8_t> palette);
-		[[nodiscard]] static DIBCoreBitmap Generate(DIBLoader&& loader, const DIBCoreHeader& header, const std::vector<RGB8_t> palette, const Image<RGB8_t>& image);
+		static std::optional<DIBCoreBitmap> Generate(DIBLoader&& loader, const DIBCoreHeader& header, const Image<RGB8_t>& image);
+		static std::optional<DIBCoreBitmap> Generate(DIBLoader&& loader, const DIBCoreHeader& header, const std::vector<RGB8_t> palette, const Image<RGB8_t>& image);
 	private:
 		[[nodiscard]] ValueType ConvertToRGB(const DIBCoreBitmapDecoder::ValueType& data) const;
 		[[nodiscard]] RawDataType ConvertToRawData(const DIBCoreBitmapDecoder::ValueType& data) const;

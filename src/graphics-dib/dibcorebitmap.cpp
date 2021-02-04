@@ -21,7 +21,7 @@ using namespace zawa_ch::StationaryOrbit;
 using namespace zawa_ch::StationaryOrbit::Graphics::DIB;
 
 DIBCoreBitmapDecoder::DIBCoreBitmapDecoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size)
-	: loader(loader), offset(offset), bitdepth(bitdepth), size(size), length(size.Width() * size.Height())
+	: loader(loader), offset(offset), bitdepth(bitdepth), size(size), length(size.Width() * size.Height()), pixellength(DIBCoreBitmapEncoder::GetPxLength(bitdepth)), stridelength(DIBCoreBitmapEncoder::GetStrideLength(bitdepth, size))
 {
 	Reset();
 }
@@ -30,7 +30,7 @@ bool DIBCoreBitmapDecoder::Next()
 	if (IsAfterEnd()) { return false; }
 	++current;
 	if (IsAfterEnd()) { current = length; return false; }
-	current_value = Get(ResolvePos(current));
+	current_value = Get(current);
 	return true;
 }
 bool DIBCoreBitmapDecoder::Next(const IteratorTraits::IteratorDiff_t& count)
@@ -38,7 +38,7 @@ bool DIBCoreBitmapDecoder::Next(const IteratorTraits::IteratorDiff_t& count)
 	if (IsAfterEnd()) { return false; }
 	current += count;
 	if (IsAfterEnd()) { current = length; return false; }
-	current_value = Get(ResolvePos(current));
+	current_value = Get(current);
 	return true;
 }
 bool DIBCoreBitmapDecoder::Previous()
@@ -46,7 +46,7 @@ bool DIBCoreBitmapDecoder::Previous()
 	if (IsBeforeBegin()) { return false; }
 	--current;
 	if (IsBeforeBegin()) { current = -1; return false; }
-	current_value = Get(ResolvePos(current));
+	current_value = Get(current);
 	return true;
 }
 bool DIBCoreBitmapDecoder::Previous(const IteratorTraits::IteratorDiff_t& count)
@@ -54,14 +54,14 @@ bool DIBCoreBitmapDecoder::Previous(const IteratorTraits::IteratorDiff_t& count)
 	if (IsBeforeBegin()) { return false; }
 	current -= count;
 	if (IsBeforeBegin()) { current = -1; return false; }
-	current_value = Get(ResolvePos(current));
+	current_value = Get(current);
 	return true;
 }
 void DIBCoreBitmapDecoder::JumpTo(const DisplayPoint& pos)
 {
 	if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw std::invalid_argument("posに指定されている座標が無効です。"); }
 	current = ResolveIndex(pos);
-	current_value = Get(pos);
+	current_value = Get(ResolveIndex(pos));
 }
 void DIBCoreBitmapDecoder::Reset() { Reset(IteratorOrigin::Begin); }
 void DIBCoreBitmapDecoder::Reset(const IteratorOrigin& origin)
@@ -72,7 +72,7 @@ void DIBCoreBitmapDecoder::Reset(const IteratorOrigin& origin)
 		case IteratorOrigin::Begin: { current = 0; break; }
 		case IteratorOrigin::End: { current = length - 1; break; }
 	}
-	current_value = Get(ResolvePos(current));
+	current_value = Get(current);
 }
 bool DIBCoreBitmapDecoder::HasValue() const { return (0 <= current)&&(current < length); }
 bool DIBCoreBitmapDecoder::IsBeforeBegin() const { return current < 0; }
@@ -81,7 +81,7 @@ Graphics::DisplayPoint DIBCoreBitmapDecoder::CurrentPos() const { return Resolve
 DIBCoreBitmapDecoder::ValueType DIBCoreBitmapDecoder::Current() const { if (HasValue()) { return current_value; } else { throw InvalidOperationException("このイテレータは領域の範囲外を指しています。"); } }
 void DIBCoreBitmapDecoder::Write(const ValueType& value)
 {
-	size_t tgt = offset + ResolveOffset(ResolvePos(current));
+	size_t tgt = offset + ResolveOffset(current);
 	switch(bitdepth)
 	{
 		case DIBBitDepth::Bit1: { DIBLoaderHelper::Write(loader, std::get<DIBPixelData<DIBBitDepth::Bit1>>(value), tgt); break; }
@@ -100,9 +100,9 @@ int DIBCoreBitmapDecoder::Compare(const DIBCoreBitmapDecoder& other) const
 	else if (other.current < current) { return 1; }
 	else { return -1; }
 }
-DIBCoreBitmapDecoder::ValueType DIBCoreBitmapDecoder::Get(const DisplayPoint& pos)
+DIBCoreBitmapDecoder::ValueType DIBCoreBitmapDecoder::Get(size_t index)
 {
-	size_t tgt = offset + ResolveOffset(pos);
+	size_t tgt = offset + ResolveOffset(index);
 	switch(bitdepth)
 	{
 		case DIBBitDepth::Bit1:
@@ -138,13 +138,16 @@ size_t DIBCoreBitmapDecoder::ResolveOffset(const DisplayPoint& pos) const
 {
 	if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw std::invalid_argument("posに指定されている座標が無効です。"); }
 	if ( (size.Width() <= pos.X())||(size.Height() <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
-	size_t pxl = (uint16_t(bitdepth)/sizeof(uint8_t)) + (((uint16_t(bitdepth)%sizeof(uint8_t)) != 0)?1:0);
-	size_t stride = pxl * size.Width() + ((((pxl * size.Width()) % 4) != 0)?(4-((pxl * size.Width())%4)):0);
-	return (stride * (size.Height() - pos.Y())) + (pxl * pos.X());
+	return (stridelength * (size.Height() - 1 - pos.Y())) + (pixellength * pos.X());
+}
+size_t DIBCoreBitmapDecoder::ResolveOffset(size_t index) const
+{
+	if (length <= index) { throw std::out_of_range("指定されたインデックスはこの画像領域を超えています。"); }
+	return (stridelength * (index / size.Width())) + (pixellength * (index % size.Width()));
 }
 
 DIBCoreBitmapEncoder::DIBCoreBitmapEncoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size)
-	: loader(loader), offset(offset), bitdepth(bitdepth), size(size), length(size.Width() * size.Height()), current(0)
+	: loader(loader), offset(offset), bitdepth(bitdepth), size(size), length(size.Width() * size.Height()), current(0), pixellength(DIBCoreBitmapEncoder::GetPxLength(bitdepth)), stridelength(DIBCoreBitmapEncoder::GetStrideLength(bitdepth, size))
 {}
 void DIBCoreBitmapEncoder::Write(const ValueType& value)
 {
@@ -181,10 +184,11 @@ size_t DIBCoreBitmapEncoder::ResolveOffset(const DisplayPoint& pos) const
 {
 	if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw std::invalid_argument("posに指定されている座標が無効です。"); }
 	if ( (size.Width() <= pos.X())||(size.Height() <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
-	size_t pxl = (uint16_t(bitdepth)/sizeof(uint8_t)) + (((uint16_t(bitdepth)%sizeof(uint8_t)) != 0)?1:0);
-	size_t stride = pxl * size.Width() + ((((pxl * size.Width()) % 4) != 0)?(4-((pxl * size.Width())%4)):0);
-	return (stride * (size.Height() - pos.Y())) + (pxl * pos.X());
+	return (stridelength * (size.Height() - 1 - pos.Y())) + (pixellength * pos.X());
 }
+size_t DIBCoreBitmapEncoder::GetPxLength(DIBBitDepth bitdepth) { return (uint16_t(bitdepth) + 7) / 8; }
+size_t DIBCoreBitmapEncoder::GetStrideLength(DIBBitDepth bitdepth, const DisplayRectSize& size) { return (((GetPxLength(bitdepth) * size.Width()) + 3) / 4) * 4; }
+size_t DIBCoreBitmapEncoder::GetImageLength(DIBBitDepth bitdepth, const DisplayRectSize& size) { return GetStrideLength(bitdepth, size) * size.Height(); }
 
 DIBCoreBitmap::DIBCoreBitmap(DIBLoader&& loader) : loader(std::forward<DIBLoader>(loader))
 {
@@ -301,44 +305,8 @@ DIBCoreBitmap::Pixmap DIBCoreBitmap::ToPixmap(const DisplayRectangle& area)
 	CopyTo(result, area);
 	return result;
 }
-DIBCoreBitmap DIBCoreBitmap::Generate(DIBLoader&& loader, const DIBCoreHeader& header) { return Generate(std::forward<DIBLoader>(loader), header, std::vector<RGB8_t>()); }
-DIBCoreBitmap DIBCoreBitmap::Generate(DIBLoader&& loader, const DIBCoreHeader& header, const Image<RGB8_t>& image) { return Generate(std::forward<DIBLoader>(loader), header, std::vector<RGB8_t>(), image); }
-DIBCoreBitmap DIBCoreBitmap::Generate(DIBLoader&& loader, const DIBCoreHeader& header, const std::vector<RGB8_t> palette)
-{
-	auto fhead = DIBFileHeader();
-	std::copy(&(fhead.FileType_Signature[0]), &(fhead.FileType_Signature[2]), &(fhead.FileType[0]));
-	size_t palsize;
-	switch(header.BitCount)
-	{
-		case DIBBitDepth::Bit1: { palsize = 2; break; }
-		case DIBBitDepth::Bit4: { palsize = 16; break; }
-		case DIBBitDepth::Bit8: { palsize = 256; break; }
-		case DIBBitDepth::Bit24: { palsize = 0; break; }
-		default: { throw std::invalid_argument("BitCountの内容が無効です。"); }
-	}
-	size_t stride = (((header.ImageWidth * uint16_t(header.BitCount)) + 31) % 32) / 8;
-	fhead.Offset(int32_t(sizeof(DIBFileHeader) + DIBCoreHeader::Size) + (sizeof(RGBTriple_t) * palsize));
-	fhead.FileSize(int32_t(sizeof(DIBFileHeader) + DIBCoreHeader::Size + (sizeof(RGBTriple_t) * palsize) + (stride * header.ImageHeight)));
-	DIBLoaderHelper::Write(loader, fhead, 0);
-	DIBLoaderHelper::Write(loader, DIBCoreHeader::Size, sizeof(DIBFileHeader));
-	DIBLoaderHelper::Write(loader, header, sizeof(DIBFileHeader) + sizeof(uint32_t));
-	for (auto i: Range<size_t>(0, palsize).GetStdIterator())
-	{
-		if (palette.size() < i) { DIBLoaderHelper::Write(loader, RGBTriple_t(palette[i]), sizeof(DIBFileHeader) + DIBCoreHeader::Size + (sizeof(RGBTriple_t) * i)); }
-		else { DIBLoaderHelper::Write(loader, RGBTriple_t(), sizeof(DIBFileHeader) + DIBCoreHeader::Size + (sizeof(RGBTriple_t) * i)); }
-	}
-	auto encoder = DIBCoreBitmapEncoder(loader, fhead.Offset(), header.BitCount, DisplayRectSize(header.ImageWidth, header.ImageHeight));
-	switch(header.BitCount)
-	{
-		case DIBBitDepth::Bit1: { while (encoder.HasValue()) { encoder.Write(DIBPixelData<DIBBitDepth::Bit1>()); } break; }
-		case DIBBitDepth::Bit4: { while (encoder.HasValue()) { encoder.Write(DIBPixelData<DIBBitDepth::Bit4>()); } break; }
-		case DIBBitDepth::Bit8: { while (encoder.HasValue()) { encoder.Write(DIBPixelData<DIBBitDepth::Bit8>()); } break; }
-		case DIBBitDepth::Bit24: { while (encoder.HasValue()) { encoder.Write(DIBPixelData<DIBBitDepth::Bit24>()); } break; }
-		default: { throw std::invalid_argument("BitCountの内容が無効です。"); }
-	}
-	return DIBCoreBitmap(std::forward<DIBLoader>(loader));
-}
-DIBCoreBitmap DIBCoreBitmap::Generate(DIBLoader&& loader, const DIBCoreHeader& header, const std::vector<RGB8_t> palette, const Image<RGB8_t>& image)
+std::optional<DIBCoreBitmap> DIBCoreBitmap::Generate(DIBLoader&& loader, const DIBCoreHeader& header, const Image<RGB8_t>& image) { return Generate(std::forward<DIBLoader>(loader), header, std::vector<RGB8_t>(), image); }
+std::optional<DIBCoreBitmap> DIBCoreBitmap::Generate(DIBLoader&& loader, const DIBCoreHeader& header, const std::vector<RGB8_t> palette, const Image<RGB8_t>& image)
 {
 	auto fhead = DIBFileHeader();
 	std::copy(&(fhead.FileType_Signature[0]), &(fhead.FileType_Signature[2]), &(fhead.FileType[0]));
@@ -351,9 +319,8 @@ DIBCoreBitmap DIBCoreBitmap::Generate(DIBLoader&& loader, const DIBCoreHeader& h
 		case DIBBitDepth::Bit24: { palsize = 0; break; }
 		default: { throw std::invalid_argument("BitCountの内容が無効です。"); }
 	}
-	size_t stride = (((header.ImageWidth * uint16_t(header.BitCount)) + 31) % 32) / 8;
 	fhead.Offset(int32_t(sizeof(DIBFileHeader) + DIBCoreHeader::Size) + (sizeof(RGBTriple_t) * palsize));
-	fhead.FileSize(int32_t(sizeof(DIBFileHeader) + DIBCoreHeader::Size + (sizeof(RGBTriple_t) * palsize) + (stride * header.ImageHeight)));
+	fhead.FileSize(int32_t(sizeof(DIBFileHeader) + DIBCoreHeader::Size + (sizeof(RGBTriple_t) * palsize) + DIBCoreBitmapEncoder::GetImageLength(header.BitCount, DisplayRectSize(header.ImageWidth, header.ImageHeight))));
 	DIBLoaderHelper::Write(loader, fhead, 0);
 	DIBLoaderHelper::Write(loader, DIBCoreHeader::Size, sizeof(DIBFileHeader));
 	DIBLoaderHelper::Write(loader, header, sizeof(DIBFileHeader) + sizeof(uint32_t));
@@ -371,7 +338,15 @@ DIBCoreBitmap DIBCoreBitmap::Generate(DIBLoader&& loader, const DIBCoreHeader& h
 		case DIBBitDepth::Bit24: { while (encoder.HasValue()) { encoder.Write(DIBPixelPerser::ToPixel24(image.At(encoder.CurrentPos()))); } break; }
 		default: { throw std::invalid_argument("BitCountの内容が無効です。"); }
 	}
-	return DIBCoreBitmap(std::forward<DIBLoader>(loader));
+	try
+	{
+		loader.Sync();
+		return DIBCoreBitmap(std::forward<DIBLoader>(loader));
+	}
+	catch (std::exception e)
+	{
+		return std::nullopt;
+	}
 }
 DIBCoreBitmap::ValueType DIBCoreBitmap::ConvertToRGB(const DIBCoreBitmapDecoder::ValueType& data) const
 {
