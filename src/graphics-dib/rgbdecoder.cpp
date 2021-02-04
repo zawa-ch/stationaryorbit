@@ -20,12 +20,12 @@
 using namespace zawa_ch::StationaryOrbit;
 using namespace zawa_ch::StationaryOrbit::Graphics::DIB;
 
-DIBBitmapRGBDecoder::DIBBitmapRGBDecoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size)
+DIBRGBDecoder::DIBRGBDecoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size)
 	: loader(loader), offset(offset), bitdepth(bitdepth), size(size), length(size.Width() * size.Height()), pixellength(DIBBitmapRGBEncoder::GetPxLength(bitdepth)), stridelength(DIBBitmapRGBEncoder::GetStrideLength(bitdepth, size))
 {
 	Reset();
 }
-bool DIBBitmapRGBDecoder::Next()
+bool DIBRGBDecoder::Next()
 {
 	if (IsAfterEnd()) { return false; }
 	++current;
@@ -33,7 +33,7 @@ bool DIBBitmapRGBDecoder::Next()
 	current_value = Get(current);
 	return true;
 }
-bool DIBBitmapRGBDecoder::Next(const IteratorTraits::IteratorDiff_t& count)
+bool DIBRGBDecoder::Next(const IteratorTraits::IteratorDiff_t& count)
 {
 	if (IsAfterEnd()) { return false; }
 	current += count;
@@ -41,7 +41,7 @@ bool DIBBitmapRGBDecoder::Next(const IteratorTraits::IteratorDiff_t& count)
 	current_value = Get(current);
 	return true;
 }
-bool DIBBitmapRGBDecoder::Previous()
+bool DIBRGBDecoder::Previous()
 {
 	if (IsBeforeBegin()) { return false; }
 	--current;
@@ -49,7 +49,7 @@ bool DIBBitmapRGBDecoder::Previous()
 	current_value = Get(current);
 	return true;
 }
-bool DIBBitmapRGBDecoder::Previous(const IteratorTraits::IteratorDiff_t& count)
+bool DIBRGBDecoder::Previous(const IteratorTraits::IteratorDiff_t& count)
 {
 	if (IsBeforeBegin()) { return false; }
 	current -= count;
@@ -57,14 +57,14 @@ bool DIBBitmapRGBDecoder::Previous(const IteratorTraits::IteratorDiff_t& count)
 	current_value = Get(current);
 	return true;
 }
-void DIBBitmapRGBDecoder::JumpTo(const DisplayPoint& pos)
+void DIBRGBDecoder::JumpTo(const DisplayPoint& pos)
 {
 	if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw std::invalid_argument("posに指定されている座標が無効です。"); }
 	current = ResolveIndex(pos);
 	current_value = Get(ResolveIndex(pos));
 }
-void DIBBitmapRGBDecoder::Reset() { Reset(IteratorOrigin::Begin); }
-void DIBBitmapRGBDecoder::Reset(const IteratorOrigin& origin)
+void DIBRGBDecoder::Reset() { Reset(IteratorOrigin::Begin); }
+void DIBRGBDecoder::Reset(const IteratorOrigin& origin)
 {
 	switch(origin)
 	{
@@ -74,12 +74,12 @@ void DIBBitmapRGBDecoder::Reset(const IteratorOrigin& origin)
 	}
 	current_value = Get(current);
 }
-bool DIBBitmapRGBDecoder::HasValue() const { return (0 <= current)&&(current < length); }
-bool DIBBitmapRGBDecoder::IsBeforeBegin() const { return current < 0; }
-bool DIBBitmapRGBDecoder::IsAfterEnd() const { return length <= current; }
-Graphics::DisplayPoint DIBBitmapRGBDecoder::CurrentPos() const { return ResolvePos(current); }
-DIBBitmapRGBDecoder::ValueType DIBBitmapRGBDecoder::Current() const { if (HasValue()) { return current_value; } else { throw InvalidOperationException("このイテレータは領域の範囲外を指しています。"); } }
-void DIBBitmapRGBDecoder::Write(const ValueType& value)
+bool DIBRGBDecoder::HasValue() const { return (0 <= current)&&(current < length); }
+bool DIBRGBDecoder::IsBeforeBegin() const { return current < 0; }
+bool DIBRGBDecoder::IsAfterEnd() const { return length <= current; }
+Graphics::DisplayPoint DIBRGBDecoder::CurrentPos() const { return ResolvePos(current); }
+DIBRGBDecoder::ValueType DIBRGBDecoder::Current() const { if (HasValue()) { return current_value; } else { throw InvalidOperationException("このイテレータは領域の範囲外を指しています。"); } }
+void DIBRGBDecoder::Write(const ValueType& value)
 {
 	size_t tgt = offset + ResolveOffset(current);
 	switch(bitdepth)
@@ -94,15 +94,15 @@ void DIBBitmapRGBDecoder::Write(const ValueType& value)
 	}
 	current_value = value;
 }
-IteratorTraits::IteratorDiff_t DIBBitmapRGBDecoder::Distance(const DIBBitmapRGBDecoder& other) const { return current - other.current; }
-bool DIBBitmapRGBDecoder::Equals(const DIBBitmapRGBDecoder& other) const { return current == other.current; }
-int DIBBitmapRGBDecoder::Compare(const DIBBitmapRGBDecoder& other) const
+IteratorTraits::IteratorDiff_t DIBRGBDecoder::Distance(const DIBRGBDecoder& other) const { return current - other.current; }
+bool DIBRGBDecoder::Equals(const DIBRGBDecoder& other) const { return current == other.current; }
+int DIBRGBDecoder::Compare(const DIBRGBDecoder& other) const
 {
 	if (current == other.current) { return 0; }
 	else if (other.current < current) { return 1; }
 	else { return -1; }
 }
-DIBBitmapRGBDecoder::ValueType DIBBitmapRGBDecoder::Get(size_t index)
+DIBRGBDecoder::ValueType DIBRGBDecoder::Get(size_t index)
 {
 	size_t tgt = offset + ResolveOffset(index);
 	switch(bitdepth)
@@ -146,15 +146,15 @@ DIBBitmapRGBDecoder::ValueType DIBBitmapRGBDecoder::Get(size_t index)
 		default: { throw InvalidOperationException("情報ヘッダのBitCountの内容が無効です。"); }
 	}
 }
-size_t DIBBitmapRGBDecoder::ResolveIndex(const DisplayPoint& pos) const { return ((size.Height() - 1 - pos.Y()) * size.Width()) + pos.X(); }
-Graphics::DisplayPoint DIBBitmapRGBDecoder::ResolvePos(size_t index) const { return DisplayPoint(index % size.Width(), size.Height() - 1 - (index / size.Width())); }
-size_t DIBBitmapRGBDecoder::ResolveOffset(const DisplayPoint& pos) const
+size_t DIBRGBDecoder::ResolveIndex(const DisplayPoint& pos) const { return ((size.Height() - 1 - pos.Y()) * size.Width()) + pos.X(); }
+Graphics::DisplayPoint DIBRGBDecoder::ResolvePos(size_t index) const { return DisplayPoint(index % size.Width(), size.Height() - 1 - (index / size.Width())); }
+size_t DIBRGBDecoder::ResolveOffset(const DisplayPoint& pos) const
 {
 	if ( (pos.X() < 0)||(pos.Y() < 0) ) { throw std::invalid_argument("posに指定されている座標が無効です。"); }
 	if ( (size.Width() <= pos.X())||(size.Height() <= pos.Y()) ) { throw std::out_of_range("指定された座標はこの画像領域を超えています。"); }
 	return (stridelength * (size.Height() - 1 - pos.Y())) + (pixellength * pos.X());
 }
-size_t DIBBitmapRGBDecoder::ResolveOffset(size_t index) const
+size_t DIBRGBDecoder::ResolveOffset(size_t index) const
 {
 	if (length <= index) { throw std::out_of_range("指定されたインデックスはこの画像領域を超えています。"); }
 	return (stridelength * (index / size.Width())) + (pixellength * (index % size.Width()));

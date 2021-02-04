@@ -24,7 +24,7 @@
 namespace zawa_ch::StationaryOrbit::Graphics::DIB
 {
 	///	Windows bitmap 画像のデータを無圧縮RGBデータとして読み取ります。
-	class DIBBitmapRGBDecoder
+	class DIBRGBDecoder
 	{
 	public:
 		/// データの受け渡しに用いる型。
@@ -49,8 +49,8 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	ストライド(1水平軸ラインのデータ長)。
 		const size_t stridelength;
 	public:
-		DIBBitmapRGBDecoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size);
-		virtual ~DIBBitmapRGBDecoder() = default;
+		DIBRGBDecoder(DIBLoader& loader, size_t offset, DIBBitDepth bitdepth, const DisplayRectSize& size);
+		virtual ~DIBRGBDecoder() = default;
 
 		///	現在の位置を次に進めます。
 		bool Next();
@@ -79,9 +79,9 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	現在の位置にオブジェクトを書き込みます。
 		void Write(const ValueType& value);
 		///	指定されたオブジェクトとの距離を取得します。
-		[[nodiscard]] IteratorTraits::IteratorDiff_t Distance(const DIBBitmapRGBDecoder& other) const;
-		[[nodiscard]] bool Equals(const DIBBitmapRGBDecoder& other) const;
-		[[nodiscard]] int Compare(const DIBBitmapRGBDecoder& other) const;
+		[[nodiscard]] IteratorTraits::IteratorDiff_t Distance(const DIBRGBDecoder& other) const;
+		[[nodiscard]] bool Equals(const DIBRGBDecoder& other) const;
+		[[nodiscard]] int Compare(const DIBRGBDecoder& other) const;
 	private:
 		[[nodiscard]] ValueType Get(size_t index);
 		[[nodiscard]] size_t ResolveIndex(const DisplayPoint& pos) const;

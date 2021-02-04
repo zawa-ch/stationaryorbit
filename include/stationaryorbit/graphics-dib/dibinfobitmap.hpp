@@ -139,10 +139,10 @@ namespace zawa_ch::StationaryOrbit::Graphics::DIB
 		///	生成時に格納する画像データ。
 		static std::optional<DIBInfoBitmap> Generate(DIBLoader&& loader, const DIBInfoHeader& header, const std::vector<RGB8_t> palette, const Image<RGB8_t>& image);
 	private:
-		[[nodiscard]] ValueType ConvertToRGB(const DIBBitmapRGBDecoder::ValueType& data) const;
-		[[nodiscard]] RawDataType ConvertToRawData(const DIBBitmapRGBDecoder::ValueType& data) const;
-		[[nodiscard]] DIBBitmapRGBDecoder::ValueType ConvertToRGBDecoderValue(const ValueType& value) const;
-		[[nodiscard]] DIBBitmapRGBDecoder::ValueType ConvertToRGBDecoderValue(const RawDataType& value) const;
+		[[nodiscard]] ValueType ConvertToRGB(const DIBRGBDecoder::ValueType& data) const;
+		[[nodiscard]] RawDataType ConvertToRawData(const DIBRGBDecoder::ValueType& data) const;
+		[[nodiscard]] DIBRGBDecoder::ValueType ConvertToRGBDecoderValue(const ValueType& value) const;
+		[[nodiscard]] DIBRGBDecoder::ValueType ConvertToRGBDecoderValue(const RawDataType& value) const;
 	};
 }
 #endif // __stationaryorbit_graphics_dib_dibinfobitmap__

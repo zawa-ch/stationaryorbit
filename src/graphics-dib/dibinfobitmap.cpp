@@ -74,7 +74,7 @@ DIBInfoBitmap::ValueType DIBInfoBitmap::GetPixel(const DisplayPoint& pos)
 	{
 		case BMPCompressionMethod::RGB:
 		{
-			auto decoder = DIBBitmapRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
 			decoder.JumpTo(pos);
 			return ConvertToRGB(decoder.Current());
 			break;
@@ -96,7 +96,7 @@ std::vector<DIBInfoBitmap::ValueType> DIBInfoBitmap::GetPixel(const DisplayPoint
 	{
 		case BMPCompressionMethod::RGB:
 		{
-			auto decoder = DIBBitmapRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
 			decoder.JumpTo(pos);
 			auto result = std::vector<DIBInfoBitmap::ValueType>();
 			result.reserve(count);
@@ -120,7 +120,7 @@ void DIBInfoBitmap::SetPixel(const DisplayPoint& pos, const ValueType& value)
 	{
 		case BMPCompressionMethod::RGB:
 		{
-			auto decoder = DIBBitmapRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
 			decoder.JumpTo(pos);
 			decoder.Write(ConvertToRGBDecoderValue(value));
 			break;
@@ -144,7 +144,7 @@ void DIBInfoBitmap::SetPixel(const DisplayPoint& pos, const std::vector<ValueTyp
 	{
 		case BMPCompressionMethod::RGB:
 		{
-			auto decoder = DIBBitmapRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
 			decoder.JumpTo(pos);
 			for(auto i: value) { decoder.Write(ConvertToRGBDecoderValue(i)); }
 			break;
@@ -170,7 +170,7 @@ DIBInfoBitmap::RawDataType DIBInfoBitmap::GetPixelRaw(const DisplayPoint& pos)
 		case BMPCompressionMethod::BITFIELDS:
 		case BMPCompressionMethod::ALPHABITFIELDS:
 		{
-			auto decoder = DIBBitmapRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
 			decoder.JumpTo(pos);
 			return ConvertToRawData(decoder.Current());
 		}
@@ -191,7 +191,7 @@ std::vector<DIBInfoBitmap::RawDataType> DIBInfoBitmap::GetPixelRaw(const Display
 		case BMPCompressionMethod::BITFIELDS:
 		case BMPCompressionMethod::ALPHABITFIELDS:
 		{
-			auto decoder = DIBBitmapRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
 			decoder.JumpTo(pos);
 			auto result = std::vector<RawDataType>();
 			result.reserve(count);
@@ -215,7 +215,7 @@ void DIBInfoBitmap::SetPixelRaw(const DisplayPoint& pos, const RawDataType& valu
 		case BMPCompressionMethod::BITFIELDS:
 		case BMPCompressionMethod::ALPHABITFIELDS:
 		{
-			auto decoder = DIBBitmapRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
 			decoder.JumpTo(pos);
 			decoder.Write(ConvertToRGBDecoderValue(value));
 			break;
@@ -235,7 +235,7 @@ void DIBInfoBitmap::SetPixelRaw(const DisplayPoint& pos, const std::vector<RawDa
 		case BMPCompressionMethod::BITFIELDS:
 		case BMPCompressionMethod::ALPHABITFIELDS:
 		{
-			auto decoder = DIBBitmapRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
 			decoder.JumpTo(pos);
 			for(auto i: value) { decoder.Write(ConvertToRGBDecoderValue(i)); }
 			break;
@@ -253,7 +253,7 @@ void DIBInfoBitmap::CopyTo(WritableImage<RGB8_t>& dest)
 	{
 		case BMPCompressionMethod::RGB:
 		{
-			auto decoder = DIBBitmapRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
 			for (decoder.Reset(); decoder.HasValue(); decoder.Next()) { dest.At(decoder.CurrentPos()) = ConvertToRGB(decoder.Current()); }
 			break;
 		}
@@ -275,7 +275,7 @@ void DIBInfoBitmap::CopyTo(WritableImage<RGB8_t>& dest, const DisplayRectangle& 
 	{
 		case BMPCompressionMethod::RGB:
 		{
-			auto decoder = DIBBitmapRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
+			auto decoder = DIBRGBDecoder(loader, loader.FileHead().Offset(), ihead.BitCount, DisplayRectSize(ihead.ImageWidth, ihead.ImageHeight));
 			for (decoder.JumpTo(DisplayPoint(area.Left(), area.Bottom())); decoder.HasValue(); decoder.Next())
 			{
 				if (area.Contains(decoder.CurrentPos())) { decoder.Next(ihead.ImageWidth - area.Width() - 1); continue; }
@@ -375,7 +375,7 @@ std::optional<DIBInfoBitmap> DIBInfoBitmap::Generate(DIBLoader&& loader, const D
 		default: { throw std::invalid_argument("CompressionMethodの内容が無効です。"); }
 	}
 }
-DIBInfoBitmap::ValueType DIBInfoBitmap::ConvertToRGB(const DIBBitmapRGBDecoder::ValueType& data) const
+DIBInfoBitmap::ValueType DIBInfoBitmap::ConvertToRGB(const DIBRGBDecoder::ValueType& data) const
 {
 	switch(ihead.ComplessionMethod)
 	{
@@ -405,7 +405,7 @@ DIBInfoBitmap::ValueType DIBInfoBitmap::ConvertToRGB(const DIBBitmapRGBDecoder::
 		default: { throw InvalidOperationException("情報ヘッダのComressionMethodの内容が無効です。"); }
 	}
 }
-DIBInfoBitmap::RawDataType DIBInfoBitmap::ConvertToRawData(const DIBBitmapRGBDecoder::ValueType& data) const
+DIBInfoBitmap::RawDataType DIBInfoBitmap::ConvertToRawData(const DIBRGBDecoder::ValueType& data) const
 {
 	switch(ihead.BitCount)
 	{
@@ -421,7 +421,7 @@ DIBInfoBitmap::RawDataType DIBInfoBitmap::ConvertToRawData(const DIBBitmapRGBDec
 		default: { throw InvalidDIBFormatException("情報ヘッダのBitCountの内容が無効です。"); }
 	}
 }
-DIBBitmapRGBDecoder::ValueType DIBInfoBitmap::ConvertToRGBDecoderValue(const ValueType& value) const
+DIBRGBDecoder::ValueType DIBInfoBitmap::ConvertToRGBDecoderValue(const ValueType& value) const
 {
 	switch(ihead.ComplessionMethod)
 	{
@@ -450,7 +450,7 @@ DIBBitmapRGBDecoder::ValueType DIBInfoBitmap::ConvertToRGBDecoderValue(const Val
 		default: { throw InvalidOperationException("情報ヘッダのComressionMethodの内容が無効です。"); }
 	}
 }
-DIBBitmapRGBDecoder::ValueType DIBInfoBitmap::ConvertToRGBDecoderValue(const RawDataType& value) const
+DIBRGBDecoder::ValueType DIBInfoBitmap::ConvertToRGBDecoderValue(const RawDataType& value) const
 {
 	switch(ihead.BitCount)
 	{
