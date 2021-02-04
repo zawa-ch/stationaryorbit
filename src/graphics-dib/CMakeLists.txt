@@ -31,6 +31,7 @@ add_library(${AssemblyName} SHARED
     dibloader.cpp
     dibpixeldata.cpp
     dibv4bitmap.cpp
+    dibv5bitmap.cpp
     invaliddibformat.cpp
     rgbdecoder.cpp
 )
