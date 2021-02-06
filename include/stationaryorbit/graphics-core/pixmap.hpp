@@ -43,17 +43,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		Pixmap() = default;
 		explicit Pixmap(const DisplayRectSize& size) : _size(size), _data(solveItemcount(size)) {}
 		Pixmap(const int& width, const int& height) : Pixmap(DisplayRectSize(width, height)) {}
-		Pixmap(const Pixmap<Tcolor, Allocator>& source, const DisplayRectangle& area)
-			: Pixmap
-			(
-				// areaで指定された領域がsourceの境界を超えていないか検査、境界を超えていなければareaの大きさ(DisplayRectSize)を返す
-				[](const DisplayRectangle& bound, const DisplayRectangle& area) -> DisplayRectSize
-				{
-					if ((area.Left() < bound.Left())||(area.Top() < bound.Top())||(bound.Right() < area.Right())||(bound.Bottom() < area.Bottom()))
-					{ throw std::out_of_range("指定された領域は境界を超えています。"); }
-					else { return area.Size(); }
-				}(source.Area(), area)
-			)
+		Pixmap(const Pixmap<Tcolor, Allocator>& source, const DisplayRectangle& area) : Pixmap(area.Size())
 		{
 			for(auto y: area.YRange().GetStdIterator()) for(auto x: area.XRange().GetStdIterator())
 			{
@@ -75,17 +65,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			}
 		}
 		template<class fromTcolor>
-		Pixmap(const Image<fromTcolor>& source, const DisplayRectangle& area)
-			: Pixmap
-			(
-				// areaで指定された領域がsourceの境界を超えていないか検査、境界を超えていなければareaの大きさ(DisplayRectSize)を返す
-				[](const DisplayRectangle& bound, const DisplayRectangle& area) -> DisplayRectSize
-				{
-					if ((area.Left() < bound.Left())||(area.Top() < bound.Top())||(bound.Right() < area.Right())||(bound.Bottom() < area.Bottom()))
-					{ throw std::out_of_range("指定された領域は境界を超えています。"); }
-					else { return area.Size(); }
-				}(source.Area(), area)
-			)
+		Pixmap(const Image<fromTcolor>& source, const DisplayRectangle& area) : Pixmap(area.Size())
 		{
 			for(auto y: area.YRange().GetStdIterator()) for(auto x: area.XRange().GetStdIterator())
 			{
@@ -110,8 +90,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			if ((area.Left() < source.Area().Left())||(area.Top() < source.Area().Top())||(source.Area().Right() < area.Right())||(source.Area().Bottom() < area.Bottom()))
 			{ throw std::invalid_argument("コピー指定された領域はコピー元の境界を超えています。"); }
 			auto destarea = DisplayRectangle(destination, area.Size());
-			if ((0 < destarea.Left())||(0 < destarea.Top())||(destarea.Right() < Size().Width())||(destarea.Bottom() < Size().Height()))
-			{ throw std::out_of_range("コピー指定された領域はコピー先の領域を超えています。"); }
 			for(auto y: area.Size().YRange().GetStdIterator()) for(auto x: area.Size().XRange().GetStdIterator())
 			{
 				auto p = DisplayPoint(x, y);

@@ -69,8 +69,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			if ((area.Left() < source.Area().Left())||(area.Top() < source.Area().Top())||(source.Area().Right() < area.Right())||(source.Area().Bottom() < area.Bottom()))
 			{ throw std::invalid_argument("コピー指定された領域はコピー元の境界を超えています。"); }
 			auto destarea = DisplayRectangle(destination, area.Size());
-			if ((0 < destarea.Left())||(0 < destarea.Top())||(destarea.Right() < Size().Width())||(destarea.Bottom() < Size().Height()))
-			{ throw std::out_of_range("コピー指定された領域はコピー先の領域を超えています。"); }
 			for(auto y: area.Size().YRange().GetStdIterator()) for(auto x: area.Size().XRange().GetStdIterator())
 			{
 				auto p = DisplayPoint(x, y);
