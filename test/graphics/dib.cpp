@@ -179,7 +179,8 @@ void Crop()
 	const char* ofile = "output_crop.bmp";
 	auto rec = DisplayRectangle(100, 100, image.Size().Width() - 200, image.Size().Height() - 200);
 	// 画像を切り抜き
-	auto shiftimage = ImageShift(image, DisplayPoint(-rec.Left(), -rec.Top()));
+	auto croppedimage = ImageCropping(image, rec);
+	auto alignedimage = ImageAlign(croppedimage);
 	// ヘッダの準備
 	auto whead = ihead;
 	whead.Width = rec.Width();
@@ -188,7 +189,7 @@ void Crop()
 	// ファイルを開く
 	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
 	// ビットマップを書き込む
-	DIB::DIBInfoBitmap::Generate(std::move(loader), whead, shiftimage);
+	DIB::DIBInfoBitmap::Generate(std::move(loader), whead, alignedimage);
 }
 
 void Resize1()
