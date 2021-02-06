@@ -26,14 +26,21 @@
 #include "yuvcolor.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
+	///	画像の位置を原点に合わせます。
+	///	@param	Tcolor
+	///	色の表現に用いる型。
 	template<class Tcolor>
 	class ImageAlign : public Image<Tcolor>
 	{
 	public:
+		///	色の表現に用いる型。
 		typedef Tcolor ValueType;
 	private:
 		const Image<Tcolor>& _data;
 	public:
+		///	オブジェクトを指定してこのオブジェクトを構築します。
+		///	@param	source
+		///	ソースとなる画像。
 		ImageAlign(const Image<Tcolor>& source) : _data(source) {}
 
 		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
@@ -42,15 +49,24 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[_data.Area().Origin() + index]; }
 	};
+	///	画像を指定された大きさだけ移動します。
+	///	@param	Tcolor
+	///	色の表現に用いる型。
 	template<class Tcolor>
 	class ImageShift : public Image<Tcolor>
 	{
 	public:
+		///	色の表現に用いる型。
 		typedef Tcolor ValueType;
 	private:
 		const Image<Tcolor>& _data;
 		DisplayPoint _amount;
 	public:
+		///	オブジェクトを指定してこのオブジェクトを構築します。
+		///	@param	source
+		///	ソースとなる画像。
+		///	@param	amount
+		///	移動する大きさ。
 		ImageShift(const Image<Tcolor>& source, const DisplayPoint& amount) : _data(source), _amount(amount) {}
 
 		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
@@ -59,11 +75,42 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[index - _amount]; }
 	};
+	///	画像を指定した範囲で切り抜きます。
+	///	@param	Tcolor
+	///	色の表現に用いる型。
+	template<class Tcolor>
+	class ImageCropping : public Image<Tcolor>
+	{
+	public:
+		///	色の表現に用いる型。
+		typedef Tcolor ValueType;
+	private:
+		const Image<Tcolor>& _data;
+		DisplayRectangle _area;
+	public:
+		///	オブジェクトを指定してこのオブジェクトを構築します。
+		///	@param	source
+		///	ソースとなる画像。
+		///	@param	area
+		///	切り抜きをする範囲。
+		ImageCropping(const Image<Tcolor>& source, const DisplayRectangle& area) : _data(source), _area(area) {}
+
+		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _area.Size(); }
+		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return _area; }
+		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { if (_area.Contains(index)) { return _data.At(index); } else { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } }
+
+		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { if (_area.Contains(index)) { return _data[index]; } else { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } }
+	};
+	///	画像を拡大・縮小します。
+	///	@param	Tcolor
+	///	色の表現に用いる型。
 	template<class Tcolor>
 	class ImageScaling : public Image<Tcolor>
 	{
 	public:
+		///	色の表現に用いる型。
 		typedef Tcolor ValueType;
+		///	ピクセル補完関数。
 		typedef std::function<Tcolor(const Image<Tcolor>&, const DisplayPointF&)> InterpolationMethod;
 	private:
 		const Image<Tcolor>& _data;
@@ -71,7 +118,23 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		DisplayRectSizeF _amount;
 		DisplayRectangle _newarea;
 	public:
+		///	オブジェクトを指定してこのオブジェクトを構築します。
+		///	@param	source
+		///	ソースとなる画像。
+		///	@param	imethod
+		///	ピクセル補完関数。
+		///	@param	scale
+		///	拡大・縮小のスケールファクター。
 		ImageScaling(const Image<Tcolor>& source, const InterpolationMethod& imethod, const float& scale) : _data(source), _imethod(imethod), _amount(scale, scale), _newarea(DisplayRectangle::FromEdge(int(source.Area().Left() * scale), int(source.Area().Right() * scale), int(source.Area().Top() * scale), int(source.Area().Bottom() * scale))) {}
+		///	オブジェクトを指定してこのオブジェクトを構築します。
+		///	@param	source
+		///	ソースとなる画像。
+		///	@param	imethod
+		///	ピクセル補完関数。
+		///	@param	xscale
+		///	x軸拡大・縮小のスケールファクター。
+		///	@param	yscale
+		///	y軸拡大・縮小のスケールファクター。
 		ImageScaling(const Image<Tcolor>& source, const InterpolationMethod& imethod, const float& xscale, const float& yscale) : _data(source), _imethod(imethod), _amount(xscale, yscale), _newarea(DisplayRectangle::FromEdge(int(source.Area().Left() * xscale), int(source.Area().Right() * xscale), int(source.Area().Top() * yscale), int(source.Area().Bottom() * yscale))) {}
 
 		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _newarea.Size(); }
@@ -80,15 +143,22 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _imethod(_data, DisplayPointF(index.X() / _amount.Width(), index.Y() / _amount.Height())); }
 	};
+	///	画像を左右反転します。
+	///	@param	Tcolor
+	///	色の表現に用いる型。
 	template<class Tcolor>
 	class ImageHorizonalFlip : public Image<Tcolor>
 	{
 	public:
+		///	色の表現に用いる型。
 		typedef Tcolor ValueType;
 	private:
 		const Image<Tcolor>& _data;
 		DisplayPoint _orig;
 	public:
+		///	オブジェクトを指定してこのオブジェクトを構築します。
+		///	@param	source
+		///	ソースとなる画像。
 		ImageHorizonalFlip(const Image<Tcolor>& source) : _data(source), _orig(1-_data.Area().Right(), _data.Area().Top()) {}
 
 		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
@@ -97,15 +167,22 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[DisplayPoint(-index.X(), index.Y())]; }
 	};
+	///	画像を上下反転します。
+	///	@param	Tcolor
+	///	色の表現に用いる型。
 	template<class Tcolor>
 	class ImageVerticalFlip : public Image<Tcolor>
 	{
 	public:
+		///	色の表現に用いる型。
 		typedef Tcolor ValueType;
 	private:
 		const Image<Tcolor>& _data;
 		DisplayPoint _orig;
 	public:
+		///	オブジェクトを指定してこのオブジェクトを構築します。
+		///	@param	source
+		///	ソースとなる画像。
 		ImageVerticalFlip(const Image<Tcolor>& source) : _data(source), _orig(_data.Area().Left(), 1-_data.Area().Bottom()) {}
 
 		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
@@ -280,6 +357,89 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	extern template class ImageShift<AYUVI64_t>;
 	extern template class ImageShift<AYUVF32_t>;
 	extern template class ImageShift<AYUVF64_t>;
+
+	extern template class ImageCropping<CMY8_t>;
+	extern template class ImageCropping<CMY16_t>;
+	extern template class ImageCropping<CMY32_t>;
+	extern template class ImageCropping<CMY64_t>;
+	extern template class ImageCropping<CMYI16_t>;
+	extern template class ImageCropping<CMYI32_t>;
+	extern template class ImageCropping<CMYI64_t>;
+	extern template class ImageCropping<CMYF32_t>;
+	extern template class ImageCropping<CMYF64_t>;
+	extern template class ImageCropping<ACMY8_t>;
+	extern template class ImageCropping<ACMY16_t>;
+	extern template class ImageCropping<ACMY32_t>;
+	extern template class ImageCropping<ACMY64_t>;
+	extern template class ImageCropping<ACMYI16_t>;
+	extern template class ImageCropping<ACMYI32_t>;
+	extern template class ImageCropping<ACMYI64_t>;
+	extern template class ImageCropping<ACMYF32_t>;
+	extern template class ImageCropping<ACMYF64_t>;
+	extern template class ImageCropping<CMYK8_t>;
+	extern template class ImageCropping<CMYK16_t>;
+	extern template class ImageCropping<CMYK32_t>;
+	extern template class ImageCropping<CMYK64_t>;
+	extern template class ImageCropping<CMYKI16_t>;
+	extern template class ImageCropping<CMYKI32_t>;
+	extern template class ImageCropping<CMYKI64_t>;
+	extern template class ImageCropping<CMYKF32_t>;
+	extern template class ImageCropping<CMYKF64_t>;
+	extern template class ImageCropping<ACMYK8_t>;
+	extern template class ImageCropping<ACMYK16_t>;
+	extern template class ImageCropping<ACMYK32_t>;
+	extern template class ImageCropping<ACMYK64_t>;
+	extern template class ImageCropping<ACMYKI16_t>;
+	extern template class ImageCropping<ACMYKI32_t>;
+	extern template class ImageCropping<ACMYKI64_t>;
+	extern template class ImageCropping<ACMYKF32_t>;
+	extern template class ImageCropping<ACMYKF64_t>;
+	extern template class ImageCropping<GrayScale1_t>;
+	extern template class ImageCropping<GrayScale8_t>;
+	extern template class ImageCropping<GrayScale16_t>;
+	extern template class ImageCropping<GrayScale32_t>;
+	extern template class ImageCropping<GrayScale64_t>;
+	extern template class ImageCropping<GrayScaleI16_t>;
+	extern template class ImageCropping<GrayScaleI32_t>;
+	extern template class ImageCropping<GrayScaleI64_t>;
+	extern template class ImageCropping<GrayScaleF32_t>;
+	extern template class ImageCropping<GrayScaleF64_t>;
+	extern template class ImageCropping<RGB8_t>;
+	extern template class ImageCropping<RGB16_t>;
+	extern template class ImageCropping<RGB32_t>;
+	extern template class ImageCropping<RGB64_t>;
+	extern template class ImageCropping<RGBI16_t>;
+	extern template class ImageCropping<RGBI32_t>;
+	extern template class ImageCropping<RGBI64_t>;
+	extern template class ImageCropping<RGBF32_t>;
+	extern template class ImageCropping<RGBF64_t>;
+	extern template class ImageCropping<ARGB8_t>;
+	extern template class ImageCropping<ARGB16_t>;
+	extern template class ImageCropping<ARGB32_t>;
+	extern template class ImageCropping<ARGB64_t>;
+	extern template class ImageCropping<ARGBI16_t>;
+	extern template class ImageCropping<ARGBI32_t>;
+	extern template class ImageCropping<ARGBI64_t>;
+	extern template class ImageCropping<ARGBF32_t>;
+	extern template class ImageCropping<ARGBF64_t>;
+	extern template class ImageCropping<YUV8_t>;
+	extern template class ImageCropping<YUV16_t>;
+	extern template class ImageCropping<YUV32_t>;
+	extern template class ImageCropping<YUV64_t>;
+	extern template class ImageCropping<YUVI16_t>;
+	extern template class ImageCropping<YUVI32_t>;
+	extern template class ImageCropping<YUVI64_t>;
+	extern template class ImageCropping<YUVF32_t>;
+	extern template class ImageCropping<YUVF64_t>;
+	extern template class ImageCropping<AYUV8_t>;
+	extern template class ImageCropping<AYUV16_t>;
+	extern template class ImageCropping<AYUV32_t>;
+	extern template class ImageCropping<AYUV64_t>;
+	extern template class ImageCropping<AYUVI16_t>;
+	extern template class ImageCropping<AYUVI32_t>;
+	extern template class ImageCropping<AYUVI64_t>;
+	extern template class ImageCropping<AYUVF32_t>;
+	extern template class ImageCropping<AYUVF64_t>;
 
 	extern template class ImageScaling<CMY8_t>;
 	extern template class ImageScaling<CMY16_t>;
