@@ -67,10 +67,13 @@ namespace zawa_ch::StationaryOrbit
 				}
 			}
 		}
+		///	@a bool のand結合を行います。
+		///	このメソッドはちょうど @a left&right に等しい操作を行います。
 		[[nodiscard]] static constexpr bool And(const bool& left, const bool& right)
 		{
 			return left & right;
 		}
+		///	@a bool のand結合を行います。
 		[[nodiscard]] static constexpr bool And(const std::initializer_list<bool>& list)
 		{
 			bool result = true;
@@ -80,10 +83,13 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return result;
 		}
+		///	@a bool のor結合を行います。
+		///	このメソッドはちょうど @a left|right に等しい操作を行います。
 		[[nodiscard]] static constexpr bool Or(const bool& left, const bool& right)
 		{
 			return left | right;
 		}
+		///	@a bool のor結合を行います。
 		[[nodiscard]] static constexpr bool Or(const std::initializer_list<bool>& list)
 		{
 			bool result = false;
@@ -93,10 +99,12 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return result;
 		}
+		///	@a bool のxor結合を行います。
 		[[nodiscard]] static constexpr bool Xor(const bool& left, const bool& right)
 		{
 			return (left | right) & !(left & right);
 		}
+		///	@a bool のxor結合を行います。
 		[[nodiscard]] static constexpr bool Xor(const std::initializer_list<bool>& list)
 		{
 			bool result = false;
@@ -106,16 +114,27 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return result;
 		}
+		///	半角公式によるsin(x/2)の導出を行います。
+		///	@param	cos
+		///	cos(x)の値。
 		template<class T>
 		[[nodiscard]] static constexpr T HalfAngleSinFormula(const T& cos)
 		{
 			return BasicMathematics::Sqrt((T(1) - cos) / 2);
 		}
+		///	半角公式によるcos(x/2)の導出を行います。
+		///	@param	cos
+		///	cos(x)の値。
 		template<class T>
 		[[nodiscard]] static constexpr T HalfAngleCosFormula(const T& cos)
 		{
 			return BasicMathematics::Sqrt((T(1) + cos) / 2);
 		}
+		///	半角公式によるtan(x/2)の導出を行います。
+		///	@param	sin
+		///	sin(x)の値。
+		///	@param	cos
+		///	cos(x)の値。
 		template<class T>
 		[[nodiscard]] static constexpr T HalfAngleTanFormula(const T& sin, const T& cos)
 		{

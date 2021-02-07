@@ -1,4 +1,4 @@
-//	stationaryorbit/core.numeral
+//	stationaryorbit/core.utilities
 //	Copyright 2020 zawa-ch.
 //	GPLv3 (or later) license
 //
@@ -19,13 +19,6 @@
 
 #include "core/algorithms.hpp"
 #include "core/arithmetic.hpp"
-#include "core/fixedpoint.hpp"
-#include "core/integer.hpp"
-#include "core/logic.hpp"
-#include "core/point.hpp"
-#include "core/proportion.hpp"
-#include "core/range.hpp"
-#include "core/rectangle.hpp"
-#include "core/rectsize.hpp"
-#include "core/rotation.hpp"
-#include "core/vector2d.hpp"
+#include "core/constarray.hpp"
+#include "core/fundamental.hpp"
+#include "core/zerovalue.hpp"

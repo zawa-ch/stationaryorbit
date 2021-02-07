@@ -23,17 +23,23 @@
 #define __stationaryorbit_core_arithmetic__
 namespace zawa_ch::StationaryOrbit
 {
+	///	数値型による数値演算の拡張を行います。
 	class ArithmeticOperation
 	{
 	private:
 		ArithmeticOperation() = delete;
 		~ArithmeticOperation() = delete;
 	public:
+		///	加算の結果を示すフラグ。
 		enum class AdditionResultStatus { NoError = 0, PositiveOverflow = 1, NegativeOverflow = -1 };
+		///	加算の結果を表します。
 		template<typename T, typename Tp = typename Traits::PromotionResult<T>> struct AdditionResult final { Tp Result; AdditionResultStatus Status; };
+		///	乗算の結果を示すフラグ。
 		enum class MultiplicationResultStatus { NoError = 0, Overflow = 1, DivideByZero = -1 };
+		///	乗算の結果を表します。
 		template<typename T, typename Tp = typename Traits::PromotionResult<T>> struct MultiplicationResult final { Tp Result; MultiplicationResultStatus Status; };
 
+		///	@a AddisionResult を使用し、演算時のエラーを検出する加算を行います。
 		template<typename T>
 		static constexpr AdditionResult<T> Add(const T& left, const T& right) noexcept
 		{
@@ -51,6 +57,7 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return AdditionResult<T>{ left + right, AdditionResultStatus::NoError };
 		}
+		///	@a AddisionResult を使用し、演算時のエラーを検出する減算を行います。
 		template<typename T>
 		static constexpr AdditionResult<T> Subtract(const T& left, const T& right) noexcept
 		{
@@ -68,6 +75,7 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return AdditionResult<T>{ left - right, AdditionResultStatus::NoError };
 		}
+		///	@a MultiplicationResult を使用し、演算時のエラーを検出する乗算を行います。
 		template<typename T>
 		static MultiplicationResult<T> Multiply(const T& left, const T& right) noexcept
 		{
@@ -107,6 +115,7 @@ namespace zawa_ch::StationaryOrbit
 			auto evalf = std::numeric_limits<T>::lowest() / right;
 			return MultiplicationResult<T>{ left * right, ((left < std::min(evalc, evalf))||(std::max(evalc, evalf) < left))?(MultiplicationResultStatus::Overflow):(MultiplicationResultStatus::NoError) };
 		}
+		///	@a MultiplicationResult を使用し、演算時のエラーを検出する除算を行います。
 		template<typename T>
 		static MultiplicationResult<T> Divide(const T& left, const T& right) noexcept
 		{
@@ -129,6 +138,7 @@ namespace zawa_ch::StationaryOrbit
 			auto evalf = std::numeric_limits<T>::lowest() * right;
 			return MultiplicationResult<T>{ left / right, ((left < std::min(evalc, evalf))||(std::max(evalc, evalf) < left))?(MultiplicationResultStatus::Overflow):(MultiplicationResultStatus::NoError) };
 		}
+		///	オーバーフロー時にその型で表現できる限界の値で飽和する加算を行います。
 		template<typename T>
 		static constexpr T SaturateAdd(const T& left, const T& right)
 		{
@@ -143,6 +153,7 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
+		///	オーバーフロー時にその型で表現できる限界の値で飽和する減算を行います。
 		template<typename T>
 		static constexpr T SaturateSubtract(const T& left, const T& right)
 		{
@@ -157,6 +168,7 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
+		///	オーバーフロー時にその型で表現できる限界の値で飽和する乗算を行います。
 		template<typename T>
 		static constexpr T SaturateMultiply(const T& left, const T& right)
 		{
@@ -179,6 +191,7 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
+		///	オーバーフロー時にその型で表現できる限界の値で飽和する除算を行います。
 		template<typename T>
 		static constexpr T SaturateDivide(const T& left, const T& right)
 		{
