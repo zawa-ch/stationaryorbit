@@ -24,6 +24,7 @@
 #include "grayscalecolor.hpp"
 #include "rgbcolor.hpp"
 #include "yuvcolor.hpp"
+#include "imageoperationargs.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	///	画像の位置を原点に合わせます。
@@ -35,19 +36,39 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public:
 		///	色の表現に用いる型。
 		typedef Tcolor ValueType;
+		///	画像操作を行うための引数型。
+		typedef ImageOperationArgs ArgsType;
 	private:
 		const Image<Tcolor>& _data;
 	public:
 		///	オブジェクトを指定してこのオブジェクトを構築します。
 		///	@param	source
 		///	ソースとなる画像。
-		ImageAlign(const Image<Tcolor>& source) : _data(source) {}
+		///	@param	args
+		///	この画像操作を行うために渡す引数。
+		ImageAlign(const Image<Tcolor>& source, const ArgsType& args) : _data(source) {}
+		///	オブジェクトを指定してこのオブジェクトを構築します。
+		///	@param	source
+		///	ソースとなる画像。
+		ImageAlign(const Image<Tcolor>& source) : ImageAlign(source, ArgsType()) {}
 
 		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
 		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return DisplayRectangle(DisplayPoint(0, 0), _data.Size()); }
 		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _data.At(_data.Area().Origin() + index); }
 
 		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[_data.Area().Origin() + index]; }
+	};
+	///	@a ImageShift で使用する引数。
+	class ImageShiftArgs
+	{
+	private:
+		DisplayPoint _amount;
+	public:
+		ImageShiftArgs() = default;
+		ImageShiftArgs(const DisplayPoint& amount) : _amount(amount) {}
+
+		///	移動する大きさ。
+		const DisplayPoint& Amount() const { return _amount; }
 	};
 	///	画像を指定された大きさだけ移動します。
 	///	@param	Tcolor
@@ -58,22 +79,42 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public:
 		///	色の表現に用いる型。
 		typedef Tcolor ValueType;
+		///	画像操作を行うための引数型。
+		typedef ImageShiftArgs ArgsType;
 	private:
 		const Image<Tcolor>& _data;
-		DisplayPoint _amount;
+		ArgsType args;
 	public:
+		///	オブジェクトを指定してこのオブジェクトを構築します。
+		///	@param	source
+		///	ソースとなる画像。
+		///	@param	args
+		///	この画像操作を行うために渡す引数。
+		ImageShift(const Image<Tcolor>& source, const ArgsType& args) : _data(source), args(args) {}
 		///	オブジェクトを指定してこのオブジェクトを構築します。
 		///	@param	source
 		///	ソースとなる画像。
 		///	@param	amount
 		///	移動する大きさ。
-		ImageShift(const Image<Tcolor>& source, const DisplayPoint& amount) : _data(source), _amount(amount) {}
+		ImageShift(const Image<Tcolor>& source, const DisplayPoint& amount) : ImageShift(source, ArgsType(amount)) {}
 
 		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
-		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return _data.Area().Offset(_amount); }
-		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _data.At(index - _amount); }
+		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return _data.Area().Offset(args.Amount()); }
+		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _data.At(index - args.Amount()); }
 
-		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[index - _amount]; }
+		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[index - args.Amount()]; }
+	};
+	///	@a ImageCropping で使用する引数。
+	class ImageCroppingArgs
+	{
+	private:
+		DisplayRectangle _area;
+	public:
+		ImageCroppingArgs() = default;
+		ImageCroppingArgs(const DisplayRectangle& area) : _area(area) {}
+
+		///	切り抜きをする範囲。
+		const DisplayRectangle& Area() const { return _area; }
 	};
 	///	画像を指定した範囲で切り抜きます。
 	///	@param	Tcolor
@@ -84,22 +125,30 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public:
 		///	色の表現に用いる型。
 		typedef Tcolor ValueType;
+		///	画像操作を行うための引数型。
+		typedef ImageCroppingArgs ArgsType;
 	private:
 		const Image<Tcolor>& _data;
-		DisplayRectangle _area;
+		ArgsType args;
 	public:
+		///	オブジェクトを指定してこのオブジェクトを構築します。
+		///	@param	source
+		///	ソースとなる画像。
+		///	@param	args
+		///	この画像操作を行うために渡す引数。
+		ImageCropping(const Image<Tcolor>& source, const ArgsType& args) : _data(source), args(args) {}
 		///	オブジェクトを指定してこのオブジェクトを構築します。
 		///	@param	source
 		///	ソースとなる画像。
 		///	@param	area
 		///	切り抜きをする範囲。
-		ImageCropping(const Image<Tcolor>& source, const DisplayRectangle& area) : _data(source), _area(area) {}
+		ImageCropping(const Image<Tcolor>& source, const DisplayRectangle& area) : ImageCropping(source, ArgsType(area)) {}
 
-		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _area.Size(); }
-		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return _area; }
-		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { if (_area.Contains(index)) { return _data.At(index); } else { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } }
+		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return args.Area().Size(); }
+		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return args.Area(); }
+		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { if (args.Area().Contains(index)) { return _data.At(index); } else { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } }
 
-		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { if (_area.Contains(index)) { return _data[index]; } else { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } }
+		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { if (args.Area().Contains(index)) { return _data[index]; } else { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } }
 	};
 	///	画像を拡大・縮小します。
 	///	@param	Tcolor
@@ -112,12 +161,34 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		typedef Tcolor ValueType;
 		///	ピクセル補完関数。
 		typedef std::function<Tcolor(const Image<Tcolor>&, const DisplayPointF&)> InterpolationMethod;
+		///	@a ImageScaling で使用する引数。
+		class ArgsType
+		{
+		private:
+			InterpolationMethod _imethod;
+			DisplayRectSizeF _amount;
+		public:
+			ArgsType() = default;
+			ArgsType(const InterpolationMethod& imethod, const DisplayRectSizeF& scale) : _imethod(imethod), _amount(scale) {}
+			ArgsType(const InterpolationMethod& imethod, float scale) : _imethod(imethod), _amount(scale, scale) {}
+			ArgsType(const InterpolationMethod& imethod, float xscale, float yscale) : _imethod(imethod), _amount(xscale, yscale) {}
+
+			///	ピクセル補完関数。
+			const InterpolationMethod& Method() const { return _imethod; }
+			///	拡大・縮小のスケールファクター。
+			const DisplayRectSizeF& Amount() const { return _amount; }
+		};
 	private:
 		const Image<Tcolor>& _data;
-		InterpolationMethod _imethod;
-		DisplayRectSizeF _amount;
+		ArgsType args;
 		DisplayRectangle _newarea;
 	public:
+		///	オブジェクトを指定してこのオブジェクトを構築します。
+		///	@param	source
+		///	ソースとなる画像。
+		///	@param	args
+		///	この画像操作を行うために渡す引数。
+		ImageScaling(const Image<Tcolor>& source, const ArgsType& args) : _data(source), args(args), _newarea(DisplayRectangle::FromEdge(int(source.Area().Left() * args.Amount().Width()), int(source.Area().Right() * args.Amount().Width()), int(source.Area().Top() * args.Amount().Height()), int(source.Area().Bottom() * args.Amount().Height()))) {}
 		///	オブジェクトを指定してこのオブジェクトを構築します。
 		///	@param	source
 		///	ソースとなる画像。
@@ -125,7 +196,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	ピクセル補完関数。
 		///	@param	scale
 		///	拡大・縮小のスケールファクター。
-		ImageScaling(const Image<Tcolor>& source, const InterpolationMethod& imethod, const float& scale) : _data(source), _imethod(imethod), _amount(scale, scale), _newarea(DisplayRectangle::FromEdge(int(source.Area().Left() * scale), int(source.Area().Right() * scale), int(source.Area().Top() * scale), int(source.Area().Bottom() * scale))) {}
+		ImageScaling(const Image<Tcolor>& source, const InterpolationMethod& imethod, float scale) : ImageScaling(source, ArgsType(imethod, scale)) {}
 		///	オブジェクトを指定してこのオブジェクトを構築します。
 		///	@param	source
 		///	ソースとなる画像。
@@ -135,13 +206,13 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	x軸拡大・縮小のスケールファクター。
 		///	@param	yscale
 		///	y軸拡大・縮小のスケールファクター。
-		ImageScaling(const Image<Tcolor>& source, const InterpolationMethod& imethod, const float& xscale, const float& yscale) : _data(source), _imethod(imethod), _amount(xscale, yscale), _newarea(DisplayRectangle::FromEdge(int(source.Area().Left() * xscale), int(source.Area().Right() * xscale), int(source.Area().Top() * yscale), int(source.Area().Bottom() * yscale))) {}
+		ImageScaling(const Image<Tcolor>& source, const InterpolationMethod& imethod, float xscale, float yscale) : ImageScaling(source, ArgsType(imethod, xscale, yscale)) {}
 
 		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _newarea.Size(); }
 		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return _newarea; }
-		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _imethod(_data, DisplayPointF(index.X() / _amount.Width(), index.Y() / _amount.Height())); }
+		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return args.Method()(_data, DisplayPointF(index.X() / args.Amount().Width(), index.Y() / args.Amount().Height())); }
 
-		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _imethod(_data, DisplayPointF(index.X() / _amount.Width(), index.Y() / _amount.Height())); }
+		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return args.Method()(_data, DisplayPointF(index.X() / args.Amount().Width(), index.Y() / args.Amount().Height())); }
 	};
 	///	画像を左右反転します。
 	///	@param	Tcolor
@@ -152,6 +223,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public:
 		///	色の表現に用いる型。
 		typedef Tcolor ValueType;
+		///	画像操作を行うための引数型。
+		typedef ImageOperationArgs ArgsType;
 	private:
 		const Image<Tcolor>& _data;
 		DisplayPoint _orig;
@@ -159,7 +232,13 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	オブジェクトを指定してこのオブジェクトを構築します。
 		///	@param	source
 		///	ソースとなる画像。
-		ImageHorizonalFlip(const Image<Tcolor>& source) : _data(source), _orig(1-_data.Area().Right(), _data.Area().Top()) {}
+		///	@param	args
+		///	この画像操作を行うために渡す引数。
+		ImageHorizonalFlip(const Image<Tcolor>& source, const ArgsType& args) : _data(source), _orig(1-_data.Area().Right(), _data.Area().Top()) {}
+		///	オブジェクトを指定してこのオブジェクトを構築します。
+		///	@param	source
+		///	ソースとなる画像。
+		ImageHorizonalFlip(const Image<Tcolor>& source) : ImageHorizonalFlip(source, ArgsType()) {}
 
 		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
 		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return DisplayRectangle(_orig, _data.Size()); }
@@ -176,6 +255,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	public:
 		///	色の表現に用いる型。
 		typedef Tcolor ValueType;
+		///	画像操作を行うための引数型。
+		typedef ImageOperationArgs ArgsType;
 	private:
 		const Image<Tcolor>& _data;
 		DisplayPoint _orig;
@@ -183,7 +264,13 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	オブジェクトを指定してこのオブジェクトを構築します。
 		///	@param	source
 		///	ソースとなる画像。
-		ImageVerticalFlip(const Image<Tcolor>& source) : _data(source), _orig(_data.Area().Left(), 1-_data.Area().Bottom()) {}
+		///	@param	args
+		///	この画像操作を行うために渡す引数。
+		ImageVerticalFlip(const Image<Tcolor>& source, const ArgsType& args) : _data(source), _orig(_data.Area().Left(), 1-_data.Area().Bottom()) {}
+		///	オブジェクトを指定してこのオブジェクトを構築します。
+		///	@param	source
+		///	ソースとなる画像。
+		ImageVerticalFlip(const Image<Tcolor>& source) : ImageVerticalFlip(source, ArgsType()) {}
 
 		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
 		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return DisplayRectangle(_orig, _data.Size()); }

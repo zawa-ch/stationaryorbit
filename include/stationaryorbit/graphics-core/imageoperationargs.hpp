@@ -22,22 +22,38 @@
 #include "image.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
+	///	画像操作を行うための引数を保持する基本クラス。
 	class ImageOperationArgs {};
 	template<class operation, class = void>
 	class ImageOperationArgsBinder;
-	template<class operation> 
+	///	画像操作を行うクラスに引数をバインドします。
+	///	@param operation
+	///	画像操作を行うクラス。
+	///	@a Image を継承し、 ( @a Image , @a operation::ArgsType ) を引数に取るコンストラクタをサポートする必要があります。
+	template<class operation>
 	class ImageOperationArgsBinder<operation, std::void_t< typename operation::ValueType, typename operation::ArgsType, std::enable_if_t< std::is_constructible_v<operation, const Image<typename operation::ValueType>&, const typename operation::ArgsType&>, void> > > final
 	{
 	public:
+		///	画像操作を行うクラス。
+		///	@a Image を継承し、 ( @a Image , @a ArgsType ) を引数に取るコンストラクタをサポートする必要があります。
 		typedef operation OperationType;
+		///	引数を保持するクラス。
+		///	@a operation::ArgsType と同一です。
 		typedef typename operation::ArgsType ArgsType;
+		///	色を表現するために使用する型。
+		///	@a operation::ValueType と同一です。
 		typedef typename operation::ValueType ValueType;
 	private:
 		ArgsType _args;
 	public:
+		///	画像操作を行うクラスに引数をバインドします。
+		///	@param	args
+		///	バインドする引数。
 		ImageOperationArgsBinder(const ArgsType args) : _args(args) {}
 
+		///	バインドされている引数を取得します。
 		[[nodiscard]] const ArgsType& Args() const { return _args; }
+		///	ソースとなる画像を渡し、画像操作を行うクラスのインスタンスを作成します。
 		[[nodiscard]] OperationType Get(const Image<ValueType>& source) const { return OperationType(source, _args); }
 	};
 }
