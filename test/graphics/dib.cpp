@@ -34,6 +34,7 @@ void WriteCoreProfile();
 void FripV();
 void FripH();
 void TurnR();
+void TurnL();
 void Crop();
 void Resize1();
 void Resize2();
@@ -76,6 +77,11 @@ void Test_DIB()
 	TurnR();
 	elapsed = std::chrono::steady_clock::now() - start;
 	std::cout << "Right turn: " << elapsed.count() << "sec." << std::endl;
+
+	start = std::chrono::steady_clock::now();
+	TurnL();
+	elapsed = std::chrono::steady_clock::now() - start;
+	std::cout << "Left turn: " << elapsed.count() << "sec." << std::endl;
 
 	start = std::chrono::steady_clock::now();
 	Crop();
@@ -185,6 +191,24 @@ void TurnR()
 	const char* ofile = "output_turnr.bmp";
 	// 画像を右回転
 	auto turnedimage = ImageRightTurn(image);
+	auto alignedimage = ImageAlign(turnedimage);
+	// ヘッダの準備
+	auto whead = ihead;
+	whead.Width = alignedimage.Size().Width();
+	whead.Height = alignedimage.Size().Height();
+	whead.Compression = DIB::DIBCompressionMethod::RGB;
+	whead.SizeImage = DIB::DIBRGBEncoder::GetImageLength(whead.BitCount, DisplayRectSize(whead.Width, whead.Height));
+	// ファイルを開く
+	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
+	// ビットマップを書き込む
+	DIB::DIBInfoBitmap::Generate(std::move(loader), whead, alignedimage);
+}
+
+void TurnL()
+{
+	const char* ofile = "output_turnl.bmp";
+	// 画像を左回転
+	auto turnedimage = ImageLeftTurn(image);
 	auto alignedimage = ImageAlign(turnedimage);
 	// ヘッダの準備
 	auto whead = ihead;
