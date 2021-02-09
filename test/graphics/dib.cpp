@@ -35,6 +35,7 @@ void FripV();
 void FripH();
 void TurnR();
 void TurnL();
+void TurnI();
 void Crop();
 void Resize1();
 void Resize2();
@@ -82,6 +83,11 @@ void Test_DIB()
 	TurnL();
 	elapsed = std::chrono::steady_clock::now() - start;
 	std::cout << "Left turn: " << elapsed.count() << "sec." << std::endl;
+
+	start = std::chrono::steady_clock::now();
+	TurnI();
+	elapsed = std::chrono::steady_clock::now() - start;
+	std::cout << "Invert turn: " << elapsed.count() << "sec." << std::endl;
 
 	start = std::chrono::steady_clock::now();
 	Crop();
@@ -220,6 +226,18 @@ void TurnL()
 	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
 	// ビットマップを書き込む
 	DIB::DIBInfoBitmap::Generate(std::move(loader), whead, alignedimage);
+}
+
+void TurnI()
+{
+	const char* ofile = "output_turni.bmp";
+	// 画像を180°回転
+	auto turnedimage = ImageInvertTurn(image);
+	auto alignedimage = ImageAlign(turnedimage);
+	// ファイルを開く
+	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
+	// ビットマップを書き込む
+	DIB::DIBInfoBitmap::Generate(std::move(loader), ihead, alignedimage);
 }
 
 void Crop()

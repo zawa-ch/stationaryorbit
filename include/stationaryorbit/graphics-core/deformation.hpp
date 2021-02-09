@@ -342,6 +342,38 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		[[nodiscard]] ValueType operator[](const DisplayPoint& index) const { return _data[DisplayPoint(-index.Y(), index.X())]; }
 	};
+	///	画像を180°回転します。
+	///	@param	Tcolor
+	///	色の表現に用いる型。
+	template<class Tcolor>
+	class ImageInvertTurn : public Image<Tcolor>
+	{
+	public:
+		///	色の表現に用いる型。
+		typedef Tcolor ValueType;
+		///	画像操作を行うための引数型。
+		typedef ImageOperationArgs ArgsType;
+	private:
+		const Image<Tcolor>& _data;
+		DisplayRectangle _area;
+	public:
+		///	オブジェクトを指定してこのオブジェクトを構築します。
+		///	@param	source
+		///	ソースとなる画像。
+		///	@param	args
+		///	この画像操作を行うために渡す引数。
+		ImageInvertTurn(const Image<Tcolor>& source, const ArgsType& args) : _data(source), _area(DisplayRectangle::FromEdge(-source.Area().Right() + 1, -source.Area().Left() + 1, -source.Area().Bottom() + 1, -source.Area().Top() + 1)) {}
+		///	オブジェクトを指定してこのオブジェクトを構築します。
+		///	@param	source
+		///	ソースとなる画像。
+		ImageInvertTurn(const Image<Tcolor>& source) : ImageInvertTurn(source, ArgsType()) {}
+
+		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _area.Size(); }
+		[[nodiscard]] DisplayRectangle Area() const noexcept { return _area; }
+		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return _data.At(DisplayPoint(-index.X(), -index.Y())); }
+
+		[[nodiscard]] ValueType operator[](const DisplayPoint& index) const { return _data[DisplayPoint(-index.X(), -index.Y())]; }
+	};
 
 	extern template class ImageAlign<CMY8_t>;
 	extern template class ImageAlign<CMY16_t>;
@@ -1006,5 +1038,88 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	extern template class ImageLeftTurn<AYUVI64_t>;
 	extern template class ImageLeftTurn<AYUVF32_t>;
 	extern template class ImageLeftTurn<AYUVF64_t>;
+
+	extern template class ImageInvertTurn<CMY8_t>;
+	extern template class ImageInvertTurn<CMY16_t>;
+	extern template class ImageInvertTurn<CMY32_t>;
+	extern template class ImageInvertTurn<CMY64_t>;
+	extern template class ImageInvertTurn<CMYI16_t>;
+	extern template class ImageInvertTurn<CMYI32_t>;
+	extern template class ImageInvertTurn<CMYI64_t>;
+	extern template class ImageInvertTurn<CMYF32_t>;
+	extern template class ImageInvertTurn<CMYF64_t>;
+	extern template class ImageInvertTurn<ACMY8_t>;
+	extern template class ImageInvertTurn<ACMY16_t>;
+	extern template class ImageInvertTurn<ACMY32_t>;
+	extern template class ImageInvertTurn<ACMY64_t>;
+	extern template class ImageInvertTurn<ACMYI16_t>;
+	extern template class ImageInvertTurn<ACMYI32_t>;
+	extern template class ImageInvertTurn<ACMYI64_t>;
+	extern template class ImageInvertTurn<ACMYF32_t>;
+	extern template class ImageInvertTurn<ACMYF64_t>;
+	extern template class ImageInvertTurn<CMYK8_t>;
+	extern template class ImageInvertTurn<CMYK16_t>;
+	extern template class ImageInvertTurn<CMYK32_t>;
+	extern template class ImageInvertTurn<CMYK64_t>;
+	extern template class ImageInvertTurn<CMYKI16_t>;
+	extern template class ImageInvertTurn<CMYKI32_t>;
+	extern template class ImageInvertTurn<CMYKI64_t>;
+	extern template class ImageInvertTurn<CMYKF32_t>;
+	extern template class ImageInvertTurn<CMYKF64_t>;
+	extern template class ImageInvertTurn<ACMYK8_t>;
+	extern template class ImageInvertTurn<ACMYK16_t>;
+	extern template class ImageInvertTurn<ACMYK32_t>;
+	extern template class ImageInvertTurn<ACMYK64_t>;
+	extern template class ImageInvertTurn<ACMYKI16_t>;
+	extern template class ImageInvertTurn<ACMYKI32_t>;
+	extern template class ImageInvertTurn<ACMYKI64_t>;
+	extern template class ImageInvertTurn<ACMYKF32_t>;
+	extern template class ImageInvertTurn<ACMYKF64_t>;
+	extern template class ImageInvertTurn<GrayScale1_t>;
+	extern template class ImageInvertTurn<GrayScale8_t>;
+	extern template class ImageInvertTurn<GrayScale16_t>;
+	extern template class ImageInvertTurn<GrayScale32_t>;
+	extern template class ImageInvertTurn<GrayScale64_t>;
+	extern template class ImageInvertTurn<GrayScaleI16_t>;
+	extern template class ImageInvertTurn<GrayScaleI32_t>;
+	extern template class ImageInvertTurn<GrayScaleI64_t>;
+	extern template class ImageInvertTurn<GrayScaleF32_t>;
+	extern template class ImageInvertTurn<GrayScaleF64_t>;
+	extern template class ImageInvertTurn<RGB8_t>;
+	extern template class ImageInvertTurn<RGB16_t>;
+	extern template class ImageInvertTurn<RGB32_t>;
+	extern template class ImageInvertTurn<RGB64_t>;
+	extern template class ImageInvertTurn<RGBI16_t>;
+	extern template class ImageInvertTurn<RGBI32_t>;
+	extern template class ImageInvertTurn<RGBI64_t>;
+	extern template class ImageInvertTurn<RGBF32_t>;
+	extern template class ImageInvertTurn<RGBF64_t>;
+	extern template class ImageInvertTurn<ARGB8_t>;
+	extern template class ImageInvertTurn<ARGB16_t>;
+	extern template class ImageInvertTurn<ARGB32_t>;
+	extern template class ImageInvertTurn<ARGB64_t>;
+	extern template class ImageInvertTurn<ARGBI16_t>;
+	extern template class ImageInvertTurn<ARGBI32_t>;
+	extern template class ImageInvertTurn<ARGBI64_t>;
+	extern template class ImageInvertTurn<ARGBF32_t>;
+	extern template class ImageInvertTurn<ARGBF64_t>;
+	extern template class ImageInvertTurn<YUV8_t>;
+	extern template class ImageInvertTurn<YUV16_t>;
+	extern template class ImageInvertTurn<YUV32_t>;
+	extern template class ImageInvertTurn<YUV64_t>;
+	extern template class ImageInvertTurn<YUVI16_t>;
+	extern template class ImageInvertTurn<YUVI32_t>;
+	extern template class ImageInvertTurn<YUVI64_t>;
+	extern template class ImageInvertTurn<YUVF32_t>;
+	extern template class ImageInvertTurn<YUVF64_t>;
+	extern template class ImageInvertTurn<AYUV8_t>;
+	extern template class ImageInvertTurn<AYUV16_t>;
+	extern template class ImageInvertTurn<AYUV32_t>;
+	extern template class ImageInvertTurn<AYUV64_t>;
+	extern template class ImageInvertTurn<AYUVI16_t>;
+	extern template class ImageInvertTurn<AYUVI32_t>;
+	extern template class ImageInvertTurn<AYUVI64_t>;
+	extern template class ImageInvertTurn<AYUVF32_t>;
+	extern template class ImageInvertTurn<AYUVF64_t>;
 }
 #endif // __stationaryorbit_graphics_core_deformation__
