@@ -52,11 +52,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	ソースとなる画像。
 		ImageAlign(const Image<Tcolor>& source) : ImageAlign(source, ArgsType()) {}
 
-		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
-		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return DisplayRectangle(DisplayPoint(0, 0), _data.Size()); }
-		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _data.At(_data.Area().Origin() + index); }
+		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _data.Size(); }
+		[[nodiscard]] DisplayRectangle Area() const noexcept { return DisplayRectangle(DisplayPoint(0, 0), _data.Size()); }
+		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return _data.At(_data.Area().Origin() + index); }
 
-		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[_data.Area().Origin() + index]; }
+		[[nodiscard]] ValueType operator[](const DisplayPoint& index) const { return _data[_data.Area().Origin() + index]; }
 	};
 	///	@a ImageShift で使用する引数。
 	class ImageShiftArgs
@@ -98,11 +98,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	移動する大きさ。
 		ImageShift(const Image<Tcolor>& source, const DisplayPoint& amount) : ImageShift(source, ArgsType(amount)) {}
 
-		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
-		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return _data.Area().Offset(args.Amount()); }
-		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _data.At(index - args.Amount()); }
+		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _data.Size(); }
+		[[nodiscard]] DisplayRectangle Area() const noexcept { return _data.Area().Offset(args.Amount()); }
+		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return _data.At(index - args.Amount()); }
 
-		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[index - args.Amount()]; }
+		[[nodiscard]] ValueType operator[](const DisplayPoint& index) const { return _data[index - args.Amount()]; }
 	};
 	///	@a ImageCropping で使用する引数。
 	class ImageCroppingArgs
@@ -144,11 +144,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	切り抜きをする範囲。
 		ImageCropping(const Image<Tcolor>& source, const DisplayRectangle& area) : ImageCropping(source, ArgsType(area)) {}
 
-		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return args.Area().Size(); }
-		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return args.Area(); }
-		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { if (args.Area().Contains(index)) { return _data.At(index); } else { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } }
+		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return args.Area().Size(); }
+		[[nodiscard]] DisplayRectangle Area() const noexcept { return args.Area(); }
+		[[nodiscard]] ValueType At(const DisplayPoint& index) const { if (args.Area().Contains(index)) { return _data.At(index); } else { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } }
 
-		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { if (args.Area().Contains(index)) { return _data[index]; } else { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } }
+		[[nodiscard]] ValueType operator[](const DisplayPoint& index) const { if (args.Area().Contains(index)) { return _data[index]; } else { throw std::out_of_range("指定されたインデックスは境界を超えています。"); } }
 	};
 	///	画像を拡大・縮小します。
 	///	@param	Tcolor
@@ -208,11 +208,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	y軸拡大・縮小のスケールファクター。
 		ImageScaling(const Image<Tcolor>& source, const InterpolationMethod& imethod, float xscale, float yscale) : ImageScaling(source, ArgsType(imethod, xscale, yscale)) {}
 
-		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _newarea.Size(); }
-		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return _newarea; }
-		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return args.Method()(_data, DisplayPointF(index.X() / args.Amount().Width(), index.Y() / args.Amount().Height())); }
+		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _newarea.Size(); }
+		[[nodiscard]] DisplayRectangle Area() const noexcept { return _newarea; }
+		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return args.Method()(_data, DisplayPointF(index.X() / args.Amount().Width(), index.Y() / args.Amount().Height())); }
 
-		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return args.Method()(_data, DisplayPointF(index.X() / args.Amount().Width(), index.Y() / args.Amount().Height())); }
+		[[nodiscard]] ValueType operator[](const DisplayPoint& index) const { return args.Method()(_data, DisplayPointF(index.X() / args.Amount().Width(), index.Y() / args.Amount().Height())); }
 	};
 	///	画像を左右反転します。
 	///	@param	Tcolor
@@ -240,11 +240,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	ソースとなる画像。
 		ImageHorizonalFlip(const Image<Tcolor>& source) : ImageHorizonalFlip(source, ArgsType()) {}
 
-		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
-		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return DisplayRectangle(_orig, _data.Size()); }
-		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _data.At(DisplayPoint(-index.X(), index.Y())); }
+		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _data.Size(); }
+		[[nodiscard]] DisplayRectangle Area() const noexcept { return DisplayRectangle(_orig, _data.Size()); }
+		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return _data.At(DisplayPoint(-index.X(), index.Y())); }
 
-		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[DisplayPoint(-index.X(), index.Y())]; }
+		[[nodiscard]] ValueType operator[](const DisplayPoint& index) const { return _data[DisplayPoint(-index.X(), index.Y())]; }
 	};
 	///	画像を上下反転します。
 	///	@param	Tcolor
@@ -272,11 +272,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	ソースとなる画像。
 		ImageVerticalFlip(const Image<Tcolor>& source) : ImageVerticalFlip(source, ArgsType()) {}
 
-		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _data.Size(); }
-		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return DisplayRectangle(_orig, _data.Size()); }
-		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const { return _data.At(DisplayPoint(index.X(), -index.Y())); }
+		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _data.Size(); }
+		[[nodiscard]] DisplayRectangle Area() const noexcept { return DisplayRectangle(_orig, _data.Size()); }
+		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return _data.At(DisplayPoint(index.X(), -index.Y())); }
 
-		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const { return _data[DisplayPoint(index.X(), -index.Y())]; }
+		[[nodiscard]] ValueType operator[](const DisplayPoint& index) const { return _data[DisplayPoint(index.X(), -index.Y())]; }
 	};
 
 	extern template class ImageAlign<CMY8_t>;
