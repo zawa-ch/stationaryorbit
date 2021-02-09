@@ -53,6 +53,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		PixArray(const Image<fromTcolor>& source, const DisplayPoint& origin) : PixArray(source, DisplayRectangle(origin, _size)) {}
 		virtual ~PixArray() = default;
 
+		[[nodiscard]] bool IsReadableAbyss() const noexcept { return false; }
+
 		[[nodiscard]] const DataType& Data() const noexcept { return _data; }
 		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _size; }
 		[[nodiscard]] DisplayRectangle Area() const noexcept { return DisplayRectangle(DisplayPoint(0, 0), _size); }

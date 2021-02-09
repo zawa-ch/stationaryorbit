@@ -46,6 +46,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		ColorFillImage(const ValueType& color) : color(color), area() {}
 		ColorFillImage(const ValueType& color, const DisplayRectangle& area) : color(color), area(area) {}
 
+		[[nodiscard]] bool IsReadableAbyss() const noexcept { return true; }
+
 		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return area.Size(); }
 		[[nodiscard]] DisplayRectangle Area() const noexcept { return area; }
 		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return color; }

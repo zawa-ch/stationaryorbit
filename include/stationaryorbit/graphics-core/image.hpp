@@ -21,19 +21,39 @@
 #include "fundamental.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
+	///	このライブラリで使用される画像を表します。
+	///	@param	Tcolor
+	///	色の表現に用いる型。
 	template<class Tcolor>
 	class Image
 	{
 	public:
+		///	色の表現に用いる型。
 		typedef Tcolor ValueType;
 
 		virtual ~Image() = default;
 
+		///	領域外ピクセルへの読み込みが可能であるかを取得します。
+		[[nodiscard]] virtual bool IsReadableAbyss() const noexcept = 0;
+
+		///	画像領域の大きさを取得します。
 		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept = 0;
+		///	画像領域を取得します。
 		[[nodiscard]] virtual DisplayRectangle Area() const noexcept = 0;
+		///	画像の指定されたピクセルの色を取得します。
+		///	@param index
+		///	参照する座標位置。
 		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const = 0;
+		///	画像の指定されたピクセルの色を取得します。
+		///	@param x
+		///	参照するx座標。
+		///	@param y
+		///	参照するy座標。
 		[[nodiscard]] virtual ValueType At(const int& x, const int& y) const { return At(DisplayPoint(x, y)); }
 
+		///	画像の指定されたピクセルの色を取得します。
+		///	@param index
+		///	参照する座標位置。
 		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const = 0;
 	};
 
@@ -45,9 +65,20 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		virtual ~WritableImage() = default;
 
+		///	画像の指定されたピクセルの色を取得します。
+		///	@param index
+		///	参照する座標位置。
 		[[nodiscard]] virtual ValueType& At(const DisplayPoint& index) = 0;
+		///	画像の指定されたピクセルの色を取得します。
+		///	@param x
+		///	参照するx座標。
+		///	@param y
+		///	参照するy座標。
 		[[nodiscard]] virtual ValueType& At(const int& x, const int& y) { return At(DisplayPoint(x, y)); }
 
+		///	画像の指定されたピクセルの色を取得します。
+		///	@param index
+		///	参照する座標位置。
 		[[nodiscard]] virtual ValueType& operator[](const DisplayPoint& index) = 0;
 	};
 }

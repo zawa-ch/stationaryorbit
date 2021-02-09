@@ -52,6 +52,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	ソースとなる画像。
 		ImageAlign(const Image<Tcolor>& source) : ImageAlign(source, ArgsType()) {}
 
+		[[nodiscard]] bool IsReadableAbyss() const noexcept { return _data.IsReadableAbyss(); }
+
 		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _data.Size(); }
 		[[nodiscard]] DisplayRectangle Area() const noexcept { return DisplayRectangle(DisplayPoint(0, 0), _data.Size()); }
 		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return _data.At(_data.Area().Origin() + index); }
@@ -98,6 +100,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	移動する大きさ。
 		ImageShift(const Image<Tcolor>& source, const DisplayPoint& amount) : ImageShift(source, ArgsType(amount)) {}
 
+		[[nodiscard]] bool IsReadableAbyss() const noexcept { return _data.IsReadableAbyss(); }
+
 		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _data.Size(); }
 		[[nodiscard]] DisplayRectangle Area() const noexcept { return _data.Area().Offset(args.Amount()); }
 		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return _data.At(index - args.Amount()); }
@@ -143,6 +147,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	@param	area
 		///	切り抜きをする範囲。
 		ImageCropping(const Image<Tcolor>& source, const DisplayRectangle& area) : ImageCropping(source, ArgsType(area)) {}
+
+		[[nodiscard]] bool IsReadableAbyss() const noexcept { return false; }
 
 		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return args.Area().Size(); }
 		[[nodiscard]] DisplayRectangle Area() const noexcept { return args.Area(); }
@@ -208,6 +214,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	y軸拡大・縮小のスケールファクター。
 		ImageScaling(const Image<Tcolor>& source, const InterpolationMethod& imethod, float xscale, float yscale) : ImageScaling(source, ArgsType(imethod, xscale, yscale)) {}
 
+		[[nodiscard]] bool IsReadableAbyss() const noexcept { return _data.IsReadableAbyss(); }
+
 		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _newarea.Size(); }
 		[[nodiscard]] DisplayRectangle Area() const noexcept { return _newarea; }
 		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return args.Method()(_data, DisplayPointF(index.X() / args.Amount().Width(), index.Y() / args.Amount().Height())); }
@@ -239,6 +247,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	@param	source
 		///	ソースとなる画像。
 		ImageHorizonalFlip(const Image<Tcolor>& source) : ImageHorizonalFlip(source, ArgsType()) {}
+
+		[[nodiscard]] bool IsReadableAbyss() const noexcept { return _data.IsReadableAbyss(); }
 
 		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _data.Size(); }
 		[[nodiscard]] DisplayRectangle Area() const noexcept { return DisplayRectangle(_orig, _data.Size()); }
@@ -272,6 +282,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	ソースとなる画像。
 		ImageVerticalFlip(const Image<Tcolor>& source) : ImageVerticalFlip(source, ArgsType()) {}
 
+		[[nodiscard]] bool IsReadableAbyss() const noexcept { return _data.IsReadableAbyss(); }
+
 		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _data.Size(); }
 		[[nodiscard]] DisplayRectangle Area() const noexcept { return DisplayRectangle(_orig, _data.Size()); }
 		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return _data.At(DisplayPoint(index.X(), -index.Y())); }
@@ -303,6 +315,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	@param	source
 		///	ソースとなる画像。
 		ImageRightTurn(const Image<Tcolor>& source) : ImageRightTurn(source, ArgsType()) {}
+
+		[[nodiscard]] bool IsReadableAbyss() const noexcept { return _data.IsReadableAbyss(); }
 
 		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _area.Size(); }
 		[[nodiscard]] DisplayRectangle Area() const noexcept { return _area; }
@@ -336,6 +350,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	ソースとなる画像。
 		ImageLeftTurn(const Image<Tcolor>& source) : ImageLeftTurn(source, ArgsType()) {}
 
+		[[nodiscard]] bool IsReadableAbyss() const noexcept { return _data.IsReadableAbyss(); }
+
 		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _area.Size(); }
 		[[nodiscard]] DisplayRectangle Area() const noexcept { return _area; }
 		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return _data.At(DisplayPoint(-index.Y(), index.X())); }
@@ -367,6 +383,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		///	@param	source
 		///	ソースとなる画像。
 		ImageInvertTurn(const Image<Tcolor>& source) : ImageInvertTurn(source, ArgsType()) {}
+
+		[[nodiscard]] bool IsReadableAbyss() const noexcept { return _data.IsReadableAbyss(); }
 
 		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _area.Size(); }
 		[[nodiscard]] DisplayRectangle Area() const noexcept { return _area; }
