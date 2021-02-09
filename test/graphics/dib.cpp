@@ -119,7 +119,7 @@ void Read()
 	// ビットマップをロードする
 	switch(loader.HeaderSize())
 	{
-		case 40:
+		case DIB::DIBInfoHeader::Size:
 		{
 			auto bitmap = DIB::DIBInfoBitmap(std::move(loader));
 			ihead = bitmap.InfoHead();
@@ -264,7 +264,7 @@ void Resize1()
 	const float resizefactor = 0.5f;
 	auto newsize = DisplayRectSizeF(image.Size().Width() * resizefactor, image.Size().Height() * resizefactor);
 	// 画像をリサイズ
-	auto resizedimage = ImageScaling<RGB8_t>(image, ImageInterpolation::NearestNeighbor<RGB8_t>, resizefactor);
+	auto resizedimage = ImageScaling<RGB8_t>(image, ImageInterpolation::Bilinear<RGB8_t>, resizefactor);
 	// ヘッダの準備
 	auto whead = ihead;
 	whead.Width = newsize.Width();
@@ -282,7 +282,7 @@ void Resize2()
 	const float resizefactor = 2.0f;
 	auto newsize = DisplayRectSizeF(image.Size().Width() * resizefactor, image.Size().Height() * resizefactor);
 	// 画像をリサイズ
-	auto resizedimage = ImageScaling<RGB8_t>(image, ImageInterpolation::Bilinear<RGB8_t>, resizefactor);
+	auto resizedimage = ImageScaling<RGB8_t>(image, ImageInterpolation::NearestNeighbor<RGB8_t>, resizefactor);
 	// ヘッダの準備
 	auto whead = ihead;
 	whead.Width = newsize.Width();
