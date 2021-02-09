@@ -117,8 +117,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	private:
 		size_t solveindex(const DisplayPoint& point) const
 		{
-			if ((point.X() < 0)||(point.Y() < 0)) { throw std::invalid_argument("pointの値が無効です。"); }
-			if ((_size.Width() <= point.X())||(_size.Height() <= point.Y())) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); }
+			if ((point.X() < 0)||(point.Y() < 0)||(_size.Width() <= point.X())||(_size.Height() <= point.Y())) { throw std::out_of_range("指定されたインデックスは境界を超えています。"); }
 			return (point.Y() * _size.Width()) + point.X();
 		}
 		static size_t solveItemcount(const DisplayRectSize& size)
