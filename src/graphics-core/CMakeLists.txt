@@ -19,17 +19,12 @@ cmake_minimum_required(VERSION 3.0)
 project(stationaryorbit CXX)
 
 set(AssemblyName stationaryorbit.graphics-core)
-set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit/graphics-core)
+set(Include_Dir ${PROJECT_SOURCE_DIR}/../../include/stationaryorbit)
 
 add_library(${AssemblyName} SHARED
-    ${Include_Dir}/channelvalue.hpp
-    ${Include_Dir}/cmycolor.hpp
-    ${Include_Dir}/cmykcolor.hpp
-    ${Include_Dir}/grayscalecolor.hpp
-    ${Include_Dir}/image.hpp
-    ${Include_Dir}/rgbcolor.hpp
-    ${Include_Dir}/yuvcolor.hpp
-    ${Include_Dir}/xyzcolor.hpp
+    ${Include_Dir}/graphics-core.color.hpp
+    ${Include_Dir}/graphics-core.deformation.hpp
+    ${Include_Dir}/graphics-core.image.hpp
     channelvalue.cpp
     cmycolor.cpp
     cmykcolor.cpp

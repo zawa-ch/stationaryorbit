@@ -17,6 +17,7 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include "graphics-core/channelvalue.hpp"
 #include "graphics-core/cmycolor.hpp"
 #include "graphics-core/cmykcolor.hpp"
 #include "graphics-core/colorconvert.hpp"
@@ -25,5 +26,6 @@
 #include "graphics-core/opacity.hpp"
 #include "graphics-core/relativecolor.hpp"
 #include "graphics-core/rgbcolor.hpp"
+#include "graphics-core/translucentcolor.hpp"
 #include "graphics-core/xyzcolor.hpp"
 #include "graphics-core/yuvcolor.hpp"
