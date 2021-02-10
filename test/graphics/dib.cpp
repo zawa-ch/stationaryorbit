@@ -265,7 +265,8 @@ void Resize1()
 	const float resizefactor = 0.5f;
 	auto newsize = DisplayRectSizeF(image.Size().Width() * resizefactor, image.Size().Height() * resizefactor);
 	// 画像をリサイズ
-	auto resizedimage = ImageScaling<RGB8_t>(image, ImageInterpolation::Bilinear<RGB8_t>, resizefactor);
+	auto clampedimage = ImageClamp(image);
+	auto resizedimage = ImageScaling<RGB8_t>(clampedimage, ImageInterpolation::Bilinear<RGB8_t>, resizefactor);
 	// ヘッダの準備
 	auto whead = ihead;
 	whead.Width = newsize.Width();
@@ -283,7 +284,8 @@ void Resize2()
 	const float resizefactor = 2.0f;
 	auto newsize = DisplayRectSizeF(image.Size().Width() * resizefactor, image.Size().Height() * resizefactor);
 	// 画像をリサイズ
-	auto resizedimage = ImageScaling<RGB8_t>(image, ImageInterpolation::NearestNeighbor<RGB8_t>, resizefactor);
+	auto clampedimage = ImageClamp(image);
+	auto resizedimage = ImageScaling<RGB8_t>(clampedimage, ImageInterpolation::NearestNeighbor<RGB8_t>, resizefactor);
 	// ヘッダの準備
 	auto whead = ihead;
 	whead.Width = newsize.Width();

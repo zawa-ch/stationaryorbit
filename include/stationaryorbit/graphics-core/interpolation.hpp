@@ -19,7 +19,6 @@
 #ifndef __stationaryorbit_geaphics_core_interpolation__
 #define __stationaryorbit_geaphics_core_interpolation__
 #include "image.hpp"
-#include "imageclamp.hpp"
 #include "pixarray.hpp"
 #include "cmycolor.hpp"
 #include "cmykcolor.hpp"
@@ -37,17 +36,15 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		template<class Tcolor>
 		static Tcolor NearestNeighbor(const Image<Tcolor>& image, const DisplayPointF& pos)
 		{
-			auto clamp = ImageClamp<Tcolor>(image);
-			return clamp[pos.Round()];
+			return image[pos.Round()];
 		}
 		template<class Tcolor, std::enable_if_t<ColorTraits::IsColorType<Tcolor> && !ColorTraits::IsTranslucentColorType<Tcolor>, int> = 0>
 		static Tcolor Bilinear(const Image<Tcolor>& image, const DisplayPointF& pos)
 		{
 			typedef typename Tcolor::ValueType::ValueType ChannelType;
 			static_assert(ColorTraits::IsColorType<Tcolor>, "指定する型は ColorTraits::IsColorType の要件を満たす必要があります。");
-			auto clamp = ImageClamp<Tcolor>(image);
-			if (pos == DisplayPointF(pos.Floor())) { return clamp[pos.Floor()]; }
-			auto buffer = PixArray<Tcolor, 2, 2>(clamp, pos.Floor());
+			if (pos == DisplayPointF(pos.Floor())) { return image[pos.Floor()]; }
+			auto buffer = PixArray<Tcolor, 2, 2>(image, pos.Floor());
 			auto fpos = pos.Extract();
 			auto pxup = (buffer.At(DisplayPoint(0, 0)) * ChannelType(1 - fpos.X()) + buffer.At(DisplayPoint(1, 0)) * ChannelType(fpos.X()));
 			auto pxdown = (buffer.At(DisplayPoint(0, 1)) * ChannelType(1 - fpos.X()) + buffer.At(DisplayPoint(1, 1)) * ChannelType(fpos.X()));
@@ -57,9 +54,8 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		static Tcolor Bilinear(const Image<Tcolor>& image, const DisplayPointF& pos)
 		{
 			typedef typename Tcolor::ValueType::ValueType ChannelType;
-			auto clamp = ImageClamp<Tcolor>(image);
-			if (pos == DisplayPointF(pos.Floor())) { return clamp[pos.Floor()]; }
-			auto buffer = PixArray<Tcolor, 2, 2>(clamp, pos.Floor());
+			if (pos == DisplayPointF(pos.Floor())) { return image[pos.Floor()]; }
+			auto buffer = PixArray<Tcolor, 2, 2>(image, pos.Floor());
 			auto fpos = pos.Extract();
 			auto apxup = (buffer.At(DisplayPoint(0, 0)).Alpha() * typename Tcolor::OpacityType(ChannelType(1 - fpos.X())) + buffer.At(DisplayPoint(1, 0)).Alpha() * typename Tcolor::OpacityType(ChannelType(fpos.X())));
 			auto cpxup = (buffer.At(DisplayPoint(0, 0)).Color() * ChannelType(1 - fpos.X()) + buffer.At(DisplayPoint(1, 0)).Color() * ChannelType(fpos.X()));
