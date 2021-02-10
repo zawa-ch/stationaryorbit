@@ -18,6 +18,7 @@
 //
 #include "stationaryorbit/graphics-core.color.hpp"
 #include "stationaryorbit/graphics-core.image.hpp"
+#include "stationaryorbit/graphics-core.deformation.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 void Test_Core()

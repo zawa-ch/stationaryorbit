@@ -1,4 +1,4 @@
-//	stationaryorbit/graphics-core.image
+//	stationaryorbit/graphics-core.deformation
 //	Copyright 2020 zawa-ch.
 //	GPLv3 (or later) license
 //
@@ -17,7 +17,12 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "graphics-core/image.hpp"
+#include "graphics-core/imagealign.hpp"
+#include "graphics-core/imageclamp.hpp"
+#include "graphics-core/imagecropping.hpp"
+#include "graphics-core/imageflip.hpp"
+#include "graphics-core/imageoperationargs.hpp"
+#include "graphics-core/imagescaling.hpp"
+#include "graphics-core/imageshift.hpp"
+#include "graphics-core/imageturn.hpp"
 #include "graphics-core/interpolation.hpp"
-#include "graphics-core/pixarray.hpp"
-#include "graphics-core/pixmap.hpp"

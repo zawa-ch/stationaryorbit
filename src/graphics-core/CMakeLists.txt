@@ -35,10 +35,15 @@ add_library(${AssemblyName} SHARED
     cmykcolor.cpp
     colorconvert.cpp
     colorfillimage.cpp
-    deformation.cpp
     fundamental.cpp
     grayscalecolor.cpp
+    imagealign.cpp
     imageclamp.cpp
+    imagecropping.cpp
+    imageflip.cpp
+    imagescaling.cpp
+    imageshift.cpp
+    imageturn.cpp
     interpolation.cpp
     opacity.cpp
     pixarray.cpp

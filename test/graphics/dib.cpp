@@ -21,6 +21,7 @@
 #include <chrono>
 #include <memory>
 #include "stationaryorbit/graphics-dib.bmpimage.hpp"
+#include "stationaryorbit/graphics-core.deformation.hpp"
 using namespace zawa_ch::StationaryOrbit;
 using namespace zawa_ch::StationaryOrbit::Graphics;
 
