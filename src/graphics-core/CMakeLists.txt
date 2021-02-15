@@ -28,6 +28,7 @@ add_library(${AssemblyName} SHARED
     channelvalue.cpp
     cmycolor.cpp
     cmykcolor.cpp
+    colorblending.cpp
     colorconvert.cpp
     colorfillimage.cpp
     fundamental.cpp
