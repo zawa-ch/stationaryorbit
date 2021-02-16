@@ -19,1108 +19,765 @@
 #include "stationaryorbit/graphics-core/colorblending.hpp"
 using namespace zawa_ch::StationaryOrbit::Graphics;
 
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
-
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
-
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
-
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
-
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
-
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
-
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
-
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
-
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
-
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
-
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
-
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ChannelF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
-template class
-zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Normal>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Multiply>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Screen>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Overlay>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Darken>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Lighten>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::Channel8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorDodge>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::ColorBurn>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::HardLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::SoftLight>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Difference>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScale64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::GrayScaleF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGB64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ARGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::RGBF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMY64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK8_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYK64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI16_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKI64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF32_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
+template class zawa_ch::StationaryOrbit::Graphics::ColorBlender<zawa_ch::StationaryOrbit::Graphics::ACMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::AlphaBlending<zawa_ch::StationaryOrbit::Graphics::CMYKF64_t, zawa_ch::StationaryOrbit::Graphics::ColorBlendingAlgorithms::Exclusion>>;
 
 static_assert(!ColorBlenderTraits::IsColorBlender<ColorBlendingAlgorithms>, "ColorBlendingAlgorithms が ColorBlender の要件を満たしました。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel8NormalColorBlender_t>, "Channel8NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel16NormalColorBlender_t>, "Channel16NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel32NormalColorBlender_t>, "Channel32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel64NormalColorBlender_t>, "Channel64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI16NormalColorBlender_t>, "ChannelI16NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI32NormalColorBlender_t>, "ChannelI32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI64NormalColorBlender_t>, "ChannelI64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF32NormalColorBlender_t>, "ChannelF32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF64NormalColorBlender_t>, "ChannelF64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale8NormalColorBlender_t>, "GrayScale8NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale16NormalColorBlender_t>, "GrayScale16NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale32NormalColorBlender_t>, "GrayScale32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1139,6 +796,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<RGBI32NormalColorBlender_t>, "R
 static_assert(ColorBlenderTraits::IsColorBlender<RGBI64NormalColorBlender_t>, "RGBI64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF32NormalColorBlender_t>, "RGBF32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF64NormalColorBlender_t>, "RGBF64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB8NormalColorBlender_t>, "ARGB8NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB16NormalColorBlender_t>, "ARGB16NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB32NormalColorBlender_t>, "ARGB32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB64NormalColorBlender_t>, "ARGB64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI16NormalColorBlender_t>, "ARGBI16NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI32NormalColorBlender_t>, "ARGBI32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI64NormalColorBlender_t>, "ARGBI64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF32NormalColorBlender_t>, "ARGBF32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF64NormalColorBlender_t>, "ARGBF64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY8NormalColorBlender_t>, "CMY8NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY16NormalColorBlender_t>, "CMY16NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY32NormalColorBlender_t>, "CMY32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1148,6 +814,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYI32NormalColorBlender_t>, "C
 static_assert(ColorBlenderTraits::IsColorBlender<CMYI64NormalColorBlender_t>, "CMYI64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF32NormalColorBlender_t>, "CMYF32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF64NormalColorBlender_t>, "CMYF64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY8NormalColorBlender_t>, "ACMY8NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY16NormalColorBlender_t>, "ACMY16NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY32NormalColorBlender_t>, "ACMY32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY64NormalColorBlender_t>, "ACMY64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI16NormalColorBlender_t>, "ACMYI16NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI32NormalColorBlender_t>, "ACMYI32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI64NormalColorBlender_t>, "ACMYI64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF32NormalColorBlender_t>, "ACMYF32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF64NormalColorBlender_t>, "ACMYF64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK8NormalColorBlender_t>, "CMYK8NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK16NormalColorBlender_t>, "CMYK16NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK32NormalColorBlender_t>, "CMYK32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1157,15 +832,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYKI32NormalColorBlender_t>, "
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKI64NormalColorBlender_t>, "CMYKI64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF32NormalColorBlender_t>, "CMYKF32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF64NormalColorBlender_t>, "CMYKF64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel8MultiplyColorBlender_t>, "Channel8MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel16MultiplyColorBlender_t>, "Channel16MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel32MultiplyColorBlender_t>, "Channel32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel64MultiplyColorBlender_t>, "Channel64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI16MultiplyColorBlender_t>, "ChannelI16MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI32MultiplyColorBlender_t>, "ChannelI32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI64MultiplyColorBlender_t>, "ChannelI64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF32MultiplyColorBlender_t>, "ChannelF32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF64MultiplyColorBlender_t>, "ChannelF64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK8NormalColorBlender_t>, "ACMYK8NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK16NormalColorBlender_t>, "ACMYK16NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK32NormalColorBlender_t>, "ACMYK32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK64NormalColorBlender_t>, "ACMYK64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI16NormalColorBlender_t>, "ACMYKI16NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI32NormalColorBlender_t>, "ACMYKI32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI64NormalColorBlender_t>, "ACMYKI64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF32NormalColorBlender_t>, "ACMYKF32NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF64NormalColorBlender_t>, "ACMYKF64NormalColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale8MultiplyColorBlender_t>, "GrayScale8MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale16MultiplyColorBlender_t>, "GrayScale16MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale32MultiplyColorBlender_t>, "GrayScale32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1184,6 +859,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<RGBI32MultiplyColorBlender_t>, 
 static_assert(ColorBlenderTraits::IsColorBlender<RGBI64MultiplyColorBlender_t>, "RGBI64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF32MultiplyColorBlender_t>, "RGBF32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF64MultiplyColorBlender_t>, "RGBF64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB8MultiplyColorBlender_t>, "ARGB8MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB16MultiplyColorBlender_t>, "ARGB16MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB32MultiplyColorBlender_t>, "ARGB32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB64MultiplyColorBlender_t>, "ARGB64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI16MultiplyColorBlender_t>, "ARGBI16MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI32MultiplyColorBlender_t>, "ARGBI32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI64MultiplyColorBlender_t>, "ARGBI64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF32MultiplyColorBlender_t>, "ARGBF32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF64MultiplyColorBlender_t>, "ARGBF64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY8MultiplyColorBlender_t>, "CMY8MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY16MultiplyColorBlender_t>, "CMY16MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY32MultiplyColorBlender_t>, "CMY32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1193,6 +877,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYI32MultiplyColorBlender_t>, 
 static_assert(ColorBlenderTraits::IsColorBlender<CMYI64MultiplyColorBlender_t>, "CMYI64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF32MultiplyColorBlender_t>, "CMYF32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF64MultiplyColorBlender_t>, "CMYF64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY8MultiplyColorBlender_t>, "ACMY8MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY16MultiplyColorBlender_t>, "ACMY16MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY32MultiplyColorBlender_t>, "ACMY32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY64MultiplyColorBlender_t>, "ACMY64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI16MultiplyColorBlender_t>, "ACMYI16MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI32MultiplyColorBlender_t>, "ACMYI32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI64MultiplyColorBlender_t>, "ACMYI64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF32MultiplyColorBlender_t>, "ACMYF32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF64MultiplyColorBlender_t>, "ACMYF64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK8MultiplyColorBlender_t>, "CMYK8MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK16MultiplyColorBlender_t>, "CMYK16MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK32MultiplyColorBlender_t>, "CMYK32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1202,15 +895,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYKI32MultiplyColorBlender_t>,
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKI64MultiplyColorBlender_t>, "CMYKI64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF32MultiplyColorBlender_t>, "CMYKF32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF64MultiplyColorBlender_t>, "CMYKF64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel8ScreenColorBlender_t>, "Channel8ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel16ScreenColorBlender_t>, "Channel16ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel32ScreenColorBlender_t>, "Channel32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel64ScreenColorBlender_t>, "Channel64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI16ScreenColorBlender_t>, "ChannelI16ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI32ScreenColorBlender_t>, "ChannelI32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI64ScreenColorBlender_t>, "ChannelI64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF32ScreenColorBlender_t>, "ChannelF32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF64ScreenColorBlender_t>, "ChannelF64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK8MultiplyColorBlender_t>, "ACMYK8MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK16MultiplyColorBlender_t>, "ACMYK16MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK32MultiplyColorBlender_t>, "ACMYK32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK64MultiplyColorBlender_t>, "ACMYK64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI16MultiplyColorBlender_t>, "ACMYKI16MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI32MultiplyColorBlender_t>, "ACMYKI32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI64MultiplyColorBlender_t>, "ACMYKI64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF32MultiplyColorBlender_t>, "ACMYKF32MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF64MultiplyColorBlender_t>, "ACMYKF64MultiplyColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale8ScreenColorBlender_t>, "GrayScale8ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale16ScreenColorBlender_t>, "GrayScale16ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale32ScreenColorBlender_t>, "GrayScale32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1229,6 +922,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<RGBI32ScreenColorBlender_t>, "R
 static_assert(ColorBlenderTraits::IsColorBlender<RGBI64ScreenColorBlender_t>, "RGBI64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF32ScreenColorBlender_t>, "RGBF32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF64ScreenColorBlender_t>, "RGBF64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB8ScreenColorBlender_t>, "ARGB8ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB16ScreenColorBlender_t>, "ARGB16ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB32ScreenColorBlender_t>, "ARGB32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB64ScreenColorBlender_t>, "ARGB64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI16ScreenColorBlender_t>, "ARGBI16ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI32ScreenColorBlender_t>, "ARGBI32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI64ScreenColorBlender_t>, "ARGBI64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF32ScreenColorBlender_t>, "ARGBF32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF64ScreenColorBlender_t>, "ARGBF64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY8ScreenColorBlender_t>, "CMY8ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY16ScreenColorBlender_t>, "CMY16ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY32ScreenColorBlender_t>, "CMY32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1238,6 +940,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYI32ScreenColorBlender_t>, "C
 static_assert(ColorBlenderTraits::IsColorBlender<CMYI64ScreenColorBlender_t>, "CMYI64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF32ScreenColorBlender_t>, "CMYF32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF64ScreenColorBlender_t>, "CMYF64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY8ScreenColorBlender_t>, "ACMY8ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY16ScreenColorBlender_t>, "ACMY16ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY32ScreenColorBlender_t>, "ACMY32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY64ScreenColorBlender_t>, "ACMY64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI16ScreenColorBlender_t>, "ACMYI16ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI32ScreenColorBlender_t>, "ACMYI32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI64ScreenColorBlender_t>, "ACMYI64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF32ScreenColorBlender_t>, "ACMYF32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF64ScreenColorBlender_t>, "ACMYF64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK8ScreenColorBlender_t>, "CMYK8ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK16ScreenColorBlender_t>, "CMYK16ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK32ScreenColorBlender_t>, "CMYK32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1247,15 +958,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYKI32ScreenColorBlender_t>, "
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKI64ScreenColorBlender_t>, "CMYKI64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF32ScreenColorBlender_t>, "CMYKF32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF64ScreenColorBlender_t>, "CMYKF64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel8OverlayColorBlender_t>, "Channel8OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel16OverlayColorBlender_t>, "Channel16OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel32OverlayColorBlender_t>, "Channel32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel64OverlayColorBlender_t>, "Channel64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI16OverlayColorBlender_t>, "ChannelI16OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI32OverlayColorBlender_t>, "ChannelI32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI64OverlayColorBlender_t>, "ChannelI64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF32OverlayColorBlender_t>, "ChannelF32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF64OverlayColorBlender_t>, "ChannelF64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK8ScreenColorBlender_t>, "ACMYK8ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK16ScreenColorBlender_t>, "ACMYK16ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK32ScreenColorBlender_t>, "ACMYK32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK64ScreenColorBlender_t>, "ACMYK64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI16ScreenColorBlender_t>, "ACMYKI16ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI32ScreenColorBlender_t>, "ACMYKI32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI64ScreenColorBlender_t>, "ACMYKI64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF32ScreenColorBlender_t>, "ACMYKF32ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF64ScreenColorBlender_t>, "ACMYKF64ScreenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale8OverlayColorBlender_t>, "GrayScale8OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale16OverlayColorBlender_t>, "GrayScale16OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale32OverlayColorBlender_t>, "GrayScale32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1274,6 +985,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<RGBI32OverlayColorBlender_t>, "
 static_assert(ColorBlenderTraits::IsColorBlender<RGBI64OverlayColorBlender_t>, "RGBI64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF32OverlayColorBlender_t>, "RGBF32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF64OverlayColorBlender_t>, "RGBF64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB8OverlayColorBlender_t>, "ARGB8OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB16OverlayColorBlender_t>, "ARGB16OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB32OverlayColorBlender_t>, "ARGB32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB64OverlayColorBlender_t>, "ARGB64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI16OverlayColorBlender_t>, "ARGBI16OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI32OverlayColorBlender_t>, "ARGBI32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI64OverlayColorBlender_t>, "ARGBI64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF32OverlayColorBlender_t>, "ARGBF32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF64OverlayColorBlender_t>, "ARGBF64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY8OverlayColorBlender_t>, "CMY8OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY16OverlayColorBlender_t>, "CMY16OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY32OverlayColorBlender_t>, "CMY32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1283,6 +1003,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYI32OverlayColorBlender_t>, "
 static_assert(ColorBlenderTraits::IsColorBlender<CMYI64OverlayColorBlender_t>, "CMYI64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF32OverlayColorBlender_t>, "CMYF32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF64OverlayColorBlender_t>, "CMYF64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY8OverlayColorBlender_t>, "ACMY8OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY16OverlayColorBlender_t>, "ACMY16OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY32OverlayColorBlender_t>, "ACMY32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY64OverlayColorBlender_t>, "ACMY64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI16OverlayColorBlender_t>, "ACMYI16OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI32OverlayColorBlender_t>, "ACMYI32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI64OverlayColorBlender_t>, "ACMYI64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF32OverlayColorBlender_t>, "ACMYF32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF64OverlayColorBlender_t>, "ACMYF64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK8OverlayColorBlender_t>, "CMYK8OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK16OverlayColorBlender_t>, "CMYK16OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK32OverlayColorBlender_t>, "CMYK32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1292,15 +1021,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYKI32OverlayColorBlender_t>, 
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKI64OverlayColorBlender_t>, "CMYKI64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF32OverlayColorBlender_t>, "CMYKF32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF64OverlayColorBlender_t>, "CMYKF64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel8DarkenColorBlender_t>, "Channel8DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel16DarkenColorBlender_t>, "Channel16DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel32DarkenColorBlender_t>, "Channel32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel64DarkenColorBlender_t>, "Channel64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI16DarkenColorBlender_t>, "ChannelI16DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI32DarkenColorBlender_t>, "ChannelI32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI64DarkenColorBlender_t>, "ChannelI64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF32DarkenColorBlender_t>, "ChannelF32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF64DarkenColorBlender_t>, "ChannelF64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK8OverlayColorBlender_t>, "ACMYK8OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK16OverlayColorBlender_t>, "ACMYK16OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK32OverlayColorBlender_t>, "ACMYK32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK64OverlayColorBlender_t>, "ACMYK64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI16OverlayColorBlender_t>, "ACMYKI16OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI32OverlayColorBlender_t>, "ACMYKI32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI64OverlayColorBlender_t>, "ACMYKI64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF32OverlayColorBlender_t>, "ACMYKF32OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF64OverlayColorBlender_t>, "ACMYKF64OverlayColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale8DarkenColorBlender_t>, "GrayScale8DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale16DarkenColorBlender_t>, "GrayScale16DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale32DarkenColorBlender_t>, "GrayScale32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1319,6 +1048,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<RGBI32DarkenColorBlender_t>, "R
 static_assert(ColorBlenderTraits::IsColorBlender<RGBI64DarkenColorBlender_t>, "RGBI64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF32DarkenColorBlender_t>, "RGBF32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF64DarkenColorBlender_t>, "RGBF64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB8DarkenColorBlender_t>, "ARGB8DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB16DarkenColorBlender_t>, "ARGB16DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB32DarkenColorBlender_t>, "ARGB32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB64DarkenColorBlender_t>, "ARGB64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI16DarkenColorBlender_t>, "ARGBI16DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI32DarkenColorBlender_t>, "ARGBI32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI64DarkenColorBlender_t>, "ARGBI64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF32DarkenColorBlender_t>, "ARGBF32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF64DarkenColorBlender_t>, "ARGBF64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY8DarkenColorBlender_t>, "CMY8DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY16DarkenColorBlender_t>, "CMY16DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY32DarkenColorBlender_t>, "CMY32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1328,6 +1066,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYI32DarkenColorBlender_t>, "C
 static_assert(ColorBlenderTraits::IsColorBlender<CMYI64DarkenColorBlender_t>, "CMYI64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF32DarkenColorBlender_t>, "CMYF32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF64DarkenColorBlender_t>, "CMYF64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY8DarkenColorBlender_t>, "ACMY8DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY16DarkenColorBlender_t>, "ACMY16DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY32DarkenColorBlender_t>, "ACMY32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY64DarkenColorBlender_t>, "ACMY64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI16DarkenColorBlender_t>, "ACMYI16DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI32DarkenColorBlender_t>, "ACMYI32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI64DarkenColorBlender_t>, "ACMYI64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF32DarkenColorBlender_t>, "ACMYF32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF64DarkenColorBlender_t>, "ACMYF64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK8DarkenColorBlender_t>, "CMYK8DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK16DarkenColorBlender_t>, "CMYK16DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK32DarkenColorBlender_t>, "CMYK32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1337,15 +1084,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYKI32DarkenColorBlender_t>, "
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKI64DarkenColorBlender_t>, "CMYKI64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF32DarkenColorBlender_t>, "CMYKF32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF64DarkenColorBlender_t>, "CMYKF64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel8LightenColorBlender_t>, "Channel8LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel16LightenColorBlender_t>, "Channel16LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel32LightenColorBlender_t>, "Channel32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel64LightenColorBlender_t>, "Channel64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI16LightenColorBlender_t>, "ChannelI16LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI32LightenColorBlender_t>, "ChannelI32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI64LightenColorBlender_t>, "ChannelI64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF32LightenColorBlender_t>, "ChannelF32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF64LightenColorBlender_t>, "ChannelF64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK8DarkenColorBlender_t>, "ACMYK8DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK16DarkenColorBlender_t>, "ACMYK16DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK32DarkenColorBlender_t>, "ACMYK32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK64DarkenColorBlender_t>, "ACMYK64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI16DarkenColorBlender_t>, "ACMYKI16DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI32DarkenColorBlender_t>, "ACMYKI32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI64DarkenColorBlender_t>, "ACMYKI64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF32DarkenColorBlender_t>, "ACMYKF32DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF64DarkenColorBlender_t>, "ACMYKF64DarkenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale8LightenColorBlender_t>, "GrayScale8LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale16LightenColorBlender_t>, "GrayScale16LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale32LightenColorBlender_t>, "GrayScale32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1364,6 +1111,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<RGBI32LightenColorBlender_t>, "
 static_assert(ColorBlenderTraits::IsColorBlender<RGBI64LightenColorBlender_t>, "RGBI64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF32LightenColorBlender_t>, "RGBF32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF64LightenColorBlender_t>, "RGBF64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB8LightenColorBlender_t>, "ARGB8LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB16LightenColorBlender_t>, "ARGB16LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB32LightenColorBlender_t>, "ARGB32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB64LightenColorBlender_t>, "ARGB64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI16LightenColorBlender_t>, "ARGBI16LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI32LightenColorBlender_t>, "ARGBI32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI64LightenColorBlender_t>, "ARGBI64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF32LightenColorBlender_t>, "ARGBF32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF64LightenColorBlender_t>, "ARGBF64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY8LightenColorBlender_t>, "CMY8LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY16LightenColorBlender_t>, "CMY16LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY32LightenColorBlender_t>, "CMY32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1373,6 +1129,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYI32LightenColorBlender_t>, "
 static_assert(ColorBlenderTraits::IsColorBlender<CMYI64LightenColorBlender_t>, "CMYI64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF32LightenColorBlender_t>, "CMYF32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF64LightenColorBlender_t>, "CMYF64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY8LightenColorBlender_t>, "ACMY8LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY16LightenColorBlender_t>, "ACMY16LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY32LightenColorBlender_t>, "ACMY32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY64LightenColorBlender_t>, "ACMY64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI16LightenColorBlender_t>, "ACMYI16LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI32LightenColorBlender_t>, "ACMYI32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI64LightenColorBlender_t>, "ACMYI64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF32LightenColorBlender_t>, "ACMYF32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF64LightenColorBlender_t>, "ACMYF64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK8LightenColorBlender_t>, "CMYK8LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK16LightenColorBlender_t>, "CMYK16LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK32LightenColorBlender_t>, "CMYK32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1382,15 +1147,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYKI32LightenColorBlender_t>, 
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKI64LightenColorBlender_t>, "CMYKI64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF32LightenColorBlender_t>, "CMYKF32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF64LightenColorBlender_t>, "CMYKF64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel8ColorDodgeColorBlender_t>, "Channel8ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel16ColorDodgeColorBlender_t>, "Channel16ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel32ColorDodgeColorBlender_t>, "Channel32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel64ColorDodgeColorBlender_t>, "Channel64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI16ColorDodgeColorBlender_t>, "ChannelI16ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI32ColorDodgeColorBlender_t>, "ChannelI32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI64ColorDodgeColorBlender_t>, "ChannelI64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF32ColorDodgeColorBlender_t>, "ChannelF32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF64ColorDodgeColorBlender_t>, "ChannelF64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK8LightenColorBlender_t>, "ACMYK8LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK16LightenColorBlender_t>, "ACMYK16LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK32LightenColorBlender_t>, "ACMYK32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK64LightenColorBlender_t>, "ACMYK64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI16LightenColorBlender_t>, "ACMYKI16LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI32LightenColorBlender_t>, "ACMYKI32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI64LightenColorBlender_t>, "ACMYKI64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF32LightenColorBlender_t>, "ACMYKF32LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF64LightenColorBlender_t>, "ACMYKF64LightenColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale8ColorDodgeColorBlender_t>, "GrayScale8ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale16ColorDodgeColorBlender_t>, "GrayScale16ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale32ColorDodgeColorBlender_t>, "GrayScale32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1409,6 +1174,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<RGBI32ColorDodgeColorBlender_t>
 static_assert(ColorBlenderTraits::IsColorBlender<RGBI64ColorDodgeColorBlender_t>, "RGBI64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF32ColorDodgeColorBlender_t>, "RGBF32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF64ColorDodgeColorBlender_t>, "RGBF64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB8ColorDodgeColorBlender_t>, "ARGB8ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB16ColorDodgeColorBlender_t>, "ARGB16ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB32ColorDodgeColorBlender_t>, "ARGB32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB64ColorDodgeColorBlender_t>, "ARGB64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI16ColorDodgeColorBlender_t>, "ARGBI16ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI32ColorDodgeColorBlender_t>, "ARGBI32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI64ColorDodgeColorBlender_t>, "ARGBI64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF32ColorDodgeColorBlender_t>, "ARGBF32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF64ColorDodgeColorBlender_t>, "ARGBF64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY8ColorDodgeColorBlender_t>, "CMY8ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY16ColorDodgeColorBlender_t>, "CMY16ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY32ColorDodgeColorBlender_t>, "CMY32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1418,6 +1192,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYI32ColorDodgeColorBlender_t>
 static_assert(ColorBlenderTraits::IsColorBlender<CMYI64ColorDodgeColorBlender_t>, "CMYI64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF32ColorDodgeColorBlender_t>, "CMYF32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF64ColorDodgeColorBlender_t>, "CMYF64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY8ColorDodgeColorBlender_t>, "ACMY8ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY16ColorDodgeColorBlender_t>, "ACMY16ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY32ColorDodgeColorBlender_t>, "ACMY32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY64ColorDodgeColorBlender_t>, "ACMY64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI16ColorDodgeColorBlender_t>, "ACMYI16ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI32ColorDodgeColorBlender_t>, "ACMYI32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI64ColorDodgeColorBlender_t>, "ACMYI64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF32ColorDodgeColorBlender_t>, "ACMYF32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF64ColorDodgeColorBlender_t>, "ACMYF64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK8ColorDodgeColorBlender_t>, "CMYK8ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK16ColorDodgeColorBlender_t>, "CMYK16ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK32ColorDodgeColorBlender_t>, "CMYK32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1428,14 +1211,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYKI64ColorDodgeColorBlender_t
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF32ColorDodgeColorBlender_t>, "CMYKF32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF64ColorDodgeColorBlender_t>, "CMYKF64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<Channel8ColorBurnColorBlender_t>, "Channel8ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel16ColorBurnColorBlender_t>, "Channel16ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel32ColorBurnColorBlender_t>, "Channel32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel64ColorBurnColorBlender_t>, "Channel64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI16ColorBurnColorBlender_t>, "ChannelI16ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI32ColorBurnColorBlender_t>, "ChannelI32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI64ColorBurnColorBlender_t>, "ChannelI64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF32ColorBurnColorBlender_t>, "ChannelF32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF64ColorBurnColorBlender_t>, "ChannelF64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK8ColorDodgeColorBlender_t>, "ACMYK8ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK16ColorDodgeColorBlender_t>, "ACMYK16ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK32ColorDodgeColorBlender_t>, "ACMYK32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK64ColorDodgeColorBlender_t>, "ACMYK64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI16ColorDodgeColorBlender_t>, "ACMYKI16ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI32ColorDodgeColorBlender_t>, "ACMYKI32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI64ColorDodgeColorBlender_t>, "ACMYKI64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF32ColorDodgeColorBlender_t>, "ACMYKF32ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF64ColorDodgeColorBlender_t>, "ACMYKF64ColorDodgeColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale8ColorBurnColorBlender_t>, "GrayScale8ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale16ColorBurnColorBlender_t>, "GrayScale16ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale32ColorBurnColorBlender_t>, "GrayScale32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1454,6 +1238,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<RGBI32ColorBurnColorBlender_t>,
 static_assert(ColorBlenderTraits::IsColorBlender<RGBI64ColorBurnColorBlender_t>, "RGBI64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF32ColorBurnColorBlender_t>, "RGBF32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF64ColorBurnColorBlender_t>, "RGBF64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB8ColorBurnColorBlender_t>, "ARGB8ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB16ColorBurnColorBlender_t>, "ARGB16ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB32ColorBurnColorBlender_t>, "ARGB32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB64ColorBurnColorBlender_t>, "ARGB64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI16ColorBurnColorBlender_t>, "ARGBI16ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI32ColorBurnColorBlender_t>, "ARGBI32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI64ColorBurnColorBlender_t>, "ARGBI64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF32ColorBurnColorBlender_t>, "ARGBF32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF64ColorBurnColorBlender_t>, "ARGBF64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY8ColorBurnColorBlender_t>, "CMY8ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY16ColorBurnColorBlender_t>, "CMY16ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY32ColorBurnColorBlender_t>, "CMY32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1463,6 +1256,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYI32ColorBurnColorBlender_t>,
 static_assert(ColorBlenderTraits::IsColorBlender<CMYI64ColorBurnColorBlender_t>, "CMYI64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF32ColorBurnColorBlender_t>, "CMYF32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF64ColorBurnColorBlender_t>, "CMYF64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY8ColorBurnColorBlender_t>, "ACMY8ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY16ColorBurnColorBlender_t>, "ACMY16ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY32ColorBurnColorBlender_t>, "ACMY32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY64ColorBurnColorBlender_t>, "ACMY64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI16ColorBurnColorBlender_t>, "ACMYI16ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI32ColorBurnColorBlender_t>, "ACMYI32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI64ColorBurnColorBlender_t>, "ACMYI64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF32ColorBurnColorBlender_t>, "ACMYF32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF64ColorBurnColorBlender_t>, "ACMYF64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK8ColorBurnColorBlender_t>, "CMYK8ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK16ColorBurnColorBlender_t>, "CMYK16ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK32ColorBurnColorBlender_t>, "CMYK32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1472,15 +1274,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYKI32ColorBurnColorBlender_t>
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKI64ColorBurnColorBlender_t>, "CMYKI64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF32ColorBurnColorBlender_t>, "CMYKF32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF64ColorBurnColorBlender_t>, "CMYKF64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel8HardLightColorBlender_t>, "Channel8HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel16HardLightColorBlender_t>, "Channel16HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel32HardLightColorBlender_t>, "Channel32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel64HardLightColorBlender_t>, "Channel64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI16HardLightColorBlender_t>, "ChannelI16HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI32HardLightColorBlender_t>, "ChannelI32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI64HardLightColorBlender_t>, "ChannelI64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF32HardLightColorBlender_t>, "ChannelF32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF64HardLightColorBlender_t>, "ChannelF64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK8ColorBurnColorBlender_t>, "ACMYK8ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK16ColorBurnColorBlender_t>, "ACMYK16ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK32ColorBurnColorBlender_t>, "ACMYK32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK64ColorBurnColorBlender_t>, "ACMYK64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI16ColorBurnColorBlender_t>, "ACMYKI16ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI32ColorBurnColorBlender_t>, "ACMYKI32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI64ColorBurnColorBlender_t>, "ACMYKI64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF32ColorBurnColorBlender_t>, "ACMYKF32ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF64ColorBurnColorBlender_t>, "ACMYKF64ColorBurnColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale8HardLightColorBlender_t>, "GrayScale8HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale16HardLightColorBlender_t>, "GrayScale16HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale32HardLightColorBlender_t>, "GrayScale32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1499,6 +1301,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<RGBI32HardLightColorBlender_t>,
 static_assert(ColorBlenderTraits::IsColorBlender<RGBI64HardLightColorBlender_t>, "RGBI64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF32HardLightColorBlender_t>, "RGBF32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF64HardLightColorBlender_t>, "RGBF64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB8HardLightColorBlender_t>, "ARGB8HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB16HardLightColorBlender_t>, "ARGB16HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB32HardLightColorBlender_t>, "ARGB32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB64HardLightColorBlender_t>, "ARGB64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI16HardLightColorBlender_t>, "ARGBI16HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI32HardLightColorBlender_t>, "ARGBI32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI64HardLightColorBlender_t>, "ARGBI64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF32HardLightColorBlender_t>, "ARGBF32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF64HardLightColorBlender_t>, "ARGBF64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY8HardLightColorBlender_t>, "CMY8HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY16HardLightColorBlender_t>, "CMY16HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY32HardLightColorBlender_t>, "CMY32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1508,6 +1319,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYI32HardLightColorBlender_t>,
 static_assert(ColorBlenderTraits::IsColorBlender<CMYI64HardLightColorBlender_t>, "CMYI64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF32HardLightColorBlender_t>, "CMYF32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF64HardLightColorBlender_t>, "CMYF64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY8HardLightColorBlender_t>, "ACMY8HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY16HardLightColorBlender_t>, "ACMY16HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY32HardLightColorBlender_t>, "ACMY32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY64HardLightColorBlender_t>, "ACMY64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI16HardLightColorBlender_t>, "ACMYI16HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI32HardLightColorBlender_t>, "ACMYI32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI64HardLightColorBlender_t>, "ACMYI64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF32HardLightColorBlender_t>, "ACMYF32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF64HardLightColorBlender_t>, "ACMYF64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK8HardLightColorBlender_t>, "CMYK8HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK16HardLightColorBlender_t>, "CMYK16HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK32HardLightColorBlender_t>, "CMYK32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1517,15 +1337,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYKI32HardLightColorBlender_t>
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKI64HardLightColorBlender_t>, "CMYKI64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF32HardLightColorBlender_t>, "CMYKF32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF64HardLightColorBlender_t>, "CMYKF64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel8SoftLightColorBlender_t>, "Channel8SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel16SoftLightColorBlender_t>, "Channel16SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel32SoftLightColorBlender_t>, "Channel32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel64SoftLightColorBlender_t>, "Channel64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI16SoftLightColorBlender_t>, "ChannelI16SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI32SoftLightColorBlender_t>, "ChannelI32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI64SoftLightColorBlender_t>, "ChannelI64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF32SoftLightColorBlender_t>, "ChannelF32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF64SoftLightColorBlender_t>, "ChannelF64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK8HardLightColorBlender_t>, "ACMYK8HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK16HardLightColorBlender_t>, "ACMYK16HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK32HardLightColorBlender_t>, "ACMYK32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK64HardLightColorBlender_t>, "ACMYK64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI16HardLightColorBlender_t>, "ACMYKI16HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI32HardLightColorBlender_t>, "ACMYKI32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI64HardLightColorBlender_t>, "ACMYKI64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF32HardLightColorBlender_t>, "ACMYKF32HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF64HardLightColorBlender_t>, "ACMYKF64HardLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale8SoftLightColorBlender_t>, "GrayScale8SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale16SoftLightColorBlender_t>, "GrayScale16SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale32SoftLightColorBlender_t>, "GrayScale32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1544,6 +1364,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<RGBI32SoftLightColorBlender_t>,
 static_assert(ColorBlenderTraits::IsColorBlender<RGBI64SoftLightColorBlender_t>, "RGBI64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF32SoftLightColorBlender_t>, "RGBF32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF64SoftLightColorBlender_t>, "RGBF64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB8SoftLightColorBlender_t>, "ARGB8SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB16SoftLightColorBlender_t>, "ARGB16SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB32SoftLightColorBlender_t>, "ARGB32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB64SoftLightColorBlender_t>, "ARGB64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI16SoftLightColorBlender_t>, "ARGBI16SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI32SoftLightColorBlender_t>, "ARGBI32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI64SoftLightColorBlender_t>, "ARGBI64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF32SoftLightColorBlender_t>, "ARGBF32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF64SoftLightColorBlender_t>, "ARGBF64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY8SoftLightColorBlender_t>, "CMY8SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY16SoftLightColorBlender_t>, "CMY16SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY32SoftLightColorBlender_t>, "CMY32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1553,6 +1382,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYI32SoftLightColorBlender_t>,
 static_assert(ColorBlenderTraits::IsColorBlender<CMYI64SoftLightColorBlender_t>, "CMYI64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF32SoftLightColorBlender_t>, "CMYF32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF64SoftLightColorBlender_t>, "CMYF64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY8SoftLightColorBlender_t>, "ACMY8SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY16SoftLightColorBlender_t>, "ACMY16SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY32SoftLightColorBlender_t>, "ACMY32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY64SoftLightColorBlender_t>, "ACMY64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI16SoftLightColorBlender_t>, "ACMYI16SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI32SoftLightColorBlender_t>, "ACMYI32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI64SoftLightColorBlender_t>, "ACMYI64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF32SoftLightColorBlender_t>, "ACMYF32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF64SoftLightColorBlender_t>, "ACMYF64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK8SoftLightColorBlender_t>, "CMYK8SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK16SoftLightColorBlender_t>, "CMYK16SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK32SoftLightColorBlender_t>, "CMYK32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1562,15 +1400,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYKI32SoftLightColorBlender_t>
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKI64SoftLightColorBlender_t>, "CMYKI64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF32SoftLightColorBlender_t>, "CMYKF32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF64SoftLightColorBlender_t>, "CMYKF64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel8DifferenceColorBlender_t>, "Channel8DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel16DifferenceColorBlender_t>, "Channel16DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel32DifferenceColorBlender_t>, "Channel32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel64DifferenceColorBlender_t>, "Channel64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI16DifferenceColorBlender_t>, "ChannelI16DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI32DifferenceColorBlender_t>, "ChannelI32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI64DifferenceColorBlender_t>, "ChannelI64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF32DifferenceColorBlender_t>, "ChannelF32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF64DifferenceColorBlender_t>, "ChannelF64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK8SoftLightColorBlender_t>, "ACMYK8SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK16SoftLightColorBlender_t>, "ACMYK16SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK32SoftLightColorBlender_t>, "ACMYK32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK64SoftLightColorBlender_t>, "ACMYK64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI16SoftLightColorBlender_t>, "ACMYKI16SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI32SoftLightColorBlender_t>, "ACMYKI32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI64SoftLightColorBlender_t>, "ACMYKI64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF32SoftLightColorBlender_t>, "ACMYKF32SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF64SoftLightColorBlender_t>, "ACMYKF64SoftLightColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale8DifferenceColorBlender_t>, "GrayScale8DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale16DifferenceColorBlender_t>, "GrayScale16DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale32DifferenceColorBlender_t>, "GrayScale32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1589,6 +1427,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<RGBI32DifferenceColorBlender_t>
 static_assert(ColorBlenderTraits::IsColorBlender<RGBI64DifferenceColorBlender_t>, "RGBI64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF32DifferenceColorBlender_t>, "RGBF32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF64DifferenceColorBlender_t>, "RGBF64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB8DifferenceColorBlender_t>, "ARGB8DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB16DifferenceColorBlender_t>, "ARGB16DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB32DifferenceColorBlender_t>, "ARGB32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB64DifferenceColorBlender_t>, "ARGB64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI16DifferenceColorBlender_t>, "ARGBI16DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI32DifferenceColorBlender_t>, "ARGBI32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI64DifferenceColorBlender_t>, "ARGBI64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF32DifferenceColorBlender_t>, "ARGBF32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF64DifferenceColorBlender_t>, "ARGBF64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY8DifferenceColorBlender_t>, "CMY8DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY16DifferenceColorBlender_t>, "CMY16DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY32DifferenceColorBlender_t>, "CMY32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1598,6 +1445,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYI32DifferenceColorBlender_t>
 static_assert(ColorBlenderTraits::IsColorBlender<CMYI64DifferenceColorBlender_t>, "CMYI64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF32DifferenceColorBlender_t>, "CMYF32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF64DifferenceColorBlender_t>, "CMYF64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY8DifferenceColorBlender_t>, "ACMY8DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY16DifferenceColorBlender_t>, "ACMY16DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY32DifferenceColorBlender_t>, "ACMY32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY64DifferenceColorBlender_t>, "ACMY64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI16DifferenceColorBlender_t>, "ACMYI16DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI32DifferenceColorBlender_t>, "ACMYI32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI64DifferenceColorBlender_t>, "ACMYI64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF32DifferenceColorBlender_t>, "ACMYF32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF64DifferenceColorBlender_t>, "ACMYF64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK8DifferenceColorBlender_t>, "CMYK8DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK16DifferenceColorBlender_t>, "CMYK16DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK32DifferenceColorBlender_t>, "CMYK32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1607,15 +1463,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYKI32DifferenceColorBlender_t
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKI64DifferenceColorBlender_t>, "CMYKI64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF32DifferenceColorBlender_t>, "CMYKF32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF64DifferenceColorBlender_t>, "CMYKF64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel8ExclusionColorBlender_t>, "Channel8ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel16ExclusionColorBlender_t>, "Channel16ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel32ExclusionColorBlender_t>, "Channel32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<Channel64ExclusionColorBlender_t>, "Channel64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI16ExclusionColorBlender_t>, "ChannelI16ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI32ExclusionColorBlender_t>, "ChannelI32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelI64ExclusionColorBlender_t>, "ChannelI64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF32ExclusionColorBlender_t>, "ChannelF32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
-static_assert(ColorBlenderTraits::IsColorBlender<ChannelF64ExclusionColorBlender_t>, "ChannelF64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK8DifferenceColorBlender_t>, "ACMYK8DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK16DifferenceColorBlender_t>, "ACMYK16DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK32DifferenceColorBlender_t>, "ACMYK32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK64DifferenceColorBlender_t>, "ACMYK64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI16DifferenceColorBlender_t>, "ACMYKI16DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI32DifferenceColorBlender_t>, "ACMYKI32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI64DifferenceColorBlender_t>, "ACMYKI64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF32DifferenceColorBlender_t>, "ACMYKF32DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF64DifferenceColorBlender_t>, "ACMYKF64DifferenceColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale8ExclusionColorBlender_t>, "GrayScale8ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale16ExclusionColorBlender_t>, "GrayScale16ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<GrayScale32ExclusionColorBlender_t>, "GrayScale32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1634,6 +1490,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<RGBI32ExclusionColorBlender_t>,
 static_assert(ColorBlenderTraits::IsColorBlender<RGBI64ExclusionColorBlender_t>, "RGBI64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF32ExclusionColorBlender_t>, "RGBF32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<RGBF64ExclusionColorBlender_t>, "RGBF64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB8ExclusionColorBlender_t>, "ARGB8ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB16ExclusionColorBlender_t>, "ARGB16ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB32ExclusionColorBlender_t>, "ARGB32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGB64ExclusionColorBlender_t>, "ARGB64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI16ExclusionColorBlender_t>, "ARGBI16ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI32ExclusionColorBlender_t>, "ARGBI32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBI64ExclusionColorBlender_t>, "ARGBI64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF32ExclusionColorBlender_t>, "ARGBF32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ARGBF64ExclusionColorBlender_t>, "ARGBF64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY8ExclusionColorBlender_t>, "CMY8ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY16ExclusionColorBlender_t>, "CMY16ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMY32ExclusionColorBlender_t>, "CMY32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1643,6 +1508,15 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYI32ExclusionColorBlender_t>,
 static_assert(ColorBlenderTraits::IsColorBlender<CMYI64ExclusionColorBlender_t>, "CMYI64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF32ExclusionColorBlender_t>, "CMYF32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYF64ExclusionColorBlender_t>, "CMYF64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY8ExclusionColorBlender_t>, "ACMY8ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY16ExclusionColorBlender_t>, "ACMY16ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY32ExclusionColorBlender_t>, "ACMY32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMY64ExclusionColorBlender_t>, "ACMY64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI16ExclusionColorBlender_t>, "ACMYI16ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI32ExclusionColorBlender_t>, "ACMYI32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYI64ExclusionColorBlender_t>, "ACMYI64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF32ExclusionColorBlender_t>, "ACMYF32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYF64ExclusionColorBlender_t>, "ACMYF64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK8ExclusionColorBlender_t>, "CMYK8ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK16ExclusionColorBlender_t>, "CMYK16ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYK32ExclusionColorBlender_t>, "CMYK32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
@@ -1652,3 +1526,12 @@ static_assert(ColorBlenderTraits::IsColorBlender<CMYKI32ExclusionColorBlender_t>
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKI64ExclusionColorBlender_t>, "CMYKI64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF32ExclusionColorBlender_t>, "CMYKF32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
 static_assert(ColorBlenderTraits::IsColorBlender<CMYKF64ExclusionColorBlender_t>, "CMYKF64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK8ExclusionColorBlender_t>, "ACMYK8ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK16ExclusionColorBlender_t>, "ACMYK16ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK32ExclusionColorBlender_t>, "ACMYK32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYK64ExclusionColorBlender_t>, "ACMYK64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI16ExclusionColorBlender_t>, "ACMYKI16ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI32ExclusionColorBlender_t>, "ACMYKI32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKI64ExclusionColorBlender_t>, "ACMYKI64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF32ExclusionColorBlender_t>, "ACMYKF32ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
+static_assert(ColorBlenderTraits::IsColorBlender<ACMYKF64ExclusionColorBlender_t>, "ACMYKF64ExclusionColorBlender_t は ColorBlender の要件を満たしませんでした。");
