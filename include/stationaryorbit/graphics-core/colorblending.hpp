@@ -260,14 +260,46 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	};
 	///	ふたつの色をアルゴリズムに従って混色します。
 	template<class Tcolor, Tcolor algorithm(const Tcolor&, const Tcolor&)>
-	class ColorBlender
+	class ColorBlender final
 	{
 	public:
+		typedef Tcolor ValueType;
+
 		ColorBlender() = default;
 		[[nodiscard]] static constexpr Tcolor Blend(const Tcolor& backdrop, const Tcolor& source)
 		{
 			return algorithm(backdrop, source);
 		}
+	};
+	///	混色を行うクラスを識別します。
+	class ColorBlenderTraits final
+	{
+	private:
+		ColorBlenderTraits() = delete;
+		ColorBlenderTraits(const ColorBlenderTraits&) = delete;
+		ColorBlenderTraits(ColorBlenderTraits&&) = delete;
+		~ColorBlenderTraits() = delete;
+
+		template<class T, class = void> struct IsColorBlender_Impl : std::false_type{};
+		template<class T> struct IsColorBlender_Impl
+		<
+			T,
+			std::void_t
+			<
+				typename T::ValueType,
+				decltype( std::declval<const T&>().Blend(std::declval<const typename T::ValueType&>(), std::declval<const typename T::ValueType&>()) )
+			>
+		>
+		: std::conjunction
+		<
+			std::is_same< decltype( std::declval<const T&>().Blend(std::declval<const typename T::ValueType&>(), std::declval<const typename T::ValueType&>()) ), typename T::ValueType>,
+			std::is_default_constructible<T>
+		>
+		{};
+	public:
+		template<class T> using ValueType = typename T::ValueType;
+
+		template<class T> static constexpr bool IsColorBlender = IsColorBlender_Impl<T>::value;
 	};
 
 	typedef ColorBlender<Channel8_t, ColorBlendingAlgorithms::Normal> Channel8NormalColorBlender_t;
