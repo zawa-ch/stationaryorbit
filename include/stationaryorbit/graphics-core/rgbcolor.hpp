@@ -73,6 +73,7 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		constexpr RGBColor<Tp> operator-(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value - other._value); }
 		constexpr RGBColor<Tp> operator*(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value * other._value); }
 		constexpr RGBColor<Tp> operator*(const ValueType& other) const { return RGBColor<Tp>(_value * other); }
+		constexpr TranslucentColor<RGBColor<Tp>> operator*(const Opacity<Tp>& other) const { return TranslucentColor<RGBColor<Tp>>(*this, other); }
 		constexpr RGBColor<Tp> operator/(const RGBColor<Tp>& other) const { return RGBColor<Tp>(_value / other._value); }
 		constexpr RGBColor<Tp> operator/(const ValueType& other) const { return RGBColor<Tp>(_value / other); }
 		constexpr RGBColor<Tp> operator~() const { return RGBColor<Tp>(~_value); }
