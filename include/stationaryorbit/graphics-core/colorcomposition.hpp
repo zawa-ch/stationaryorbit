@@ -32,9 +32,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		PorterDuffOperator(PorterDuffOperator&&) = delete;
 		~PorterDuffOperator() = delete;
 	public:
-	};
-	class ColorComposition final
-	{
 		template<class Tcolor, class Tch = typename Tcolor::ValueType, std::enable_if_t<ColorTraits::IsColorType<Tcolor>, int> = 0>
 		[[nodiscard]] static constexpr TranslucentColor<Tcolor> Clear(const Tcolor& backdrop, const Tch& alpha_b, const Tcolor& source, const Tch& alpha_s)
 		{
@@ -239,6 +236,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			static_assert(ColorTraits::IsColorType<Tcolor>, "テンプレート引数 Tcolor は色型である必要があります。");
 			return Lighter(backdrop.Color(), backdrop.Alpha().Data() * alpha_b, source.Color(), source.Alpha().Data() * alpha_s);
 		}
+	};
+	class ColorComposition final
+	{
 	};
 }
 #endif // __stationaryorbit_graphics_core_colorcomposition__
