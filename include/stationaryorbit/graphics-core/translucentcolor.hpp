@@ -40,9 +40,19 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr const OpacityType& Alpha() const { return _opacity; }
 		[[nodiscard]] constexpr const ColorType& Color() const { return _color; }
 
+		[[nodiscard]] constexpr TranslucentColor<colorT> operator+(const TranslucentColor<colorT>& other) const { return TranslucentColor<colorT>(Tcolor(*this) + Tcolor(other), _opacity + other._opacity); }
+		[[nodiscard]] constexpr TranslucentColor<colorT> operator-(const TranslucentColor<colorT>& other) const { return TranslucentColor<colorT>(Tcolor(*this) - Tcolor(other), _opacity - other._opacity); }
+		[[nodiscard]] constexpr TranslucentColor<colorT> operator*(const OpacityType& other) const { return TranslucentColor<colorT>(_color, _opacity * other); }
+		[[nodiscard]] constexpr TranslucentColor<colorT> operator/(const OpacityType& other) const { return TranslucentColor<colorT>(_color, _opacity / other); }
+
 		[[nodiscard]] constexpr bool Equals(const TranslucentColor<colorT>& other) const { return Color().Equals(other.Color()) && Alpha().Equals(other.Alpha()); }
 		[[nodiscard]] constexpr bool operator==(const TranslucentColor<colorT>& other) const { return Equals(other); }
 		[[nodiscard]] constexpr bool operator!=(const TranslucentColor<colorT>& other) const { return !Equals(other); }
+
+		[[nodiscard]] constexpr operator ColorType()
+		{
+			return _color * _opacity.Data();
+		}
 	};
 }
 #endif // __stationaryorbit_graphics_core_translucentcolor__
