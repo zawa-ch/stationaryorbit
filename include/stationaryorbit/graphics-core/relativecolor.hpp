@@ -25,27 +25,40 @@
 #include "channelvalue.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
+	///	複数のチャネルで表される色を表します。
+	///	@param	Tp
+	///	チャネルの表現に用いる型。
+	///	@param	N
+	///	チャネルの数。
 	template<class Tp, size_t N>
 	struct RelativeColor final
 	{
 	public:
+		///	チャネルの表現に使用されている型。
 		typedef ChannelValue<Tp> ValueType;
+		///	内部でデータの保持に用いている型。
 		typedef std::array<ValueType, N> DataType;
 	private:
 		DataType _value;
 	public:
+		///	既定の @a RelativeColor のオブジェクトを構築します。
 		RelativeColor() = default;
 		constexpr explicit RelativeColor(const DataType& list) : _value(list) {}
+		///	異なる @a ValueType を持つ @a RelativeColor から変換します。
 		template<class fromT>
 		constexpr explicit RelativeColor(const RelativeColor<fromT, N>& from) : _value(convert(from.Data())) {}
+		///	@a ZeroValue_t から変換します。
 		constexpr RelativeColor(const ZeroValue_t&) : RelativeColor(Expand(ValueType(Zero))) {}
 
+		///	内部で保持しているデータを取得します。
 		[[nodiscard]] constexpr const DataType& Data() const { return _value; }
+		///	このオブジェクトが正規化された値を持つかを取得します。
 		[[nodiscard]] constexpr bool IsNormalized() const noexcept
 		{
 			for(const auto& item: _value) { if (!item.IsNormalized()) { return false; } }
 			return true;
 		}
+		///	このオブジェクトを正規化します。
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Normalize() const noexcept { return Apply([](const auto& item)->ValueType { return item.Normalize(); }); }
 
 		[[nodiscard]] constexpr RelativeColor<Tp, N> SaturateAdd(const RelativeColor<Tp, N>& other) const noexcept { return Merge(other, [](const auto& item, const auto& value)->ValueType { return ArithmeticOperation::SaturateAdd(item, value); }); }
@@ -99,6 +112,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		[[nodiscard]] constexpr bool operator==(const RelativeColor<Tp, N>& other) const noexcept { return Equals(other); }
 		[[nodiscard]] constexpr bool operator!=(const RelativeColor<Tp, N>& other) const noexcept { return !Equals(other); }
 
+		///	このオブジェクトに指定された述語を適用します。
+		///	@param	pred
+		///	適用する述語。
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Apply(const std::function<ValueType(const ValueType&)>& pred) const
 		{
 			auto result = RelativeColor<Tp, N>();
@@ -114,6 +130,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			}
 			return result;
 		}
+		///	指定した述語を適用してふたつのオブジェクトをマージします。
+		///	@param	other
+		///	マージするオブジェクト。
+		///	@param	pred
+		///	適用する述語。
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Merge(const RelativeColor<Tp, N>& other, const std::function<ValueType(const ValueType&, const ValueType&)>& pred) const
 		{
 			auto result = RelativeColor<Tp, N>();
@@ -132,6 +153,11 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			}
 			return result;
 		}
+		///	指定した述語を適用してふたつのオブジェクトをマージします。
+		///	@param	value
+		///	マージするオブジェクト。
+		///	@param	pred
+		///	適用する述語。
 		[[nodiscard]] constexpr RelativeColor<Tp, N> Merge(const ValueType& value, const std::function<ValueType(const ValueType&, const ValueType&)>& pred) const
 		{
 			auto result = RelativeColor<Tp, N>();
@@ -148,6 +174,9 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			return result;
 		}
 
+		///	すべてのチャネルが指定された値をもつ @a RelativeColor オブジェクトを生成します。
+		///	@param	value
+		///	構築する値。
 		[[nodiscard]] static constexpr RelativeColor<Tp, N> Expand(const ValueType& value)
 		{
 			auto result = RelativeColor<Tp, N>();
