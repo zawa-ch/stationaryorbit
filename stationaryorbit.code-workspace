@@ -66,15 +66,15 @@
 				"options": {
 					"cwd": "${workspaceFolder}"
 				},
+				"command": "cmake",
 				"linux": {
-					"command": "cmake",
 					"args": [
 						"--build", "build/"
 					],
 					"problemMatcher": {
 						"owner": "cpp",
 						"base": "$gcc",
-						"fileLocation": [ "relative", "${workspaceFolder}/build" ]
+						"fileLocation": "autoDetect"
 					}
 				},
 				"presentation": {
@@ -88,15 +88,23 @@
 				}
 			},
 			{
-				"label": "clean",
+				"label": "build stationaryorbit.exception",
 				"type": "shell",
 				"group": "build",
 				"options": {
-					"cwd": "${workspaceFolder}/build"
+					"cwd": "${workspaceFolder}"
 				},
+				"command": "cmake",
 				"linux": {
-					"command": "cmake",
-					"args": [ "--clean" ]
+					"args": [
+						"--build", "build/",
+						"--target", "stationaryorbit.exception"
+					],
+					"problemMatcher": {
+						"owner": "cpp",
+						"base": "$gcc",
+						"fileLocation": "autoDetect"
+					}
 				},
 				"presentation": {
 					"echo": true,
@@ -106,15 +114,27 @@
 					"panel": "dedicated",
 					"showReuseMessage": false,
 					"clear": true
-				},
-				"problemMatcher": []
+				}
 			},
 			{
-				"label": "rebuild",
+				"label": "build stationaryorbit.core",
 				"type": "shell",
 				"group": "build",
-				"dependsOn": [ "clean", "build all" ],
-				"dependsOrder": "sequence",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"command": "cmake",
+				"linux": {
+					"args": [
+						"--build", "build/",
+						"--target", "stationaryorbit.core"
+					],
+					"problemMatcher": {
+						"owner": "cpp",
+						"base": "$gcc",
+						"fileLocation": "autoDetect"
+					}
+				},
 				"presentation": {
 					"echo": true,
 					"reveal": "silent",
@@ -123,8 +143,181 @@
 					"panel": "dedicated",
 					"showReuseMessage": false,
 					"clear": true
+				}
+			},
+			{
+				"label": "build stationaryorbit.graphics-core",
+				"type": "shell",
+				"group": "build",
+				"options": {
+					"cwd": "${workspaceFolder}"
 				},
-				"problemMatcher": []
+				"command": "cmake",
+				"linux": {
+					"args": [
+						"--build", "build/",
+						"--target", "stationaryorbit.graphics-core"
+					],
+					"problemMatcher": {
+						"owner": "cpp",
+						"base": "$gcc",
+						"fileLocation": "autoDetect"
+					}
+				},
+				"presentation": {
+					"echo": true,
+					"reveal": "silent",
+					"revealProblems": "onProblem",
+					"focus": false,
+					"panel": "dedicated",
+					"showReuseMessage": false,
+					"clear": true
+				}
+			},
+			{
+				"label": "build stationaryorbit.graphics-dib",
+				"type": "shell",
+				"group": "build",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"command": "cmake",
+				"linux": {
+					"args": [
+						"--build", "build/",
+						"--target", "stationaryorbit.graphics-dib"
+					],
+					"problemMatcher": {
+						"owner": "cpp",
+						"base": "$gcc",
+						"fileLocation": "autoDetect"
+					}
+				},
+				"presentation": {
+					"echo": true,
+					"reveal": "silent",
+					"revealProblems": "onProblem",
+					"focus": false,
+					"panel": "dedicated",
+					"showReuseMessage": false,
+					"clear": true
+				}
+			},
+			{
+				"label": "build stationaryorbit.mathematics",
+				"type": "shell",
+				"group": "build",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"command": "cmake",
+				"linux": {
+					"args": [
+						"--build", "build/",
+						"--target", "stationaryorbit.mathematics"
+					],
+					"problemMatcher": {
+						"owner": "cpp",
+						"base": "$gcc",
+						"fileLocation": "autoDetect"
+					}
+				},
+				"presentation": {
+					"echo": true,
+					"reveal": "silent",
+					"revealProblems": "onProblem",
+					"focus": false,
+					"panel": "dedicated",
+					"showReuseMessage": false,
+					"clear": true
+				}
+			},
+			{
+				"label": "build stationaryorbit.test.core",
+				"type": "shell",
+				"group": "build",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"command": "cmake",
+				"linux": {
+					"args": [
+						"--build", "build/",
+						"--target", "stationaryorbit.test.core"
+					],
+					"problemMatcher": {
+						"owner": "cpp",
+						"base": "$gcc",
+						"fileLocation": "autoDetect"
+					}
+				},
+				"presentation": {
+					"echo": true,
+					"reveal": "silent",
+					"revealProblems": "onProblem",
+					"focus": false,
+					"panel": "dedicated",
+					"showReuseMessage": false,
+					"clear": true
+				}
+			},
+			{
+				"label": "build stationaryorbit.test.graphics",
+				"type": "shell",
+				"group": "build",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"command": "cmake",
+				"linux": {
+					"args": [
+						"--build", "build/",
+						"--target", "stationaryorbit.test.graphics"
+					],
+					"problemMatcher": {
+						"owner": "cpp",
+						"base": "$gcc",
+						"fileLocation": "autoDetect"
+					}
+				},
+				"presentation": {
+					"echo": true,
+					"reveal": "silent",
+					"revealProblems": "onProblem",
+					"focus": false,
+					"panel": "dedicated",
+					"showReuseMessage": false,
+					"clear": true
+				}
+			},
+			{
+				"label": "build stationaryorbit.test.mathematics",
+				"type": "shell",
+				"group": "build",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"command": "cmake",
+				"linux": {
+					"args": [
+						"--build", "build/",
+						"--target", "stationaryorbit.test.mathematics"
+					],
+					"problemMatcher": {
+						"owner": "cpp",
+						"base": "$gcc",
+						"fileLocation": "autoDetect"
+					}
+				},
+				"presentation": {
+					"echo": true,
+					"reveal": "silent",
+					"revealProblems": "onProblem",
+					"focus": false,
+					"panel": "dedicated",
+					"showReuseMessage": false,
+					"clear": true
+				}
 			}
 		]
 	},
@@ -149,7 +342,7 @@
 						"ignoreFailures": true
 					}
 				],
-				"preLaunchTask": "build all"
+				"preLaunchTask": "build stationaryorbit.test.core"
 			},
 			{
 				"name": "(gdb) Launch test.graphics",
@@ -162,7 +355,7 @@
 				"environment": [],
 				"externalConsole": false,
 				"MIMode": "gdb",
-				"preLaunchTask": "build all",
+				"preLaunchTask": "build stationaryorbit.test.graphics",
 				"setupCommands": [
 					{
 						"description": "Enable pretty-printing for gdb",
@@ -189,7 +382,7 @@
 						"ignoreFailures": true
 					}
 				],
-				"preLaunchTask": "build all"
+				"preLaunchTask": "build stationaryorbit.test.mathematics"
 			}
 		],
 		"compounds": []
