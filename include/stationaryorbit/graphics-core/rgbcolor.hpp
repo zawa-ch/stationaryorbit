@@ -20,6 +20,8 @@
 #define __stationaryorbit_graphics_core_rgbcolor__
 #include "relativecolor.hpp"
 #include "translucentcolor.hpp"
+#include "colorblending.hpp"
+#include "colorcomposition.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	///	赤(Red), 緑(Green), 青(Blue)の三要素によって表される色。
@@ -96,6 +98,80 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		constexpr static RGBColor<Tp> Empty() { return RGBColor<Tp>(); }
 	};
+	typedef RGBColor<Proportion8_t> RGB8_t;
+	typedef RGBColor<Proportion16_t> RGB16_t;
+	typedef RGBColor<Proportion32_t> RGB32_t;
+	typedef RGBColor<Proportion64_t> RGB64_t;
+	typedef RGBColor<FixedPoint16q15_t> RGBI16_t;
+	typedef RGBColor<FixedPoint32q31_t> RGBI32_t;
+	typedef RGBColor<FixedPoint64q63_t> RGBI64_t;
+	typedef RGBColor<float> RGBF32_t;
+	typedef RGBColor<double> RGBF64_t;
+
+	template<class Tp> using ARGBColor = TranslucentColor<RGBColor<Tp>>;
+	typedef ARGBColor<Proportion8_t> ARGB8_t;
+	typedef ARGBColor<Proportion16_t> ARGB16_t;
+	typedef ARGBColor<Proportion32_t> ARGB32_t;
+	typedef ARGBColor<Proportion64_t> ARGB64_t;
+	typedef ARGBColor<FixedPoint16q15_t> ARGBI16_t;
+	typedef ARGBColor<FixedPoint32q31_t> ARGBI32_t;
+	typedef ARGBColor<FixedPoint64q63_t> ARGBI64_t;
+	typedef ARGBColor<float> ARGBF32_t;
+	typedef ARGBColor<double> ARGBF64_t;
+
+	template<class Tp> using RGBColorNormalBlender = ColorNormalBlender<RGBColor<Tp>>;
+	template<class Tp> using RGBColorMultiplyBlender = ColorMultiplyBlender<RGBColor<Tp>>;
+	template<class Tp> using RGBColorScreenBlender = ColorScreenBlender<RGBColor<Tp>>;
+	template<class Tp> using RGBColorOverlayBlender = ColorOverlayBlender<RGBColor<Tp>>;
+	template<class Tp> using RGBColorDarkenBlender = ColorDarkenBlender<RGBColor<Tp>>;
+	template<class Tp> using RGBColorLightenBlender = ColorLightenBlender<RGBColor<Tp>>;
+	template<class Tp> using RGBColorDodgeBlender = ColorDodgeBlender<RGBColor<Tp>>;
+	template<class Tp> using RGBColorBurnBlender = ColorBurnBlender<RGBColor<Tp>>;
+	template<class Tp> using RGBColorHardLightBlender = ColorHardLightBlender<RGBColor<Tp>>;
+	template<class Tp> using RGBColorSoftLightBlender = ColorSoftLightBlender<RGBColor<Tp>>;
+	template<class Tp> using RGBColorDifferenceBlender = ColorDifferenceBlender<RGBColor<Tp>>;
+	template<class Tp> using RGBColorExclusionBlender = ColorExclusionBlender<RGBColor<Tp>>;
+
+	template<class Tp> using ARGBColorNormalBlender = ColorNormalBlender<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorMultiplyBlender = ColorMultiplyBlender<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorScreenBlender = ColorScreenBlender<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorOverlayBlender = ColorOverlayBlender<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorDarkenBlender = ColorDarkenBlender<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorLightenBlender = ColorLightenBlender<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorDodgeBlender = ColorDodgeBlender<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorBurnBlender = ColorBurnBlender<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorHardLightBlender = ColorHardLightBlender<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorSoftLightBlender = ColorSoftLightBlender<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorDifferenceBlender = ColorDifferenceBlender<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorExclusionBlender = ColorExclusionBlender<ARGBColor<Tp>>;
+
+	template<class Tp> using RGBColorClearCompositor = ColorClearCompositor<RGBColor<Tp>>;
+	template<class Tp> using RGBColorCopyCompositor = ColorCopyCompositor<RGBColor<Tp>>;
+	template<class Tp> using RGBColorDestinationCompositor = ColorDestinationCompositor<RGBColor<Tp>>;
+	template<class Tp> using RGBColorSourceOverCompositor = ColorSourceOverCompositor<RGBColor<Tp>>;
+	template<class Tp> using RGBColorDestinationOverCompositor = ColorDestinationOverCompositor<RGBColor<Tp>>;
+	template<class Tp> using RGBColorSourceInCompositor = ColorSourceInCompositor<RGBColor<Tp>>;
+	template<class Tp> using RGBColorDestinationInCompositor = ColorDestinationInCompositor<RGBColor<Tp>>;
+	template<class Tp> using RGBColorSourceOutCompositor = ColorSourceOutCompositor<RGBColor<Tp>>;
+	template<class Tp> using RGBColorDestinationOutCompositor = ColorDestinationOutCompositor<RGBColor<Tp>>;
+	template<class Tp> using RGBColorSourceAtopCompositor = ColorSourceAtopCompositor<RGBColor<Tp>>;
+	template<class Tp> using RGBColorDestinationAtopCompositor = ColorDestinationAtopCompositor<RGBColor<Tp>>;
+	template<class Tp> using RGBColorXORCompositor = ColorXORCompositor<RGBColor<Tp>>;
+	template<class Tp> using RGBColorLighterCompositor = ColorLighterCompositor<RGBColor<Tp>>;
+
+	template<class Tp> using ARGBColorClearCompositor = ColorClearCompositor<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorCopyCompositor = ColorCopyCompositor<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorDestinationCompositor = ColorDestinationCompositor<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorSourceOverCompositor = ColorSourceOverCompositor<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorDestinationOverCompositor = ColorDestinationOverCompositor<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorSourceInCompositor = ColorSourceInCompositor<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorDestinationInCompositor = ColorDestinationInCompositor<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorSourceOutCompositor = ColorSourceOutCompositor<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorDestinationOutCompositor = ColorDestinationOutCompositor<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorSourceAtopCompositor = ColorSourceAtopCompositor<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorDestinationAtopCompositor = ColorDestinationAtopCompositor<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorXORCompositor = ColorXORCompositor<ARGBColor<Tp>>;
+	template<class Tp> using ARGBColorLighterCompositor = ColorLighterCompositor<ARGBColor<Tp>>;
 
 	extern template struct RGBColor<Proportion8_t>;
 	extern template struct RGBColor<Proportion16_t>;
@@ -115,24 +191,5 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	extern template struct TranslucentColor<RGBColor<FixedPoint64q63_t>>;
 	extern template struct TranslucentColor<RGBColor<float>>;
 	extern template struct TranslucentColor<RGBColor<double>>;
-
-	typedef RGBColor<Proportion8_t> RGB8_t;
-	typedef RGBColor<Proportion16_t> RGB16_t;
-	typedef RGBColor<Proportion32_t> RGB32_t;
-	typedef RGBColor<Proportion64_t> RGB64_t;
-	typedef RGBColor<FixedPoint16q15_t> RGBI16_t;
-	typedef RGBColor<FixedPoint32q31_t> RGBI32_t;
-	typedef RGBColor<FixedPoint64q63_t> RGBI64_t;
-	typedef RGBColor<float> RGBF32_t;
-	typedef RGBColor<double> RGBF64_t;
-	typedef TranslucentColor<RGBColor<Proportion8_t>> ARGB8_t;
-	typedef TranslucentColor<RGBColor<Proportion16_t>> ARGB16_t;
-	typedef TranslucentColor<RGBColor<Proportion32_t>> ARGB32_t;
-	typedef TranslucentColor<RGBColor<Proportion64_t>> ARGB64_t;
-	typedef TranslucentColor<RGBColor<FixedPoint16q15_t>> ARGBI16_t;
-	typedef TranslucentColor<RGBColor<FixedPoint32q31_t>> ARGBI32_t;
-	typedef TranslucentColor<RGBColor<FixedPoint64q63_t>> ARGBI64_t;
-	typedef TranslucentColor<RGBColor<float>> ARGBF32_t;
-	typedef TranslucentColor<RGBColor<double>> ARGBF64_t;
 }
 #endif // __stationaryorbit_graphics_core_rgbcolor__
