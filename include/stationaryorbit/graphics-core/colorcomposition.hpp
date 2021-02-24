@@ -237,8 +237,80 @@ namespace zawa_ch::StationaryOrbit::Graphics
 			return Lighter(backdrop.Color(), backdrop.Alpha().Data() * alpha_b, source.Color(), source.Alpha().Data() * alpha_s);
 		}
 	};
-	class ColorComposition final
+	template<class Tcolor, auto algorithm(const Tcolor&, const typename Tcolor::ValueType&, const Tcolor&, const typename Tcolor::ValueType&)>
+	class ColorCompositor final
 	{
+	public:
+		typedef Tcolor InputType;
+		typedef typename Tcolor::ValueType ChannelType;
+		typedef decltype(algorithm) ValueType;
+	private:
+		ChannelType alpha_source;
+		ChannelType alpha_backdrop;
+	public:
+		constexpr ColorCompositor() : alpha_source(ChannelType::Max()), alpha_backdrop(ChannelType::Max()) {}
+		constexpr ColorCompositor(const ChannelType alpha_backdrop, const ChannelType alpha_source) : alpha_source(alpha_source), alpha_backdrop(alpha_backdrop) {}
+
+		[[nodiscard]] constexpr const ChannelType& SourceAlpha() const { return alpha_source; }
+		[[nodiscard]] constexpr ChannelType SourceAlpha() { return alpha_source; }
+		[[nodiscard]] constexpr const ChannelType& BackdropAlpha() const { return alpha_backdrop; }
+		[[nodiscard]] constexpr ChannelType BackdropAlpha() { return alpha_backdrop; }
+
+		[[nodiscard]] constexpr ValueType Composite(const InputType& backdrop, const InputType& source) const
+		{
+			return algorithm(backdrop, alpha_backdrop, source, alpha_source);
+		}
 	};
+	///	混色を行うクラスを識別します。
+	class ColorCompositerTraits final
+	{
+	private:
+		ColorCompositerTraits() = delete;
+		ColorCompositerTraits(const ColorCompositerTraits&) = delete;
+		ColorCompositerTraits(ColorCompositerTraits&&) = delete;
+		~ColorCompositerTraits() = delete;
+
+		template<class T, class = void> struct IsColorCompositer_Impl : std::false_type{};
+		template<class T> struct IsColorCompositer_Impl
+		<
+			T,
+			std::void_t
+			<
+				typename T::InputType,
+				typename T::ChannelType,
+				typename T::ValueType,
+				decltype( std::declval<const T&>().Composite(std::declval<const typename T::InputType&>(), std::declval<const typename T::InputType&>()) ),
+				decltype( std::declval<const T&>().SourceAlpha() ),
+				decltype( std::declval<const T&>().BackdropAlpha() )
+			>
+		>
+		: std::conjunction
+		<
+			std::is_same< decltype( std::declval<const T&>().Composite(std::declval<const typename T::InputType&>(), std::declval<const typename T::InputType&>()) ), typename T::ValueType>,
+			std::is_same< decltype( std::declval<const T&>().SourceAlpha() ), const typename T::ChannelType&>,
+			std::is_same< decltype( std::declval<const T&>().BackdropAlpha() ), const typename T::ChannelType&>,
+			std::is_default_constructible<T>,
+			std::is_constructible<T, typename T::ChannelType, typename T::ChannelType>
+		>
+		{};
+	public:
+		template<class T> using ValueType = typename T::ValueType;
+
+		template<class T> static constexpr bool IsColorCompositer = IsColorCompositer_Impl<T>::value;
+	};
+
+	template<class Tcolor> using ColorClearCompositor = ColorCompositor<Tcolor, PorterDuffOperator::Clear>;
+	template<class Tcolor> using ColorCopyCompositor = ColorCompositor<Tcolor, PorterDuffOperator::Copy>;
+	template<class Tcolor> using ColorDestinationCompositor = ColorCompositor<Tcolor, PorterDuffOperator::Destination>;
+	template<class Tcolor> using ColorSourceOverCompositor = ColorCompositor<Tcolor, PorterDuffOperator::SourceOver>;
+	template<class Tcolor> using ColorDestinationOverCompositor = ColorCompositor<Tcolor, PorterDuffOperator::DestinationOver>;
+	template<class Tcolor> using ColorSourceInCompositor = ColorCompositor<Tcolor, PorterDuffOperator::SourceIn>;
+	template<class Tcolor> using ColorDestinationInCompositor = ColorCompositor<Tcolor, PorterDuffOperator::DestinationIn>;
+	template<class Tcolor> using ColorSourceOutCompositor = ColorCompositor<Tcolor, PorterDuffOperator::SourceOut>;
+	template<class Tcolor> using ColorDestinationOutCompositor = ColorCompositor<Tcolor, PorterDuffOperator::DestinationOut>;
+	template<class Tcolor> using ColorSourceAtopCompositor = ColorCompositor<Tcolor, PorterDuffOperator::SourceAtop>;
+	template<class Tcolor> using ColorDestinationAtopCompositor = ColorCompositor<Tcolor, PorterDuffOperator::DestinationAtop>;
+	template<class Tcolor> using ColorXORCompositor = ColorCompositor<Tcolor, PorterDuffOperator::XOR>;
+	template<class Tcolor> using ColorLighterCompositor = ColorCompositor<Tcolor, PorterDuffOperator::Lighter>;
 }
 #endif // __stationaryorbit_graphics_core_colorcomposition__
