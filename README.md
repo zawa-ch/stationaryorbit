@@ -1,8 +1,9 @@
 # stationaryorbit
 
 ![Lisence](https://img.shields.io/github/license/zawa-ch/stationaryorbit)
+![Lines of code](https://img.shields.io/tokei/lines/github/zawa-ch/stationaryorbit)
 
-個人製作の雑多なライブラリ群
+簡単なことを簡単に行うためのライブラリ
 
 ## 概要
 
@@ -10,34 +11,42 @@ stationaryorbit はC++で記述された、いくつかのライブラリ モジ
 このソースのビルドにはC++17に準拠したコンパイラが必要になります。  
 
 - core: 基本的な要素、あるいはC++標準ライブラリの拡張
-- exception: ライブラリで使用される基本的な例外
 - graphics
-  - core: 画像の入出力と基本的な加工
+  - core: 色と画像の基本的な操作
   - dib: Windows Bitmap形式イメージのサポート
-- analysis: 基本的な数値計算
+- mathematics: 基本的な数値計算
 
 ## このライブラリでできること
 
 - core
-  - 値の範囲型(Range)
+  - 値の範囲型(`Range`)
     (c++20にて標準ライブラリに組み込まれる予定の`std::range`と同程度の機能)
-  - ハンドラー型(Delegate)
-  - プロパティ(Property)
-  - 平面上の点・大きさ・および矩形(Point/RectangleSize/Rectangle)
-  - true/falseのいずれでもない状態を持つbool値(TristateBoolean)
-  - 二次元ベクトル(Vector2D)
-  - 0..1間の値を表す型(FractionalDec)
-  - データのビット単位でのアクセス(BitReference)
-  - ビットマスク型(BitMask)
+  - ハンドラー型(`Delegate`)
+  - プロパティ(`Property`)
+  - 平面上の点・大きさ・および矩形(`Point2D`/`Rect2DSize`/`Rectangle2D`)
+  - true/falseのいずれでもない状態を持つbool値(`Logic`)
+  - 二次元ベクトル(`Vector2D`)
+  - 0..1間の値を表す型(`Proportion`)
+  - データのビット単位でのアクセス(`BitReference`)
+  - ビットマスク型(`BitMask`)
 - graphics-core
-  - ビットマップ画像の表現
-  - ビットマップの反転・切り抜き・拡大縮小の加工
+  - 色の表現  
+    グレースケール/RGB/CMY/CMYK/YUV/XYZ  
+    8/16/32/64bit 整数  
+    1.15/1.31/1.63bit 固定小数点数  
+    32/64bit 浮動小数点数  
+  - 色の合成(`ColorBlender`/`ColorCompositer`)
+  - 画像の表現(`Pixmap`/`PixArray`)
+  - 画像の反転(`ImageHorizonalFlip`/`ImageVerticalFlip`)
+  - 画像のスケーリング(`ImageScaling`)
 - graphics-dib
   - Windowsビットマップの読み込み  
-    RGB(16/24/32ビット)
+    COREHEADER/INFOHEADER  
+    RGB(16/24/32ビット)  
   - Windowsビットマップの書き込み  
-    RGB(16/24/32ビット)
-- analysis
+    COREHEADER/INFOHEADER  
+    RGB(16/24/32ビット)  
+- mathematics
   - 基本的な多項式の表現(PolynomialFunction)
   - 基本的なテイラー級数の表現(TaylorSeries)
   - ニュートン補完(NewtonCoef)
