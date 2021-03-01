@@ -266,26 +266,17 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		Compositer _comp;
 		DisplayRectangle _area;
 	public:
-		ColorCompositeImage(const Compositer& compositer, const InputImage& backdrop, const InputImage& source) : _comp(compositer), _back(backdrop), _source(source) {}
-		ColorCompositeImage(Compositer&& compositer, const InputImage& backdrop, const InputImage& source) : _comp(std::exchange(_comp, compositer)), _back(backdrop), _source(source) {}
+		ColorCompositeImage(const Compositer& compositer, const InputImage& backdrop, const InputImage& source) : _comp(compositer), _back(backdrop), _source(source), _area(SolveArea(backdrop.Area(), source.Area())) {}
+		ColorCompositeImage(Compositer&& compositer, const InputImage& backdrop, const InputImage& source) : _comp(std::exchange(_comp, compositer)), _back(backdrop), _source(source), _area(SolveArea(backdrop.Area(), source.Area())) {}
 
 		[[nodiscard]] const Compositer& GetCompositer() const { return _comp; }
 		[[nodiscard]] Compositer& GetCompositer() { return _comp; }
 
-		[[nodiscard]] virtual bool IsReadableAbyss() const noexcept
-		{
-			return _back.IsReadableAbyss() && _source.IsReadableAbyss();
-		}
-		[[nodiscard]] virtual const DisplayRectSize& Size() const noexcept { return _area.Size(); }
-		[[nodiscard]] virtual DisplayRectangle Area() const noexcept { return _area; }
-		[[nodiscard]] virtual ValueType At(const DisplayPoint& index) const
-		{
-			return _comp.Composite(_back.At(index), _source.At(index));
-		}
-		[[nodiscard]] virtual ValueType operator[](const DisplayPoint& index) const
-		{
-			return _comp.Composite(_back[index], _source[index]);
-		}
+		[[nodiscard]] bool IsReadableAbyss() const noexcept { return _back.IsReadableAbyss() && _source.IsReadableAbyss(); }
+		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _area.Size(); }
+		[[nodiscard]] DisplayRectangle Area() const noexcept { return _area; }
+		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return _comp.Composite(_back.At(index), _source.At(index)); }
+		[[nodiscard]] ValueType operator[](const DisplayPoint& index) const { return _comp.Composite(_back[index], _source[index]); }
 	private:
 		[[nodiscard]] constexpr static DisplayRectangle SolveArea(const DisplayRectangle& l, const DisplayRectangle& r)
 		{
@@ -306,5 +297,19 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	template<class Tcolor> using ColorDestinationAtopCompositer = ColorCompositer<Tcolor, PorterDuffOperator::DestinationAtop<Tcolor>>;
 	template<class Tcolor> using ColorXORCompositer = ColorCompositer<Tcolor, PorterDuffOperator::XOR<Tcolor>>;
 	template<class Tcolor> using ColorLighterCompositer = ColorCompositer<Tcolor, PorterDuffOperator::Lighter<Tcolor>>;
+
+	template<class Tcolor> using ColorClearCompositeImage = ColorCompositeImage<ColorClearCompositer<Tcolor>>;
+	template<class Tcolor> using ColorCopyCompositeImage = ColorCompositeImage<ColorCopyCompositer<Tcolor>>;
+	template<class Tcolor> using ColorDestinationCompositeImage = ColorCompositeImage<ColorDestinationCompositer<Tcolor>>;
+	template<class Tcolor> using ColorSourceOverCompositeImage = ColorCompositeImage<ColorSourceOverCompositer<Tcolor>>;
+	template<class Tcolor> using ColorDestinationOverCompositeImage = ColorCompositeImage<ColorDestinationOverCompositer<Tcolor>>;
+	template<class Tcolor> using ColorSourceInCompositeImage = ColorCompositeImage<ColorSourceInCompositer<Tcolor>>;
+	template<class Tcolor> using ColorDestinationInCompositeImage = ColorCompositeImage<ColorDestinationInCompositer<Tcolor>>;
+	template<class Tcolor> using ColorSourceOutCompositeImage = ColorCompositeImage<ColorSourceOutCompositer<Tcolor>>;
+	template<class Tcolor> using ColorDestinationOutCompositeImage = ColorCompositeImage<ColorDestinationOutCompositer<Tcolor>>;
+	template<class Tcolor> using ColorSourceAtopCompositeImage = ColorCompositeImage<ColorSourceAtopCompositer<Tcolor>>;
+	template<class Tcolor> using ColorDestinationAtopCompositeImage = ColorCompositeImage<ColorDestinationAtopCompositer<Tcolor>>;
+	template<class Tcolor> using ColorXORCompositeImage = ColorCompositeImage<ColorXORCompositer<Tcolor>>;
+	template<class Tcolor> using ColorLighterCompositeImage = ColorCompositeImage<ColorLighterCompositer<Tcolor>>;
 }
 #endif // __stationaryorbit_graphics_core_colorcomposition__
