@@ -22,6 +22,7 @@
 #include "channelvalue.hpp"
 #include "relativecolor.hpp"
 #include "translucentcolor.hpp"
+#include "image.hpp"
 namespace zawa_ch::StationaryOrbit::Graphics
 {
 	///	カラーブレンディングのアルゴリズムの実装です。
@@ -285,19 +286,6 @@ namespace zawa_ch::StationaryOrbit::Graphics
 		template<class Tcolor, std::enable_if_t<ColorTraits::IsColorType<Tcolor>, int> = 0>
 		[[nodiscard]] static constexpr TranslucentColor<Tcolor> Exclusion(const TranslucentColor<Tcolor>& backdrop, const TranslucentColor<Tcolor>& source) { return AlphaBlending<Tcolor, Exclusion>(backdrop, source); }
 	};
-	///	ふたつの色をアルゴリズムに従って混色します。
-	template<class Tcolor, Tcolor algorithm(const Tcolor&, const Tcolor&)>
-	class ColorBlender final
-	{
-	public:
-		typedef Tcolor ValueType;
-
-		ColorBlender() = default;
-		[[nodiscard]] static constexpr Tcolor Blend(const Tcolor& backdrop, const Tcolor& source)
-		{
-			return algorithm(backdrop, source);
-		}
-	};
 	///	混色を行うクラスを識別します。
 	class ColorBlenderTraits final
 	{
@@ -328,6 +316,50 @@ namespace zawa_ch::StationaryOrbit::Graphics
 
 		template<class T> static constexpr bool IsColorBlender = IsColorBlender_Impl<T>::value;
 	};
+	///	ふたつの色をアルゴリズムに従って混色します。
+	template<class Tcolor, Tcolor algorithm(const Tcolor&, const Tcolor&)>
+	class ColorBlender final
+	{
+	public:
+		typedef Tcolor ValueType;
+
+		ColorBlender() = default;
+		[[nodiscard]] static constexpr Tcolor Blend(const Tcolor& backdrop, const Tcolor& source)
+		{
+			return algorithm(backdrop, source);
+		}
+	};
+	template<class Tblender>
+	class ColorBlendImage : public Image<typename Tblender::ValueType>
+	{
+		static_assert(ColorBlenderTraits::IsColorBlender<Tblender>, "テンプレート引数型 Tblender はブレンダー型である必要があります。");
+	public:
+		typedef Tblender Blender;
+		typedef typename Blender::ValueType ValueType;
+		typedef Image<ValueType> InputImage;
+	private:
+		const InputImage& _back;
+		const InputImage& _source;
+		Blender _bl;
+		DisplayRectangle _area;
+	public:
+		ColorBlendImage(const Blender& blender, const InputImage& backdrop, const InputImage& source) : _back(backdrop), _source(source), _bl(blender), _area(SolveArea(backdrop.Area(), source.Area())) {}
+		ColorBlendImage(Blender&& blender, const InputImage& backdrop, const InputImage& source) : _back(backdrop), _source(source), _bl(std::exchange(_bl, blender)), _area(SolveArea(backdrop.Area(), source.Area())) {}
+
+		[[nodiscard]] const Blender& GetBlender() const { return _bl; }
+		[[nodiscard]] Blender& GetBlender() { return _bl; }
+
+		[[nodiscard]] bool IsReadableAbyss() const noexcept { return _back.IsReadableAbyss() && _source.IsReadableAbyss(); }
+		[[nodiscard]] const DisplayRectSize& Size() const noexcept { return _area.Size(); }
+		[[nodiscard]] DisplayRectangle Area() const noexcept { return _area; }
+		[[nodiscard]] ValueType At(const DisplayPoint& index) const { return _bl.Blend(_back.At(index), _source.At(index)); }
+		[[nodiscard]] ValueType operator[](const DisplayPoint& index) const { return _bl.Blend(_back[index], _source[index]); }
+	private:
+		[[nodiscard]] constexpr static DisplayRectangle SolveArea(const DisplayRectangle& l, const DisplayRectangle& r)
+		{
+			return DisplayRectangle::FromEdge(std::max(l.Left(), r.Left()), std::min(l.Right(), r.Right()), std::max(l.Top(), r.Top()), std::min(l.Bottom(), r.Bottom()));
+		}
+	};
 
 	template<class Tcolor> using ColorNormalBlender = ColorBlender<Tcolor, ColorBlendingAlgorithms::Normal>;
 	template<class Tcolor> using ColorMultiplyBlender = ColorBlender<Tcolor, ColorBlendingAlgorithms::Multiply>;
@@ -341,5 +373,18 @@ namespace zawa_ch::StationaryOrbit::Graphics
 	template<class Tcolor> using ColorSoftLightBlender = ColorBlender<Tcolor, ColorBlendingAlgorithms::SoftLight>;
 	template<class Tcolor> using ColorDifferenceBlender = ColorBlender<Tcolor, ColorBlendingAlgorithms::Difference>;
 	template<class Tcolor> using ColorExclusionBlender = ColorBlender<Tcolor, ColorBlendingAlgorithms::Exclusion>;
+
+	template<class Tcolor> using ColorNormalBlendImage = ColorBlendImage<ColorNormalBlender<Tcolor>>;
+	template<class Tcolor> using ColorMultiplyBlendImage = ColorBlendImage<ColorMultiplyBlender<Tcolor>>;
+	template<class Tcolor> using ColorScreenBlendImage = ColorBlendImage<ColorScreenBlender<Tcolor>>;
+	template<class Tcolor> using ColorOverlayBlendImage = ColorBlendImage<ColorOverlayBlender<Tcolor>>;
+	template<class Tcolor> using ColorDarkenBlendImage = ColorBlendImage<ColorDarkenBlender<Tcolor>>;
+	template<class Tcolor> using ColorLightenBlendImage = ColorBlendImage<ColorLightenBlender<Tcolor>>;
+	template<class Tcolor> using ColorDodgeBlendImage = ColorBlendImage<ColorDodgeBlender<Tcolor>>;
+	template<class Tcolor> using ColorBurnBlendImage = ColorBlendImage<ColorBurnBlender<Tcolor>>;
+	template<class Tcolor> using ColorHardLightBlendImage = ColorBlendImage<ColorHardLightBlender<Tcolor>>;
+	template<class Tcolor> using ColorSoftLightBlendImage = ColorBlendImage<ColorSoftLightBlender<Tcolor>>;
+	template<class Tcolor> using ColorDifferenceBlendImage = ColorBlendImage<ColorDifferenceBlender<Tcolor>>;
+	template<class Tcolor> using ColorExclusionBlendImage = ColorBlendImage<ColorExclusionBlender<Tcolor>>;
 }
 #endif // __stationaryorbit_graphics_core_colorblending__
