@@ -41,6 +41,7 @@ void Crop();
 void Resize1();
 void Resize2();
 void Mono();
+void Blend();
 
 void Test_DIB()
 {
@@ -109,6 +110,11 @@ void Test_DIB()
 	Mono();
 	elapsed = std::chrono::steady_clock::now() - start;
 	std::cout << "Monotone: " << elapsed.count() << "sec." << std::endl;
+
+	start = std::chrono::steady_clock::now();
+	Blend();
+	elapsed = std::chrono::steady_clock::now() - start;
+	std::cout << "Colorblend: " << elapsed.count() << "sec." << std::endl;
 }
 
 void Read()
@@ -306,4 +312,16 @@ void Mono()
 	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
 	// ビットマップを書き込む
 	DIB::DIBInfoBitmap::Generate(std::move(loader), ihead, monoimage);
+}
+
+void Blend()
+{
+	const char* ofile = "output_colorblend.bmp";
+	// 色ブレンディング
+	auto source = ColorFillImage<RGB8_t>(RGB8_t(Proportion8_t(1.0f), Proportion8_t(0.0f), Proportion8_t(0.0f)), DisplayRectangle(DisplayPoint(0, 0), DisplayRectSize(ihead.Width, ihead.Height)));
+	auto blendimage = ColorBlendImage(ColorOverlayBlender<RGB8_t>(), image, source);
+	// ファイルを開く
+	auto loader = DIB::DIBFileLoader(ofile, std::ios_base::out | std::ios_base::binary);
+	// ビットマップを書き込む
+	DIB::DIBInfoBitmap::Generate(std::move(loader), ihead, blendimage);
 }
