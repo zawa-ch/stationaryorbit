@@ -6,18 +6,28 @@
                 <compilation_db_path>build/compile_commands.json</compilation_db_path>
             </build_file_path>
             <header_search_paths>
-                <header_search_path>include</header_search_path>
+                <header_search_path>stationaryorbit.core/include</header_search_path>
+                <header_search_path>stationaryorbit.graphics-core/include</header_search_path>
+                <header_search_path>stationaryorbit.graphics-dib/include</header_search_path>
+                <header_search_path>stationaryorbit.mathematics/include</header_search_path>
             </header_search_paths>
             <indexed_header_paths>
-                <indexed_header_path>include</indexed_header_path>
-                <indexed_header_path>src/core</indexed_header_path>
-                <indexed_header_path>src/exception</indexed_header_path>
-                <indexed_header_path>src/graphics-core</indexed_header_path>
-                <indexed_header_path>src/graphics-dib</indexed_header_path>
-                <indexed_header_path>src/mathematics</indexed_header_path>
-                <indexed_header_path>test/core</indexed_header_path>
-                <indexed_header_path>test/graphics</indexed_header_path>
-                <indexed_header_path>test/mathematics</indexed_header_path>
+                <indexed_header_path>build/stationaryorbit.core/src</indexed_header_path>
+                <indexed_header_path>build/stationaryorbit.graphics-core/src</indexed_header_path>
+                <indexed_header_path>build/stationaryorbit.graphics-dib/src</indexed_header_path>
+                <indexed_header_path>build/stationaryorbit.mathematics/src</indexed_header_path>
+                <indexed_header_path>stationaryorbit.core/include</indexed_header_path>
+                <indexed_header_path>stationaryorbit.core/src</indexed_header_path>
+                <indexed_header_path>stationaryorbit.core/test</indexed_header_path>
+                <indexed_header_path>stationaryorbit.graphics-core/include</indexed_header_path>
+                <indexed_header_path>stationaryorbit.graphics-core/src</indexed_header_path>
+                <indexed_header_path>stationaryorbit.graphics-core/test</indexed_header_path>
+                <indexed_header_path>stationaryorbit.graphics-dib/include</indexed_header_path>
+                <indexed_header_path>stationaryorbit.graphics-dib/src</indexed_header_path>
+                <indexed_header_path>stationaryorbit.graphics-dib/test</indexed_header_path>
+                <indexed_header_path>stationaryorbit.mathematics/include</indexed_header_path>
+                <indexed_header_path>stationaryorbit.mathematics/src</indexed_header_path>
+                <indexed_header_path>stationaryorbit.mathematics/test</indexed_header_path>
             </indexed_header_paths>
             <name>C/C++ from Compilation Database</name>
             <pch_flags>
