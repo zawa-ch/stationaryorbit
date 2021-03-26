@@ -1,5 +1,5 @@
 # stationaryorbit:/CMakeLists.txt
-# Copyright 2020 zawa-ch.
+# Copyright 2020-2021 zawa-ch.
 # GPLv3 (or later) license
 #
 # This program is free software: you can redistribute it and/or modify
@@ -15,14 +15,11 @@
 # along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 #
-cmake_minimum_required(VERSION 3.0)
-project(stationaryorbit CXX)
+cmake_minimum_required(VERSION 3.16)
+project(stationaryorbit)
+cmake_policy(VERSION 3.13)
 
-# インクルードディレクトリ
-include_directories(include)
-
-# ライブラリ本体のビルド用ソース
-add_subdirectory(src)
-
-# ライブラリテスト用ソース
-add_subdirectory(test)
+add_subdirectory(stationaryorbit.core)
+add_subdirectory(stationaryorbit.graphics-core)
+add_subdirectory(stationaryorbit.graphics-dib)
+add_subdirectory(stationaryorbit.mathematics)
