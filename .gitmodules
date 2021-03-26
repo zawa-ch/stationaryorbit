@@ -1,0 +1,12 @@
+[submodule "stationaryorbit.core"]
+	path = stationaryorbit.core
+	url = https://github.com/zawa-ch/stationaryorbit.core.git
+[submodule "stationaryorbit.graphics-core"]
+	path = stationaryorbit.graphics-core
+	url = https://github.com/zawa-ch/stationaryorbit.graphics-core.git
+[submodule "stationaryorbit.graphics-dib"]
+	path = stationaryorbit.graphics-dib
+	url = https://github.com/zawa-ch/stationaryorbit.graphics-dib.git
+[submodule "stationaryorbit.mathematics"]
+	path = stationaryorbit.mathematics
+	url = https://github.com/zawa-ch/stationaryorbit.mathematics.git
