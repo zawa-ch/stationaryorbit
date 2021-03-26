@@ -24,42 +24,6 @@
 		"version": "2.0.0",
 		"tasks": [
 			{
-				"label": "CMake Configure - Debug",
-				"type": "shell",
-				"command": "cmake",
-				"linux": {
-					"args": [ "-B", "${workspaceFolder}/build", "-DCMAKE_BUILD_OPTIONS=Debug" ]
-				},
-				"problemMatcher": []
-			},
-			{
-				"label": "CMake Configure - Release",
-				"type": "shell",
-				"command": "cmake",
-				"linux": {
-					"args": [ "-B", "${workspaceFolder}/build", "-DCMAKE_BUILD_OPTIONS=Release" ]
-				},
-				"problemMatcher": []
-			},
-			{
-				"label": "CMake Configure - RelWithDebInfo",
-				"type": "shell",
-				"command": "cmake",
-				"linux": {
-					"args": [ "-B", "${workspaceFolder}/build", "-DCMAKE_BUILD_OPTIONS=RelWithDebInfo" ]
-				},
-				"problemMatcher": []
-			},
-			{
-				"label": "CMake Configure - MinSizeRel",
-				"type": "shell",
-				"command": "cmake",
-				"linux": {
-					"args": [ "-B", "${workspaceFolder}/build", "-DCMAKE_BUILD_OPTIONS=MinSizeRel" ]
-				},
-				"problemMatcher": []
-			},
-			{
 				"label": "build all",
 				"type": "shell",
 				"group": "build",
@@ -70,35 +34,6 @@
 				"linux": {
 					"args": [
 						"--build", "build/"
-					],
-					"problemMatcher": {
-						"owner": "cpp",
-						"base": "$gcc",
-						"fileLocation": "autoDetect"
-					}
-				},
-				"presentation": {
-					"echo": true,
-					"reveal": "silent",
-					"revealProblems": "onProblem",
-					"focus": false,
-					"panel": "dedicated",
-					"showReuseMessage": false,
-					"clear": true
-				}
-			},
-			{
-				"label": "build stationaryorbit.exception",
-				"type": "shell",
-				"group": "build",
-				"options": {
-					"cwd": "${workspaceFolder}"
-				},
-				"command": "cmake",
-				"linux": {
-					"args": [
-						"--build", "build/",
-						"--target", "stationaryorbit.exception"
 					],
 					"problemMatcher": {
 						"owner": "cpp",
@@ -233,7 +168,7 @@
 				}
 			},
 			{
-				"label": "build stationaryorbit.test.core",
+				"label": "build stationaryorbit.core.test",
 				"type": "shell",
 				"group": "build",
 				"options": {
@@ -243,7 +178,7 @@
 				"linux": {
 					"args": [
 						"--build", "build/",
-						"--target", "stationaryorbit.test.core"
+						"--target", "stationaryorbit.core.test"
 					],
 					"problemMatcher": {
 						"owner": "cpp",
@@ -262,7 +197,7 @@
 				}
 			},
 			{
-				"label": "build stationaryorbit.test.graphics",
+				"label": "build stationaryorbit.graphics-core.test",
 				"type": "shell",
 				"group": "build",
 				"options": {
@@ -272,7 +207,7 @@
 				"linux": {
 					"args": [
 						"--build", "build/",
-						"--target", "stationaryorbit.test.graphics"
+						"--target", "stationaryorbit.graphics-core.test"
 					],
 					"problemMatcher": {
 						"owner": "cpp",
@@ -291,7 +226,7 @@
 				}
 			},
 			{
-				"label": "build stationaryorbit.test.mathematics",
+				"label": "build stationaryorbit.graphics-dib.test",
 				"type": "shell",
 				"group": "build",
 				"options": {
@@ -301,7 +236,36 @@
 				"linux": {
 					"args": [
 						"--build", "build/",
-						"--target", "stationaryorbit.test.mathematics"
+						"--target", "stationaryorbit.graphics-dib.test"
+					],
+					"problemMatcher": {
+						"owner": "cpp",
+						"base": "$gcc",
+						"fileLocation": "autoDetect"
+					}
+				},
+				"presentation": {
+					"echo": true,
+					"reveal": "silent",
+					"revealProblems": "onProblem",
+					"focus": false,
+					"panel": "dedicated",
+					"showReuseMessage": false,
+					"clear": true
+				}
+			},
+			{
+				"label": "build stationaryorbit.mathematics.test",
+				"type": "shell",
+				"group": "build",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"command": "cmake",
+				"linux": {
+					"args": [
+						"--build", "build/",
+						"--target", "stationaryorbit.mathematics.test"
 					],
 					"problemMatcher": {
 						"owner": "cpp",
@@ -325,13 +289,13 @@
 	"launch": {
 		"configurations": [
 			{
-				"name": "(gdb) Launch test.core",
+				"name": "(gdb) Launch stationary.core.test",
 				"type": "cppdbg",
 				"request": "launch",
-				"program": "${workspaceFolder}/build/test/core/stationaryorbit.test.core",
+				"program": "${workspaceFolder}/build/stationaryorbit.core/test/stationaryorbit.core.test",
 				"args": [],
 				"stopAtEntry": false,
-				"cwd": "${workspaceFolder}/build/test/core/",
+				"cwd": "${workspaceFolder}/build/stationaryorbit.core/test/",
 				"environment": [],
 				"externalConsole": false,
 				"MIMode": "gdb",
@@ -342,20 +306,20 @@
 						"ignoreFailures": true
 					}
 				],
-				"preLaunchTask": "build stationaryorbit.test.core"
+				"preLaunchTask": "build stationaryorbit.core.test"
 			},
 			{
-				"name": "(gdb) Launch test.graphics",
+				"name": "(gdb) Launch stationaryorbit.graphics-core.test",
 				"type": "cppdbg",
 				"request": "launch",
-				"program": "${workspaceFolder}/build/test/graphics/stationaryorbit.test.graphics",
+				"program": "${workspaceFolder}/build/stationaryorbit.graphics-core/test/stationaryorbit.graphics-core.test",
 				"args": [],
 				"stopAtEntry": false,
-				"cwd": "${workspaceFolder}/build/test/graphics/",
+				"cwd": "${workspaceFolder}/build/stationaryorbit.core/test/",
 				"environment": [],
 				"externalConsole": false,
 				"MIMode": "gdb",
-				"preLaunchTask": "build stationaryorbit.test.graphics",
+				"preLaunchTask": "build stationaryorbit.graphics-core.test",
 				"setupCommands": [
 					{
 						"description": "Enable pretty-printing for gdb",
@@ -365,13 +329,33 @@
 				]
 			},
 			{
-				"name": "(gdb) Launch test.mathematics",
+				"name": "(gdb) Launch stationaryorbit.graphics-dib.test",
 				"type": "cppdbg",
 				"request": "launch",
-				"program": "${workspaceFolder}/build/test/mathematics/stationaryorbit.test.mathematics",
+				"program": "${workspaceFolder}/build/stationaryorbit.graphics-dib/test/stationaryorbit.graphics-dib.test",
 				"args": [],
 				"stopAtEntry": false,
-				"cwd": "${workspaceFolder}/build/test/mathematics/",
+				"cwd": "${workspaceFolder}/build/stationaryorbit.dib/test/",
+				"environment": [],
+				"externalConsole": false,
+				"MIMode": "gdb",
+				"preLaunchTask": "build stationaryorbit.graphics-dib.test",
+				"setupCommands": [
+					{
+						"description": "Enable pretty-printing for gdb",
+						"text": "-enable-pretty-printing",
+						"ignoreFailures": true
+					}
+				]
+			},
+			{
+				"name": "(gdb) Launch stationaryorbit.mathematics.test",
+				"type": "cppdbg",
+				"request": "launch",
+				"program": "${workspaceFolder}/build/stationaryorbit.mathematics/test/stationaryorbit.mathematics.test",
+				"args": [],
+				"stopAtEntry": false,
+				"cwd": "${workspaceFolder}/build/stationaryorbit.mathematics/test/",
 				"environment": [],
 				"externalConsole": false,
 				"MIMode": "gdb",
@@ -382,7 +366,7 @@
 						"ignoreFailures": true
 					}
 				],
-				"preLaunchTask": "build stationaryorbit.test.mathematics"
+				"preLaunchTask": "build stationaryorbit.mathematics.test"
 			}
 		],
 		"compounds": []
