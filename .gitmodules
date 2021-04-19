@@ -10,3 +10,6 @@
 [submodule "stationaryorbit.mathematics"]
 	path = stationaryorbit.mathematics
 	url = https://github.com/zawa-ch/stationaryorbit.mathematics.git
+[submodule "stationaryorbit.encryption"]
+	path = stationaryorbit.encryption
+	url = https://github.com/zawa-ch/stationaryorbit.encryption

@@ -14,6 +14,7 @@ stationaryorbit はC++で記述された、いくつかのライブラリ モジ
   - [core](https://github.com/zawa-ch/stationaryorbit.graphics-core): 色と画像の基本的な操作
   - [dib](https://github.com/zawa-ch/stationaryorbit.graphics-dib): Windows Bitmap形式イメージのサポート
 - [mathematics](https://github.com/zawa-ch/stationaryorbit.mathematics): 基本的な数値計算
+- [encryption](https://github.com/zawa-ch/stationaryorbit.encryption): 暗号化のサポート
 
 ## ライセンス
 
