@@ -20,6 +20,9 @@
 - [zawa_ch::StationaryOrbit::ConstProgression](../../objects/core/constprogression.md)  
     指定された述語に従ってコンパイル時に配列を構築します
 
+- [zawa_ch::StationaryOrbit::Delegate](../../objects/core/delegate.md)  
+    特定の引数を受け取り操作を行うハンドラーの集合
+
 - [zawa_ch::StationaryOrbit::ObjectHolder](../../objects/core/objectholder.md)  
     オブジェクトの所有権にかかわらずにその参照を保持します
 
