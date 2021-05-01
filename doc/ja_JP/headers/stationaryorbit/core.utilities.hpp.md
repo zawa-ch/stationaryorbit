@@ -26,6 +26,12 @@
 - [zawa_ch::StationaryOrbit::ObjectHolder](../../objects/core/objectholder.md)  
     オブジェクトの所有権にかかわらずにその参照を保持します
 
+- [zawa_ch::StationaryOrbit::Property](../../objects/core/property.md)  
+    オブジェクトの取得・設定関数を変数のようにアクセスできるようにします
+
+- [zawa_ch::StationaryOrbit::ReadOnlyProperty](../../objects/core/readonlyproperty.md)  
+    オブジェクトの取得関数を変数のようにアクセスできるようにします
+
 - [zawa_ch::StationaryOrbit::Unit](../../objects/core/unit.md)  
     インスタンスが一つしかない型を表します
 
