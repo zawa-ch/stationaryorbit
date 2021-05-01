@@ -16,351 +16,201 @@
 		"version": "2.0.0",
 		"tasks": [
 			{
-				"label": "build all",
+				"label": "cmake configure Debug",
+				"detail": "cmake を Debug(最適化の無効化) 構成で設定します。",
 				"type": "shell",
-				"group": "build",
+				"group": "none",
 				"options": {
 					"cwd": "${workspaceFolder}"
 				},
 				"command": "cmake",
-				"linux": {
-					"args": [
-						"--build", "build/"
-					],
-					"problemMatcher": {
-						"owner": "cpp",
-						"base": "$gcc",
-						"fileLocation": "autoDetect"
-					}
-				},
+				"args": [
+					"-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE",
+					"-DCMAKE_BUILD_TYPE:STRING=Debug",
+					"-H${workspaceFolder}",
+					"-B${workspaceFolder}/build",
+				],
 				"presentation": {
+					"group": "build",
 					"echo": true,
 					"reveal": "silent",
 					"revealProblems": "onProblem",
 					"focus": false,
-					"panel": "dedicated",
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				},
+				"problemMatcher": [],
+			},
+			{
+				"label": "cmake configure Release",
+				"detail": "cmake を Release(速度の最適化、デバッグ情報を除外) 構成で設定します。",
+				"type": "shell",
+				"group": "none",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"command": "cmake",
+				"args": [
+					"-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE",
+					"-DCMAKE_BUILD_TYPE:STRING=Release",
+					"-H${workspaceFolder}",
+					"-B${workspaceFolder}/build",
+				],
+				"presentation": {
+					"group": "build",
+					"echo": true,
+					"reveal": "silent",
+					"revealProblems": "onProblem",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				},
+				"problemMatcher": [],
+			},
+			{
+				"label": "cmake configure MinSizeRel",
+				"detail": "cmake を MinSizeRel(バイナリサイズの最適化、デバッグ情報を除外) 構成で設定します。",
+				"type": "shell",
+				"group": "none",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"command": "cmake",
+				"args": [
+					"-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE",
+					"-DCMAKE_BUILD_TYPE:STRING=MinSizeRel",
+					"-H${workspaceFolder}",
+					"-B${workspaceFolder}/build",
+				],
+				"presentation": {
+					"group": "build",
+					"echo": true,
+					"reveal": "silent",
+					"revealProblems": "onProblem",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				},
+				"problemMatcher": [],
+			},
+			{
+				"label": "cmake configure RelWithDebInfo",
+				"detail": "cmake を RelWithDebInfo(速度の最適化、デバッグ情報を含む) 構成で設定します。",
+				"type": "shell",
+				"group": "none",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"command": "cmake",
+				"args": [
+					"-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE",
+					"-DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo",
+					"-H${workspaceFolder}",
+					"-B${workspaceFolder}/build",
+				],
+				"presentation": {
+					"group": "build",
+					"echo": true,
+					"reveal": "silent",
+					"revealProblems": "onProblem",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				},
+				"problemMatcher": [],
+			},
+			{
+				"label": "cmake reconfigure",
+				"detail": "cmake を再設定します。",
+				"type": "shell",
+				"group": "none",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"command": "cmake",
+				"args": [
+					"-H${workspaceFolder}",
+					"-B${workspaceFolder}/build",
+				],
+				"presentation": {
+					"group": "build",
+					"echo": true,
+					"reveal": "silent",
+					"revealProblems": "onProblem",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				},
+				"problemMatcher": [],
+			},
+			{
+				"label": "cmake build all",
+				"detail": "現在の構成ですべてのターゲットを対象にビルドを実行します。",
+				"type": "shell",
+				"group": {
+					"kind": "build",
+					"isDefault": true
+				},
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"command": "cmake",
+				"args": [
+					"--build", "build/"
+				],
+				"dependsOn": [
+					"cmake reconfigure",
+				],
+				"problemMatcher": "$gcc",
+				"presentation": {
+					"group": "build",
+					"echo": true,
+					"reveal": "silent",
+					"revealProblems": "onProblem",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": false
+				}
+			},
+			{
+				"label": "cmake test",
+				"detail": "ctest 構成を基にすべてのテストを実行します。",
+				"type": "shell",
+				"group": {
+					"kind": "test",
+					"isDefault": true
+				},
+				"options": {
+					"cwd": "${workspaceFolder}/build/"
+				},
+				"command": "ctest",
+				"args": [
+					"--progress", "--output-on-failure",
+				],
+				"dependsOn": [
+					"cmake build all",
+				],
+				"presentation": {
+					"group": "test",
+					"echo": true,
+					"reveal": "always",
+					"focus": false,
+					"panel": "shared",
 					"showReuseMessage": false,
 					"clear": true
 				}
 			},
-			{
-				"label": "build stationaryorbit.core",
-				"type": "shell",
-				"group": "build",
-				"options": {
-					"cwd": "${workspaceFolder}"
-				},
-				"command": "cmake",
-				"linux": {
-					"args": [
-						"--build", "build/",
-						"--target", "stationaryorbit.core"
-					],
-					"problemMatcher": {
-						"owner": "cpp",
-						"base": "$gcc",
-						"fileLocation": "autoDetect"
-					}
-				},
-				"presentation": {
-					"echo": true,
-					"reveal": "silent",
-					"revealProblems": "onProblem",
-					"focus": false,
-					"panel": "dedicated",
-					"showReuseMessage": false,
-					"clear": true
-				}
-			},
-			{
-				"label": "build stationaryorbit.graphics-core",
-				"type": "shell",
-				"group": "build",
-				"options": {
-					"cwd": "${workspaceFolder}"
-				},
-				"command": "cmake",
-				"linux": {
-					"args": [
-						"--build", "build/",
-						"--target", "stationaryorbit.graphics-core"
-					],
-					"problemMatcher": {
-						"owner": "cpp",
-						"base": "$gcc",
-						"fileLocation": "autoDetect"
-					}
-				},
-				"presentation": {
-					"echo": true,
-					"reveal": "silent",
-					"revealProblems": "onProblem",
-					"focus": false,
-					"panel": "dedicated",
-					"showReuseMessage": false,
-					"clear": true
-				}
-			},
-			{
-				"label": "build stationaryorbit.graphics-dib",
-				"type": "shell",
-				"group": "build",
-				"options": {
-					"cwd": "${workspaceFolder}"
-				},
-				"command": "cmake",
-				"linux": {
-					"args": [
-						"--build", "build/",
-						"--target", "stationaryorbit.graphics-dib"
-					],
-					"problemMatcher": {
-						"owner": "cpp",
-						"base": "$gcc",
-						"fileLocation": "autoDetect"
-					}
-				},
-				"presentation": {
-					"echo": true,
-					"reveal": "silent",
-					"revealProblems": "onProblem",
-					"focus": false,
-					"panel": "dedicated",
-					"showReuseMessage": false,
-					"clear": true
-				}
-			},
-			{
-				"label": "build stationaryorbit.mathematics",
-				"type": "shell",
-				"group": "build",
-				"options": {
-					"cwd": "${workspaceFolder}"
-				},
-				"command": "cmake",
-				"linux": {
-					"args": [
-						"--build", "build/",
-						"--target", "stationaryorbit.mathematics"
-					],
-					"problemMatcher": {
-						"owner": "cpp",
-						"base": "$gcc",
-						"fileLocation": "autoDetect"
-					}
-				},
-				"presentation": {
-					"echo": true,
-					"reveal": "silent",
-					"revealProblems": "onProblem",
-					"focus": false,
-					"panel": "dedicated",
-					"showReuseMessage": false,
-					"clear": true
-				}
-			},
-			{
-				"label": "build stationaryorbit.core.test",
-				"type": "shell",
-				"group": "build",
-				"options": {
-					"cwd": "${workspaceFolder}"
-				},
-				"command": "cmake",
-				"linux": {
-					"args": [
-						"--build", "build/",
-						"--target", "stationaryorbit.core.test"
-					],
-					"problemMatcher": {
-						"owner": "cpp",
-						"base": "$gcc",
-						"fileLocation": "autoDetect"
-					}
-				},
-				"presentation": {
-					"echo": true,
-					"reveal": "silent",
-					"revealProblems": "onProblem",
-					"focus": false,
-					"panel": "dedicated",
-					"showReuseMessage": false,
-					"clear": true
-				}
-			},
-			{
-				"label": "build stationaryorbit.graphics-core.test",
-				"type": "shell",
-				"group": "build",
-				"options": {
-					"cwd": "${workspaceFolder}"
-				},
-				"command": "cmake",
-				"linux": {
-					"args": [
-						"--build", "build/",
-						"--target", "stationaryorbit.graphics-core.test"
-					],
-					"problemMatcher": {
-						"owner": "cpp",
-						"base": "$gcc",
-						"fileLocation": "autoDetect"
-					}
-				},
-				"presentation": {
-					"echo": true,
-					"reveal": "silent",
-					"revealProblems": "onProblem",
-					"focus": false,
-					"panel": "dedicated",
-					"showReuseMessage": false,
-					"clear": true
-				}
-			},
-			{
-				"label": "build stationaryorbit.graphics-dib.test",
-				"type": "shell",
-				"group": "build",
-				"options": {
-					"cwd": "${workspaceFolder}"
-				},
-				"command": "cmake",
-				"linux": {
-					"args": [
-						"--build", "build/",
-						"--target", "stationaryorbit.graphics-dib.test"
-					],
-					"problemMatcher": {
-						"owner": "cpp",
-						"base": "$gcc",
-						"fileLocation": "autoDetect"
-					}
-				},
-				"presentation": {
-					"echo": true,
-					"reveal": "silent",
-					"revealProblems": "onProblem",
-					"focus": false,
-					"panel": "dedicated",
-					"showReuseMessage": false,
-					"clear": true
-				}
-			},
-			{
-				"label": "build stationaryorbit.mathematics.test",
-				"type": "shell",
-				"group": "build",
-				"options": {
-					"cwd": "${workspaceFolder}"
-				},
-				"command": "cmake",
-				"linux": {
-					"args": [
-						"--build", "build/",
-						"--target", "stationaryorbit.mathematics.test"
-					],
-					"problemMatcher": {
-						"owner": "cpp",
-						"base": "$gcc",
-						"fileLocation": "autoDetect"
-					}
-				},
-				"presentation": {
-					"echo": true,
-					"reveal": "silent",
-					"revealProblems": "onProblem",
-					"focus": false,
-					"panel": "dedicated",
-					"showReuseMessage": false,
-					"clear": true
-				}
-			}
 		]
 	},
 
 	"launch": {
-		"configurations": [
-			{
-				"name": "(gdb) Launch stationary.core.test",
-				"type": "cppdbg",
-				"request": "launch",
-				"program": "${workspaceFolder}/build/stationaryorbit.core/test/stationaryorbit.core.test",
-				"args": [],
-				"stopAtEntry": false,
-				"cwd": "${workspaceFolder}/build/stationaryorbit.core/test/",
-				"environment": [],
-				"externalConsole": false,
-				"MIMode": "gdb",
-				"setupCommands": [
-					{
-						"description": "Enable pretty-printing for gdb",
-						"text": "-enable-pretty-printing",
-						"ignoreFailures": true
-					}
-				],
-				"preLaunchTask": "build stationaryorbit.core.test"
-			},
-			{
-				"name": "(gdb) Launch stationaryorbit.graphics-core.test",
-				"type": "cppdbg",
-				"request": "launch",
-				"program": "${workspaceFolder}/build/stationaryorbit.graphics-core/test/stationaryorbit.graphics-core.test",
-				"args": [],
-				"stopAtEntry": false,
-				"cwd": "${workspaceFolder}/build/stationaryorbit.core/test/",
-				"environment": [],
-				"externalConsole": false,
-				"MIMode": "gdb",
-				"preLaunchTask": "build stationaryorbit.graphics-core.test",
-				"setupCommands": [
-					{
-						"description": "Enable pretty-printing for gdb",
-						"text": "-enable-pretty-printing",
-						"ignoreFailures": true
-					}
-				]
-			},
-			{
-				"name": "(gdb) Launch stationaryorbit.graphics-dib.test",
-				"type": "cppdbg",
-				"request": "launch",
-				"program": "${workspaceFolder}/build/stationaryorbit.graphics-dib/test/stationaryorbit.graphics-dib.test",
-				"args": [],
-				"stopAtEntry": false,
-				"cwd": "${workspaceFolder}/build/stationaryorbit.dib/test/",
-				"environment": [],
-				"externalConsole": false,
-				"MIMode": "gdb",
-				"preLaunchTask": "build stationaryorbit.graphics-dib.test",
-				"setupCommands": [
-					{
-						"description": "Enable pretty-printing for gdb",
-						"text": "-enable-pretty-printing",
-						"ignoreFailures": true
-					}
-				]
-			},
-			{
-				"name": "(gdb) Launch stationaryorbit.mathematics.test",
-				"type": "cppdbg",
-				"request": "launch",
-				"program": "${workspaceFolder}/build/stationaryorbit.mathematics/test/stationaryorbit.mathematics.test",
-				"args": [],
-				"stopAtEntry": false,
-				"cwd": "${workspaceFolder}/build/stationaryorbit.mathematics/test/",
-				"environment": [],
-				"externalConsole": false,
-				"MIMode": "gdb",
-				"setupCommands": [
-					{
-						"description": "Enable pretty-printing for gdb",
-						"text": "-enable-pretty-printing",
-						"ignoreFailures": true
-					}
-				],
-				"preLaunchTask": "build stationaryorbit.mathematics.test"
-			}
-		],
+		"configurations": [],
 		"compounds": []
 	}
 }
