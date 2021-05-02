@@ -1,5 +1,7 @@
 # core.traits.hpp
 
+[ヘッダ一覧](../index.md) » `core.traits.hpp`
+
 `stationaryorbit.core`パッケージ  
 `<stationaryorbit/core.traits.hpp>`ヘッダ  
 

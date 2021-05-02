@@ -1,5 +1,7 @@
 # core.datastructure.hpp
 
+[ヘッダ一覧](../index.md) » `core.datastructure.hpp`
+
 `stationaryorbit.core`パッケージ  
 `<stationaryorbit/core.datastructure.hpp>`ヘッダ  
 
