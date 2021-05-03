@@ -8,7 +8,7 @@
 ## ヘッダ内で定義されているオブジェクト
 
 - [zawa_ch::StationaryOrbit::BitMask](../../objects/core/bitmask.md)  
-    ビット列をマスクし、値の読み書きを行います
+    ビット列をマスクする機能を提供します
 
 - [zawa_ch::StationaryOrbit::BitReference](../../objects/core/bitreference.md)  
     特定のビットへの参照を保持し、ビット単位でのアクセスを行います
