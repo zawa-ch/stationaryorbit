@@ -9,7 +9,7 @@
 
 - [Equatable](equatable.md): オブジェクトの等価比較が可能な型
 - [Comparable](comparable.md)
-- [ValueType](valuetype.md)
+- [ValueType](valuetype.md): 単一の値として表現される型
 - [PointableType](pointabletype.md)
 - [ArithmeticType](arithmetictype.md)
 - [NumericalType](numericaltype.md)
