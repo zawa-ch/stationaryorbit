@@ -1,6 +1,6 @@
 # core.numeral.hpp
 
-[ヘッダ一覧](../index.md) » `core.numeral.hpp`
+[ドキュメントルート](../../index.md) » [ヘッダ](../index.md) » `core.numeral.hpp`
 
 `stationaryorbit.core`パッケージ  
 `<stationaryorbit/core.numeral.hpp>`ヘッダ  

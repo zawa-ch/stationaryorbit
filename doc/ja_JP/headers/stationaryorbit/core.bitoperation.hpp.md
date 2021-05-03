@@ -1,6 +1,6 @@
 # core.bitoperation.hpp
 
-[ヘッダ一覧](../index.md) » `core.bitoperation.hpp`
+[ドキュメントルート](../../index.md) » [ヘッダ](../index.md) » `core.bitoperation.hpp`
 
 `stationaryorbit.core`パッケージ  
 `<stationaryorbit/core.bitoperation.hpp>`ヘッダ

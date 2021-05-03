@@ -1,6 +1,6 @@
 # core.utilities.hpp
 
-[ヘッダ一覧](../index.md) » `core.utilities.hpp`
+[ドキュメントルート](../../index.md) » [ヘッダ](../index.md) » `core.utilities.hpp`
 
 `stationaryorbit.core`パッケージ  
 `<stationaryorbit/core.utilities.hpp>`ヘッダ  

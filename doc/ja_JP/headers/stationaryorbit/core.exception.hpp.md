@@ -1,6 +1,6 @@
 # core.exception.hpp
 
-[ヘッダ一覧](../index.md) » `core.exception.hpp`
+[ドキュメントルート](../../index.md) » [ヘッダ](../index.md) » `core.exception.hpp`
 
 `stationaryorbit.core`パッケージ  
 `<stationaryorbit/core.exception.hpp>`ヘッダ  
