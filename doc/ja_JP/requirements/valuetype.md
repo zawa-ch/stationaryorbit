@@ -18,6 +18,6 @@
 - [ムーブ構築](https://ja.cppreference.com/w/cpp/types/is_move_constructible)および[ムーブ代入](https://ja.cppreference.com/w/cpp/types/is_move_assignable)が可能であり、その操作がトリビアルかつ`nothrow`である
 - [Equatable](equatable.md)である
 
-## 参照
+## 関連項目
 
 - [zawa_ch::StationaryOrbit::Traits](../objects/core/traits)
