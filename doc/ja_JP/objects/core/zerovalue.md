@@ -100,6 +100,6 @@ struct ZeroValue_t final;
     2,3 ) 不等号演算子。`ZeroValue_t`では常に`false`が返ります。  
     4,5 ) 不等号演算子。`ZeroValue_t`では常に`true`が返ります。  
 
-## 参照
+## 関連項目
 
 - [Zero](zero.md) - この型のインスタンスを表す定数
