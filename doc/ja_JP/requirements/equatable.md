@@ -25,7 +25,7 @@
 
 `U = T`の場合、この要件が要求する関係はC++名前付き要件:[EqualityComparable](https://ja.cppreference.com/w/cpp/named_req/EqualityComparable)と同等です。  
 
-## 参照
+## 関連項目
 
 - C++名前付き要件:[EqualityComparable](https://ja.cppreference.com/w/cpp/named_req/EqualityComparable)
 - [zawa_ch::StationaryOrbit::Traits](../objects/core/traits)
