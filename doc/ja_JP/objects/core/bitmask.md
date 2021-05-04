@@ -31,10 +31,14 @@ class BitMask final
 - `BitMask()`
     1. `constexpr BitMask()`
     2. `explicit constexpr Bitmask(const T& value) noexcept`
+    3. `Bitmask(const BitMask<T>&)` (暗黙)
+    4. `Bitmask(BitMask<T>&&)` (暗黙)
 
     1 ) 規定の`BitMask`を構築します。  
     2 ) マスク値を指定して`BitMask`を構築します。  
     - `value` マスクするを指定したビット列。
+    3 ) コピーコンストラクタ。
+    4 ) ムーブコンストラクタ。
 
 ### デストラクタ
 
