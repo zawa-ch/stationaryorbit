@@ -10,7 +10,7 @@
 - [zawa_ch::StationaryOrbit::BitCounter](../../objects/core/bitcounter.md)  
     特定の型のビット幅を計測します
 
-- [zawa_ch::StationaryOrbit::BitWidth](../../objects/core/bitwidth.md)  
+- [zawa_ch::StationaryOrbit::bitwidth](../../objects/core/bitwidth.md)  
     指定された型のビット幅を識別します
 
 - [zawa_ch::StationaryOrbit::BitWidth_t](../../objects/core/bitwidth.md)  
