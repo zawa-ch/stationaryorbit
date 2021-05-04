@@ -14,6 +14,6 @@ constexpr ZeroValue_t Zero = ZeroValue_t();
 `Zero`は[ZeroValue_t](zerovalue.md)型のインスタンス定数です。
 [ZeroValue_t](zerovalue.md)は内部に値を持たないため、`Zero`は[ZeroValue_t](zerovalue.md)型の取りうるただひとつの状態です。  
 
-## 参照
+## 関連項目
 
 - [ZeroValue_t](zerovalue.md) - 他の型に変換可能な零値
