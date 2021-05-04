@@ -32,6 +32,6 @@
 - 符号付き型*ではない*([std::is_signed](https://ja.cppreference.com/w/cpp/types/is_signed)が[std::false_type](http://ja.cppreference.com/w/cpp/types/integral_constant)に等しい型を提供する,
 [std::numeric_limits](https://ja.cppreference.com/w/cpp/types/numeric_limits)の特殊化を提供する場合は`std::numeric_limits<T>::is_signed`が`false`となる)
 
-## 参照
+## 関連項目
 
 - [zawa_ch::StationaryOrbit::Traits](../objects/core/traits)
