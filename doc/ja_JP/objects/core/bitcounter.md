@@ -16,8 +16,14 @@ class BitCounter final;
 
 ## 静的メンバ関数
 
-- `template<class T, std::enable_if_t<...> = 0> static constexpr size_t count() noexcept`
+- `count()`
+    ```C++
+    template<class T, std::enable_if_t<...> = 0>
+    static constexpr size_t count() noexcept;
+    ```
     指定された型のビット幅を計測します。
+
+    **テンプレート引数**
     - `T` ビット幅を計測する型。型要件:[BitSequenceType](../../requirements/bitsequencetype.md)を満たす必要があります。  
 
 ## 関連項目
