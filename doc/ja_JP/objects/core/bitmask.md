@@ -28,17 +28,25 @@ class BitMask final
 
 ### コンストラクタ
 
-- `BitMask()`
-    1. `constexpr BitMask()`
-    2. `explicit constexpr Bitmask(const T& value) noexcept`
-    3. `Bitmask(const BitMask<T>&)` (暗黙)
-    4. `Bitmask(BitMask<T>&&)` (暗黙)
+- `BitMask()`  
+    -   ```C++
+        constexpr BitMask();
+        ```
+        規定の`BitMask`を構築します。  
 
-    1 ) 規定の`BitMask`を構築します。  
-    2 ) マスク値を指定して`BitMask`を構築します。  
-    - `value` マスクするを指定したビット列。
-    3 ) コピーコンストラクタ。
-    4 ) ムーブコンストラクタ。
+    -   ```C++
+        explicit constexpr Bitmask(const T& value) noexcept;
+        ```
+        マスク値を指定して`BitMask`を構築します。  
+
+        **引数**  
+        - `value` マスクを指定したビット列。
+
+    - `Bitmask(const BitMask<T>&);` (暗黙)  
+    コピーコンストラクタ。  
+
+    - `Bitmask(BitMask<T>&&);` (暗黙)  
+    ムーブコンストラクタ。  
 
 ### デストラクタ
 
@@ -46,60 +54,116 @@ class BitMask final
 
 ### 観測
 
-- `constexpr size_t begin_index() const noexcept`  
+- `begin_index()`
+    ```C++
+    constexpr size_t begin_index() const noexcept;
+    ```
     このマスクが開始される(最初にビットが1となる)、LSBから数えたビット数を取得します。
 
-- `constexpr size_t end_index() const noexcept`  
+- `end_index()`
+    ```C++
+    constexpr size_t end_index() const noexcept;
+    ```
     このマスクが終了される(最後にビットが0となる)、LSBから数えたビット数を取得します。
 
-- `constexpr size_t length() const noexcept`  
+- `length()`
+    ```C++
+    constexpr size_t length() const noexcept;
+    ```
     マスクの開始から終了までのビットの長さを取得します。  
 
 ### マスク
 
-- `constexpr T get_from(const T& source) const noexcept`  
+- `get_from()`
+    ```C++
+    constexpr T get_from(const T& source) const noexcept;
+    ```
     入力をマスク値に従ってマスクします。  
+
+    **引数**
     - `source` 値を取得するソース。  
 
-- `constexpr T get_aligned_from(const T& source) const noexcept`  
+- `get_aligned_from()`
+    ```C++
+    constexpr T get_aligned_from(const T& source) const noexcept;
+    ```
     入力をマスク値に従ってマスクし、LSBに詰めます。  
-    - `source` 値を取得するソース。
 
-- `constexpr T set_to(const T& destination, const T& value) const noexcept`  
+    **引数**
+    - `source` 値を取得するソース。  
+
+- `set_to()`
+    ```C++
+    constexpr T set_to(const T& destination, const T& value) const noexcept;
+    ```
     入力をマスク値に従って書き込みます。  
-    - `destination` 値の設定先。
-    - `value` 書き込みを行う値。
 
-- `constexpr T set_to(const T& destination, const T& value) const noexcept`  
+    **引数**
+    - `destination` 値の設定先。  
+    - `value` 書き込みを行う値。  
+
+- `set_aligned_to()`
+    ```C++
+    constexpr T set_aligned_to(const T& destination, const T& value) const noexcept;
+    ```
     LSBに詰められた入力をマスク値に従って書き込みます。  
-    - `destination` 値の設定先。
-    - `value` 書き込みを行う値。
+
+    **引数**
+    - `destination` 値の設定先。  
+    - `value` 書き込みを行う値。  
 
 ### 演算
 
-- operator
-    1. `constexpr BitMask<T> operator~() const noexcept`
-    2. `constexpr BitMask<T> operator|(const BitMask<T>& other) const noexcept`
-    3. `constexpr BitMask<T> operator&(const BitMask<T>& other) const noexcept`
-    4. `constexpr BitMask<T> operator^(const BitMask<T>& other) const noexcept`
-    5. `constexpr BitMask<T>& operator|=(const BitMask<T>& other) noexcept`
-    6. `constexpr BitMask<T>& operator&=(const BitMask<T>& other) noexcept`
-    7. `constexpr BitMask<T>& operator^=(const BitMask<T>& other) noexcept`
+- 
+    -   ```C++
+        constexpr BitMask<T> operator~() const noexcept;
+        ```
+        ビット論理否定演算。すべてのビットを反転します。  
 
-    1 ) ビット論理否定演算。すべてのビットを反転します。  
-    2 ) ビット論理和演算。ビットごとの論理和を取得します。  
-    3 ) ビット論理積演算。ビットごとの論理積を取得します。  
-    4 ) ビット排他的論理和演算。ビットごとの排他的論理和を取得します。  
-    5 ) 複合代入演算。ビットごとの論理和を代入します。
-    6 ) 複合代入演算。ビットごとの論理積を代入します。
-    7 ) 複合代入演算。ビットごとの排他的論理和を代入します。
+    -   ```C++
+        constexpr BitMask<T> operator|(const BitMask<T>& other) const noexcept;
+        ```
+        ビット論理和演算。ビットごとの論理和を取得します。  
+
+    -   ```C++
+        constexpr BitMask<T> operator&(const BitMask<T>& other) const noexcept;
+        ```
+        ビット論理積演算。ビットごとの論理積を取得します。  
+
+    -   ```C++
+        constexpr BitMask<T> operator^(const BitMask<T>& other) const noexcept;
+        ```
+        ビット排他的論理和演算。ビットごとの排他的論理和を取得します。  
+
+    -   ```C++
+        constexpr BitMask<T>& operator|=(const BitMask<T>& other) noexcept;
+        ```
+        複合代入演算。ビットごとの論理和を代入します。
+
+    -   ```C++
+        constexpr BitMask<T>& operator&=(const BitMask<T>& other) noexcept;
+        ```
+        複合代入演算。ビットごとの論理積を代入します。
+
+    -   ```C++
+        constexpr BitMask<T>& operator^=(const BitMask<T>& other) noexcept;
+        ```
+        複合代入演算。ビットごとの排他的論理和を代入します。
 
 ### 比較
 
 - `equals()`
-    1. `constexpr bool equals(const BitMask<T>& other) const noexcept`
-    2. `constexpr bool operator==(const BitMask<T>& other) const noexcept`
-    3. `constexpr bool operator!=(const BitMask<T>& other) const noexcept`
+    -   ```C++
+        constexpr bool equals(const BitMask<T>& other) const noexcept;
+        ```
+        等価比較。ふたつのオブジェクトが等しいかを取得します。  
 
-    1,2 ) 等価比較。ふたつのオブジェクトが等しいかを取得します。  
-    3 ) 等価比較の否定。ふたつのオブジェクトが異なるかを取得します。  
+    -   ```C++
+        constexpr bool operator==(const BitMask<T>& other) const noexcept;
+        ```
+        等価比較。ふたつのオブジェクトが等しいかを取得します。  
+
+    -   ```C++
+        constexpr bool operator!=(const BitMask<T>& other) const noexcept;
+        ```
+        等価比較の否定。ふたつのオブジェクトが異なるかを取得します。  
