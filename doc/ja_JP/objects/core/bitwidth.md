@@ -30,16 +30,25 @@ class BitWidth_t final;
 
 ## メンバ関数
 
-- 
-    1. `constexpr operator size_t() const noexcept` ([std::integral_constant](https://ja.cppreference.com/w/cpp/types/integral_constant)から継承)
-    2. `constexpr size_t operator()() const noexcept` ([std::integral_constant](https://ja.cppreference.com/w/cpp/types/integral_constant)から継承)
+- `operator size_t()`
+    -   ```C++
+        constexpr operator size_t() const noexcept;
+        ```
+        ([std::integral_constant](https://ja.cppreference.com/w/cpp/types/integral_constant)から継承)
+
+    -   ```C++
+        constexpr size_t operator()() const noexcept;
+        ```
+        ([std::integral_constant](https://ja.cppreference.com/w/cpp/types/integral_constant)から継承)
 
     ラップされた値を取得します。  
 
 ## ヘルパー変数テンプレート
 
 - `bitwidth`  
-    `template<class T> inline constexpr size_t bitwidth = BitWidth_t<T>::value;`  
+    ```C++
+    template<class T> inline constexpr size_t bitwidth = BitWidth_t<T>::value;
+    ```
 
 ## 関連項目
 
