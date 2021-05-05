@@ -19,13 +19,17 @@ class BitReference final
 ### コンストラクタ
 
 - `BitReference()`
-    1. `constexpr BitReference(std::byte& reference, size_t bit)`
-    2. `BitReference(const BitReference&)` (暗黙)
-    3. `BitReference(BitReference&&)` (暗黙)
+    -   ```C++
+        constexpr BitReference(std::byte& reference, size_t bit);
+        ```
+        指定したビットへの参照を作成します。  
 
-    1 ) 指定したビットへの参照を作成します。  
-    2 ) コピーコンストラクタ。  
-    3 ) ムーブコンストラクタ。  
+    - `BitReference(const BitReference&)` (暗黙)  
+        コピーコンストラクタ。  
+
+    - `BitReference(BitReference&&)` (暗黙)  
+        ムーブコンストラクタ。  
+
 
 ### デストラクタ
 
@@ -33,15 +37,25 @@ class BitReference final
 
 ### 参照
 
-- 
-    1. `constexpr bool get_value() const`  
-    2. `constexpr operator bool() const`  
+- `get_value()`
+    -   ```C++
+        constexpr bool get_value() const;
+        ```
+    -   ```C++
+        constexpr operator bool() const;
+        ```
 
     参照先の値を取得します。  
 
-- 
-    1. `constexpr void set_value(bool value)`  
-    2. `constexpr BitReference& operator=(bool value)`
+- `set_value()`
+    -   ```C++
+        constexpr void set_value(bool value);
+        ```
+    -   ```C++
+        constexpr BitReference& operator=(bool value);
+        ```
 
     参照先に値を設定します。  
+
+    **引数**
     - `value` 設定する値。
