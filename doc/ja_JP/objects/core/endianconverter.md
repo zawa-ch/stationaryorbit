@@ -5,7 +5,7 @@
 
 ```C++
 template<Endians from, Endians dest>
-class EndianConverter final
+class EndianConverter final;
 ```
 
 エンディアンの変換を行います
@@ -22,10 +22,10 @@ class EndianConverter final
 
 ## 静的メンバ関数
 
-- `convert()`  
+- `encode()`  
     ```C++
     template<class T>
-    static constexpr T convert(const T& value);
+    static constexpr std::array<std::byte, sizeof(T)> encode(const T& value);
     ```
     指定された値のエンディアンを`from`から`dest`に変換します。  
 
@@ -34,6 +34,38 @@ class EndianConverter final
 
     **引数**  
     - `value` - エンディアン変換を行う値。  
+
+    **例外**  
+    - [InvalidOperationException](invalidoperationexception.md) - 指定されたエンディアンの組み合わせに対する適切な変換が定義されていない場合にスローされます。  
+
+- `decode()`  
+    ```C++
+    template<class T>
+    static constexpr T decode(const std::array<std::byte, sizeof(T)>& data);
+    ```
+    指定された値のエンディアンを`dest`から`from`に変換します。  
+
+    **テンプレート引数**  
+    - `T` - エンディアン変換を行う値の型。型要件[ValueType](../../requirements/valuetype.md)を満たす必要があります。  
+
+    **引数**  
+    - `value` - エンディアン変換を行うビット列。  
+
+    **例外**  
+    - [InvalidOperationException](invalidoperationexception.md) - 指定されたエンディアンの組み合わせに対する適切な変換が定義されていない場合にスローされます。  
+
+- `convert()`  
+    ```C++
+    template<size_t N>
+    static constexpr std::array<std::byte, N> convert(const std::array<std::byte, N>& data);
+    ```
+    指定された`std::array`のバイト順序を`from`から`dest`に変換します。  
+
+    **テンプレート引数**  
+    - `N` - `std::array`の大きさ。バイト単位で指定します。  
+
+    **引数**  
+    - `data` - バイト順序変換を行うビット列。  
 
     **例外**  
     - [InvalidOperationException](invalidoperationexception.md) - 指定されたエンディアンの組み合わせに対する適切な変換が定義されていない場合にスローされます。  
