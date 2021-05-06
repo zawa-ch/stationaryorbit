@@ -38,18 +38,18 @@ class EndianConverter final
     **例外**  
     - [InvalidOperationException](invalidoperationexception.md) - 指定されたエンディアンの組み合わせに対する適切な変換が定義されていない場合にスローされます。  
 
-## ヘルパーテンプレート型
+## 特殊化
+
+リトルエンディアン、ビッグエンディアンのそれぞれの変換のために、2つの`typedef`が提供されています。  
 
 - `LittleEndian`
     ```C++
     typedef EndianConverter<Endians::native, Endian::little> LittleEndian;
     ```
-
     現在のバイトオーダーからリトルエンディアンへの変換を表す`EndianConverter`。  
 
 - `BigEndian`
     ```C++
     typedef EndianConverter<Endians::native, Endian::big> BigEndian;
     ```
-
     現在のバイトオーダーからビッグエンディアンへの変換を表す`EndianConverter`。  
