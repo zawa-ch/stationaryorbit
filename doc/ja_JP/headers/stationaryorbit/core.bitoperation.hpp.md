@@ -11,7 +11,7 @@
     ビット列をマスクする機能を提供します
 
 - [zawa_ch::StationaryOrbit::BitReference](../../objects/core/bitreference.md)  
-    特定のビットへの参照を保持し、ビット単位でのアクセスを行います
+    特定のビットへの参照
 
 - [zawa_ch::StationaryOrbit::EndianConverter](../../objects/core/endianconverter.md)  
     エンディアンの変換を行います
