@@ -14,7 +14,7 @@
     このライブラリで使用されるイテレータをC++標準のイテレータに変換します
 
 - [zawa_ch::StationaryOrbit::IteratorOrigin](../../objects/core/iteratororigin.md)  
-    イテレータの初期位置
+    イテレータの原点となる位置
 
 - [zawa_ch::StationaryOrbit::IteratorTraits](../../objects/core/iteratortraits.md)  
     このライブラリで用いられるイテレータの型特性を識別します
