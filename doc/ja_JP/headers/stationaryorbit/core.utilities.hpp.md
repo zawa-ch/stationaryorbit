@@ -10,7 +10,7 @@
 - [zawa_ch::StationaryOrbit::Algorithms](../../objects/core/algorithms.md)  
     このライブラリで使用するアルゴリズムを定義します
 
-- [zawa_ch::StationaryOrbit::ArithmeticOperation](../../objects/core/arithmeticoperation.md)  
+- [zawa_ch::StationaryOrbit::ArithmeticOperation](../../objects/core/arithmeticoperation/index.md)  
     算術型に対して算術演算の拡張を行います
 
 - [zawa_ch::StationaryOrbit::Bottom](../../objects/core/bottom.md)  
