@@ -13,12 +13,16 @@
             </header_search_paths>
             <indexed_header_paths>
                 <indexed_header_path>build/stationaryorbit.core/src</indexed_header_path>
+                <indexed_header_path>build/stationaryorbit.encryption/src</indexed_header_path>
                 <indexed_header_path>build/stationaryorbit.graphics-core/src</indexed_header_path>
                 <indexed_header_path>build/stationaryorbit.graphics-dib/src</indexed_header_path>
                 <indexed_header_path>build/stationaryorbit.mathematics/src</indexed_header_path>
                 <indexed_header_path>stationaryorbit.core/include</indexed_header_path>
                 <indexed_header_path>stationaryorbit.core/src</indexed_header_path>
                 <indexed_header_path>stationaryorbit.core/test</indexed_header_path>
+                <indexed_header_path>stationaryorbit.encryption/include</indexed_header_path>
+                <indexed_header_path>stationaryorbit.encryption/src</indexed_header_path>
+                <indexed_header_path>stationaryorbit.encryption/test</indexed_header_path>
                 <indexed_header_path>stationaryorbit.graphics-core/include</indexed_header_path>
                 <indexed_header_path>stationaryorbit.graphics-core/src</indexed_header_path>
                 <indexed_header_path>stationaryorbit.graphics-core/test</indexed_header_path>
