@@ -161,7 +161,8 @@
 				},
 				"command": "cmake",
 				"args": [
-					"--build", "build/"
+					"--build", "build/",
+					"-j", "8"
 				],
 				"dependsOn": [
 					"cmake reconfigure",
@@ -192,6 +193,7 @@
 				"command": "ctest",
 				"args": [
 					"--progress", "--output-on-failure",
+					"-j", "8"
 				],
 				"dependsOn": [
 					"cmake build all",
